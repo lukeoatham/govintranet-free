@@ -1,0 +1,40 @@
+#lightbox-background {
+ display:none;
+ background-image: url("../images/macFFBgHack.png");
+ background-color:#000000;
+ opacity:0.8;
+ filter:alpha(opacity=80);
+ position:absolute;
+ top:0px;
+ left:0px;
+ min-width:100%;
+ min-height:100%;
+ height: 10000px;
+ overflow: hidden;
+ z-index:1000;
+}
+
+#lightbox-panel {
+ display:none;
+ position:absolute;
+ top:20%;
+ left:20%;
+ width:60%;
+ background:#FFFFFF;
+ padding:1.5em;
+ border:2px solid #CCCCCC;
+ z-index:1001;
+}
+
+#lightbox-panel p {
+	margin: 0.5em 0;
+}
+
+#lightbox-panel a#close-panel {
+	padding: 0.5em 1em;
+	background: #EEB211;
+	font-size: 1.2em;
+	text-decoration: none;
+	color: white;
+	line-height: 140%;
+}

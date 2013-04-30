@@ -1,0 +1,40 @@
+@media only screen and (max-width: 1023px)  {
+
+#topstrip  {
+		min-height: 107px !important;
+}
+
+
+}
+
+@media handheld,  only screen and (max-width: 767px)  {
+#topstrip  {
+		min-height: 150px !important;
+}
+}
+
+#topstrip {
+	min-height: 112px;
+	overflow: auto;	
+}
+
+.wptag a  {
+	color:#454a4c !important;
+	text-decoration: none;
+	padding: 0 !important;
+	line-height: 200% !important;
+}
+form#sbc-search select#cat {
+	background: #fbfbfb; 
+	min-height: 30px;
+	width: 30% !important; 
+	border: 1px solid #bbbbbb; 
+	padding: 0 !important; 
+	margin: 0 ;	
+	font-size: 100%;
+	vertical-align: top;
+}
+#masthead #searchform #s {
+	vertical-align: top;
+}
+
