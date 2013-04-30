@@ -4,7 +4,7 @@ Plugin Name: HT Most active
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most active pages
 Author: Luke Oatham
-Version: 0.1
+Version: 0.2
 Author URI: http://www.helpfultechnology.com
 */
  
@@ -71,8 +71,6 @@ if ($cachedga) { // if we have a fresh cache
 
 $html='';
 	foreach($cachedga as $result) {
-	//echo $result['pagePath'];
-		//print_r($k.$result); echo '<br>';
 		if (strpos($result['pagePath'], "show=") ){
 		continue;	
 		}
@@ -94,11 +92,9 @@ $html='';
 			}
 
 			if (!$tasktitle){
-				//$k--;
 				continue;
 			}	
 			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
-				//$k--;
 				continue;
 			}
 			
@@ -114,18 +110,16 @@ $html='';
 			
 		if (substr( $result['pagePath'],0,29)=='/about/projects/content/' && $result['pagePath']!='/about/projects/' ){ // only show projects, but not the projects landing page
 			$pathparts = explode("/", $result['pagePath']);
-			$thistask = $pathparts[4];		//echo $thistask;
+			$thistask = $pathparts[4];		
 			$taskpod = new Pod('projects', $thistask);
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if ( $taskpod->get_field('parent_project')  ){
 				continue;			
 			}
 			if (!$tasktitle){
-				//$k--;
 				continue;
 			}	
 			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
-				//$k--;
 				continue;
 			}
 			$k++;
@@ -141,11 +135,9 @@ $html='';
 			$taskpod = new Pod('vacancies', $thistask);
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if (!$tasktitle){
-				//$k--;
 				continue;
 			}	
 			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
-				//$k--;
 				continue;
 			}
 			$k++;
@@ -160,11 +152,9 @@ $html='';
 			$taskpod = new Pod('news', $thistask);
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if (!$tasktitle){
-				//$k--;
 				continue;
 			}	
 			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
-				//$k--;
 				continue;
 			}
 			$k++;
@@ -183,12 +173,7 @@ $html='';
 else // load fresh analytics
 {
 
-if (stristr($_SERVER['HTTP_HOST'],'govintranet')) { // we're on live 
-	ini_set('error_reporting','1'); // disable all, for security
-} else { // staging
-	ini_set('error_reporting','1'); // show errors for debugging
-}
-
+	ini_set('error_reporting','0'); // disable all, for security
 
 
 // Developed by Steph Gray http://helpfultechnology.com, December 2009
@@ -247,14 +232,10 @@ if (stristr($_SERVER['HTTP_HOST'],'govintranet')) { // we're on live
 		$filter.='ga:pagePath=~/about/news/content/';
 		$donefilter=true;
 	}
-	//echo  $filter;
 	$ga->requestReportData(ga_profile_id,array('pagePath'),array('uniquePageviews'),"-uniquePageviews",$filter,$start_date,$enddate,"1",$count);
-//	$ga->requestReportData(ga_profile_id,array('pagePath'),array('Pageviews'),"-Pageviews",$filter,$start_date,$enddate,"1",$count);
 	$transga=array();
 	$html='';
-	//print_r($ga);
 	foreach($ga->getResults() as $result) {
-		//print_r($k.$result); echo '<br>';
 		if (strpos($result->getPagePath(), "show=") ){
 		continue;	
 		}
@@ -283,11 +264,9 @@ if (stristr($_SERVER['HTTP_HOST'],'govintranet')) { // we're on live
 			}
 
 			if (!$tasktitle){
-				//$k--;
 				continue;
 			}	
 			if (in_array($taskid, $alreadydone )) {
-				//$k--;
 				continue;
 			}
 			
@@ -318,11 +297,9 @@ if (stristr($_SERVER['HTTP_HOST'],'govintranet')) { // we're on live
 				$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			}
 			if (!$tasktitle){
-				//$k--;
 				continue;
 			}	
 			if (in_array($taskid, $alreadydone )) {
-				//$k--;
 				continue;
 			}
 			$k++;
@@ -341,11 +318,9 @@ if (stristr($_SERVER['HTTP_HOST'],'govintranet')) { // we're on live
 			$taskid = $taskpod->get_field('ID');			
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if (!$tasktitle){
-				//$k--;
 				continue;
 			}	
 			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
-				//$k--;
 				continue;
 			}
 			$k++;
@@ -363,11 +338,9 @@ if (stristr($_SERVER['HTTP_HOST'],'govintranet')) { // we're on live
 			$taskid = $taskpod->get_field('ID');			
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if (!$tasktitle){
-				//$k--;
 				continue;
 			}	
 			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
-				//$k--;
 				continue;
 			}
 			$k++;

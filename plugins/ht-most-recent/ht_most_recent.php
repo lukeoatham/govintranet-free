@@ -84,7 +84,6 @@ class htMostRecent extends WP_Widget {
 	order by ".$checkdate." desc
 	limit 20;
 	";
-	//print_r($q);
 	global $wpdb;
 	$rpublished = $wpdb->get_results( $q );
 															
@@ -93,7 +92,6 @@ class htMostRecent extends WP_Widget {
 	foreach ($rpublished as $r ) {
 		if ($r->post_type=='projects'){
 			$projpod = new Pod('projects', $r->ID);
-			//print_r($projpod->get_field('parent_project'));
 			if (!$projpod->get_field('parent_project')){
 				$k++;
 				echo "<li><a href='/about/projects/content/".$projpod->get_field('slug')."/'>".govintranetpress_custom_title($projpod->get_field('post_title'))."</a></li>";

@@ -50,7 +50,6 @@ class htNeedToKnow extends WP_Widget {
 								if ($k > 5){
 									break;
 								}
-					  		    //print_R( $citem);
 								$thistitle = get_the_title($post->ID);
 								$newspod = new Pod ( 'news' , $post->ID );
 

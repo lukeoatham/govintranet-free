@@ -10,7 +10,7 @@ Author URI: http://www.helpfultechnology.com
 
 class htFeedback extends WP_Widget {
     function htFeedback() {
-        parent::WP_Widget(false, 'HT Feedback', array('description' => 'Display feedback form'));
+        parent::WP_Widget(false, 'HT Feedback', array('description' => 'Display feedback form. Requires Gravity Forms plugin.'));
     }
 
     function widget($args, $instance) {

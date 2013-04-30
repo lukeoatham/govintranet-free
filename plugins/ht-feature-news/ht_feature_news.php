@@ -141,12 +141,9 @@ class htFeatureNews extends WP_Widget {
 												} 					
 										}
 
-								//$image_url = get_the_post_thumbnail($ID, 'homethumb', array('class' => 'alignleft'));
 								$thisdate= get_the_date();
 								$thisexcerpt= get_the_excerpt();
 								$thisdate=date("j M Y",strtotime($thisdate));
-//split into further rows and columns
-				
 								echo "<div class='newsitem'>";
 								echo "<a href='{$thisURL}'><h2>".$thistitle."</h2></a>";
 								echo "<p><span class='news_date'>".$thisdate."</span>";
