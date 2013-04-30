@@ -19,7 +19,7 @@ class htFeatureNews extends WP_Widget {
         $primaryitems = intval($instance['primaryitems']);
         $secondaryitems = intval($instance['secondaryitems']);
         $tertiaryitems = intval($instance['tertiaryitems']);
-
+        global $post;
        ?>
               <?php echo $before_widget; ?>
                   <?php if ( $title )
@@ -65,7 +65,6 @@ class htFeatureNews extends WP_Widget {
 					} 					
 				}
 
-		//$image_url = get_the_post_thumbnail($ID, 'homethumb', array('class' => 'alignleft'));
 		$thisexcerpt= $newspod->get_field('post_excerpt');
 		$thisdate= $slot['post_date'];
 		$thisdate=date("j M Y",strtotime($thisdate));
@@ -114,14 +113,13 @@ class htFeatureNews extends WP_Widget {
 								if ($k > $totalstories){
 									break;
 								}
-					  		    //print_R( $citem);
 								$thistitle = get_the_title($post->ID);
 								$newspod = new Pod ( 'news' , $post->ID );
 								$videostill = $newspod->get_field('video_still');								
+								$newspod->display('title');
 								$videoguid = $videostill[0]['guid']; 
 								$vidid = $videostill[0]['ID']; 
 								$videostill = wp_get_attachment_image( $vidid, 'large');
-
 								$thisURL=get_permalink($ID); 
 										if ($k <= $primaryitems){
 												$videostill = wp_get_attachment_image( $vidid, 'large');
