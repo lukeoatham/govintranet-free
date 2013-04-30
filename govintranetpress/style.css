@@ -1,8 +1,8 @@
 /*
-Theme Name: GOVintranet
+Theme Name: Helpful intranet
 Theme URI: https://govintranet.helpfulclients.com
-Description: Custom WordPress theme for UK government. Based on Starkers + 1140 Grid System by Alex Newman,  derived from Elliot Jay Stocks' Starkers Theme (http://starkerstheme.com/) and the 1140 CSS Grid (http://cssgrid.net/).
-Version: 1.2
+Description: Intranet theme inspired by GOV.UK. News, tasks, guides, projects, vacancies, blogs. Requires Pods plugin. Based on Starkers + 1140 Grid System by Alex Newman,  derived from Elliot Jay Stocks' Starkers Theme (http://starkerstheme.com/) and the 1140 CSS Grid (http://cssgrid.net/).
+Version: 2.0
 Author: Luke Oatham
 Author URI: http://www.helpfultechnology.com
 Tags: starkers,  naked,  clean,  basic
@@ -294,79 +294,68 @@ img.attachment-single-post-thumbnail {
 
 #sectionnav ul  {
 	margin: 0;
-	padding: 0;
+	padding-top: 0em;
 }
 
 #sectionnav ul li  {
-	background: #ffffff;
-	list-style: none !important;
-	padding: 0.25em 0.5em; 
-	font-size: 80%;
-	margin-bottom: 1px;
-	font-family:'Transport New Medium', arial, verdana,  sans-serif;
+	list-style: none;
+	padding: 0;
+	font-size: 0.9em;
+	font-family: "Transport New Light", arial, sans-serif;
 	font-weight: normal;
-	border-top: solid 1px #a1acb2;
-	margin-left: 0 !important;
-	margin-right: 0 !important;
+	line-height: 130%;
 }
 
 #sectionnav ul li a {
-	padding: 0.25em 0.5em;
+	padding: 0.95em 1em 0.95em 1em;
+	border-top: 1px solid gray;
 }
-#sectionnav li.active {
-	background-color: #dee0e2;
-	}
+
 #sectionnav ul li a:link,  #sectionnav ul li a:visited  {
-	color: #0b0c0c; color: #61415B;
+	color: #333;
 	text-decoration: none;
 	display: block;
 }
 
 #sectionnav ul li a:hover  {
 	list-style: none;
-	font-family:'Transport New Medium', arial, verdana,  sans-serif;
+	font-family: "Transport New Light", arial, sans-serif;
 	font-weight: normal;
-	background: #ebeef0 !important;
-	color: #0B3A66 !important;
+	background: #DEE0E2 !important;
+	color: #333 !important;
 }
 
 #sectionnav ul li.page_item a:hover,  #sectionnav ul li.current_page_parent a:hover  {
 	list-style: none;
-	font-family:'Transport New Medium', arial, verdana,  sans-serif;
+	font-family: "Transport New Light", arial, sans-serif;
 	font-weight: normal;
-	background: #dee0e2 !important;
-	color: #0B3A66 !important;
-}
-
-#sectionnav ul li.page_item a.back-to-conferences.invert:hover {
-	background: url('images/arrow-left-invert.gif') 5px 9px no-repeat !important;
-	padding-left: 20px !important;
-	font-family:'Transport New Medium', arial, verdana,  sans-serif;
-	font-weight: normal;
-	color: #fff !important;
-	text-decoration: underline;
-	
+	background: #DEE0E2 !important;
+	color: #333 !important;
 }
 
 #sectionnav ul li ul.children  {
 	border-top: 0;
-	background: #fff !important;
+	background: #fff;
 	margin: 0.25em -0.5em -0.25em -0.5em;
 	margin: 0;
 	border: 1px solid #0B3A66; border: none;
-	background: #0B3A66;
+	background: #fff;
 	color: #000;
 }
 
 #sectionnav ul li ul.children li  {
-	background: #fff !important;
-	font-size: 100%;
+	background: #fff !important; 
+	font-size: 0.9em;
 	border: none;
-	padding: 5px 10px; padding: 0;
+	padding: 0 0 0 0.5em; padding: 0;
 }
 
 #sectionnav ul li ul.children li a {
 	padding-left: 1em;
+}
+
+#sectionnav ul li ul.children li ul.children li a {
+	padding-left: 1.75em;
 }
 
 #sectionnav ul li ul.children li a:link,  #sectionnav ul li ul.children li a:visited  {
@@ -376,15 +365,17 @@ img.attachment-single-post-thumbnail {
 }
 
 #sectionnav ul li.current_page_item,  #sectionnav ul li.current_page_parent  {
-	background: #657A93;
+		background: #56595c !important;
+	color: #fff !important;
 }
 
 #sectionnav ul li.current_page_item a,  #sectionnav ul li.current_page_parent a  {
-	color: #fff;
+	color: #00285B; color: white;
+
 }
 
 #sectionnav ul li ul.children ul.children li a {
-	padding-left: 2em;
+	padding-left: 1em;
 }
 
 
@@ -393,7 +384,9 @@ img.attachment-single-post-thumbnail {
 }
 
 #sectionnav ul.children li.current_page_item a,  #sectionnav ul.children ul.children li.current_page_item a  {
-	color: rgb(104,123,146) !important;
+	color: #00285B;
+		background: #DEE0E2 !important;
+		border: none !important;
 }
 
 #sectionnav ul li ul.children,  #sectionnav ul li ul.children li ul.children  {
@@ -406,6 +399,7 @@ img.attachment-single-post-thumbnail {
 #sectionnav ul li ul.children li.current_page_item ul.children
  {
 	display: block;
+	margin-left: 1em;
 }
 
 
