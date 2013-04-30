@@ -26,7 +26,16 @@ GOV.UK-style intranet WordPress theme
 * Blog
 
 
+== Installation ==
+
+This theme requires the Pods WordPress plugin to manage custom post types.
+http://wordpress.org/extend/plugins/pods/
+Tested up to: 2.3.4
+
+
 == Changelog ==
 
 = 2.0 - April 30th, 2013 =
 * Initial release
+
+
