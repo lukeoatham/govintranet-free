@@ -18,44 +18,21 @@ get_header(); ?>
 ?>
 
 	<div class="row">
-		<div class="twelvecol white  last">
-
+		<div class="twelvecol white  last" id='content'>
+			<div class="row">
 				<div class='breadcrumbs'>
 					<?php if(function_exists('bcn_display') && !is_front_page()) {
 						bcn_display();
 					}?>
 				</div>
+			</div>
 
-
-					<div class="threecol" id='secondarynav'>
-
-						<?php global $post; if ( (pageHasChildren() || pageHasChildren($post->post_parent)) && (!is_front_page() && !is_404() && !is_search() ) ) : ?>
-				
-							<?php renderLeftNav(); ?>
-						
-						<?php endif; ?>
-						
-					</div>
-
-					<div class="sixcol" id='content'>
-
-						<?php if ( ! is_front_page() ) { ?>
-							<h1><?php the_title(); ?></h1>
-						<?php } ?>				
-														
-							<?php the_content(); ?>
-	
-					</div>
-
-					<div class="threecol last clearfix" id='sidebar'>
-							
-						<?php dynamic_sidebar('inside-sidebar-widget-area');  ?>
-						</ul>
-						
-					</div>
-
-
-
+			<div class="content-wrapper">
+					<h1><?php the_title(); ?></h1>
+					<?php the_content(); ?>
+			 </div>
+		</div> 
+	</div> 
 
 <?php endwhile; ?>
 
