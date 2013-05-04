@@ -187,22 +187,15 @@ else // load fresh analytics
 		$days_to_trail=1;
 	}
 
-
-
+	$gis = "general_intranet_time_zone";
+	$tzone = get_option($gis);
+	date_default_timezone_set($tzone);
 	$start_date= date("Y-m-d",time()-(86400*$days_to_trail)); // last x days
-	
 	define('ga_email',$google_analytics_username);
 	define('ga_password',$google_analytics_password);
 	define('ga_profile_id',$google_analytics_profileid);	
-	
 	$count = ($conf['tab1']['garesultcount']) ? $conf['tab1']['garesultcount'] : 50;
-	
 	require_once 'gapi.class.php';
-
-
-
-	
-		
 	$ga = new gapi(ga_email,ga_password);
 	$donefilter=false;
 	$filter='';

@@ -2,7 +2,9 @@
 /* Template name: Vacancies */
 
 get_header(); 
-
+$gis = "general_intranet_time_zone";
+$tzone = get_option($gis);
+date_default_timezone_set($tzone);
 $tdate= getdate();
 $tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
 $tday = date( 'd' , strtotime($tdate) );

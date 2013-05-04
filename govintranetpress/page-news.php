@@ -33,7 +33,9 @@ if (!$removenews || !is_array($removenews)){
 
 //remove old news
 
-							date_default_timezone_set('Europe/London');
+							$gis = "general_intranet_time_zone";
+							$tzone = get_option($gis);
+							date_default_timezone_set($tzone);
 							$tdate= getdate();
 							$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
 							$tday = date( 'd' , strtotime($tdate) );

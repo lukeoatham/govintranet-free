@@ -38,8 +38,9 @@ class htAboutThisPage extends WP_Widget {
 							echo $before_widget; 
 							if ( $title )
 								echo $before_title . $title . $after_title; 
-
-
+							$gis = "general_intranet_time_zone";
+							$tzone = get_option($gis);
+							date_default_timezone_set($tzone);
 							if ($show_modified_date=='on'){
 							echo "Updated ".human_time_diff_plus( get_the_modified_time('U') ) . " ago<br>";
 							}
