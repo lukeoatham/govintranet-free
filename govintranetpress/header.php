@@ -35,9 +35,6 @@ header('X-Frame-Options: SAMEORIGIN');
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="profile" href="https://gmpg.org/xfn/11" />
 
-	<!-- webfont loading -->
-	<script type="text/javascript" src="https://fast.fonts.com/jsapi/42e1e4da-d5be-4f80-8e7f-7ddc448a977a.js"></script>
-
 	<!-- 1140px Grid styles for IE -->
 	<!--[if lte IE 9]>
 		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie.css" type="text/css" media="screen" />
