@@ -1,4 +1,4 @@
-helpful-intranet
+# Helpful intranet #
 ================
 
 Contributors: lukeoatham
@@ -6,7 +6,7 @@ Link: http://www.helpfultechnology.com
 Tags: intranet, gov.uk
 Requires at least: 3.4
 Tested up to: 3.5.1
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,10 @@ Tested up to: 2.3.4
 
 
 ## Changelog ##
+
+### 2.0.3 - May 7th, 2013 ###
+* Removed call to web fonts
+* New screenshots
 
 ### 2.0.2 - May 4th, 2013 ###
 * Added time zone to general intranet settings
