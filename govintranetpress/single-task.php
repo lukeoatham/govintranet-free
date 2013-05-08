@@ -260,14 +260,14 @@ endif;
 				echo "<div class='widget-box list'>";
 				echo "<h3 class='widget-title'>Related tasks and guides</h3>";
 				echo "<ul>";
-				foreach ($related_links as $rlink){
+				foreach ($related_links as $rlink){ 
 					if ($rlink['post_status'] == 'publish') {
 							$taskpod = new Pod ('task' , $rlink['ID']);
 							$taskparent=$taskpod->get_field('parent_guide');
 							$title_context="";
 							if ($taskparent){
-								$parent_guide_id = $taskparent[0]['ID']; 		
-								$taskparent = get_post($parent_guide_id);
+								$tparent_guide_id = $taskparent[0]['ID']; 		
+								$taskparent = get_post($tparent_guide_id);
 								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 							}		
 					echo "<li><a href='/task/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";

@@ -35,6 +35,9 @@ Tested up to: 2.3.4
 
 ## Changelog ##
 
+### 2.0.4 - May 9th, 2013 ###
+* Corrected category list on single tasks
+
 ### 2.0.3 - May 7th, 2013 ###
 * Removed call to web fonts
 * New screenshots
