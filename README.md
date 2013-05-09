@@ -1,19 +1,19 @@
 # Helpful intranet #
 ================
 
-Contributors: lukeoatham
-Link: http://www.helpfultechnology.com
-Tags: intranet, gov.uk
-Requires at least: 3.4
-Tested up to: 3.5.1
-Stable tag: 2.0.4
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Contributors: lukeoatham  
+Link: http://www.helpfultechnology.com  
+Tags: intranet, gov.uk  
+Requires at least: 3.4  
+Tested up to: 3.5.1  
+Stable tag: 2.0.4  
+License: GPLv2 or later  
+License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 
 ## Description ##
 
-GOV.UK-style intranet WordPress theme
+GOV.UK-style intranet WordPress theme  
 
 
 ## Content types ##
@@ -28,10 +28,9 @@ GOV.UK-style intranet WordPress theme
 
 ## Installation ##
 
-This theme requires the Pods WordPress plugin to manage custom post types.
-http://wordpress.org/extend/plugins/pods/
-Tested up to: 2.3.4
-
+This theme requires the [Pods WordPress plugin](http://wordpress.org/extend/plugins/pods/) to manage custom post types.  
+Tested up to: 2.3.4  
+Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
 
 ## Changelog ##
 
