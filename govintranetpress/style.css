@@ -1280,6 +1280,12 @@ body.home .post  {
 	margin-left: 2em;
 }
 
+
+#content ol ul li {
+	list-style: square;
+	margin-left: 2em;
+}
+
 .metabox  {
 	padding: 1em;
 	margin: 1em 0;
