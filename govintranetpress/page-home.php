@@ -8,7 +8,7 @@ get_header(); ?>
 <div class="row white">
 
 <?php
-
+	// Load intranet homepage settings
 	$hc = "homepage_control_campaign_message";
 	$hcitem = get_option($hc);
 	$campaign_message = $hcitem; 
@@ -21,7 +21,7 @@ get_header(); ?>
 	$hcitem = get_option($hc);
 	$homecontent =  $hcitem;
 
-	if ($homecontent ):
+	if ($homecontent ): //Display emergency message
 	?>
 	<div class="twelvecol last">
 		<div class="content-wrapper">
@@ -46,7 +46,7 @@ get_header(); ?>
 			<?php 	dynamic_sidebar('home-widget-area4'); ?>	
 		</div>
 		<div class="twelvecol white last">
-			<?php	if ($campaign_message) {
+			<?php	if ($campaign_message) { //Display campaign message
 			echo "<div class='content-wrapper'>".wpautop($campaign_message)."</div>"; 
 			}
 			?>
@@ -61,7 +61,7 @@ get_header(); ?>
 $removenews = get_transient('cached_removenews'); 
 if (!$removenews || !is_array($removenews)){
 
-//remove old news
+//process expired news
 
 $gis = "general_intranet_time_zone";
 $tzone = get_option($gis);
@@ -89,37 +89,37 @@ array(
 ))));
 
 if ( count($oldnews) > 0 ){
-foreach ($oldnews as $old) {
-	$expiryaction = get_post_meta($old->ID,'expiry_action',true);
-	if ($expiryaction=='Revert to draft status'){
-		  $my_post = array();
-		  $my_post['ID'] = $old->ID;
-		  $my_post['post_status'] = 'draft';
-		  wp_update_post( $my_post );
-		  delete_post_meta($old->ID, 'expiry_date');
-		  delete_post_meta($old->ID, 'expiry_action');
-	}	
-	if ($expiryaction=='Change to regular news'){
-		update_post_meta($old->ID, 'news_listing_type', 'Regular', 'Need to know'); 
-		  delete_post_meta($old->ID, 'expiry_date');
-		  delete_post_meta($old->ID, 'expiry_action');
-	}	
-	if ($expiryaction=='Move to trash'){
-		  $my_post = array();
-		  $my_post['ID'] = $old->ID;
-		  $my_post['post_status'] = 'trash';
-		  delete_post_meta($old->ID, 'expiry_date');
-		  delete_post_meta($old->ID, 'expiry_action');
-		  wp_update_post( $my_post );
-	}	
-}
+	foreach ($oldnews as $old) {
+		$expiryaction = get_post_meta($old->ID,'expiry_action',true);
+		if ($expiryaction=='Revert to draft status'){
+			  $my_post = array();
+			  $my_post['ID'] = $old->ID;
+			  $my_post['post_status'] = 'draft';
+			  wp_update_post( $my_post );
+			  delete_post_meta($old->ID, 'expiry_date');
+			  delete_post_meta($old->ID, 'expiry_action');
+		}	
+		if ($expiryaction=='Change to regular news'){
+			update_post_meta($old->ID, 'news_listing_type', 'Regular', 'Need to know'); 
+			  delete_post_meta($old->ID, 'expiry_date');
+			  delete_post_meta($old->ID, 'expiry_action');
+		}	
+		if ($expiryaction=='Move to trash'){
+			  $my_post = array();
+			  $my_post['ID'] = $old->ID;
+			  $my_post['post_status'] = 'trash';
+			  delete_post_meta($old->ID, 'expiry_date');
+			  delete_post_meta($old->ID, 'expiry_action');
+			  wp_update_post( $my_post );
+		}	
+	}
 }
 $timer=array();
 $timer[]='last_removed';
 $gi = "general_intranet_expired_news_cache";
 $expirednewscache = get_option($gi);
 if ($expirednewscache <= 0 ) {
-	$expirednewscache = 60*8;
+	$expirednewscache = 8;//default to 8 hours for checking expired news
 }
 
 set_transient('cached_removenews',$timer,60*$expirednewscache); // customised cache period

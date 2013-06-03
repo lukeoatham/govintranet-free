@@ -78,7 +78,7 @@ $terms = get_terms('category');
   			echo "
 			<div class='fourcol white";
 			if ($catcount==3){
-			echo ' last';
+				echo ' last';
 			} 
 			echo "'>
 				<div class='category-block brd" . $taxonomy->term_id ."'>
@@ -90,15 +90,15 @@ $terms = get_terms('category');
 				echo '</div></div>';
 			}
 		}
-			if ($catcount==3){
-				echo "<div class='row white'><br><div class='content-wrapper'>";
-			}
-			if ($catcount==2){
-				echo "</div><div class='row white'><br><div class='twelvecol last'>";
-			}
-			if ($catcount==1){
-				echo "</div></div><div class='row white'><br><div class='content-wrapper'>";
-			}						
+		if ($catcount==3){
+			echo "<div class='row white'><br><div class='content-wrapper'>";
+		}
+		if ($catcount==2){
+			echo "</div><div class='row white'><br><div class='twelvecol last'>";
+		}
+		if ($catcount==1){
+			echo "</div></div><div class='row white'><br><div class='content-wrapper'>";
+		}						
 	}  
 
 // Big tag cloud

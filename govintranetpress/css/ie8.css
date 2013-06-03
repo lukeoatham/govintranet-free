@@ -38,3 +38,47 @@ form#sbc-search select#cat {
 	vertical-align: top;
 }
 
+.maildocument  {
+	background: url('images/email.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+
+.pdfdocument  {
+	background: url('images/pdf.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+
+.xlsdocument  {
+	background: url('images/xls.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+.docdocument  {
+	background: url('images/doc.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+.pptdocument  {
+	background: url('images/icon-ppt.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+
+

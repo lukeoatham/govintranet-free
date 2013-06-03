@@ -2,23 +2,24 @@
 /* Template name: Vacancies */
 
 get_header(); 
-$gis = "general_intranet_time_zone";
-$tzone = get_option($gis);
-date_default_timezone_set($tzone);
-$tdate= getdate();
-$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
-$tday = date( 'd' , strtotime($tdate) );
-$tmonth = date( 'm' , strtotime($tdate) );
-$tyear= date( 'Y' , strtotime($tdate) );
-$sdate=$tyear."-".$tmonth."-".$tday;
 
+
+							$tdate= getdate();
+							$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
+							$tday = date( 'd' , strtotime($tdate) );
+							$tmonth = date( 'm' , strtotime($tdate) );
+							$tyear= date( 'Y' , strtotime($tdate) );
+							$sdate=$tyear."-".$tmonth."-".$tday;
+
+//CHANGE CLOSED VACANCIES TO DRAFT STATUS
 $wpdb->query(
-	"update wp_posts, wp_postmeta set wp_posts.post_status='draft' where wp_postmeta.meta_key='closing_date' and wp_postmeta.meta_value < '".$sdate."' and wp_postmeta.post_id = wp_posts.id and wp_posts.post_status='publish' and wp_posts.post_type='vacancies';"
+	"update wp_posts, wp_postmeta set wp_posts.post_status='draft' where wp_postmeta.meta_key='closing_date' and wp_postmeta.meta_value < '".$sdate."' and wp_postmeta.post_id = wp_posts.id and wp_posts.post_status='publish';"
 	);
 
 ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
+
 
 		<div class="row">
 
@@ -38,6 +39,7 @@ $wpdb->query(
 						the_content();
 						?>
 				</div>
+				<!-- category search box -->
 				
 				<div class="content-wrapper">
 	<div class="category-search blue">
@@ -49,20 +51,25 @@ $wpdb->query(
 		</form>
 	</div>
 	</div>
-					<?php $jobtype = $_GET['show']; ?>
+	
+
+					<?php 
+					//SHOW FILTERING OPTIONS
+					
+					$jobtype = $_GET['show']; ?>
 					<?php $jobgrade = $_GET['grade']; ?>
 
 				<p>Show: 
 				<?php if ($jobtype=='all' or !$jobtype) : ?>
 				<strong>All vacancies</strong>
 				<?php else : ?>
-				<a href='/about/vacancies/?show=all&amp;grade=<?php echo $jobgrade ;?>'>All vacancies</a> 
+				<a href='/about-dcms/vacancies/?show=all&amp;grade=<?php echo $jobgrade ;?>'>All vacancies</a> 
 				<?php endif; ?>
 				<?php if ($jobtype=='projects') : ?>
-				| <strong>Only project vacancies</strong> 
+				| <strong>Resourcing cycle vacancies</strong> 
 				<?php else : ?>
 				<?php //if ($jobgrade=='all') : ?>
-				| <a href='/about/vacancies/?show=projects&amp;grade=<?php echo $jobgrade ;?>'>Only project vacancies</a> 
+				| <a href='/about-dcms/vacancies/?show=projects&amp;grade=<?php echo $jobgrade ;?>'>Resourcing cycle vacancies</a> 
 				<?php// endif; ?>
 				<?php endif; ?>
 				</p>				
@@ -72,9 +79,9 @@ $wpdb->query(
 				<?php else : 
 					if ($jobtype=='projects') :
 				?>
-				<a href='/about/vacancies/?grade=all&show=projects'>All grades</a> | 
+				<a href='/about-dcms/vacancies/?grade=all&show=projects'>All grades</a> | 
 				<?php else : ?>
-				<a href='/about/vacancies/?grade=all'>All grades</a> | 
+				<a href='/about-dcms/vacancies/?grade=all'>All grades</a> | 
 				<?php endif; ?>
 				<?php endif; ?>
 				<?php
@@ -87,7 +94,7 @@ $wpdb->query(
 							  			if ($jobgrade == $themeURL) {
 								  			echo "<strong>" . $taxonomy->name . "</strong> | ";
 								  			} else {
-								  			echo "<a href='/about/vacancies/?grade=".$themeURL."&amp;show={$jobtype}'>" . $taxonomy->name . "</a> | ";
+								  			echo "<a href='/about-dcms/vacancies/?grade=".$themeURL."&amp;show={$jobtype}'>" . $taxonomy->name . "</a> | ";
 								  		}
 									}
 								}  
@@ -98,34 +105,10 @@ $wpdb->query(
 							$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 							$counter = 0;	
 
-							if ($jobtype=='projects'){
-									$project_id = $wpdb->get_results( 'select id from wp_posts where post_name = "project"' );
-									$project_id = $project_id[0]->id;
-									$q = "
-									select distinct post_id from wp_postmeta, wp_posts, wp_podsrel
-									where post_type = 'vacancies' AND
-									wp_podsrel.field_id = ".$project_id." AND
-									wp_podsrel.item_id = wp_posts.id AND
-									wp_postmeta.post_id = wp_posts.id AND
-									wp_postmeta.meta_key = 'closing_date' AND
-									wp_postmeta.meta_value >= '" . $sdate . "'AND
-									post_status = 'publish'
-									order by post_title asc
-									"; 
-									$vacancies = $wpdb->get_results( $q );
-									$varray=array();
-									if ( $vacancies )
-									{
-										
-										foreach ( $vacancies as $post )
-										{
-										$varray[]= $post->post_id;	
-										}
-
-									}
-									if ($jobgrade!='all' && $jobgrade != ''){
+							if ($jobtype=='projects'){ // IF ONLY RESOURCING CYCLE VACANCIES
+																															
+									if ($jobgrade!='all' && $jobgrade != ''){ // SPECIFIC GRADE FOR RESOURCING CYCLE
 									$vquery = array(
-													'post__in' => $varray,
 												    'orderby' => 'title',
 												    'order' => 'ASC',
 												    'post_type' => 'vacancies',
@@ -137,23 +120,48 @@ $wpdb->query(
 															'field' => 'slug',
 															'terms' => $jobgrade
 														)
+													),
+													'meta_query' => array(
+														array(
+															'key' => 'closing_date',
+															'value' => $sdate,
+															'compare' => '>='
+														),
+														array(
+															'key' => 'resourcing_cycle',
+															'value' => 1,
+															'compare' => '='
+														)
 													)
 												)
 												;
 										}
-										else {
+										else { // ALL GRADES FOR RESOURCING CYCLE
 									$vquery = array(
-													'post__in' => $varray,
 												    'orderby' => 'title',
 												    'order' => 'ASC',
 												    'post_type' => 'vacancies',
 												    'posts_per_page' => -1,
-												    'paged' => $paged												
+												    'paged' => $paged,												
+													'meta_query' => array(
+														array(
+															'key' => 'closing_date',
+															'value' => $sdate,
+															'compare' => '>='
+														),
+														array(
+															'key' => 'resourcing_cycle',
+															'value' => 1,
+															'compare' => '='
+														)													)
 												)
 												;
+											
 										}		
 												
+												//print_r( $vquery);
 							$pagedvacs = new WP_Query( $vquery );		
+									
 									
 							if ($pagedvacs->post_count==0){
 								echo "<p>Nothing to show.</p>";
@@ -171,13 +179,15 @@ $wpdb->query(
 							}
 							while ($pagedvacs->have_posts()) {
 								$pagedvacs->the_post();
+
 							  		    $projectvac = new Pod('vacancies', $post->ID);
-										$thistitle = govintranetpress_custom_title($projectvac->get_field('title'));
+										$thistitle = culturepress_custom_title($projectvac->get_field('title'));
 										$thisURL=$projectvac->get_field('guid');
 										$image_url = get_the_post_thumbnail($projectvac->get_field('ID'), 'thumbnail', array('class' => 'alignright'));
 										$thisexcerpt= $projectvac->get_field('excerpt');
 										$thisdate= $projectvac->get_field('post_date');
 										$thisdate=date("j M Y",strtotime($thisdate));
+
 										echo "<div class='newsitem'><p><a href='{$thisURL}'>".$image_url;
 										echo "<h2>".$thistitle."</h2></a>";
 										echo "<p><span class='news_date'>".$thisdate."</span>";
@@ -202,9 +212,10 @@ $wpdb->query(
 						?>
 					<?php endif; 
 
+
 							}
-							if ( $jobtype=='all' || $jobtype == '' ){
-							if ($jobgrade!='all' && $jobgrade!=''){
+							else { //showing all types of vacancy
+							if ( $jobgrade!='all' && $jobgrade!='' ){ // showing all grades for specific vacancy
 							$vacancies =new WP_Query(array ( 
 										'orderby' => 'title', 
 										'order' => 'ASC',
@@ -224,13 +235,13 @@ $wpdb->query(
 												           'key' => 'closing_date',
 												           'value' => $sdate,
 												           'compare' => '>=',
+												           
 												       ),
-												      $jobtypefilter, 
 											       )
 											 )
 										);
 									}
-									else
+									else // showing specific grade for all types of vacncy
 									{
 							$vacancies =new WP_Query(array ( 
 										'orderby' => 'title', 
@@ -243,8 +254,8 @@ $wpdb->query(
 												           'key' => 'closing_date',
 												           'value' => $sdate,
 												           'compare' => '>=',
+												           
 												       ),
-												      $jobtypefilter, 
 											       )
 											 )
 										);
@@ -300,6 +311,8 @@ $wpdb->query(
 							wp_reset_query();								
 
 							?>
+				
+
 				</div>
 			</div>
 

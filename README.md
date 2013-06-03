@@ -29,10 +29,16 @@ GOV.UK-style intranet WordPress theme
 ## Installation ##
 
 This theme requires the [Pods WordPress plugin](http://wordpress.org/extend/plugins/pods/) to manage custom post types.  
-Tested up to: 2.3.4  
+Tested up to: 2.3.5.1  
 Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
 
 ## Changelog ##
+
+### 2.0.5 - June 3rd, 2013 ###
+* Changed news expiry date format
+* Added resourcing cycle flag to vacancies (resourcing_cycle Yes/No)
+* Changed vacancies page to work with resourcing cycle
+* Changed download icon styles for IE
 
 ### 2.0.4 - May 9th, 2013 ###
 * Corrected category list on single tasks
