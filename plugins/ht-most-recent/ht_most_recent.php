@@ -94,38 +94,38 @@ class htMostRecent extends WP_Widget {
 			$projpod = new Pod('projects', $r->ID);
 			if (!$projpod->get_field('parent_project')){
 				$k++;
-				echo "<li><a href='/about/projects/content/".$projpod->get_field('slug')."/'>".culturepress_custom_title($projpod->get_field('post_title'))."</a></li>";
+				echo "<li><a href='/about/projects/content/".$projpod->get_field('slug')."/'>".govintranetpress_custom_title($projpod->get_field('post_title'))."</a></li>";
 			}
 		}
 		if ($r->post_type=='vacancies'){
 			$k++;
 			$vacpod = new Pod('vacancies', $r->ID);
-			echo "<li><a href='/about/vacancies/content/".$vacpod->get_field('slug')."/'>".culturepress_custom_title($vacpod->get_field('post_title'))."</a></li>";
+			echo "<li><a href='/about/vacancies/content/".$vacpod->get_field('slug')."/'>".govintranetpress_custom_title($vacpod->get_field('post_title'))."</a></li>";
 		}
 		if ($r->post_type=='news'){
 			$k++;
 			$vacpod = new Pod('news', $r->ID);
-			echo "<li><a href='/news/content/".$vacpod->get_field('slug')."/'>".culturepress_custom_title($vacpod->get_field('post_title'))."</a></li>";
+			echo "<li><a href='/news/content/".$vacpod->get_field('slug')."/'>".govintranetpress_custom_title($vacpod->get_field('post_title'))."</a></li>";
 		}
 		if ($r->post_type=='blog'){
 			$k++;
 			$vacpod = new Pod('blog', $r->ID);
-			echo "<li><a href='/blog/".$vacpod->get_field('slug')."/'>".culturepress_custom_title($vacpod->get_field('post_title'))."</a></li>";
+			echo "<li><a href='/blog/".$vacpod->get_field('slug')."/'>".govintranetpress_custom_title($vacpod->get_field('post_title'))."</a></li>";
 		}
 		if ($r->post_type=='task'){
 			$taskpod = new Pod('task', $r->ID); 
 			if ($taskpod->get_field('page_type') == 'Task'){ 
 				$k++;
-				echo "<li><a href='/task/".$taskpod->get_field('slug')."/'>".culturepress_custom_title($taskpod->get_field('post_title'))."</a></li>";
+				echo "<li><a href='/task/".$taskpod->get_field('slug')."/'>".govintranetpress_custom_title($taskpod->get_field('post_title'))."</a></li>";
 				} else 	{
 				if ($taskpod->get_field('page_type') == 'Guide header'){
 				$k++;
-				echo "<li><a href='/task/".$taskpod->get_field('slug')."/'>".culturepress_custom_title($taskpod->get_field('post_title'))."</a></li>";
+				echo "<li><a href='/task/".$taskpod->get_field('slug')."/'>".govintranetpress_custom_title($taskpod->get_field('post_title'))."</a></li>";
 				} else {
 				$k++;
 				$pguide = $taskpod->get_field('parent_guide'); 
 				$ptaskpod = new Pod ('task', $pguide[0]['ID']);
-				echo "<li><a href='/task/".$taskpod->get_field('slug')."/'>".culturepress_custom_title($taskpod->get_field('post_title'))." (".culturepress_custom_title($ptaskpod->get_field('post_title')).")</a></li>";
+				echo "<li><a href='/task/".$taskpod->get_field('slug')."/'>".govintranetpress_custom_title($taskpod->get_field('post_title'))." (".govintranetpress_custom_title($ptaskpod->get_field('post_title')).")</a></li>";
 					
 				}
 			}
