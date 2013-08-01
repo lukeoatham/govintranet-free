@@ -94,7 +94,7 @@ get_header(); ?>
 <?php 
 
 		echo "<div class='twelvecol last'>";		
-		echo "<div class='content-wrapper-notop'>";
+		echo "<div class='content-wrapper'>";
 			
 			the_content(); 		
 			
@@ -115,10 +115,13 @@ get_header(); ?>
 		}	
 			
 		$projects = $vacancypod->get_field('project');
+		if ($projects[0]['post_status'] == 'publish' ){
+//		print_r($projects);
 		if ($projects){
 			echo "<div id='projects'><hr><h2>Project</h2><ul>";
-				echo "<li><a href='/about/projects/content/{$projects[0]['post_name']}/'>".$projects[0]['post_title']."</a></li>";
+				echo "<li><a href='/about-dcms/projects/content/{$projects[0]['post_name']}/'>".$projects[0]['post_title']."</a></li>";
 			echo "</ul></div>";
+		}
 		}
 	
 			

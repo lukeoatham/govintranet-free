@@ -67,11 +67,13 @@ foreach ($oldnews as $old) {
 		  $my_post['post_status'] = 'draft';
 		  wp_update_post( $my_post );
 		  delete_post_meta($old->ID, 'expiry_date');
+		  delete_post_meta($old->ID, 'expiry_time');
 		  delete_post_meta($old->ID, 'expiry_action');
 	}	
 	if ($expiryaction=='Change to regular news'){
 		update_post_meta($old->ID, 'news_listing_type', 'Regular', 'Need to know'); 
 		  delete_post_meta($old->ID, 'expiry_date');
+		  delete_post_meta($old->ID, 'expiry_time');
 		  delete_post_meta($old->ID, 'expiry_action');
 	}	
 	if ($expiryaction=='Move to trash'){
@@ -79,6 +81,7 @@ foreach ($oldnews as $old) {
 		  $my_post['ID'] = $old->ID;
 		  $my_post['post_status'] = 'trash';
 		  delete_post_meta($old->ID, 'expiry_date');
+		  delete_post_meta($old->ID, 'expiry_time');
 		  delete_post_meta($old->ID, 'expiry_action');
 		  wp_update_post( $my_post );
 	}	

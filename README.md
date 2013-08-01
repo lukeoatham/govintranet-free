@@ -6,7 +6,7 @@ Link: http://www.helpfultechnology.com
 Tags: intranet, gov.uk  
 Requires at least: 3.4  
 Tested up to: 3.5.1  
-Stable tag: 2.0.4  
+Stable tag: 2.0.6  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -33,6 +33,11 @@ Tested up to: 2.3.5.1
 Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
 
 ## Changelog ##
+
+### 2.0.6 - August 1st, 2013 ###
+* Homepage and news page remove expiry time field entry when triggered  
+* Formatting on vacancies corrected  
+* Most recent widget shows guide chapters  
 
 ### 2.0.5 - June 3rd, 2013 ###
 * Changed news expiry date format

@@ -22,10 +22,10 @@ get_header(); ?>
 						the_content();
 if (is_user_logged_in()){
 	get_currentuserinfo();
-	echo "<br><p>Logged in as: ".$current_user->display_name." | <a href='".wp_logout_url('/about/forums/')."'>Logout</a></p><br>";
+	echo "<br><p>Logged in as: ".$current_user->display_name." | <a href='".wp_logout_url('/about-dcms/yourspace/forums/')."'>Logout</a></p><br>";
 	}
 	else if ($_SERVER['SERVER_NAME'] != 'intranet2.culture.gov.uk'){
-	echo "<p><a href='".wp_login_url('/about/forums/')."'>Login</a> | <a href='/wp-login.php?action=register'>Register</a></p>";
+	echo "<p><a href='".wp_login_url('/about-dcms/yourspace/forums/')."'>Login</a> | <a href='/wp-login.php?action=register'>Register</a></p>";
 }
 
 ?>				
@@ -33,28 +33,28 @@ if (is_user_logged_in()){
 				<div id='bbpress-forums'>
 				
 				<?php
-				$allforums = new WP_Query(
+				$allforums = get_posts(
 					array('post_type'=>'forum',
 					'posts_per_page'=>-1,
 					'post_parent'=>0,
 					'orderby'=>'menu_order',
-					'order'=>'ASC'
+					'order'=>'ASC',
+					'post_status'=>'publish'
 					)
 				);
-				 while ($allforums->have_posts()) {
-				 $allforums->the_post();
-					
-					$forumtitle = get_the_title();
-					$parentforum = $post->post_name;
+				foreach ($allforums as $a) {
+					//print_r(get_post_meta($post->ID,'visibility'));
+					$forumtitle = get_the_title($a->ID);
+					$parentforum = $a->post_name;
 
-					echo "<div class='bbp-template-notice info'>";
-					echo "<h3><a href='/about/forums/forums/{$post->post_name}/'>".$forumtitle."</a></h3>";
-					echo wpautop($post->post_content)."</div>";
+					echo "<div><hr>";
+					echo "<h3><a href='/about-dcms/yourspace/forums/{$a->post_name}/'>".$forumtitle."</a></h3>";
+					echo wpautop($a->post_content)."</div>";
 					
 					echo "<ul class='bbp-forums'>
 					<li class='bbp-header'>
 					<ul class='forum-titles'>
-					<li class='bbp-forum-info'>Forum</li>
+					<li class='bbp-forum-info'>$forumtitle</li>
 					<li class='bbp-forum-topic-count'>Topics</li>
 					<li class='bbp-forum-reply-count'>Posts</li>			
 					<li class='bbp-forum-freshness'>Freshness</li>												
@@ -64,7 +64,7 @@ if (is_user_logged_in()){
 					$subforums = get_posts(
 						array('post_type'=>'forum',
 						'posts_per_page'=>-1,
-						'post_parent'=>$post->ID,
+						'post_parent'=>$a->ID,
 					'orderby'=>'menu_order',
 					'order'=>'ASC'
 						)
@@ -127,7 +127,7 @@ if (is_user_logged_in()){
 					}
 						echo "'>
 					<li class='bbp-forum-info'>
-					<a class='bbp-forum-title' href='/about/forums/forums/{$parentforum}/{$sfslug}/'>".$forumtitle."</a>
+					<a class='bbp-forum-title' href='/about-dcms/yourspace/forums/{$parentforum}/{$sfslug}/'>".$forumtitle."</a>
 					<div class='bbp-forum-content'>".wpautop($subf->post_content)."</div>
 					</li>
 					<li class='bbp-forum-topic-count'>".$topiccount."</li>
