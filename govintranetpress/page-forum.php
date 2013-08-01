@@ -15,18 +15,12 @@ get_header(); ?>
 						echo "<h1>".get_the_title()."</h1>";
 						
 						//echo "You are on server: ".$_SERVER['SERVER_NAME'];
-						if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk'){
-						echo "<div class='alert'>THE FORUMS ARE READ-ONLY OUTSIDE OF THE DCMS NETWORK.<br>To posts to the forums please use the <a href='https://{$_SERVER['SERVER_NAME']}/remote-forum-post/'>remote forum post form</a></div>";							
-							}
 						
 						the_content();
 if (is_user_logged_in()){
 	get_currentuserinfo();
-	echo "<br><p>Logged in as: ".$current_user->display_name." | <a href='".wp_logout_url('/about-dcms/yourspace/forums/')."'>Logout</a></p><br>";
+	echo "<br><p>Logged in as: ".$current_user->display_name." | <a href='".wp_logout_url('/about/yourspace/forums/')."'>Logout</a></p><br>";
 	}
-	else if ($_SERVER['SERVER_NAME'] != 'intranet2.culture.gov.uk'){
-	echo "<p><a href='".wp_login_url('/about-dcms/yourspace/forums/')."'>Login</a> | <a href='/wp-login.php?action=register'>Register</a></p>";
-}
 
 ?>				
 
@@ -48,7 +42,7 @@ if (is_user_logged_in()){
 					$parentforum = $a->post_name;
 
 					echo "<div><hr>";
-					echo "<h3><a href='/about-dcms/yourspace/forums/{$a->post_name}/'>".$forumtitle."</a></h3>";
+					echo "<h3><a href='/about/yourspace/forums/{$a->post_name}/'>".$forumtitle."</a></h3>";
 					echo wpautop($a->post_content)."</div>";
 					
 					echo "<ul class='bbp-forums'>
@@ -127,7 +121,7 @@ if (is_user_logged_in()){
 					}
 						echo "'>
 					<li class='bbp-forum-info'>
-					<a class='bbp-forum-title' href='/about-dcms/yourspace/forums/{$parentforum}/{$sfslug}/'>".$forumtitle."</a>
+					<a class='bbp-forum-title' href='/about/yourspace/forums/{$parentforum}/{$sfslug}/'>".$forumtitle."</a>
 					<div class='bbp-forum-content'>".wpautop($subf->post_content)."</div>
 					</li>
 					<li class='bbp-forum-topic-count'>".$topiccount."</li>
