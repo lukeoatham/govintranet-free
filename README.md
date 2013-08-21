@@ -31,6 +31,7 @@ GOV.UK-style intranet WordPress theme
 This theme requires the [Pods WordPress plugin](http://wordpress.org/extend/plugins/pods/) to manage custom post types.  
 Tested up to: 2.3.5.1  
 Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
+[Setup instructions](http://helpful.im/intranetsetup)
 
 ## Changelog ##
 
