@@ -247,7 +247,7 @@ if ($policylink){
 				echo "<ul>";
 				foreach ($related_links as $rlink){
 					if ($rlink['post_status'] == 'publish') {
-					echo "<li><a href='".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title'])."</a></li>";
+					echo "<li><a href='/about/projects/content/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title'])."</a></li>";
 					}
 				}
 				echo "</ul></div>";
