@@ -219,7 +219,7 @@ function twentyten_filter_wp_title( $title, $separator ) {
 		if ($taskparent){
 			$parent_guide_id = $taskparent[0]['ID']; 		
 			$taskparent = get_post($parent_guide_id);
-			$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+			$title_context=" (".culturepress_custom_title($taskparent->post_title).")";
 		}			
 
 	
@@ -547,14 +547,14 @@ function twentyten_widgets_init() {
 	
 }
 
-function govintranetpress_custom_title( $output ) {
+function culturepress_custom_title( $output ) {
 	if (!is_admin()) {
 		return trim(preg_replace('/\[.*\]/i','',$output));
 	} else {
 		return $output;
 	}
 }
-add_filter( 'the_title', 'govintranetpress_custom_title' );
+add_filter( 'the_title', 'culturepress_custom_title' );
 
 
 /** Register sidebars by running twentyten_widgets_init() on the widgets_init hook. */
@@ -658,10 +658,10 @@ function enqueueThemeScripts() {
 }
 add_action('wp_enqueue_scripts','enqueueThemeScripts');
 
-function govintranetpress_custom_excerpt_more( $output ) {
+function culturepress_custom_excerpt_more( $output ) {
 	return preg_replace('/<a[^>]+>Continue reading.*?<\/a>/i','',$output);
 }
-add_filter( 'get_the_excerpt', 'govintranetpress_custom_excerpt_more', 20 );
+add_filter( 'get_the_excerpt', 'culturepress_custom_excerpt_more', 20 );
 
 
 function get_post_thumbnail_caption() {
@@ -805,9 +805,9 @@ if( !function_exists('base_custom_mce_format') ){
 function ht_cookiebar_widget() {
 
 	register_sidebar( array(
-		'name' => __( 'Cookie warning bar', 'govintranetpress' ),
+		'name' => __( 'Cookie warning bar', 'culturepress' ),
 		'id' => 'cookiebar',
-		'description' => __( 'The cookie warning bar', 'govintranetpress' ),
+		'description' => __( 'The cookie warning bar', 'culturepress' ),
 		'before_widget' => '',
 		'after_widget' => '',
 		'before_title' => '',
@@ -1132,4 +1132,37 @@ function human_time_diff_plus( $from, $to = '' ) {
           $since = sprintf( _n( '%s day', '%s days', $days ), $days );
      }
      return $since;
+}
+remove_filter('relevanssi_remove_punctuation', 'relevanssi_remove_punct');
+add_filter('relevanssi_remove_punctuation', 'your_relevanssi_remove_punct');
+
+function your_relevanssi_remove_punct($a) {
+	$a = strip_tags($a);
+	$a = stripslashes($a);
+	$a = str_replace('&#8217;', '', $a);
+	$a = str_replace("'", '', $a);
+	$a = str_replace("´", '', $a);
+	$a = str_replace("’", '', $a);
+	$a = str_replace("‘", '', $a);
+	$a = str_replace("„", '', $a);
+	$a = str_replace("·", '', $a);
+	$a = str_replace("”", '', $a);
+	$a = str_replace("“", '', $a);
+	$a = str_replace("…", '', $a);
+	$a = str_replace("€", '', $a);
+	$a = str_replace("&shy;", '', $a);
+	$a = str_replace("—", ' ', $a);
+	$a = str_replace("–", ' ', $a);
+	$a = str_replace("×", ' ', $a);
+    $a = preg_replace('/[[:space:]]+/', ' ', $a);	
+	$a = trim($a);
+        return $a;
+}
+
+// Added to extend allowed files types in Media upload 
+add_filter('upload_mimes', 'custom_upload_mimes'); 
+function custom_upload_mimes ( $existing_mimes=array() ) { 
+	// Add *.RDP files to Media upload 
+	$existing_mimes['rdp'] = 'application/rdp'; 
+	return $existing_mimes; 
 }
