@@ -219,7 +219,7 @@ function twentyten_filter_wp_title( $title, $separator ) {
 		if ($taskparent){
 			$parent_guide_id = $taskparent[0]['ID']; 		
 			$taskparent = get_post($parent_guide_id);
-			$title_context=" (".culturepress_custom_title($taskparent->post_title).")";
+			$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 		}			
 
 	
@@ -547,14 +547,14 @@ function twentyten_widgets_init() {
 	
 }
 
-function culturepress_custom_title( $output ) {
+function govintranetpress_custom_title( $output ) {
 	if (!is_admin()) {
 		return trim(preg_replace('/\[.*\]/i','',$output));
 	} else {
 		return $output;
 	}
 }
-add_filter( 'the_title', 'culturepress_custom_title' );
+add_filter( 'the_title', 'govintranetpress_custom_title' );
 
 
 /** Register sidebars by running twentyten_widgets_init() on the widgets_init hook. */
@@ -658,10 +658,10 @@ function enqueueThemeScripts() {
 }
 add_action('wp_enqueue_scripts','enqueueThemeScripts');
 
-function culturepress_custom_excerpt_more( $output ) {
+function govintranetpress_custom_excerpt_more( $output ) {
 	return preg_replace('/<a[^>]+>Continue reading.*?<\/a>/i','',$output);
 }
-add_filter( 'get_the_excerpt', 'culturepress_custom_excerpt_more', 20 );
+add_filter( 'get_the_excerpt', 'govintranetpress_custom_excerpt_more', 20 );
 
 
 function get_post_thumbnail_caption() {
@@ -805,9 +805,9 @@ if( !function_exists('base_custom_mce_format') ){
 function ht_cookiebar_widget() {
 
 	register_sidebar( array(
-		'name' => __( 'Cookie warning bar', 'culturepress' ),
+		'name' => __( 'Cookie warning bar', 'govintranetpress' ),
 		'id' => 'cookiebar',
-		'description' => __( 'The cookie warning bar', 'culturepress' ),
+		'description' => __( 'The cookie warning bar', 'govintranetpress' ),
 		'before_widget' => '',
 		'after_widget' => '',
 		'before_title' => '',
