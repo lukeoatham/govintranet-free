@@ -1133,6 +1133,8 @@ function human_time_diff_plus( $from, $to = '' ) {
      }
      return $since;
 }
+
+//remove settings for search to allow for things like T&S
 remove_filter('relevanssi_remove_punctuation', 'relevanssi_remove_punct');
 add_filter('relevanssi_remove_punctuation', 'your_relevanssi_remove_punct');
 
@@ -1159,10 +1161,15 @@ function your_relevanssi_remove_punct($a) {
         return $a;
 }
 
-// Added to extend allowed files types in Media upload 
+// Added to extend allowed file types in Media upload 
 add_filter('upload_mimes', 'custom_upload_mimes'); 
 function custom_upload_mimes ( $existing_mimes=array() ) { 
 	// Add *.RDP files to Media upload 
 	$existing_mimes['rdp'] = 'application/rdp'; 
 	return $existing_mimes; 
 }
+
+//remove title functionality in bbPress which interferes with our custom page titles
+remove_action('wp_title', 'bbp_title');
+
+?>
