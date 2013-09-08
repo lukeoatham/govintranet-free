@@ -6,7 +6,7 @@ Link: http://www.helpfultechnology.com
 Tags: intranet, gov.uk  
 Requires at least: 3.4  
 Tested up to: 3.5.1  
-Stable tag: 2.0.6.3 
+Stable tag: 2.0.6.4
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -34,6 +34,10 @@ Refer to [showcase site](https://govintranet.helpfulclients.com/) for example in
 [Setup instructions](http://helpful.im/intranetsetup)
 
 ## Changelog ##
+
+### 2.0.6.4 - September 8th, 2013 ###
+* Bugfix to page titles caused by bbPress
+
 
 ### 2.0.6.3 - September 7th, 2013 ###
 * More changes to improve integration with bbPress
