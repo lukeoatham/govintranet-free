@@ -19,7 +19,6 @@ class htFeatureNews extends WP_Widget {
         $primaryitems = intval($instance['primaryitems']);
         $secondaryitems = intval($instance['secondaryitems']);
         $tertiaryitems = intval($instance['tertiaryitems']);
-		$miniitems = intval($instance['miniitems']);
         global $post;
        ?>
               <?php echo $before_widget; ?>
@@ -29,7 +28,7 @@ class htFeatureNews extends WP_Widget {
 							$hc = new Pod ('homepage_control');
 							$top_slot =  $hc->get_field('top_news_story');
 
-	$totalstories =  $primaryitems + $secondaryitems + $tertiaryitems + $miniitems; 
+	$totalstories =  $primaryitems + $secondaryitems + $tertiaryitems; 
 
 //manual override news stories
 	$num_top_slots = count($top_slot);
