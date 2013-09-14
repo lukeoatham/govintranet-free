@@ -19,6 +19,7 @@ class htFeatureNews extends WP_Widget {
         $primaryitems = intval($instance['primaryitems']);
         $secondaryitems = intval($instance['secondaryitems']);
         $tertiaryitems = intval($instance['tertiaryitems']);
+		$miniitems = intval($instance['miniitems']);
         global $post;
        ?>
               <?php echo $before_widget; ?>
@@ -28,7 +29,7 @@ class htFeatureNews extends WP_Widget {
 							$hc = new Pod ('homepage_control');
 							$top_slot =  $hc->get_field('top_news_story');
 
-	$totalstories =  $primaryitems + $secondaryitems + $tertiaryitems; 
+	$totalstories =  $primaryitems + $secondaryitems + $tertiaryitems + $miniitems; 
 
 //manual override news stories
 	$num_top_slots = count($top_slot);
@@ -147,8 +148,8 @@ class htFeatureNews extends WP_Widget {
 								echo "<p><span class='news_date'>".$thisdate."</span>";
 								if ($k < ($primaryitems + $secondaryitems + 1)) {
 								echo "<p>".$image_url."</p><div class='clearfix'></div><p>".$thisexcerpt."</p>";
-								echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >Read more</a></p>";
 								}
+								echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >Read more</a></p>";
 								echo "</div><div class='clearfix'></div><hr class='light' />";
 					}
 							wp_reset_query();								
@@ -183,11 +184,11 @@ class htFeatureNews extends WP_Widget {
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
           <label>Number of stories</label><br>
-          <label for="<?php echo $this->get_field_id('primaryitems'); ?>"><?php _e('Primary:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('primaryitems'); ?>"><?php _e('Large:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('primaryitems'); ?>" name="<?php echo $this->get_field_name('primaryitems'); ?>" type="text" value="<?php echo $primaryitems; ?>" /><br><br>
-          <label for="<?php echo $this->get_field_id('secondaryitems'); ?>"><?php _e('Secondary:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('secondaryitems'); ?>"><?php _e('Medium:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('secondaryitems'); ?>" name="<?php echo $this->get_field_name('secondaryitems'); ?>" type="text" value="<?php echo $secondaryitems; ?>" /><br><br>
-          <label for="<?php echo $this->get_field_id('tertiaryitems'); ?>"><?php _e('Tertiary:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('tertiaryitems'); ?>"><?php _e('Mini:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('tertiaryitems'); ?>" name="<?php echo $this->get_field_name('tertiaryitems'); ?>" type="text" value="<?php echo $tertiaryitems; ?>" /><br><br>
           
 
