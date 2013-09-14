@@ -2,7 +2,7 @@
 Theme Name: GovIntranet
 Theme URI: https://govintranet.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. News, tasks, guides, projects, vacancies, blogs. Requires Pods plugin. Based on Starkers + 1140 Grid System by Alex Newman,  derived from Elliot Jay Stocks' Starkers Theme (http://starkerstheme.com/) and the 1140 CSS Grid (http://cssgrid.net/).
-Version: 2.0.6.4
+Version: 2.0.7
 Author: Luke Oatham
 Author URI: http://www.helpfultechnology.com
 Tags: starkers,  naked,  clean,  basic
@@ -14,7 +14,7 @@ Tags: starkers,  naked,  clean,  basic
 @import "css/webfonts.css";
 
 body  {
-	font-size: 115%;
+	font-size: 110%;
 	font-family: arial, verdana,  helvetica,  sans-serif;
 	line-height: 140% !important;
 	background: #fff;
@@ -47,7 +47,7 @@ body  {
 }
 
 #topstrip  {
-	height: 110px;
+	height: 108px;
 	overflow: hidden;
 	background: #000000;
 }
@@ -83,7 +83,7 @@ body  {
 	border-right: none !important;
 	padding-right: 0;
 }
-
+.visible-phone {display: none;}
 ul li.last-link  {
 	border-right: none !important;
 	padding-right: 0;
@@ -226,6 +226,8 @@ ul li.last-link  {
 	border-bottom: 1px solid #fff;
 }
 
+
+/*change specific page and post ids to match your pages and menus*/
 .single.single-projects #menu-item-12 {
 	background: white;
 	border-bottom: 1px solid #fff;
@@ -250,7 +252,7 @@ ul li.last-link  {
 	background: white;
 	border-bottom: 1px solid #fff;
 }
-.page.page-id-7 #menu-item-11 {
+.page.page-id-75 #menu-item-88 {
 	background: white;
 	border-bottom: 1px solid #fff;
 }
@@ -258,15 +260,23 @@ ul li.last-link  {
 	background: white;
 	border-bottom: 1px solid #fff;
 }
-.single.single-task #menu-item-11 {
+.single.single-task #menu-item-88 {
 	background: white;
 	border-bottom: 1px solid #fff;
 }
-.single.single-news #menu-item-10 {
+.single.single-news #menu-item-87 {
 	background: white;
 	border-bottom: 1px solid #fff;
 }
-.topic.bbpress.single.single-topic #menu-item-12 {
+.topic.bbpress.single.single-topic #menu-item-89 {
+	background: white;
+	border-bottom: 1px solid #fff;
+}
+.forum.bbpress.single.single-forum #menu-item-89 {
+	background: white;
+	border-bottom: 1px solid #fff;
+}
+.reply.bbpress.single.single-reply #menu-item-89 {
 	background: white;
 	border-bottom: 1px solid #fff;
 }
@@ -281,6 +291,8 @@ img.attachment-single-post-thumbnail {
 .single.single-post img.size-large {
 	width: 100% !important;
 }
+
+
 .home.page img.size-full {
 	width: 100%;
 	
@@ -352,7 +364,7 @@ img.attachment-single-post-thumbnail {
 	background: #fff !important; 
 	font-size: 0.9em;
 	border: none;
-	padding: 0 0 0 0.5em; padding: 0;
+	padding: 0 0 0 0.5em; 
 }
 
 #sectionnav ul li ul.children li a {
@@ -370,28 +382,31 @@ img.attachment-single-post-thumbnail {
 }
 
 #sectionnav ul li.current_page_item,  #sectionnav ul li.current_page_parent  {
-		background: #56595c !important;
-	color: #fff !important;
+	color: #000 !important;
 }
 
 #sectionnav ul li.current_page_item a,  #sectionnav ul li.current_page_parent a  {
-	color: #00285B; color: white;
-
+	background: #b7bdc4 !important;
+	color: #000; 
+}
+#sectionnav ul li.page_item.menu-item-ancestor a {
+	background: #eaedef;
+	color: #000; 
+	
 }
 
 #sectionnav ul li ul.children ul.children li a {
 	padding-left: 1em;
 }
 
-
 #sectionnav ul.children li.current_page_item  ul.children li  {
 	font-weight: normal;
 }
 
 #sectionnav ul.children li.current_page_item a,  #sectionnav ul.children ul.children li.current_page_item a  {
-	color: #00285B;
-		background: #DEE0E2 !important;
-		border: none !important;
+	color: #00285B !important;
+	background: #b7bdc4 !important;
+	border: none !important;
 }
 
 #sectionnav ul li ul.children,  #sectionnav ul li ul.children li ul.children  {
@@ -405,6 +420,30 @@ img.attachment-single-post-thumbnail {
  {
 	display: block;
 	margin-left: 1em;
+}
+#sectionnav ul ul li a {
+	font-size: 90%;
+}
+#sectionnav ul ul a {
+    padding-left: 10%;
+    width: 85%;
+}
+
+
+body.home #secondarynav {
+	border-bottom: none;
+}
+
+
+#secondarynav .children .level-0 a,#secondarynav .children .level-1 a, #secondarynav .children .level-2 a{
+    padding-left: 5% !important;
+    width: 90% !important;
+}
+
+
+
+#secondarynav .current_page_item{
+	position: relative;
 }
 
 
@@ -924,9 +963,6 @@ p.taglisting.page {
 	color: #454a4c;
 }
 
-#footer p,  #footer li  {
-	font-size: 90%;
-}
 
 #footer hr {
 	display: none;

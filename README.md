@@ -5,8 +5,8 @@ Contributors: lukeoatham
 Link: http://www.helpfultechnology.com  
 Tags: intranet, gov.uk  
 Requires at least: 3.4  
-Tested up to: 3.5.1  
-Stable tag: 2.0.6.4
+Tested up to: 3.6  
+Stable tag: 2.0.7
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -29,21 +29,24 @@ GOV.UK-style intranet WordPress theme
 ## Installation ##
 
 This theme requires the [Pods WordPress plugin](http://wordpress.org/extend/plugins/pods/) to manage custom post types.  
-Tested up to: 2.3.5.1  
+Tested up to: 2.3.9
 Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
 [Setup instructions](http://helpful.im/intranetsetup)
 
 ## Changelog ##
 
+### 2.0.7 - September 14th, 2013 ###
+* Various enhancements and bugfixes, including new left-hand nav, forum fixes, HT plugin fixes, new rating plugins 
+
 ### 2.0.6.4 - September 8th, 2013 ###
-* Bugfix to page titles caused by bbPress
+* Bugfix to page titles caused by bbPress  
 
 
 ### 2.0.6.3 - September 7th, 2013 ###
-* More changes to improve integration with bbPress
+* More changes to improve integration with bbPress  
 
 ### 2.0.6.2 - August 31st, 2013 ###
-* Removed styles that hid bbPress admin
+* Removed styles that hid bbPress admin  
 
 
 ### 2.0.6.1 - August 1st, 2013 ###

@@ -30,6 +30,12 @@ get_header(); ?>
 			<div class="content-wrapper">
 					<h1><?php the_title(); ?></h1>
 					<?php the_content(); ?>
+						<?php
+				if ('open' == $post->comment_status && $_GET['action']=='discussion') {
+					 comments_template( '', true ); 
+				}
+			 ?>
+					
 			 </div>
 		</div> 
 	</div> 

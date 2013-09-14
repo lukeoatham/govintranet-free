@@ -222,7 +222,7 @@ else // load fresh analytics
 		if ($donefilter) { $filter.= "||"; 
 			
 		}
-		$filter.='ga:pagePath=~/about/news/content/';
+		$filter.='ga:pagePath=~/news/content/';
 		$donefilter=true;
 	}
 	$ga->requestReportData(ga_profile_id,array('pagePath'),array('uniquePageviews'),"-uniquePageviews",$filter,$start_date,$enddate,"1",$count);

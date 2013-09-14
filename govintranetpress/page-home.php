@@ -47,7 +47,7 @@ get_header(); ?>
 		</div>
 		<div class="twelvecol white last">
 			<?php	if ($campaign_message) { //Display campaign message
-			echo "<div class='content-wrapper'>".wpautop($campaign_message)."</div>"; 
+			echo wpautop($campaign_message); 
 			}
 			?>
 			<br>

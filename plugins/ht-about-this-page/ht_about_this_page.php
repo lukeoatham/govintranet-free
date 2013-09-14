@@ -25,6 +25,12 @@ class htAboutThisPage extends WP_Widget {
 						$showabout = true; }
 						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'forums' ) {
 						$showabout = false; }
+						if ( pods_url_variable(0) == 'forums' ) {
+						$showabout = false; }
+						if ( pods_url_variable(0) == 'topics' ) {
+						$showabout = false; }
+						if ( pods_url_variable(0) == 'replies' ) {
+						$showabout = false; }
 						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'who-we-are' ) {
 						$showabout = true; }
 						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'vacancies' && !pods_url_variable(2) ) {

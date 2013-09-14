@@ -11,10 +11,9 @@
 #topstrip  {
 		min-height: 150px !important;
 }
-}
 
 #topstrip {
-	min-height: 112px;
+	min-height: 105px;
 	overflow: auto;	
 }
 
@@ -81,4 +80,4 @@ form#sbc-search select#cat {
 }
 
 
-
+}

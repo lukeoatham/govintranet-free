@@ -18,54 +18,47 @@ if ($slug=="control"){
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-
 	
 	<div class="row">
 		<div class="eightcol white last" id='content'>
-								<div class="row">
-							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
-							</div>
-							
+			<div class="row">
+				<div class='breadcrumbs'>
+				<?php if(function_exists('bcn_display') && !is_front_page()) {
+						bcn_display();
+						}?>
 				</div>
+			</div>
 			<div class="content-wrapper">
-						<?php 
-			$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
-			if ($image_uri!=""){
-			echo "<img class='alignright' src='{$image_uri[0]}' alt='".get_the_title()."' />";
-			echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
-			}
-			?>
-			<h1><?php the_title(); ?></h1>
-
-			<?php
-			$article_date=get_the_date();
-			$mainid=$post->ID;
-			$article_date = date("j F Y",strtotime($article_date));	?>
-			<?php echo the_date('j M Y', '<p class=news_date>', '</p>') ?>
-
-			<?php the_content(); ?>
-
-			<?php
-			if ('open' == $post->comment_status) {
-				 comments_template( '', true ); 
-			}
+<?php 
+				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
+				if ($image_uri!=""){
+					echo "<img class='alignright' src='{$image_uri[0]}' alt='".get_the_title()."' />";
+					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
+				}
+				?>
+				<h1><?php the_title(); ?></h1>
+				<?php
+				$article_date=get_the_date();
+				$mainid=$post->ID;
+				$article_date = date("j F Y",strtotime($article_date));	?>
+				<?php echo the_date('j M Y', '<p class=news_date>', '</p>') ?>
+				<?php the_content(); ?>
+				<?php
+				if ('open' == $post->comment_status) {
+					 comments_template( '', true ); 
+				}
 			 ?>
 			</div>
 		</div> 
 		<div class="fourcol last" id="sidebar">	
-			
 			<?php
-			
 				$post_cat = get_the_category();
 				if ($post_cat){
 					$html='';
 					foreach($post_cat as $cat){
 					if ($cat->slug != 'uncategorized'){
 						if (!$catTitlePrinted){
-						$catTitlePrinted = true;
+							$catTitlePrinted = true;
 						}
 						$html.= "<span class='wptag t".$cat->term_id."'><a href='/news-by-category/?cat=".$cat->slug."'>".$cat->name."</a></span> ";
 						}
@@ -74,7 +67,6 @@ get_header(); ?>
 						echo "<div class='widget-box'><h3>Categories</h3>".$html."</div>";
 					}
 				}
-			
 				$posttags = get_the_tags();
 				if ($posttags) {
 					$foundtags=false;	
@@ -94,23 +86,16 @@ get_header(); ?>
 
 				}
 					?>						
-			
-
-
-
 		<?php
-		
-		//if we're looking at a news story, show recently published news
+		//if we're looking at a blog story, show recently published news
 
 			echo "<div class='widget-box'>";
 			$category = get_the_category(); 
 			$recentitems = new WP_Query('post_type=blog&posts_per_page=5');			
 			echo "<h3>Recent blog posts</h3>";
-
 			if ($recentitems->post_count==0 || ($recentitems->post_count==1 && $mainid==$post->ID)){
 				echo "<p>Nothing to show yet.</p>";
 			}
-
 			if ( $recentitems->have_posts() ) while ( $recentitems->have_posts() ) : $recentitems->the_post(); 
 				if ($mainid!=$post->ID) {
 					$thistitle = get_the_title($ID);
@@ -124,16 +109,12 @@ get_header(); ?>
 					echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >Read more</a></span></p></div><div class='clearfix'></div><hr class='light' />";
 				}
 			endwhile; 
-
 			echo "</div>";
 			wp_reset_query();
 		 	dynamic_sidebar('blog-widget-area'); 
 				?>
-
-			</div> 
-
+		</div> 
 	</div> 
-
 			
 <?php endwhile; // end of the loop. ?>
 

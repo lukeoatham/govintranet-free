@@ -13,40 +13,45 @@ get_header(); ?>
 				<div class="content-wrapper">
 					<?php
 						echo "<h1>".get_the_title()."</h1>";
-												
+						
+						
 						the_content();
 if (is_user_logged_in()){
 	get_currentuserinfo();
 	echo "<br><p>Logged in as: ".$current_user->display_name." | <a href='".wp_logout_url('/about/forums/')."'>Logout</a></p><br>";
 	}
+	else {
+	echo "<p><a href='".wp_login_url('/about/forums/')."'>Login</a> | <a href='/wp-login.php?action=register'>Register</a></p>";
+}
 
 ?>				
 
 				<div id='bbpress-forums'>
 				
 				<?php
-				$allforums = new WP_Query(
+				$allforums = get_posts(
 					array('post_type'=>'forum',
 					'posts_per_page'=>-1,
 					'post_parent'=>0,
 					'orderby'=>'menu_order',
-					'order'=>'ASC'
+					'order'=>'ASC',
+					'post_status'=>array('publish')
 					)
 				);
-				 while ($allforums->have_posts()) {
-				 $allforums->the_post();
-					
-					$forumtitle = get_the_title();
-					$parentforum = $post->post_name;
+				foreach ($allforums as $a) {
+					//print_r(get_post_meta($post->ID,'visibility'));
+					if ($a->post_status=='publish'){
+					$forumtitle = get_the_title($a->ID);
+					$parentforum = $a->post_name;
 
-					echo "<div class='bbp-template-notice info'>";
-					echo "<h3><a href='/forums/{$post->post_name}/'>".$forumtitle."</a></h3>";
-					echo wpautop($post->post_content)."</div>";
+					echo "<div><hr>";
+					echo "<h3><a href='/forums/{$a->post_name}/'>".$forumtitle."</a></h3>";
+					echo wpautop($a->post_content)."</div>";
 					
 					echo "<ul class='bbp-forums'>
 					<li class='bbp-header'>
 					<ul class='forum-titles'>
-					<li class='bbp-forum-info'>Forum</li>
+					<li class='bbp-forum-info'>&nbsp;</li>
 					<li class='bbp-forum-topic-count'>Topics</li>
 					<li class='bbp-forum-reply-count'>Posts</li>			
 					<li class='bbp-forum-freshness'>Freshness</li>												
@@ -56,7 +61,7 @@ if (is_user_logged_in()){
 					$subforums = get_posts(
 						array('post_type'=>'forum',
 						'posts_per_page'=>-1,
-						'post_parent'=>$post->ID,
+						'post_parent'=>$a->ID,
 					'orderby'=>'menu_order',
 					'order'=>'ASC'
 						)
@@ -135,6 +140,7 @@ if (is_user_logged_in()){
 					";
 
 
+				}//if publish status
 				}
 				?>
 				
