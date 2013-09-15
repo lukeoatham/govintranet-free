@@ -662,6 +662,12 @@ function enqueueThemeScripts() {
 	 wp_register_script( 'jquery-collapse', get_stylesheet_directory_uri() . "/js/jquery.collapse.js");
 	 wp_enqueue_script( 'jquery-collapse' );
 
+	 wp_register_script( 'css3-mediaqueries', get_stylesheet_directory_uri() . "/js/css3-mediaqueries.js");
+	 wp_enqueue_script( 'css3-mediaqueries' );
+
+	 wp_register_script( 'ht-scripts', get_stylesheet_directory_uri() . "/js/ht-scripts.js");
+	 wp_enqueue_script( 'ht-scripts' );
+
 	 wp_enqueue_script( 'thickbox' ); // in case we want to do popup layer surveys or alerts... 
 }
 add_action('wp_enqueue_scripts','enqueueThemeScripts');

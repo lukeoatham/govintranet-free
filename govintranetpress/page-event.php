@@ -88,7 +88,7 @@ get_header(); ?>
 
 
 							$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-			if ($cat_id!=0){ // show individual theme conferences
+			if ($cat_id!=''){ // show individual theme conferences
 				if ($cdir=="b"){  //past events
 
 				$cquery = array(
