@@ -24,6 +24,7 @@ GOV.UK-style intranet WordPress theme
 * Vacancies
 * News
 * Blog
+* Events
 
 
 ## Installation ##
