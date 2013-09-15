@@ -4,7 +4,7 @@ Plugin Name: HT Most active
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most active pages
 Author: Luke Oatham
-Version: 0.2
+Version: 0.3
 Author URI: http://www.helpfultechnology.com
 */
  
@@ -22,6 +22,7 @@ class htMostActive extends WP_Widget {
         $vacancies = ($instance['vacancies']);
         $news = ($instance['news']);
         $blog = ($instance['blog']);
+        $events = ($instance['events']);
         $trail = intval($instance['trail']);
         $cache = intval($instance['cache']);
 
@@ -29,8 +30,6 @@ class htMostActive extends WP_Widget {
               <?php echo $before_widget; ?>
                   <?php if ( $title )
                         echo $before_title . $title . $after_title; ?>
-
-
 
 <?php
 	$baseurl = home_url();
@@ -51,15 +50,7 @@ class htMostActive extends WP_Widget {
 		$thisURL=$slot['post_name'];
 		$taskpod = new Pod('task', $thistask);
 		$tasktitle= govintranetpress_custom_title( $slot['post_title'] );
-	
-//		if ( !$taskpod->get_field('parent_guide')  && !$taskpod->get_field('children_chapters')){
-//			$tasktitle .= "<br><span class ='popsmall'>Task</span>";
-//		} 
-//		else 
-//		{
-//			$tasktitle .= "<br><span class ='popsmall'>Guide</span>";
-//		}
-			
+				
 		$html.= "<li><a href='/task/" . $thisURL . "'>" . $tasktitle . "</a></li>";
 	}
 	echo ("<ul>".$html."</ul>");
@@ -100,11 +91,6 @@ $html='';
 			
 			$k++;
 
-//			if ( !$taskpod->get_field('parent_guide')  && !$taskpod->get_field('children_chapters')){
-//			$tasktitle .= "<br><span class ='popsmall'>Task</span>";
-//			} else {
-//			$tasktitle .= "<br><span class ='popsmall'>Guide</span>";
-//			}
 		
 		}		
 			
@@ -123,8 +109,6 @@ $html='';
 				continue;
 			}
 			$k++;
-
-//			$tasktitle .= "<br><span class ='popsmall'>Project</span>";
 		
 		}			
 
@@ -142,8 +126,6 @@ $html='';
 			}
 			$k++;
 
-//			$tasktitle .= "<br><span class ='popsmall'>Job vacancy</span>";
-		
 		}			
 
 		if (substr( $result['pagePath'],0,14)=='/news/content/' && $result['pagePath']){ // only show news, but not the news landing page
@@ -159,9 +141,38 @@ $html='';
 			}
 			$k++;
 
-//			$tasktitle .= "<br><span class ='popsmall'>News</span>";
-			
 		}			
+
+		if (substr( $result['pagePath'],0,6)=='/blog/' && $result['pagePath']){ // only show blog posts, but not the blog landing page
+			$pathparts = explode("/", $result['pagePath']);
+			$thistask = $pathparts[2];
+			$taskpod = new Pod('blogs', $thistask);
+			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
+			if (!$tasktitle){
+				continue;
+			}	
+			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
+				continue;
+			}
+			$k++;
+
+		}			
+
+		if (substr( $result['pagePath'],0,7)=='/event/' && $result['pagePath']){ // only show events, but not the events landing page
+			$pathparts = explode("/", $result['pagePath']);
+			$thistask = $pathparts[2];
+			$taskpod = new Pod('event', $thistask);
+			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
+			if (!$tasktitle){
+				continue;
+			}	
+			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
+				continue;
+			}
+			$k++;
+
+		}			
+
 
 		if ($tasktitle!='' ){
 			$html .= "<li><a href='" . $baseurl . $result['pagePath'] . "'>" . $tasktitle . "</a></li>";		
@@ -225,6 +236,20 @@ else // load fresh analytics
 		$filter.='ga:pagePath=~/news/content/';
 		$donefilter=true;
 	}
+	if ($events=='on'){
+		if ($donefilter) { $filter.= "||"; 
+			
+		}
+		$filter.='ga:pagePath=~/event/';
+		$donefilter=true;
+	}
+	if ($blog=='on'){
+		if ($donefilter) { $filter.= "||"; 
+			
+		}
+		$filter.='ga:pagePath=~/blog/';
+		$donefilter=true;
+	}
 	$ga->requestReportData(ga_profile_id,array('pagePath'),array('uniquePageviews'),"-uniquePageviews",$filter,$start_date,$enddate,"1",$count);
 	$transga=array();
 	$html='';
@@ -266,12 +291,6 @@ else // load fresh analytics
 			$k++;
 		$transga[]['uniquePageviews']=$result->getUniquePageviews();
 		$transga[]['pagePath']="/task/".$taskslug;
-
-//			if ( !$taskpod->get_field('parent_guide')  && !$taskpod->get_field('children_chapters')){
-//			$tasktitle .= "<br><span class ='popsmall'>Task</span>";
-//			} else {
-//			$tasktitle .= "<br><span class ='popsmall'>Guide</span>";
-//			}
 		
 		}		
 			
@@ -299,8 +318,6 @@ else // load fresh analytics
 					$transga[]['uniquePageviews']=$result->getUniquePageviews();
 		$transga[]['pagePath']="/about/projects/content/".$taskslug;
 		
-//			$tasktitle .= "<br><span class ='popsmall'>Project</span>";
-		
 		}			
 
 		if (substr( $result->getPagePath(),0,30)=='/about/vacancies/content/' && $result->getPagePath()!='/about/vacancies/' ){ // only show vacancies, but not the vacancies landing page
@@ -320,8 +337,6 @@ else // load fresh analytics
 					$transga[]['uniquePageviews']=$result->getUniquePageviews();
 		$transga[]['pagePath']=$result->getPagePath();
 
-//			$tasktitle .= "<br><span class ='popsmall'>Job vacancy</span>";
-		
 		}			
 
 		if (substr( $result->getPagePath(),0,14)=='/news/content/' && $result->getPagePath()!='/news/' ){ // only show news, but not the news landing page
@@ -340,8 +355,41 @@ else // load fresh analytics
 					$transga[]['uniquePageviews']=$result->getUniquePageviews();
 		$transga[]['pagePath']=$result->getPagePath();
 
-//			$tasktitle .= "<br><span class ='popsmall'>News</span>";
-			
+		}			
+		if (substr( $result->getPagePath(),0,6)=='/blog/' && $result->getPagePath()!='/blogs/' ){ // only show news, but not the news landing page
+			$pathparts = explode("/", $result->getPagePath());
+			$thistask = $pathparts[2];
+			$taskpod = new Pod('blog', $thistask);
+			$taskid = $taskpod->get_field('ID');			
+			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
+			if (!$tasktitle){
+				continue;
+			}	
+			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
+				continue;
+			}
+			$k++;
+		$transga[]['uniquePageviews']=$result->getUniquePageviews();
+		$transga[]['pagePath']=$result->getPagePath();
+
+		}			
+
+		if (substr( $result->getPagePath(),0,7)=='/event/' && $result->getPagePath()!='/events/' ){ // only show news, but not the news landing page
+			$pathparts = explode("/", $result->getPagePath());
+			$thistask = $pathparts[2];
+			$taskpod = new Pod('event', $thistask);
+			$taskid = $taskpod->get_field('ID');			
+			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
+			if (!$tasktitle){
+				continue;
+			}	
+			if (in_array($taskpod->get_field('ID'), $alreadydone )) {
+				continue;
+			}
+			$k++;
+		$transga[]['uniquePageviews']=$result->getUniquePageviews();
+		$transga[]['pagePath']=$result->getPagePath();
+
 		}			
 
 		if ($tasktitle!='' ){
@@ -383,6 +431,7 @@ if ($k==0){
 		$instance['vacancies'] = strip_tags($new_instance['vacancies']);
 		$instance['news'] = strip_tags($new_instance['news']);
 		$instance['blog'] = strip_tags($new_instance['blog']);
+		$instance['events'] = strip_tags($new_instance['events']);
 		$instance['trail'] = strip_tags($new_instance['trail']);
 		$instance['cache'] = strip_tags($new_instance['cache']);
 		delete_transient( 'cached_ga' );
@@ -397,6 +446,7 @@ if ($k==0){
         $vacancies = esc_attr($instance['vacancies']);
         $news = esc_attr($instance['news']);
         $blog = esc_attr($instance['blog']); 
+        $events = esc_attr($instance['events']); 
         $trail = esc_attr($instance['trail']);
         $cache = esc_attr($instance['cache']);
         ?>
@@ -427,8 +477,10 @@ if ($k==0){
           <label for="<?php echo $this->get_field_id('news'); ?>"><?php _e('News'); ?></label> <br>
           
           <input id="<?php echo $this->get_field_id('blog'); ?>" name="<?php echo $this->get_field_name('blog'); ?>" type="checkbox" <?php checked((bool) $instance['blog'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts'); ?></label> 
+          <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts'); ?></label> <br>
 
+          <input id="<?php echo $this->get_field_id('events'); ?>" name="<?php echo $this->get_field_name('events'); ?>" type="checkbox" <?php checked((bool) $instance['events'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('events'); ?>"><?php _e('Events'); ?></label> 
 
         </p>
 

@@ -23,6 +23,7 @@ class htMostRecent extends WP_Widget {
         $vacancies = ($instance['vacancies']);
         $news = ($instance['news']);
         $blog = ($instance['blog']);
+        $events = ($instance['events']);
         $lastupdated = ($instance['lastupdated']);
 
        ?>
@@ -69,6 +70,13 @@ class htMostRecent extends WP_Widget {
 		$filter.="post_type = 'blog'";
 		$donefilter=true;
 	}
+	if ($events=='on'){
+		if ($donefilter) { $filter.= " or "; 
+			
+		}
+		$filter.="post_type = 'event'";
+		$donefilter=true;
+	}
 	if ($lastupdated=='on'){
 	$checkdate = 'post_modified';
 	} else {	
@@ -111,6 +119,11 @@ class htMostRecent extends WP_Widget {
 			$k++;
 			$vacpod = new Pod('blog', $r->ID);
 			echo "<li><a href='/blog/".$vacpod->get_field('slug')."/'>".govintranetpress_custom_title($vacpod->get_field('post_title'))."</a></li>";
+		}
+		if ($r->post_type=='event'){
+			$k++;
+			$vacpod = new Pod('event', $r->ID);
+			echo "<li><a href='/event/".$vacpod->get_field('slug')."/'>".govintranetpress_custom_title($vacpod->get_field('post_title'))."</a></li>";
 		}
 		if ($r->post_type=='task'){
 			$taskpod = new Pod('task', $r->ID); 
@@ -156,6 +169,7 @@ echo "</ul>";
 		$instance['vacancies'] = strip_tags($new_instance['vacancies']);
 		$instance['news'] = strip_tags($new_instance['news']);
 		$instance['blog'] = strip_tags($new_instance['blog']);
+		$instance['events'] = strip_tags($new_instance['events']);
 		$instance['lastupdated'] = strip_tags($new_instance['lastupdated']);
        return $instance;
     }
@@ -168,6 +182,7 @@ echo "</ul>";
         $vacancies = esc_attr($instance['vacancies']);
         $news = esc_attr($instance['news']);
         $blog = esc_attr($instance['blog']); 
+        $events = esc_attr($instance['events']); 
         $lastupdated = esc_attr($instance['lastupdated']);
         ?>
          <p>
@@ -191,7 +206,9 @@ echo "</ul>";
           <label for="<?php echo $this->get_field_id('news'); ?>"><?php _e('News'); ?></label> <br>
           
           <input id="<?php echo $this->get_field_id('blog'); ?>" name="<?php echo $this->get_field_name('blog'); ?>" type="checkbox" <?php checked((bool) $instance['blog'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts'); ?></label> <br><br>
+          <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts'); ?></label> <br>
+          <input id="<?php echo $this->get_field_id('events'); ?>" name="<?php echo $this->get_field_name('events'); ?>" type="checkbox" <?php checked((bool) $instance['events'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('events'); ?>"><?php _e('Events'); ?></label> <br><br>
 <label>Date:</label><br>
           <input id="<?php echo $this->get_field_id('lastupdated'); ?>" name="<?php echo $this->get_field_name('lastupdated'); ?>" type="checkbox" <?php checked((bool) $instance['lastupdated'], true ); ?> />
           <label for="<?php echo $this->get_field_id('lastupdated'); ?>"><?php _e('Use last modified date'); ?></label> 

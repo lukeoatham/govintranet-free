@@ -2,7 +2,7 @@
 Theme Name: GovIntranet
 Theme URI: https://govintranet.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. News, tasks, guides, projects, vacancies, blogs. Requires Pods plugin. Based on Starkers + 1140 Grid System by Alex Newman,  derived from Elliot Jay Stocks' Starkers Theme (http://starkerstheme.com/) and the 1140 CSS Grid (http://cssgrid.net/).
-Version: 2.0.7
+Version: 2.1
 Author: Luke Oatham
 Author URI: http://www.helpfultechnology.com
 Tags: starkers,  naked,  clean,  basic
@@ -226,7 +226,14 @@ ul li.last-link  {
 	border-bottom: 1px solid #fff;
 }
 
-
+ul.nav-pills li {
+display: inline;
+}
+ul.nav-pills li.active {
+display: inline;
+background: #eaedef;
+padding: 0.5em;
+}
 /*change specific page and post ids to match your pages and menus*/
 .single.single-projects #menu-item-12 {
 	background: white;
@@ -1134,6 +1141,13 @@ a.need-to-know:visited:before {
   text-decoration: inherit;
 }
 
+.tinythumb {
+	width: 72px;
+	height: 72px;
+	float: right;
+	padding-left: 5px;
+	padding-top: 10px;
+}
 
 .archive h3 a {
 	text-decoration: none;

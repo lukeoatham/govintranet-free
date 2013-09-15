@@ -35,6 +35,12 @@ Refer to [showcase site](https://govintranet.helpfulclients.com/) for example in
 
 ## Changelog ##
 
+### 2.1 - September 15th, 2013 ###
+* New events templates  
+* New events widget
+* Existing widget integration for events
+* Individual setup files
+
 ### 2.0.7 - September 14th, 2013 ###
 * Various enhancements and bugfixes, including new left-hand nav, forum fixes, HT plugin fixes, new rating plugins 
 

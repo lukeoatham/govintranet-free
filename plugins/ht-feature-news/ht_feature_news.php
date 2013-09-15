@@ -121,23 +121,23 @@ class htFeatureNews extends WP_Widget {
 								$vidid = $videostill[0]['ID']; 
 								$videostill = wp_get_attachment_image( $vidid, 'large');
 								$thisURL=get_permalink($ID); 
-										if ($k <= $primaryitems){
-												$videostill = wp_get_attachment_image( $vidid, 'large');
-												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
-												if ($image_uri!="" && $videostill==''){
-													echo "<a href='{$thisURL}'><img class='size-full' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot)."' /></a>";									
-												} 
-												if ($videostill){
-													echo "<a href='{$thisURL}'>".$videostill."</a>";
-												} 					
-												}
-											else {
-												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' );
-												$image_url = "<a href='{$thisURL}'>".get_the_post_thumbnail($post->ID, 'thumbnail', array('class' => 'alignleft','width'=>'{$image_uri[1]}','height'=>'{$image_uri[2]}'))."</a>";
-												if ($videostill){
-													$image_url= "<a href='{$thisURL}'>".$videostill."</a>";
-												} 					
+								if ($k <= $primaryitems){
+										$videostill = wp_get_attachment_image( $vidid, 'large');
+										$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
+										if ($image_uri!="" && $videostill==''){
+											echo "<a href='{$thisURL}'><img class='size-full' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot)."' /></a>";									
+										} 
+										if ($videostill){
+											echo "<a href='{$thisURL}'>".$videostill."</a>";
+										} 					
 										}
+									else {
+										$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' );
+										$image_url = "<a href='{$thisURL}'>".get_the_post_thumbnail($post->ID, 'thumbnail', array('class' => 'alignleft','width'=>'{$image_uri[1]}','height'=>'{$image_uri[2]}'))."</a>";
+										if ($videostill){
+											$image_url= "<a href='{$thisURL}'>".$videostill."</a>";
+										} 					
+								}
 
 								$thisdate= get_the_date();
 								$thisexcerpt= get_the_excerpt();

@@ -232,6 +232,9 @@ function twentyten_filter_wp_title( $title, $separator ) {
 	else if ($slug2 == "vacancies"  ) {
 		$title .= " - job vacancies" ;
 	}
+	else if ($slug == "events"  ) {
+		$title .= " - events" ;
+	}
 	else if ($slug == "forums"  ) {
 		$title .= " - forums" ;
 	}
@@ -679,47 +682,75 @@ function get_post_thumbnail_caption() {
 add_filter( 'wp_feed_cache_transient_lifetime', create_function( '$a', 'return 900;' ) ); // 15 mins
 
 function renderLeftNav($outputcontent="TRUE") {
-
-	global $post;
-	
-	if ($post->post_parent)	{
-		$ancestors = $post->ancestors;		
-		$parent = @array_pop($ancestors);
-	} else {
-		$parent = $post->ID;
-	}
-							
-	$subpages = wp_list_pages("echo=0&title_li=&depth=3&child_of=". $parent);
-	
-	if (strlen($subpages)>0 && !is_search() ) {
-	
-		$output = "
-			<div id='sectionnav'>
-			<ul>
-				{$subpages}
-			</ul>
-			</div>	
-		";
-
-		if ($outputcontent == "TRUE") { 
-			echo $output; 
-		} else {
-			return true;
-		}
+		global $post;
+		$temppost = $post;
+		$parent = $post->post_parent;
+		$mainid = $post->ID;
+		$navarray = array();
+		$currentpost = get_post($mainid);
+		$currenttitle = get_the_title();
+					
+		while (true){
+			//iteratively get the post's parent until we reach the top of the hierarchy
+			$post_parent = $currentpost->post_parent; 
+			if ($post_parent!=0){	//if found a parent
+				$navarray[] = $post_parent;
+				$currentpost = get_post($post_parent);
+				continue; //loop round again
+			}
+			break; //we're done with the parents
+		};
 		
-	} else {
-		$output = "
-			<div id='spacernav'>
-			</div>	
-		";
-
-		if ($outputcontent == "TRUE") { 
-			echo $output; 
-		} else {
-			return false;
-		}
+		$navarray = array_reverse($navarray);
 		
-	}
+		foreach ($navarray as $nav){ //loop through nav array outputting menu options as appropriate (parent, current or child)
+			$currentpost = get_post($nav);
+			$subnavString .= "<li class='page_item menu-item-ancestor'>"; //parent page
+			$subnavString .=  "<a href='".$currentpost->guid."'>".$currentpost->post_title."</a></li>";
+		}
+										
+
+
+		if (!is_search() ) {
+		
+			$output = "
+				<div id='sectionnav'>
+				<ul>
+				{$subnavString}";
+		if (pageHasChildren($mainid)){
+		$subpages = wp_list_pages("echo=0&title_li=&depth=3&child_of=". $mainid);
+			$output .="	
+				<li class='current_page_item'><a href='#'>{$currenttitle}</a></li>
+				<li><ul>{$subpages}</ul></li>";
+		} else {
+		$subpages = wp_list_pages("echo=0&title_li=&depth=3&child_of=". $parent);
+			$output .="	
+				<li><ul>{$subpages}</ul></li>";
+		}
+			$output .="	
+				</ul>
+				</div>	
+			";
+	
+			if ($outputcontent == "TRUE") { 
+				echo $output; 
+			} else {
+				return true;
+			}
+			
+		} else {
+			$output = "
+				<div id='spacernav'>
+				</div>	
+			";
+	
+			if ($outputcontent == "TRUE") { 
+				echo $output; 
+			} else {
+				return false;
+			}
+			
+		}			
 
 }
 

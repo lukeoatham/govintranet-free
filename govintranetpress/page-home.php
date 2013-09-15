@@ -42,7 +42,7 @@ get_header(); ?>
 		</div>
 		<div class="threecol last">
 			<?php 	dynamic_sidebar('home-widget-area3'); ?>	
-			<div class="category-block"><p><a class="small" href="/about/forums/">More in forums</a></p></div>
+			<div class="category-block"><p><a class="small" href="/about/forums/">More in forums</a></p><br></div>
 			<?php 	dynamic_sidebar('home-widget-area4'); ?>	
 		</div>
 		<div class="twelvecol white last">

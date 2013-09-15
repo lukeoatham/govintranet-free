@@ -54,7 +54,7 @@ class htNeedToKnow extends WP_Widget {
 								$newspod = new Pod ( 'news' , $post->ID );
 
 								$thisURL=get_permalink($ID);
-								echo "<li><a href='{$thisURL}'> ".$thistitle."</a></i></li>";
+								echo "<li><a href='{$thisURL}'> ".$thistitle."</a></li>";
 					}
 							if ($news->post_count!=0){
 								echo "</ul></div>";

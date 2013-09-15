@@ -38,6 +38,9 @@ get_header();
 				elseif ($_GET['posttype'] == 'news'){
 					printf( __( 'News tagged: %s', 'twentyten' ), '' . $thistag . '' );
 				}
+				elseif ($_GET['posttype'] == 'event'){
+					printf( __( 'Events tagged: %s', 'twentyten' ), '' . $thistag . '' );
+				}
 				else
 				{
 					printf( __( 'Everything tagged: %s', 'twentyten' ), '' . $thistag . '' );
@@ -100,7 +103,7 @@ wp_posts.post_type='" . $pt . "'";
 						
 					}
  $tagged = new WP_Query(array(
- 			'post_type'=>array("task","vacancies","projects","news"),
+ 			'post_type'=>array("task","vacancies","projects","news","event"),
  			'post__in'=>$carray,
  			'paged'=>$paged,
  			'posts_per_page'=>10,
