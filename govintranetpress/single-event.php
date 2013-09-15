@@ -79,7 +79,7 @@ if (date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) > 
 						if (!$catTitlePrinted){
 							$catTitlePrinted = true;
 						}
-						$html.= "<span class='wptag t".$cat->term_id."'><a href='/event-by-category/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+						$html.= "<span class='wptag t".$cat->term_id."'><a href='/events/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 						}
 					}	
 					if ($html){

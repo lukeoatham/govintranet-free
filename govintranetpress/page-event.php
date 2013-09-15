@@ -47,12 +47,11 @@ get_header(); ?>
 
 							$pub = get_terms( 'category', 'orderby=count&hide_empty=1' );
 							//print_r($pub);
-							$cat_id = $_GET['cat'] ? $_GET['cat'] : 0;
-							$cat_desc = get_term($cat_id, 'category');
-							if (count($pub)>0 and $cat_id!=0){
-							foreach ($pub as $sc) {
-								if ($cat_id == $sc->slug) { echo ' - '.$sc->name; } 
-							}
+							$cat_id = $_GET['cat'];;
+							if (count($pub)>0 and $cat_id!=''){
+								foreach ($pub as $sc) { 
+									if ($cat_id == $sc->slug) { echo ' - '.$sc->name; } 
+								}
 							}
 							echo "</h1>";
 							?>
