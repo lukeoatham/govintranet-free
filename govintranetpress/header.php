@@ -87,9 +87,13 @@ header('X-Frame-Options: SAMEORIGIN');
 		// write custom css for background header colour
 		$gis = "general_intranet_header_background";
 		$gishex = get_option($gis);		
+		$basecol=HTMLToRGB($gishex);
+		$topborder = ChangeLuminosity($basecol, 33);
 		echo "
 		#topstrip  {
 		background: ".$gishex.";
+		border-top: 7px solid ".RGBToHTML($topborder).";
+		padding-top: 10px;
 		}
 		";
 		echo "

@@ -34,11 +34,10 @@ get_header(); ?>
 
 					<div class="threecol last clearfix" id='sidebar'>
 							
-						<?php dynamic_sidebar('inside-sidebar-widget-area');  ?>
-						</ul>
 						
 					</div>
-
+		</div>
+	</div>
 
 
 

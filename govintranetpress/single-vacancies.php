@@ -119,7 +119,7 @@ get_header(); ?>
 //		print_r($projects);
 		if ($projects){
 			echo "<div id='projects'><hr><h2>Project</h2><ul>";
-				echo "<li><a href='/about-dcms/projects/content/{$projects[0]['post_name']}/'>".$projects[0]['post_title']."</a></li>";
+				echo "<li><a href='/about/projects/content/{$projects[0]['post_name']}/'>".$projects[0]['post_title']."</a></li>";
 			echo "</ul></div>";
 		}
 		}
