@@ -5,7 +5,7 @@ Contributors: lukeoatham
 Link: http://www.helpfultechnology.com  
 Tags: intranet, gov.uk  
 Requires at least: 3.4  
-Tested up to: 3.6  
+Tested up to: 3.7.1  
 Stable tag: 2.0.7
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
@@ -18,23 +18,45 @@ GOV.UK-style intranet WordPress theme
 
 ## Content types ##
 
-* Tasks
-* Guides
-* Projects
-* Vacancies
-* News
-* Blog
-* Events
+* Tasks  
+* Guides  
+* Projects  
+* Vacancies  
+* News  
+* Blog  
+* Events  
+* A to Z  
+* Jargon Buster  
+* Document types  
 
 
 ## Installation ##
 
 This theme requires the [Pods WordPress plugin](http://wordpress.org/extend/plugins/pods/) to manage custom post types.  
-Tested up to: 2.3.9
+Tested up to: 2.3.15
 Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
 [Setup instructions](http://helpful.im/intranetsetup)
 
+## Upgrading from 2.x ##
+There are new custom post types and custom taxonomies as well as updates to existing custom post types.   
+Please backup before altering and Pods. Import using the setup files as required. If you have trouble with your existing post types you'll need to update manually. I'll share data structures online soon, as well as updated documentation and help.   
+
+
 ## Changelog ##
+
+### 3.0b - October 31st, 2013 ###
+* Rewritten for Bootstrap 3  
+* New core look and feel  
+* More options for customisation  
+* Events post type fully integrated
+* Integration with other plugins: WP User Avatar, bbPress, Sidebar Login  
+* Customised plugins: Search Autocomplete, Ajax Pagination  
+* New custom widgets and shortcodes: HT List tags, HT Events listing, HT How do I?  
+* Updated custom widgets  
+* New taxonomy: Document type  
+* New page templates: A to Z, Jargon Buster, Document Finder, various column layouts including left-hand navigation supporting structured pages
+* Various bugfixes and enhancements  
+
 
 ### 2.1 - September 15th, 2013 ###
 * New events templates  

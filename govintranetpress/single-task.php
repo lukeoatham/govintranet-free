@@ -1,10 +1,8 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * The Template for displaying all single task posts.
  *
  * @package WordPress
- * @subpackage Starkers
- * @since Starkers 3.0
  */
 
 $slug = pods_url_variable(0);
@@ -37,9 +35,11 @@ get_header(); ?>
 	if (!$parent_guide && !$children_chapters){
 		$singletask=true;
 		$pagetype = "task";
+		$icon = "question-sign";
 	}
 	else {
 		$pagetype = "guide";
+		$icon = "book";
 	};
 
 	if ($children_chapters && $parent_guide==''){
@@ -59,51 +59,65 @@ get_header(); ?>
 
 ?>
 	
-	<div class="row">
-		<div class="eightcol white last" id='content'>
+					<div class="col-lg-7 col-md-8 col-sm-8 white">
 						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-			<div class="content-wrapper">
+			</div>						
 						
 
-			<h1 class="taglisting <?php echo $pagetype; ?>"><?php echo $guidetitle; ?> <span class="title-cat"><?php echo ucwords($pagetype); ?></span></h1>
 
-			</div>
 <?php 
 if ($pagetype=="guide"):
 
 ?>
-		<div class="threecol">
-			<div class="chapters">
-    <nav role="navigation" class="page-navigation">
-    <ol>
+		<div>
+			<h1><?php echo $guidetitle; ?> <small><i class="glyphicon glyphicon-<?php echo $icon; ?>"></i> <?php echo ucwords($pagetype); ?></small></h1>
+<?php 
+				$podchap = new Pod('task', $parent_guide_id); 
+				$children_chapters = $podchap->get_field('children_chapters'); 				
+				$totalchapters = count($children_chapters) + 1;
+				$halfchapters = round($totalchapters/2,0,PHP_ROUND_HALF_UP); 
+				?>
+				<div class="chapters-container">
+					<div class="col-lg-6 col-md-6">
+						<div class="chapters">
+							<nav role="navigation" class="page-navigation">
+								<ol>
 <?php
 if ($chapter_header){
 						echo "<li class='active'>";
-						echo "<span class='part-label'>Part 1</span><br><span class='part-title'>".$guidetitle."</span>";
+						echo "<span class='part-label part-title'>".$guidetitle."</span>";
 						}
 		else {
-				$podchap = new Pod('task', $parent_guide_id); 
-				$children_chapters = $podchap->get_field('children_chapters'); 				
 				$chapname = $parent_name;
 				$chapslug = $parent_slug;
-				echo "<li><a href='/task/{$chapslug}'><span class='part-label'>Part 1</span><br><span class='part-title'>{$chapname}</span></a>";
+				echo "<li><a href='/task/{$chapslug}'><span class='part-title'>{$chapname}</span></a>";
 				}
 				echo "</li>";
 
-			$totalchapters = count($children_chapters);
+//			$totalchapters = count($children_chapters);
 			$carray = array();
 			$k=1; 
 			foreach ($children_chapters as $chapt)
 			{
 				if ($chapt['post_status']=='publish'){
 				$k++;
+					if (($k == $halfchapters + 1) && ($totalchapters > 3) ):?>
+								</ol>
+							</nav>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<div class="chapters">
+							<nav role="navigation" class="page-navigation">
+								<ol start='<?php echo $k;?>'>
+					
+<?php				endif;
+
 				echo "<li ";
 				if (pods_url_variable(1) == $chapt['post_name']){
 					 echo "class='active'";
@@ -116,31 +130,33 @@ if ($chapter_header){
 				$carray[$k]['slug']=$chapslug;
 				$carray[$k]['name']=$chapname;
 				if ($chapt['ID']==$current_task){
-				echo "<span class='part-label'>Part {$k}</span><br><span class='part-title'>{$chapname}</span>";
+				echo "<span class='part-label part-title'>{$chapname}</span>";
 				}
 				else {
-				echo "<a href='/task/{$chapslug}'><span class='part-label'>Part {$k}</span><br><span class='part-title'>{$chapname}</span></a>";
+				echo "<a href='/task/{$chapslug}'><span class='part-label part-title'>{$chapname}</span></a>";
 					
 				}
 				echo "</li>";
 				}
-				
 			}
+			
 ?>
-
-
-
-	  </ol>
-	  </nav>
+</ol>
+							</nav>
+						</div>
+					</div>
+				</div>
 </div>
-		</div>
+
 <?php
+			
 endif;
 	if ($pagetype=="guide"){
-		echo "<div class='ninecol last'>";
+		echo "<div>";
+
 		echo "<div class='content-wrapper-notop'>";
-						if ($current_chapter>1){
-					echo "<h2>".get_the_title()."</h2>";
+				if ($current_chapter>1){
+					echo "<h2>".$current_chapter.". ".get_the_title()."</h2>";
 				}
 				else {
 					echo "<h2>Overview</h2>";
@@ -150,9 +166,9 @@ endif;
 
 			if ($current_attachments){
 				foreach ($current_attachments as $a){
-				echo "<div class='downloadbox'>";
-				echo "<p><a href='".$a['guid']."'>".$a['post_title']."</a></p>";
-				echo "</div>";
+					echo "<div class='downloadbox'>";
+					echo "<p><a href='".$a['guid']."'>".$a['post_title']."</a></p>";
+					echo "</div>";
 				}
 			}
 
@@ -161,140 +177,108 @@ endif;
 			}
 		echo "</div>";
 		
-        echo "<div class='content-wrapper-notop'><div class='guidepagination' role='navigation'>";
-        echo "<ul class='group'>";
+        echo '<div class="row">';
+
         if ($chapter_header){ // if on chapter 1
-	        echo "<li class='previous'>";
-	        echo "<span>You are at the beginning of this guide</span>";
-	        echo "</li>";
-	        echo "<li class='next'>";
-	        echo "<span class='pagination-label'>Part 2</span><br><a href='/task/".$carray[2]['slug']."' title='Navigate to next part'>";
-	        echo "<span class='pagination-part-title'>".$carray[2]['name']."</span>";
-	        echo "</a>";
-	        echo "</li>";        
+			
+			echo '<div class="col-lg-12 chapterr"><a href="/task/'.$carray[2]["slug"].'">'.$carray[2]["name"].'&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a>';
+			echo "</div>";
         } 
         elseif ($current_chapter==2) { // if on chapter 2
-        	echo "<li class='previous'>";
-            echo "<span class='pagination-label'>Part 1</span><br><a href='/task/".$parent_slug."' title='Navigate to previous part'>";
-            echo "<span class='pagination-part-title'>".govintranetpress_custom_title($parent_name)."</span>";
-            echo "</a>";
-            echo "</li>";
+			echo '<div class="col-lg-6 col-md-6 chapterl"><a href="/task/'.$parent_slug.'" title="Navigate to previous part"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;Overview</a></div>';
             if ($carray[3]['slug']){
-	        	echo "<li class='next'>";
-	            echo "<span class='pagination-label'>Part 3</span><br><a href='/task/".$carray[3]['slug']."' title='Navigate to next part'>";
-	            echo "<span class='pagination-part-title'>".$carray[3]['name']."</span>";
-	            echo "</a>";
-	            echo "</li>"; 
+				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="/task/'.$carray[3]["slug"].'">'.$carray[3]["name"].'&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a></div>';
 	        }
-	        else
-	        {    
-	        echo "<li class='next'>";
-	        echo "<span>You are at the end of this guide</span>";
-	        echo "</li>";
-	            }       
-        }
-        else {
+
+        }   else { // we're deep in the middle somewhere
         	$previous_chapter = $current_chapter-1; 
         	$next_chapter = $current_chapter+1;
-        	echo "<li class='previous'>";
-            echo "<span class='pagination-label'>Part {$previous_chapter}</span><br><a href='/task/".$carray[$previous_chapter]['slug']."' title='Navigate to previous part'>";
-            echo "<span class='pagination-part-title'>".govintranetpress_custom_title($carray[$previous_chapter]['name'])."</span>";
-            echo "</a>";
-            echo "</li>";
+
+			echo '<div class="col-lg-6 col-md-6 chapterl"><a href="/task/'.$carray[$previous_chapter]["slug"].'" title="Navigate to previous part"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
             if ($carray[$next_chapter]['slug']){
-	        	echo "<li class='next'>";
-	        	echo "<span class='pagination-label'>Part {$next_chapter}</span><br><a href='/task/".$carray[$next_chapter]['slug']."' title='Navigate to next part'>";
-	        	echo "<span class='pagination-part-title'>".govintranetpress_custom_title($carray[$next_chapter]['name'])."</span>";
-	            echo "</a>";
-	            echo "</li>"; 
-	            }    
-	        else {
-		    echo "<li class='next'>";
-	        echo "<span>You are at the end of this guide</span>";
-	        echo "</li>";
+				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="/task/'.$carray[$next_chapter]["slug"].'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a></div>';
+	        }
 
-	        }   
+
+  
         }
-        
-        
-        echo "</ul>";
-        echo "</div></div><div class='clearfix'></div>";
+		echo "</div>";
+		echo "</div>";
 
 
-	} else {
-		echo "<div class='twelvecol last'>";
-		echo "<div class='content-wrapper'>";
 
+	} else { ?>
+			<h1><?php echo $guidetitle; ?> <small><i class="glyphicon glyphicon-<?php echo $icon; ?>"></i> <?php echo ucwords($pagetype); ?></small></h1>
+<?php
 		the_content(); 
 
 			if ($current_attachments){
 			echo "<h3>Downloads</h3>";
 				foreach ($current_attachments as $a){
-				echo "<div class='downloadbox'><div class='downloadicon'>";
-				echo "<p><a href='".$a['guid']."'>".$a['post_title']."</a></p>";
-				echo "</div></div>";
+					echo "<div class='downloadbox'><div class='downloadicon'>";
+					echo "<p><a href='".$a['guid']."'>".$a['post_title']."</a></p>";
+					echo "</div></div>";
 				}
 			}
 
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
-		echo "</div>";
-	}
-
-
-			
+		}
 			 ?>
 
 			</div>
 			
-		</div> <!--end of first column-->
-		
-		<div class="fourcol last" >	
 
+		<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-4">	
 
 				<?php 
 				$podtask = new Pod('task', $id);
 				$related_links = $podtask->get_field('related_tasks');
-				if ($related_links){
-				echo "<div class='widget-box list'>";
-				echo "<h3 class='widget-title'>Related tasks and guides</h3>";
-				echo "<ul>";
-				foreach ($related_links as $rlink){ 
-					if ($rlink['post_status'] == 'publish') {
-							$taskpod = new Pod ('task' , $rlink['ID']);
-							$taskparent=$taskpod->get_field('parent_guide');
-							$title_context="";
-							if ($taskparent){
-								$tparent_guide_id = $taskparent[0]['ID']; 		
-								$taskparent = get_post($tparent_guide_id);
-								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-							}		
-					echo "<li><a href='/task/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";
+				$related_pages = $podtask->get_field('related_pages');
+				if ($related_links || $related_pages){
+					$html='';
+					foreach ($related_links as $rlink){ 
+						if ($rlink['post_status'] == 'publish') {
+								$taskpod = new Pod ('task' , $rlink['ID']);
+								$taskparent=$taskpod->get_field('parent_guide');
+								$title_context="";
+								if ($taskparent){
+									$tparent_guide_id = $taskparent[0]['ID']; 		
+									$taskparent = get_post($tparent_guide_id);
+									$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+								}		
+						$html.= "<li><a href='/task/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";
+						}
 					}
-				}
-				echo "</ul></div>";
+					foreach ($related_pages as $rlink){ 
+						if ($rlink['post_status'] == 'publish') {
+								$taskpod = new Pod ('page' , $rlink['ID']);
+								$html.= "<li><a href='".$rlink['guid']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";
+						}
+					}
+					echo "<div class='widget-box list'>";
+					echo "<h3 class='widget-title'>Related tasks and guides</h3>";
+					echo $html;
+					echo "<ul>";
+					echo "</ul></div>";
 				}
 
- ?>
-			
-			
-			<?php
-$post_categories = wp_get_post_categories( $parent_guide_id );
+$post_categories = wp_get_post_categories( $post->ID );
 $cats = array();
 $catsfound = false;	
 	$catshtml='';
 	foreach($post_categories as $c){
 	$cat = get_category( $c );
 	$catsfound = true;
-	$catshtml.= "<span class='wptag t".$cat->term_id."'><a href='/task-by-category/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+	$catshtml.= "<span class='wptag t".$cat->term_id."'><a  href='/task-by-category/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 	}
 	
 if ($catsfound){
 	echo "<div class='widget-box'><h3>Categories</h3><p class='taglisting page'>".$catshtml."</p></div>";
 }
 
-				$posttags = get_the_tags($parent_guide_id);
+				$posttags = get_the_tags();
 				if ($posttags) {
 					$foundtags=false;	
 					$tagstr="";
@@ -302,7 +286,7 @@ if ($catsfound){
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span class='wptag'><a href='/tagged/?tag={$tagurl}&amp;posttype=task'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='/tagged/?tag={$tagurl}&amp;posttype=task'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
 				  	}
 				  	if ($foundtags){
@@ -315,19 +299,8 @@ if ($catsfound){
 		 	dynamic_sidebar('task-widget-area'); 
 
 ?>			
-				
-				
 	
 			</div> 
-
-				</div>
-		</div>				
-			</div> <!--end of second column-->
-
-
-				
-	</div> 
-
 			
 <?php endwhile; // end of the loop. ?>
 

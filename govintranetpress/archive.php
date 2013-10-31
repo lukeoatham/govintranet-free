@@ -28,17 +28,14 @@ get_header(); ?>
 		the_post();
 ?>
 
-				<div class="row">
-					<div class="eightcol white last" id="content">
-											<div class="row">
+					<div class="col-lg-8 col-md-8 white">
+						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-						<div class="content-wrapper">
+						</div>
 			<h1>
 <?php if ( is_day() ) : ?>
 				<?php printf( __( 'Daily archives: %s', 'twentyten' ), get_the_date() ); ?>
@@ -67,7 +64,7 @@ get_header(); ?>
 						</div>
 					</div>
 
-					<div class="fourcol last" id="sidebar">
+					<div class="col-lg-4 col-md-4" id="sidebar">
 					<div id="related">
 						<?php dynamic_sidebar('news-widget-area');  ?>
 					</div>

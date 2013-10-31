@@ -13,7 +13,8 @@ function hp_landingpages_shortcode($atts,$content){
     //get any attributes that may have been passed; override defaults
     $opts=shortcode_atts( array(
         'id' => '',
-        'exclude' => ''
+        'exclude' => '',
+        'type'=>''
         ), $atts );
 
 	// get child pages
@@ -25,29 +26,35 @@ function hp_landingpages_shortcode($atts,$content){
 
 	foreach((array)$children as $c) {
 		
-		if ($c->post_excerpt) {
-			$excerpt = $c->post_excerpt;
+		if ($opts['type']=='list'){			
+			$output .= "<li><a href='".get_permalink($c->ID)."'>".get_the_title($c->ID)."</a></li>";
 		} else {
-			if (strlen($c->post_content)>200) {
-				$excerpt = substr(strip_tags($c->post_content),0,200) . "&hellip;";
-			} elseif ($c->post_content == "" || $c->post_content == 0) {
-				$excerpt = "";
-			} else {			
-				$excerpt = strip_tags($c->post_content);
+			$excerpt='';
+			if ($c->post_excerpt) {
+				$excerpt = $c->post_excerpt;
+			} else {
+				if (strlen($c->post_content)>200) {
+					$excerpt = substr(strip_tags($c->post_content),0,200) . "&hellip;";
+				} elseif ($c->post_content == "" || $c->post_content == 0) {
+					$excerpt = "";
+				} else {			
+					$excerpt = strip_tags($c->post_content); 
+				}
 			}
+			$output .= "
+			<div class='htlandingpage clearfix'>
+			  ".get_the_post_thumbnail($c->ID,"listingthumb","class=listingthumb")."
+			  <h2><a href='".get_permalink($c->ID)."'>".get_the_title($c->ID)."</a></h2>
+			  <p>".$excerpt."</p>
+			</div>
+			";
 		}
-		
-		$output .= "
-		<div class='htlandingpage clearfix'>
-		  ".get_the_post_thumbnail($c->ID,"listingthumb","class=listingthumb")."
-		  <h2><a href='".get_permalink($c->ID)."'>".get_the_title($c->ID)."</a></h2>
-		  <p>".$excerpt."</p>
-		</div>
-		";
 	}
-
-	$html = "<div class='htlandingpageblock'>" . $output . "</div>";
-
+	if ($opts['type']=='list'){			
+		$html = "<ul>" . $output . "</li>";
+	} else {
+		$html = "<div class='htlandingpageblock'>" . $output . "</div>";
+	}
     return $html;
 }
 

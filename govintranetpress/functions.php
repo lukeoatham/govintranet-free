@@ -232,8 +232,19 @@ function twentyten_filter_wp_title( $title, $separator ) {
 	else if ($slug2 == "vacancies"  ) {
 		$title .= " - job vacancies" ;
 	}
+	else if ($slug == "staff"  ) {
+		global $post;
+		$u = $post->post_title;
+		$title .= $u." - staff profile" ;
+	}
 	else if ($slug == "events"  ) {
 		$title .= " - events" ;
+	}
+	else if ($slug == "glossary"  ) {
+		$title .= " - jargon buster" ;
+	}
+	else if ($slug == "atoz"  ) {
+		$title .= " - A to Z" ;
 	}
 	else if ($slug == "forums"  ) {
 		$title .= " - forums" ;
@@ -292,7 +303,7 @@ add_filter( 'wp_page_menu_args', 'twentyten_page_menu_args' );
  * @return int
  */
 function twentyten_excerpt_length( $length ) {
-	return 20;
+	return 30;
 }
 add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 
@@ -421,7 +432,7 @@ function twentyten_widgets_init() {
 		'description' => __( 'Homepage 1st column', 'twentyten' ),
 		'before_widget' => '<div class="category-block">',
 		'after_widget' => '</div>',
-		'before_title' => '<h3>',
+		'before_title' => '<h3 class="noborder">',
 		'after_title' => '</h3>',
 	) );
 
@@ -458,8 +469,8 @@ function twentyten_widgets_init() {
 		'description' => __( 'Homepage bottom right', 'twentyten' ),
 		'before_widget' => '<div class="category-block">',
 		'after_widget' => '</div>',
-		'before_title' => '<h3 class="foundicon-twitter">',
-		'after_title' => '</h3><div class="h3border"></div>',
+		'before_title' => '<h3><i class="foundicon-twitter"></i>',
+		'after_title' => '</h3>',
 	) );	
 	register_sidebar( array(
 		'name' => __( 'Utility widget box', 'twentyten' ),
@@ -551,6 +562,15 @@ function twentyten_widgets_init() {
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
+	) );
+	register_sidebar( array(
+		'name' => __( 'Login area', 'twentyten' ),
+		'id' => 'login-widget-area',
+		'description' => __( 'Login widget area', 'twentyten' ),
+		'before_widget' => '',
+		'after_widget' => '',
+		'before_title' => '',
+		'after_title' => '',
 	) );
 	
 }
@@ -650,27 +670,34 @@ function remove_themeoptions_menu() { // needed to hide TwentyTen options that w
 add_action('admin_head', 'remove_themeoptions_menu');
 
 
+function remove_contactmethods($contactmthods) {
+	unset($contactmethods['aim']);
+	unset($contactmethods['jabber']);
+	unset($contactmethods['yim']);
+	return $contactmethods;
+	}
+
+add_filter('user_contactmethods','remove_contactmethods' ,10,1);
+
+
 // check jQuery is available
 
 function enqueueThemeScripts() {
 	 wp_enqueue_script( 'jquery' );
 	 wp_enqueue_script( 'jquery-ui' );
-	
-	 wp_register_script( 'jquery-touchdown', get_stylesheet_directory_uri() . "/js/jquery.touchdown.js");
-	 wp_enqueue_script( 'jquery-touchdown' );
-
-	 wp_register_script( 'jquery-collapse', get_stylesheet_directory_uri() . "/js/jquery.collapse.js");
-	 wp_enqueue_script( 'jquery-collapse' );
-
-	 wp_register_script( 'css3-mediaqueries', get_stylesheet_directory_uri() . "/js/css3-mediaqueries.js");
-	 wp_enqueue_script( 'css3-mediaqueries' );
+	 
+	 wp_register_script( 'bootstrap.min', get_stylesheet_directory_uri() . "/js/bootstrap.min.js");
+	 wp_enqueue_script( 'bootstrap.min' );
 
 	 wp_register_script( 'ht-scripts', get_stylesheet_directory_uri() . "/js/ht-scripts.js");
 	 wp_enqueue_script( 'ht-scripts' );
 
-	 wp_enqueue_script( 'thickbox' ); // in case we want to do popup layer surveys or alerts... 
+	 wp_register_script( 'jquery.ht-timediff', get_stylesheet_directory_uri() . "/js/jquery.ht-timediff.js");
+	 wp_enqueue_script( 'jquery.ht-timediff',90 );
+
 }
 add_action('wp_enqueue_scripts','enqueueThemeScripts');
+
 
 function govintranetpress_custom_excerpt_more( $output ) {
 	return preg_replace('/<a[^>]+>Continue reading.*?<\/a>/i','',$output);
@@ -727,11 +754,11 @@ function renderLeftNav($outputcontent="TRUE") {
 		$subpages = wp_list_pages("echo=0&title_li=&depth=3&child_of=". $mainid);
 			$output .="	
 				<li class='current_page_item'><a href='#'>{$currenttitle}</a></li>
-				<li><ul>{$subpages}</ul></li>";
+				<ul class='submenu'>{$subpages}</ul>";
 		} else {
 		$subpages = wp_list_pages("echo=0&title_li=&depth=3&child_of=". $parent);
 			$output .="	
-				<li><ul>{$subpages}</ul></li>";
+				<ul class='submenu'>{$subpages}</ul>";
 		}
 			$output .="	
 				</ul>
@@ -778,9 +805,18 @@ function pageHasChildren($id="") {
 }
 
 function my_custom_login_logo() {
+	$hc = "general_intranet_login_logo";
+	$hcitem = get_option($hc);
+	$loginimage =  wp_get_attachment_image_src( $hcitem[0], 'large' );
+	if ($hcitem){
     echo '<style type="text/css">
-        h1 a { background-image:url('.get_stylesheet_directory_uri().'/images/loginbranding.png) !important; }
+        h1 a { background-image:url('.$loginimage[0].') !important; }
     </style>';
+    } else {
+    echo '<style type="text/css">
+	h1 a { background-image:url('.get_stylesheet_directory_uri().'/images/loginbranding.png) !important; }
+    </style>';
+    }
 }
 add_action('login_head', 'my_custom_login_logo');
 
@@ -874,9 +910,9 @@ function my_colorful_tag_cloud( $cat_id, $tc_tax, $tc_post_type ) {
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
         'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'echo' => true
     );
-if (pods_url_variable(0)=='tasks'){
+if ((pods_url_variable(0)=='tasks')||(pods_url_variable(0)=='how-do-i')){
     $defaults = array(
-        'smallest' => 12, 'largest' => 24, 'unit' => 'pt', 'number' => 90,
+        'smallest' => 12, 'largest' => 28, 'unit' => 'pt', 'number' => 120,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
         'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'echo' => true
     );
@@ -917,7 +953,7 @@ if (pods_url_variable(0)=='tasks'){
 						p1.ID = p2.ID 
 						)
 					ORDER BY t2.count desc
-					limit 66"
+					limit 90"
 					;
 					
 					if ($tc_post_type=='projects'){
@@ -1063,7 +1099,10 @@ WHERE				wp_posts.post_type = 'vacancies' AND
         if (pods_url_variable(0) == 'tasks'){
         $pstyp='?posttype=task';
         }
-        if (pods_url_variable(0) == 'news'){
+        if (pods_url_variable(0) == 'how-do-i'){
+        $pstyp='?posttype=task';
+        }
+        if (pods_url_variable(0) == 'newspage'){
         $pstyp='?posttype=news';
         }
         $tag_link = '#' != $tag->link ? esc_url( $tag->link ).$pstyp : '#';
@@ -1071,12 +1110,18 @@ WHERE				wp_posts.post_type = 'vacancies' AND
         $tag_name = $tags[ $key ]->name;
         $min_color = "#5679b9";
         $max_color ="#af1410";
+        
+        $color = round( ( $smallest + ( ( $count - $min_count ) * $font_step ) ) - ( $smallest - 1 ) ) ;
+		$basecol=HTMLToRGB('#3a6f9e');
+        
+        $scolor = ChangeLuminosity($basecol, 60-($color*4.3));
+        $scolor=RGBToHTML($scolor);
         $class = 'color-' . ( round( ( $smallest + ( ( $count - $min_count ) * $font_step ) ) - ( $smallest - 1 ) ) );
         $tag_link = explode("/", $tag_link);
         $tag_link=$tag_link[4];
-        $a[] = "<a href='/tagged/?tag=".$tag_link."' class='tag-link-$tag_id $class' title='" . esc_attr( call_user_func( $topic_count_text_callback, $real_count ) ) . "' style='font-size: " .
+        $a[] = "<a href='/tagged/?tag=".$tag_link."'  style='font-size: " .
             str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) )
-            . "$unit;'>$tag_name</a>";
+            . "$unit; color: ".$scolor.";'>$tag_name</a>";
     }
 
     $return = join( $separator, $a );
@@ -1108,7 +1153,7 @@ function get_terms_by_media_type( $taxonomies, $post_types ) {
 
     global $wpdb;
 
-    $query = $wpdb->prepare( "SELECT t.*, COUNT(*) from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'inherit' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id");
+    $query = $wpdb->prepare( "SELECT t.*, COUNT(*) from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'inherit' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id order by t.name");
 
     $results = $wpdb->get_results( $query );
 
@@ -1121,60 +1166,6 @@ if (current_user_can('subscriber')):
 	show_admin_bar(false);
 endif;
 
-
-
-/**
- * Determines the difference between two timestamps.
- *
- * The difference is returned in a human readable format such as "1 hour",
- * "5 mins", "2 days".
- *
- * @since 1.5.0
- *
- * @param int $from Unix timestamp from which the difference begins.
- * @param int $to Optional. Unix timestamp to end the time difference. Default becomes time() if not set.
- * @return string Human readable time difference.
- * Taken from formatting.php to include months and years - Luke Oatham 
- */
-function human_time_diff_plus( $from, $to = '' ) {
-	$MONTH_IN_SECONDS = DAY_IN_SECONDS * 30;
-     if ( empty( $to ) )
-          $to = time();
-     $diff = (int) abs( $to - $from );
-     if ( $diff <= HOUR_IN_SECONDS ) {
-          $mins = round( $diff / MINUTE_IN_SECONDS );
-          if ( $mins <= 1 ) {
-               $mins = 1;
-          }
-          /* translators: min=minute */
-          $since = sprintf( _n( '%s min', '%s mins', $mins ), $mins );
-     } elseif ( ( $diff <= DAY_IN_SECONDS ) && ( $diff > HOUR_IN_SECONDS ) ) {
-          $hours = round( $diff / HOUR_IN_SECONDS );
-          if ( $hours <= 1 ) {
-               $hours = 1;
-          }
-          $since = sprintf( _n( '%s hour', '%s hours', $hours ), $hours );
-     } elseif ( $diff >= YEAR_IN_SECONDS ) {
-          $years = round( $diff / YEAR_IN_SECONDS );
-          if ( $years <= 1 ) {
-               $years = 1;
-          }
-          $since = sprintf( _n( '%s year', '%s years', $years ), $years );
-     } elseif ( ( $diff >= $MONTH_IN_SECONDS ) && ( $diff < YEAR_IN_SECONDS ) ) {
-          $months = round( $diff / $MONTH_IN_SECONDS );
-          if ( $months <= 1 ) {
-               $months = 1;
-          }
-          $since = sprintf( _n( '%s month', '%s months', $months ), $months );
-     } elseif ( $diff >= DAY_IN_SECONDS ) {
-          $days = round( $diff / DAY_IN_SECONDS );
-          if ( $days <= 1 ) {
-               $days = 1;
-          }
-          $since = sprintf( _n( '%s day', '%s days', $days ), $days );
-     }
-     return $since;
-}
 
 //remove settings for search to allow for things like T&S
 remove_filter('relevanssi_remove_punctuation', 'relevanssi_remove_punct');
@@ -1361,6 +1352,67 @@ remove_action('wp_title', 'bbp_title');
     $RGB = $b + ($g << 0x8) + ($r << 0x10);
     return $RGB;
   }
+
+// listing page thumbnail sizes, e.g. home page
+
+add_image_size( "newshead", "726", "353", true );
+
+
+/**
+ * Determines the difference between two timestamps.
+ *
+ * The difference is returned in a human readable format such as "1 hour",
+ * "5 mins", "2 days".
+ *
+ * @since 1.5.0
+ *
+ * @param int $from Unix timestamp from which the difference begins.
+ * @param int $to Optional. Unix timestamp to end the time difference. Default becomes time() if not set.
+ * @return string Human readable time difference.
+ * Taken from formatting.php to include months and years - Luke Oatham 
+ */
+function human_time_diff_plus( $from, $to = '' ) {
+	$MONTH_IN_SECONDS = DAY_IN_SECONDS * 30;
+     if ( empty( $to ) )
+          $to = time();
+     $diff = (int) abs( $to - $from );
+     if ( $diff <= HOUR_IN_SECONDS ) {
+          $mins = round( $diff / MINUTE_IN_SECONDS );
+          if ( $mins <= 1 ) {
+               $mins = 0;
+          }
+          /* translators: min=minute */
+          $since = sprintf( _n( '%s min', '%s mins', $mins ), $mins );
+     } elseif ( ( $diff <= DAY_IN_SECONDS ) && ( $diff > HOUR_IN_SECONDS ) ) {
+          $hours = round( $diff / HOUR_IN_SECONDS );
+          if ( $hours <= 1 ) {
+               $hours = 1;
+          }
+          $since = sprintf( _n( '%s hour', '%s hours', $hours ), $hours );
+     } elseif ( $diff >= YEAR_IN_SECONDS ) {
+          $years = round( $diff / YEAR_IN_SECONDS );
+          if ( $years <= 1 ) {
+               $years = 1;
+          }
+          $since = sprintf( _n( '%s year', '%s years', $years ), $years );
+     } elseif ( ( $diff >= $MONTH_IN_SECONDS ) && ( $diff < YEAR_IN_SECONDS ) ) {
+          $months = round( $diff / $MONTH_IN_SECONDS );
+          if ( $months <= 1 ) {
+               $months = 1;
+          }
+          $since = sprintf( _n( '%s month', '%s months', $months ), $months );
+     } elseif ( $diff >= DAY_IN_SECONDS ) {
+          $days = round( $diff / DAY_IN_SECONDS );
+          if ( $days <= 1 ) {
+               $days = 1;
+          }
+          $since = sprintf( _n( '%s day', '%s days', $days ), $days );
+     }
+     return $since;
+}
+
+
+
 
 
 ?>

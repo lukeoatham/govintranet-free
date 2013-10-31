@@ -1,20 +1,30 @@
-@media only screen and (max-width: 1023px)  {
 
-#topstrip  {
-		min-height: 107px !important;
+ol {
+	list-style: decimal !important;
+	list-style-type: decimal !important;
+}
+ol li {
+		list-style-type: decimal !important;
+}
+
+img.media-object {
+	float: right;
 }
 
 
+.zign2n {
+	background: #f8f8f8;
+	border-top: 7px solid #787676;
+	margin-top: 0.8em;
+	margin-bottom: 2em;
+	}
+
+.nopadright {
+	padding-right: 1em;	
 }
 
-@media handheld,  only screen and (max-width: 767px)  {
-#topstrip  {
-		min-height: 150px !important;
-}
-
-#topstrip {
-	min-height: 105px;
-	overflow: auto;	
+.media-object {
+	float: right;
 }
 
 .wptag a  {
@@ -23,22 +33,9 @@
 	padding: 0 !important;
 	line-height: 200% !important;
 }
-form#sbc-search select#cat {
-	background: #fbfbfb; 
-	min-height: 30px;
-	width: 30% !important; 
-	border: 1px solid #bbbbbb; 
-	padding: 0 !important; 
-	margin: 0 ;	
-	font-size: 100%;
-	vertical-align: top;
-}
-#masthead #searchform #s {
-	vertical-align: top;
-}
 
 .maildocument  {
-	background: url('images/email.gif') no-repeat;
+	background: url('../images/email.gif') no-repeat;
 	padding: 2px 0 4px 20px;
 	white-space: nowrap;
 	display: inline-block;
@@ -47,7 +44,7 @@ form#sbc-search select#cat {
 
 
 .pdfdocument  {
-	background: url('images/pdf.gif') no-repeat;
+	background: url('../images/pdf.gif') no-repeat;
 	padding: 2px 0 4px 20px;
 	white-space: nowrap;
 	display: inline-block;
@@ -56,7 +53,7 @@ form#sbc-search select#cat {
 
 
 .xlsdocument  {
-	background: url('images/xls.gif') no-repeat;
+	background: url('../images/xls.gif') no-repeat;
 	padding: 2px 0 4px 20px;
 	white-space: nowrap;
 	display: inline-block;
@@ -64,7 +61,7 @@ form#sbc-search select#cat {
 }
 
 .docdocument  {
-	background: url('images/doc.gif') no-repeat;
+	background: url('../images/doc.gif') no-repeat;
 	padding: 2px 0 4px 20px;
 	white-space: nowrap;
 	display: inline-block;
@@ -72,12 +69,10 @@ form#sbc-search select#cat {
 }
 
 .pptdocument  {
-	background: url('images/icon-ppt.gif') no-repeat;
+	background: url('../images/icon-ppt.gif') no-repeat;
 	padding: 2px 0 4px 20px;
 	white-space: nowrap;
 	display: inline-block;
 	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
 }
 
-
-}

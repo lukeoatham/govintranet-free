@@ -30,21 +30,17 @@ get_header(); ?>
 	
 ?>
 	
-	<div class="row">
-		<div class="eightcol white last" id='content'>
-								<div class="row">
+					<div class="col-lg-8 white ">
+						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-			<div class="content-wrapper">
+						</div>
 			
-			
-			<h1 class="taglisting vacancies"><?php the_title();?> <span class="title-cat">Vacancy</span></h1>
-			<div class='alert blue'>
+			<h1><?php the_title();?> <small><i class="glyphicon glyphicon-random"></i>&nbsp;Vacancy</small></h1>
+			<div class='well'>
 			<p><h3>Job details</h3> 
 			<?php
 
@@ -88,14 +84,7 @@ get_header(); ?>
 				echo " (That's today!)";
 			}		
 
-?>
-			</div>
-			</div>
-<?php 
-
-		echo "<div class='twelvecol last'>";		
-		echo "<div class='content-wrapper'>";
-			
+			echo "</div>			";
 			the_content(); 		
 			
 		if ($eligibility_and_terms){
@@ -119,7 +108,7 @@ get_header(); ?>
 //		print_r($projects);
 		if ($projects){
 			echo "<div id='projects'><hr><h2>Project</h2><ul>";
-				echo "<li><a href='/about/projects/content/{$projects[0]['post_name']}/'>".$projects[0]['post_title']."</a></li>";
+				echo "<li><a href='/projects/{$projects[0]['post_name']}/'>".$projects[0]['post_title']."</a></li>";
 			echo "</ul></div>";
 		}
 		}
@@ -138,16 +127,15 @@ get_header(); ?>
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
-		echo "</div>";
+
 
 			
 			 ?>
 
-			</div>
 			
 		</div> <!--end of first column-->
 		
-		<div class="fourcol last" >	
+		<div class="col-lg-4 last" >	
 
 			<?php
 			
@@ -168,12 +156,11 @@ echo "</p></div>";
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span class='wptag'><a href='/tagged/?tag={$tagurl}&posttype=vacancies'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='/tagged/?tag={$tagurl}&amp;posttype=vacancies'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
-
 				  	}
 				  	if ($foundtags){
-					  	echo "<div class='widget-box'><h3>Tags</h3>"; 
+					  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
 					  	echo $tagstr;
 					  	echo "</p></div>";
 				  	}
@@ -187,12 +174,6 @@ echo "</p></div>";
 				</div>
 				<?php 
  ?>
-		</div>				
-			</div> <!--end of second column-->
-
-
-				
-	</div> 
 
 			
 <?php endwhile; // end of the loop. ?>

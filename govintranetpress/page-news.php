@@ -9,24 +9,18 @@ get_header();
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 
-		<div class="row">
-
-			<div class="eightcol white last" id='content'>
-									<div class="row">
+					<div class="col-lg-8 col-md-8 col-sm-12 white ">
+						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-				<div class="content-wrapper">
+						</div>
 					<?php
 						$thistitle = get_the_title();
 						echo "<h1>".$thistitle."</h1>";
 						the_content();
-
-
 
 $removenews = get_transient('cached_removenews'); 
 if (!$removenews || !is_array($removenews)){
@@ -69,12 +63,15 @@ foreach ($oldnews as $old) {
 		  delete_post_meta($old->ID, 'expiry_date');
 		  delete_post_meta($old->ID, 'expiry_time');
 		  delete_post_meta($old->ID, 'expiry_action');
+		  wp_cache_post_change( $old->ID ) ;
+		  wp_cache_post_change( $my_post ) ;		  
 	}	
 	if ($expiryaction=='Change to regular news'){
 		update_post_meta($old->ID, 'news_listing_type', 'Regular', 'Need to know'); 
 		  delete_post_meta($old->ID, 'expiry_date');
 		  delete_post_meta($old->ID, 'expiry_time');
 		  delete_post_meta($old->ID, 'expiry_action');
+		  wp_cache_post_change( $old->ID ) ;
 	}	
 	if ($expiryaction=='Move to trash'){
 		  $my_post = array();
@@ -84,6 +81,8 @@ foreach ($oldnews as $old) {
 		  delete_post_meta($old->ID, 'expiry_time');
 		  delete_post_meta($old->ID, 'expiry_action');
 		  wp_update_post( $my_post );
+		  wp_cache_post_change( $old->ID ) ;
+		  wp_cache_post_change( $my_post ) ;		  
 	}	
 }
 }
@@ -97,10 +96,6 @@ if ($expirednewscache <= 0 ) {
 set_transient('cached_removenews',$timer,60*$expirednewscache); // customised cache period
 wp_reset_query();
 }
-
-
-//
-
 
 							$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 							$counter = 0;	
@@ -147,20 +142,13 @@ $k = 0;
 						<?php endif; 
 						?>
 					<?php endif; 
-							wp_reset_query();								
-
+			wp_reset_query();								
 							
         }
     ?>							
-
-
-
 				</div>
-			</div>
 
-			<div class="fourcol last">
-
-			
+			<div class="col-lg-4  col-md-4 col-sm-12">
 			<?php
 				$taxonomies=array();
 				$post_type = array();
@@ -178,20 +166,23 @@ $k = 0;
 					}
 					echo "</p></div>";
 				}
-			?>
+				
+				if ( my_colorful_tag_cloud('', 'category' , 'news') != '' ) :   
 			
-			<div class="widget-box">
-					<h3 class='widget-title'>Search by tag</h3>
-						<?php 
+					echo "<div class='widget-box'>";
+					echo "<h3 class='widget-title'>Search by tag</h3>";
+					echo "<div class='tagcloud'>";
 					echo my_colorful_tag_cloud('', 'category' , 'news'); 
+					echo "</div>";
 					echo "<br>";
-					?>
+					echo "</div>";					
 
-			</div>			
-			<?php dynamic_sidebar('newslanding-widget-area'); ?>
+				endif;
+				
+				dynamic_sidebar('newslanding-widget-area'); 
+			?>
 
 			</div>
-		</div>
 
 <?php endwhile; ?>
 

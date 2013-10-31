@@ -7,10 +7,14 @@ get_header(); ?>
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 
-		<div class="row white">
-
-			<div class="twelvecol white">
-				<div class="content-wrapper">
+					<div class="col-lg-12 white ">
+						<div class="row">
+							<div class='breadcrumbs'>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
+							</div>
+						</div>
 					<?php
 						echo "<h1>".get_the_title()."</h1>";
 						
@@ -145,10 +149,6 @@ if (is_user_logged_in()){
 				?>
 				
 				</div>
-					
-
-				 </div>
-			</div>
 		</div>
 
 <?php endwhile; ?>

@@ -5,32 +5,44 @@ get_header(); ?>
 
 <?php 
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-	<div class="row">
-		<div class="eightcol white last" id='content'>
-			<div class="row">
-				<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
-				</div>
-			</div>
-			<div class="content-wrapper">
+					<div class="col-lg-8 white ">
+						<div class="row">
+							<div class='breadcrumbs'>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
+							</div>
+						</div>
+
 				<?php
 					echo "<h1>Projects</h1>";
 					the_content();
 					?>
-			</div>
+
 			<!-- category search box -->
-			<div class="content-wrapper">
-				<div class="category-search">
-					<div id="sbc">
-						<form method="get" id="sbc-search" action="<?php echo home_url( '/' ); ?>">
-						<input type="hidden" value="projects" name = "post_type" />
-						<input type="text" value="" name="s" id="s2" class="multi-cat" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
-						<input type="submit" id="sbc-submitx" class="small awesome blue" value="Search" />
-						</form>
-					</div>
-				</div>
+			<div>
+
+	<div class="well">
+									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
+										<label for="s">In projects </label>
+										<div class="form-group input-md">
+											<input type="text" value="" name="s" id="sbc-s" class="form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+										</div>
+										<div class="form-group input-md">
+											<button type="submit" class="btn btn-primary input-md">Search</button>
+										<input type="hidden" value="projects" name = "post_type" />
+										</div>
+									</form>
+	</div>
+
+<script>
+jQuery(function(){
+jQuery("#sbc-s").focus();
+});
+</script>
+
+
+
 <!--				Show: <a href='#'>All projects</a> | <a href='#'>Only open projects</a> -->
 <?php
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -66,27 +78,23 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				}
 				while ($news->have_posts()) {
 						$news->the_post();
-							$thistitle = get_the_title($ID);
-							$thisURL=get_permalink($ID);
-							$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
-							$thisexcerpt= get_the_excerpt();
-							$thisdate= $post->post_date;
-							$thisdate=date("j M Y",strtotime($thisdate));
-							echo "<div class='newsitem'><p><a href='{$thisURL}'>".$image_url;
-							echo "<h3>".$thistitle."</h3></a>";
-							$post_type = get_the_category();
-							if ($post_type){
-								$thistype='';
-								$thistypeid='';
-								foreach ($post_type as $p) {
-									$thistype = $p->name;
-									$thistypeid = $p->cat_ID;
-								}
-								echo "&nbsp;<span class='wptagsinfo news'>".$thistype."</span></p>";
-							}
-							echo "<p>".$thisexcerpt."</p>";
-							echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >Read more</a></p>";
-							echo "</div><div class='clearfix'></div><hr class='light' />";
+				$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
+			echo "<div class='newsitem'>".$image_url ;
+			echo "<hr>";
+			$taskpod = new Pod ('project' , $post->ID); 
+			
+			$context = "project";
+			$icon = "road";
+					
+
+
+			?>
+<h3>				
+	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a></h3>
+
+<?php
+			the_excerpt(); 
+			echo "</div>";
 				}
 				?>
 			<?php if (  $news->max_num_pages > 1 ) : ?>
@@ -103,14 +111,14 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				?>
 			</div>
 		</div>
-		<div class="fourcol last">
+		<div class="col-lg-4 last">
 			<div class='widget-box'>
 				<h3 class='widget-title'>Search by tag</h3>
 			<?php		echo my_colorful_tag_cloud('', '' , 'projects'); 
 			?>
 			</div>
 		</div>
-	</div>
+
 
 <?php endwhile; ?>
 

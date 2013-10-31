@@ -59,50 +59,68 @@ get_header(); ?>
 
 ?>
 	
-	<div class="row">
-		<div class="eightcol white last" id='content'>
-								<div class="row">
+					<div class="col-lg-8 white ">
+						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-			<div class="content-wrapper">
-			<h1 class="taglisting project"><?php echo $guidetitle; ?> <span class="title-cat">Project</span></h1>
+
+
 
 			</div>
 <?php 
 if ($pagetype=="guide"):
 
+if (!$chapter_header){
+	echo "<h1>".$guidetitle." <small><i class='glyphicon glyphicon-road'></i>&nbsp;Project</small></h1>";
+} else {?>
+			<h1><?php the_title();?> <small><i class="glyphicon glyphicon-road"></i>&nbsp;Project</small></h1>
+<?php
+	
+}
 ?>
-		<div class="threecol">
-			<div class="chapters">
-    <nav role="navigation" class="page-navigation">
-    <ol>
+
+
+<div class="row">
+					<div class="col-lg-6">
+						<div class="chapters">
+							<nav role="navigation" class="page-navigation">
+								<ol>
 <?php
 if ($chapter_header){
 						echo "<li class='active'>";
-						echo "<span class='part-title'>".get_the_title()."</span>";
+						echo "<span class=' part-title-label'>".$guidetitle."</span>";
 						}
-				else {
-						$chapname = $parent_name;
-						$chapslug = $parent_slug;
-						echo "<li><a href='/about/projects/content/{$chapslug}'><span class='part-title'>{$chapname}</span></a>";
-						}
-						echo "</li>";
-        
+		else {
+				$chapname = $parent_name;
+				$chapslug = $parent_slug;
+				echo "<li><a href='/projects/{$chapslug}'><span class='part-title'>{$chapname}</span></a>";
+				}
+				echo "</li>";
 
-			$totalchapters = count($children_chapters);
+//			$totalchapters = count($children_chapters);
 			$carray = array();
 			$k=1; 
 			foreach ($children_chapters as $chapt)
 			{
-			if ($chapt['post_status']=='publish'){
+				if ($chapt['post_status']=='publish'){
 				$k++;
+					if (($k == round(count($children_chapters)/2,0) + 1) && (count($children_chapters) > 3) ):?>
+								</ol>
+							</nav>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="chapters">
+							<nav role="navigation" class="page-navigation">
+								<ol start='<?php echo $k;?>'>
+					
+<?php				endif;
+
 				echo "<li ";
-				if (pods_url_variable(3) == $chapt['post_name']){
+				if (pods_url_variable(1) == $chapt['post_name']){
 					 echo "class='active'";
 					 $current_chapter=$k;
 				}
@@ -113,31 +131,27 @@ if ($chapter_header){
 				$carray[$k]['slug']=$chapslug;
 				$carray[$k]['name']=$chapname;
 				if ($chapt['ID']==$current_task){
-				echo "<span class='part-title'>{$chapname}</span>";
+				echo "<span class='part-label part-title'>{$chapname}</span>";
 				}
 				else {
-				echo "<a href='/about/projects/content/{$chapslug}'><span class='part-title'>{$chapname}</span></a>";
+				echo "<a href='/projects/{$chapslug}'><span class='part-label part-title'>{$chapname}</span></a>";
 					
 				}
-						echo "</li>";
-						}
-						
-					}
+				echo "</li>";
+				}
+			}
+			
 ?>
-
-
-
-	  </ol>
-	  </nav>
-</div>
-		</div>
+</ol>
+							</nav>
+						</div>
+					</div>
+</div><hr>
 <?php
 endif;
 	if ($pagetype=="guide"){
-		echo "<div class='ninecol last'>";
-		echo "<div class='content-wrapper-notop'>";
-				if ($current_chapter>1){
-					echo "<h2>".get_the_title()."</h2>";
+				if (!$chapter_header){
+					echo "<h2><strong>".get_the_title()."</strong></h2>";
 				}
 				else {
 			
@@ -145,48 +159,42 @@ endif;
 			if ($poverview) : ?>
 
 				<?php 
-				echo "<div class='alert green'><p><h3>Overview</h3><p>";
+				echo "<div class='well'><p><h3>Overview</h3><p>";
 				echo $poverview;
-		
+				echo "</div>";
+ endif;
 
 $policylink = $taskpod->get_field('policy_link');
 if ($policylink){
 	echo "<p><a href ='{$policylink}'>View the associated policy on GOV.UK</a></p>"; 
 }
-?>
-			</div>
-
-<?php endif; ?>
-
-<?php
 				}
 	} 
 	else {
-		echo "<div class='twelvecol last'>";		
-		echo "<div class='content-wrapper'>";
+?>
+<?php
 	}
 	if ($pagetype=='task'){
 	
+	?>
+				<h1><?php the_title();?> <small><i class="glyphicon glyphicon-road"></i>&nbsp;Project</small></h1>
+<?php
 			$poverview = $taskpod->get_field('project_overview');
 			if ($poverview) : ?>
 		
 			<?php
-				echo "<div class='alert green'><p><h3>Overview</h3>";
+				echo "<div class='well'><p><h3>Overview</h3>";
 			
 			echo $poverview;
 		
 
+			echo "</div>";
+			endif; 
+			$policylink = $taskpod->get_field('policy_link');
+			if ($policylink){
+				echo "<p><a href ='{$policylink}'>View the associated policy on GOV.UK</a></p>"; 
+			}
 
-$policylink = $taskpod->get_field('policy_link');
-if ($policylink){
-	echo "<p><a href ='{$policylink}'>View the associated policy on GOV.UK</a></p>"; 
-}
-?>
-			</div>
-
-			<?php endif; ?>
-
-			<?php	
 			}		
 			the_content(); 		
 			
@@ -195,7 +203,6 @@ if ($policylink){
 			echo "<div id='team'><hr><h2>Team members</h2>";
 			echo wpautop($team)."</div>";
 		}
-
 		
 		$vacancies = $taskpod->get_field('project_vacancies');
 		if ($vacancies){
@@ -204,7 +211,7 @@ if ($policylink){
 			foreach ($vacancies as $v){
 				if ($v['post_status']=='publish') {
 					$k++;
-					$html.= "<li><a href='/projects/{$v['post_name']}'>".$v['post_title']."</a></li>";
+					$html.= "<li><a href='/vacancies/{$v['post_name']}'>".$v['post_title']."</a></li>";
 				}
 			}
 			$html .= "</ul></div>";
@@ -212,7 +219,6 @@ if ($policylink){
 				echo $html;
 			}
 		}
-	
 			
 			if ($current_attachments){
 				echo "<hr><h2>Downloads</h2>";
@@ -223,7 +229,6 @@ if ($policylink){
 				}
 			}
 
-
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
@@ -232,11 +237,11 @@ if ($policylink){
 			
 			 ?>
 
-			</div>
+
 			
 		</div> <!--end of first column-->
 		
-		<div class="fourcol last" >	
+		<div class="col-lg-4" >	
 
 				<?php 
 				$podtask = new Pod('projects', $id);
@@ -247,7 +252,7 @@ if ($policylink){
 				echo "<ul>";
 				foreach ($related_links as $rlink){
 					if ($rlink['post_status'] == 'publish') {
-					echo "<li><a href='/about/projects/content/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title'])."</a></li>";
+					echo "<li><a href='/projects/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title'])."</a></li>";
 					}
 				}
 				echo "</ul></div>";
@@ -263,19 +268,16 @@ if ($policylink){
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span class='wptag'><a href='/tagged/?tag={$tagurl}&amp;posttype=projects'>" . str_replace(' ', '&nbsp;' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='/tagged/?tag={$tagurl}&amp;posttype=projects'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
 				  	}
 				  	if ($foundtags){
-					  	echo "<div class='widget-box'><h3>Tags</h3><p>"; 
+					  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
 					  	echo $tagstr;
 					  	echo "</p></div>";
 				  	}
-		echo "</div>";
-
 				}
 ?>
-				</div>
 				
 			
 <?php endwhile; // end of the loop. ?>

@@ -18,39 +18,43 @@ if ($slug=="control"){
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-	
-	<div class="row">
-		<div class="eightcol white last" id='content'>
-			<div class="row">
-				<div class='breadcrumbs'>
-				<?php if(function_exists('bcn_display') && !is_front_page()) {
-							bcn_display();
-						}?>
-				</div>
-			</div>
-			<div class="content-wrapper">
+
+					<div class="col-lg-7 col-md-8 col-sm-8 white ">
+						<div class="row">
+							<div class='breadcrumbs'>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
+							</div>
+						</div>
 <?php 
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-				if ($image_uri!=""){
-					echo "<img class='alignright' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".get_the_title()."' />";
+				$video=null;
+				//check if a video thumbnail exists, if so we won't use it to display as a headline image
+				if (function_exists('get_video_thumbnail')){
+					$video = get_video_thumbnail(); 
+				}
+
+				if (!$video){
+					the_post_thumbnail(array(726,353),array('class'=>'img img-responsive'));
 					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 				}
 				?>
+
 				<h1><?php the_title(); ?></h1>
 				<?php
 				$article_date=get_the_date();
 				$mainid=$post->ID;
 				$article_date = date("j F Y",strtotime($article_date));	?>
-				<?php echo the_date('j M Y', '<p class=news_date>', '</p>') ?>
+				<?php echo the_date('j M Y', '<p class="news_date">', '</p>') ?>
 				<?php the_content(); ?>
 				<?php
 				if ('open' == $post->comment_status) {
 					 comments_template( '', true ); 
 				}
 			 ?>
-			</div>
+
 		</div> <!--end of first column-->
-		<div class="fourcol last">	
+		<div class="col-lg-4  col-md-4 col-sm-4 col-lg-offset-1">	
 			<?php
 			$relnews = new Pod('news', $id);
 				$related_links = $relnews->get_field('related_stories');
@@ -88,15 +92,14 @@ get_header(); ?>
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span class='wptag'><a href='/tagged/?tag={$tagurl}&amp;posttype=news'>" . str_replace(' ', '&nbsp;' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='/tagged/?tag={$tagurl}&amp;posttype=news'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
 				  	}
 				  	if ($foundtags){
-					  	echo "<div class='widget-box'><h3>Tags</h3> "; 
+					  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
 					  	echo $tagstr;
-					  	echo "</div>";
+					  	echo "</p></div>";
 				  	}
-
 				}
 		 	dynamic_sidebar('news-widget-area'); 
 		//if we're looking at a news story, show recently published news
@@ -111,9 +114,9 @@ get_header(); ?>
 				if ($mainid!=$post->ID) {
 					$thistitle = get_the_title($ID);
 					$thisURL=get_permalink($ID);
-					echo "<div class='newsitem'>";
+					echo "<div class='widgetnewsitem'>";
 					$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
-					echo "<a href='{$thisURL}'><h3>".$thistitle."</h3></a>";
+					echo "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
 					$thisdate= $post->post_date;
 					$thisdate=date("j M Y",strtotime($thisdate));
 					echo "<span class='news_date'>".$thisdate;
@@ -124,7 +127,6 @@ get_header(); ?>
 			wp_reset_query();
 				?>
 		</div> <!--end of second column-->
-	</div> 
 			
 <?php endwhile; // end of the loop. ?>
 

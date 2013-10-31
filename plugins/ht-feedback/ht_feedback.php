@@ -23,34 +23,21 @@ class htFeedback extends WP_Widget {
 							}
 ?>
 
-								<div id="feedbackform" data-collapse="accordion">
-								<h3><?php echo $title ; ?></h3>
-								<?php gravity_form($formid, false, true, false, '', true); ?>
-								</div>
+<div id="accordion">
+      <h3>
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+			<?php echo $title ; ?>
+        </a>
+      </h3>
+    </div>
+    <div id="collapseOne" class="xpanel-collapse collapse out">
+      <div class="xpanel-body">
+		<?php gravity_form($formid, false, true, false, '', true); ?>
+	</div>
+</div>
 
-
-				<script type='text/javascript'>
- 					
- 					jQuery("#feedbackform").collapse({show: function(){
-						this.animate({
-							opacity: 'toggle', 
-							height: 'toggle'
-						}, 900);
-                	},
-                
-                	  hide : function() {
-                    
-						this.animate({
-							opacity: 'toggle', 
-							height: 'toggle'
-						}, 900);
-					
-					}
-            		});
-				</script>
 <?php
-
-						echo $after_widget; 
+	echo $after_widget; 
 
     }
 

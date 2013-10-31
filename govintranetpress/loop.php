@@ -22,6 +22,8 @@
 <?php /* If there are no posts to display, such as an empty archive page */ ?>
 
 <?php 
+
+
 		$pageslug = pods_url_variable(0);
 
 		if ( ! have_posts() ) { 
@@ -30,110 +32,216 @@
 				_e( 'Not found', 'twentyten' );
 				echo "</h1>";
 				echo "<p>";
-				_e( 'Apologies, there\'s nothing to show.', 'govintranetpress' );
+				_e( 'There\'s nothing to show.', 'govintranetpress' );
 				echo "</p>";
 				get_search_form(); 
 		};
-
-
-
-		?>
-		<div id="infinite-scroll">
-		
-<?php 
-
 
 
 	while ( have_posts() ) : the_post(); 
 	
 	$post_type = ucwords($post->post_type);
 	$post_cat = get_the_category();
-	echo "<hr/>";
 	$title_context='';		
+	$context='';
+	$icon='';
 	$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
-	echo "<div class='newsitem'><a href='";
-	the_permalink();
-	echo "'>".$image_url."</a>" ;
+	if ($post_type=='User'){
+		$image_url = get_avatar($post->user_id);
+		$image_url = str_replace('avatar ', 'avatar img img-circle ' , $image_url);
+		
+	}
+	
+	if ($post_type == 'User'){
+		$userurl = get_author_posts_url( $post->user_id); 
+			   if ($forumsupport){
+				   $userurl = str_replace('/author/', '/staff/' , $userurl);
+				} 
+	} else {
+		$userurl = get_permalink();
+	}
+	echo "<div class='media'>" ;
 ?>
 
-	<h3<?php if ($post_type=='Post_tag') { echo " class='posttag'"; }?>
-	<?php 		
+
+	<?php 	
+	$contexturl=$post->guid;
+	$context='';
+	if ($post_type=='Post_tag') { 
+		$icon = "tag"; 
+	}	
 	if ($post_type=='Task'){
-		$context = "task";
+		$contexturl = "/tasks/";
 		$taskpod = new Pod ('task' , $post->ID); 
-		if ( $taskpod->get_field('page_type') == 'Task'){		echo " class='taglisting task'";
-				} else {
-		echo " class='taglisting guide'";	
+		if ( $taskpod->get_field('page_type') == 'Task'){		
+			$context = "task";
+			$icon = "question-sign";
+		} else {
 			$context = "guide";
-		}
-		$taskparent=$taskpod->get_field('parent_guide');
-		if ($taskparent){
-			$parent_guide_id = $taskparent[0]['ID']; 		
-			$taskparent = get_post($parent_guide_id);
-			$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+			$icon = "book";
+			$taskparent=$taskpod->get_field('parent_guide');
+			$title_context='';
+			if ($taskparent){
+				$parent_guide_id = $taskparent[0]['ID']; 		
+				$taskparent = get_post($parent_guide_id);
+				$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")"; 
+			}
 		}			
 	}
 	if ($post_type=='Projects'){
 		$context = "project";
+		$contexturl = "/about/projects/";
+		$icon = "road";
 		$taskpod = new Pod ('projects' , $post->ID); 
 		$projparent=$taskpod->get_field('parent_project');
+		$title_context='';
 		if ($projparent){
 			$parent_guide_id = $projparent[0]['ID']; 		
 			$projparent = get_post($parent_guide_id);
 			$title_context=" (".govintranetpress_custom_title($projparent->post_title).")";
 		}			
-		echo " class='taglisting project'";
 	}
 	if ($post_type=='News'){
-		echo " class='taglisting news'";
 			$context = "news";
+		$contexturl = "/news/";
+			$icon = "star-empty";			
 	}
 	if ($post_type=='Vacancies'){
-		echo " class='taglisting vacancies'";
 			$context = "job vacancy";
+		$contexturl = "/about/vacancies/";
+			$icon = "random";			
 	}
 	if ($post_type=='Blog'){
-		echo " class='taglisting news'";
 			$context = "blog";
+		$contexturl = "/blog/";
+			$icon = "comment";			
 	}
-				?>
-	><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a></h3>
-	<?php 
+	if ($post_type=='Event'){
+			$context = "event";
+			$contexturl = "/events/";
+			$icon = "calendar";			
+	}
+	if ($post_type=='Glossaryitem'){
+			$context = "jargon buster";
+			$contexturl = "/glossaryitem/";
+			$icon = "th-list";			
+	}
+	if ($post_type=='User'){
+			$context = get_user_meta($post->user_id,'user_job_title',true);
+			if ($context=='') $context="staff";
+			$contexturl = "/staff/";
+			$icon = "user";			
+	}
 
+if ($post_type=='Attachment'): 
+	$context='document download';
+	$icon = "download";			
+?>
+	<h3>				
+	<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
+
+
+<?php 
+elseif ($post_type=='User'): 
+
+?>			<div class="panel panel-default">
+
+	<div class="panel-heading">				
+	<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></div><div class="panel-body">
+
+<?php 
+else: ?>
+	<h3>				
+	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo "</a> <small>".$title_context."</small>"; ?></h3>
+
+<?php
+endif;
+				?>
+
+
+	<?php 
+	
+	echo "<a href='";
+	echo $userurl;
+	echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
+
+	echo "<div class='media-body'>";
+	
 	if (($post_type=="Task" && $pageslug!="category")){
 		$taskpod = new Pod ('task' , $post->ID); 
-		if ( $taskpod->get_field('page_type') == 'Task'){		echo "<p class='taglisting task'>";
-				} else {
-		echo "<p class='taglisting guide'>";	
-		}
+		echo "<p>";
+		echo '<span class="listglyph"><i class="glyphicon glyphicon-'.$icon.'"></i>&nbsp;'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		foreach($post_cat as $cat){
 			if ($cat->name != 'Uncategorized' ){
-			echo "<span class='brdall b".$cat->term_id."'>".$cat->name;
+				echo "<span class='listglyph'><span class='glyphicon glyphicon-stop gb".$cat->term_id."'></span>&nbsp;".$cat->name;
+			echo "</span>&nbsp;&nbsp;";
 			}
-			echo "</span>&nbsp;";
 			}
+				$gis = "general_intranet_time_zone";
+				$tzone = get_option($gis);
+				date_default_timezone_set($tzone);
+
+			   $thisdate= $post->post_modified;
+			   $thisdate=date("j M Y",strtotime($thisdate));
+			   $thisdate = human_time_diff_plus(get_the_modified_time('U'))." ago";
+			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> Updated ".$thisdate."</span>&nbsp;&nbsp;";
 		echo "</p>";
 	}
-
-	if ($post_type=="News" && $pageslug!="category"){
-		echo "<div class='taglisting {$post->post_type}'>";
+	elseif ($post_type=="News" && $pageslug!="category"){
+		echo "<div><p>";
+		echo '<span class="listglyph"><i class="glyphicon glyphicon-'.$icon.'"></i>&nbsp;'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		foreach($post_cat as $cat){
 			if ($cat->name != 'Uncategorized' ){
-				echo "<span class='brdall b".$cat->term_id."'>".$cat->name;
-				echo "</span>&nbsp;";
+				echo "<span class='listglyph'><span class='glyphicon glyphicon-stop gb".$cat->term_id."'></span>&nbsp;".$cat->name;
+			echo "</span>&nbsp;&nbsp;";
 			}
 		}
-		echo "</div>";
+		if ( is_archive() || is_search() ){
+			   $thisdate= $post->post_date;
+			   $thisdate=date("j M Y",strtotime($thisdate));
+//			   $thisdate = human_time_diff_plus(get_the_modified_time('U'))." ago";
+			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
+		}
+		echo "</p></div>";
+	}
+
+	elseif ($post_type=="Event" && $pageslug!="category"){
+		echo "<div><p>";
+			   $thisdate= get_post_meta($post->ID, 'event_start_date', true);
+			   $thisdate=date("j M Y",strtotime($thisdate));
+		echo '<span class="listglyph"><i class="glyphicon glyphicon-'.$icon.'"></i>&nbsp;'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
+		foreach($post_cat as $cat){
+			if ($cat->name != 'Uncategorized' ){
+				echo "<span class='listglyph'><span class='glyphicon glyphicon-stop gb".$cat->term_id."'></span>&nbsp;".$cat->name;
+			echo "</span>&nbsp;&nbsp;";
+			}
+		}
+		echo "</p></div>";
+	} else {
+		echo "<div><p>";
+		echo '<span class="listglyph"><i class="glyphicon glyphicon-'.$icon.'"></i>&nbsp;'.ucfirst($context).'</span>&nbsp;&nbsp;';
+		if ( (is_archive() || is_search()) && $post_type!='User' ){
+				$gis = "general_intranet_time_zone";
+				$tzone = get_option($gis);
+				date_default_timezone_set($tzone);
+			   $thisdate= $post->post_modified;
+			   $thisdate=date("j M Y",strtotime($thisdate));
+			   $thisdate = human_time_diff_plus(get_the_modified_time('U'))." ago";
+			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> Updated ".$thisdate."</span> ";
+		}
+		foreach($post_cat as $cat){
+			if ($cat->name != 'Uncategorized' ){
+				echo "<span class='listglyph'><span class='glyphicon glyphicon-stop gb".$cat->term_id."'></span>&nbsp;".$cat->name;
+			echo "</span>&nbsp;&nbsp;";
+			}
+		}
+		echo "</p></div>";
+		
 	}
 
 	?>
 	<?php if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. ?>
 	<?php	
-	   if ($post_type=="News" || $post_type == "Topic" || $post_type == "Reply") {
-		   $thisdate= $post->post_date;
-		   $thisdate=date("j M Y",strtotime($thisdate));
-		   echo "<p class='news_date'>".$thisdate."</p>";
-		}
 
 		if ($post_type=='Post_tag') { 
 			echo "All intranet pages tagged with \"". get_the_title() ."\""; 
@@ -143,27 +251,56 @@
 			echo "All intranet pages categorised as \"". get_the_title() ."\""; 
 		}
 
+		if ($post_type!='User'){
 		the_excerpt(); 
+		}
+		
+		if ($post_type=='User'){
+			$user_info = get_userdata($post->user_id);?>
+			<?php if ( get_user_meta($post->user_id ,'user_telephone',true )) : ?>
+
+				<p><i class="glyphicon glyphicon-earphone"></i> <?php echo get_user_meta($post->user_id ,'user_telephone',true ); ?></p>
+
+			<?php endif; ?>
+
+			<?php if ( get_user_meta($post->user_id ,'user_mobile',true ) ) : ?>
+
+				<p><i class="glyphicon glyphicon-phone"></i> <?php echo get_user_meta($post->user_id ,'user_mobile',true ); ?></p>
+
+			<?php endif; ?>
+
+				<p><a href="mailto:<?php echo $user_info->user_email; ?>">Email <?php echo $user_info->user_email; ?></a></p>
+			</div></div>
+			<?php
+		}
+		
+		//for rating stories
  		if (function_exists('wp_gdsr_render_article')){
 	 		wp_gdsr_render_article(44, true, 'soft', 16);
 		}
 		
 			?>
 			
-	<?php else : ?>
+	<?php else : 
+		if ($post_type=='Blog'){
+			the_excerpt();
+		} else {
+		
+	?>
 			<?php the_content( __( 'Continue reading &rarr;', 'govintranetpress' ) ); ?>
 			<?php wp_link_pages( array( 'before' => '' . __( 'Pages:', 'govintranetpress' ), 'after' => '' ) ); ?>
-	<?php endif; ?>
+	<?php }
+	endif; ?>
 	
 
-	</div><div class="clearfix"></div>
+	</div></div>
 
 
 	
 	<?php comments_template( '', true ); ?>
 
 <?php endwhile; // End the loop. Whew. ?>
-		</div>
+<hr>
 <?php if (  $wp_query->max_num_pages > 1 ) : ?>
 	<?php if (function_exists(wp_pagenavi)) : ?>
 		<?php wp_pagenavi(); ?>

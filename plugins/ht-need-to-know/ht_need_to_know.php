@@ -36,7 +36,8 @@ class htNeedToKnow extends WP_Widget {
 							if ( $title ) {
                         echo $before_title . $title . $after_title;}
 								echo "
-								<div id='need-to-know'><ul class='need'>";
+								<div id='need-to-know'>
+								<ul class='need'>";
 							}
 								$k=0;
 								$alreadydone= array();

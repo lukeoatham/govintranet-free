@@ -52,7 +52,7 @@ class htEventsListing extends WP_Widget {
 							if ( $title ) {
 								echo $before_title . $title . $after_title;}
 								echo "
-								<div class='widget-area'><ul>";
+								<div class='widget-area widget-events'>";
 							}
 								$k=0;
 								$alreadydone= array();
@@ -70,18 +70,20 @@ class htEventsListing extends WP_Widget {
 								$thistitle = get_the_title($post->ID);
 								$newspod = new Pod ( 'event' , $post->ID );
 								$edate = get_post_meta($post->ID,'event_start_date',true);
-								$edate = date('j M Y',strtotime($edate));
+								$edate = date('D j M Y g:ia',strtotime($edate));
 								$thisURL=get_permalink($ID); 
+								echo "<div class='media'>";
 								if ($thumbnails=='on'){
 									$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'thumbnail' ); 
 									if ($image_uri!="" ){
-										echo "<a href='/events/".$post->post_name."/'><img class='tinythumb' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
+										echo "<a class='pull-right' href='/events/".$post->post_name."/'><img class='tinythumb' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
 									}
 								}
-								echo "<li><a href='{$thisURL}'> ".$thistitle."</a><br>".$edate."</li>";
+								echo "<div class='media-body'><a href='{$thisURL}'> ".$thistitle."</a><br><small>".$edate."</small>";
+								echo "</div></div>";
 					}
 							if ($news->post_count!=0){
-								echo "</ul><p class='small'><a href='/events'>More in events</a></p></div>";
+								echo '<hr><p><strong><a title="More in events" class="small" href="/events/">More in events</a></strong> <i class="glyphicon glyphicon-chevron-right small"></i></p></div>';
 								echo $after_widget;
 							}
 							

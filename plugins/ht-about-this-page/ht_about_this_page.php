@@ -19,21 +19,20 @@ class htAboutThisPage extends WP_Widget {
         $show_modified_date = ($instance['show_modified_date']);
         $show_published_date = ($instance['show_published_date']);
         $show_author = ($instance['show_author']);
+        $realtime = ($instance['realtime']);
 	        
 						$showabout = false;
-						if ( is_single() && pods_url_variable(1) != 'forums' ) { 
+						if ( is_single() && pods_url_variable(0) != 'forums' ) { 
+						$showabout = true; }
+						if ( is_page() && pods_url_variable(0) == 'about' ) { 
 						$showabout = true; }
 						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'forums' ) {
 						$showabout = false; }
-						if ( pods_url_variable(0) == 'forums' ) {
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'topics' ) {
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'replies' ) {
+						if ( pods_url_variable(0) == 'forum' ) {
 						$showabout = false; }
 						if ( pods_url_variable(0) == 'topic' ) {
 						$showabout = false; }
-						if ( pods_url_variable(0) == 'forum' ) {
+						if ( pods_url_variable(0) == 'reply' ) {
 						$showabout = false; }
 						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'who-we-are' ) {
 						$showabout = true; }
@@ -51,18 +50,61 @@ class htAboutThisPage extends WP_Widget {
 							$gis = "general_intranet_time_zone";
 							$tzone = get_option($gis);
 							date_default_timezone_set($tzone);
+
 							if ($show_modified_date=='on'){
-							echo "Updated ".human_time_diff_plus( get_the_modified_time('U') ) . " ago<br>";
+								if ($realtime=='on'){
+									$tdate= get_the_modified_date(); 
+									$ttime = get_the_modified_time();
+									$sdate=$tdate." ".$ttime."";
+									echo "Updated <time datetime='".$sdate."'>".$sdate."</time><br>";
+								} else {
+									$sdate = human_time_diff_plus(get_the_modified_time('U'));
+									if ($sdate=="0 mins") {
+										$sdate=" just now";
+									} else {
+										$sdate = $sdate." ago";
+									}
+	
+									echo "Updated <time datetime='".$sdate."'>".$sdate."</time><br>";
+								}
 							}
+
 							if ($show_published_date=='on'){
-							echo "Published ".human_time_diff_plus( get_the_date('U') ) . " ago<br>";
+								if ($realtime=='on'){
+									$tdate= get_the_date(); 
+									$ttime = get_the_time();
+									$sdate=$tdate." ".$ttime."";
+									echo "Published <time datetime='".$sdate."'>".$sdate."</time><br>";
+								} else {
+									$sdate= date( "j M Y",strtotime(get_the_date() )); 
+									$sdate = human_time_diff_plus(get_the_time('U'));
+									if ($sdate=="0 mins") {
+										$sdate=" just now";
+									} else {
+										$sdate = $sdate." ago";
+									}
+									echo "Published <time datetime='".$sdate."'>".$sdate."</time><br>";
+									
+								}
 							}
+
 							if ($show_author=='on'){
-							$useremail = get_the_author_meta('user_email');
-							echo "<a href='mailto:".$useremail."'>";
-							the_author();
-							echo "</a>";
+								$useremail = get_the_author_meta('user_email');
+								echo "<a href='mailto:".$useremail."'>";
+								the_author();
+								echo "</a>";
 							}
+if ($realtime){
+	echo "
+	<script type=\"text/javascript\">  
+	
+	jQuery(document).ready(function () {
+		jQuery('time').timediff();
+	
+	});  
+	</script> 
+	";
+}
 						echo $after_widget; 
 						}						
 
@@ -74,6 +116,7 @@ class htAboutThisPage extends WP_Widget {
 		$instance['show_modified_date'] = strip_tags($new_instance['show_modified_date']);
 		$instance['show_published_date'] = strip_tags($new_instance['show_published_date']);
 		$instance['show_author'] = strip_tags($new_instance['show_author']);
+		$instance['realtime'] = strip_tags($new_instance['realtime']);
 
        return $instance;
     }
@@ -83,6 +126,7 @@ class htAboutThisPage extends WP_Widget {
         $show_modified_date = esc_attr($instance['show_modified_date']);
         $show_published_date = esc_attr($instance['show_published_date']);
         $show_author = esc_attr($instance['show_author']);
+        $realtime = esc_attr($instance['realtime']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
@@ -99,6 +143,10 @@ class htAboutThisPage extends WP_Widget {
 
           <input id="<?php echo $this->get_field_id('show_author'); ?>" name="<?php echo $this->get_field_name('show_author'); ?>" type="checkbox" <?php checked((bool) $instance['show_author'], true ); ?> />
           <label for="<?php echo $this->get_field_id('show_author'); ?>"><?php _e('Author'); ?></label> <br>
+
+          <input id="<?php echo $this->get_field_id('realtime'); ?>" name="<?php echo $this->get_field_name('realtime'); ?>" type="checkbox" <?php checked((bool) $instance['show_author'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('realtime'); ?>"><?php _e('Realtime updates (required IE9+)'); ?></label> <br>
+
 
         </p>
 

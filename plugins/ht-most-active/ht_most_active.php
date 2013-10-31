@@ -4,7 +4,7 @@ Plugin Name: HT Most active
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most active pages
 Author: Luke Oatham
-Version: 0.3
+Version: 0.2
 Author URI: http://www.helpfultechnology.com
 */
  
@@ -17,6 +17,7 @@ class htMostActive extends WP_Widget {
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
+        $pages = ($instance['pages']);
         $tasks = ($instance['tasks']);
         $projects = ($instance['projects']);
         $vacancies = ($instance['vacancies']);
@@ -30,6 +31,8 @@ class htMostActive extends WP_Widget {
               <?php echo $before_widget; ?>
                   <?php if ( $title )
                         echo $before_title . $title . $after_title; ?>
+
+
 
 <?php
 	$baseurl = home_url();
@@ -49,8 +52,7 @@ class htMostActive extends WP_Widget {
 		$thistitle = govintranetpress_custom_title($slot['post_title']);
 		$thisURL=$slot['post_name'];
 		$taskpod = new Pod('task', $thistask);
-		$tasktitle= govintranetpress_custom_title( $slot['post_title'] );
-				
+		$tasktitle= govintranetpress_custom_title( $slot['post_title'] );			
 		$html.= "<li><a href='/task/" . $thisURL . "'>" . $tasktitle . "</a></li>";
 	}
 	echo ("<ul>".$html."</ul>");
@@ -72,7 +74,7 @@ $html='';
 		
 		$tasktitle='';
 		
-		if (substr( $result['pagePath'],0,6)=='/task/' && $result['pagePath']!='/task/' ){ // only show tasks, but not the tasks landing page
+		if (substr( $result['pagePath'],0,6)=='/task/' && $result['pagePath']!='/task/' && $tasks == 'on' ){ // only show tasks, but not the tasks landing page
 			$pathparts = explode("/", $result['pagePath']);
 			$thistask = $pathparts[2];
 			$tasktitle=false;
@@ -90,13 +92,12 @@ $html='';
 			}
 			
 			$k++;
-
 		
 		}		
 			
-		if (substr( $result['pagePath'],0,29)=='/about/projects/content/' && $result['pagePath']!='/about/projects/' ){ // only show projects, but not the projects landing page
+		if (substr( $result['pagePath'],0,10)=='/projects/' && $result['pagePath']!='/about/projects/' && $projects == 'on'  ){ // only show projects, but not the projects landing page
 			$pathparts = explode("/", $result['pagePath']);
-			$thistask = $pathparts[4];		
+			$thistask = $pathparts[2];		
 			$taskpod = new Pod('projects', $thistask);
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if ( $taskpod->get_field('parent_project')  ){
@@ -109,13 +110,14 @@ $html='';
 				continue;
 			}
 			$k++;
+
 		
 		}			
 
-		if (substr( $result['pagePath'],0,30)=='/about/vacancies/content/' && $result['pagePath']!='/about/vacancies/' ){ // only show vacancies, but not the vacancies landing page
+		if (substr( $result['pagePath'],0,11)=='/vacancies/' && $result['pagePath']!='/about/vacancies/' && $vacancies == 'on'  ){ // only show vacancies, but not the vacancies landing page
 
 			$pathparts = explode("/", $result['pagePath']);
-			$thistask = $pathparts[4];
+			$thistask = $pathparts[2];
 			$taskpod = new Pod('vacancies', $thistask);
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if (!$tasktitle){
@@ -125,12 +127,12 @@ $html='';
 				continue;
 			}
 			$k++;
-
+		
 		}			
 
-		if (substr( $result['pagePath'],0,14)=='/news/content/' && $result['pagePath']){ // only show news, but not the news landing page
+		if (substr( $result['pagePath'],0,6)=='/news/' && $result['pagePath']!='/news/' && $news == 'on'  ){ // only show news, but not the news landing page
 			$pathparts = explode("/", $result['pagePath']);
-			$thistask = $pathparts[3];
+			$thistask = $pathparts[2];
 			$taskpod = new Pod('news', $thistask);
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if (!$tasktitle){
@@ -140,13 +142,13 @@ $html='';
 				continue;
 			}
 			$k++;
-
-		}			
-
-		if (substr( $result['pagePath'],0,6)=='/blog/' && $result['pagePath']){ // only show blog posts, but not the blog landing page
+			
+		}
+		
+		if (substr( $result['pagePath'],0,6)=='/blog/' && $result['pagePath']!='/blog/' && $blog == 'on' ){ // only show news, but not the news landing page
 			$pathparts = explode("/", $result['pagePath']);
 			$thistask = $pathparts[2];
-			$taskpod = new Pod('blogs', $thistask);
+			$taskpod = new Pod('blog', $thistask);
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
 			if (!$tasktitle){
 				continue;
@@ -155,10 +157,10 @@ $html='';
 				continue;
 			}
 			$k++;
-
+			
 		}			
 
-		if (substr( $result['pagePath'],0,7)=='/event/' && $result['pagePath']){ // only show events, but not the events landing page
+		if (substr( $result['pagePath'],0,7)=='/event/' && $result['pagePath']!='/events/' && $events == 'on' ){ // only show news, but not the news landing page
 			$pathparts = explode("/", $result['pagePath']);
 			$thistask = $pathparts[2];
 			$taskpod = new Pod('event', $thistask);
@@ -170,7 +172,36 @@ $html='';
 				continue;
 			}
 			$k++;
+			
+		}			
+					
+		if ( $pages == 'on' && !$tasktitle ){ // show pages		
+			$pathparts = explode("/", $result['pagePath']);
+			$countparts = count($pathparts)-2; 
+			if ( $countparts < 1 ) $countparts = 0;
+			$thistask = $pathparts[intval($countparts)];
 
+			if ( !in_array( $thistask, array('how-do-i','task-by-category','news-by-category','newspage','tagged','atoz','about','home','events','blogs') ) ){
+	
+				$q = "select post_title, ID from wp_posts where post_name = '".$thistask."' and post_status='publish' and post_type='page';";
+	
+				global $wpdb;
+				
+				$thispage = $wpdb->get_results($q, ARRAY_A);
+				foreach ($thispage as $t){ //echo $t['post_title'];
+				
+					$tasktitle= govintranetpress_custom_title( $t['post_title'] ); 
+					$taskid = $t['ID']; 
+				}
+	
+				if (!$tasktitle){
+					continue;
+				}	
+				if (in_array($taskid, $alreadydone )) {
+					continue;
+				}
+				$k++;
+			}
 		}			
 
 
@@ -212,7 +243,7 @@ else // load fresh analytics
 	$filter='';
 	
 	if ($projects=='on'){
-		$filter.='ga:pagePath=@/about/projects/content/';
+		$filter.='ga:pagePath=~/projects/';
 		$donefilter=true;
 	}
 	if ($tasks=='on'){
@@ -226,21 +257,14 @@ else // load fresh analytics
 		if ($donefilter) { $filter.= "||"; 
 			
 		}
-		$filter.='ga:pagePath=~/about/vacancies/content/';
+		$filter.='ga:pagePath=~/vacancies/';
 		$donefilter=true;
 	}
 	if ($news=='on'){
 		if ($donefilter) { $filter.= "||"; 
 			
 		}
-		$filter.='ga:pagePath=~/news/content/';
-		$donefilter=true;
-	}
-	if ($events=='on'){
-		if ($donefilter) { $filter.= "||"; 
-			
-		}
-		$filter.='ga:pagePath=~/event/';
+		$filter.='ga:pagePath=~/news/';
 		$donefilter=true;
 	}
 	if ($blog=='on'){
@@ -250,12 +274,28 @@ else // load fresh analytics
 		$filter.='ga:pagePath=~/blog/';
 		$donefilter=true;
 	}
+	if ($events=='on'){
+		if ($donefilter) { $filter.= "||"; 
+			
+		}
+		$filter.='ga:pagePath=~/event/';
+		$donefilter=true;
+	}
+	if ($pages=='on'){ 
+		if ($donefilter) { $filter.= "||"; 
+			
+		}
+		$filter.='ga:pagePath=~/';
+		$donefilter=true;
+	}
+
+
 	$ga->requestReportData(ga_profile_id,array('pagePath'),array('uniquePageviews'),"-uniquePageviews",$filter,$start_date,$enddate,"1",$count);
 	$transga=array();
 	$html='';
-	foreach($ga->getResults() as $result) {
+	foreach($ga->getResults() as $result) { 
 		if (strpos($result->getPagePath(), "show=") ){
-		continue;	
+			continue;	
 		}
 
 		if ($k>($items-1)){
@@ -264,8 +304,7 @@ else // load fresh analytics
 		
 		$tasktitle='';
 		$filtered_pagepath = str_replace(@explode(",",$conf['tab1']['gatidypaths']),"",$result->getPagePath());
-		
-		if (substr( $result->getPagePath(),0,6)=='/task/' && $result->getPagePath()!='/task/' ){ // only show tasks, but not the tasks landing page
+		if (substr( $result->getPagePath(),0,6)=='/task/' && $result->getPagePath()!='/task/' && $tasks == 'on'  ){ // only show tasks, but not the tasks landing page
 			$pathparts = explode("/", $result->getPagePath());
 			$thistask = $pathparts[2];
 			$tasktitle=false;
@@ -289,14 +328,14 @@ else // load fresh analytics
 			}
 			
 			$k++;
-		$transga[]['uniquePageviews']=$result->getUniquePageviews();
-		$transga[]['pagePath']="/task/".$taskslug;
+			$transga[]['uniquePageviews']=$result->getUniquePageviews();
+			$transga[]['pagePath']="/task/".$taskslug;
 		
 		}		
 			
-		if (substr( $result->getPagePath(),0,29)=='/about/projects/content/' && $result->getPagePath()!='/about/projects/' ){ // only show projects, but not the projects landing page
+		if (substr( $result->getPagePath(),0,10)=='/projects/' && $result->getPagePath()!='/about/projects/'  && $projects == 'on' ){ // only show projects, but not the projects landing page
 			$pathparts = explode("/", $result->getPagePath());
-			$thistask = $pathparts[4];		//echo $thistask;
+			$thistask = $pathparts[2];		
 			$taskpod = new Pod('projects', $thistask);
 			$taskid = $taskpod->get_field('ID');
 			$taskslug = $taskpod->get_field('post_name');
@@ -315,15 +354,15 @@ else // load fresh analytics
 				continue;
 			}
 			$k++;
-					$transga[]['uniquePageviews']=$result->getUniquePageviews();
-		$transga[]['pagePath']="/about/projects/content/".$taskslug;
+			$transga[]['uniquePageviews']=$result->getUniquePageviews();
+			$transga[]['pagePath']="/projects/".$taskslug;
 		
 		}			
 
-		if (substr( $result->getPagePath(),0,30)=='/about/vacancies/content/' && $result->getPagePath()!='/about/vacancies/' ){ // only show vacancies, but not the vacancies landing page
+		if (substr( $result->getPagePath(),0,11)=='/vacancies/' && $result->getPagePath()!='/about/vacancies/'  && $vacancies == 'on' ){ // only show vacancies, but not the vacancies landing page
 
 			$pathparts = explode("/", $result->getPagePath());
-			$thistask = $pathparts[4];
+			$thistask = $pathparts[2];
 			$taskpod = new Pod('vacancies', $thistask);
 			$taskid = $taskpod->get_field('ID');			
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
@@ -334,14 +373,14 @@ else // load fresh analytics
 				continue;
 			}
 			$k++;
-					$transga[]['uniquePageviews']=$result->getUniquePageviews();
-		$transga[]['pagePath']=$result->getPagePath();
-
+			$transga[]['uniquePageviews']=$result->getUniquePageviews();
+			$transga[]['pagePath']=$result->getPagePath();
+		
 		}			
 
-		if (substr( $result->getPagePath(),0,14)=='/news/content/' && $result->getPagePath()!='/news/' ){ // only show news, but not the news landing page
+		if (substr( $result->getPagePath(),0,6)=='/news/' && $result->getPagePath()!='/news/'  && $news == 'on' ){ // only show news, but not the news landing page
 			$pathparts = explode("/", $result->getPagePath());
-			$thistask = $pathparts[3];
+			$thistask = $pathparts[2];
 			$taskpod = new Pod('news', $thistask);
 			$taskid = $taskpod->get_field('ID');			
 			$tasktitle= govintranetpress_custom_title( $taskpod->get_field('title') );
@@ -352,11 +391,12 @@ else // load fresh analytics
 				continue;
 			}
 			$k++;
-					$transga[]['uniquePageviews']=$result->getUniquePageviews();
-		$transga[]['pagePath']=$result->getPagePath();
+			$transga[]['uniquePageviews']=$result->getUniquePageviews();
+			$transga[]['pagePath']=$result->getPagePath();
 
 		}			
-		if (substr( $result->getPagePath(),0,6)=='/blog/' && $result->getPagePath()!='/blogs/' ){ // only show news, but not the news landing page
+
+		if (substr( $result->getPagePath(),0,6)=='/blog/' && $result->getPagePath()!='/blog/'  && $blog == 'on'  ){ // only show news, but not the news landing page
 			$pathparts = explode("/", $result->getPagePath());
 			$thistask = $pathparts[2];
 			$taskpod = new Pod('blog', $thistask);
@@ -369,12 +409,12 @@ else // load fresh analytics
 				continue;
 			}
 			$k++;
-		$transga[]['uniquePageviews']=$result->getUniquePageviews();
-		$transga[]['pagePath']=$result->getPagePath();
+			$transga[]['uniquePageviews']=$result->getUniquePageviews();
+			$transga[]['pagePath']=$result->getPagePath();
 
 		}			
 
-		if (substr( $result->getPagePath(),0,7)=='/event/' && $result->getPagePath()!='/events/' ){ // only show news, but not the news landing page
+		if (substr( $result->getPagePath(),0,7)=='/event/' && $result->getPagePath()!='/events/'  && $events == 'on' ){ // only show news, but not the news landing page
 			$pathparts = explode("/", $result->getPagePath());
 			$thistask = $pathparts[2];
 			$taskpod = new Pod('event', $thistask);
@@ -387,10 +427,44 @@ else // load fresh analytics
 				continue;
 			}
 			$k++;
-		$transga[]['uniquePageviews']=$result->getUniquePageviews();
-		$transga[]['pagePath']=$result->getPagePath();
+			$transga[]['uniquePageviews']=$result->getUniquePageviews();
+			$transga[]['pagePath']=$result->getPagePath();
 
 		}			
+		
+		if ( $pages == 'on' && !$tasktitle ){ // show pages		
+			
+			$pathparts = explode("/", $result->getPagePath()); 
+			$countparts = count($pathparts)-2; 
+			$thistask = $pathparts[intval($countparts)];
+
+
+			if ( !in_array( $thistask, array('how-do-i','task-by-category','news-by-category','newspage','tagged','atoz','about','home','events','blogs' ) ) ){
+	
+				$q = "select post_title, ID from wp_posts where post_name = '".$thistask."' and post_status='publish' and post_type='page';";
+	
+				global $wpdb;
+				
+				$thispage = $wpdb->get_results($q, ARRAY_A);
+				foreach ($thispage as $t){ 
+					$tasktitle= govintranetpress_custom_title( $t['post_title'] );
+					$taskid = $t['ID'];
+				}
+	
+				if (!$tasktitle){
+					continue;
+				}	
+				if (in_array($taskid, $alreadydone )) {
+					continue;
+				}
+				$k++;
+				$transga[]['uniquePageviews']=$result->getUniquePageviews();
+				$transga[]['pagePath']=$result->getPagePath();
+			} else {
+				continue;
+			}
+		}			
+				
 
 		if ($tasktitle!='' ){
 			$html .= "<li><a href='" . $baseurl . $result->getPagePath() . "'>" . $tasktitle . "</a></li>";		
@@ -398,14 +472,15 @@ else // load fresh analytics
 		}
 
 	}
-set_transient('cached_ga',$transga,60*60*$cache); // set cache period
+	
+	set_transient('cached_ga',$transga,60*60*$cache); // set cache period
 
 }
 
 if ($k==0){
 	$html="<li>Looks like nobody has visited the intranet recently.</li>";
 }
-//xxx end of popular pages
+// end of popular pages
 
 
 	echo ("<ul id='ga_".$_REQUEST['mode']."'>".$html."</ul>");
@@ -413,10 +488,6 @@ if ($k==0){
 							wp_reset_query();								
 
 ?>
-
-
-
-
 
               <?php echo $after_widget; ?>
         <?php
@@ -426,6 +497,7 @@ if ($k==0){
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['items'] = strip_tags($new_instance['items']);
+		$instance['pages'] = strip_tags($new_instance['pages']);
 		$instance['tasks'] = strip_tags($new_instance['tasks']);
 		$instance['projects'] = strip_tags($new_instance['projects']);
 		$instance['vacancies'] = strip_tags($new_instance['vacancies']);
@@ -441,6 +513,7 @@ if ($k==0){
     function form($instance) {
         $title = esc_attr($instance['title']);
         $items = esc_attr($instance['items']);
+        $pages = esc_attr($instance['pages']);
         $tasks = esc_attr($instance['tasks']);
         $projects = esc_attr($instance['projects']);
         $vacancies = esc_attr($instance['vacancies']);
@@ -480,7 +553,11 @@ if ($k==0){
           <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('events'); ?>" name="<?php echo $this->get_field_name('events'); ?>" type="checkbox" <?php checked((bool) $instance['events'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('events'); ?>"><?php _e('Events'); ?></label> 
+          <label for="<?php echo $this->get_field_id('events'); ?>"><?php _e('Events'); ?></label> <br>
+
+          <input id="<?php echo $this->get_field_id('pages'); ?>" name="<?php echo $this->get_field_name('pages'); ?>" type="checkbox" <?php checked((bool) $instance['pages'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('pages'); ?>"><?php _e('Pages'); ?></label> 
+
 
         </p>
 

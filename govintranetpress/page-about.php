@@ -6,17 +6,18 @@ get_header(); ?>
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); 
 ?>
 
-<div class="row white">
-		<div class="twelvecol white" id='content'>
-								<div class="row">
+
+
+					<div class="col-lg-12 white ">
+						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-			<div class="content-wrapper">
+						</div>
+
+
 				<h1><?php the_title(); ?></h1>
 					<?php the_content(); ?>
 <?php
@@ -25,6 +26,9 @@ $id = ($opts['id'] == "") ? $wp_query->post->ID : $opts['id'];
 	
 	$children = get_pages("child_of=".$id."&parent=".$id."&hierarchical=0&exclude=".$opts['exclude']."&posts_per_page=-1&post_type=page&sort_column=menu_order&sort_order=ASC");
 $catcount = 0;
+
+				echo "<div class='row white'>";
+
 	foreach((array)$children as $c) {
 
 		if ($c->post_excerpt) {
@@ -46,34 +50,30 @@ $catcount = 0;
   		    {
 	  		    $catcount=1;
   		    }
+/*
   		    if ($catcount==1){
-				echo "<div class='row white'>";
   		    }
+*/
   			echo "
-			<div class='sixcol white";
-			if ($catcount==2){
-			echo ' last';
-			} 
+			<div class='col-lg-3 col-md-6 col-sm-6 white";
 			echo "'>
 				<div class='category-block'>
-					<hr>
-
 					<h2><a href='{$themeURL}/'>".govintranetpress_custom_title($c->post_title)."</a></h2>
 					<p>".$excerpt."</p>
 				</div>
 			</div>";
+/*
 			if ($catcount==2){
-				echo '</div>';
 			}
+*/
 	}
 
-		echo "<div class='clearfix'></div>";
+				echo '</div>';
 
 ?>
 			</div>
-		</div> <!--end of first column-->
 		
-</div>
+
 
 
 

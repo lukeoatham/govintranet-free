@@ -9,12 +9,13 @@
 
 get_header(); ?>
 
-				<div class="row white">
+<div class="row white content-wrapper">
+
 
 					
-					<div class="ninecol white" id="content">
+					<div class="col-lg-9 white">
 							
-					<div class="content-wrapper">
+					<div>
 				<h1><?php
 				$pt=$_GET['pt'];
 				if ($_GET['pt'] == 'task'){
@@ -48,7 +49,7 @@ get_header(); ?>
 					</div>
 					</div>
 
-					<div class="threecol last" id='sidebar'>
+					<div class="col-lg-3 last" id='sidebar'>
 					<div id='related'><h3 class="widget-title">More</h3>
 					<ul>
 					<?php					
@@ -141,7 +142,6 @@ get_header(); ?>
 							?>
 					</ul>
 					</div>					
-						<?php get_sidebar('inside'); ?>
 					</div>
 
 				</div>

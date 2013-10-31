@@ -29,7 +29,7 @@ ul.xoxo, #respond, #access, #topheader, .reply , .sharebuttonsanywhere, #section
 	display:block;
 	}
 
-.row .eightcol, .row .sixcol, .row .fourcol, .row .threecol, .row .twocol {
+.row .col-lg-8, .row .col-lg-6, .row .col-lg-4, .row .col-lg-3, .row .col-lg-2 {
 	width: 100%;
 	padding: 0;
 }

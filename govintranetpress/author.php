@@ -26,24 +26,22 @@ get_header(); ?>
 	 */
 	 $curauth = (isset($_GET['author_name'])) ? get_user_by('slug',$author_name):
 	 get_userdata(intval($author));
+	 
+	 query_posts( 'post_type=blog' );
+	 
 	if ( have_posts() )
 		the_post();
 
 ?>		
-				<div class="row white"> 
-
-		
-				<div class="eightcol white last" id='content'>
-										<div class="row">
+					<div class="col-lg-12 white ">
+						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-					<div class="content-wrapper">
-					<h1>Posts by <?php echo $curauth->display_name   ?></h1>
+						</div>
+					<h1>Blog posts by <?php echo $curauth->display_name   ?></h1>
 					<p>Email: <a href="mailto:<?php echo $curauth->user_email ; ?>"><?php echo $curauth->display_name ; ?></a></p>
 					<?php
 					
@@ -61,7 +59,7 @@ get_header(); ?>
 					?>
 					</div>
 				</div>
-				<div class="fourcol last">
+				<div class="col-lg-4 last">
 
 				</div>	
 

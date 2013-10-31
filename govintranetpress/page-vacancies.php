@@ -16,32 +16,40 @@ $wpdb->query(
 	);
 
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-	<div class="row">
-		<div class="eightcol white last" id='content'>
-			<div class="row">
-				<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
-				</div>
-			</div>
-			<div class="content-wrapper">
+
+					<div class="col-lg-8 white ">
+						<div class="row">
+							<div class='breadcrumbs'>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
+							</div>
+						</div>
 					<?php
 				echo "<h1>Job vacancies</h1>";
 				the_content();
 ?>
-			</div>
+
 				<!-- category search box -->
-			<div class="content-wrapper">
-				<div class="category-search blue">
-					<div id="sbc">
-						<form method="get" id="sbc-search" action="<?php echo home_url( '/' ); ?>">
-							<input type="hidden" value="vacancies" name = "post_type" />
-							<input type="text" value="" name="s" id="s2" class="multi-cat" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
-							<input type="submit" id="sbc-submixt" class="small awesome blue" value="Search" />
-						</form>
-					</div>
-				</div>
+			<div>
+	<div class="well">
+									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
+										<label for="cat">In vacancies </label>
+										<div class="form-group input-md">
+											<input type="text" value="" name="s" id="sbc-s" class="form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+										</div>
+										<div class="form-group input-md">
+											<button type="submit" class="btn btn-primary input-md">Search</button>
+										<input type="hidden" value="vacancies" name = "post_type" />
+										</div>
+									</form>
+	</div>
+
+<script>
+jQuery(function(){
+jQuery("#sbc-s").focus();
+});
+</script>
 				<?php 
 				//SHOW FILTERING OPTIONS
 				$jobtype = $_GET['show']; 
@@ -50,13 +58,13 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				<?php if ($jobtype=='all' or !$jobtype) : ?>
 						<strong>All vacancies</strong>
 				<?php else : ?>
-						<a href='/about-dcms/vacancies/?show=all&amp;grade=<?php echo $jobgrade ;?>'>All vacancies</a> 
+						<a href='/about/vacancies/?show=all&amp;grade=<?php echo $jobgrade ;?>'>All vacancies</a> 
 				<?php endif; ?>
 				<?php if ($jobtype=='projects') : ?>
 						| <strong>Resourcing cycle vacancies</strong> 
 				<?php else : ?>
 				<?php //if ($jobgrade=='all') : ?>
-						| <a href='/about-dcms/vacancies/?show=projects&amp;grade=<?php echo $jobgrade ;?>'>Resourcing cycle vacancies</a> 
+						| <a href='/about/vacancies/?show=projects&amp;grade=<?php echo $jobgrade ;?>'>Resourcing cycle vacancies</a> 
 				<?php// endif; ?>
 				<?php endif; ?>
 				</p>				
@@ -65,9 +73,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						<strong>All grades</strong> | 
 				<?php else : 
 							if ($jobtype=='projects') :?>
-							<a href='/about-dcms/vacancies/?grade=all&show=projects'>All grades</a> | 
+							<a href='/about/vacancies/?grade=all&show=projects'>All grades</a> | 
 					<?php else : ?>
-							<a href='/about-dcms/vacancies/?grade=all'>All grades</a> | 
+							<a href='/about/vacancies/?grade=all'>All grades</a> | 
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php
@@ -80,7 +88,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			  			if ($jobgrade == $themeURL) {
 				  			echo "<strong>" . $taxonomy->name . "</strong> | ";
 				  			} else {
-				  			echo "<a href='/about-dcms/vacancies/?grade=".$themeURL."&amp;show={$jobtype}'>" . $taxonomy->name . "</a> | ";
+				  			echo "<a href='/about/vacancies/?grade=".$themeURL."&amp;show={$jobtype}'>" . $taxonomy->name . "</a> | ";
 				  		}
 					}
 				}  
@@ -260,8 +268,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 								$thisexcerpt= get_the_excerpt();
 								$thisdate= get_post_meta($post->ID, 'closing_date', true);
 								$thisdate=date("j M Y",strtotime($thisdate));
-								echo "<div class='newsitem'><a href='{$thisURL}'>".$image_url;
-								echo "<h2>".$thistitle."</h2></a>";
+								echo "<div class='newsitem'><a href='{$thisURL}'>".$image_url."</a>";
+								echo "<h2><a href='{$thisURL}'>".$thistitle."</a></h2>";
 								echo "<p><span class='news_date'>Closing: ".$thisdate."</span>";
 								$post_type = get_the_category();
 								foreach ($post_type as $p) {
@@ -286,15 +294,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				}
 				wp_reset_query();								
 				?>
-				</div>
+			</div>
 		</div>
-		<div class="fourcol last">
+		<div class="col-lg-4 last">
 			<div class='widget-box'>
 				<h3 class='widget-title'>Search by tag</h3>
 		<?php		echo my_colorful_tag_cloud('', '' , 'vacancies'); ?>
 			</div>
 		</div>
-	</div>
+
 <?php endwhile; ?>
 
 <?php get_footer(); ?>

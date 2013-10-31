@@ -11,17 +11,14 @@ get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
-				<div class="row">
-					<div class="twelvecol white last" id="content">
-											<div class="row">
+					<div class="col-lg-12 white ">
+						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-						<div class="content-wrapper">
+						</div>
 
 	
 

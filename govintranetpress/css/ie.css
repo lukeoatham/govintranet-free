@@ -1,47 +1,49 @@
 
 /* IE (all versions) */
 /* ----------------------------------------- */
-
-.onecol {
+.row (
+width: 95%;
+)
+.col-lg-1 {
 width: 4.7%;
 }
 
-.twocol {
+.col-lg-2 {
 width: 13.2%;
 }
 
-.threecol {
+.col-lg-3 {
 width: 22.05%;
 }
 
-.fourcol {
+.col-lg-4 {
 width: 30.6%;
 }
 
-.fivecol {
+.col-lg-5 {
 width: 39%;
 }
 
-.sixcol {
+.col-lg-6 {
 width: 48%;
 }
 
-.sevencol {
+.col-lg-7 {
 width: 56.75%;
 }
 
-.eightcol {
+.col-lg-8 {
 width: 61.6%;
 }
 
-.ninecol {
+.col-lg-9 {
 width: 74.05%;
 }
 
-.tencol {
+.col-lg-10 {
 width: 82%;
 }
 
-.elevencol {
+.col-lg-12 {
 width: 91.35%;
 }

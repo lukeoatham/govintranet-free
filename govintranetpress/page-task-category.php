@@ -12,29 +12,36 @@ $catid = $catpod->get_field('term_id');
 $catdesc = $catpod->get_field('category_page_description');				
 ?>
 
-<div class="row">
-	<div class="eightcol white last" id="content">
-		<div class="row">
-			<div class='breadcrumbs'>
-				<a title="Go to Home." href="/" class="site-home">Home</a> > 
-				<a title="Go to How do I?" href="/tasks/">How do I?</a> > <?php echo $catname; ?>
-			</div>
-		</div>
-		<div class="content-wrapper">
-<?php
-		echo "<h1 class='h1_" . $catid . "'>".$catname."</h1>";
-		?>
-		<p><?php echo $catdesc; ?></p>
-		<div class="category-search t<?php echo $catid; ?>">
-			<div id="sbc">
-				<form method="get" id="sbc-search" action="<?php echo home_url( '/' ); ?>">
-				<input type="hidden" value="<?php echo $catid; ?> " name = "cat" />
-				<input type="hidden" value="task" name = "post_type" />
-				<input type="text" value="" name="s" id="s2" class="multi-cat" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
-				<input type="submit" id="sbc-submitx" class="small awesome blue" value="Search" />
-				</form>
-			</div>
-		</div>
+					<div class="col-lg-12 white ">
+						<div class="row">
+							<div class='breadcrumbs'>
+								<a title="Go to Home." href="/" class="site-home">Home</a> > 
+								<a title="Go to How do I?" href="/how-do-i/">How do I?</a> > <?php echo $catname; ?>
+							</div>
+							<div class="col-lg-8 col-md-8 col-sm-12 notop">
+						<?php		
+								echo "<h1 class='h1_" . $catid . "'>".$catname." tasks and guides</h1>";
+								?>
+								<?php echo $catdesc; ?>
+									<div class="well">
+									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
+										<label for="sbc-s">In <?php echo strtolower($catname);?>, how do I... </label>
+										<div class="form-group input-md">
+											<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+										</div>
+										<div class="form-group input-md">
+											<button type="submit" class="btn btn-primary input-md">Search</button>
+										</div>
+										<input type="hidden" value="<?php echo $catid; ?> " name = "cat" />
+										<input type="hidden" value="task" name = "post_type" />
+									</form>
+									</div>
+<script>
+jQuery(function(){
+jQuery("#sbc-s").focus();
+});
+</script>
+						
 <?php
 /* Run the loop for the category page to output the posts.
  * If you want to overload this in a child theme then include a file
@@ -46,7 +53,7 @@ $catdesc = $catpod->get_field('category_page_description');
 		'post_type'=>'task',
 		'posts_per_page'=>-1,
 		'cat'=>$catid,
-		'posts_per_page' => 10,
+		'posts_per_page' => 25,
 		'paged' => $paged,												
 		'orderby'=>'name',
 		'order'=>'ASC',
@@ -63,17 +70,28 @@ $catdesc = $catpod->get_field('category_page_description');
 			echo "<div class='newsitem'>".$image_url ;
 			echo "<hr>";
 			$taskpod = new Pod ('task' , $post->ID); 
-			if ( $taskpod->get_field('page_type') == 'Guide header'){
-				echo "<h3 class='taglisting guide'>";
-			} ;
-			if ( $taskpod->get_field('page_type') == 'Guide chapter'){
-				echo "<h3 class='taglisting chapter'>";
-			} ;
-			if ( $taskpod->get_field('page_type') == 'Task'){
-				echo "<h3 class='taglisting task'>";
-			} ;
-?>
-			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
+			
+
+		if ( $taskpod->get_field('page_type') == 'Task'){		
+			$context = "task";
+			$icon = "question-sign";
+		} else {
+			$context = "guide";
+			$icon = "book";
+			$taskparent=$taskpod->get_field('parent_guide');
+			$title_context='';	
+			if ($taskparent){
+				$parent_guide_id = $taskparent[0]['ID']; 		
+				$taskparent = get_post($parent_guide_id);
+				$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")"; 
+			}
+		}			
+
+
+			?>
+<h3>				
+	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a>&nbsp;<small><i class="glyphicon glyphicon-<?php echo $icon; ?>"></i>&nbsp;<?php echo ucfirst($context); ?></small></h3>
+
 <?php
 			the_excerpt(); 
 			echo "</div>";
@@ -93,17 +111,20 @@ $catdesc = $catpod->get_field('category_page_description');
 		wp_reset_query();								
 ?>
 	</div>
-</div>
-<div class="fourcol last" id='sidebar'>
+
+<div class="col-lg-4 col-md-4 col-sm-12" id='sidebar'>
 	<div class='widget-box'>
 		<h3 class='widget-title'>Search by tag</h3>
 	<?php 
 		$slug = $_GET['cat'];
 		$thisterm = get_term_by('slug', $slug, 'category');
 		$varcat = $thisterm->term_id;
+		echo "<div class='tagcloud'>";
 		echo my_colorful_tag_cloud($varcat, 'category' , 'task'); 
+		echo "</div>";
 		?>
 	</div>
 </div>
-				
+						</div></div>
+
 <?php get_footer(); ?>

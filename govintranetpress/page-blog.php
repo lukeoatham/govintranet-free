@@ -6,18 +6,14 @@ get_header(); ?>
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 
-		<div class="row">
-
-			<div class="eightcol white last" id='content'>
-									<div class="row">
+					<div class="col-lg-8 white ">
+						<div class="row">
 							<div class='breadcrumbs'>
-							<?php if(function_exists('bcn_display') && !is_front_page()) {
-								bcn_display();
-							}?>
+								<?php if(function_exists('bcn_display') && !is_front_page()) {
+									bcn_display();
+									}?>
 							</div>
-							
-				</div>
-				<div class="content-wrapper">
+						</div>
 					<?php
 						$thistitle = get_the_title();
 						echo "<h1>".$thistitle."</h1>";
@@ -75,9 +71,9 @@ $k = 0;
 
 
 
-				</div>
+
 			</div>
-			<div class="fourcol last">
+			<div class="col-lg-4 last">
 			<div id="related">
 			
 			<?php
