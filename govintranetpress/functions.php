@@ -1411,8 +1411,4 @@ function human_time_diff_plus( $from, $to = '' ) {
      return $since;
 }
 
-
-
-
-
 ?>
