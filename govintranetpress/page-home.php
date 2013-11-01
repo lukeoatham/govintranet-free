@@ -71,7 +71,11 @@ get_header(); ?>
 			<h3 cass="widget-title">
 			        <a class="accordion-toggle" data-toggle="collapse" data-parent="#loginaccordion" href="#logincollapseOne">
 				<?php if (is_user_logged_in()):?>
-					      <?php echo get_wp_user_avatar(intval($current_user->id),32); echo " ".$current_user->display_name; ?>
+					      <?php 
+					      if (function_exists('get_wp_user_avatar')){
+						      echo get_wp_user_avatar(intval($current_user->id),32); 
+					      }
+					      echo " ".$current_user->display_name; ?>
 				<?php else :?>
 					      <i class="glyphicon glyphicon-user"></i> Login
 				<?php endif; ?>
