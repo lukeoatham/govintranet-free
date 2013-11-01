@@ -6,7 +6,7 @@ Link: http://www.helpfultechnology.com
 Tags: intranet, gov.uk  
 Requires at least: 3.4  
 Tested up to: 3.7.1  
-Stable tag: 2.0.7
+Stable tag: 2.0.7  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -39,7 +39,8 @@ Refer to [showcase site](https://govintranet.helpfulclients.com/) for example in
 
 ## Upgrading from 2.x ##
 There are new custom post types and custom taxonomies as well as updates to existing custom post types.   
-Please backup before altering and Pods. Import using the setup files as required. If you have trouble with your existing post types you'll need to update manually. I'll share data structures online soon, as well as updated documentation and help.   
+Please backup before altering any Pods. Import using the setup files as required.  
+If you have trouble with your existing post types you'll need to update manually. I'll share data structures online soon, as well as updated documentation and help.   
 
 
 ## Changelog ##
