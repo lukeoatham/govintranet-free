@@ -11,15 +11,6 @@ $thisexcerpt= get_the_excerpt();
 $thisdate= $post->post_date;
 $thisdate=date("j M Y",strtotime($thisdate));
 
-
-//determine news type
-
-
-
-
-
-
-//regular listing *********************
 ?>
 
 <h3>				
@@ -49,29 +40,27 @@ $thisdate=date("j M Y",strtotime($thisdate));
 			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span>&nbsp;";
 			   
                $user = get_userdata($post->post_author);
-			   if ($forumsupport){
-	                echo "<a class='' href=\"/staff/" . $user->user_login . "/\">";
-	                echo get_avatar($user->ID, 16);
-	                echo "</a>";
-	                echo " <a href='/staff/" . $user->user_login . "/'>" . $user->display_name . "</a>";			   
-			   } else {
-	                echo "<a class='' href=\"/author/" . $user->user_login . "/\">";
-	                echo get_avatar($user->ID, 16);
-	                echo "</a>";
+               	$gis = "general_intranet_forum_support";
+			   	$forumsupport = get_option($gis);
+
+			   if ($forumsupport){			   
+						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+							echo "<a class='' href=\"/members/" . $user->user_login . "/\">";
+							} 
+						elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
+							echo "<a class='' href=\"/staff/" . $user->user_login . "/\">";
+							}
+						echo get_avatar($user->ID, 16);
+						echo "</a>";
+	           } else {
 	                echo " <a href='/author/" . $user->user_login . "/'>" . $user->display_name . "</a>";			   
 			   }
-
 
 		echo "</p></div>";
 
 		the_excerpt(); 
 ?>
-	</div></div>
-<?php
+	</div>
+	</div>
 
-
-echo "<hr>";
-
-?>
-
-
+	<hr>

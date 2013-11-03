@@ -49,22 +49,21 @@
 	if ($post_type=='User'){
 		$image_url = get_avatar($post->user_id);
 		$image_url = str_replace('avatar ', 'avatar img img-circle ' , $image_url);
-		
-	}
-	
-	if ($post_type == 'User'){
 		$userurl = get_author_posts_url( $post->user_id); 
-			   if ($forumsupport){
-				   $userurl = str_replace('/author/', '/staff/' , $userurl);
-				} 
+		$gis = "general_intranet_forum_support";
+		$forumsupport = get_option($gis);
+	   if ($forumsupport){
+			if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+				$userurl=str_replace('/author', '/members', $userurl); }
+			elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
+				$userurl=str_replace('/author', '/staff', $userurl);
+			}
+
+		} 
 	} else {
 		$userurl = get_permalink();
 	}
 	echo "<div class='media'>" ;
-?>
-
-
-	<?php 	
 	$contexturl=$post->guid;
 	$context='';
 	if ($post_type=='Post_tag') { 
@@ -133,33 +132,29 @@
 			$icon = "user";			
 	}
 
-if ($post_type=='Attachment'): 
-	$context='document download';
-	$icon = "download";			
-?>
-	<h3>				
-	<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
-
-
-<?php 
-elseif ($post_type=='User'): 
-
-?>			<div class="panel panel-default">
-
-	<div class="panel-heading">				
-	<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></div><div class="panel-body">
-
-<?php 
-else: ?>
-	<h3>				
-	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo "</a> <small>".$title_context."</small>"; ?></h3>
-
-<?php
-endif;
-				?>
-
-
+	if ($post_type=='Attachment'): 
+		$context='document download';
+		$icon = "download";			
+	?>
+		<h3>				
+		<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
+	
+	
 	<?php 
+	elseif ($post_type=='User'): 
+	
+	?>			<div class="panel panel-default">
+	
+		<div class="panel-heading">				
+		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></div><div class="panel-body">
+	
+	<?php 
+	else: ?>
+		<h3>				
+		<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo "</a> <small>".$title_context."</small>"; ?></h3>
+	
+	<?php
+	endif;
 	
 	echo "<a href='";
 	echo $userurl;
@@ -199,7 +194,6 @@ endif;
 		if ( is_archive() || is_search() ){
 			   $thisdate= $post->post_date;
 			   $thisdate=date("j M Y",strtotime($thisdate));
-//			   $thisdate = human_time_diff_plus(get_the_modified_time('U'))." ago";
 			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
 		}
 		echo "</p></div>";
@@ -239,9 +233,7 @@ endif;
 		
 	}
 
-	?>
-	<?php if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. ?>
-	<?php	
+	if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. 
 
 		if ($post_type=='Post_tag') { 
 			echo "All intranet pages tagged with \"". get_the_title() ."\""; 
