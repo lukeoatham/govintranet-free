@@ -152,8 +152,12 @@ class SearchAutocomplete {
 						$user_avatar=substr($user_avatar, $pos1+10,$pos2-$pos1-12);
 						$user_avatar = "<img src='".$user_avatar."' height='18' width='18' alt='' />&nbsp;";
 */
-						$linkURL = $post->link;
-						$linkURL=str_replace('/author', '/staff', $linkURL);
+						$linkURL = $post->link; // default link to author page
+						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+							$linkURL=str_replace('/author', '/members', $linkURL); }
+						elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
+							$linkURL=str_replace('/author', '/staff', $linkURL);
+						}
 						$linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
 					} else {
 						$linkURL = get_permalink( $post->ID );
