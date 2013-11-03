@@ -1167,6 +1167,7 @@ if (current_user_can('subscriber')):
 endif;
 
 
+/*
 //remove settings for search to allow for things like T&S
 remove_filter('relevanssi_remove_punctuation', 'relevanssi_remove_punct');
 add_filter('relevanssi_remove_punctuation', 'your_relevanssi_remove_punct');
@@ -1192,6 +1193,26 @@ function your_relevanssi_remove_punct($a) {
     $a = preg_replace('/[[:space:]]+/', ' ', $a);	
 	$a = trim($a);
         return $a;
+}
+*/
+
+// Enable stemming if switched on in settings
+$gis = "general_intranet_enable_search_stemmer";
+$stemmer = get_option($gis);
+if ($stemmer) {
+	add_filter('relevanssi_stemmer', 'relevanssi_simple_english_stemmer');
+}
+
+add_filter('relevanssi_remove_punctuation', 'saveampersands_1', 9);
+function saveampersands_1($a) {
+    $a = str_replace('&', 'AMPERSAND', $a);
+    return $a;
+}
+ 
+add_filter('relevanssi_remove_punctuation', 'saveampersands_2', 11);
+function saveampersands_2($a) {
+    $a = str_replace('AMPERSAND', '&', $a);
+    return $a;
 }
 
 // Added to extend allowed file types in Media upload 
@@ -1353,7 +1374,7 @@ remove_action('wp_title', 'bbp_title');
     return $RGB;
   }
 
-// listing page thumbnail sizes, e.g. home page
+// feature news headline image
 
 add_image_size( "newshead", "726", "353", true );
 
@@ -1410,5 +1431,6 @@ function human_time_diff_plus( $from, $to = '' ) {
      }
      return $since;
 }
+
 
 ?>
