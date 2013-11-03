@@ -45,14 +45,13 @@ class htFeatureNews extends WP_Widget {
 			$k--;
 			continue;
 		}
-		$videostill = $newspod->get_field('video_still');								
-		$videoguid = $videostill[0]['guid']; 
-		$vidid = $videostill[0]['ID']; 
-		$videostill = wp_get_attachment_image( $vidid, 'large');
+		if (function_exists('get_video_thumbnail')){
+			$videostill = get_video_thumbnail(); 
+		}
+
 		$thistitle = govintranetpress_custom_title($slot['post_title']);
 		$thisURL=$slot['post_name'];
 				if ($k<=$primaryitems){ //manual primary news
-					$videostill = wp_get_attachment_image( $vidid, 'large');
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot['ID'] ), 'large' );
 					if ($image_uri!="" && $videostill==''){
 						echo "<div><a href='/news/".$slot['post_name']."/'><img class='img img-responsive' src='{$image_uri[0]}' alt='".govintranetpress_custom_title($slot['post_title'])."' /></a>";									
@@ -120,14 +119,12 @@ class htFeatureNews extends WP_Widget {
 								}
 								$thistitle = get_the_title($post->ID);
 								$newspod = new Pod ( 'news' , $post->ID );
-								$videostill = $newspod->get_field('video_still');								
+								if (function_exists('get_video_thumbnail')){
+									$videostill = get_video_thumbnail(); 
+								}
 								$newspod->display('title');
-								$videoguid = $videostill[0]['guid']; 
-								$vidid = $videostill[0]['ID']; 
-								$videostill = wp_get_attachment_image( $vidid, 'large' );
 								$thisURL=get_permalink($ID); 
 										if ($k <= $primaryitems){
-												$videostill = wp_get_attachment_image( $vidid, 'large');
 												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
 												if ($image_uri!="" && $videostill==''){
 													echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot)."' /></a>";									
