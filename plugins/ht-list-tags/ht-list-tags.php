@@ -17,11 +17,14 @@ function ht_listtags_shortcode($atts,$content){
     //get any attributes that may have been passed; override defaults
     $opts=shortcode_atts( array(
         'tag' => '',
+        'format' => '',
+        
         ), $atts );
 	
 	global $wp_query;
 
 	$tag = $opts['tag'];
+	$format = $opts['format'];
 	$q = 'posts_per_page=-1&tag='.$tag;
 	$query = get_posts( $q );
 	
@@ -38,10 +41,11 @@ function ht_listtags_shortcode($atts,$content){
 		$output.="
 		<div class='item well well-sm'>
 			<div class='itemimage'><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$image_url."</a></div>
-				<p><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$thistitle."</a></p>
-				<p><span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> </p>
-					".wpautop($thisexcerpt)."
-		</div>";
+				<p><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$thistitle."</a></p>";
+				if ($format=="full"){
+					$output.="<p><span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> </p>".wpautop($thisexcerpt);
+				}
+		$output.="</div>";
 	
 	}
 		$output=
