@@ -86,7 +86,7 @@ class htFeatureNews extends WP_Widget {
 	}
 
 
-							wp_reset_query();								
+							
 
 	//display remaining stories
 	$cquery = array(
@@ -96,8 +96,7 @@ class htFeatureNews extends WP_Widget {
 							    'posts_per_page' => $totalstories,
 							    'meta_query'=>array(array(
 							    'key'=>'news_listing_type',
-							    'value'=>'0',
-							    'compare'=>'NOT EQUAL'
+							    'value'=>0,
 								
 							    ))
 							    				
@@ -117,34 +116,24 @@ class htFeatureNews extends WP_Widget {
 								if ($k > $totalstories){
 									break;
 								}
-								$thistitle = get_the_title($post->ID);
-								$newspod = new Pod ( 'news' , $post->ID );
-								if (function_exists('get_video_thumbnail')){
-									$videostill = get_video_thumbnail(); 
-								}
+								$thistitle = get_the_title($news->ID);
+								$newspod = new Pod ( 'news' , $news->ID );
 								$newspod->display('title');
-								$thisURL=get_permalink($ID); 
+								$thisURL=get_permalink($news->ID); 
 										if ($k <= $primaryitems){
-												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
+												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $news->ID ), 'large' );
 												if ($image_uri!="" && $videostill==''){
 													echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot)."' /></a>";									
 												} 
-												if ($videostill){
-													echo "<a href='{$thisURL}'>".$videostill."</a>";
-												} 					
-												}
-											else {
-												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' );
-												$image_url = "<a class='pull-right' href='{$thisURL}'>".get_the_post_thumbnail($post->ID, 'thumbnail', array('class' => 'media-object'))."</a>";
-												if ($videostill){
-													$image_url= "<a href='{$thisURL}'>".$videostill."</a>";
-												} 					
+										} else {
+												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $news->ID ), 'thumbnail' );
+												$image_url = "<a class='pull-right' href='{$thisURL}'>".get_the_post_thumbnail($news->ID, 'thumbnail', array('class' => 'media-object'))."</a>";
 										}
 
 								$thisdate= get_the_date();
 								$thisexcerpt= get_the_excerpt();
 								$thisdate=date("j M Y",strtotime($thisdate));
-								echo "<h2><a class='' href='{$thisURL}'>".$thistitle."</a></h2>";
+								echo "<h2><a class='' href='".$thisURL."'>".$thistitle."</a></h2>";
 								if ($k >= ($primaryitems + $secondaryitems + 1)) {
 									echo "<p><span class='news_date'>".$thisdate."";
 									echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Read more</a></span></p>";
