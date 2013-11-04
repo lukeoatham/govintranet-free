@@ -10,6 +10,10 @@ Author URI: http://www.helpfultechnology.com
 */
 
 function ht_listtags_shortcode($atts,$content){
+
+	 wp_register_script( 'masonry.pkgd.min', get_stylesheet_directory_uri() . "/js/masonry.pkgd.min.js");
+	 wp_enqueue_script( 'masonry.pkgd.min',95 );
+
     //get any attributes that may have been passed; override defaults
     $opts=shortcode_atts( array(
         'tag' => '',
@@ -18,22 +22,32 @@ function ht_listtags_shortcode($atts,$content){
 	global $wp_query;
 
 	$tag = $opts['tag'];
-	$q = 'tag='.$tag;
+	$q = 'posts_per_page=-1&tag='.$tag;
 	$query = get_posts( $q );
-		
+	
+	$output='';
 	foreach ($query as $list){		
+		$thisexcerpt='';
 		$thistitle = get_the_title($list->ID);
 		$thisURL=get_permalink($list->ID);
 		$thisexcerpt= $list->post_excerpt;
 		$thisdate= $list->post_date;
 		$thisdate=date("j M Y",strtotime($thisdate));
-	
-		$output.="<h3><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$thistitle."</a></h3><div class='media'>";
-		$image_url = get_the_post_thumbnail($list->ID, 'thumbnail', array('class' => 'alignright'));
-		$output.="<a href='".$thisURL."'><div class='hidden-xs'>".$image_url."</div></a><div class='media-body'><div><p><span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> </p></div>".$thisexcerpt."</div></div><hr>";
+		$image_url = get_the_post_thumbnail($list->ID, 'newshead', array('class'=>'img img-responsive'));	
+		
+		$output.="
+		<div class='item well well-sm'>
+			<div class='itemimage'><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$image_url."</a></div>
+				<p><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$thistitle."</a></p>
+				<p><span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> </p>
+					".wpautop($thisexcerpt)."
+		</div>";
 	
 	}
-
+		$output=
+		
+		'<div id="container" class="js-masonry"
+  data-masonry-options=\'{ "columnWidth": ".grid-sizer", "itemSelector": ".item", "gutter": 10 }\'><div class="grid-sizer"></div>'.$output."</div>";
 	wp_reset_query();
     return $output;
 }
