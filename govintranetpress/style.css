@@ -760,6 +760,13 @@ ul.listing.li  {
 	margin-top: 5px;
 }
 
+#buddypress input[type=submit], #buddypress .button, .bbpress .button {
+	background: #428bca !important;
+	border: 1px solid #357ebd !important;
+	color: white !important;
+	font-size: 1em !important;
+	padding: 1px 8px !important;
+}
 #bbpress-forums p.bbp-topic-meta img.avatar, #bbpress-forums ul.bbp-reply-revision-log img.avatar, #bbpress-forums ul.bbp-topic-revision-log img.avatar, #bbpress-forums div.bbp-template-notice img.avatar, #bbpress-forums .widget_display_topics img.avatar, #bbpress-forums .widget_display_replies img.avatar, #bbpress-forums p.bbp-topic-meta img.avatar {
 margin-bottom: 0 !important;
 border: none !important;
@@ -1165,7 +1172,7 @@ body.home h1  {
 }
 
 h2  {
-	font-size: 1.4em;
+	font-size: 1.7em;
 	margin: 0.5em 0;
 	line-height: 140%;
 	font-weight: 600;
@@ -1181,7 +1188,7 @@ h2 a:hover {
 }
 
 h3  {
-	font-size: 24px;
+	font-size: 1.35em;
 	margin: 0.5em 0;
 	line-height: 130%;
 	padding-bottom: .5em;
