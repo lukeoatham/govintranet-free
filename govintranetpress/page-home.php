@@ -68,7 +68,7 @@ get_header(); ?>
 			?>
 		<div id="loginrow" class="category-block">
 			<div id="loginaccordion">
-			<h3 cass="widget-title">
+			<h3 class="widget-title">
 			        <a class="accordion-toggle" data-toggle="collapse" data-parent="#loginaccordion" href="#logincollapseOne">
 				<?php if (is_user_logged_in()):?>
 					      <?php 
@@ -77,17 +77,17 @@ get_header(); ?>
 					      }
 					      echo " ".$current_user->display_name; ?>
 				<?php else :?>
-					      <i class="glyphicon glyphicon-user"></i> Login
+					       Login <i class="glyphicon glyphicon-chevron-down"></i>
 				<?php endif; ?>
 			        </a>
 			</h3>
 			    </div>
 			    <div id="logincollapseOne" class="xpanel-collapse collapse out">
 			      <div class="xpanel-body">
-					<?php 
-						dynamic_sidebar('login-widget-area');	
-					?> 
+					<?php dynamic_sidebar('login-widget-area');	?> 
 				</div>
+<!-- 				<h3 class="widget-title>">Personalisation</h3> -->
+				
 			</div>
 		</div>
 <?php endif; ?>

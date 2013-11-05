@@ -760,7 +760,7 @@ ul.listing.li  {
 	margin-top: 5px;
 }
 
-#buddypress input[type=submit], #buddypress .button, .bbpress .button {
+#buddypress input[type=submit], #buddypress .button, .bbpress .button, #loginform .button-primary {
 	background: #428bca !important;
 	border: 1px solid #357ebd !important;
 	color: white !important;
