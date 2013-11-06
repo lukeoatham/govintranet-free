@@ -213,12 +213,13 @@ endif;
 		the_content(); 
 
 			if ($current_attachments){
-			echo "<h3>Downloads</h3>";
-				foreach ($current_attachments as $a){
-					echo "<div class='downloadbox'><div class='downloadicon'>";
-					echo "<p><a href='".$a['guid']."'>".$a['post_title']."</a></p>";
-					echo "</div></div>";
-				}
+					echo "<div class='alert alert-info'>";
+			echo "<h3>Downloads <i class='glyphicon glyphicon-download'></i></h3>";
+						foreach ($current_attachments as $a){
+							echo "<p><a class='alert-link' href='".$a['guid']."'>".$a['post_title']."</a></p>";
+						}
+					echo "</div>";
+					echo "</div>";
 			}
 
 			if ('open' == $post->comment_status) {
