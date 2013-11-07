@@ -166,8 +166,10 @@ endif;
 
 			if ($current_attachments){
 				foreach ($current_attachments as $a){
-					echo "<div class='downloadbox'>";
-					echo "<p><a href='".$a['guid']."'>".$a['post_title']."</a></p>";
+					echo "<div class='alert alert-info'>";
+					echo "<h3>Downloads <i class='glyphicon glyphicon-download'></i></h3>";
+					echo "<p><a class='alert-link' href='".$a['guid']."'>".$a['post_title']."</a></p>";
+					echo "</div>";
 					echo "</div>";
 				}
 			}
