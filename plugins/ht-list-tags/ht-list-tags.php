@@ -36,10 +36,10 @@ function ht_listtags_shortcode($atts,$content){
 		$thisexcerpt= $list->post_excerpt;
 		$thisdate= $list->post_date;
 		$thisdate=date("j M Y",strtotime($thisdate));
-		$image_url = get_the_post_thumbnail($list->ID, 'newshead', array('class'=>'img img-responsive'));	
+		$image_url = get_the_post_thumbnail($list->ID, 'medium', array("class"=>"img img-responsive","width"=>175,"height"=>175));	
 		
 		$output.="
-		<div class='item well well-sm'>
+		<div class='grid-item well well-sm'>
 			<div class='itemimage'><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$image_url."</a></div>
 				<p><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$thistitle."</a></p>";
 				if ($format=="full"){
@@ -51,7 +51,7 @@ function ht_listtags_shortcode($atts,$content){
 		$output=
 		
 		'<div id="container" class="js-masonry"
-  data-masonry-options=\'{ "columnWidth": ".grid-sizer", "itemSelector": ".item", "gutter": 10 }\'><div class="grid-sizer"></div>'.$output."</div>";
+  data-masonry-options=\'{ "columnWidth": ".grid-sizer", "itemSelector": ".grid-item", "gutter": 10 }\'><div class="grid-sizer"></div>'.$output."</div>";
 	wp_reset_query();
     return $output;
 }
