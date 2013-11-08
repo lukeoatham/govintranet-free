@@ -7,13 +7,13 @@ if ($randex==3) $randex=" e.g. return to work form";
 if ($randex > 3) $randex="";
 ?>
 <div class="row">
-	<form class="form-horizontal" role="form" action="<?php echo home_url( '/' ); ?>">
+	<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo home_url( '/' ); ?>">
 
 	  <div class="col-lg-12">
 		  <div class="input-group">
 			    	 <input type="text" class="form-control typeahead" placeholder="Search<?php echo $randex ;?>" name="s" id="s" value="<?php echo $_GET['s'];?>">
 					 <span class="input-group-btn">
-					 <button class="btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i></button>
+					 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 					 </span>
 		</div><!-- /input-group -->
 	  </div>
