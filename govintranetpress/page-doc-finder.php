@@ -49,7 +49,6 @@ get_header(); ?>
 					if ($doctyp) {
 						if ($cat_id =='any' ) {
 							echo "<li class='howdoi'><span class='brd'>&nbsp;";
-							echo "<i class='glyphicon glyphicon-check'></i> "; 
 							echo "All categories</span></li>";
 						} else {
 							echo "<li class='howdoi'><span class='brd'>&nbsp;<a href='/document-finder/?doctyp=".$doctyp."'>";
@@ -58,7 +57,6 @@ get_header(); ?>
 						}
 					} else {
 						echo "<li class='howdoi'><span class='brd'>&nbsp;<a href='/document-finder/'>";
-						if ($cat_id =='any' ) echo "<i class='glyphicon glyphicon-check'></i> "; 
 						echo "All categories</a></span></li>";
 					}
 					foreach($post_cat as $cat){
@@ -67,7 +65,6 @@ get_header(); ?>
 						if ($doctyp) {
 							if ($cat->slug == $cat_id) {
 								echo "<li class='howdoi'><span class='brd".$cat->term_id."'>&nbsp;";
-								echo "<i class='glyphicon glyphicon-check'></i> "; 
 								echo $newname."</span></li>";
 							} else {
 								echo "<li class='howdoi'><span class='brd".$cat->term_id."'>&nbsp;<a href='/document-finder/?cat=".$cat->slug."&doctyp=".$doctyp."'>";
@@ -76,7 +73,6 @@ get_header(); ?>
 							}
 						} else {
 						echo "<li class='howdoi'><span class='brd".$cat->term_id."'>&nbsp;<a href='/document-finder/?cat=".$cat->slug."'>";
-						if ($cat->slug == $cat_id) echo "<i class='glyphicon glyphicon-check'></i> "; 
 						echo $newname."</a></span></li>";
 						}
 					}
@@ -91,23 +87,23 @@ get_header(); ?>
 
 
 		<div class="widget-box">
-				<h3 class="widget-title">Document type</h3>
+				<h3 class="widget-title">Document types</h3>
 				<div class="chapters">
 						<ul class='doctypemenu'>
 						<?php
 						if ($doctyp == 'any') {
-						    echo "<li class='active'><i class='glyphicon glyphicon-check'></i> All types</li>";
+						    echo "<li class='active'>All types</li>";
 						    } else {
 							if ($cat_id){    
 								echo "<li><a href='".home_url( '/' )."document-finder/?doctyp=any&cat={$cat_id}'>";								
 								echo "All types</a></li>";
 							} else {
-						       echo "<li><a href='".home_url( '/' )."document-finder/?doctyp=any'><i class='glyphicon glyphicon-check'></i> All documents</a></li>";
+						       echo "<li><a href='".home_url( '/' )."document-finder/?doctyp=any'>All documents</a></li>";
 							}
 						}
-						foreach ($subcat as $sc) {
+						foreach ($subcat as $sc) { 
 							if ($doctyp == $sc->slug) {
-							    echo "<li class='active'><i class='glyphicon glyphicon-check'></i> {$sc->name}</li>";
+							    echo "<li class='active'>{$sc->name}</li>";
 						    } else {
 						    if ($cat_id){   
 						       echo "<li><a href='".home_url( '/' )."document-finder/?doctyp={$sc->slug}&cat={$cat_id}'>";
