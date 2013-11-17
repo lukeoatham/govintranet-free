@@ -2,7 +2,7 @@
 /**
  * The Header for our theme.
  *
- * Displays all of the <head> section and everything up till <div id="content-wrapper">
+ * Displays all of the <head> section and everything up till <div class="content-wrapper">
  *
  * @package WordPress
  * @package Bootstrap
@@ -11,8 +11,6 @@
 
 // prevent clickjacking, advised by Context security review
 header('X-Frame-Options: SAMEORIGIN');
-
-
 
 ?><!DOCTYPE html>
 
@@ -32,7 +30,6 @@ header('X-Frame-Options: SAMEORIGIN');
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="profile" href="https://gmpg.org/xfn/11" />
 
-	<!-- 1140px Grid styles for IE -->
 	<!--[if lte IE 9]>
 		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie.css" type="text/css" media="screen" />
 	<![endif]-->
@@ -44,16 +41,14 @@ header('X-Frame-Options: SAMEORIGIN');
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/prettyPhoto.css" rel="stylesheet">
 
-<!--[if lt IE 9]>
-
- <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/html5-shiv.min.js"></script>
- <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/respond.min.js"></script>
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<![endif]-->
+	<!--[if lt IE 9]>
+	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/html5-shiv.min.js"></script>
+	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/respond.min.js"></script>
+	 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<![endif]-->
 	
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_stylesheet_directory_uri(); ?>/print.css" />
-
  
 	<!-- [if lte IE 8]>
 		<script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/ie7/IE8.js"></script>
@@ -86,7 +81,6 @@ header('X-Frame-Options: SAMEORIGIN');
 
 		$gis = "general_intranet_enable_automatic_complementary_colour";
 		$giscc = get_option($gis);
-
 		
 		// write custom css for background header colour
 		$gis = "general_intranet_header_background";
@@ -120,8 +114,6 @@ header('X-Frame-Options: SAMEORIGIN');
 		}
 		";
 
-
-
 		echo "
 		.home.page .category-block h3 {
 			border-bottom: 3px solid ".$gishex.";
@@ -132,37 +124,36 @@ header('X-Frame-Options: SAMEORIGIN');
 		";
 		
 		echo "
-#content .widget-box {
-	padding: .1em .4em .7em 0;
-	font-size: .9em;
-	background: #fff;";
-			if ($giscc==1){
-		echo "border-top: 7px solid ".RGBToHTML($topborder).";";
+		#content .widget-box {
+		padding: .1em .4em .7em 0;
+		font-size: .9em;
+		background: #fff;";
+		if ($giscc==1){
+			echo "border-top: 7px solid ".RGBToHTML($topborder).";";
 		} else {
-		echo "border-top: 7px solid ".$gishex.";";
+			echo "border-top: 7px solid ".$gishex.";";
 		}
-
 		echo "margin-top: .7em;
-}
+		}
 		";
 
 		echo "
-.home.page .category-block h3 {";
+		.home.page .category-block h3 {";
 		if ($giscc==1){
-		echo "border-top: 7px solid ".RGBToHTML($topborder).";";
+			echo "border-top: 7px solid ".RGBToHTML($topborder).";";
 		} else {
-		echo "border-top: 7px solid ".$gishex.";";
+			echo "border-top: 7px solid ".$gishex.";";
 		}
 		echo "border-bottom: none;
 		padding-top: .7em;
-	margin-top: .7em;
-}
+		margin-top: .7em;
+		}
 		";
 		echo "
-.page-template-page-news-php h1 {
+		.page-template-page-news-php h1 {
 		border-bottom: 7px solid ".RGBToHTML($topborder).";
-} 
-";
+		} 
+		";
 
 		//write custom css for logo
 		$gis = "general_intranet_header_logo";
@@ -181,14 +172,12 @@ header('X-Frame-Options: SAMEORIGIN');
 		}
 		";
 		echo "
-		
-#primarynav ul li  {
-border-bottom: 1px solid ".$gishex.";
-border-top: 1px solid ".$gishex.";
-border-right: 1px solid ".$gishex.";
-
-}
-";		
+		#primarynav ul li  {
+		border-bottom: 1px solid ".$gishex.";
+		border-top: 1px solid ".$gishex.";
+		border-right: 1px solid ".$gishex.";
+		}
+		";		
 		
 		$terms = get_terms('category');
 		if ($terms) {
@@ -211,7 +200,7 @@ border-right: 1px solid ".$gishex.";
 	?>
 	</style>
 	<!--Google Analytics-->
-<?php	
+	<?php	
 		//write script for google analytics (only do on homepage if homepage tracking is set)
 		$gis = "general_intranet_track_homepage";
 		$gistrackhome = get_option($gis); 
@@ -225,9 +214,7 @@ border-right: 1px solid ".$gishex.";
 		else {
 			echo $gisgtc;
 		}
-?>
-	
-
+		?>	
 
 </head>
 
@@ -242,30 +229,28 @@ border-right: 1px solid ".$gishex.";
 
 <body <?php body_class($parentpageclass); ?>>
 
-		 <?php // include(get_stylesheet_directory() . "/sidebar-cookiebar.php"); ?>
-
-
-				<div id='topstrip'>
+<?php // include(get_stylesheet_directory() . "/sidebar-cookiebar.php"); ?>
+	<div id='topstrip'>
 				
-<nav class="navbar navbar-inverse" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <p><a class='navbar-brand visible-xs pull-left' href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><i class="glyphicon glyphicon-home"></i> Home</a></p>
-  </div>
+		<nav class="navbar navbar-inverse" role="navigation">
+		  <!-- Brand and toggle get grouped for better mobile display -->
+		  <div class="navbar-header">
+		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		      <span class="sr-only">Toggle navigation</span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		    </button>
+		    <p><a class='navbar-brand visible-xs pull-left' href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><i class="glyphicon glyphicon-home"></i> Home</a></p>
+		  </div>
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">				
+		  <!-- Collect the nav links, forms, and other content for toggling -->
+		  <div class="collapse navbar-collapse navbar-ex1-collapse">				
 				
-						<div class="row" id="masthead">	
+				<div class="row" id="masthead">	
 
 					<div class="container">
-<a class="sr-only" href="#content">Skip to content</a>
+						<a class="sr-only" href="#content">Skip to content</a>
 													
 						<!--logo and name-->
 							<div class="col-lg-8 col-md-7 col-sm-6 hidden-xs" id="crownlogo">
@@ -275,44 +260,45 @@ border-right: 1px solid ".$gishex.";
 						
 						<!--search box-->
 							<div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
-							<div id='searchformdiv' class=''>
-									<?php get_search_form(true); ?>
-							</div>
+								<div id='searchformdiv' class=''>
+										<?php get_search_form(true); ?>
+								</div>
 							</div>
 
 <script>
 jQuery("#s").focus();
 </script>							
-								<div class="sr-only" id="access">	
-								  <?php /*  Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff */ ?>
-									<a href="#content" class='hiddentext' accesskey='s' title="<?php esc_attr_e( 'Skip to content', 'twentyten' ); ?>"><?php _e( 'Skip to content', 'twentyten' ); ?></a>
+							<div class="sr-only" id="access">	
+							  <?php /*  Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff */ ?>
+								<a href="#content" class='hiddentext' accesskey='s' title="<?php esc_attr_e( 'Skip to content', 'twentyten' ); ?>"><?php _e( 'Skip to content', 'twentyten' ); ?></a>
 							</div>
-
 
 						<!--utility menu-->
 							<div class="col-lg-12">
 								<div id="utilities" class="pull-right">
 									<?php if ( is_active_sidebar( 'utility-widget-area' ) ) : ?>
-										<div id='utilitybar'><ul class="menu">
-										<?php dynamic_sidebar( 'utility-widget-area' ); ?>
-										</ul></div>
+										<div id='utilitybar'>
+											<ul class="menu">
+											<?php dynamic_sidebar( 'utility-widget-area' ); ?>
+											</ul>
+										</div>
 									<?php endif; ?>
-							</div>
-						<div  id="mainnav" class="pull-left">		
+								</div>
 
-								<div id="primarynav" role="navigation">
-										<?php /* Our navigation menu.  If one isn't filled out, wp_nav_menu falls back to wp_page_menu.  The menu assiged to the primary position is the one used.  If none is assigned, the menu with the lowest ID is used.  */ ?>
-										<?php 
-								wp_nav_menu( array( 'container_class' => 'menu-header', 'theme_location' => 'primary' ) ); ?>
+								<div  id="mainnav" class="pull-left">		
+
+									<div id="primarynav" role="navigation">
+											<?php /* Our navigation menu.  If one isn't filled out, wp_nav_menu falls back to wp_page_menu.  The menu assiged to the primary position is the one used.  If none is assigned, the menu with the lowest ID is used.  */ ?>
+											<?php 
+									wp_nav_menu( array( 'container_class' => 'menu-header', 'theme_location' => 'primary' ) ); ?>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-						</div>
-  </div><!-- /.navbar-collapse -->
-</nav>						
-				</div>				
+				</div><!-- /.navbar-collapse -->
+			</nav>						
+		</div>				
 				     
-			<div id="content" class="container">			
-					<div class="content-wrapper">
-
+		<div id="content" class="container">			
+			<div class="content-wrapper">

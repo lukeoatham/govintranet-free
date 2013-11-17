@@ -7,10 +7,7 @@ $k++;
 $thistitle = get_the_title($ID);
 $thisURL=get_permalink($ID);
 $vidpod = new Pod ( 'news' , $post->ID );
-$videostill = $vidpod->get_field('video_still');		
-$videoguid = $videostill[0]['guid'];
-$vidid = $videostill[0]['ID'];
-$videoimg = wp_get_attachment_image( $vidid, 'thumbnail');
+$videoimg = get_the_post_thumbnail($post->ID, 'thumbnail', array('class' => 'alignright'));
 $thisexcerpt= get_the_excerpt();
 $thisdate= $post->post_date;
 $thisdate=date("j M Y",strtotime($thisdate));
@@ -31,12 +28,9 @@ if ($k==1 && $paged<2){
 
 	echo "<div class='row'>";
 	echo "<div class='col-lg-12'>";
-	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'newshead' ); 
-	if ($image_uri!="" && $videostill==''){
+	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+	if ($image_uri!="" ){
 		echo "<a href='/news/".$post->post_name."/'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".$thistitle."' /></a>";																			} 
-	if ($videostill){
-		echo "<a href='/news/".$post->post_name."/'>".$videoimg."</a>";
-	} 					
 	echo "<h3><a href='/news/".$post->post_name."'>".$needtoknow.$thistitle."</a></h3>";
 	echo "<div class='media-body'>";
 	

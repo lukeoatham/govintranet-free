@@ -528,8 +528,17 @@ body.home #secondarynav {
 
 .js-masonry p {
 	font-size: .9em !important;
+	line-height: 1.7em;
+	margin-top: .5em;
+}
+.page-template-page-full-width-php .js-masonry p {
+ 
+	font-size: .9em !important;
 	line-height: 1.3em;
 	margin-top: .5em;
+}
+.pgrid-item .well {
+	margin-bottom: 0.5em !important;
 }
 .grid-sizer {
 	width: 32%;	
@@ -537,11 +546,17 @@ body.home #secondarynav {
 .grid-item {
 	width: 30%;	
 }
+.pgrid-sizer {
+	width: 32%;	
+}
+.pgrid-item {
+	width: 31%;	
+}
 .page-template-page-full-width-php .grid-sizer {
-	width: 24%;	
+	width: 32%;	
 }
 .page-template-page-full-width-php .grid-item {
-	width: 23%;	
+	width: 30	%;	
 }
 .page-template-page-left-nav-php .grid-sizer {
 	width: 48%;	
@@ -768,8 +783,11 @@ ul.listing.li  {
 	padding: 1px 8px !important;
 }
 #bbpress-forums p.bbp-topic-meta img.avatar, #bbpress-forums ul.bbp-reply-revision-log img.avatar, #bbpress-forums ul.bbp-topic-revision-log img.avatar, #bbpress-forums div.bbp-template-notice img.avatar, #bbpress-forums .widget_display_topics img.avatar, #bbpress-forums .widget_display_replies img.avatar, #bbpress-forums p.bbp-topic-meta img.avatar {
-margin-bottom: 0 !important;
-border: none !important;
+	margin-bottom: 0 !important;
+	border: none !important;
+}
+.bbp-user-page div#bbpress-forums {
+	display: none !important;
 }
 .search .avatar {
 	float: left;
@@ -1822,6 +1840,48 @@ ul.group {
 	margin-left: -3em;
 }
 
+.pagination>li>a {
+	padding: 4px 10px !important;
+}
+
+h3.contacthead {
+	border-bottom: 1px solid #999;
+	margin-top: 1.3em;
+}
+
+#peoplenav ul  {
+	padding-top: 0;
+	padding-left: 1em;
+}
+
+#peoplenav ul li  {
+	list-style: none;
+	padding: 0;
+	font-weight: normal;
+	line-height: 130%;
+	margin-bottom: 0.3em;
+	border-top: 1px solid #e7e7e7;
+	border-left: 1px solid #e7e7e7;
+}
+
+#peoplenav ul li a {
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	min-height: 110px;
+}
+
+#peoplenav ul li a:link,  #peoplenav ul li a:visited  {
+	color: #333;
+	text-decoration: none;
+	display: block;
+	background: #f4f4f4 !important;
+}
+
+#peoplenav ul li a:hover  {
+	list-style: none;
+	font-weight: normal;
+	background: #DEE0E2 !important;
+	color: #333 !important;
+}
 
 
 /* comment form */
@@ -1899,12 +1959,18 @@ li.comment .comment-body  {
 .grid-item {
 	width: 47% !important;	
 }
-
-.page-template-page-full-width-php .grid-sizer {
+.pgrid-sizer {
 	width: 32% !important;	
 }
+.pgrid-item {
+	width: 32% !important;	
+}
+
+.page-template-page-full-width-php .grid-sizer {
+	width: 49% !important;	
+}
 .page-template-page-full-width-php .grid-item {
-	width: 31% !important;	
+	width: 48% !important;	
 }
 .page-template-page-left-nav-php .grid-sizer {
 	width: 48% !important;	
@@ -1927,11 +1993,18 @@ li.comment .comment-body  {
 .grid-item {
 	width: 47% !important;	
 }
+.pgrid-sizer {
+	width: 49% !important;	
+}
+.pgrid-item {
+	width: 48% !important;	
+}
+
 .page-template-page-full-width-php .grid-sizer {
-	width: 32% !important;	
+	width: 48% !important;	
 }
 .page-template-page-full-width-php .grid-item {
-	width: 31% !important;	
+	width: 47% !important;	
 }
 .page-template-page-left-nav-php .grid-sizer {
 	width: 49% !important;	
@@ -1959,6 +2032,13 @@ li.comment .comment-body  {
 .grid-item {
 	width: 48% !important;	
 }
+.pgrid-sizer {
+	width: 48% !important;	
+}
+.pgrid-item {
+	width: 47% !important;	
+}
+
 .page-template-page-full-width-php .grid-sizer {
 	width: 49% !important;	
 }
@@ -1988,6 +2068,13 @@ li.comment .comment-body  {
 .grid-item {
 	width: 100% !important;	
 }
+.pgrid-sizer {
+	width: 99% !important;	
+}
+.pgrid-item {
+	width: 99% !important;	
+}
+
 .page-template-page-full-width-php .grid-sizer {
 	width: 100% !important;	
 }
