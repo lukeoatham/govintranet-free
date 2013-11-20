@@ -1431,6 +1431,18 @@ function human_time_diff_plus( $from, $to = '' ) {
      return $since;
 }
 
+//Embed Video Fix
+function add_secure_video_options($html) {
+   if (strpos($html, "<iframe" ) !== false  && is_ssl() ) {
+        $search = array('src="http://www.youtu','src="http://youtu');
+        $replace = array('src="https://www.youtu','src="https://youtu');
+        $html = str_replace($search, $replace, $html);
 
+        return $html;
+   } else {
+        return $html;
+   }
+}
+add_filter('the_content', 'add_secure_video_options', 10);
 
 ?>
