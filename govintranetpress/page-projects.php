@@ -15,7 +15,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						</div>
 
 				<?php
-					echo "<h1>Projects</h1>";
+					echo "<h1>";
+					the_title();
+					echo "</h1>";
 					the_content();
 					?>
 
@@ -24,7 +26,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 	<div class="well">
 									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
-										<label for="s">In projects </label>
+										<label for="s">Search</label>
 										<div class="form-group input-md">
 											<input type="text" value="" name="s" id="sbc-s" class="form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 										</div>
