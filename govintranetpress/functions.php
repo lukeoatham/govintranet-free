@@ -1138,6 +1138,10 @@ add_filter('request', 'add_pagination_to_author_page_query_string');
 
 
 function get_terms_by_post_type( $taxonomies, $post_types ) {
+	if (!$taxonomies || !$post_types) {
+		$results = "";
+		return $results;
+	}
 
     global $wpdb;
 
@@ -1150,6 +1154,10 @@ function get_terms_by_post_type( $taxonomies, $post_types ) {
 }
 
 function get_terms_by_media_type( $taxonomies, $post_types ) {
+	if (!$taxonomies || !$post_types) {
+		$results = "";
+		return $results;
+	}
 
     global $wpdb;
 
