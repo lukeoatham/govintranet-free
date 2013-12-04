@@ -667,6 +667,7 @@ function remove_themeoptions_menu() { // needed to hide TwentyTen options that w
 	}	
 }
 
+/*
 add_action('admin_head', 'remove_themeoptions_menu');
 
 
@@ -678,6 +679,7 @@ function remove_contactmethods($contactmthods) {
 	}
 
 add_filter('user_contactmethods','remove_contactmethods' ,10,1);
+*/
 
 
 // check jQuery is available
@@ -1483,6 +1485,5 @@ function remove_dashboard_widgets() {
 if (!current_user_can('manage_options')) {
 	add_action('wp_dashboard_setup' , 'remove_dashboard_widgets') ;
 }
-
 
 ?>
