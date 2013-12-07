@@ -8,6 +8,7 @@ Author URI: http://www.helpfultechnology.com
 Tags: bootstrap,  intranet,  gov.uk
 */
 
+/* DEFAULTS */
 
 body  {
 	line-height: 150% !important;
@@ -16,35 +17,7 @@ body  {
 	color: #333;	
 	font-weight: 300;
 }
-.navbar {
-	margin-bottom: 0;
-	border: 0;
-}
-.navbar-inverse {
-	background: transparent;
-}
-.navbar-inverse .navbar-brand {
-	color: #fff;
-}
-.nopadright {
-	padding-right: 0;
-}
-.nopadleft {
-	padding-left: 0;
-}
-.media-body a {
-	text-decoration: underline;
-}
-.row.full {
-	margin-left: -30px;
-	margin-right: -30px;
-}
-.tagcloud {
-	text-align: center;
-}
-#sbc-search label {
-	margin-left: -0.7em;
-}
+
 table .form-table .pods-meta, .form-table .pods-meta tr, .form-table .pods-meta td {
 	border: 0;
 }
@@ -53,36 +26,64 @@ table .form-table .pods-meta, .form-table .pods-meta tr, .form-table .pods-meta 
 	border-radius: 0;	
 	font-weight: 200;
 }
-.bbp-breadcrumb {
+input:disabled {
+	color: #a9a7a7;
+}
+
+
+/* HEADER */
+h1 small, h2 small, h3 small {
+	font-weight: 200;
+	font-family: 'Helvetica Neue',Helvetica,arial,sans-serif;
+}
+.alignright {
+	float: right;
+}
+#crownlink  a {
+	font-size: 1.2em;
+	color: white;
+	text-decoration: none;
+	margin-top: 0.5em;
+	margin-left: -70px;
+	padding-left: 70px;
+	font-weight: 200;
+}
+#topstrip  {
+	background: #000000;
+	overflow:visible;
+}
+
+#topstrip .row  {
+	background: none;
+}
+
+#masthead  {
+	text-align: left;
+	padding: 0;
+}
+
+#masthead #mainlogo  {
+	float: left;
+	margin-right: 1em;
+}
+
+#mainlogobw  {
 	display: none;
+}
+
+
+	
+/* SEARCH */
+
+#sbc-search label {
+	margin-left: -0.7em;
 }
 
 #searchformdiv {
 	padding-top: 1em;
 	padding-bottom: 1em;	
 }
-.white {
-	background-color: #fff;
-	padding-bottom: 1em;
-}
-.media .hidden-xs img {
-	margin-left: 1em;
-}
-.more_post {
-	text-align: left;
-}
-input:disabled {
-	color: #a9a7a7;
-}
-.listglyph {
-	color: #454a4c;
-	font-size: 90%;
-}
-.tax-atoz .listglyph {
-	color: #999;
-	font-size: 85%;	
-	font-weight: 100;
-}
+
 .typeahead,
 .tt-query,
 .tt-hint {
@@ -143,126 +144,18 @@ input:disabled {
 	background: #d8d8d8;
 	color: black;
 }
-h1 small, h2 small, h3 small {
-	font-weight: 200;
-	font-family: 'Helvetica Neue',Helvetica,arial,sans-serif;
-}
-.alignright {
-	float: right;
-}
-#crownlink  a {
-	font-size: 1.2em;
-	color: white;
-	text-decoration: none;
-	margin-top: 0.5em;
-	margin-left: -70px;
-	padding-left: 70px;
-	font-weight: 200;
-}
-#topstrip  {
-	background: #000000;
-	overflow:visible;
-}
 
-#topstrip .row  {
-	background: none;
+/* MAIN NAVIGATION */
+.navbar {
+	margin-bottom: 0;
+	border: 0;
 }
-
-#topheader  {
-	background: none;
-	margin-top: 0;
-	padding: 0.6em 1.5em 0 0;
-	color: #000;
+.navbar-inverse {
+	background: transparent;
 }
-
-#toplinks  {
-	text-align: right;
-	padding: 0 !important;
-	margin: 0 !important;
-}
-
-#toplinks ul li  {
-	font-weight: normal;
-	display: inline;
-	list-style: none;
-	border-right: 1px solid #fff;
-	padding-right: 0.5em;
-	padding-left: 0.3em;
-}
-
-#toplinks ul li:last-child  {
-	border-right: none !important;
-	padding-right: 0;
-}
-.visible-phone {display: none;}
-ul li.last-link  {
-	border-right: none !important;
-	padding-right: 0;
-}
-
-#toplinks a  {
-	text-decoration: none;
+.navbar-inverse .navbar-brand {
 	color: #fff;
 }
-
-#masthead  {
-	text-align: left;
-	padding: 0;
-}
-
-#masthead #mainlogo  {
-	float: left;
-	margin-right: 1em;
-}
-
-#mainlogobw  {
-	display: none;
-}
-	
-
-#profilebar {
-	float: right;
-	color: #fff;
-	font-size: 0.8em;
-	display: inline;	
-	padding: 0.5em;
-}
- #profilebar a {
-	color: #fff;
-
- }
-
-#loginform label {
-	margin-left: 0;
-} 
-.loginbox {
-	margin-left: 1em;
-}
-.loginbar {
-	font-size: 0.7em;
-	z-index: 500;
-}
-.touchdown-list  {
-	display: block;
-}
-
-.touchdown  {
-	display: none;
-}
-#strapline  {
-	font-size: 2.3em;
-	font-weight: 300;
-	padding: 0.75em 0 0.25em 0  !important;
-	margin-bottom: .5em !important;
-}
-
-.breadcrumbs  {
-	font-size: 0.8em;
-	padding: 1em 1em 1em 1em;
-}
-
-
-/* Primary menu styles */
 
 #primarynav  {
 	background: white;
@@ -312,6 +205,86 @@ ul li.last-link  {
 #primarynav ul li.current-menu-item,  #primarynav ul li.current-page-ancestor  {
 	border-bottom: 1px solid #fff;
 }
+
+
+/* HELPERS */
+
+.nopadright {
+	padding-right: 0;
+}
+.nopadleft {
+	padding-left: 0;
+}
+.media-body a {
+	text-decoration: underline;
+}
+.row.full {
+	margin-left: -30px;
+	margin-right: -30px;
+}
+
+/* TAG CLOUD */
+
+.tagcloud {
+	text-align: center;
+}
+
+/* BUDDYPRESS OVERRIDES */
+
+.bbp-breadcrumb {
+	display: none;
+}
+
+
+.white {
+	background-color: #fff;
+	padding-bottom: 1em;
+}
+.media .hidden-xs img {
+	margin-left: 1em;
+}
+.more_post {
+	text-align: left;
+}
+.listglyph {
+	color: #454a4c;
+	font-size: 90%;
+}
+.tax-atoz .listglyph {
+	color: #999;
+	font-size: 85%;	
+	font-weight: 100;
+}
+
+.visible-phone {display: none;}
+
+ul li.last-link  {
+	border-right: none !important;
+	padding-right: 0;
+}
+
+#loginform label {
+	margin-left: 0;
+} 
+.loginbox {
+	margin-left: 1em;
+}
+.loginbar {
+	font-size: 0.7em;
+	z-index: 500;
+}
+#strapline  {
+	font-size: 2.3em;
+	font-weight: 300;
+	padding: 0.75em 0 0.25em 0  !important;
+	margin-bottom: .5em !important;
+}
+
+.breadcrumbs  {
+	font-size: 0.8em;
+	padding: 1em 1em 1em 1em;
+}
+
 
 ul {
 	list-style-type: square;
@@ -1400,39 +1373,11 @@ ul.doctypemenu li {
 	left: 10px;
 }
 
-.post  {
-	border-bottom: 1px dashed #ccc;
-	margin: 1em 0;
-	padding: 0 0 1em 0;
-}
-
-body.home .post  {
-	margin-left: 1em;
-}
-
-.post h2  {
-	font-size: 100%;
-}
-
-.post p  {
-	font-size: 90%;
-}
-
-.postmeta  {
-	color: #000;
-	font-size: 90%;
-	padding-bottom: 0.5em;
-}
-
 .listingthumb  {
 	float: left;
 	margin: 0 1em 1em 0;
 }
 
-.studycover  {
-	float: right;
-	margin: 0 0 1em 1em;
-}
 .chapters-container {
 	float: left;
 	clear: both;
@@ -1570,24 +1515,6 @@ form#sbc-search input#s2 {
 
 form#sbc-search input.multi-cat {width: 100%;}
 form#sbc-search input.single-cat {width: 100%; }
-
-.hthashtweets li  {
-	padding-bottom: 1em !important;
-	padding-left: 50px !important;
-	font-size: 80%;
-	line-height: 130%;
-	padding-left: 60px;
-	min-height: 48px;
-	list-style: none !important;
-}
-
-.hthashtweets li a  {
-	text-decoration: none;
-}
-
-.hthashtweets li a:hover,  .hthashtweets li a:active  {
-	text-decoration: underline;
-}
 
 .category-block #ht-feature-news {
 	margin-top: 1em;

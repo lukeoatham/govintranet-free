@@ -30,6 +30,8 @@ class htFeatureNews extends WP_Widget {
 
 	$totalstories =  $primaryitems + $secondaryitems + $tertiaryitems; 
 
+	$siteurl = site_url();
+
 //manual override news stories
 	$num_top_slots = count($top_slot);
 	$to_fill = $totalstories - $num_top_slots;
@@ -54,31 +56,31 @@ class htFeatureNews extends WP_Widget {
 				if ($k<=$primaryitems){ //manual primary news
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot['ID'] ), 'large' );
 					if ($image_uri!="" && $videostill==''){
-						echo "<div><a href='" . site_url() . "/news/".$slot['post_name']."/'><img class='img img-responsive' src='{$image_uri[0]}' alt='".govintranetpress_custom_title($slot['post_title'])."' /></a>";									
+						echo "<div><a href='".$siteurl."/news/".$slot['post_name']."/'><img class='img img-responsive' src='{$image_uri[0]}' alt='".govintranetpress_custom_title($slot['post_title'])."' /></a>";									
 					} 
 					if ($videostill){
-						echo "<div><a href='" . site_url() . "/news/".$slot['post_name']."/'>".$videostill."</a>";
+						echo "<div><a href='".$siteurl."/news/".$slot['post_name']."/'>".$videostill."</a>";
 					} 					
 					}
 				else {
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot['ID'] ), 'thumbnail' );
-					$image_url = "<div><a  href='" . site_url() . "/news/".$slot['post_name']."/'>".get_the_post_thumbnail($slot['ID'], 'thumbnail', array('class' => 'media-object pull-right'))."</a>";
+					$image_url = "<div><a  href='".$siteurl."/news/".$slot['post_name']."/'>".get_the_post_thumbnail($slot['ID'], 'thumbnail', array('class' => 'media-object pull-right'))."</a>";
 					if ($videostill){
-						$image_url= "<a href='" . site_url() . "/news/".$slot['post_name']."/'>".$videostill."</a>";
+						$image_url= "<a href='".$siteurl."/news/".$slot['post_name']."/'>".$videostill."</a>";
 					} 					
 				}
 
 		$thisexcerpt= $newspod->get_field('post_excerpt');
 		$thisdate= $slot['post_date'];
 		$thisdate=date("j M Y",strtotime($thisdate));
-		echo "<h2><a href='" . site_url() . "/news/{$thisURL}'>".$thistitle."</a></h2>";
+		echo "<h2><a href='".$siteurl."/news/{$thisURL}'>".$thistitle."</a></h2>";
 		echo "<div class='media'>";
 		echo $image_url;
 		echo "<div class='media-body'>";
 		echo "<p><span class='news_date'>".$thisdate."</span></p>";
 		if ($k < ($primaryitems + $secondaryitems + 1)) {
 		echo "".$thisexcerpt."";
-		echo "<p class='news_date'><a class='more' href='" . site_url() . "/news/{$thisURL}' title='{$thistitle}' >Read more</a></p>";
+		echo "<p class='news_date'><a class='more' href='".$siteurl."/news/{$thisURL}' title='{$thistitle}' >Read more</a></p>";
 		}
 		echo "</div></div></div><hr class='light' />\n";
 
@@ -158,7 +160,7 @@ class htFeatureNews extends WP_Widget {
 							wp_reset_query();								
 							echo "</div>";
 ?>
-		<div class="category-block"><p><strong><a title='More in news' class="small" href="<?php echo site_url(); ?>/newspage/">More in news</a></strong> <i class='glyphicon glyphicon-chevron-right small'></i></p></div>
+		<div class="category-block"><p><strong><a title='More in news' class="small" href="<?php echo $siteurl; ?>/newspage/">More in news</a></strong> <i class='glyphicon glyphicon-chevron-right small'></i></p></div>
 
 
 

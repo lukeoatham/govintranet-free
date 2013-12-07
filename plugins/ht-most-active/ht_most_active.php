@@ -14,6 +14,7 @@ class htMostActive extends WP_Widget {
     }
     
     function widget($args, $instance) {
+    	$siteurl = site_url();
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
@@ -27,36 +28,30 @@ class htMostActive extends WP_Widget {
         $trail = intval($instance['trail']);
         $cache = intval($instance['cache']);
 
-       ?>
-              <?php echo $before_widget; ?>
-                  <?php if ( $title )
-                        echo $before_title . $title . $after_title; ?>
-
-
-
-<?php
-	$baseurl = home_url();
-	$hc = new Pod ('homepage_control');
-	$top_pages =  $hc->get_field('top_pages');
-
-	$num_top_slots = count($top_pages);
-	$to_fill = $items - $num_top_slots;
-	$k=0;
-	$alreadydone= array();
-	//display top news stories
-	$hmtl = '';
-	if ($top_pages){
-	foreach ($top_pages as $slot){
-		$k++;
-		$alreadydone[] = $slot['ID'];
-		$thistitle = govintranetpress_custom_title($slot['post_title']);
-		$thisURL=$slot['post_name'];
-		$taskpod = new Pod('task', $thistask);
-		$tasktitle= govintranetpress_custom_title( $slot['post_title'] );			
-		$html.= "<li><a href='/task/" . $thisURL . "'>" . $tasktitle . "</a></li>";
-	}
-	echo ("<ul>".$html."</ul>");
-
+		echo $before_widget; 
+		if ( $title )
+			echo $before_title . $title . $after_title; 
+			$baseurl = home_url();
+			$hc = new Pod ('homepage_control');
+			$top_pages =  $hc->get_field('top_pages');
+		
+			$num_top_slots = count($top_pages);
+			$to_fill = $items - $num_top_slots;
+			$k=0;
+			$alreadydone= array();
+			//display top news stories
+			$hmtl = '';
+			if ($top_pages){
+			foreach ($top_pages as $slot){
+				$k++;
+				$alreadydone[] = $slot['ID'];
+				$thistitle = govintranetpress_custom_title($slot['post_title']);
+				$thisURL=$slot['post_name'];
+				$taskpod = new Pod('task', $thistask);
+				$tasktitle= govintranetpress_custom_title( $slot['post_title'] );			
+				$html.= "<li><a href='".$siteurl."/task/" . $thisURL . "'>" . $tasktitle . "</a></li>";
+			}
+			echo ("<ul>".$html."</ul>");
 	}
 $cachedga = get_transient('cached_ga');
 if ($cachedga) { // if we have a fresh cache

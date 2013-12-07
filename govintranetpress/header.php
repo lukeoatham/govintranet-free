@@ -19,8 +19,7 @@ header('X-Frame-Options: SAMEORIGIN');
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<title><?php
 		/*
-		 * Print the <title> tag based on what is being viewed.
-		 * We filter the output of wp_title() a bit -- see
+		 * Print the <title> tag based on what is being viewed. sdfffdf		 * We filter the output of wp_title() a bit -- see
 		 * twentyten_filter_wp_title() in functions.php.
 		 */
 		wp_title( '', true, 'right' );
@@ -36,7 +35,12 @@ header('X-Frame-Options: SAMEORIGIN');
 	<!--[if lte IE 8]>
 		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie8.css" type="text/css" media="screen" />
 	<![endif]-->
+
+<!--
+
+	<link href="<?php echo get_stylesheet_directory_uri(); ?>/style-bis-story.css" rel="stylesheet">
 	
+-->
 	<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/social_foundicons.css" type="text/css" media="all" />
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/prettyPhoto.css" rel="stylesheet">

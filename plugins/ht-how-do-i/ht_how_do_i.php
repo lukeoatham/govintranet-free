@@ -18,47 +18,38 @@ class htHowDoI extends WP_Widget {
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
 
-       ?>
-              <?php echo $before_widget; ?>
-                  <?php if ( $title )
-                        echo $before_title . $title . $after_title; ?>
-
-
-
-
-
-<div class="well well-sm">
-									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
-										<div class="form-group input-md">
-											<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="How do I..." />
-										</div>
-										<div class="form-group input-md">
-											<button type="submit" class="btn btn-primary input-md">Search</button>
-										</div>
-										<label for="cat">Search in: </label>
-										<div class="form-group input-md">
-											<select name='cat' id='cat' class='form-control input-md'>
-												<option value='0' selected='selected'>All tasks and guides</option>
-													<?php
-													$terms = get_terms('category');
-														if ($terms) {
-													  		foreach ((array)$terms as $taxonomy ) {
-													  			if ($taxonomy->name == 'Uncategorized'){
-														  			continue;
-													  			}
-														  		echo "<option class='level-0' value='".$taxonomy->term_id."'>".$taxonomy->name."</option>";
-														  		}
-														  		}
-													?>
-											</select>
-										</div>
-										<input type="hidden" name="post_type" value="task" />
-									</form>
-
-							</div>							
-
-
-              <?php echo $after_widget; ?>
+		echo $before_widget; 
+		if ( $title )
+			echo $before_title . $title . $after_title; ?>
+			<div class="well well-sm">
+				<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
+					<div class="form-group input-md">
+						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="How do I..." />
+					</div>
+					<div class="form-group input-md">
+						<button type="submit" class="btn btn-primary input-md">Search</button>
+					</div>
+					<label for="cat">Search in: </label>
+					<div class="form-group input-md">
+						<select name='cat' id='cat' class='form-control input-md'>
+							<option value='0' selected='selected'>All tasks and guides</option>
+								<?php
+								$terms = get_terms('category');
+								if ($terms) {
+							  		foreach ((array)$terms as $taxonomy ) {
+							  			if ($taxonomy->name == 'Uncategorized'){
+								  			continue;
+							  			}
+								  		echo "<option class='level-0' value='".$taxonomy->term_id."'>".$taxonomy->name."</option>";
+								  	}
+								}
+								?>
+						</select>
+					</div>
+					<input type="hidden" name="post_type" value="task" />
+				</form>
+		</div>							
+		<?php echo $after_widget; ?>
         <?php
     }
 

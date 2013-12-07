@@ -2,7 +2,7 @@
 /*
 Plugin Name: HT Feedback
 Plugin URI: http://www.helpfultechnology.com
-Description: Widget to display feedback form (required Gravity Forms plugin)
+Description: Widget to display feedback form
 Author: Luke Oatham
 Version: 0.1
 Author URI: http://www.helpfultechnology.com
