@@ -36,11 +36,6 @@ header('X-Frame-Options: SAMEORIGIN');
 		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie8.css" type="text/css" media="screen" />
 	<![endif]-->
 
-<!--
-
-	<link href="<?php echo get_stylesheet_directory_uri(); ?>/style-bis-story.css" rel="stylesheet">
-	
--->
 	<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/social_foundicons.css" type="text/css" media="all" />
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/prettyPhoto.css" rel="stylesheet">
