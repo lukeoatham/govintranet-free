@@ -898,10 +898,16 @@ function ht_cookiebar_widget() {
 
 function filter_search($query) {
     if ($query->is_search) {
-if ( $_GET['pt'] == 'forums'  ){
-        $query->set('post_type', array('topic', 'reply'));
-}
+		if ( $_GET['pt'] == 'forums'  ){
+		        $query->set('post_type', array('topic', 'reply'));
+		}
     };
+    if ($query->is_tag) {
+		        $query->set('post_type', array('any'));
+    }
+    if ($query->is_category) {
+		        $query->set('post_type', array('any'));
+    }
     return $query;
 }; 
 add_filter('pre_get_posts', 'filter_search');
@@ -1459,5 +1465,33 @@ function add_secure_video_options($html) {
    }
 }
 add_filter('the_content', 'add_secure_video_options', 10);
+
+//Remove widgets
+function fm_remove_calendar_widget() {
+	if ( current_user_can('activate_plugins') ) {
+	unregister_widget('WP_Widget_Calendar');
+	unregister_widget('WP_Widget_Links');
+	unregister_widget('WP_Widget_Meta');
+	unregister_widget('WP_Widget_Recent_Posts');
+	unregister_widget('Akismet_Widget');
+	unregister_widget('WP_Widget_Categories');
+	unregister_widget('WP_Widget_Archives');
+	unregister_widget('WP_Widget_Pages');
+	}
+}
+add_action ( 'widgets_init' , 'fm_remove_calendar_widget' );
+
+//Remove dasboard widgets
+function remove_dashboard_widgets() {
+	global $wp_meta_boxes;
+	unset ($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
+	unset ($wp_meta_boxes['dashboard']['side']['core']['dashboard_incoming_links']);
+	unset ($wp_meta_boxes['dashboard']['side']['core']['dashboard_plugins']);
+	unset ($wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts']);
+}
+if (!current_user_can('manage_options')) {
+	add_action('wp_dashboard_setup' , 'remove_dashboard_widgets') ;
+}
+
 
 ?>

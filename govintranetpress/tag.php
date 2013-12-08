@@ -3,21 +3,17 @@
  * The template for displaying Tag Archive pages.
  *
  * @package WordPress
- * @subpackage Starkers
- * @since Starkers 3.0
  */
 
-get_header(); ?>
+get_header(); 
+
+?>
 
 <div class="row white content-wrapper">
-
-
-					
-					<div class="col-lg-9 white">
-							
-				<h1><?php
-					printf( __( 'Tag: %s', 'twentyten' ), '' . single_tag_title( '', false ) . '' );
-				?></h1>
+	<div class="col-lg-9 white">
+		<h1><?php
+			printf( __( 'Tag: %s', 'twentyten' ), '' . single_tag_title( '', false ) . '' );
+		?></h1>
 
 <?php
 /* Run the loop for the tag archive to output the posts
@@ -26,8 +22,10 @@ get_header(); ?>
  */
  
  get_template_part( 'loop', 'tag' );
-?>
-					</div>
 
-				</div>
+?>
+	</div>
+
+</div>
+
 <?php get_footer(); ?>
