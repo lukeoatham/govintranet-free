@@ -928,42 +928,15 @@ if ((pods_url_variable(0)=='tasks')||(pods_url_variable(0)=='how-do-i')){
 }
     $args = wp_parse_args( $args, $defaults );
     global $wpdb;
-    $tquery="
-					SELECT DISTINCT
-						terms2.term_id as term_id,
-						terms2.name as name,
-						terms2.slug as link,
-						t2.count as count,
-						t2.term_taxonomy_id as term_taxonomy_id,
-						0 as term_group,
-						'post_tag' as taxonomy
-					FROM
-						$wpdb->posts as p1
-						LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID
-						LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id
-						LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id,
-					
-						$wpdb->posts as p2
-						LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID
-						LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id
-						LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id
-					WHERE (
-						t1.taxonomy = '$tc_tax' AND
-						p1.post_status = 'publish' AND
-						p1.post_type = '$tc_post_type' AND ";
-						
-						if ($cat_id!=""){
-						$tquery=$tquery."terms1.term_id = '$cat_id' AND ";
-							}
-						
-						$tquery=$tquery."t2.taxonomy = 'post_tag' AND
-						p2.post_status = 'publish' AND
-						p1.ID = p2.ID 
-						)
-					ORDER BY t2.count desc
-					limit 90"
-					;
-					$tquery = $wpdb->prepare($tquery);
+    if ( $cat_id != "" ){
+    $tquery = $wpdb->prepare("SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, terms2.slug as link, t2.count as count, t2.term_taxonomy_id as term_taxonomy_id, 0 as term_group, 'post_tag' as taxonomy FROM $wpdb->posts as p1 LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id, $wpdb->posts as p2 LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id WHERE ( t1.taxonomy = '%s' AND p1.post_status = 'publish' AND p1.post_type = '%s' AND terms1.term_id = '%s' AND t2.taxonomy = 'post_tag' AND p2.post_status = 'publish' AND p1.ID = p2.ID  ) ORDER BY t2.count desc limit 90",$tc_tax,$tc_post_type,$cat_id);
+
+} else {
+
+   $tquery = $wpdb->prepare("SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, terms2.slug as link, t2.count as count, t2.term_taxonomy_id as term_taxonomy_id, 0 as term_group, 'post_tag' as taxonomy FROM $wpdb->posts as p1 LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id, $wpdb->posts as p2 LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id WHERE ( t1.taxonomy = '%s' AND p1.post_status = 'publish' AND p1.post_type = '%s' AND t2.taxonomy = 'post_tag' AND p2.post_status = 'publish' AND p1.ID = p2.ID  ) ORDER BY t2.count desc limit 90",$tc_tax,$tc_post_type);
+
+}
+
 					
 					if ($tc_post_type=='projects'){
 						$tquery="
@@ -1154,7 +1127,7 @@ function get_terms_by_post_type( $taxonomies, $post_types ) {
 
     global $wpdb;
 
-    $query = $wpdb->prepare( "SELECT t.*, COUNT(*) from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'publish' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id");
+    $query = "SELECT t.*, COUNT(*) from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'publish' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id";
 
     $results = $wpdb->get_results( $query );
 
@@ -1170,7 +1143,7 @@ function get_terms_by_media_type( $taxonomies, $post_types ) {
 
     global $wpdb;
 
-    $query = $wpdb->prepare( "SELECT t.*, COUNT(*) from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'inherit' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id order by t.name");
+    $query = "SELECT t.*, COUNT(*) from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'inherit' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id order by t.name";
 
     $results = $wpdb->get_results( $query );
 
@@ -1492,6 +1465,5 @@ function remove_dashboard_widgets() {
 if (!current_user_can('manage_options')) {
 	add_action('wp_dashboard_setup' , 'remove_dashboard_widgets') ;
 }
-
 
 ?>
