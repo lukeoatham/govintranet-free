@@ -29,16 +29,6 @@ get_header(); ?>
 					</h1>
 					<?php the_content(); ?>
 			 </div>
-
-<script type='text/javascript'>	
-
-//hide user profile fields
-jQuery(".bbp-user-edit #url").parent().parent().hide();
-jQuery(".bbp-user-edit h2:contains('Contact Info')").hide();
-
-
-</script>
-
 	
 
 <?php endwhile; ?>

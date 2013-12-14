@@ -1096,7 +1096,7 @@ WHERE				wp_posts.post_type = 'vacancies' AND
         $color = round( ( $smallest + ( ( $count - $min_count ) * $font_step ) ) - ( $smallest - 1 ) ) ;
 		$basecol=HTMLToRGB('#3a6f9e');
         
-        $scolor = ChangeLuminosity($basecol, 70-($color*3.5));
+        $scolor = ChangeLuminosity($basecol, 60-($color*3.3));
         $scolor=RGBToHTML($scolor);
         $class = 'color-' . ( round( ( $smallest + ( ( $count - $min_count ) * $font_step ) ) - ( $smallest - 1 ) ) );
         $tag_link = explode("/", $tag_link);
