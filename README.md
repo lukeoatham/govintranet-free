@@ -35,12 +35,13 @@ GOV.UK-style intranet WordPress theme
 This theme requires the [Pods WordPress plugin](http://wordpress.org/extend/plugins/pods/) to manage custom post types.  
 Tested up to: 2.3.15
 Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
-[Setup instructions](http://helpful.im/intranetsetup)
+[Setup instructions on the GovIntranetters help site](http://govintranetters.helpfulclients.com/task/setup-guide-instructions/)
 
 ## Upgrading from 2.x ##
 There are new custom post types and custom taxonomies as well as updates to existing custom post types.   
 Please backup before altering any Pods. Import using the setup files as required.  
-If you have trouble with your existing post types you'll need to update manually. I'll share data structures online soon, as well as updated documentation and help.   
+If you have trouble with your existing post types you'll need to update manually. 
+[Upgrade instructions](http://govintranetters.helpfulclients.com/task/upgrade-to-release-3/)
 
 
 ## Changelog ##
