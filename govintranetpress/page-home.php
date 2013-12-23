@@ -63,7 +63,7 @@ get_header(); ?>
 		<?php
 	$gis = "general_intranet_forum_support";
 	$forumsupport = get_option($gis);
-	if ($forumsupport) :
+	if ($forumsupport && is_active_widget('login-widget-area' )) :
 			$current_user = wp_get_current_user();
 			?>
 		<div id="loginrow" class="category-block">

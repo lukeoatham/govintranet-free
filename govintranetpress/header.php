@@ -30,14 +30,13 @@ header('X-Frame-Options: SAMEORIGIN');
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="profile" href="https://gmpg.org/xfn/11" />
 
-	<!--[if lte IE 9]>
-		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie.css" type="text/css" media="screen" />
-	<![endif]-->
 	<!--[if lte IE 8]>
 		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie8.css" type="text/css" media="screen" />
 	<![endif]-->
-	
+
+	<!--[if gte IE 8]>	
 	<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/social_foundicons.css" type="text/css" media="all" />
+	<![endif]-->
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/prettyPhoto.css" rel="stylesheet">
 
@@ -49,7 +48,8 @@ header('X-Frame-Options: SAMEORIGIN');
 	
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_stylesheet_directory_uri(); ?>/print.css" />
- 
+ 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/style-bis-story.css" rel="stylesheet">
+
 	<!-- [if lte IE 8]>
 		<script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/ie7/IE8.js"></script>
 	<![endif]-->

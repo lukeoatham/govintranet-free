@@ -54,7 +54,7 @@ class htFeatureNews extends WP_Widget {
 		$thistitle = govintranetpress_custom_title($slot['post_title']);
 		$thisURL=$slot['post_name'];
 				if ($k<=$primaryitems){ //manual primary news
-					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot['ID'] ), 'large' );
+					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot['ID'] ), 'homehead' );
 					if ($image_uri!="" && $videostill==''){
 						echo "<div><a href='".$siteurl."/news/".$slot['post_name']."/'><img class='img img-responsive' src='{$image_uri[0]}' alt='".govintranetpress_custom_title($slot['post_title'])."' /></a>";									
 					} 
@@ -73,7 +73,7 @@ class htFeatureNews extends WP_Widget {
 		$thisexcerpt= $newspod->get_field('post_excerpt');
 		$thisdate= $slot['post_date'];
 		$thisdate=date("j M Y",strtotime($thisdate));
-		echo "<h2><a href='".$siteurl."/news/{$thisURL}'>".$thistitle."</a></h2>";
+		echo "<h3><a href='".$siteurl."/news/{$thisURL}'>".$thistitle."</a></h3>";
 		echo "<div class='media'>";
 		echo $image_url;
 		echo "<div class='media-body'>";
@@ -123,7 +123,7 @@ class htFeatureNews extends WP_Widget {
 								$newspod->display('title');
 								$thisURL=get_permalink($news->ID); 
 										if ($k <= $primaryitems){
-												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $news->ID ), 'large' );
+												$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $news->ID ), 'homehead' );
 												if ($image_uri!="" && $videostill==''){
 													echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot)."' /></a>";									
 												} 
@@ -135,7 +135,7 @@ class htFeatureNews extends WP_Widget {
 								$thisdate= get_the_date();
 								$thisexcerpt= get_the_excerpt();
 								$thisdate=date("j M Y",strtotime($thisdate));
-								echo "<h2><a class='' href='".$thisURL."'>".$thistitle."</a></h2>";
+								echo "<h3><a class='' href='".$thisURL."'>".$thistitle."</a></h3>";
 								if ($k >= ($primaryitems + $secondaryitems + 1)) {
 									echo "<p><span class='news_date'>".$thisdate."";
 									echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Read more</a></span></p>";

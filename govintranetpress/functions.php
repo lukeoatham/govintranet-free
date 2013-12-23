@@ -987,8 +987,6 @@ WHERE				wp_posts.post_type = 'vacancies' AND
 
 		$tags = $wpdb->get_results($tquery);			
 
-//    $tags = get_terms( $args['taxonomy'], array_merge( $args, array( 'orderby' => 'count', 'order' => 'DESC' ) ) ); // Always query top tags
-//print_r($tags);
     if ( empty( $tags ) || is_wp_error( $tags ) )
         return;
 
@@ -1366,7 +1364,7 @@ remove_action('wp_title', 'bbp_title');
 // listing page thumbnail sizes, e.g. home page
 
 add_image_size( "newshead", "726", "353", true );
-
+add_image_size( "homehead", "444", "207", true );
 
 /**
  * Determines the difference between two timestamps.
