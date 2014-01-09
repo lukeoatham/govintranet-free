@@ -5,8 +5,8 @@ Contributors: lukeoatham
 Link: http://www.helpfultechnology.com  
 Tags: intranet, gov.uk  
 Requires at least: 3.4  
-Tested up to: 3.7.1  
-Stable tag: 2.0.7  
+Tested up to: 3.8  
+Stable Pods tag: 2.3.18  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -28,12 +28,13 @@ GOV.UK-style intranet WordPress theme
 * A to Z  
 * Jargon Buster  
 * Document types  
+* Staff
 
 
 ## Installation ##
 
 This theme requires the [Pods WordPress plugin](http://wordpress.org/extend/plugins/pods/) to manage custom post types.  
-Tested up to: 2.3.15
+Tested up to: 2.3.18
 Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
 [Setup instructions on the GovIntranetters help site](http://govintranetters.helpfulclients.com/task/setup-guide-instructions/)
 
@@ -45,6 +46,11 @@ If you have trouble with your existing post types you'll need to update manually
 
 
 ## Changelog ##
+
+### 3.0 - 9th January 2014 ###
+* Various bugfixes  
+* Staff directory 
+
 
 ### 3.0b - October 31st, 2013 ###
 * Rewritten for Bootstrap 3  
