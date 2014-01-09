@@ -55,13 +55,13 @@ get_header(); ?>
                         $gis = "general_intranet_forum_support";
 						$forumsupport = get_option($gis);
 						if ($forumsupport){
-	                        echo "<a class='pull-left' href=\"/staff/" . $user->user_login . "/\">";
+	                        echo "<a class='pull-left' href='".site_url()."/staff/" . $user->user_login . "/'>";
                         } else {
-	                        echo "<a class='pull-left' href=\"/author/" . $user->user_login . "/\">";	                        
+	                        echo "<a class='pull-left' href='".site_url()."/author/" . $user->user_login . "/'>";	                        
                         }
                         echo get_avatar($user->ID, 96);
                         echo "</a>";
-                        echo "<div class='media-body'><p class='media-heading'><a href='/author/" . $user->user_login . "/'>" . $user->display_name . "</a><br>";
+                        echo "<div class='media-body'><p class='media-heading'><a href='".site_url()."/author/" . $user->user_login . "/'>" . $user->display_name . "</a><br>";
                         
                         $jobtitle = get_user_meta($user->ID, 'user_job_title',true);
                         $bio = get_user_meta($user->ID,'description',true);
@@ -79,7 +79,7 @@ get_header(); ?>
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span><a class='label label-default' href='/tagged/?tag={$tagurl}&amp;posttype=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tagged/?tag={$tagurl}&amp;posttype=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
 				  	}
 				  	if ($foundtags){

@@ -38,7 +38,7 @@ get_header(); ?>
 						<?php 
 						//$slug = pods_url_variable(1);
 						
-						$slugtitle = single_cat_title();
+						$slugtitle = single_cat_title('',false);
 
 						$slugref = get_term_by('name', $slugtitle, 'atoz', ARRAY_A);
 						$slug = $slugref['slug'];
@@ -59,7 +59,7 @@ get_header(); ?>
 				
 							$letterlink[$taxonomy->slug] = "<li";
 							if (strtolower($slug)==strtolower($taxonomy->slug)) $letterlink[$taxonomy->slug] .=  " class='active'";
-								$letterlink[$taxonomy->slug] .=  "><a href='/atoz/".$taxonomy->slug."/'>".strtoupper($taxonomy->name)."</a></li>";
+								$letterlink[$taxonomy->slug] .=  "><a href='".site_url()."/atoz/".$taxonomy->slug."/'>".strtoupper($taxonomy->name)."</a></li>";
 							}
 						}
 
