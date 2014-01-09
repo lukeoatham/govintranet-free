@@ -153,11 +153,11 @@ $wpdb->query(
 				if ($post_cat){
 					echo "<div class='widget-box'><h3 class='widget-title'>Categories</h3>";
 					echo "<p class='taglisting {$post->post_type}'>";
-					echo "<span class='wptag t'><a href='/events/?cdir=".$cdir."'>All</a></span> ";
+					echo "<span class='wptag t'><a href='".site_url()."/events/?cdir=".$cdir."'>All</a></span> ";
 					foreach($post_cat as $cat){
 						if ($cat->name!='Uncategorized' && $cat->name){
 						$newname = str_replace(" ", "&nbsp;", $cat->name );
-						echo "<span class='wptag t".$cat->term_id."'><a href='/events/?cat=".$cat->slug."&cdir=".$cdir."'>".$newname."</a></span> ";
+						echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/events/?cat=".$cat->slug."&cdir=".$cdir."'>".$newname."</a></span> ";
 					}
 					}
 					echo "</p></div>";

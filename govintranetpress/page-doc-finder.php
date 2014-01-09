@@ -51,12 +51,12 @@ get_header(); ?>
 					echo "<li class='howdoi'><span class='brd'>&nbsp;";
 					echo "All categories</span></li>";
 				} else {
-					echo "<li class='howdoi'><span class='brd'>&nbsp;<a href='/document-finder/?doctyp=".$doctyp."'>";
+					echo "<li class='howdoi'><span class='brd'>&nbsp;<a href='".site_url()."/document-finder/?doctyp=".$doctyp."'>";
 					echo "All categories</a></span></li>";
 					
 				}
 			} else {
-				echo "<li class='howdoi'><span class='brd'>&nbsp;<a href='/document-finder/'>";
+				echo "<li class='howdoi'><span class='brd'>&nbsp;<a href='".site_url()."/document-finder/'>";
 				echo "All categories</a></span></li>";
 			}
 			foreach($post_cat as $cat){
@@ -67,12 +67,12 @@ get_header(); ?>
 						echo "<li class='howdoi'><span class='brd".$cat->term_id."'>&nbsp;";
 						echo $newname."</span></li>";
 					} else {
-						echo "<li class='howdoi'><span class='brd".$cat->term_id."'>&nbsp;<a href='/document-finder/?cat=".$cat->slug."&doctyp=".$doctyp."'>";
+						echo "<li class='howdoi'><span class='brd".$cat->term_id."'>&nbsp;<a href='".site_url()."/document-finder/?cat=".$cat->slug."&doctyp=".$doctyp."'>";
 						echo $newname."</a></span></li>";
 						
 					}
 				} else {
-				echo "<li class='howdoi'><span class='brd".$cat->term_id."'>&nbsp;<a href='/document-finder/?cat=".$cat->slug."'>";
+				echo "<li class='howdoi'><span class='brd".$cat->term_id."'>&nbsp;<a href='".site_url()."/document-finder/?cat=".$cat->slug."'>";
 				echo $newname."</a></span></li>";
 				}
 			}

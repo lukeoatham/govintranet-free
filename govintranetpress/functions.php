@@ -812,11 +812,18 @@ function my_custom_login_logo() {
 	$loginimage =  wp_get_attachment_image_src( $hcitem[0], 'large' );
 	if ($hcitem){
     echo '<style type="text/css">
-        h1 a { background-image:url('.$loginimage[0].') !important; }
+           h1 a { background-image:url('.$loginimage[0].') !important; 
+           width: auto !important;
+           background-size: auto !important;
+           }
+        
     </style>';
     } else {
     echo '<style type="text/css">
-	h1 a { background-image:url('.get_stylesheet_directory_uri().'/images/loginbranding.png) !important; }
+	h1 a { background-image:url('.get_stylesheet_directory_uri().'/images/loginbranding.png) !important; 
+	       width: auto !important;
+           background-size: auto !important;
+           }
     </style>';
     }
 }
@@ -987,6 +994,8 @@ WHERE				wp_posts.post_type = 'vacancies' AND
 
 		$tags = $wpdb->get_results($tquery);			
 
+//    $tags = get_terms( $args['taxonomy'], array_merge( $args, array( 'orderby' => 'count', 'order' => 'DESC' ) ) ); // Always query top tags
+//print_r($tags);
     if ( empty( $tags ) || is_wp_error( $tags ) )
         return;
 
@@ -1099,7 +1108,7 @@ WHERE				wp_posts.post_type = 'vacancies' AND
         $class = 'color-' . ( round( ( $smallest + ( ( $count - $min_count ) * $font_step ) ) - ( $smallest - 1 ) ) );
         $tag_link = explode("/", $tag_link);
         $tag_link=$tag_link[4];
-        $a[] = "<a href='/tagged/?tag=".$tag_link."'  style='font-size: " .
+        $a[] = "<a href='".site_url()."/tagged/?tag=".$tag_link."'  style='font-size: " .
             str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) )
             . "$unit; color: ".$scolor.";'>$tag_name</a>";
     }
@@ -1201,6 +1210,11 @@ function saveampersands_2($a) {
     $a = str_replace('AMPERSAND', '&', $a);
     return $a;
 }
+
+/*
+add_filter('relevanssi_user_profile_to_post', 'users_to_posts');
+function users_to_posts(){}			
+*/
 
 // Added to extend allowed file types in Media upload 
 add_filter('upload_mimes', 'custom_upload_mimes'); 
@@ -1436,5 +1450,21 @@ function add_secure_video_options($html) {
    }
 }
 add_filter('the_content', 'add_secure_video_options', 10);
+
+
+function relevanssi_user_filter($hits) {
+    global $wp_query;
+    if (isset($wp_query->query_vars['post_type'])) {
+    	$correct_colour = array();
+    	$tothits = 0;
+    	foreach ($hits[0] as $hit) {
+    		if ($hit->post_type == 'user') {
+				$tothits++;
+    		}
+    	}
+    }
+    return $tothits;
+}
+
 
 ?>

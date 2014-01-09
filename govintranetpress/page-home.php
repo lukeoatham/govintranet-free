@@ -41,14 +41,14 @@ get_header(); ?>
 	$gis = "general_intranet_forum_support";
 	$forumsupport = get_option($gis);
 
-	if ($homecontent ): //Display emergency message
+	if ($homecontent ): //Display emergency message 
 	?>
-	<div class="col-lg-12">
-		<div class="alert alert-dismissable alert-<?php echo $homecontentcolour; ?>">
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<?php	echo wpautop($homecontent); ?>
-			</div>
-	</div>	
+		<div class="col-lg-12">
+			<div class="alert alert-dismissable alert-<?php echo $homecontentcolour; ?>">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<?php	echo wpautop($homecontent); ?>
+				</div>
+		</div>	
 <?php endif; ?>
 
 
@@ -63,7 +63,8 @@ get_header(); ?>
 		<?php
 	$gis = "general_intranet_forum_support";
 	$forumsupport = get_option($gis);
-	if ($forumsupport && is_active_widget('login-widget-area' )) :
+
+	if ($forumsupport && is_active_sidebar('login-widget-area') ) : 
 			$current_user = wp_get_current_user();
 			?>
 		<div id="loginrow" class="category-block">

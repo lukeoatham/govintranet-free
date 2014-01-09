@@ -108,7 +108,7 @@ get_header(); ?>
 //		print_r($projects);
 		if ($projects){
 			echo "<div id='projects'><hr><h2>Project</h2><ul>";
-				echo "<li><a href='/projects/{$projects[0]['post_name']}/'>".$projects[0]['post_title']."</a></li>";
+				echo "<li><a href='".site_url()."/projects/{$projects[0]['post_name']}/'>".$projects[0]['post_title']."</a></li>";
 			echo "</ul></div>";
 		}
 		}
@@ -144,7 +144,7 @@ get_header(); ?>
 			echo "<div class='widget-box x'>
 					<h3>Categories</h3><p>";
 	foreach($post_cat as $cat){
-		echo "<span class='wptag'><a href='/category/".$cat->slug."/?post_type=vacancies'>".$cat->name."</a></span> ";
+		echo "<span class='wptag'><a href='".site_url()."/category/".$cat->slug."/?post_type=vacancies'>".$cat->name."</a></span> ";
 	}
 echo "</p></div>";
 			}
@@ -156,7 +156,7 @@ echo "</p></div>";
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span><a class='label label-default' href='/tagged/?tag={$tagurl}&amp;posttype=vacancies'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tagged/?tag={$tagurl}&amp;posttype=vacancies'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
 				  	}
 				  	if ($foundtags){

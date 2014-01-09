@@ -49,7 +49,7 @@ get_header(); ?>
 						}
 						if ($relatedtasks){
 							foreach ((array)$relatedtasks as $r){
-								$html.= "<li><a href='/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
+								$html.= "<li><a href='".site_url()."/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
 							}
 						}
 						if ($html){

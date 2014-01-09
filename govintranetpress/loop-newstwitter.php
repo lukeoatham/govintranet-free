@@ -30,8 +30,8 @@ if ($k==1 && $paged<2){
 	echo "<div class='col-lg-12'>";
 	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
 	if ($image_uri!="" ){
-		echo "<a href='/news/".$post->post_name."/'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".$thistitle."' /></a>";																			} 
-	echo "<h3><a href='/news/".$post->post_name."'>".$needtoknow.$thistitle."</a></h3>";
+		echo "<a href='".site_url()."/news/".$post->post_name."/'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".$thistitle."' /></a>";																			} 
+	echo "<h3><a href='".site_url()."/news/".$post->post_name."'>".$needtoknow.$thistitle."</a></h3>";
 	echo "<div class='media-body'>";
 	
 		echo "<div><p>";

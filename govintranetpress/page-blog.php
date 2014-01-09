@@ -88,7 +88,7 @@ $k = 0;
 					foreach($post_cat as $cat){
 						if ($cat->name!='Uncategorized' && $cat->name){
 						$newname = str_replace(" ", "&nbsp;", $cat->name );
-						echo "<span class='wptag t".$cat->term_id."'><a href='/news-by-category/?cat=".$cat->slug."'>".$newname."</a></span> ";
+						echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/news-by-category/?cat=".$cat->slug."'>".$newname."</a></span> ";
 					}
 					}
 					echo "</p>";

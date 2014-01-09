@@ -20,8 +20,8 @@ $catid = $catpod->get_field('term_id');
 	<div class="col-lg-8 col-md-8 white">
 		<div class="row">
 			<div class='breadcrumbs'>
-				<a title="Go to Home." href="/" class="site-home">Home</a> > 
-				<a title="Go to How do I?" href="/news/">News</a> > <?php echo $catname; ?>
+				<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> > 
+				<a title="Go to How do I?" href="<?php echo site_url(); ?>/news/">News</a> > <?php echo $catname; ?>
 			</div>
 		</div>
 	

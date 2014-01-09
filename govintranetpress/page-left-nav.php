@@ -41,7 +41,7 @@ get_header(); ?>
 							$html.= "<li><a href='".$r['guid']."'>".$r['post_title']."</a></li>";
 						}
 						foreach ($relatedtasks as $r){
-							$html.= "<li><a href='/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
+							$html.= "<li><a href='".site_url()."/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
 						}
 						if ($html){
 							echo "<div class='widget-box'>

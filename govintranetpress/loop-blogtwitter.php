@@ -45,15 +45,15 @@ $thisdate=date("j M Y",strtotime($thisdate));
 
 			   if ($forumsupport){			   
 						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-							echo "<a class='' href=\"/members/" . $user->user_login . "/\">";
+							echo "<a class='' href='".site_url()."/members/" . $user->user_login . "/'>";
 							} 
 						elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
-							echo "<a class='' href=\"/staff/" . $user->user_login . "/\">";
+							echo "<a class='' href='".site_url()."/staff/" . $user->user_login . "/'>";
 							}
 						echo get_avatar($user->ID, 16);
 						echo "</a>";
 	           } else {
-	                echo " <a href='/author/" . $user->user_login . "/'>" . $user->display_name . "</a>";			   
+	                echo " <a href='".site_url()."/author/" . $user->user_login . "/'>" . $user->display_name . "</a>";			   
 			   }
 
 		echo "</p></div>";

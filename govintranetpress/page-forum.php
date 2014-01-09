@@ -22,10 +22,10 @@ get_header(); ?>
 						the_content();
 if (is_user_logged_in()){
 	get_currentuserinfo();
-	echo "<br><p>Logged in as: ".$current_user->display_name." | <a href='".wp_logout_url('/about/forums/')."'>Logout</a></p><br>";
+	echo "<br><p>Logged in as: ".$current_user->display_name." | <a href='".wp_logout_url(site_url().'/about/forums/')."'>Logout</a></p><br>";
 	}
 	else {
-	echo "<p><a href='".wp_login_url('/about/forums/')."'>Login</a> | <a href='/wp-login.php?action=register'>Register</a></p>";
+	echo "<p><a href='".wp_login_url(site_url().'/about/forums/')."'>Login</a> | <a href='".site_url()."/wp-login.php?action=register'>Register</a></p>";
 }
 
 ?>				
@@ -49,7 +49,7 @@ if (is_user_logged_in()){
 					$parentforum = $a->post_name;
 
 					echo "<div><hr>";
-					echo "<h3><a href='/forums/{$a->post_name}/'>".$forumtitle."</a></h3>";
+					echo "<h3><a href='".site_url()."/forums/{$a->post_name}/'>".$forumtitle."</a></h3>";
 					echo wpautop($a->post_content)."</div>";
 					
 					echo "<ul class='bbp-forums'>
@@ -128,7 +128,7 @@ if (is_user_logged_in()){
 					}
 						echo "'>
 					<li class='bbp-forum-info'>
-					<a class='bbp-forum-title' href='/forums/{$parentforum}/{$sfslug}/'>".$forumtitle."</a>
+					<a class='bbp-forum-title' href='".site_url()."/forums/{$parentforum}/{$sfslug}/'>".$forumtitle."</a>
 					<div class='bbp-forum-content'>".wpautop($subf->post_content)."</div>
 					</li>
 					<li class='bbp-forum-topic-count'>".$topiccount."</li>

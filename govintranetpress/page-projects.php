@@ -43,9 +43,6 @@ jQuery("#sbc-s").focus();
 });
 </script>
 
-
-
-<!--				Show: <a href='#'>All projects</a> | <a href='#'>Only open projects</a> -->
 <?php
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				$counter = 0;	

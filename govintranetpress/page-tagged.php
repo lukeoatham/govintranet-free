@@ -334,19 +334,19 @@ endif;
 				$t=get_tag($thistagid);
 				$t=$_GET['tag'];
 				if ($_GET['posttype'] == 'task'){
-				echo "<li><a href='/how-do-i/'>All tasks and guides</a></li>";
+				echo "<li><a href='".site_url()."/how-do-i/'>All tasks and guides</a></li>";
 				}
 				if ($_GET['posttype'] == 'projects'){
-				echo "<li><a href='/about/projects/'>All projects</a></li>";
+				echo "<li><a href='".site_url()."/about/projects/'>All projects</a></li>";
 				}
 				if ($_GET['posttype'] == 'event'){
-				echo "<li><a href='/events/'>All events</a></li>";
+				echo "<li><a href='".site_url()."/events/'>All events</a></li>";
 				}
 				if ($_GET['posttype'] == 'vacancies'){
-				echo "<li><a href='/about/vacancies/'>All job vacancies</a></li>";
+				echo "<li><a href='".site_url()."/about/vacancies/'>All job vacancies</a></li>";
 				}
 				if ($_GET['posttype'] != ''){
-				echo "<li><a href='/tagged/?tag=".$_GET['tag']."'>";
+				echo "<li><a href='".site_url()."/tagged/?tag=".$_GET['tag']."'>";
 					printf( __( 'Everything tagged: %s', 'twentyten' ), '' . $thistag . '' );
 				echo "</a></li>";		
 				}
@@ -362,7 +362,7 @@ wp_posts.post_status = 'publish'
 					";
 				$testtag = $wpdb->get_results($tagquery);
 				if ($testtag[0]->numtags > 0){
-				echo "<li><a href='/tagged/?tag=".$thistagslug."&amp;posttype=task'>Tasks and guides</a></li>";		
+				echo "<li><a href='".site_url()."/tagged/?tag=".$thistagslug."&amp;posttype=task'>Tasks and guides</a></li>";		
 				}
 				}
 				if ($_GET['posttype'] != 'projects'){
@@ -377,7 +377,7 @@ wp_posts.post_status = 'publish'
 					";
 				$testtag = $wpdb->get_results($tagquery);
 				if ($testtag[0]->numtags > 0){
-				echo "<li><a href='/tagged/?tag=".$thistagslug."&amp;posttype=projects'>Projects</a></li>";		
+				echo "<li><a href='".site_url()."/tagged/?tag=".$thistagslug."&amp;posttype=projects'>Projects</a></li>";		
 				}
 				}
 				if ($_GET['posttype'] != 'vacancies'){
@@ -392,7 +392,7 @@ wp_posts.post_status = 'publish'					";
 				$testtag = $wpdb->get_results($tagquery);
 				if ($testtag[0]->numtags > 0){
 				
-				echo "<li><a href='/tagged/?tag=".$thistagslug."&amp;posttype=vacancies'>Job vacancies</a></li>";		
+				echo "<li><a href='".site_url()."/tagged/?tag=".$thistagslug."&amp;posttype=vacancies'>Job vacancies</a></li>";		
 				}
 				}
 				if ($_GET['posttype'] != 'news'){
@@ -408,7 +408,7 @@ wp_posts.post_status = 'publish'
 				$testtag = $wpdb->get_results($tagquery);
 				if ($testtag[0]->numtags > 0){
 				
-				echo "<li><a href='/tagged/?tag=".$thistagslug."&amp;posttype=news'>News</a></li>";		
+				echo "<li><a href='".site_url()."/tagged/?tag=".$thistagslug."&amp;posttype=news'>News</a></li>";		
 				}
 				}
 				if ($_GET['posttype'] != 'event'){
@@ -424,7 +424,7 @@ wp_posts.post_status = 'publish'
 				$testtag = $wpdb->get_results($tagquery);
 				if ($testtag[0]->numtags > 0){
 				
-				echo "<li><a href='/tagged/?tag=".$thistagslug."&amp;posttype=event'>Events</a></li>";		
+				echo "<li><a href='".site_url()."/tagged/?tag=".$thistagslug."&amp;posttype=event'>Events</a></li>";		
 				}
 				}
 							?>

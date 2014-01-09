@@ -58,13 +58,13 @@ jQuery("#sbc-s").focus();
 				<?php if ($jobtype=='all' or !$jobtype) : ?>
 						<strong>All vacancies</strong>
 				<?php else : ?>
-						<a href='/about/vacancies/?show=all&amp;grade=<?php echo $jobgrade ;?>'>All vacancies</a> 
+						<a href='<?php echo site_url(); ?>/about/vacancies/?show=all&amp;grade=<?php echo $jobgrade ;?>'>All vacancies</a> 
 				<?php endif; ?>
 				<?php if ($jobtype=='projects') : ?>
 						| <strong>Resourcing cycle vacancies</strong> 
 				<?php else : ?>
 				<?php //if ($jobgrade=='all') : ?>
-						| <a href='/about/vacancies/?show=projects&amp;grade=<?php echo $jobgrade ;?>'>Resourcing cycle vacancies</a> 
+						| <a href='<?php echo site_url(); ?>/about/vacancies/?show=projects&amp;grade=<?php echo $jobgrade ;?>'>Resourcing cycle vacancies</a> 
 				<?php// endif; ?>
 				<?php endif; ?>
 				</p>				
@@ -73,9 +73,9 @@ jQuery("#sbc-s").focus();
 						<strong>All grades</strong> | 
 				<?php else : 
 							if ($jobtype=='projects') :?>
-							<a href='/about/vacancies/?grade=all&show=projects'>All grades</a> | 
+							<a href='<?php echo site_url(); ?>/about/vacancies/?grade=all&show=projects'>All grades</a> | 
 					<?php else : ?>
-							<a href='/about/vacancies/?grade=all'>All grades</a> | 
+							<a href='<?php echo site_url(); ?>/about/vacancies/?grade=all'>All grades</a> | 
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php
@@ -88,7 +88,7 @@ jQuery("#sbc-s").focus();
 			  			if ($jobgrade == $themeURL) {
 				  			echo "<strong>" . $taxonomy->name . "</strong> | ";
 				  			} else {
-				  			echo "<a href='/about/vacancies/?grade=".$themeURL."&amp;show={$jobtype}'>" . $taxonomy->name . "</a> | ";
+				  			echo "<a href='".site_url()."/about/vacancies/?grade=".$themeURL."&amp;show={$jobtype}'>" . $taxonomy->name . "</a> | ";
 				  		}
 					}
 				}  

@@ -86,7 +86,7 @@ if (date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) > 
 					$html='';
 					foreach($post_cat as $cat){
 						if ($cat->slug != 'uncategorized'){
-							$html.= "<span class='wptag t".$cat->term_id."'><a href='/events/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+							$html.= "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/events/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 						}
 					}	
 					if ($html){
@@ -100,7 +100,7 @@ if (date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) > 
 				  	foreach($posttags as $tag) {
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span><a class='label label-default' href='/tagged/?tag={$tagurl}&amp;posttype=events'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tagged/?tag={$tagurl}&amp;posttype=events'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				  	}
 				  	if ($foundtags){
 					  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 

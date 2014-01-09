@@ -14,8 +14,6 @@
  * <code>get_template_part( 'loop', 'index' );</code>
  *
  * @package WordPress
- * @subpackage Starkers
- * @since Starkers 3.0
  */
 ?>
 
@@ -23,23 +21,24 @@
 
 <?php 
 
+	$pageslug = pods_url_variable(0);
 
-		$pageslug = pods_url_variable(0);
-
-		if ( ! have_posts() ) { 
-		
-				echo "<h1>";
-				_e( 'Not found', 'twentyten' );
-				echo "</h1>";
-				echo "<p>";
-				_e( 'There\'s nothing to show.', 'govintranetpress' );
-				echo "</p>";
-				get_search_form(); 
-		};
-
-
-	while ( have_posts() ) : the_post(); 
+	if ( ! have_posts() ) { 
 	
+			echo "<h1>";
+			_e( 'Not found', 'twentyten' );
+			echo "</h1>";
+			echo "<p>";
+			_e( 'There\'s nothing to show.', 'govintranetpress' );
+			echo "</p>";
+			get_search_form(); 
+	};
+
+
+	while ( have_posts() ) : the_post(); //echo $post->post_type;
+		if ($_GET['pt'] == 'user' && $post->post_type != 'user'){
+			continue;
+		} 
 	$post_type = ucwords($post->post_type);
 	$post_cat = get_the_category();
 	$title_context='';		
@@ -47,6 +46,8 @@
 	$icon='';
 	$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
 	if ($post_type=='User'){
+		global $foundstaff;
+		$foundstaff++;
 		$image_url = get_avatar($post->user_id);
 		$image_url = str_replace('avatar ', 'avatar img img-responsive ' , $image_url);
 		$userurl = get_author_posts_url( $post->user_id); 
@@ -293,7 +294,7 @@
 
 <?php endwhile; // End the loop. Whew. ?>
 <hr>
-<?php if (  $wp_query->max_num_pages > 1 ) : ?>
+<?php if (  $wp_query->max_num_pages > 1  && $_GET['pt'] != 'user' ) : ?>
 	<?php if (function_exists(wp_pagenavi)) : ?>
 		<?php wp_pagenavi(); ?>
 	<?php else : ?>

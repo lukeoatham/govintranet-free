@@ -85,7 +85,7 @@ get_header(); ?>
 										$catcount=0;
 									}
 									echo "
-									<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='/task-by-category/?cat={$themeURL}'>".$taxonomy->name."</a>".$desc."</li>";
+									<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='".site_url()."/task-by-category/?cat={$themeURL}'>".$taxonomy->name."</a>".$desc."</li>";
 								}
 							} 
 					// Big tag cloud

@@ -96,7 +96,7 @@ if ($chapter_header){
 		else {
 				$chapname = $parent_name;
 				$chapslug = $parent_slug;
-				echo "<li><a href='/projects/{$chapslug}'><span class='part-title'>{$chapname}</span></a>";
+				echo "<li><a href='".site_url()."/projects/{$chapslug}'><span class='part-title'>{$chapname}</span></a>";
 				}
 				echo "</li>";
 
@@ -134,7 +134,7 @@ if ($chapter_header){
 				echo "<span class='part-label part-title'>{$chapname}</span>";
 				}
 				else {
-				echo "<a href='/projects/{$chapslug}'><span class='part-label part-title'>{$chapname}</span></a>";
+				echo "<a href='".site_url()."/projects/{$chapslug}'><span class='part-label part-title'>{$chapname}</span></a>";
 					
 				}
 				echo "</li>";
@@ -211,7 +211,7 @@ if ($policylink){
 			foreach ($vacancies as $v){
 				if ($v['post_status']=='publish') {
 					$k++;
-					$html.= "<li><a href='/vacancies/{$v['post_name']}'>".$v['post_title']."</a></li>";
+					$html.= "<li><a href='".site_url()."/vacancies/{$v['post_name']}'>".$v['post_title']."</a></li>";
 				}
 			}
 			$html .= "</ul></div>";
@@ -252,7 +252,7 @@ if ($policylink){
 				echo "<ul>";
 				foreach ($related_links as $rlink){
 					if ($rlink['post_status'] == 'publish') {
-					echo "<li><a href='/projects/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title'])."</a></li>";
+					echo "<li><a href='".site_url()."/projects/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title'])."</a></li>";
 					}
 				}
 				echo "</ul></div>";
@@ -268,7 +268,7 @@ if ($policylink){
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span><a class='label label-default' href='/tagged/?tag={$tagurl}&amp;posttype=projects'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tagged/?tag={$tagurl}&amp;posttype=projects'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
 				  	}
 				  	if ($foundtags){

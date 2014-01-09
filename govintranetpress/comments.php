@@ -72,7 +72,7 @@
 <?php 
 
 	$args = array(
-		'comment_notes_before' => '<p>Your email address will not be publised. Name, email address and comment are required fields. Please note our <a href="/moderation">moderation policy</a>.</p>',
+		'comment_notes_before' => '<p>Your email address will not be publised. Name, email address and comment are required fields. Please note our <a href="'.site_url().'/moderation">moderation policy</a>.</p>',
 		'comment_notes_after' => '',
 		'title_reply' => 'Leave a comment',
 	);

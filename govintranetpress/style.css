@@ -145,6 +145,10 @@ h1 small, h2 small, h3 small {
 	color: black;
 }
 
+#staff-search .btn {
+	font-size: 0.71em;
+}
+
 /* MAIN NAVIGATION */
 .navbar {
 	margin-bottom: 0;
@@ -1780,41 +1784,51 @@ h3.contacthead {
 	margin-top: 1.3em;
 }
 
-#peoplenav ul  {
+#peoplenav .indexcard   {
 	padding-top: 0;
 	padding-left: 1em;
 }
 
-#peoplenav ul li  {
+#peoplenav .indexcard {
 	list-style: none;
 	padding: 0;
 	font-size: 90%;
 	font-weight: normal;
 	line-height: 130%;
-	margin-bottom: 0.3em;
+	margin-bottom: 1.3em;
 	border-top: 1px solid #e7e7e7;
 	border-left: 1px solid #e7e7e7;
 }
 
-#peoplenav ul li a {
+#peoplenav .indexcard  a {
 	padding: 0.5em 0.5em 0.5em 0.5em;
 	min-height: 110px;
 }
 
-#peoplenav ul li a:link,  #peoplenav ul li a:visited  {
-	color: #333;
+#peoplenav .well  {
+	min-height: 130px;
+}
+#peoplenav .indexcard  a:link,  #peoplenav .indexcard li a:visited  {
+	color: #3a6f9e;
 	text-decoration: none;
 	display: block;
 	background: #f4f4f4 !important;
 }
 
-#peoplenav ul li a:hover  {
+#peoplenav .indexcard  a:hover  {
 	list-style: none;
 	font-weight: normal;
 	background: #DEE0E2 !important;
 	color: #333 !important;
 }
 
+#peoplenav .col-lg-4, #peoplenav .col-md-4 {
+	padding-right: 0;
+}
+
+#peoplenav .col-sm-6 {
+	padding-right: 15px;
+}
 
 /* comment form */
 #comments  {

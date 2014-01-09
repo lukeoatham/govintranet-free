@@ -15,8 +15,8 @@ $catdesc = $catpod->get_field('category_page_description');
 					<div class="col-lg-12 white ">
 						<div class="row">
 							<div class='breadcrumbs'>
-								<a title="Go to Home." href="/" class="site-home">Home</a> > 
-								<a title="Go to How do I?" href="/how-do-i/">How do I?</a> > <?php echo $catname; ?>
+								<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> > 
+								<a title="Go to How do I?" href="<?php echo site_url(); ?>/how-do-i/">How do I?</a> > <?php echo $catname; ?>
 							</div>
 							<div class="col-lg-8 col-md-8 col-sm-12 notop">
 						<?php		
