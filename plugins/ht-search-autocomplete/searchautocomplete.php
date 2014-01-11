@@ -110,6 +110,7 @@ class SearchAutocomplete {
 				's'           => $term,
 				'numberposts' => $this->options['autocomplete_numrows'],
 				'post_type'   => $this->options['autocomplete_posttypes'],
+				'post_status' => 'publish'
 				) );
 
 			} else {
@@ -117,6 +118,7 @@ class SearchAutocomplete {
 					's'           => $term,
 					'numberposts' => $this->options['autocomplete_numrows'],
 					'post_type'   => $this->options['autocomplete_posttypes'],
+					'post_status' => 'publish'
 					) ;
 					relevanssi_do_query($tempPosts);
 					$tempPosts = $tempPosts->posts;
@@ -124,20 +126,19 @@ class SearchAutocomplete {
 
 			foreach ( $tempPosts as $post ) {
 				if ($post->post_type=='user'){
-
-				$tempObject = array(
-					'id' => $post->user_id,
-					'type' => 'user',
-					'taxonomy' => null,
-					'postType' => $post->post_type
-				);					
+					$tempObject = array(
+						'id' => $post->user_id,
+						'type' => 'user',
+						'taxonomy' => null,
+						'postType' => $post->post_type
+					);					
 				} else {
-				$tempObject = array(
-					'id' => $post->ID,
-					'type' => 'post',
-					'taxonomy' => null,
-					'postType' => $post->post_type
-				);
+					$tempObject = array(
+						'id' => $post->ID,
+						'type' => 'post',
+						'taxonomy' => null,
+						'postType' => $post->post_type
+					);
 				}
 				$linkTitle = apply_filters( 'the_title', trim(preg_replace('/\[.*\]/i','', $post->post_title)) );
 				$linkTitle = apply_filters( 'search_autocomplete_modify_title', $linkTitle, $tempObject );
@@ -164,10 +165,12 @@ class SearchAutocomplete {
 						$linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
 					}
 				}
-				$resultsPosts[] = array(
-					'title' => $linkTitle,
-					'url'   => $linkURL,
-				);
+				if ($post->post_status == 'publish'){
+					$resultsPosts[] = array(
+						'title' => $linkTitle,
+						'url'   => $linkURL,
+					);
+				}
 			}
 		}
 		if ( count( $this->options['autocomplete_taxonomies'] ) > 0 ) {

@@ -915,6 +915,9 @@ function filter_search($query) {
     if ($query->is_category) {
 		        $query->set('post_type', array('any'));
     }
+    if ($query->is_tax) {
+		        $query->set('post_type', array('any'));
+    }
     return $query;
 }; 
 add_filter('pre_get_posts', 'filter_search');
@@ -1158,11 +1161,19 @@ function get_terms_by_media_type( $taxonomies, $post_types ) {
 
 }
 
-
-if (current_user_can('subscriber')):
-	show_admin_bar(false);
-endif;
-
+if (!current_user_can('level_1')){
+	add_action( 'admin_menu', 'my_remove_menu_pages' );
+	function my_remove_menu_pages() {
+	    remove_menu_page('edit.php?post_type=incsub_wiki');  
+	    remove_menu_page('video-user-manuals/plugin.php');  
+	    remove_menu_page('edit.php?post_type=task');  
+	    remove_menu_page('edit.php?post_type=projects');  
+	    remove_menu_page('edit.php?post_type=news');  
+	    remove_menu_page('edit.php?post_type=blog');  
+	    remove_menu_page('edit.php?post_type=vacancies');  
+	    remove_menu_page('index.php');  
+	}
+}
 
 //remove settings for search to allow for things like T&S
 /*
@@ -1465,6 +1476,5 @@ function relevanssi_user_filter($hits) {
     }
     return $tothits;
 }
-
 
 ?>

@@ -25,24 +25,26 @@
 		if ( have_posts() )
 			the_post();
 	
-			$slug = pods_url_variable(1);
+			$slug = pods_url_variable(-1);
 			$terms = get_term_by('slug',$slug,'team',ARRAY_A); 
 			$teamname = $terms['name'];
 			$termid = $terms['term_id'];
 			$teamparent = $terms['parent'];
+			$teamdesc = $terms['description'];
 			
 			$taxteam = new Pod ('team', $termid);
 			
 	?>
 			<div class="col-lg-8 col-md-8 white">
-	
-				<h1>Team: <?php echo $teamname; ?></h1>
 	<?php
 				if ($teamparent){
 					$parentteam = get_term_by('id',$teamparent,'team');
-					echo "<h2>Part of <a href='".site_url()."/team/".$parentteam->slug."'>".$parentteam->name."</a></h2>";
+					echo "<h2><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".$parentteam->name."</a></h2>";
 				}
-	
+?>	
+				<h1>Team: <?php echo $teamname; ?></h1>
+<?php	
+		echo wpautop($teamdesc);
 		/* Since we called the_post() above, we need to
 		 * rewind the loop back to the beginning that way
 		 * we can run the loop properly, in full.
@@ -51,12 +53,11 @@
 		 //output team head first!
 				$teamleader = $taxteam->get_field('team_head');
 				if ($teamleader){
-					echo "<div class='home page'><div class='category-block'><h3>Team head</h3></div></div>";
 					$teamleaderid = $teamleader[0]['ID'];
 					$newgrade = get_user_meta($teamleaderid,'user_grade',true);
 					$gradehead=$newgrade['slug'];
 					if ($gradehead){
-						echo "<h3>".$newgrade['name']."</h3>";
+						echo "<div class='home page'><div class='category-block'><h3>".$newgrade['name']."</h3></div></div>";
 						}
 		 			$context = get_user_meta($teamleaderid,'user_job_title',true);
 		
@@ -164,10 +165,10 @@
 	?>
 					</div>
 					<div class="col-lg-4 col-md-4">
-					<div class="widget-box list">
+					
 	<?php				$terms = get_terms('team',array('hide_empty'=>false,'parent' => $termid));
 						if ($terms) {
-						echo "<h2>Sub-teams</h2>";
+							echo "<div class='widget-box list'><h2>Sub-teams</h2>";
 					  		foreach ((array)$terms as $taxonomy ) {
 					  		    $themeid = $taxonomy->term_id;
 					  		    $themeURL= $taxonomy->slug;
@@ -178,11 +179,13 @@
 					  			echo "
 									<li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
 							}
+							echo "</div>";
 						}  
-	?>				</div>
-					<h3 class="widget-title">Other teams</h3>
-					<?php
-	  					$terms = get_terms('team',array('hide_empty'=>false,'parent' => '0',));
+
+
+//display dropdown of all top-level teams
+		echo "<div class='widget-box'></div>";
+	  	$terms = get_terms('team',array('hide_empty'=>false,'parent' => '0',));
 		if ($terms) {
 			$otherteams='';
 	  		foreach ((array)$terms as $taxonomy ) {
@@ -190,8 +193,9 @@
 	  		    $themeURL= $taxonomy->slug;
 	  			$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
 	  		}  
-	  		echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle4' data-toggle='dropdown'>Teams <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
+	  		echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle4' data-toggle='dropdown'>Other teams <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
 		}
+
 	?>
 
 		</div>

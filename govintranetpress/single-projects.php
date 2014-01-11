@@ -7,14 +7,6 @@
  * @since Starkers 3.0
  */
 
-$slug = pods_url_variable(0);
-if ($slug=="homepage"){
-	wp_redirect('/');
-};
-if ($slug=="control"){
-	wp_redirect('/');
-};
-
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
@@ -120,7 +112,7 @@ if ($chapter_header){
 <?php				endif;
 
 				echo "<li ";
-				if (pods_url_variable(1) == $chapt['post_name']){
+				if (pods_url_variable(-1) == $chapt['post_name']){
 					 echo "class='active'";
 					 $current_chapter=$k;
 				}
@@ -251,7 +243,7 @@ if ($policylink){
 				echo "<h3 class='widget-title'>Related projects</h3>";
 				echo "<ul>";
 				foreach ($related_links as $rlink){
-					if ($rlink['post_status'] == 'publish') {
+					if ($rlink['post_status'] == 'publish' && $rlink['ID'] != $id ) {
 					echo "<li><a href='".site_url()."/projects/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title'])."</a></li>";
 					}
 				}

@@ -7,14 +7,6 @@
  * @since Starkers 3.0
  */
 
-$slug = pods_url_variable(0);
-if ($slug=="homepage"){
-	wp_redirect('/');
-};
-if ($slug=="control"){
-	wp_redirect('/');
-};
-
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>

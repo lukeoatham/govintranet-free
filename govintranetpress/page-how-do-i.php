@@ -32,7 +32,7 @@ get_header(); ?>
 								  			if ($taxonomy->name == 'Uncategorized'){
 									  			continue;
 								  			}
-									  		echo "<option class='level-0' value='".$taxonomy->term_id."'>".$taxonomy->name."</option>";
+									  		echo "<option class='level-0' value='".$taxonomy->slug."'>".$taxonomy->name."</option>";
 									  		}
 									  		}
 								?>

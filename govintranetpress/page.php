@@ -44,12 +44,16 @@ get_header(); ?>
 						$relatedtasks = $thispage->get_field('page_related_tasks');
 						if ($relatedpages){
 							foreach ((array)$relatedpages as $r){
-								$html.= "<li><a href='".$r['guid']."'>".$r['post_title']."</a></li>";
+								if ($r['post_status'] == 'publish' && $r['ID'] != $id){
+									$html.= "<li><a href='".$r['guid']."'>".$r['post_title']."</a></li>";
+								}
 							}
 						}
 						if ($relatedtasks){
 							foreach ((array)$relatedtasks as $r){
-								$html.= "<li><a href='".site_url()."/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
+								if ($r['post_status'] == 'publish' && $r['ID'] != $id){
+									$html.= "<li><a href='".site_url()."/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
+								}
 							}
 						}
 						if ($html){

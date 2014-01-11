@@ -14,65 +14,60 @@ get_header(); ?>
 	$mainid=$post->ID;
 ?>
 
-					<div class="col-lg-8 col-md-8 white ">
-						<div class="row">
-							<div class='breadcrumbs'>
-								<?php if(function_exists('bcn_display') && !is_front_page()) {
-									bcn_display();
-									}?>
-							</div>
-						</div>
+	<div class="col-lg-8 col-md-8 white ">
+		<div class="row">
+			<div class='breadcrumbs'>
+				<?php if(function_exists('bcn_display') && !is_front_page()) {
+					bcn_display();
+					}?>
+			</div>
+		</div>
 
-					<h1><?php the_title(); ?></h1>
+	<h1><?php the_title(); ?></h1>
 
-					<?php 
+	<?php 
  
 
  
-echo '<h3>Date</h3>';
-echo "<p>".date('l j M Y, ',strtotime(get_post_meta($post->ID,'event_start_date',true)));
-echo "<i class='glyphicon glyphicon-time'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_start_date',true))). " - ";
-if (date('j M Y',strtotime(get_post_meta($post->ID,'event_start_date',true)))==date('j M Y',strtotime(get_post_meta($post->ID,'event_end_date',true)))) {
-	echo date('g:ia',strtotime(get_post_meta($post->ID,'event_end_date',true)));
-} else {
-	echo date('l j M Y, ',strtotime(get_post_meta($post->ID,'event_end_date',true)));	
-	echo "<i class='glyphicon glyphicon-time'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_end_date',true)));	
-}
-
-echo "</p>";
-
-$userrec = wp_get_current_user();
-$userid = $userrec->ID;
-$formfields = get_post_meta($post->ID, 'event_booking_form_id', true ); 
-$formid = $formfields['id'];
-$formtitle = $formfields['title'];
-$formactive = $formfields['is_active']; 
-$q = "select distinct wp_rg_lead.id from wp_rg_lead join wp_rg_lead_detail on wp_rg_lead_detail.form_id = wp_rg_lead.form_id where wp_rg_lead.form_id = ".$formid." and created_by = ".$userid." and wp_rg_lead_detail.field_number = 1 and wp_rg_lead_detail.value = ".$post->ID." and wp_rg_lead.status = 'active'";
-$alreadybooked = $wpdb->get_results($q,"ARRAY_A");
-if ($alreadybooked)echo "<strong>* You have made a booking for this event *</strong>";
-
-?>
-	<?php
-	echo '<h3>Details</h3>';
-	the_content(); 
-
-							$tdate= getdate();
-							$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
-							$tday = date( 'd' , strtotime($tdate) );
-							$tmonth = date( 'm' , strtotime($tdate) );
-							$tyear= date( 'Y' , strtotime($tdate) );
-							$sdate=$tyear."-".$tmonth."-".$tday." 00:00";
-
-
-//booking form ***************
-//only display if future event and not already booked
-if (date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) > $sdate && !$alreadybooked && get_post_meta($post->ID, 'event_booking_form_id', true) ) {
-	gravity_form($formtitle, $display_title=true, $display_description=true, $display_inactive=false, $field_values=$params, $ajax=false, $formid);
-}
-	?>
+	echo '<h3>Date</h3>';
+	echo "<p>".date('l j M Y, ',strtotime(get_post_meta($post->ID,'event_start_date',true)));
+	echo "<i class='glyphicon glyphicon-time'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_start_date',true))). " - ";
+	if (date('j M Y',strtotime(get_post_meta($post->ID,'event_start_date',true)))==date('j M Y',strtotime(get_post_meta($post->ID,'event_end_date',true)))) {
+		echo date('g:ia',strtotime(get_post_meta($post->ID,'event_end_date',true)));
+	} else {
+		echo date('l j M Y, ',strtotime(get_post_meta($post->ID,'event_end_date',true)));	
+		echo "<i class='glyphicon glyphicon-time'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_end_date',true)));	
+	}
+	
+	echo "</p>";
+	
+	$userrec = wp_get_current_user();
+	$userid = $userrec->ID;
+	$formfields = get_post_meta($post->ID, 'event_booking_form_id', true ); 
+	$formid = $formfields['id'];
+	$formtitle = $formfields['title'];
+	$formactive = $formfields['is_active']; 
+	$q = "select distinct wp_rg_lead.id from wp_rg_lead join wp_rg_lead_detail on wp_rg_lead_detail.form_id = wp_rg_lead.form_id where wp_rg_lead.form_id = ".$formid." and created_by = ".$userid." and wp_rg_lead_detail.field_number = 1 and wp_rg_lead_detail.value = ".$post->ID." and wp_rg_lead.status = 'active'";
+	$alreadybooked = $wpdb->get_results($q,"ARRAY_A");
+	if ($alreadybooked)echo "<strong>* You have made a booking for this event *</strong>";
+		echo '<h3>Details</h3>';
+		the_content(); 
+		$tdate= getdate();
+		$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
+		$tday = date( 'd' , strtotime($tdate) );
+		$tmonth = date( 'm' , strtotime($tdate) );
+		$tyear= date( 'Y' , strtotime($tdate) );
+		$sdate=$tyear."-".$tmonth."-".$tday." 00:00";
+	
+	//booking form ***************
+	//only display if future event and not already booked
+	if (date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) > $sdate && !$alreadybooked && get_post_meta($post->ID, 'event_booking_form_id', true) ) {
+		gravity_form($formtitle, $display_title=true, $display_description=true, $display_inactive=false, $field_values=$params, $ajax=false, $formid);
+	}
+		?>
 
 		</div>
-				<div class="col-lg-4 col-md-4">	
+			<div class="col-lg-4 col-md-4">	
 
 				<?php
 				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );

@@ -36,12 +36,7 @@ get_header(); ?>
 						<ul class="pagination">
 
 						<?php 
-						//$slug = pods_url_variable(1);
-						
-						$slugtitle = single_cat_title('',false);
-
-						$slugref = get_term_by('name', $slugtitle, 'atoz', ARRAY_A);
-						$slug = $slugref['slug'];
+						$slug = pods_url_variable(-1);
 						
 						//fill the default a to z array
 						$letters = range('a','z');

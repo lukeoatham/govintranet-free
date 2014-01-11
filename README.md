@@ -47,9 +47,13 @@ If you have trouble with your existing post types you'll need to update manually
 
 ## Changelog ##
 
+### 3.0.1 - 11th January 2014 ###
+* Corrections for installations not in root folder  
+
+
 ### 3.0 - 9th January 2014 ###
-* Various bugfixes  
-* Staff directory 
+* Various bugfixes   
+* Staff directory  
 
 
 ### 3.0b - October 31st, 2013 ###

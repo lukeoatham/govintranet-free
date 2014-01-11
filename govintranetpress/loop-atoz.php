@@ -9,7 +9,7 @@
 <?php /* If there are no posts to display, such as an empty archive page */ ?>
 
 <?php 
-		$pageslug = pods_url_variable(1);
+		$pageslug = pods_url_variable(-1);
 
 		if ( ! have_posts() ) { 
 		

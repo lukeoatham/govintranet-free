@@ -133,6 +133,11 @@
 			$icon = "user";			
 	}
 
+	if ($post_type=='Page'){
+			$context = "page";
+			$icon = "file";
+	}
+
 	if ($post_type=='Attachment'): 
 		$context='document download';
 		$icon = "download";			

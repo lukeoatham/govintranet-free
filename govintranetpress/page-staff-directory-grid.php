@@ -41,7 +41,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 	
 	<div class="col-lg-4 col-md-4 col-sm-4">
 		<div class="widget-box">
-			<h3 class="widget-title">Teams</h3>
 		</div>
 			<?php
 			$terms = get_terms('team',array('hide_empty'=>false,'parent' => '0',));
@@ -52,7 +51,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				    $themeURL= $taxonomy->slug;
 					$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
 				}
-				echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle3' data-toggle='dropdown'>Teams <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
+				echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle3' data-toggle='dropdown'>Browse by team <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
 			}  
 			?>
 		</div>

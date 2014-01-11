@@ -7,14 +7,6 @@
  * @since Starkers 3.0
  */
 
-$slug = pods_url_variable(0);
-if ($slug=="homepage"){
-	wp_redirect('/');
-};
-if ($slug=="control"){
-	wp_redirect('/');
-};
-
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
@@ -63,7 +55,7 @@ get_header(); ?>
 					echo "<h3 class='widget-title'>Related news</h3>";
 					echo "<ul>";
 					foreach ($related_links as $rlink){
-						if ($rlink['post_status'] == 'publish') {
+						if ($rlink['post_status'] == 'publish' && $rlink['ID'] != $id ) {
 							echo "<li><a href='".$rlink['guid']."'>".govintranetpress_custom_title($rlink['post_title'])."</a></li>";
 						}
 					}

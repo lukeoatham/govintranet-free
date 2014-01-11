@@ -38,10 +38,14 @@ get_header(); ?>
 						$relatedpages = $thispage->get_field('page_related_pages');
 						$relatedtasks = $thispage->get_field('page_related_tasks');
 						foreach ($relatedpages as $r){
-							$html.= "<li><a href='".$r['guid']."'>".$r['post_title']."</a></li>";
+							if ($r['post_status'] == 'publish' && $r['ID'] != $id){
+								$html.= "<li><a href='".$r['guid']."'>".$r['post_title']."</a></li>";
+							}
 						}
 						foreach ($relatedtasks as $r){
-							$html.= "<li><a href='".site_url()."/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
+							if ($r['post_status'] == 'publish' && $r['ID'] != $id){
+								$html.= "<li><a href='".site_url()."/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
+							}
 						}
 						if ($html){
 							echo "<div class='widget-box'>
