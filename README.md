@@ -47,6 +47,13 @@ If you have trouble with your existing post types you'll need to update manually
 
 ## Changelog ##
 
+
+### 3.0.2 - 12th January 2014 ###
+* Updated setup files  
+* How do I? category page updates  
+* Blog post updates  
+
+
 ### 3.0.1 - 11th January 2014 ###
 * Corrections for installations not in root folder  
 

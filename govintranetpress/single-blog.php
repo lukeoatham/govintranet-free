@@ -8,15 +8,15 @@
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-
-					<div class="col-lg-8 col-md-8 col-sm-8 white ">
-						<div class="row">
-							<div class='breadcrumbs'>
-								<?php if(function_exists('bcn_display') && !is_front_page()) {
-									bcn_display();
-									}?>
-							</div>
-						</div>
+		
+		<div class="col-lg-8 col-md-8 col-sm-8 white ">
+				<div class="row">
+					<div class='breadcrumbs'>
+						<?php if(function_exists('bcn_display') && !is_front_page()) {
+							bcn_display();
+							}?>
+					</div>
+				</div>
 <?php 
 				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' );
 				if ($image_uri!=""){
@@ -40,27 +40,31 @@ get_header(); ?>
 		</div> <!--end of first column-->
 		<div class="col-lg-4  col-md-4 col-sm-4 last">	
 			<?php
-						
-                        $user = get_userdata($post->post_author);
-                        echo "<div class='well'><div class='media'>";
-                        
-                        $gis = "general_intranet_forum_support";
-						$forumsupport = get_option($gis);
-						if ($forumsupport){
-	                        echo "<a class='pull-left' href='".site_url()."/staff/" . $user->user_login . "/'>";
-                        } else {
-	                        echo "<a class='pull-left' href='".site_url()."/author/" . $user->user_login . "/'>";	                        
-                        }
-                        echo get_avatar($user->ID, 96);
-                        echo "</a>";
-                        echo "<div class='media-body'><p class='media-heading'><a href='".site_url()."/author/" . $user->user_login . "/'>" . $user->display_name . "</a><br>";
-                        
-                        $jobtitle = get_user_meta($user->ID, 'user_job_title',true);
-                        $bio = get_user_meta($user->ID,'description',true);
-                        
-						echo "<strong>".$jobtitle."</strong>";
+            $user = get_userdata($post->post_author);
+            echo "<div class='well'><div class='media'>";
+            
+            $gis = "general_intranet_forum_support";
+			$forumsupport = get_option($gis); //echo $forumsupport;
+			if ($forumsupport){
+                echo "<a class='pull-left' href='".site_url()."/staff/" . $user->user_login . "/'>";
+            } else {
+                echo "<a class='pull-left' href='".site_url()."/author/" . $user->user_login . "/'>";	                        
+            }
+            echo get_avatar($user->ID, 96);
+            echo "</a>";
+            echo "<div class='media-body'><p class='media-heading'>";
+            echo "<strong>".$user->display_name."</strong><br>";                        
+            $jobtitle = get_user_meta($user->ID, 'user_job_title',true);
+            $bio = get_user_meta($user->ID,'description',true);                        
+			echo "<strong>".$jobtitle."</strong><br>";
+            if ($forumsupport){
+                echo "<a href='".site_url()."/staff/";
+				echo $user->user_login . "/' title='{$user->display_name}'>Staff profile</a><br>";
+            }
+            echo "<a href='".site_url()."/author/";
+			echo $user->user_login . "/' title='{$user->display_name}'>Blog posts</a><br>";
 //						echo "<br>".$bio;
-						echo "</div></div></div>";
+			echo "</div></div></div>";
 			
 			$relnews = new Pod('blog', $id);
 				$posttags = get_the_tags();
@@ -81,6 +85,7 @@ get_header(); ?>
 				  	}
 				}
 		 	dynamic_sidebar('news-widget-area'); 
+		 	
 		//if we're looking at a news story, show recently published news
 			echo "<div class='widget-box nobottom'>";
 			$category = get_the_category(); 

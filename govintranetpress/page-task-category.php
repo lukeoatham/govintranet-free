@@ -20,7 +20,7 @@ $catdesc = $catpod->get_field('category_page_description');
 							</div>
 							<div class="col-lg-8 col-md-8 col-sm-12 notop">
 						<?php		
-								echo "<h1 class='h1_" . $catid . "'>".$catname." tasks and guides</h1>";
+								echo "<h1 class='h1_" . $catid . "'>".$catname."</h1>";
 								?>
 								<?php echo $catdesc; ?>
 									<div class="well">
@@ -113,6 +113,7 @@ jQuery("#sbc-s").focus();
 	</div>
 
 <div class="col-lg-4 col-md-4 col-sm-12" id='sidebar'>
+
 	<div class='widget-box'>
 		<h3 class='widget-title'>Search by tag</h3>
 	<?php 
@@ -124,7 +125,26 @@ jQuery("#sbc-s").focus();
 		echo "</div>";
 		?>
 	</div>
-</div>
-						</div></div>
+
+<?php
+				$taxonomies=array();
+				$post_type = array();
+				$taxonomies[] = 'category';
+				$post_type[] = 'task';
+				$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
+				if ($post_cat){
+					echo "<div class='widget-box'><h3 class='widget-title'>Other categories</h3>";
+					echo "<p class='taglisting {$post->post_type}'>";
+					foreach($post_cat as $cat){
+						if ($cat->name!='Uncategorized' && $cat->name && $cat->term_id != $catid){
+						$newname = str_replace(" ", "&nbsp;", $cat->name );
+						echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/task-by-category/?cat=".$cat->slug."'>".$newname."</a></span> ";
+					}
+					}
+					echo "</p></div>";
+				}
+				?>	
+	
+</div></div></div>
 
 <?php get_footer(); ?>
