@@ -65,7 +65,11 @@
 					$icon = "user";			
 					$user_info = get_userdata($teamleaderid);
 					$userurl = site_url().'/staff/'.$user_info->user_login;
-					$image_url = get_wp_user_avatar($teamleaderid,130,'left');
+					if ( function_exists('get_wp_user_avatar')){
+						$image_url = get_wp_user_avatar($teamleaderid,130,'left');
+					} else {
+						$image_url = get_avatar($teamleaderid,130);
+					}
 					$image_url = str_replace('avatar ', 'avatar img img-responsive ' , $image_url);
 					echo "<div class='media'>" ;
 					echo "<div class='hidden-xs'><a href='";
@@ -124,7 +128,11 @@
 					$icon = "user";			
 					$user_info = get_userdata($userid);
 					$userurl = site_url().'/staff/'.$user_info->user_login;
-					$image_url = get_wp_user_avatar($userid,130,'left');
+					if ( function_exists('get_wp_user_avatar')){
+						$image_url = get_wp_user_avatar($userid,130,'left');
+					} else {
+						$image_url = get_avatar($userid,130);
+					}
 					$image_url = str_replace('avatar ', 'avatar img img-responsive ' , $image_url);
 					echo "<hr><div class='media'>" ;
 					echo "<div class='hidden-xs'><a href='"; //don't show on mobile phones

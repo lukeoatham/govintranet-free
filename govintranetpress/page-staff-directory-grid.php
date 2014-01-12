@@ -163,7 +163,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
 							if ($fulldetails){
 
+								
+								if ( function_exists('get_wp_user_avatar')){
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".get_wp_user_avatar($u['user_id'],66,'left')."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong><span class='badge pull-right'>".$gradecode."</span></a><br>";
+								} else {
+								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong><span class='badge pull-right'>".$gradecode."</span></a><br>";
+								}
+								
+								
+								
 								?>
 	
 							<?php if ( get_user_meta($userid ,'user_job_title',true )) : 
@@ -190,8 +198,12 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 								$counter++;
 								
 							} else {
-							
+								if ( function_exists('get_wp_user_avatar')){
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".get_wp_user_avatar($u['user_id'],66,'left')."<strong>".$displayname."</strong><span class='badge pull-right'>".$gradecode."</span><br>";
+								} else {
+								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."<strong>".$displayname."</strong><span class='badge pull-right'>".$gradecode."</span><br>";
+								}
+							
 								if ( get_user_meta($userid ,'user_job_title',true )) $html .= '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
 							if ( get_user_meta($userid ,'user_telephone',true )) $html .= '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
