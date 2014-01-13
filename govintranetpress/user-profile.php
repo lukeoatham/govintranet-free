@@ -20,8 +20,8 @@
 	$poduser = new Pod ('user' , $user_id);
 
  	if (function_exists('get_wp_user_avatar')){	
-			$imgsrc = get_wp_user_avatar_src($user_id);				
-			echo "<img class='img img-responsive' src='".$imgsrc."' width='150' height='150' />";
+			$imgsrc = get_wp_user_avatar_src($user_id,145);				
+			echo "<img class='img' src='".$imgsrc."' width='145'  />";
 		}
 	if (current_user_can('edit_themes')) echo "<br><p><a href='".site_url()."/wp-admin/user-edit.php?user_id=".$user_id."'>Edit profile</a></p>";
 	elseif ( is_user_logged_in() && get_current_user_id() == $user_id ) echo "<br><p><a href='".site_url()."/wp-admin/profile.php'>Edit profile</a></p>";
@@ -98,7 +98,7 @@
 
 -->
 		</div>
-		<div class="col-lg-5 col-md-5 col-sm-12 clearfix">
+		<div class="clearfix col-lg-5 col-md-5 col-sm-12">
 
 <script>
 jQuery('.tlink').tooltip();

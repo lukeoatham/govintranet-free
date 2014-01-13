@@ -17,7 +17,7 @@ $wpdb->query(
 
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
-					<div class="col-lg-8 white ">
+					<div class="col-lg-8 col-md-8 white ">
 						<div class="row">
 							<div class='breadcrumbs'>
 								<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -58,13 +58,13 @@ jQuery("#sbc-s").focus();
 				<?php if ($jobtype=='all' or !$jobtype) : ?>
 						<strong>All vacancies</strong>
 				<?php else : ?>
-						<a href='<?php echo site_url(); ?>/about/vacancies/?show=all&amp;grade=<?php echo $jobgrade ;?>'>All vacancies</a> 
+						<a href='?show=all&amp;grade=<?php echo $jobgrade ;?>'>All vacancies</a> 
 				<?php endif; ?>
 				<?php if ($jobtype=='projects') : ?>
 						| <strong>Resourcing cycle vacancies</strong> 
 				<?php else : ?>
 				<?php //if ($jobgrade=='all') : ?>
-						| <a href='<?php echo site_url(); ?>/about/vacancies/?show=projects&amp;grade=<?php echo $jobgrade ;?>'>Resourcing cycle vacancies</a> 
+						| <a href='?show=projects&amp;grade=<?php echo $jobgrade ;?>'>Resourcing cycle vacancies</a> 
 				<?php// endif; ?>
 				<?php endif; ?>
 				</p>				
@@ -73,9 +73,9 @@ jQuery("#sbc-s").focus();
 						<strong>All grades</strong> | 
 				<?php else : 
 							if ($jobtype=='projects') :?>
-							<a href='<?php echo site_url(); ?>/about/vacancies/?grade=all&show=projects'>All grades</a> | 
+							<a href='?grade=all&show=projects'>All grades</a> | 
 					<?php else : ?>
-							<a href='<?php echo site_url(); ?>/about/vacancies/?grade=all'>All grades</a> | 
+							<a href='?grade=all'>All grades</a> | 
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php
@@ -88,7 +88,7 @@ jQuery("#sbc-s").focus();
 			  			if ($jobgrade == $themeURL) {
 				  			echo "<strong>" . $taxonomy->name . "</strong> | ";
 				  			} else {
-				  			echo "<a href='".site_url()."/about/vacancies/?grade=".$themeURL."&amp;show={$jobtype}'>" . $taxonomy->name . "</a> | ";
+				  			echo "<a href='?grade=".$themeURL."&amp;show={$jobtype}'>" . $taxonomy->name . "</a> | ";
 				  		}
 					}
 				}  
@@ -296,7 +296,7 @@ jQuery("#sbc-s").focus();
 				?>
 			</div>
 		</div>
-		<div class="col-lg-4 last">
+		<div class="col-lg-4 col-md-4">
 			<div class='widget-box'>
 				<h3 class='widget-title'>Search by tag</h3>
 		<?php		echo my_colorful_tag_cloud('', '' , 'vacancies'); ?>

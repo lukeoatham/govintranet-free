@@ -1195,19 +1195,17 @@ h3  {
 
 /* need to know widget syltes, zign2n used with ZigWidgetClass plugin*/
 .zign2n {
+	border-top: 7px solid #787676 !important;
 	background: #f8f8f8;
 	margin-bottom: 2em;
 	padding-bottom: 1em;
+	padding-top: 0;
+	margin-top: .77em;
+	padding-left: 1em;
 	}
 .zign2n ul li{
 	margin-left: 1em !important;
 }
-.zign2n h3 {
-	border-top: 7px solid #787676 !important;
-	padding-top: .7em;
-	margin-top: .7em;
-	padding-left: 1em;
-}	
 
 #need-to-know ul li {
 	border-bottom: none !important;	
@@ -1223,10 +1221,10 @@ h3  {
 	color: #a6a6a6;
 }
 h3.noborder {
-	border-top: 0;
+	border-top: 0 !important;
 	margin-bottom: 0;
 	padding-bottom: 0.5em;
-	padding-top: 0;
+	padding-top: 0 !important;
 	margin-top: 0;
 }
 #need-to-know ul.need li {
@@ -1808,7 +1806,7 @@ h3.contacthead {
 #peoplenav .well  {
 	min-height: 130px;
 }
-#peoplenav .indexcard  a:link,  #peoplenav .indexcard li a:visited  {
+#peoplenav .indexcard  a:link,  #peoplenav .indexcard  a:visited  {
 	color: #3a6f9e;
 	text-decoration: none;
 	display: block;
