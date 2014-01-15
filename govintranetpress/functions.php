@@ -1477,4 +1477,5 @@ function relevanssi_user_filter($hits) {
     return $tothits;
 }
 
+
 ?>
