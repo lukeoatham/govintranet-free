@@ -190,7 +190,7 @@ class SearchAutocomplete {
 					'postType' => null
 				);
 				$linkTitle = apply_filters( 'the_title', trim(preg_replace('/\[.*\]/i','',$term->post_title)) );
-				$linkTitle = apply_filters( 'search_autocomplete_modify_title', trim(preg_replace('/\[.*\]/i','',$linkTitle)), $tempObject );
+				$linkTitle = apply_filters( 'search_autocomplete_modify_title', trim(preg_replace('/\[.*\]/i','',$linkTitle)), $tempObject )." (".ucfirst($term->taxonomy).")";
 				if ( ! in_array( 'taxonomies', $this->options['autocomplete_hotlinks'] ) ) {
 					$linkURL = '#';
 				} else {

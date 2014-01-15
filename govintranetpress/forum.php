@@ -28,16 +28,7 @@ get_header(); ?>
 						</div>
 				
 
-					<h1><?php the_title();  //echo $post->post_type;
-						if ($post->post_type != "forum" && $post->post_type != "topic" && $post->post_type != "reply"){
-							echo " <small>";
-							bbp_displayed_user_field( 'user_job_title' );
-							echo "</small>";
-						}
-						
-					?>
-					
-					</h1>
+					<h1><?php the_title(); ?></h1>
 					<?php the_content(); ?>
 			 </div>
 

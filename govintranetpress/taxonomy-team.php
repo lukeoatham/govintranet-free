@@ -6,13 +6,11 @@
 	
 	get_header(); ?>
 	
-	<div class="row">
 		<div class='breadcrumbs'>
 			<a href="<?php echo site_url(); ?>">Home</a>
 			> <a href="<?php echo site_url(); ?>/staff-directory/">Staff directory</a>
 			> <?php single_cat_title(); ?>
 		</div>
-	</div>
 
 	<?php
 		 $fulldetails=get_option('general_intranet_full_detail_staff_cards');
@@ -31,14 +29,29 @@
 			$teamleader = $taxteam->get_field('team_head');
 			
 	?>
-			<div class="col-lg-8 col-md-8 white" id="peoplenav">
+			<div class="col-lg-8 col-md-8 white">
+			<h1>Staff directory</h1>
+					<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/' ); ?>">
+	
+		  <div class="col-lg-12">
+			<div id="staff-search" class="well">
+					<div class="input-group">
+				    	 <input type="text" class="form-control typeahead" placeholder="Search for a name, job title, skills, phone number..." name="s" id="s2" value="<?php echo $_GET['s'];?>">
+				    	 <input type="hidden" name="pt" value="user">
+						 <span class="input-group-btn">
+						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+						 </span>
+					</div><!-- /input-group -->
+				  </div>
+			</div>
+		</form>
 	<?php
 				if ($teamparent){
 					$parentteam = get_term_by('id',$teamparent,'team');
 					echo "<h2><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".$parentteam->name."</a></h2>";
 				}
-?>	
-				<h1>Team: <?php echo $teamname; ?></h1>
+?>	<div id="peoplenav">
+				<h2>Team: <?php echo $teamname; ?></h2>
 <?php	
 		echo wpautop($teamdesc);
 	
@@ -105,7 +118,8 @@
 	 			foreach ($user_query as $u){//print_r($u);
 		 			$uid[] = $u->user_id;
 		 			$ulastname[] = get_user_meta($u->user_id,'last_name',true);
-		 			$ugrade[] = get_user_meta($u->user_id,'user_grade',true);
+		 			$g = get_user_meta($u->user_id,'user_grade',true); 
+		 			$ugrade[] =  $g['slug'];		 			
 	 			}
 	 			
 	 			array_multisort($ugrade, $ulastname, $uid);
@@ -196,7 +210,7 @@
 	 			}
 			?>
 			</div>
-
+</div>
 		</div>
 		<div class="col-lg-4 col-md-4">
 		

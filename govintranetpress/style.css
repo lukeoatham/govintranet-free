@@ -451,6 +451,7 @@ body.home #secondarynav {
 
 body.home #ht-feature-news h3 {
 	border-top: none !important;
+	padding-bottom: 0;
 }
 #secondarynav {
 	padding-left: 0;
@@ -1777,9 +1778,20 @@ ul.group {
 	padding: 4px 10px !important;
 }
 
+ul#atozlist.pagination {
+	margin: 0 0 10px 10px; 
+}
+
 h3.contacthead {
 	border-bottom: 1px solid #999;
 	margin-top: 1.3em;
+}
+
+#peoplenav  {
+	padding-top: 4em;
+}
+.archive #peoplenav  {
+	padding-top: 0;
 }
 
 #peoplenav .indexcard   {
@@ -1800,7 +1812,7 @@ h3.contacthead {
 
 #peoplenav .indexcard  a {
 	padding: 0.5em 0.5em 0.5em 0.5em;
-	min-height: 110px;
+	min-height: 90px;
 }
 
 #peoplenav .well  {
@@ -1901,6 +1913,10 @@ li.comment .comment-body  {
 /* media queries for responsive styles */
 
 @media only screen and (max-width: 1200px)  {
+#peoplenav  {
+	padding-top: 3em;
+}
+
 .grid-sizer {
 	width: 48% !important;	
 }
@@ -1938,6 +1954,7 @@ li.comment .comment-body  {
 
 }
 @media only screen and (max-width: 990px)  {
+
 .grid-sizer {
 	width: 48% !important;	
 }

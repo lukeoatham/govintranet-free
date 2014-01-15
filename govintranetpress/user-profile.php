@@ -30,6 +30,40 @@
 		<div class="col-lg-5 col-md-5 col-sm-9">
 	<?php// do_action( 'bbp_template_before_user_profile' ); ?>
 
+
+			<?
+			  $terms = $poduser->get_field('user_team');
+				if ($terms) {
+				echo '<h3 class="contacthead" >Team</h3>';
+
+					$teamlist = array();
+				  		foreach ($terms as $taxonomy ) {
+				  		    $themeid = $taxonomy['term_id'];
+				  		    $themeURL= $taxonomy['slug'];
+				  		    $themeparent = $taxonomy['parent']; 
+				   		    if ($themeURL == 'uncategorized') {
+					  		    continue;
+				  		    }
+				  		    while ($themeparent!=0){
+				  		    	$parentteam = get_term_by('id', $themeparent, 'team'); 
+				  		    	$parentURL = $parentteam->slug;
+				  		    	$parentname =$parentteam->name; 
+					  			$teamlist[]= " <a href='".site_url()."/team/{$parentURL}'>".$parentname."</a>";   
+					  			$themeparent = $parentname['parent']; 
+				  		    }
+				  		    
+				  			$teamlist[]= " <a href='".site_url()."/team/{$themeURL}'>".$taxonomy['name']."</a>";
+				  			echo implode(" &raquo; ", $teamlist)."<br>";
+
+						}
+				}  
+				echo "<p><strong>";
+				bbp_displayed_user_field( 'user_job_title' );
+				echo "</strong></p>";
+
+?>
+
+
 				<h3 class="contacthead" >Contact</h3>
 				
 
@@ -50,6 +84,8 @@
 				<p class="bbp-user-description"><a href="mailto:<?php bbp_displayed_user_field( 'user_email' ); ?>">Email <?php bbp_displayed_user_field( 'first_name' ); echo " "; bbp_displayed_user_field( 'last_name' ); ?></a></p>
 
 			<?php endif; ?>
+			
+
 
 			<?php if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : ?>
 
@@ -57,25 +93,6 @@
 				<?php bbp_displayed_user_field( 'user_working_pattern' ); ?>
 
 			<?php endif; ?>
-
-<?
-				
-			  $terms = $poduser->get_field('user_team');
-				if ($terms) {
-				echo "<h3 class='contacthead'>Team</h3>";
-			  		foreach ($terms as $taxonomy ) {
-			  		    $themeid = $taxonomy['term_id'];
-			  		    $themeURL= $taxonomy['slug'];
-			   		    if ($themeURL == 'uncategorized') {
-				  		    continue;
-			  		    }
-			  			echo "
-							<p><a href='".site_url()."/team/{$themeURL}'>".$taxonomy['name']."</a></p>";
-					}
-
-				}  
-?>
-
 
 			<?php if ( bbp_get_displayed_user_field( 'description' ) ) : ?>
 

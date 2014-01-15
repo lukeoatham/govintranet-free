@@ -916,7 +916,7 @@ function filter_search($query) {
 		        $query->set('post_type', array('any'));
     }
     if ($query->is_tax) {
-		        $query->set('post_type', array('any'));
+		        $query->set('taxonomy', array('team'));
     }
     return $query;
 }; 

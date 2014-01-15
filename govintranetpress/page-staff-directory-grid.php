@@ -28,7 +28,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		  <div class="col-lg-12">
 			<div id="staff-search" class="well">
 					<div class="input-group">
-				    	 <input type="text" class="form-control typeahead" placeholder="Search" name="s" id="s2" value="<?php echo $_GET['s'];?>">
+				    	 <input type="text" class="form-control typeahead" placeholder="Search for a name, job title, skills, phone number..." name="s" id="s2" value="<?php echo $_GET['s'];?>">
 				    	 <input type="hidden" name="pt" value="user">
 						 <span class="input-group-btn">
 						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
@@ -39,96 +39,22 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		</form>
 	</div>	
 	
-	<div class="col-lg-4 col-md-4 col-sm-4">
-		<div class="widget-box">
-		</div>
-			<?php
-			$terms = get_terms('team',array('hide_empty'=>false,'parent' => '0',));
-			if ($terms) {
-				$otherteams="";
-				foreach ((array)$terms as $taxonomy ) {
-				    $themeid = $taxonomy->term_id;
-				    $themeURL= $taxonomy->slug;
-					$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
-				}
-				echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle3' data-toggle='dropdown'>Browse by team <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
-			}  
-			?>
-		</div>
-	</div>
 
-<div class="col-lg-12">
-
-<?php the_content(); ?>
-
-  <?php if ($sort=="first") : ?>
-  <button type="button" class="btn btn-primary">
-    First name
-  </button>
-  <?php else : ?>
-    <a class='btn btn-default' href="<?php the_permalink(); ?>?grade=<?php echo $grade; ?>&sort=first&show=<?php echo $_REQUEST['show'] ?>">First name</a>
-  <?php endif; ?>
-
-  <?php if ($sort=="last") : ?>
-  <button type="button" class="btn btn-primary">
-  	Last name
-  </button>
-  <?php else : ?>
-  	<a class='btn btn-default' href="<?php the_permalink(); ?>?grade=<?php echo $grade; ?>&sort=last&show=<?php echo $_REQUEST['show'] ?>">Last name</a>
-  <?php endif; ?>
-
-	<div class="btn-group">
-	<?php if ($_REQUEST['grade']) : ?>
-	  <button type="button" class="btn btn-primary dropdown-toggle2" data-toggle="dropdown">
-	<?php else : ?>
-	  <button type="button" class="btn btn-default dropdown-toggle2" data-toggle="dropdown">
-	<?php endif; ?>  
-	  <?php 
-	  if ($grade){
-		  $sgrade=get_term_by( 'slug', $grade, 'grade' ) ;
-		  $sgrade=$sgrade->name;
-	  } else {
-		  $sgrade='All grades';
-	  }
-	  echo $sgrade; ?>
-	  <span class="caret"></span>
-	  </button>
-	  <ul class="dropdown-menu" role="menu">
-		  <?php
-  					$terms = get_terms('grade',array('hide_empty'=>false));
-					if ($terms) {
-				  		foreach ((array)$terms as $taxonomy ) {
-				  		    $themeid = $taxonomy->term_id;
-				  		    $themeURL= $taxonomy->slug;
-					  		$desc = "<p class='howdesc'>".$taxonomy->description."</p>";
-				   		    if ($themeURL == 'uncategorized') {
-					  		    continue;
-				  		    }
-				  			echo "<li><a href='".site_url()."/staff-directory/?grade={$themeURL}&sort={$sort}&show=".$_REQUEST['show']."'>".$taxonomy->name."</a></li>";
-						}
-							echo "<li><a href='".site_url()."/staff-directory/?sort={$sort}&show=".$_REQUEST['show']."'>All grades</a></li>";
-
-					}  
-
-  ?>
-  </ul>
-</div>
 <?php
+			if ($sort == 'last' || $sort == 'first'){
 
-
-				if ($sort == 'last' || $sort == 'first'){
-
-					$letters = range('A','Z');
+				$letters = range('A','Z');
+				
+				foreach($letters as $l) {
 					
-					foreach($letters as $l) {
-						
-						$letterlink[$l] = "<li class='disabled {$l}'><a>".$l."</a></li>";
-					}				
-					
-					?>	
-					</div>
+					$letterlink[$l] = "<li class='disabled {$l}'><a>".$l."</a></li>";
+				}				
+				
+				?>	
 
-<div class="col-lg-12">
+
+			<div class="col-lg-12">
+			<?php the_content(); ?>
 					<ul id='atozlist' class="pagination">
 					
 					<?php
@@ -225,20 +151,85 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 					?>
 					
 					</ul>
+
 					</div>
+</div>
+<div class="col-lg-4 col-md-4">
+<strong>Sort by:&nbsp;</strong>
+  <?php if ($sort=="first") : ?>
+  <button type="button" class="btn btn-primary">
+    First name
+  </button>
+  <?php else : ?>
+    <a class='btn btn-default' href="<?php the_permalink(); ?>?grade=<?php echo $grade; ?>&sort=first&show=<?php echo $_REQUEST['show'] ?>">First name</a>
+  <?php endif; ?>
 
-					<?php 
-					echo '<div id="peoplenav">'.$html."</div>";
-						
-					}
+  <?php if ($sort=="last") : ?>
+  <button type="button" class="btn btn-primary">
+  	Last name
+  </button>
+  <?php else : ?>
+  	<a class='btn btn-default' href="<?php the_permalink(); ?>?grade=<?php echo $grade; ?>&sort=last&show=<?php echo $_REQUEST['show'] ?>">Last name</a>
+  <?php endif; ?>
+</div>
+<div class="col-lg-8 col-md-8">
+<strong>Browse by:&nbsp;</strong>
+	<div class="btn-group">
+	<?php if ($_REQUEST['grade']) : ?>
+	  <button type="button" class="btn btn-primary dropdown-toggle2" data-toggle="dropdown">
+	<?php else : ?>
+	  <button type="button" class="btn btn-default dropdown-toggle2" data-toggle="dropdown">
+	<?php endif; ?>  
+	  <?php 
+	  if ($grade){
+		  $sgrade=get_term_by( 'slug', $grade, 'grade' ) ;
+		  $sgrade=$sgrade->name;
+	  } else {
+		  $sgrade='All grades';
+	  }
+	  echo $sgrade; ?>
+	  <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+		  <?php
+			$terms = get_terms('grade',array('hide_empty'=>false,'orderby'=>'slug','order'=>'ASC'));
+			echo "<li><a href='".site_url()."/staff-directory/?sort={$sort}&show=".$_REQUEST['show']."'>All grades</a></li>";
+			if ($terms) {
+		  		foreach ((array)$terms as $taxonomy ) {
+		  		    $themeid = $taxonomy->term_id;
+		  		    $themeURL= $taxonomy->slug;
+			  		$desc = "<p class='howdesc'>".$taxonomy->description."</p>";
+		   		    if ($themeURL == 'uncategorized') {
+			  		    continue;
+		  		    }
+		  			echo "<li><a href='".site_url()."/staff-directory/?grade={$themeURL}&sort={$sort}&show=".$_REQUEST['show']."'>".$taxonomy->name."</a></li>";
+				}
 
+			}  
+
+  ?>
+	  	</ul>
+	  	</div>
+  				<?php
+		$terms = get_terms('team',array('hide_empty'=>false,'parent' => '0',));
+		if ($terms) {
+			$otherteams="";
+			foreach ((array)$terms as $taxonomy ) {
+			    $themeid = $taxonomy->term_id;
+			    $themeURL= $taxonomy->slug;
+				$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
+			}
+			echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle3' data-toggle='dropdown'>All teams <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
+		}  
 
 ?>
-
-</div>
-		
-
-
+  	</div>
+<?php 
+	echo '<div id="peoplenav">'.$html."</div>";
+	
+	}
+?>
+	</div>
 </div>
 
 <?php endwhile; ?>

@@ -64,7 +64,6 @@
 	} else {
 		$userurl = get_permalink();
 	}
-	echo "<div class='media'>" ;
 	$contexturl=$post->guid;
 	$context='';
 	if ($post_type=='Post_tag') { 
@@ -132,6 +131,10 @@
 			$contexturl = "/staff/";
 			$icon = "user";			
 	}
+	if ($post_type=='Team'){
+			$context = "team";
+			$icon = "leaf";			
+	}
 
 	if ($post_type=='Page'){
 			$context = "page";
@@ -149,13 +152,17 @@
 	<?php 
 	elseif ($post_type=='User'): 
 	
-	?>			<div class="panel panel-default">
+	?>			<div class="row"><div class="col-lg-12"><br><div class="panel panel-default">
 	
 		<div class="panel-heading">				
 		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></div><div class="panel-body">
 	
 	<?php 
-	else: ?>
+	else: 
+		echo "<div class='media'>" ;
+
+	?>
+	
 		<h3>				
 		<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo "</a> <small>".$title_context."</small>"; ?></h3>
 	
@@ -177,16 +184,7 @@
 				echo "<span class='listglyph'><span class='glyphicon glyphicon-stop gb".$cat->term_id."'></span>&nbsp;".$cat->name;
 			echo "</span>&nbsp;&nbsp;";
 			}
-			}
-				$gis = "general_intranet_time_zone";
-				$tzone = get_option($gis);
-				date_default_timezone_set($tzone);
-
-			   $thisdate= $post->post_modified;
-			   $thisdate=date("j M Y",strtotime($thisdate));
-			   $thisdate = human_time_diff_plus(get_the_modified_time('U'))." ago";
-			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> Updated ".$thisdate."</span>&nbsp;&nbsp;";
-		echo "</p>";
+		}
 	}
 	elseif ($post_type=="News" && $pageslug!="category"){
 		echo "<div><p>";
@@ -202,6 +200,11 @@
 			   $thisdate=date("j M Y",strtotime($thisdate));
 			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
 		}
+		echo "</p></div>";
+	}
+	elseif ($post_type=="Team" ){
+		echo "<div><p>";
+		echo '<span class="listglyph"><i class="glyphicon glyphicon-'.$icon.'"></i>&nbsp;'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		echo "</p></div>";
 	}
 
@@ -220,15 +223,6 @@
 	} else {
 		echo "<div><p>";
 		echo '<span class="listglyph"><i class="glyphicon glyphicon-'.$icon.'"></i>&nbsp;'.ucfirst($context).'</span>&nbsp;&nbsp;';
-		if ( (is_archive() || is_search()) && $post_type!='User' ){
-				$gis = "general_intranet_time_zone";
-				$tzone = get_option($gis);
-				date_default_timezone_set($tzone);
-			   $thisdate= $post->post_modified;
-			   $thisdate=date("j M Y",strtotime($thisdate));
-			   $thisdate = human_time_diff_plus(get_the_modified_time('U'))." ago";
-			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> Updated ".$thisdate."</span> ";
-		}
 		foreach($post_cat as $cat){
 			if ($cat->name != 'Uncategorized' ){
 				echo "<span class='listglyph'><span class='glyphicon glyphicon-stop gb".$cat->term_id."'></span>&nbsp;".$cat->name;
@@ -249,26 +243,27 @@
 			echo "All intranet pages categorised as \"". get_the_title() ."\""; 
 		}
 
-		if ($post_type!='User'){
-		the_excerpt(); 
+
+		if ($post_type!='User' ){
+			the_excerpt(); 
 		}
 		
 		if ($post_type=='User'){
 			$user_info = get_userdata($post->user_id);?>
 			<?php if ( get_user_meta($post->user_id ,'user_telephone',true )) : ?>
 
-				<p><i class="glyphicon glyphicon-earphone"></i> <?php echo get_user_meta($post->user_id ,'user_telephone',true ); ?></p>
+				<p><i class="glyphicon glyphicon-earphone"></i> <a href="tel:<?php echo str_replace(" ", "", get_user_meta($post->user_id ,'user_telephone',true )) ; ?>"><?php echo get_user_meta($post->user_id ,'user_telephone',true ); ?></a></p>
 
 			<?php endif; ?>
 
 			<?php if ( get_user_meta($post->user_id ,'user_mobile',true ) ) : ?>
 
-				<p><i class="glyphicon glyphicon-phone"></i> <?php echo get_user_meta($post->user_id ,'user_mobile',true ); ?></p>
+				<p><i class="glyphicon glyphicon-phone"></i> <a href="tel:<?php echo str_replace(" ", "", get_user_meta($post->user_id ,'user_mobile',true )) ; ?>"><?php echo get_user_meta($post->user_id ,'user_mobile',true ); ?></a></p>
 
 			<?php endif; ?>
 
 				<p><a href="mailto:<?php echo $user_info->user_email; ?>">Email <?php echo $user_info->user_email; ?></a></p>
-			</div></div>
+			</div></div></div>
 			<?php
 		}
 		

@@ -68,7 +68,7 @@ get_header(); ?>
 			$foundstaff = 0;
 			$query->query_vars['s'] = $s;
 			$query->query_vars['posts_per_page'] = -1;
-			$query->query_vars['post_type'] = array('user');
+			$query->query_vars['post_type'] = array('user','team');
 			if (function_exists('relevanssi_do_query')){
 				relevanssi_do_query($query);
 			}
@@ -114,8 +114,12 @@ get_header(); ?>
 ?>
 <?php else : 
 	if ($_GET['pt'] != 'user'):
+	
+		$searchnotfound=get_option('general_intranet_search_not_found');
+		if (!$searchnotfound) $searchnotfound = "Nope";
+	
 ?>
-	<h1><?php _e( 'Nope', 'twentyten' ); ?></h1>
+	<h1><?php echo $searchnotfound; ?></h1>
 	<script type="text/javascript">
 	_gaq.push(['_trackEvent', 'Search', 'Empty results', '<?php echo $_GET['s'];?>']);
 	</script>
