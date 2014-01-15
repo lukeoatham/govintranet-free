@@ -22,24 +22,31 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		</div>
 		<div class="col-lg-12">
 		<h1><?php the_title(); ?></h1>
-		</div>
 		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/' ); ?>">
 	
 		  <div class="col-lg-12">
 			<div id="staff-search" class="well">
 					<div class="input-group">
 				    	 <input type="text" class="form-control typeahead" placeholder="Search for a name, job title, skills, phone number..." name="s" id="s2" value="<?php echo $_GET['s'];?>">
-				    	 <input type="hidden" name="pt" value="user">
 						 <span class="input-group-btn">
 						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 						 </span>
+				    	 <input type="hidden" name="pt" value="user">
 					</div><!-- /input-group -->
 				  </div>
 			</div>
 		</form>
+		</div>
 	</div>	
-	
+<script>
+jQuery("#s2").focus();
+</script>							
 
+	<div class="col-lg-4 col-md-4">
+	<!-- intentionally left blank -->
+	</div>
+</div>
+<div class="row">
 <?php
 			if ($sort == 'last' || $sort == 'first'){
 

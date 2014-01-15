@@ -84,69 +84,9 @@ h1 small, h2 small, h3 small {
 	padding-bottom: 1em;	
 }
 
-.typeahead,
-.tt-query,
-.tt-hint {
-  width: 100%;
-  height: 2.2em;
-  padding: 8px 12px;
-  font-size: 0.9em;
-  line-height: 30px;
-  border: 2px solid #ccc;
-  outline: none;
-}
-
-.typeahead {
-  background-color: #fff;
-}
-
-.typeahead:focus {
-  border: 2px solid #0097cf;
-}
-.twitter-typeahead {
-	display: block !important;
-}
-
-.tt-hint {
-  color: #999
-}
-
-.tt-dropdown-menu {
-  width: 100%;
-  margin-top: 12px;
-  padding: 8px 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.tt-suggestion {
-  padding: 3px 20px;
-  font-size: 18px;
-  line-height: 24px;
-}
-
-.tt-suggestion.tt-is-under-cursor {
-  color: #fff;
-  background-color: #0097cf;
-
-}
-
-.tt-suggestion p {
-  margin: 0;
-}
-
-.gist {
-  font-size: 14px;
-}
-
-.tt-suggestion, .tt-dataset-Search {
-	background: #d8d8d8;
-	color: black;
-}
 
 #staff-search .btn {
-	font-size: 0.71em;
+	font-size: 100%;
 }
 
 /* MAIN NAVIGATION */
@@ -1262,6 +1202,12 @@ h3.noborder {
 	text-decoration: none;
 }
 
+h3.postlist {
+	padding-bottom: 0 !important;
+}
+#content h3.postlist>media-body>p {
+	margin-bottom: 0 !important;
+}
 
 h4  {
 	font-size: 1.2em;
@@ -1903,8 +1849,16 @@ li.comment .comment-body  {
 	width:100%;
 }
 #searchformdiv .btn {
-	font-size: 0.77em;
+	font-size: 100%;
 }
+
+#s:focus {
+  border: 2px solid #0097cf;
+}
+#s {
+  border: 2px solid #8cabb6;
+}
+
 
 .navbar-brand.visible-xs {
 	font-size: 0.9em !important;

@@ -36,7 +36,7 @@
 
 
 	while ( have_posts() ) : the_post(); //echo $post->post_type;
-		if ($_GET['pt'] == 'user' && $post->post_type != 'user'){
+		if ($_GET['pt'] == 'user' && $post->post_type != 'user' && $post->post_type != 'team'){
 			continue;
 		} 
 	$post_type = ucwords($post->post_type);
@@ -145,7 +145,7 @@
 		$context='document download';
 		$icon = "download";			
 	?>
-		<h3>				
+		<h3 class='postlist'>				
 		<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
 	
 	
@@ -163,7 +163,7 @@
 
 	?>
 	
-		<h3>				
+		<h3 class='postlist'>				
 		<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo "</a> <small>".$title_context."</small>"; ?></h3>
 	
 	<?php

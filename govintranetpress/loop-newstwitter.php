@@ -31,7 +31,7 @@ if ($k==1 && $paged<2){
 	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
 	if ($image_uri!="" ){
 		echo "<a href='".site_url()."/news/".$post->post_name."/'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".$thistitle."' /></a>";																			} 
-	echo "<h3><a href='".site_url()."/news/".$post->post_name."'>".$needtoknow.$thistitle."</a></h3>";
+	echo "<h3 class='postlist'><a href='".site_url()."/news/".$post->post_name."'>".$needtoknow.$thistitle."</a></h3>";
 	echo "<div class='media-body'>";
 	
 		echo "<div><p>";
@@ -58,7 +58,7 @@ if ($k==1 && $paged<2){
 //regular listing *********************
 ?>
 
-<h3><?php echo $needtoknow; ?>				
+<h3 class='postlist'><?php echo $needtoknow; ?>				
 	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a></h3>
 <?php
 	echo "<div class='media'>" ;

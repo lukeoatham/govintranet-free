@@ -45,10 +45,14 @@
 				  </div>
 			</div>
 		</form>
+<script>
+jQuery("#s2").focus();
+</script>							
+		
 	<?php
 				if ($teamparent){
 					$parentteam = get_term_by('id',$teamparent,'team');
-					echo "<h2><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".$parentteam->name."</a></h2>";
+					echo "<h3><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".$parentteam->name."</a></h3>";
 				}
 ?>	<div id="peoplenav">
 				<h2>Team: <?php echo $teamname; ?></h2>

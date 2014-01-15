@@ -6,7 +6,7 @@ get_header(); ?>
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 
-					<div class="col-lg-8 white ">
+					<div class="col-lg-8 col-md-8 white">
 						<div class="row">
 							<div class='breadcrumbs'>
 								<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -73,7 +73,7 @@ $k = 0;
 
 
 			</div>
-			<div class="col-lg-4 last">
+			<div class="col-lg-4 col-sm-4">
 			<div id="related">
 			
 			<?php

@@ -13,7 +13,7 @@ $thisdate=date("j M Y",strtotime($thisdate));
 
 ?>
 
-<h3>				
+<h3 class='postlist'>				
 	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a></h3>
 <?php
 	echo "<div class='media'>" ;
@@ -26,7 +26,7 @@ $thisdate=date("j M Y",strtotime($thisdate));
 
 	echo "<div class='media-body'>";
 	
-		echo "<div><p>";
+		echo "<p>";
 			$post_cat = get_the_category();		
 				foreach($post_cat as $cat){
 					if ($cat->name != 'Uncategorized' ){
@@ -56,7 +56,7 @@ $thisdate=date("j M Y",strtotime($thisdate));
 	                echo " <a href='".site_url()."/author/" . $user->user_login . "/'>" . $user->display_name . "</a>";			   
 			   }
 
-		echo "</p></div>";
+		echo "</p>";
 
 		the_excerpt(); 
 ?>
