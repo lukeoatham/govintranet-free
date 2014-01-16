@@ -31,15 +31,14 @@
 	?>
 			<div class="col-lg-8 col-md-8 white">
 			<h1>Staff directory</h1>
-					<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/' ); ?>">
+					<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/search-staff/' ); ?>">
 	
 		  <div class="col-lg-12">
-			<div id="staff-search" class="well">
+			<div id="staff-search" class="well well-sm">
 					<div class="input-group">
-				    	 <input type="text" class="form-control typeahead" placeholder="Search for a name, job title, skills, phone number..." name="s" id="s2" value="<?php echo $_GET['s'];?>">
-				    	 <input type="hidden" name="pt" value="user">
+				    	 <input type="text" class="form-control" placeholder="Search for a name, job title, skills, phone number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
 						 <span class="input-group-btn">
-						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+							 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 						 </span>
 					</div><!-- /input-group -->
 				  </div>

@@ -22,16 +22,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		</div>
 		<div class="col-lg-12">
 		<h1><?php the_title(); ?></h1>
-		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/' ); ?>">
+		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/search-staff/' ); ?>">
 	
 		  <div class="col-lg-12">
-			<div id="staff-search" class="well">
+			<div id="staff-search" class="well well-sm">
 					<div class="input-group">
-				    	 <input type="text" class="form-control typeahead" placeholder="Search for a name, job title, skills, phone number..." name="s" id="s2" value="<?php echo $_GET['s'];?>">
+				    	 <input type="text" class="form-control" placeholder="Search for a name, job title, skills, phone number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
 						 <span class="input-group-btn">
 						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 						 </span>
-				    	 <input type="hidden" name="pt" value="user">
 					</div><!-- /input-group -->
 				  </div>
 			</div>
@@ -80,7 +79,7 @@ jQuery("#s2").focus();
 						$thisletter = strtoupper(substr($title,0,1));	
 						$user_info = get_userdata($userid);
 //						$thisgrade = get_user_meta($userid ,'user_grade',true ); 
-						$gradecode = $usergrade['grade_code']; 
+						$gradecode = $usergrade['grade_code']; //echo $gradecode;
 													
 						$hasentries[$thisletter] = $hasentries[$thisletter] + 1;
 						
@@ -93,19 +92,17 @@ jQuery("#s2").focus();
 							} 
 
 						if ( ( ($usergrade['slug'] == $grade) && ($grade ) ) || (!$grade)  ) {
-
-							if ($fulldetails){
 								$gradedisplay='';
 								if ($gradecode){
 									$gradedisplay = "<span class='badge pull-right'>".$gradecode."</span>";
 								}
+
+							if ($fulldetails){
 								if ( function_exists('get_wp_user_avatar')){
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".get_wp_user_avatar($u['user_id'],66,'left')."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 								} else {
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 								}
-								
-								
 								
 								?>
 	
@@ -192,7 +189,7 @@ jQuery("#s2").focus();
 		  $sgrade=get_term_by( 'slug', $grade, 'grade' ) ;
 		  $sgrade=$sgrade->name;
 	  } else {
-		  $sgrade='All grades';
+		  $sgrade='Grade';
 	  }
 	  echo $sgrade; ?>
 	  <span class="caret"></span>
@@ -226,7 +223,7 @@ jQuery("#s2").focus();
 			    $themeURL= $taxonomy->slug;
 				$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
 			}
-			echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle3' data-toggle='dropdown'>All teams <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
+			echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle3' data-toggle='dropdown'>Team <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
 		}  
 
 ?>

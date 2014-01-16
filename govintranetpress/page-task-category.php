@@ -8,7 +8,7 @@ get_header();
 $cat_name = $_GET['cat'];
 $catpod = new Pod ('category' , $cat_name);
 $catname = $catpod->get_field('name');				
-$catid = $catpod->get_field('term_id');		
+$catid = $catpod->get_field('slug');		
 $catdesc = $catpod->get_field('category_page_description');				
 ?>
 
@@ -23,11 +23,11 @@ $catdesc = $catpod->get_field('category_page_description');
 								echo "<h1 class='h1_" . $catid . "'>".$catname."</h1>";
 								?>
 								<?php echo $catdesc; ?>
-									<div class="well">
+									<div class="well well-sm">
 									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
-										<label for="sbc-s">In <?php echo strtolower($catname);?>, how do I... </label>
+										<label for="sbc-s"><?php echo $catname;?></label>
 										<div class="form-group input-md">
-											<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+											<input type="text" value="" name="s" id="sbc-s" placeholder="How do I..." class="multi-cat form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 										</div>
 										<div class="form-group input-md">
 											<button type="submit" class="btn btn-primary input-md">Search</button>
