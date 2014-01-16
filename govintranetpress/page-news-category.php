@@ -12,7 +12,7 @@ get_header();
 $cat_name = $_GET['cat'];
 $catpod = new Pod ('category' , $cat_name);
 $catname = $catpod->get_field('name');				
-$catid = $catpod->get_field('term_id');				
+$catid = $catpod->get_field('slug');				
 ?>
 
 
