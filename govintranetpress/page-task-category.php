@@ -8,15 +8,16 @@ get_header();
 $cat_name = $_GET['cat'];
 $catpod = new Pod ('category' , $cat_name);
 $catname = $catpod->get_field('name');				
-$catid = $catpod->get_field('slug');		
+$catid = $catpod->get_field('id');		
+$catslug = $catpod->get_field('slug');		
 $catdesc = $catpod->get_field('category_page_description');				
 ?>
 
 					<div class="col-lg-12 white ">
 						<div class="row">
 							<div class='breadcrumbs'>
-								<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> > 
-								<a title="Go to How do I?" href="<?php echo site_url(); ?>/how-do-i/">How do I?</a> > <?php echo $catname; ?>
+								<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> &raquo; 
+								<a title="Go to How do I?" href="<?php echo site_url(); ?>/how-do-i/">How do I?</a> &raquo; <?php echo $catname; ?>
 							</div>
 							<div class="col-lg-8 col-md-8 col-sm-12 notop">
 						<?php		
@@ -32,7 +33,7 @@ $catdesc = $catpod->get_field('category_page_description');
 										<div class="form-group input-md">
 											<button type="submit" class="btn btn-primary input-md">Search</button>
 										</div>
-										<input type="hidden" value="<?php echo $catid; ?> " name = "cat" />
+										<input type="hidden" value="<?php echo $catslug; ?> " name = "cat" />
 										<input type="hidden" value="task" name = "post_type" />
 									</form>
 									</div>
@@ -138,7 +139,7 @@ jQuery("#sbc-s").focus();
 					foreach($post_cat as $cat){
 						if ($cat->name!='Uncategorized' && $cat->name && $cat->term_id != $catid){
 						$newname = str_replace(" ", "&nbsp;", $cat->name );
-						echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/task-by-category/?cat=".$cat->slug."'>".$newname."</a></span> ";
+						echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/task-by-category/?cat=".$cat->slug."'>".$newname."</a></span><br>";
 					}
 					}
 					echo "</p></div>";

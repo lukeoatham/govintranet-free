@@ -12,7 +12,8 @@ get_header();
 $cat_name = $_GET['cat'];
 $catpod = new Pod ('category' , $cat_name);
 $catname = $catpod->get_field('name');				
-$catid = $catpod->get_field('slug');				
+$catslug = $catpod->get_field('slug');				//echo $catslug;
+$catid = $catpod->get_field('id');				//echo $catid;
 ?>
 
 
@@ -20,8 +21,8 @@ $catid = $catpod->get_field('slug');
 	<div class="col-lg-8 col-md-8 white">
 		<div class="row">
 			<div class='breadcrumbs'>
-				<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> > 
-				<a title="Go to How do I?" href="<?php echo site_url(); ?>/news/">News</a> > <?php echo $catname; ?>
+				<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> &raquo; 
+				<a title="Go to How do I?" href="<?php echo site_url(); ?>/newspage/">News</a> &raquo; <?php echo $catname; ?>
 			</div>
 		</div>
 	
@@ -33,12 +34,12 @@ $catid = $catpod->get_field('slug');
 									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
 										<label for="sbc-s">In <?php echo strtolower($catname);?> news </label>
 										<div class="form-group input-md">
-											<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+											<input type="text" value="" name="s" placeholder = "Search news" id="sbc-s" class="multi-cat form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 										</div>
 										<div class="form-group input-md">
 											<button type="submit" class="btn btn-primary input-md">Search</button>
 										</div>
-										<input type="hidden" value="<?php echo $catid; ?> " name = "cat" />
+										<input type="hidden" value="<?php echo $catslug; ?> " name = "cat" />
 										<input type="hidden" value="news" name = "post_type" />
 									</form>
 
@@ -59,8 +60,8 @@ jQuery("#sbc-s").focus();
 		'tax_query' => array(
 	        array(
 	            'taxonomy' => 'category',
-	            'field' => 'id',
-	            'terms' => $catid,
+	            'field' => 'slug',
+	            'terms' => $catslug,
 		       ),
 		    ),	
 
@@ -81,7 +82,7 @@ jQuery("#sbc-s").focus();
 
 	while ($newsstories->have_posts()) {
 		$newsstories->the_post();
-	  	$thisconf = new Pod('task', $id);
+//	  	$thisconf = new Pod('task', $id);
 		$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
 		$thistitle = get_the_title();
 

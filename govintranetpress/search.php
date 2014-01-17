@@ -37,7 +37,7 @@ if ($gishelpfulsearch == 1){
 
 get_header(); ?>
 
-	<div class="col-lg-8 col-md-9 white ">
+	<div class="col-lg-8 col-md-8 white ">
 		<div class="row">
 			<div class='breadcrumbs'>
 				<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -223,9 +223,8 @@ endif;
 		</div>
 
 </div>
-					<div class="col-lg-4 col-md-3" id='sidebar'>
-		<?php 	dynamic_sidebar('serp-widget-area'); ?>	
-					</div>
-
+<div class="col-lg-4 col-md-4" id='sidebar'>
+	<?php 	dynamic_sidebar('serp-widget-area'); ?>	
+</div>
 
 <?php get_footer(); ?>

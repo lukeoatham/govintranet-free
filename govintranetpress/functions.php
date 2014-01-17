@@ -906,15 +906,17 @@ function ht_cookiebar_widget() {
 function filter_search($query) {
     if ($query->is_search) {
 		if ( $_GET['pt'] == 'forums'  ){
-		        $query->set('post_type', array('topic', 'reply'));
+		        $query->set('post_type', array('topic', 'reply', 'forum'));
 		}
     };
+/*
     if ($query->is_tag) {
 		        $query->set('post_type', array('any'));
     }
     if ($query->is_category) {
 		        $query->set('post_type', array('any'));
     }
+*/
     
     return $query;
 }; 
@@ -1135,7 +1137,7 @@ function get_terms_by_post_type( $taxonomies, $post_types ) {
 
     global $wpdb;
 
-    $query = "SELECT t.*, COUNT(*) from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'publish' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id";
+    $query = "SELECT t.*, COUNT(*) from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'publish' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id order by t.name";
 
     $results = $wpdb->get_results( $query );
 
@@ -1474,46 +1476,6 @@ function relevanssi_user_filter($hits) {
     }
     return $tothits;
 }
-
-
-
-//DCMS CODE
-
-function ht_relativeUrls($buffer) {
-
-if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk') {
-
-  	 $reallinkstem = array("http://intranet.culture.gov.uk","https://intranet.culture.gov.uk");
-  	 $publiclinkstem = "https://intranet2.culture.gov.uk";
-  	 
- 	 $buffer = str_replace($reallinkstem,$publiclinkstem,$buffer);
-}
-  return $buffer;
-
-}
-
-if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk' ) {	
-	function ht_buffer_start() { ob_start("ht_relativeUrls"); }	 
-	function ht_buffer_end() { ob_end_flush(); }
-	add_action('pre_get_posts', 'ht_buffer_start');
-	add_action('shutdown', 'ht_buffer_end');
-
-
-
-function make_href_root_relative($input) {
-	return preg_replace('!http(s)?://' . $_SERVER['SERVER_NAME'] . '/!', '/', $input);
-}
-
-function root_relative_permalinks($input) {
-    return make_href_root_relative($input);
-}
-}
-
-if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk') {
-add_filter( 'wp_footer', 'root_relative_permalinks' );
-}
-
-
 
 
 ?>
