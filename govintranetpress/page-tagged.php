@@ -214,7 +214,7 @@ endif;
 	
 
 	echo "<a href='";
-	echo $userurl;
+	the_permalink();
 	echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
 
 	echo "<div class='media-body'>";
@@ -229,9 +229,6 @@ endif;
 			echo "</span>&nbsp;&nbsp;";
 			}
 			}
-			   $thisdate= $post->post_modified;
-			   $thisdate=date("j M Y",strtotime($thisdate));
-			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> Updated ".$thisdate."</span>&nbsp;&nbsp;";
 		echo "</p>";
 	}
 
@@ -244,11 +241,11 @@ endif;
 			echo "</span>&nbsp;&nbsp;";
 			}
 		}
-		if ( is_archive() || is_search() ){
-			   $thisdate= $post->post_modified;
+			   $thisdate= $post->post_date;
 			   $thisdate=date("j M Y",strtotime($thisdate));
-			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> Updated ".$thisdate."</span> ";
-		}
+			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
+
+
 		echo "</p></div>";
 	}
 

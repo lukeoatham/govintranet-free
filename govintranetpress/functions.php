@@ -1478,4 +1478,44 @@ function relevanssi_user_filter($hits) {
 }
 
 
+
+//DCMS CODE
+
+function ht_relativeUrls($buffer) {
+
+if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk') {
+
+  	 $reallinkstem = array("http://intranet.culture.gov.uk","https://intranet.culture.gov.uk");
+  	 $publiclinkstem = "https://intranet2.culture.gov.uk";
+  	 
+ 	 $buffer = str_replace($reallinkstem,$publiclinkstem,$buffer);
+}
+  return $buffer;
+
+}
+
+if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk' ) {	
+	function ht_buffer_start() { ob_start("ht_relativeUrls"); }	 
+	function ht_buffer_end() { ob_end_flush(); }
+	add_action('pre_get_posts', 'ht_buffer_start');
+	add_action('shutdown', 'ht_buffer_end');
+
+
+
+function make_href_root_relative($input) {
+	return preg_replace('!http(s)?://' . $_SERVER['SERVER_NAME'] . '/!', '/', $input);
+}
+
+function root_relative_permalinks($input) {
+    return make_href_root_relative($input);
+}
+}
+
+if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk') {
+add_filter( 'wp_footer', 'root_relative_permalinks' );
+}
+
+
+
+
 ?>
