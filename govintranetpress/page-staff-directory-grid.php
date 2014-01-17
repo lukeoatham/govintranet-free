@@ -71,15 +71,13 @@ jQuery("#s2").focus();
 					}					
 					$userq = $wpdb->get_results($q,ARRAY_A);
 
-					foreach ($userq as $u){ //print_r($g);
-						$usergrade = get_user_meta($u['user_id'],'user_grade',true); //echo $usergrade['slug'];
-						
+					foreach ($userq as $u){ 
+						$usergrade = get_user_meta($u['user_id'],'user_grade',true); 
 						$title = $u['name'];
 						$userid = $u['user_id'];
 						$thisletter = strtoupper(substr($title,0,1));	
 						$user_info = get_userdata($userid);
-//						$thisgrade = get_user_meta($userid ,'user_grade',true ); 
-						$gradecode = $usergrade['grade_code']; //echo $gradecode;
+						$gradecode = $usergrade['grade_code']; 
 													
 						$hasentries[$thisletter] = $hasentries[$thisletter] + 1;
 						
@@ -103,9 +101,32 @@ jQuery("#s2").focus();
 								} else {
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 								}
+
+								// display team name(s)
+								$poduser = new Pod ('user' , $userid);
+								$terms = $poduser->get_field('user_team');
+								if ($terms) {				
+									$teamlist = array();
+							  		foreach ($terms as $taxonomy ) {
+							  		    $themeid = $taxonomy['term_id'];
+							  		    $themeURL= $taxonomy['slug'];
+							  		    $themeparent = $taxonomy['parent']; 
+							  		    while ($themeparent!=0){
+							  		    	$parentteam = get_term_by('id', $themeparent, 'team'); 
+							  		    	$parentURL = $parentteam->slug;
+							  		    	$parentname =$parentteam->name; 
+								  			$teamlist[]= $parentname;   
+								  			$themeparent = $parentname['parent']; 
+							  		    }
+							  		    
+							  			$teamlist[]= $taxonomy['name'];
+							  			$html.= implode(" &raquo; ", $teamlist)."<br>";
+			
+									}
+								}  
 								
 								?>
-	
+
 							<?php if ( get_user_meta($userid ,'user_job_title',true )) : 
 				
 								$html .= ''.get_user_meta($userid ,'user_job_title',true )."<br>";
@@ -131,17 +152,28 @@ jQuery("#s2").focus();
 								
 							} else {
 								if ( function_exists('get_wp_user_avatar')){
-								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".get_wp_user_avatar($u['user_id'],66,'left')."<strong>".$displayname."</strong>".$gradedisplay."<br>";
+								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".get_wp_user_avatar($u['user_id'],66,'left')."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								} else {
-								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."<strong>".$displayname."</strong>".$gradedisplay."<br>";
+								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								}
+								// display team name(s)
+								$poduser = new Pod ('user' , $userid);
+								$terms = $poduser->get_field('user_team');
+								if ($terms) {				
+									$teamlist = array();
+							  		foreach ($terms as $taxonomy ) {
+							  			$teamlist[]= $taxonomy['name'];
+							  			$html.= implode(" &raquo; ", $teamlist)."<br>";
+			
+									}
+								}  
 							
 								if ( get_user_meta($userid ,'user_job_title',true )) $html .= '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
 							if ( get_user_meta($userid ,'user_telephone',true )) $html .= '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 							if ( get_user_meta($userid ,'user_mobile',true ) ) $html .= '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
 												
-								$html .= "</div></div></a></i>";
+								$html .= "</div></div></div></div></a>";
 								
 							}																							
 						}

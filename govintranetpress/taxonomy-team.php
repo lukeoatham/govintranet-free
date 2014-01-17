@@ -85,6 +85,20 @@ jQuery("#s2").focus();
 					echo "<div class='media-body'>";
 				?>
 					<h3><a href="<?php echo $userurl; ?>" title="<?php echo $user_info->display_name ; ?>" rel="bookmark"><?php echo $user_info->display_name ; ?></a></h3>
+<?php					
+					// display team name(s)
+					$poduser = new Pod ('user' , $teamleaderid);
+					$terms = $poduser->get_field('user_team');
+					if ($terms) {				
+						$teamlist = array();
+				  		foreach ($terms as $taxonomy ) {
+				  			$teamlist[]= $taxonomy['name'];
+				  			echo implode(" &raquo; ", $teamlist)."<br>";
+
+						}
+					}  
+?>
+					
 					<p><i class="glyphicon glyphicon-user"></i> <?php echo get_user_meta($teamleaderid,'user_job_title',true); ?></p>
 					<?php if ( get_user_meta($teamleaderid ,'user_telephone',true )) : ?>
 						<p><i class="glyphicon glyphicon-earphone"></i> <?php echo get_user_meta($teamleaderid ,'user_telephone',true ); ?></p>		
@@ -169,6 +183,18 @@ jQuery("#s2").focus();
 							echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 							}
 
+							// display team name(s)
+							$poduser = new Pod ('user' , $userid);
+							$terms = $poduser->get_field('user_team');
+							if ($terms) {				
+								$teamlist = array();
+						  		foreach ($terms as $taxonomy ) {
+						  			$teamlist[]= $taxonomy['name'];
+						  			echo implode(" &raquo; ", $teamlist)."<br>";
+		
+								}
+							}  
+
 							if ( get_user_meta($userid ,'user_job_title',true )) : 
 				
 								echo get_user_meta($userid ,'user_job_title',true )."<br>";
@@ -196,17 +222,28 @@ jQuery("#s2").focus();
 					} //end full details
 					else { 
 								if ( function_exists('get_wp_user_avatar')){
-								echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".get_wp_user_avatar($userid,66,'left')."<strong>".$displayname."</strong>".$gradedisplay."<br>";
+								echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".get_wp_user_avatar($userid,66,'left')."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								} else {
-								echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($userid,66))."<strong>".$displayname."</strong>".$gradedisplay."<br>";
+								echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($userid,66))."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								}
+							// display team name(s)
+							$poduser = new Pod ('user' , $userid);
+							$terms = $poduser->get_field('user_team');
+							if ($terms) {				
+								$teamlist = array();
+						  		foreach ($terms as $taxonomy ) {
+						  			$teamlist[]= $taxonomy['name'];
+						  			echo implode(" &raquo; ", $teamlist)."<br>";
+		
+								}
+							}  
 							
 								if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
 								if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 								if ( get_user_meta($userid ,'user_mobile',true ) ) echo '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
 												
-								echo "</div></div></a></i>";
+								echo "</div></div></div></div></a>";
 								$counter++;	
 					}	
 	 				 			

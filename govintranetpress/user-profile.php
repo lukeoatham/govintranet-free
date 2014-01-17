@@ -106,7 +106,11 @@
 				  echo "<h3 class='contacthead'>Key skills and experience</h3>";
 				  echo $skills;
 			  }
+
+
 ?>
+
+
 <!--
 
 			<p class="bbp-user-forum-role"><?php  printf( __( 'Forum Role: %s',      'bbpress' ), bbp_get_user_display_role()    ); ?></p>
@@ -115,6 +119,10 @@
 
 -->
 		</div>
+
+
+
+
 		<div class="clearfix col-lg-5 col-md-5 col-sm-12">
 
 <script>

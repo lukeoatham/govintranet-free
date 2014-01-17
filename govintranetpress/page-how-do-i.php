@@ -80,7 +80,7 @@ get_header(); ?>
 						  		    	continue;
 						  			}
 						  			$catcount++;
-									if ($catcount > round(count($terms)/2,0,PHP_ROUND_HALF_UP) && count($terms) > 3 ) {
+									if ($catcount > round(count($terms)/2,0,PHP_ROUND_HALF_DOWN) && count($terms) > 3 ) {
 										echo "</ul></div></div><div class='row'><div class='col-lg-6  col-md-6 col-sm-12'><ul class='howdoi'>";
 										$catcount=0;
 									}
