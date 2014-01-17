@@ -6,12 +6,10 @@
 get_header(); ?>
 
 	<div class="col-lg-8 col-md-9 white ">
-		<div class="row">
-			<div class='breadcrumbs'>
-				<?php if(function_exists('bcn_display') && !is_front_page()) {
-						bcn_display();
-					}?>
-			</div>
+		<div class='breadcrumbs'>
+			<a href="<?php echo site_url(); ?>">Home</a>
+			&raquo; <a href="<?php echo site_url(); ?>/staff-directory/">Staff directory</a>
+			&raquo; Search results
 		</div>
 	
 

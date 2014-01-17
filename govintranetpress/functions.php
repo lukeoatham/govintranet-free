@@ -915,9 +915,7 @@ function filter_search($query) {
     if ($query->is_category) {
 		        $query->set('post_type', array('any'));
     }
-    if ($query->is_tax) {
-		        $query->set('taxonomy', array('team'));
-    }
+    
     return $query;
 }; 
 add_filter('pre_get_posts', 'filter_search');
@@ -1389,7 +1387,7 @@ remove_action('wp_title', 'bbp_title');
 // listing page thumbnail sizes, e.g. home page
 
 add_image_size( "newshead", "726", "353", true );
-add_image_size( "homehead", "444", "207", true );
+add_image_size( "homehead", "544", "307", true );
 
 /**
  * Determines the difference between two timestamps.
@@ -1476,6 +1474,46 @@ function relevanssi_user_filter($hits) {
     }
     return $tothits;
 }
+
+
+
+//DCMS CODE
+
+function ht_relativeUrls($buffer) {
+
+if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk') {
+
+  	 $reallinkstem = array("http://intranet.culture.gov.uk","https://intranet.culture.gov.uk");
+  	 $publiclinkstem = "https://intranet2.culture.gov.uk";
+  	 
+ 	 $buffer = str_replace($reallinkstem,$publiclinkstem,$buffer);
+}
+  return $buffer;
+
+}
+
+if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk' ) {	
+	function ht_buffer_start() { ob_start("ht_relativeUrls"); }	 
+	function ht_buffer_end() { ob_end_flush(); }
+	add_action('pre_get_posts', 'ht_buffer_start');
+	add_action('shutdown', 'ht_buffer_end');
+
+
+
+function make_href_root_relative($input) {
+	return preg_replace('!http(s)?://' . $_SERVER['SERVER_NAME'] . '/!', '/', $input);
+}
+
+function root_relative_permalinks($input) {
+    return make_href_root_relative($input);
+}
+}
+
+if ($_SERVER['SERVER_NAME'] == 'intranet2.culture.gov.uk') {
+add_filter( 'wp_footer', 'root_relative_permalinks' );
+}
+
+
 
 
 ?>

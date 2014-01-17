@@ -8,8 +8,8 @@
 	
 		<div class='breadcrumbs'>
 			<a href="<?php echo site_url(); ?>">Home</a>
-			> <a href="<?php echo site_url(); ?>/staff-directory/">Staff directory</a>
-			> <?php single_cat_title(); ?>
+			&raquo; <a href="<?php echo site_url(); ?>/staff-directory/">Staff directory</a>
+			&raquo; <?php single_cat_title(); ?>
 		</div>
 
 	<?php

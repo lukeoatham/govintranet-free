@@ -18,7 +18,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 	<div class="col-lg-8 col-md-8 col-sm-8">
 		<div class="breadcrumbs">
 			<a href="<?php echo site_url(); ?>">Home</a>
-			> <?php the_title(); ?>
+			&raquo; <?php the_title(); ?>
 		</div>
 		<div class="col-lg-12">
 		<h1><?php the_title(); ?></h1>

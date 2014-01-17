@@ -28,9 +28,6 @@
 ?>
 	</div>
 		<div class="col-lg-5 col-md-5 col-sm-9">
-	<?php// do_action( 'bbp_template_before_user_profile' ); ?>
-
-
 			<?
 			  $terms = $poduser->get_field('user_team');
 				if ($terms) {
@@ -62,10 +59,7 @@
 				echo "</strong></p>";
 
 ?>
-
-
-				<h3 class="contacthead" >Contact</h3>
-				
+			<h3 class="contacthead" >Contact</h3>
 
 			<?php if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
 
@@ -84,7 +78,6 @@
 				<p class="bbp-user-description"><a href="mailto:<?php bbp_displayed_user_field( 'user_email' ); ?>">Email <?php bbp_displayed_user_field( 'first_name' ); echo " "; bbp_displayed_user_field( 'last_name' ); ?></a></p>
 
 			<?php endif; ?>
-			
 
 
 			<?php if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : ?>
@@ -106,22 +99,32 @@
 				  echo "<h3 class='contacthead'>Key skills and experience</h3>";
 				  echo $skills;
 			  }
+			  $poduser->get_field('user_team');
 
-
+			  $uqblog = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and post_type='blog' and post_status='publish';",ARRAY_A);
+			  $uqforum = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and (post_type='topic' or post_type='forum' or post_type='reply') and post_status='publish';",ARRAY_A);
+if (count($uqblog)>0 || count($uqforum) > 0):
 ?>
+				<h3 class="contacthead" >On the intranet</h3>
+				<ul>
+<?php if (count($uqblog)>0):?>
+				<li>
+					<span class='bbp-user-topics-created-link'>
+						<a href="/author/<?php echo $poduser->get_field('login'); ?>" title="<?php printf( esc_attr__( "%s's Blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Blog posts', 'bbpress' ); ?></a>
+					</span>
+				</li>
+<?php endif; ?>
+<?php if (count($uqforum)>0):?>
+				<li>
+					<span class='bbp-user-topics-created-link'>
+						<a href="/author/<?php echo $poduser->get_field('login'); ?>/?show=forum" title="<?php printf( esc_attr__( "%s's Blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum posts', 'bbpress' ); ?></a>
+					</span>
+				</li>
+<?php endif; ?>
+				</ul>
+<?php endif; ?>
 
-
-<!--
-
-			<p class="bbp-user-forum-role"><?php  printf( __( 'Forum Role: %s',      'bbpress' ), bbp_get_user_display_role()    ); ?></p>
-			<p class="bbp-user-topic-count"><?php printf( __( 'Topics Started: %s',  'bbpress' ), bbp_get_user_topic_count_raw() ); ?></p>
-			<p class="bbp-user-reply-count"><?php printf( __( 'Replies Created: %s', 'bbpress' ), bbp_get_user_reply_count_raw() ); ?></p>
-
--->
 		</div>
-
-
-
 
 		<div class="clearfix col-lg-5 col-md-5 col-sm-12">
 

@@ -36,9 +36,7 @@
 
 
 	while ( have_posts() ) : the_post(); //echo $post->post_type;
-		if ($_GET['pt'] == 'user' && $post->post_type != 'user' && $post->post_type != 'team'){
-			continue;
-		} 
+
 	$post_type = ucwords($post->post_type);
 	$post_cat = get_the_category();
 	$title_context='';		
@@ -141,6 +139,11 @@
 			$icon = "file";
 	}
 
+	if ($post_type=='Forum'||$post_type=='Reply'||$post_type=='Topic'){
+			$context = "forum";
+			$icon = "comment";
+	}
+
 	if ($post_type=='Attachment'): 
 		$context='document download';
 		$icon = "download";			
@@ -186,7 +189,7 @@
 			}
 		}
 	}
-	elseif ($post_type=="News" && $pageslug!="category"){
+	elseif (($post_type=="News" || $post_type =="Blog" || $post_type=='Forum' || $post_type=='Topic' || $post_type=='Reply' ) && $pageslug!="category"){
 		echo "<div><p>";
 		echo '<span class="listglyph"><i class="glyphicon glyphicon-'.$icon.'"></i>&nbsp;'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		foreach($post_cat as $cat){
@@ -195,10 +198,18 @@
 			echo "</span>&nbsp;&nbsp;";
 			}
 		}
-		if ( is_archive() || is_search() ){
+		if ( is_archive() || is_search() || is_author() ){
 			   $thisdate= $post->post_date;
 			   $thisdate=date("j M Y",strtotime($thisdate));
 			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
+		}
+		if ($post_type=="Blog"){
+			$image_url = get_avatar($post->post_author,32);
+			$image_url = str_replace('avatar ', 'avatar32 ' , $image_url);
+			echo "&nbsp;";
+			echo $image_url;
+			$auth = get_the_author();
+			echo "<span class='listglyph'>&nbsp;".$auth."</span>";
 		}
 		echo "</p></div>";
 	}
@@ -294,7 +305,7 @@
 
 <?php endwhile; // End the loop. Whew. ?>
 <hr>
-<?php if (  $wp_query->max_num_pages > 1  && $_GET['pt'] != 'user' ) : ?>
+<?php if (  $wp_query->max_num_pages > 1  ) : ?>
 	<?php if (function_exists(wp_pagenavi)) : ?>
 		<?php wp_pagenavi(); ?>
 	<?php else : ?>
