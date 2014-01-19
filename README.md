@@ -48,6 +48,11 @@ If you have trouble with your existing post types you'll need to update manually
 ## Changelog ##
 
 
+### 3.0.4 - 19th January 2014 ###
+* Staff directory updates and integration    
+* Feature blogposts widget    
+
+
 ### 3.0.2, 3.0.3 - 12th January 2014 ###
 * Updated setup files  
 * How do I? category page updates  
