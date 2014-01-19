@@ -47,7 +47,7 @@
 		global $foundstaff;
 		$foundstaff++;
 		$image_url = get_avatar($post->user_id);
-		$image_url = str_replace('avatar ', 'avatar img img-responsive ' , $image_url);
+		$image_url = str_replace('avatar-96 ', 'avatar-96 img img-responsive img-circle ' , $image_url);
 		$userurl = get_author_posts_url( $post->user_id); 
 		$gis = "general_intranet_forum_support";
 		$forumsupport = get_option($gis);
@@ -131,7 +131,7 @@
 	}
 	if ($post_type=='Team'){
 			$context = "team";
-			$icon = "leaf";			
+			$icon = "list-alt";			
 	}
 
 	if ($post_type=='Page'){
@@ -155,10 +155,10 @@
 	<?php 
 	elseif ($post_type=='User'): 
 	
-	?>			<div class="row"><div class="col-lg-12"><br><div class="panel panel-default">
+	?>			<div class="row"><div class="col-lg-12">
 	
-		<div class="panel-heading">				
-		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></div><div class="panel-body">
+		<h3 class='postlist'>				
+		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
 	
 	<?php 
 	else: 
@@ -274,7 +274,8 @@
 			<?php endif; ?>
 
 				<p><a href="mailto:<?php echo $user_info->user_email; ?>">Email <?php echo $user_info->user_email; ?></a></p>
-			</div></div></div>
+			</div>
+			<br class="clearfix">
 			<?php
 		}
 		

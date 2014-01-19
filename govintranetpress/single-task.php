@@ -216,7 +216,9 @@ if ($pagetype=="guide"):
 				$podtask = new Pod('task', $id);
 				$related_links = $podtask->get_field('related_tasks');
 				$related_pages = $podtask->get_field('related_pages');
-				if ($related_links || $related_pages){
+				$relatedteams = get_the_terms( $id, 'team' );
+
+				if ($related_links || $related_pages || $relatedteams){
 					$html='';
 					foreach ($related_links as $rlink){ 
 						if ($rlink['post_status'] == 'publish' && $rlink['ID'] != $id ) {
@@ -237,8 +239,11 @@ if ($pagetype=="guide"):
 								$html.= "<li><a href='".$rlink['guid']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";
 						}
 					}
+					foreach ($relatedteams as $r){
+								$html.= "<li><a href='".site_url()."/team/".$r->slug."'>".$r->name."</a>&nbsp;<span class='glyphicon glyphicon-list-alt'></span></li>";
+					}
 					echo "<div class='widget-box list'>";
-					echo "<h3 class='widget-title'>Related tasks and guides</h3>";
+					echo "<h3 class='widget-title'>Related</h3>";
 					echo $html;
 					echo "<ul>";
 					echo "</ul></div>";

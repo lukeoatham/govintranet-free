@@ -72,12 +72,7 @@ jQuery("#s2").focus();
 					$icon = "user";			
 					$user_info = get_userdata($teamleaderid);
 					$userurl = site_url().'/staff/'.$user_info->user_login;
-					if ( function_exists('get_wp_user_avatar')){
-						$image_url = get_wp_user_avatar($teamleaderid,130,'left');
-					} else {
-						$image_url = get_avatar($teamleaderid,130);
-					}
-					$image_url = str_replace('avatar ', 'avatar img img-responsive ' , $image_url);
+					$image_url = str_replace('avatar-130', 'avatar-130 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($teamleaderid,130));
 					echo "<div class='media'>" ;
 					echo "<div class='hidden-xs'><a href='";
 					echo $userurl;
@@ -175,13 +170,12 @@ jQuery("#s2").focus();
 					}
 					$image_url = str_replace('avatar ', 'avatar img img-responsive' , $image_url);
 
+					$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($userid,66));
+
 					if ($fulldetails){
 							$gradedisplay='';
-							if ( function_exists('get_wp_user_avatar')){
-							echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".get_wp_user_avatar($u['user_id'],66,'left')."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
-							} else {
-							echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
-							}
+							
+							echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
 							// display team name(s)
 							$poduser = new Pod ('user' , $userid);
@@ -221,11 +215,7 @@ jQuery("#s2").focus();
 						
 					} //end full details
 					else { 
-								if ( function_exists('get_wp_user_avatar')){
-								echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".get_wp_user_avatar($userid,66,'left')."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
-								} else {
-								echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($userid,66))."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
-								}
+						echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 							// display team name(s)
 							$poduser = new Pod ('user' , $userid);
 							$terms = $poduser->get_field('user_team');

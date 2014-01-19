@@ -15,116 +15,116 @@
 
 	<div class="col-lg-2 col-md-2 col-sm-3">
 
-	<?php
-	$user_id = bbp_get_displayed_user_field( 'id' ); 
-	$poduser = new Pod ('user' , $user_id);
-
- 	if (function_exists('get_wp_user_avatar')){	
-			$imgsrc = get_wp_user_avatar_src($user_id,145);				
-			echo "<img class='img' src='".$imgsrc."' width='145'  />";
+		<?php
+		$user_id = bbp_get_displayed_user_field( 'id' ); 
+		$poduser = new Pod ('user' , $user_id);
+	
+	 	if (function_exists('get_wp_user_avatar')){	
+				$imgsrc = get_wp_user_avatar_src($user_id,'thumbnail');				
+				echo "<img class='img img-responsive img-circle' src='".$imgsrc."' width='145'  height='145' />";
 		}
-	if (current_user_can('edit_themes')) echo "<br><p><a href='".site_url()."/wp-admin/user-edit.php?user_id=".$user_id."'>Edit profile</a></p>";
-	elseif ( is_user_logged_in() && get_current_user_id() == $user_id ) echo "<br><p><a href='".site_url()."/wp-admin/profile.php'>Edit profile</a></p>";
-?>
+		if (current_user_can('edit_themes')) echo "<br><p><a href='".site_url()."/wp-admin/user-edit.php?user_id=".$user_id."'>Edit profile</a></p>";
+		elseif ( is_user_logged_in() && get_current_user_id() == $user_id ) echo "<br><p><a href='".site_url()."/wp-admin/profile.php'>Edit profile</a></p>";
+	?>
 	</div>
-		<div class="col-lg-5 col-md-5 col-sm-9">
-			<?
-			  $terms = $poduser->get_field('user_team');
-				if ($terms) {
-				echo '<h3 class="contacthead" >Team</h3>';
+	<div class="col-lg-5 col-md-5 col-sm-9">
+		<?
+		  $terms = $poduser->get_field('user_team');
+			if ($terms) {
+			echo '<h3 class="contacthead" >Team</h3>';
 
-					$teamlist = array();
-				  		foreach ($terms as $taxonomy ) {
-				  		    $themeid = $taxonomy['term_id'];
-				  		    $themeURL= $taxonomy['slug'];
-				  		    $themeparent = $taxonomy['parent']; 
-				   		    if ($themeURL == 'uncategorized') {
-					  		    continue;
-				  		    }
-				  		    while ($themeparent!=0){
-				  		    	$parentteam = get_term_by('id', $themeparent, 'team'); 
-				  		    	$parentURL = $parentteam->slug;
-				  		    	$parentname =$parentteam->name; 
-					  			$teamlist[]= " <a href='".site_url()."/team/{$parentURL}'>".$parentname."</a>";   
-					  			$themeparent = $parentname['parent']; 
-				  		    }
-				  		    
-				  			$teamlist[]= " <a href='".site_url()."/team/{$themeURL}'>".$taxonomy['name']."</a>";
-				  			echo implode(" &raquo; ", $teamlist)."<br>";
+				$teamlist = array(); //build array of hierarchical teams
+			  		foreach ($terms as $taxonomy ) {
+			  		    $themeid = $taxonomy['term_id'];
+			  		    $themeURL= $taxonomy['slug'];
+			  		    $themeparent = $taxonomy['parent']; 
+			   		    if ($themeURL == 'uncategorized') {
+				  		    continue;
+			  		    }
+			  		    while ($themeparent!=0){
+			  		    	$parentteam = get_term_by('id', $themeparent, 'team'); 
+			  		    	$parentURL = $parentteam->slug;
+			  		    	$parentname =$parentteam->name; 
+				  			$teamlist[]= " <a href='".site_url()."/team/{$parentURL}'>".$parentname."</a>";   
+				  			$themeparent = $parentname['parent']; 
+			  		    }
+			  		    
+			  			$teamlist[]= " <a href='".site_url()."/team/{$themeURL}'>".$taxonomy['name']."</a>";
+			  			echo implode(" <br>&raquo; ", $teamlist)."<br>";
 
-						}
-				}  
-				echo "<p><strong>";
-				bbp_displayed_user_field( 'user_job_title' );
-				echo "</strong></p>";
+					}
+			}  
+			echo "<p><strong>";
+			bbp_displayed_user_field( 'user_job_title' );
+			echo "</strong></p>";
 
 ?>
-			<h3 class="contacthead" >Contact</h3>
+		<h3 class="contacthead" >Contact</h3>
 
-			<?php if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
+		<?php if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
 
-				<p class="bbp-user-description"><i class="glyphicon glyphicon-earphone"></i> <a href="tel:<?php str_replace(" ", "",  bbp_displayed_user_field( 'user_telephone' ) ); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
+			<p class="bbp-user-description"><i class="glyphicon glyphicon-earphone"></i> <a href="tel:<?php str_replace(" ", "",  bbp_displayed_user_field( 'user_telephone' ) ); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
 
-			<?php endif; ?>
+		<?php endif; ?>
 
-			<?php if ( bbp_get_displayed_user_field( 'user_mobile' ) ) : ?>
+		<?php if ( bbp_get_displayed_user_field( 'user_mobile' ) ) : ?>
 
-				<p class="bbp-user-description"><i class="glyphicon glyphicon-phone"></i> <a href="tel:<?php str_replace(" ", "", bbp_displayed_user_field( 'user_mobile' ) ); ?>"><?php bbp_displayed_user_field( 'user_mobile' ); ?></a></p>
+			<p class="bbp-user-description"><i class="glyphicon glyphicon-phone"></i> <a href="tel:<?php str_replace(" ", "", bbp_displayed_user_field( 'user_mobile' ) ); ?>"><?php bbp_displayed_user_field( 'user_mobile' ); ?></a></p>
 
-			<?php endif; ?>
+		<?php endif; ?>
 
-			<?php if ( bbp_get_displayed_user_field( 'user_email' ) ) : ?>
+		<?php if ( bbp_get_displayed_user_field( 'user_email' ) ) : ?>
 
-				<p class="bbp-user-description"><a href="mailto:<?php bbp_displayed_user_field( 'user_email' ); ?>">Email <?php bbp_displayed_user_field( 'first_name' ); echo " "; bbp_displayed_user_field( 'last_name' ); ?></a></p>
+			<p class="bbp-user-description"><a href="mailto:<?php bbp_displayed_user_field( 'user_email' ); ?>">Email <?php bbp_displayed_user_field( 'first_name' ); echo " "; bbp_displayed_user_field( 'last_name' ); ?></a></p>
 
-			<?php endif; ?>
-
-
-			<?php if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : ?>
-
-				<h3 class="contacthead" >Working pattern</h3>
-				<?php bbp_displayed_user_field( 'user_working_pattern' ); ?>
-
-			<?php endif; ?>
-
-			<?php if ( bbp_get_displayed_user_field( 'description' ) ) : ?>
-
-				<h3 class="contacthead" >About me</h3>
-				<?php bbp_displayed_user_field( 'description' ); ?>
-			<?php endif; 
+		<?php endif; ?>
 
 
-			  $skills = $poduser->get_field('user_key_skills');
-			  if ($skills){
-				  echo "<h3 class='contacthead'>Key skills and experience</h3>";
-				  echo $skills;
-			  }
-			  $poduser->get_field('user_team');
+		<?php if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : ?>
 
-			  $uqblog = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and post_type='blog' and post_status='publish';",ARRAY_A);
-			  $uqforum = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and (post_type='topic' or post_type='forum' or post_type='reply') and post_status='publish';",ARRAY_A);
+			<h3 class="contacthead" >Working pattern</h3>
+			<?php bbp_displayed_user_field( 'user_working_pattern' ); ?>
+
+		<?php endif; ?>
+
+		<?php if ( bbp_get_displayed_user_field( 'description' ) ) : ?>
+
+			<h3 class="contacthead" >About me</h3>
+			<?php bbp_displayed_user_field( 'description' ); ?>
+		<?php endif; 
+
+
+		  $skills = $poduser->get_field('user_key_skills');
+		  if ($skills){
+			  echo "<h3 class='contacthead'>Key skills and experience</h3>";
+			  echo $skills;
+		  }
+		  $poduser->get_field('user_team');
+
+		  $uqblog = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and post_type='blog' and post_status='publish';",ARRAY_A);
+		  $uqforum = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and (post_type='topic' or post_type='forum' or post_type='reply') and post_status='publish';",ARRAY_A);
 if (count($uqblog)>0 || count($uqforum) > 0):
 ?>
-				<h3 class="contacthead" >On the intranet</h3>
-				<ul>
+			<h3 class="contacthead" >On the intranet</h3>
+			<ul>
 <?php if (count($uqblog)>0):?>
-				<li>
-					<span class='bbp-user-topics-created-link'>
-						<a href="/author/<?php echo $poduser->get_field('login'); ?>" title="<?php printf( esc_attr__( "%s's Blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Blog posts', 'bbpress' ); ?></a>
-					</span>
-				</li>
+			<li>
+				<span class='bbp-user-topics-created-link'>
+					<a href="/author/<?php echo $poduser->get_field('login'); ?>" title="<?php printf( esc_attr__( "%s's Blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Blog posts', 'bbpress' ); ?></a>
+				</span>
+			</li>
 <?php endif; ?>
 <?php if (count($uqforum)>0):?>
-				<li>
-					<span class='bbp-user-topics-created-link'>
-						<a href="/author/<?php echo $poduser->get_field('login'); ?>/?show=forum" title="<?php printf( esc_attr__( "%s's Blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum posts', 'bbpress' ); ?></a>
-					</span>
-				</li>
+			<li>
+				<span class='bbp-user-topics-created-link'>
+					<a href="/author/<?php echo $poduser->get_field('login'); ?>/?show=forum" title="<?php printf( esc_attr__( "%s's Blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum posts', 'bbpress' ); ?></a>
+				</span>
+			</li>
 <?php endif; ?>
-				</ul>
+			</ul>
 <?php endif; ?>
 
-		</div>
+	</div>
 
 		<div class="clearfix col-lg-5 col-md-5 col-sm-12">
 
@@ -152,15 +152,10 @@ jQuery('.tlink').tooltip();
 					echo "<p><i class='glyphicon glyphicon-chevron-up'></i></p>";
 				}
 
-//				echo "<div class='alert alert-success'>";
-//				if (function_exists('get_wp_user_avatar')){					
-//					echo get_wp_user_avatar($user_id, 72);
-//				}
 				echo "<p><strong>";
 				bbp_displayed_user_field( 'display_name' );
-					echo "<br>".get_user_meta($user_id,'user_job_title',true);
+				echo "<br>".get_user_meta($user_id,'user_job_title',true);
 				echo "</strong></p>";
-//				echo "</div>";
 
 				$q = "select meta_value as ID, user_id, display_name from wp_users join wp_usermeta on wp_users.ID = wp_usermeta.user_id where wp_usermeta.meta_key='user_line_manager' and wp_usermeta.meta_value = ".$user_id;
 				
@@ -194,7 +189,7 @@ jQuery('.tlink').tooltip();
 	
 		?></div>
 
-	</div><!-- #bbp-author-topics-started -->
+	</div>
 
 	<?php do_action( 'bbp_template_after_user_profile' ); ?>
 		</div>

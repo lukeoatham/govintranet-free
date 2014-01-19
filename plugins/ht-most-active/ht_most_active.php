@@ -181,7 +181,7 @@ $html='';
 			if ( $countparts < 1 ) $countparts = 0;
 			$thistask = $pathparts[intval($countparts)];
 
-			if ( !in_array( $thistask, array('how-do-i','task-by-category','news-by-category','newspage','tagged','atoz','about','home','events','blog','activate','register','members','activity','forums','jargon-buster') ) ){
+			if ( !in_array( $thistask, array('how-do-i','tasks','task-by-category','news-by-category','newspage','tagged','atoz','about','home','events','blog','activate','register','members','activity','forums','jargon-buster','search-staff','staff-directory','document-finder') ) ){
 	
 				$q = "select post_title, ID from wp_posts where post_name = '".$thistask."' and post_status='publish' and post_type='page';";
 	

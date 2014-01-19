@@ -47,6 +47,13 @@ get_header(); ?>
 								$html.= "<li><a href='".site_url()."/tasks/".$r['post_name']."'>".$r['post_title']."</a></li>";
 							}
 						}
+
+						$relatedteams = get_the_terms( $id, 'team' );
+						foreach ($relatedteams as $r){
+								$html.= "<li><a href='".site_url()."/team/".$r->slug."'>".$r->name."</a>&nbsp;<span class='glyphicon glyphicon-list-alt'></span></li>";
+						}
+						
+
 						if ($html){
 							echo "<div class='widget-box'>
 							<h3 class='widget-title'>Related</h3>

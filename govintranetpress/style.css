@@ -200,6 +200,9 @@ h1 small, h2 small, h3 small {
 .media .hidden-xs img {
 	margin-left: 1em;
 }
+.media .hidden-xs img.avatar {
+	margin-left: 0;
+}
 .more_post {
 	text-align: left;
 }
@@ -1162,6 +1165,9 @@ h3  {
 .zign2n ul li{
 	margin-left: 1em !important;
 }
+.zign2n h3 {
+border-top: 0 !important;
+}
 
 #need-to-know ul li {
 	border-bottom: none !important;	
@@ -1187,7 +1193,7 @@ h3.noborder {
 	margin-left: 0;
 }
 #need-to-know  a:link:before {
-	content: "\e089";
+	content: "\e101";
   font-family: "Glyphicons Halflings";
   font-weight: normal;
   font-style: normal;
@@ -1196,7 +1202,7 @@ h3.noborder {
 
 #need-to-know ul li a:visited:before {
 	color: #a6a6a6;
-	content: "\e013" !important;
+	content: "\e101" !important;
   font-family: "Glyphicons Halflings" !important;
   font-weight: normal;
   font-style: normal;
@@ -1211,6 +1217,14 @@ h3.noborder {
 	padding-left: 5px;
 	padding-top: 10px;
 }
+
+.tinyblogthumb {
+	width: 72px;
+	height: 72px;
+	margin-right: 0.5em !important;
+}
+
+
 
 .archive h3 a {
 	text-decoration: none;
@@ -1749,6 +1763,9 @@ h3.contacthead {
 
 #peoplenav  {
 	padding-top: 4em;
+}
+#peoplenav.search-staff {
+	padding-top: 0 !important;
 }
 .archive #peoplenav  {
 	padding-top: 0;

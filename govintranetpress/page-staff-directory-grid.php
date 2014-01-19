@@ -94,13 +94,9 @@ jQuery("#s2").focus();
 								if ($gradecode){
 									$gradedisplay = "<span class='badge pull-right'>".$gradecode."</span>";
 								}
-
+							$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($u['user_id'],66));
 							if ($fulldetails){
-								if ( function_exists('get_wp_user_avatar')){
-								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".get_wp_user_avatar($u['user_id'],66,'left')."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
-								} else {
-								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
-								}
+								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
 								// display team name(s)
 								$poduser = new Pod ('user' , $userid);
@@ -151,11 +147,9 @@ jQuery("#s2").focus();
 								$counter++;
 								
 							} else {
-								if ( function_exists('get_wp_user_avatar')){
-								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".get_wp_user_avatar($u['user_id'],66,'left')."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
-								} else {
-								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar', get_avatar($u['user_id'],66))."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
-								}
+							$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($u['user_id'],66));
+							
+								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								// display team name(s)
 								$poduser = new Pod ('user' , $userid);
 								$terms = $poduser->get_field('user_team');

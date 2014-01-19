@@ -22,34 +22,36 @@ $catid = $catpod->get_field('id');				//echo $catid;
 		<div class="row">
 			<div class='breadcrumbs'>
 				<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> &raquo; 
-				<a title="Go to How do I?" href="<?php echo site_url(); ?>/newspage/">News</a> &raquo; <?php echo $catname; ?>
+				<a title="Go to News" href="<?php echo site_url(); ?>/newspage/">News</a> &raquo; <?php echo $catname; ?>
 			</div>
 		</div>
 	
-	<div>
+		<div class="row">
 <?php
 		echo "<h1 class='h1_" . $catid . "'>".$catname." news</h1>";
 ?>
-	<div class="well">
-									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
-										<label for="sbc-s">In <?php echo strtolower($catname);?> news </label>
-										<div class="form-group input-md">
-											<input type="text" value="" name="s" placeholder = "Search news" id="sbc-s" class="multi-cat form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
-										</div>
-										<div class="form-group input-md">
-											<button type="submit" class="btn btn-primary input-md">Search</button>
-										</div>
-										<input type="hidden" value="<?php echo $catslug; ?> " name = "cat" />
-										<input type="hidden" value="news" name = "post_type" />
-									</form>
+					<form class="form-horizontal" role="form" method="get" name="task-category" id="sbc-search" action="<?php echo home_url( '/' ); ?>">
+						<div class="col-lg-12">
+							<div id="staff-search" class="well well-sm">
+								<div class="input-group input-md">
+									<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="Search news..."  />
+									 <span class="input-group-btn">
+									<button type="submit" class="btn btn-primary input-md"><i class="glyphicon glyphicon-search"></i></button>
+									 </span>
+									<input type="hidden" value="<?php echo $catslug; ?> " name = "cat" />
+									<input type="hidden" value="news" name = "post_type" />
+								</div>
+							</div>
+						</div>
+					</form>
 
 <script>
 jQuery(function(){
 jQuery("#sbc-s").focus();
 });
 </script>
+		</div>
 
-	</div>
 
 <?php
 /* Run the loop for the category page to output the posts.
@@ -121,7 +123,7 @@ jQuery("#sbc-s").focus();
 	endif; 
 	wp_reset_query();								
 ?>
-	</div>
+
 </div>
 <div class="col-lg-4 col-md-4" id='sidebar'>
 	<div class='widget-box'>
