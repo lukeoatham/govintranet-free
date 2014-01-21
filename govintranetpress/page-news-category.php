@@ -18,7 +18,7 @@ $catid = $catpod->get_field('id');				//echo $catid;
 
 
 
-	<div class="col-lg-8 col-md-8 white">
+	<div class="col-lg-7 col-md-8 col-sm-12 white">
 		<div class="row">
 			<div class='breadcrumbs'>
 				<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> &raquo; 
@@ -89,7 +89,7 @@ jQuery("#sbc-s").focus();
 		$thistitle = get_the_title();
 
 
-		echo "<hr class='hr".$catid."'/>";
+		echo "<hr>";
 ?>	<h3>				
 	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a></h3>
 <?php
@@ -125,7 +125,8 @@ jQuery("#sbc-s").focus();
 ?>
 
 </div>
-<div class="col-lg-4 col-md-4" id='sidebar'>
+
+<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
 	<div class='widget-box'>
 		<h3 class='widget-title'>Search by tag</h3>
 <?php 
@@ -137,6 +138,25 @@ jQuery("#sbc-s").focus();
 		echo "</div>";
 ?>
 	</div>
+<?php
+				$taxonomies=array();
+				$post_type = array();
+				$taxonomies[] = 'category';
+				$post_type[] = 'news';
+				$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
+				if ($post_cat){
+					echo "<div class='widget-box'><h3 class='widget-title'>Other categories</h3>";
+					echo "<p class='taglisting {$post->post_type}'>";
+					foreach($post_cat as $cat){
+						if ($cat->name!='Uncategorized' && $cat->name && $cat->term_id != $catid){
+						$newname = str_replace(" ", "&nbsp;", $cat->name );
+						echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/news-by-category/?cat=".$cat->slug."'>".$newname."</a></span><br>";
+					}
+					}
+					echo "</p></div>";
+				}
+				?>	
+
 </div>
 				
 <?php get_footer(); ?>

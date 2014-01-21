@@ -4,7 +4,11 @@
 get_header(); ?>
 
 <?php 
-$fulldetails=get_option('general_intranet_full_detail_staff_cards');
+$fulldetails=get_option('general_intranet_full_detail_staff_cards'); // 1 = show
+$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
+$showgrade = get_option('general_intranet_show_grade_on_staff_cards'); // 1 = show 
+$showmobile = get_option('general_intranet_show_mobile_on_staff_cards'); // 1 = show
+
 $sort = $_GET["sort"]; 
 if (!$sort) $sort = "first";
 
@@ -22,6 +26,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		</div>
 		<div class="col-lg-12">
 		<h1><?php the_title(); ?></h1>
+		</div>
+		<div>
 		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/search-staff/' ); ?>">
 	
 		  <div class="col-lg-12">
@@ -91,10 +97,14 @@ jQuery("#s2").focus();
 
 						if ( ( ($usergrade['slug'] == $grade) && ($grade ) ) || (!$grade)  ) {
 								$gradedisplay='';
-								if ($gradecode){
+								if ($gradecode && $showgrade){
 									$gradedisplay = "<span class='badge pull-right'>".$gradecode."</span>";
 								}
+							if ($directorystyle==1){
 							$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($u['user_id'],66));
+							} else {
+							$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive ', get_avatar($u['user_id'],66));
+							}
 							if ($fulldetails){
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
@@ -104,20 +114,8 @@ jQuery("#s2").focus();
 								if ($terms) {				
 									$teamlist = array();
 							  		foreach ($terms as $taxonomy ) {
-							  		    $themeid = $taxonomy['term_id'];
-							  		    $themeURL= $taxonomy['slug'];
-							  		    $themeparent = $taxonomy['parent']; 
-							  		    while ($themeparent!=0){
-							  		    	$parentteam = get_term_by('id', $themeparent, 'team'); 
-							  		    	$parentURL = $parentteam->slug;
-							  		    	$parentname =$parentteam->name; 
-								  			$teamlist[]= $parentname;   
-								  			$themeparent = $parentname['parent']; 
-							  		    }
-							  		    
 							  			$teamlist[]= $taxonomy['name'];
 							  			$html.= implode(" &raquo; ", $teamlist)."<br>";
-			
 									}
 								}  
 								
@@ -136,7 +134,7 @@ jQuery("#s2").focus();
 				
 							endif; ?>
 				
-							<?php if ( get_user_meta($userid ,'user_mobile',true ) ) : 
+							<?php if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
 				
 								$html .= '<i class="glyphicon glyphicon-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
 				
@@ -147,7 +145,12 @@ jQuery("#s2").focus();
 								$counter++;
 								
 							} else {
+							if ($directorystyle==1){
 							$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($u['user_id'],66));
+							} else {
+							$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive ', get_avatar($u['user_id'],66));
+								
+							}
 							
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								// display team name(s)
@@ -165,7 +168,7 @@ jQuery("#s2").focus();
 								if ( get_user_meta($userid ,'user_job_title',true )) $html .= '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
 							if ( get_user_meta($userid ,'user_telephone',true )) $html .= '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-							if ( get_user_meta($userid ,'user_mobile',true ) ) $html .= '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html .= '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
 												
 								$html .= "</div></div></div></div></a>";
 								

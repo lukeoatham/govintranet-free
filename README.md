@@ -28,7 +28,8 @@ GOV.UK-style intranet WordPress theme
 * A to Z  
 * Jargon Buster  
 * Document types  
-* Staff
+* Staff  
+* Teams  
 
 
 ## Installation ##
@@ -46,6 +47,10 @@ If you have trouble with your existing post types you'll need to update manually
 
 
 ## Changelog ##
+
+
+### 3.0.5 - 21th January 2014 ###
+* Staff directory updates and integration    
 
 
 ### 3.0.4 - 19th January 2014 ###

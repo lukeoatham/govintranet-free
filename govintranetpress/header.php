@@ -80,6 +80,10 @@ header('X-Frame-Options: SAMEORIGIN');
 		$giscc = get_option($gis);
 		
 		// write custom css for background header colour
+		
+		$gis = "general_intranet_widget_border_height";
+		$gisheight = get_option($gis);		
+		if (!$gisheight) $gisheight = 7;
 		$gis = "general_intranet_header_background";
 		$gishex = get_option($gis);		
 		$basecol=HTMLToRGB($gishex);
@@ -93,18 +97,18 @@ header('X-Frame-Options: SAMEORIGIN');
 		echo "
 		#footerwrapper  {";
 		if ($giscc==1){
-		echo "border-top: 7px solid ".RGBToHTML($topborder).";";
+		echo "border-top: ".$gisheight."px solid ".RGBToHTML($topborder).";";
 		} else {
-		echo "border-top: 7px solid ".$gishex.";";
+		echo "border-top: ".$gisheight."px solid ".$gishex.";";
 		}
 		echo "}";
 
 		echo "
 		.page-template-page-about-php .category-block h2 {";
 		if ($giscc==1){
-		echo "border-top: 7px solid ".RGBToHTML($topborder).";";
+		echo "border-top: ".$gisheight."px solid ".RGBToHTML($topborder).";";
 		} else {
-		echo "border-top: 7px solid ".$gishex.";";
+		echo "border-top: ".$gisheight."px solid ".$gishex.";";
 		}
 
 		echo "padding: 0.6em 0;
@@ -126,9 +130,9 @@ header('X-Frame-Options: SAMEORIGIN');
 		font-size: .9em;
 		background: #fff;";
 		if ($giscc==1){
-			echo "border-top: 7px solid ".RGBToHTML($topborder).";";
+			echo "border-top: ".$gisheight."px solid ".RGBToHTML($topborder).";";
 		} else {
-			echo "border-top: 7px solid ".$gishex.";";
+			echo "border-top: ".$gisheight."px solid ".$gishex.";";
 		}
 		echo "margin-top: .7em;
 		}
@@ -137,9 +141,9 @@ header('X-Frame-Options: SAMEORIGIN');
 		echo "
 		.home.page .category-block h3 {";
 		if ($giscc==1){
-			echo "border-top: 7px solid ".RGBToHTML($topborder).";";
+			echo "border-top: ".$gisheight."px solid ".RGBToHTML($topborder).";";
 		} else {
-			echo "border-top: 7px solid ".$gishex.";";
+			echo "border-top: ".$gisheight."px solid ".$gishex.";";
 		}
 		echo "border-bottom: none;
 		padding-top: .7em;
@@ -148,7 +152,7 @@ header('X-Frame-Options: SAMEORIGIN');
 		";
 		echo "
 		.page-template-page-news-php h1 {
-		border-bottom: 7px solid ".RGBToHTML($topborder).";
+		border-bottom: ".$gisheight."px solid ".RGBToHTML($topborder).";
 		} 
 		";
 
@@ -188,7 +192,7 @@ header('X-Frame-Options: SAMEORIGIN');
 	  			echo ".t" . $themeid . " a {color: " . $foreground . " !important;} \n";
 	  			echo ".brd" . $themeid . "{border-left: 1.2em solid " . $background . ";} \n";
 	  			echo ".hr" . $themeid . "{border-bottom: 1px solid " . $background . ";} \n";
-	  			echo ".h1_" . $themeid . "{border-bottom: 7px solid " . $background . "; margin-bottom: 0.4em; padding-bottom: 0.3em;} \n";
+	  			echo ".h1_" . $themeid . "{border-bottom: ".$gisheight."px solid " . $background . "; margin-bottom: 0.4em; padding-bottom: 0.3em;} \n";
 	  			echo ".b" . $themeid . "{border-left: 20px solid " . $background . ";} \n";
 	  			echo ".glyphicon.glyphicon-stop.gb" . $themeid . "{color: " . $background . ";} \n";
 

@@ -3,6 +3,10 @@
  		
  //*****************************************************				
 
+$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
+$showgrade = get_option('general_intranet_show_grade_on_staff_cards'); // 1 = show 
+$showmobile = get_option('general_intranet_show_mobile_on_staff_cards'); // 1 = show
+
 get_header(); ?>
 
 	<div class="col-lg-8 col-md-9 white">
@@ -11,29 +15,28 @@ get_header(); ?>
 			&raquo; <a href="<?php echo site_url(); ?>/staff-directory/">Staff directory</a>
 			&raquo; Search results
 		</div>
-	
 
 <?php 
 $s = sanitize_text_field($_GET['q']);
 if ($s) {
-	$q = "
+	// search user meta
+	$sr = $wpdb->get_results($wpdb->prepare("
 	SELECT distinct user_id from wp_usermeta WHERE 
-	(meta_value like '%".$s."%' and meta_key='user_job_title') OR
-	(meta_value like '%".$s."%' and meta_key='first_name') OR
-	(meta_value like '%".$s."%' and meta_key='last_name') OR
-	(meta_value like '%".$s."%' and meta_key='nickname') OR
-	(meta_value like '%".$s."%' and meta_key='description') OR
-	(meta_value like '%".$s."%' and meta_key='user_job_title') OR
-	(meta_value like '%".$s."%' and meta_key='user_telephone') OR
-	(meta_value like '%".$s."%' and meta_key='user_mobile') OR
-	(meta_value like '%".$s."%' and meta_key='user_key_skills') 
-	";
-	$q2 = "SELECT distinct wp_terms.term_id, wp_terms.slug, wp_terms.name, wp_term_taxonomy.description from wp_term_taxonomy join wp_terms on wp_terms.term_id = wp_term_taxonomy.term_id WHERE 
-	((wp_term_taxonomy.description like '%".$s."%') OR (wp_terms.name like '%".$s."%')) and wp_term_taxonomy.taxonomy = 'team'";
-	
-	
-	$sr = $wpdb->get_results($q,ARRAY_A); //print_r($sr);
-	$sr2 = $wpdb->get_results($q2,ARRAY_A); //print_r($sr);
+	(meta_value like '%%%s%%' and meta_key='user_job_title') OR
+	(meta_value like '%%%s%%' and meta_key='first_name') OR
+	(meta_value like '%%%s%%' and meta_key='last_name') OR
+	(meta_value like '%%%s%%' and meta_key='nickname') OR
+	(meta_value like '%%%s%%' and meta_key='description') OR
+	(meta_value like '%%%s%%' and meta_key='user_job_title') OR
+	(meta_value like '%%%s%%' and meta_key='user_telephone') OR
+	(meta_value like '%%%s%%' and meta_key='user_mobile') OR
+	(meta_value like '%%%s%%' and meta_key='user_key_skills') 	
+	",$s,$s,$s,$s,$s,$s,$s,$s,$s),ARRAY_A); 
+
+	//search team taxonomy
+	$sr2 = $wpdb->get_results($wpdb->prepare("
+	SELECT distinct wp_terms.term_id, wp_terms.slug, wp_terms.name, wp_term_taxonomy.description from wp_term_taxonomy join wp_terms on wp_terms.term_id = wp_term_taxonomy.term_id WHERE 
+	((wp_term_taxonomy.description like '%%%s%%') OR (wp_terms.name like '%%%s%%')) and wp_term_taxonomy.taxonomy = 'team';",$s,$s),ARRAY_A); 
 }
 ?>
 	<h1><?php printf( __( 'Search results for: %s', 'twentyten' ), '' . $s . '' ); ?></h1>
@@ -87,10 +90,20 @@ foreach ((array)$sr as $u){
 					}
 					$image_url = str_replace('avatar ', 'avatar img img-responsive' , $image_url);
 
-					$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($userid,66));
+					if ($directorystyle==1){
+						$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($userid,66));
+					}else{
+						$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive', get_avatar($userid,66));
+					}
+
+					$gradedisplay='';
+					if ($showgrade){
+						$gradecode = get_user_meta($userid,'user_grade',true);
+						$gradecode = $gradecode['grade_code'];
+						$gradedisplay = "<span class='badge pull-right'>".$gradecode."</span>";
+					}
 
 					if ($fulldetails){
-							$gradedisplay='';
 							
 							echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
@@ -119,7 +132,7 @@ foreach ((array)$sr as $u){
 				
 							endif; 
 				
-							if ( get_user_meta($userid ,'user_mobile',true ) ) : 
+							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
 				
 								echo '<i class="glyphicon glyphicon-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
 				
@@ -131,7 +144,7 @@ foreach ((array)$sr as $u){
 
 						
 					} //end full details
-					else { 
+					else {  
 						echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 							// display team name(s)
 							$poduser = new Pod ('user' , $userid);
@@ -148,7 +161,7 @@ foreach ((array)$sr as $u){
 								if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
 								if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-								if ( get_user_meta($userid ,'user_mobile',true ) ) echo '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+								if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
 												
 								echo "</div></div></div></div></a>";
 								$counter++;	

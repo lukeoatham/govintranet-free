@@ -35,13 +35,13 @@ $thisdate=date("j M Y",strtotime($thisdate));
 					}
 				}
 
-			   $thisdate= $post->post_modified;
+			   $thisdate= $post->post_date;
 			   $thisdate=date("j M Y",strtotime($thisdate));
 			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span>&nbsp;";
 			   
                $user = get_userdata($post->post_author);
-               	$gis = "general_intranet_forum_support";
-			   	$forumsupport = get_option($gis);
+               $gis = "general_intranet_forum_support";
+			   $forumsupport = get_option($gis);
 
 			   if ($forumsupport){			   
 						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
@@ -70,6 +70,6 @@ $thisdate=date("j M Y",strtotime($thisdate));
 		the_excerpt(); 
 ?>
 	</div>
-	</div>
+</div>
 
-	<hr>
+<hr>

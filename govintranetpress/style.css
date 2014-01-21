@@ -2,30 +2,34 @@
 Theme Name: GovIntranet Bootstrap
 Theme URI: https://govintranet.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. 
-Version: 3.0.4
+Version: 3.0.5
 Author: Luke Oatham
 Author URI: http://www.helpfultechnology.com
 Tags: bootstrap,  intranet,  gov.uk
 */
 
-@import "css/fonts2.css";
+@import "css/custom.css";
 
 /* DEFAULTS */
 
 body  {
-	line-height: 150% !important;
+	line-height: 146% !important;
 	background: fff;
 	color: #0b0c0c;
 	color: #333;	
 	font-weight: 200;
 	font-family: 'Helvetica Neue',Helvetica,arial,sans-serif;
-	font-size: 16px;
+	font-size: 18px;
 	
 }
 
 table .form-table .pods-meta, .form-table .pods-meta tr, .form-table .pods-meta td {
 	border: 0;
 }
+.pods-field-input textarea {
+	border: 1px solid #eee;
+}
+
 .label {
 	font-size: 0.9em;
 	border-radius: 0;	
@@ -408,6 +412,9 @@ body.home #secondarynav {
 body.home #ht-feature-news h3 {
 	border-top: none !important;
 	padding-bottom: 0;
+}
+#ht-feature-news .media-body a {
+	text-decoration: none !important;
 }
 #secondarynav {
 	padding-left: 0;
@@ -1159,14 +1166,15 @@ h3  {
 	margin-bottom: 2em;
 	padding-bottom: 1em;
 	padding-top: 0;
-	margin-top: .77em;
+	margin-top: .9em;
 	padding-left: 1em;
 	}
 .zign2n ul li{
 	margin-left: 1em !important;
 }
 .zign2n h3 {
-border-top: 0 !important;
+	border-top: 0 !important;
+	margin-top: 0 !important;
 }
 
 #need-to-know ul li {
@@ -1783,8 +1791,8 @@ h3.contacthead {
 	font-weight: normal;
 	line-height: 130%;
 	margin-bottom: 1.3em;
-	border-top: 1px solid #e7e7e7;
-	border-left: 1px solid #e7e7e7;
+	border-bottom: 1px solid #e7e7e7;
+	border-right: 1px solid #e7e7e7;
 }
 
 #peoplenav .indexcard  a {

@@ -33,6 +33,9 @@ get_header();
 				elseif ($_GET['posttype'] == 'news'){
 					printf( __( 'News tagged: %s', 'twentyten' ), '' . $thistag . '' );
 				}
+				elseif ($_GET['posttype'] == 'blog'){
+					printf( __( 'Blog posts tagged: %s', 'twentyten' ), '' . $thistag . '' );
+				}
 				elseif ($_GET['posttype'] == 'event'){
 					printf( __( 'Events tagged: %s', 'twentyten' ), '' . $thistag . '' );
 				}
@@ -97,8 +100,8 @@ wp_posts.post_type='" . $pt . "'";
 						echo "<h2>Nothing on the intranet with this tag.</h2>";
 						
 					}
- $tagged = new WP_Query(array(
- 			'post_type'=>array("task","vacancies","projects","news","event"),
+			$tagged = new WP_Query(array(
+ 			'post_type'=>array("task","vacancies","projects","news","event","blog"),
  			'post__in'=>$carray,
  			'paged'=>$paged,
  			'posts_per_page'=>10,
@@ -106,8 +109,8 @@ wp_posts.post_type='" . $pt . "'";
  			'order'=>'ASC'
  			));
  			
- 							$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-							$counter = 0;	
+			$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+			$counter = 0;	
 
  			while ($tagged->have_posts() && $postsfound ) {
 								$tagged->the_post();
@@ -232,7 +235,7 @@ endif;
 		echo "</p>";
 	}
 
-	elseif ($post_type=="News" && $pageslug!="category"){
+	elseif (($post_type=="News" || $post_type="Blog") && $pageslug!="category"){
 		echo "<div><p>";
 		echo '<span class="listglyph"><i class="glyphicon glyphicon-'.$icon.'"></i>&nbsp;'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		foreach($post_cat as $cat){
@@ -339,6 +342,12 @@ endif;
 				if ($_GET['posttype'] == 'event'){
 				echo "<li><a href='".site_url()."/events/'>All events</a></li>";
 				}
+				if ($_GET['posttype'] == 'blog'){
+				echo "<li><a href='".site_url()."/blog/'>All blog posts</a></li>";
+				}
+				if ($_GET['posttype'] == 'news'){
+				echo "<li><a href='".site_url()."/newspage/'>All news</a></li>";
+				}
 				if ($_GET['posttype'] == 'vacancies'){
 				echo "<li><a href='".site_url()."/about/vacancies/'>All job vacancies</a></li>";
 				}
@@ -406,6 +415,22 @@ wp_posts.post_status = 'publish'
 				if ($testtag[0]->numtags > 0){
 				
 				echo "<li><a href='".site_url()."/tagged/?tag=".$thistagslug."&amp;posttype=news'>News</a></li>";		
+				}
+				}
+				if ($_GET['posttype'] != 'blog'){
+				$tagquery=
+				"select count(distinct wp_posts.id) as numtags from wp_posts
+ join wp_term_relationships on wp_term_relationships.object_id = wp_posts.id
+ join wp_term_taxonomy on wp_term_taxonomy.term_taxonomy_id = wp_term_relationships.term_taxonomy_id
+ join wp_terms on wp_terms.term_id = wp_term_taxonomy.term_id
+where wp_terms.slug='".$t."' AND
+wp_posts.post_type='blog' AND
+wp_posts.post_status = 'publish'
+					";
+				$testtag = $wpdb->get_results($tagquery);
+				if ($testtag[0]->numtags > 0){
+				
+				echo "<li><a href='".site_url()."/tagged/?tag=".$thistagslug."&amp;posttype=blog'>Blog posts</a></li>";		
 				}
 				}
 				if ($_GET['posttype'] != 'event'){

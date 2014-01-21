@@ -41,9 +41,14 @@ get_header(); ?>
 			<div class="col-lg-8 col-sm-8 white">
 				<div class="row">
 					<div class='breadcrumbs'>
-						<?php if(function_exists('bcn_display') && !is_front_page()) {
-							bcn_display();
-							}?>
+						<?php echo "<a href='".site_url()."/'>Home</a> &raquo; ";
+						 	 if ($sfilter == 'forum'){
+						 	 echo "<a href='".site_url()."/forums/'>Forums</a> &raquo; ";
+						 	 }else{
+						 	 echo "<a href='".site_url()."/blog/'>Blog</a> &raquo; ";
+							}
+							echo $curauth->display_name ;
+							?>
 					</div>
 				</div>
 				<h1><?php if ($sfilter=='forum'){ echo "Forum"; }else{echo "Blog"; }?> posts by <?php echo $curauth->display_name   ?></h1>

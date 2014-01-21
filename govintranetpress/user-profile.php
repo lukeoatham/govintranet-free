@@ -7,6 +7,7 @@
  * @subpackage Theme
  */
 
+$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
 
 ?>
 </div></div></div> <!-- close bbPress divs so that we can hide the element -->
@@ -21,7 +22,11 @@
 	
 	 	if (function_exists('get_wp_user_avatar')){	
 				$imgsrc = get_wp_user_avatar_src($user_id,'thumbnail');				
-				echo "<img class='img img-responsive img-circle' src='".$imgsrc."' width='145'  height='145' />";
+				if ($directorystyle==1){
+					echo "<img class='img img-responsive img-circle' src='".$imgsrc."' width='145'  height='145' />";
+				}else{
+					echo "<img class='img img-responsive' src='".$imgsrc."' width='145'  height='145' />";
+				}
 		}
 		if (current_user_can('edit_themes')) echo "<br><p><a href='".site_url()."/wp-admin/user-edit.php?user_id=".$user_id."'>Edit profile</a></p>";
 		elseif ( is_user_logged_in() && get_current_user_id() == $user_id ) echo "<br><p><a href='".site_url()."/wp-admin/profile.php'>Edit profile</a></p>";
@@ -31,7 +36,7 @@
 		<?
 		  $terms = $poduser->get_field('user_team');
 			if ($terms) {
-			echo '<h3 class="contacthead" >Team</h3>';
+			echo '<h3 class="contacthead">Team</h3>';
 
 				$teamlist = array(); //build array of hierarchical teams
 			  		foreach ($terms as $taxonomy ) {
@@ -50,13 +55,13 @@
 			  		    }
 			  		    
 			  			$teamlist[]= " <a href='".site_url()."/team/{$themeURL}'>".$taxonomy['name']."</a>";
-			  			echo implode(" <br>&raquo; ", $teamlist)."<br>";
+			  			echo "<strong>Team:</strong> ".implode(" &raquo; ", $teamlist)."<br>";
 
 					}
 			}  
-			echo "<p><strong>";
+			echo "<p><strong>Job title: </strong>";
 			bbp_displayed_user_field( 'user_job_title' );
-			echo "</strong></p>";
+			echo "</p>";
 
 ?>
 		<h3 class="contacthead" >Contact</h3>
@@ -142,9 +147,15 @@ jQuery('.tlink').tooltip();
 				<div class='oc'>";
 				if ($poduserparent){
 					if (function_exists('get_wp_user_avatar')){
-					echo "<a title='".$poduserparent['display_name']."' href='".site_url()."/staff/".$poduserparent['user_nicename']."/'>".get_wp_user_avatar($poduserparent['ID'],60,'centre')."</a>";						
-					} else {
-					echo "<a title='".$poduserparent['display_name']."' href='".site_url()."/staff/".$poduserparent['user_nicename']."/'></a>";						
+						$imgsrc = get_wp_user_avatar_src($poduserparent['ID'],'thumbnail');				
+						if ($directorystyle==1){
+								$avatarhtml = str_replace('avatar-60', 'avatar-60  indexcard-avatar img img-circle', get_avatar($poduserparent['ID'],60));						
+								} else {
+								$avatarhtml = str_replace('avatar-60', 'avatar-60 indexcard-avatar img', get_avatar($poduserparent['ID'],60));	
+						}
+						echo "<a title='".$poduserparent['display_name']."' href='".site_url()."/staff/".$poduserparent['user_nicename']."/'>".$avatarhtml."</a>";						
+						} else {
+						echo "<a title='".$poduserparent['display_name']."' href='".site_url()."/staff/".$poduserparent['user_nicename']."/'></a>";						
 					}
 					echo "<p><a href='".site_url()."/staff/".$poduserparent['user_nicename']."/'>".$poduserparent['display_name']."</a><br>";
 					echo get_user_meta($poduserparent['ID'],'user_job_title',true);
@@ -172,10 +183,17 @@ jQuery('.tlink').tooltip();
 //					 if (get_user_meta($u->user_id, 'user_visible', true)==1){
 					$pid = $p['user_id'];
                     $u = get_userdata($pid);
-
+					$imgstyle='';
 					if (function_exists('get_wp_user_avatar')){						
-										
-						echo "<a class='tlink' data-placement='right' data-original-title = '".$u->user_nicename."' title='".$u->display_name."' href='".site_url()."/staff/".$u->user_nicename."'>".get_wp_user_avatar($pid,50)."</a>";
+						$imgsrc = get_wp_user_avatar_src($pid,'thumbnail','left');		
+						$imgstyle.=" width='50' height='50'";
+						if ($directorystyle==1){
+							 $imgstyle.=" class='img img-circle'";
+						}else{
+							 $imgstyle.=" class='img'";
+						}
+						
+						echo "<a class='tlink' data-placement='right' data-original-title = '".$u->user_nicename."' title='".$u->display_name."' href='".site_url()."/staff/".$u->user_nicename."'><img src='".$imgsrc."' ".$imgstyle."/></a>";
 						} else {
 						echo "<a title='".$u->display_name."' href='".site_url()."/staff/".$u->user_nicename."'></a>";
 							
