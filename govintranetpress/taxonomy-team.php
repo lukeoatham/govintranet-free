@@ -32,6 +32,8 @@ get_header(); ?>
 		$taxteam = new Pod ('team', $termid);
 		$teamleader = $taxteam->get_field('team_head');
 		
+		$alreadyshown=array();
+		
 ?>
 		<div class="col-lg-8 col-md-8 white">
 		<h1>Staff directory</h1>
@@ -65,6 +67,7 @@ jQuery("#s2").focus();
 	 //output team head first!
 			if ($teamleader){
 				$teamleaderid = $teamleader[0]['ID'];
+				$alreadyshown[$teamleaderid]=true;
 				$newgrade = get_user_meta($teamleaderid,'user_grade',true);
 				$gradehead=$newgrade['slug'];
 				
@@ -148,6 +151,7 @@ jQuery("#s2").focus();
  				$g = get_user_meta($u,'user_grade',false);
  				$l = get_user_meta($u,'last_name',false);
  				//echo $u." ".$g[0]['name']." ".$l[0]."<br> ";	
+ 				$alreadyshown[$u]=true;
  				
  				
  				$userid =  $u;//echo $userid;
@@ -250,6 +254,129 @@ jQuery("#s2").focus();
 				}	
  				 			
  			}
+		?>
+		</div>
+		
+		<?php
+		
+		//retrieve all staff for the team and sub teams including those without a grade
+		//then display those not already shown as part of a grade		
+		$q = "select distinct t1.user_id from wp_usermeta as t1
+left outer join wp_terms on wp_terms.term_id = t1.meta_value 
+WHERE t1.user_id in (select a.user_id from wp_usermeta as a where a.meta_key = 'user_team' and a.meta_value IN (".$allterms.") ) ";
+		
+		 $user_query = $wpdb ->get_results($q);
+
+		 $oktoshow=false;
+		 foreach ($user_query as $u){ // check for those already displayed
+			 $uu = $u->user_id;
+			 if (!$alreadyshown[$uu]){
+			 	$oktoshow=true;
+			 }
+		 }
+		 
+		 if ($oktoshow){
+					echo "<div class='home page'><div class='category-block'><h3></h3></div></div>";
+		 }
+		 echo "<div class='row'>";
+		 foreach ($user_query as $u){ 
+			 $uu = $u->user_id;
+		 	if (!$alreadyshown[$uu]){
+			 	
+			 	//show remaining
+ 				$l = get_user_meta($u,'last_name',false);
+ 				
+ 				$userid =  $u->user_id;
+
+				if ($userid ==  $teamleaderid) continue; //don't output if this person is the team head and already displayed
+
+				$context = get_user_meta($userid,'user_job_title',true);
+				if ($context=='') $context="staff";
+				$icon = "user";			
+				$user_info = get_userdata($userid);
+				$userurl = site_url().'/staff/'.$user_info->user_login;
+				$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
+				if ( function_exists('get_wp_user_avatar')){
+					$image_url = get_wp_user_avatar($userid,130,'left');
+				} else {
+					$image_url = get_avatar($userid,130);
+				}
+				$image_url = str_replace('avatar ', 'avatar img img-responsive' , $image_url);
+
+				if ($directorystyle==1){
+					$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($userid,66));
+				}else{
+					$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive', get_avatar($userid,66));
+				}
+
+				if ($fulldetails){
+						
+						echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong></a><br>";
+
+						// display team name(s)
+						$poduser = new Pod ('user' , $userid);
+						$terms = $poduser->get_field('user_team');
+						if ($terms) {				
+							$teamlist = array();
+					  		foreach ($terms as $taxonomy ) {
+					  			$teamlist[]= $taxonomy['name'];
+					  			echo implode(" &raquo; ", $teamlist)."<br>";
+	
+							}
+						}  
+
+						if ( get_user_meta($userid ,'user_job_title',true )) : 
+			
+							echo get_user_meta($userid ,'user_job_title',true )."<br>";
+			
+						endif;
+
+						
+						if ( get_user_meta($userid ,'user_telephone',true )) : 
+			
+							echo '<i class="glyphicon glyphicon-earphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
+			
+						endif; 
+			
+						if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
+			
+							echo '<i class="glyphicon glyphicon-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
+			
+						 endif;
+			
+							echo  '<a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></p></div></div></div>';
+							
+							$counter++;	
+
+					
+				} //end full details
+				else { 
+					echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+						// display team name(s)
+						$poduser = new Pod ('user' , $userid);
+						$terms = $poduser->get_field('user_team');
+						if ($terms) {				
+							$teamlist = array();
+					  		foreach ($terms as $taxonomy ) {
+					  			$teamlist[]= $taxonomy['name'];
+					  			echo implode(" &raquo; ", $teamlist)."<br>";
+	
+							}
+						}  
+						
+							if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
+
+							if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+											
+							echo "</div></div></div></div></a>";
+							$counter++;	
+				}			 	}//endif
+
+		 }
+
+
+		
 		?>
 		</div>
 </div>

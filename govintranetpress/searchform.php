@@ -18,9 +18,8 @@ if ($placeholder!=''){
 	$randex = "Search";
 }	
 ?>
-<div class="row">
 	<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo home_url( '/' ); ?>">
-	  <div class="col-lg-12">
+	  <div class="row">
 		  <div class="input-group">
 	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" value="<?php echo $_GET['s'];?>">
 			 <span class="input-group-btn">
@@ -29,5 +28,4 @@ if ($placeholder!=''){
 		</div><!-- /input-group -->
 	  </div>
 	</form>
-</div>
 

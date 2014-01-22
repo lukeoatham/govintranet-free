@@ -2,7 +2,7 @@
 Theme Name: GovIntranet Bootstrap
 Theme URI: https://govintranet.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. 
-Version: 3.0.5
+Version: 3.0.3
 Author: Luke Oatham
 Author URI: http://www.helpfultechnology.com
 Tags: bootstrap,  intranet,  gov.uk
@@ -22,7 +22,9 @@ body  {
 	font-size: 18px;
 	
 }
-
+#crownlogo {
+	padding-left: 0;
+}
 table .form-table .pods-meta, .form-table .pods-meta tr, .form-table .pods-meta td {
 	border: 0;
 }
@@ -466,7 +468,7 @@ body.home #ht-feature-news h3 {
 
 /* Newsitem styles */
 
-#container {
+#containerx {
 	width: 100%;
 	padding: 1em 0 !important;
 }
@@ -758,7 +760,7 @@ ul.listing.li  {
 .wptag a  {
 	color:#454a4c !important;
 	text-decoration: none;
-	padding: .5em;
+	padding: .5em 0.2em;
 	line-height: 180% !important;
 }
 
@@ -841,7 +843,7 @@ p.taglisting.page {
 
 .content-wrapper {
 	background-color: #ffffff;
-	padding: 1em;
+	padding: 0.75em 0.5em;
 	
 }
 
@@ -1828,7 +1830,56 @@ h3.contacthead {
 #peoplenav .indexcard-avatar {
 	margin-right: 0.5em;
 }
+#container  {
+	padding: 1em;
+}
+#container.search-staff {
+	padding-top: 0 !important;
+}
+.archive #container  {
+	padding-top: 0;
+}
 
+#container .indexcard {
+	list-style: none;
+	font-size: 90%;
+	font-weight: normal;
+	line-height: 130%;
+}
+
+#container .indexcard  a {
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	margin-bottom: 1em;
+}
+
+#container .well  {
+	min-height: 130px;
+}
+#container .indexcard  a:link,  #container .indexcard  a:visited  {
+	color: #3a6f9e;
+	text-decoration: none;
+	display: block;
+	background: #f4f4f4 !important;
+}
+
+#container .indexcard  a:hover  {
+	list-style: none;
+	font-weight: normal;
+	background: #DEE0E2 !important;
+	color: #333 !important;
+}
+
+#container .col-lg-4, #container .col-md-4 {
+	padding-right: 0;
+}
+
+#container .col-sm-6 {
+	padding-right: 15px;
+}
+
+#container .indexcard-avatar {
+	margin-right: 0.5em;
+}
 /* comment form */
 #comments  {
 	padding-top: 2em;
@@ -1942,7 +1993,7 @@ li.comment .comment-body  {
 	width: 31%;	
 }
 .content-wrapper {
-	padding: 1em 0 !important;
+	padding: 0.5em 0.5em !important;
 }
 
 }

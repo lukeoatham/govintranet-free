@@ -912,9 +912,6 @@ function filter_search($query) {
     if ($query->is_tag) {
 		        $query->set('post_type', array('any'));
     }
-    if ($query->is_category) {
-		        $query->set('post_type', array('any'));
-    }
     
     return $query;
 }; 
@@ -928,7 +925,7 @@ function my_colorful_tag_cloud( $cat_id, $tc_tax, $tc_post_type ) {
     );
 if ((pods_url_variable(0)=='tasks')||(pods_url_variable(0)=='how-do-i')){
     $defaults = array(
-        'smallest' => 12, 'largest' => 28, 'unit' => 'pt', 'number' => 120,
+        'smallest' => 12, 'largest' => 28, 'unit' => 'pt', 'number' => 90,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
         'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'echo' => true
     );

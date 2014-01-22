@@ -252,7 +252,7 @@ header('X-Frame-Options: SAMEORIGIN');
 
 					<div class="container">
 						<a class="sr-only" href="#content">Skip to content</a>
-													
+						<div class="row">							
 						<!--logo and name-->
 							<div class="col-lg-8 col-md-7 col-sm-6 hidden-xs" id="crownlogo">
 								<div id="crownlink"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></a>
@@ -265,6 +265,7 @@ header('X-Frame-Options: SAMEORIGIN');
 										<?php get_search_form(true); ?>
 								</div>
 							</div>
+						</div>
 
 <script>
 jQuery("#s").focus();
@@ -275,7 +276,7 @@ jQuery("#s").focus();
 							</div>
 
 						<!--utility menu-->
-							<div class="col-lg-12">
+							<div class="row">
 								<div id="utilities" class="pull-right">
 									<?php if ( is_active_sidebar( 'utility-widget-area' ) ) : ?>
 										<div id='utilitybar'>

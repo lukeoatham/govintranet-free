@@ -15,14 +15,14 @@ if ($gishelpfulsearch == 1){
 	if ($wp_query->found_posts==1){
 		$location='';
 		while ( have_posts() ) : the_post(); 
-		if ($post->post_type == 'user' ){
-			$location=$post->link;
-			$location=str_replace('/author', '/staff', $location);
-		} else {
-				if ($_GET['pt'] != 'user') {
-
-			$location=$post->guid; 
-		}
+			if ($post->post_type == 'user' ){
+				$location=$post->link;
+				$location=str_replace('/author', '/staff', $location);
+			} else {
+					if ($_GET['pt'] != 'user') {
+	
+				$location=$post->guid; 
+			}
 		}
 		endwhile;
 		if ($location){
@@ -37,7 +37,7 @@ if ($gishelpfulsearch == 1){
 
 get_header(); ?>
 
-	<div class="col-lg-8 col-md-8 white ">
+	<div class="col-lg-7 col-md-8 col-sm-12 white">
 		<div class="row">
 			<div class='breadcrumbs'>
 				<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -61,9 +61,7 @@ get_header(); ?>
 
 		}
 
-
 		if ($_GET['pt']=='user'):
-//			query_posts("post_type=any,posts_per_page=-1");
 			global $foundstaff;
 			$foundstaff = 0;
 			$query->query_vars['s'] = $s;
@@ -72,9 +70,7 @@ get_header(); ?>
 			if (function_exists('relevanssi_do_query')){
 				relevanssi_do_query($query);
 			}
-
 		endif;
-
 	
 ?>
 	<h1><?php printf( __( 'Search results for: %s', 'twentyten' ), '' . $s . '' ); ?></h1>
@@ -166,27 +162,23 @@ $q = $_GET['s'];
  }
 
 ?>
-<div class="content-wrapper">
-<div class="col-lg-6">
-	<form class="form-horizontal" role="form" action="<?php echo home_url( '/' ); ?>">
-
-	  <div class="col-lg-12">
-	    <div class="input-group">
-			    	 <input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo $_GET['s'];?>">
-	      <div class="input-group-btn">
-					<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
-	      </div><!-- /btn-group -->
-	    </div><!-- /input-group -->
-	  </div><!-- /.col-lg-6 -->
-
-
-	</form>
-</div>
-</div>
-<script>
-jQuery("#snf").focus();
-</script>							
-					
+	<div class="content-wrapper">
+		<div class="col-lg-6">
+			<form class="form-horizontal" role="form" action="<?php echo home_url( '/' ); ?>">
+			  <div class="col-lg-12">
+			    <div class="input-group">
+					<input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo $_GET['s'];?>">
+					<div class="input-group-btn">
+						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+			      </div><!-- /btn-group -->
+			    </div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			</form>
+		</div>
+	</div>
+	<script>
+	jQuery("#snf").focus();
+	</script>							
 
 <?php endif; 
 endif;
@@ -223,7 +215,7 @@ endif;
 		</div>
 
 </div>
-<div class="col-lg-4 col-md-4" id='sidebar'>
+<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
 	<?php 	dynamic_sidebar('serp-widget-area'); ?>	
 </div>
 

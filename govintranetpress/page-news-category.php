@@ -26,31 +26,27 @@ $catid = $catpod->get_field('id');				//echo $catid;
 			</div>
 		</div>
 	
-		<div class="row">
 <?php
 		echo "<h1 class='h1_" . $catid . "'>".$catname." news</h1>";
 ?>
-					<form class="form-horizontal" role="form" method="get" name="task-category" id="sbc-search" action="<?php echo home_url( '/' ); ?>">
-						<div class="col-lg-12">
-							<div id="staff-search" class="well well-sm">
+							<div  class="well well-sm">
+					<form class="form-horizontal" role="form" method="get" name="news-category" id="sbc-search" action="<?php echo home_url( '/' ); ?>">
 								<div class="input-group input-md">
 									<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="Search news..."  />
 									 <span class="input-group-btn">
 									<button type="submit" class="btn btn-primary input-md"><i class="glyphicon glyphicon-search"></i></button>
 									 </span>
-									<input type="hidden" value="<?php echo $catslug; ?> " name = "cat" />
+									<input type="hidden" value="<?php echo $catslug; ?>" name = "cat" />
 									<input type="hidden" value="news" name = "post_type" />
 								</div>
-							</div>
-						</div>
 					</form>
+							</div>
 
 <script>
 jQuery(function(){
 jQuery("#sbc-s").focus();
 });
 </script>
-		</div>
 
 
 <?php
@@ -150,7 +146,7 @@ jQuery("#sbc-s").focus();
 					foreach($post_cat as $cat){
 						if ($cat->name!='Uncategorized' && $cat->name && $cat->term_id != $catid){
 						$newname = str_replace(" ", "&nbsp;", $cat->name );
-						echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/news-by-category/?cat=".$cat->slug."'>".$newname."</a></span><br>";
+						echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/news-by-category/?cat=".$cat->slug."'>".$newname."</a></span> ";
 					}
 					}
 					echo "</p></div>";

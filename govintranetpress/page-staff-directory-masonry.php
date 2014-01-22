@@ -1,9 +1,12 @@
 <?php
-/* Template name: Staff directory grid*/
+/* Template name: Staff directory masonry*/
+	 wp_register_script( 'masonry.pkgd.min', get_stylesheet_directory_uri() . "/js/masonry.pkgd.min.js");
+	 wp_enqueue_script( 'masonry.pkgd.min',95 );
 					
 get_header(); ?>
 
 <?php 
+
 $fulldetails=get_option('general_intranet_full_detail_staff_cards'); // 1 = show
 $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
 $showgrade = get_option('general_intranet_show_grade_on_staff_cards'); // 1 = show 
@@ -26,8 +29,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		</div>
 		<div class="col-lg-12">
 		<h1><?php the_title(); ?></h1>
-		</div>
-		<div>
 		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/search-staff/' ); ?>">
 	
 		  <div class="col-lg-12">
@@ -47,11 +48,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 jQuery("#s2").focus();
 </script>							
 
-	<div class="col-lg-4 col-md-4 col-sm-4">
+	<div class="col-lg-4 col-md-4">
 	<!-- intentionally left blank -->
 	</div>
-</div>
-<div class="row">
+
+<div class="col-lg-12">
 <?php
 			if ($sort == 'last' || $sort == 'first'){
 
@@ -106,7 +107,7 @@ jQuery("#s2").focus();
 							$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive ', get_avatar($u['user_id'],66));
 							}
 							if ($fulldetails){
-								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
+								$html .= "<div class='grid-item'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
 								// display team name(s)
 								$poduser = new Pod ('user' , $userid);
@@ -152,7 +153,7 @@ jQuery("#s2").focus();
 								
 							}
 							
-								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
+								$html .= "<div class='grid-item'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								// display team name(s)
 								$poduser = new Pod ('user' , $userid);
 								$terms = $poduser->get_field('user_team');
@@ -187,7 +188,7 @@ jQuery("#s2").focus();
 
 					</div>
 </div>
-<div class="col-lg-4 col-md-4 col-sm-6">
+<div class="col-lg-4 col-md-4">
 <strong>Sort by:&nbsp;</strong>
   <?php if ($sort=="first") : ?>
   <button type="button" class="btn btn-primary">
@@ -205,7 +206,7 @@ jQuery("#s2").focus();
   	<a class='btn btn-default' href="<?php the_permalink(); ?>?grade=<?php echo $grade; ?>&sort=last&show=<?php echo $_REQUEST['show'] ?>">Last name</a>
   <?php endif; ?>
 </div>
-<div class="col-lg-8 col-md-8 col-sm-6">
+<div class="col-lg-8 col-md-8">
 <strong>Browse by:&nbsp;</strong>
 	<div class="btn-group">
 	<?php if ($_REQUEST['grade']) : ?>
@@ -257,9 +258,15 @@ jQuery("#s2").focus();
 
 ?>
   	</div>
-<?php 
-	echo '<div id="peoplenav">'.$html."</div>";
+</div>
+<div class="row">
+	<div class="col-lg-12">
+  	<?php 
 	
+	$output=
+		'<div id="container" class="js-masonry"
+  data-masonry-options=\'{ "columnWidth": ".grid-sizer", "itemSelector": ".grid-item", "gutter": 10 }\'><div class="grid-sizer"></div>'.$html."</div>";
+	echo $output;
 	}
 ?>
 	</div>
