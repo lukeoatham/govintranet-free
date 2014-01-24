@@ -32,74 +32,70 @@ class htFeatureBlogposts extends WP_Widget {
         
 //fetch fresh blogposts 
 
-					$cquery = array(
+		$cquery = array(
 
-								    'post_type' => 'blog',
-									'posts_per_page' => $items,
-									'date_query' => array(
-											array(
-												'after'     => $tdate,
-												'inclusive' => true,
-											),
-										),
-								)
-								;
+					    'post_type' => 'blog',
+						'posts_per_page' => $items,
+						'date_query' => array(
+								array(
+									'after'     => $tdate,
+									'inclusive' => true,
+								),
+							),
+					)
+					;
 
-							$news =new WP_Query($cquery);
-							if ($news->post_count!=0){
-							echo $before_widget; 
+		$news =new WP_Query($cquery);
+		if ($news->post_count!=0){
+//			echo $before_widget; 
+			if ( $title ) {
+				echo $before_title . $title . $after_title;
+			}
+			echo "<div class='widget-area widget-blogposts'>";
+		}
+		$k=0;
+		$alreadydone= array();
 
-
-							if ( $title ) {
-								echo $before_title . $title . $after_title;}
-								echo "
-								<div class='widget-area widget-blogposts'>";
-							}
-								$k=0;
-								$alreadydone= array();
-
-							while ($news->have_posts()) {
-									$news->the_post();
-								if (in_array($post->ID, $alreadydone )) { //don't show if already in stickies
-									continue;
-								}
-								$k++;
-								if ($k > 5){
-									break;
-								}
-								global $post;//required for access within widget
-								$thistitle = get_the_title($post->ID);
-								$newspod = new Pod ( 'blog' , $post->ID );
-								$edate = $post->post_date;
-								$edate = date('j M Y',strtotime($edate));
-								$thisURL=get_permalink($ID); 
-								echo "<div class='media'>";
-								if ($thumbnails=='on'){
-									$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'thumbnail' ); 
-									if (!$image_uri){
-										$image_uri = get_avatar($post->post_author,72);
-										$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
-										echo "<a class='pull-left' href='".site_url()."/blog/".$post->post_name."/'>{$image_uri}</a>";		
-									} else {
-										echo "<a class='pull-left' href='".site_url()."/blog/".$post->post_name."/'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
-									}
-								}
-								echo "<div class='media-body'><a href='{$thisURL}'><strong>".$thistitle."</strong></a><span class='small'> by ";
-								echo get_the_author();
-								echo "</span><br><span class='news_date'>".$edate."</span>";
-								echo "</div></div>";
-					}
-							if ($news->post_count!=0 && $more){
-								echo '<hr><strong><a title="More blog posts" class="small" href="'.site_url().'/blog/">More blog posts</a></strong> <i class="glyphicon glyphicon-chevron-right small"></i>';
-							}
-								echo '</div>';
-								echo $after_widget;
-							
-							wp_reset_query();								
-
-?>
-
-        <?php
+		while ($news->have_posts()) {
+				$news->the_post();
+			if (in_array($post->ID, $alreadydone )) { //don't show if already in stickies
+				continue;
+			}
+			$k++;
+			if ($k > 5){
+				break;
+			}
+			global $post;//required for access within widget
+			$thistitle = get_the_title($post->ID);
+			$newspod = new Pod ( 'blog' , $post->ID );
+			$edate = $post->post_date;
+			$edate = date('j M Y',strtotime($edate));
+			$thisURL=get_permalink($ID); 
+			echo "<div class='media'>";
+			if ($thumbnails=='on'){
+				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'thumbnail' ); 
+				if (!$image_uri){
+					$image_uri = get_avatar($post->post_author,72);
+					$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
+					echo "<a class='pull-left' href='".site_url()."/blog/".$post->post_name."/'>{$image_uri}</a>";		
+				} else {
+					echo "<a class='pull-left' href='".site_url()."/blog/".$post->post_name."/'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
+				}
+			}
+			echo "<div class='media-body'><a href='{$thisURL}'><strong>".$thistitle."</strong></a><span class='small'> by ";
+			echo get_the_author();
+			echo "</span><br><span class='news_date'>".$edate."</span>";
+			echo "</div></div>";
+		}
+		if ($news->have_posts() && $more){
+			echo '<hr><strong><a title="More blog posts" class="small" href="'.site_url().'/blog/">More blog posts</a></strong> <i class="glyphicon glyphicon-chevron-right small"></i>';
+		} 
+		if ($news->have_posts()){
+			echo '</div>';
+		}
+//		echo $after_widget;
+		
+		wp_reset_query();								
     }
 
     function update($new_instance, $old_instance) {
