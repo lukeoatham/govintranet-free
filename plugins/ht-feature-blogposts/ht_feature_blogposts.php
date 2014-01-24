@@ -47,8 +47,8 @@ class htFeatureBlogposts extends WP_Widget {
 
 		$news =new WP_Query($cquery);
 		if ($news->post_count!=0){
-//			echo $before_widget; 
 			if ( $title ) {
+				echo $before_widget; 
 				echo $before_title . $title . $after_title;
 			}
 			echo "<div class='widget-area widget-blogposts'>";
@@ -92,8 +92,8 @@ class htFeatureBlogposts extends WP_Widget {
 		} 
 		if ($news->have_posts()){
 			echo '</div>';
+			echo $after_widget;
 		}
-//		echo $after_widget;
 		
 		wp_reset_query();								
     }
