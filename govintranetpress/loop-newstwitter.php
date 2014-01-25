@@ -19,9 +19,6 @@ if (get_post_meta($post->ID,'news_listing_type',true) == 1 ) {
 	$needtoknow = "<i class='glyphicon glyphicon-exclamation-sign'></i> "; 
 }
 
-
-
-
 if ($k==1 && $paged<2){ 
 
 //headline images

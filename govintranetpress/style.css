@@ -2,13 +2,14 @@
 Theme Name: GovIntranet Bootstrap
 Theme URI: https://govintranet.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. 
-Version: 3.0.6
+Version: 3.0.3
 Author: Luke Oatham
 Author URI: http://www.helpfultechnology.com
 Tags: bootstrap,  intranet,  gov.uk
 */
 
 @import "css/custom.css";
+
 
 /* DEFAULTS */
 
@@ -82,8 +83,17 @@ h1 small, h2 small, h3 small {
 	display: none;
 }
 
+img {width: auto; }
+#peoplenav img {
+	width: 66px;
+}	
+#staff-profile img {
+	width: 145px;
+}	
+.oc img {
+	width: 60px !important;
+}	
 
-	
 /* SEARCH */
 
 #sbc-search label {
@@ -275,6 +285,7 @@ img.attachment-single-post-thumbnail {
 .single.single-post img.size-large {
 	width: 100% !important;
 }
+
 
 
 .twitter-logo {
@@ -596,7 +607,6 @@ h1.taglisting.vacancies {
 	padding-bottom: 0;
 }
 .search #content .content-wrapper p {
-	font-size: 90%;
 	margin-bottom: 0;
 }
 .search h3 a {
@@ -891,9 +901,11 @@ p.taglisting.page {
 	text-align: center;
 }
 
-.directreports img {
-	padding-right: 1%;
-	padding-bottom: 1%;
+#directreports img {
+	padding-right: 1% !important;
+	padding-bottom: 1% !important;
+	width: 50px !important;
+
 }
 /* A to Z listings */
 #atozlist h3 {
@@ -1305,28 +1317,28 @@ ul.doctypemenu li {
 }
 .pdfdocument  {
 	background: url('images/pdf.gif') no-repeat;
-	padding: 2px 0 4px 20px;
+	padding: 0 0 4px 20px;
 }
 
 
 .xlsdocument  {
 	background: url('images/xls.gif') no-repeat;
-	padding: 2px 0 4px 20px;
+	padding: 0 0 4px 20px;
 }
 
 .docdocument  {
 	background: url('images/doc.gif') no-repeat;
-	padding: 2px 0 4px 20px;
+	padding: 0 0 4px 20px;
 }
 
 .pptdocument  {
 	background: url('images/icon-ppt.gif') no-repeat;
-	padding: 2px 0 4px 20px;
+	padding: 0 0 4px 20px;
 }
 
 .maildocument  {
 	background: url('images/email.gif') no-repeat;
-	padding: 2px 0 4px 20px;
+	padding: 0 0 4px 20px;
 }
 
 
@@ -1543,10 +1555,15 @@ category-block {
 	padding: 0.5em 0 0.5em 0;
 	margin: 0;
 	list-style: none;
-
 	border-top: 1px solid #eee;
+}
+.home.page .category-block ul li.first-link  {
+	border-top: none !important;
+}
+.home.page .category-block ul.first-link li:first-of-type {
+	border-top: none !important;
+}
 
-	}
 .home.page .category-block .widget-box   {
 	font-size: 1em;
 }
@@ -1558,8 +1575,7 @@ category-block {
 .h3border {
 	margin-bottom: 0.35em !important;
 	width: 100%;
-	}
-
+}
 
 #bbpress-forums li{
 	list-style: none !important;
@@ -1763,7 +1779,7 @@ ul.group {
 }
 
 ul#atozlist.pagination {
-	margin: 0 0 10px 10px; 
+	margin: 0 0 10px 1em; 
 }
 
 h3.contacthead {

@@ -5,7 +5,7 @@ function markDocumentLinks() {
 	jQuery('a[href*=".ppt"]').addClass('pptdocument').append(' (Powerpoint)');
 	jQuery('a[href*=".txt"]').addClass('txtdocument').append(' (Text)');
 	jQuery('a[href*=".csv"]').addClass('xlsdocument').append(' (CSV)');
-	jQuery('a[href*="mailto"]').prepend('<i class="glyphicon glyphicon-envelope"></i>&nbsp;');
+	jQuery('a[href*="mailto"]').prepend('<i class="glyphicon glyphicon-envelope"></i> ');
 	return true;	
 }
 

@@ -18,10 +18,21 @@ get_header(); ?>
 					</div>
 				</div>
 <?php 
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' );
-				if ($image_uri!=""){
-					echo "<img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".get_the_title()."' />";
-					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
+				$video=null;
+				//check if a video thumbnail exists, if so we won't use it to display as a headline image
+				if (function_exists('get_video_thumbnail')){
+					$video = get_video_thumbnail(); 
+				}
+
+				if (!$video){
+				
+					$ts = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+					$tt = get_the_title();
+					$tn = "<img src='".$ts[0]."' width='".$ts[1]."' height='".$ts[2]."' class='img img-responsive' alt='".$tt."' />";
+					if ($ts){
+						echo $tn;
+						echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
+					}
 				}
 				?>
 				<h1><?php the_title(); ?></h1>

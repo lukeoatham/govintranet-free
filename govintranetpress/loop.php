@@ -46,8 +46,14 @@
 	if ($post_type=='User'){
 		global $foundstaff;
 		$foundstaff++;
-		$image_url = get_avatar($post->user_id);
-		$image_url = str_replace('avatar-96 ', 'avatar-96 img img-responsive img-circle ' , $image_url);
+		$image_url = get_avatar($post->user_id,96);
+		
+		$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
+		if ($directorystyle==1){
+			$image_url = str_replace('avatar-96 ', 'avatar-96 img img-circle ' , $image_url);
+		} else {
+			$image_url = str_replace('avatar-96 ', 'avatar-96 img  ' , $image_url);
+		}
 		$userurl = get_author_posts_url( $post->user_id); 
 		$gis = "general_intranet_forum_support";
 		$forumsupport = get_option($gis);

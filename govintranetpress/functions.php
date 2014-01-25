@@ -1383,8 +1383,10 @@ remove_action('wp_title', 'bbp_title');
 
 // listing page thumbnail sizes, e.g. home page
 
-add_image_size( "newshead", "726", "353", true );
+add_image_size( "newshead", "650", "380", true );
+/*
 add_image_size( "homehead", "544", "307", true );
+*/
 
 /**
  * Determines the difference between two timestamps.

@@ -27,8 +27,14 @@ get_header(); ?>
 				}
 
 				if (!$video){
-					the_post_thumbnail(array(726,353),array('class'=>'img img-responsive'));
-					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
+				
+					$ts = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+					$tt = get_the_title();
+					$tn = "<img src='".$ts[0]."' width='".$ts[1]."' height='".$ts[2]."' class='img img-responsive' alt='".$tt."' />";
+					if ($ts){
+						echo $tn;
+						echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
+					}
 				}
 				?>
 

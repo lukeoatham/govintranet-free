@@ -12,7 +12,7 @@ $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = s
 ?>
 </div></div></div> <!-- close bbPress divs so that we can hide the element -->
 
-<div class="row">
+<div class="row" id='staff-profile'>
 
 	<div class="col-lg-2 col-md-2 col-sm-3">
 
@@ -23,10 +23,15 @@ $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = s
 	 	if (function_exists('get_wp_user_avatar')){	
 				$imgsrc = get_wp_user_avatar_src($user_id,'thumbnail');				
 				if ($directorystyle==1){
-					echo "<img class='img img-responsive img-circle' src='".$imgsrc."' width='145'  height='145' />";
+					echo "<img class='img img-circle' ";
 				}else{
-					echo "<img class='img img-responsive' src='".$imgsrc."' width='145'  height='145' />";
+					echo "<img class='img' ";
 				}
+				echo "src='".$imgsrc."' width='145'  height='145' alt='";
+				bbp_displayed_user_field( 'first_name' );
+				echo " ";
+				bbp_displayed_user_field( 'last_name' );
+				echo "' />";
 		}
 		if (current_user_can('edit_themes')) echo "<br><p><a href='".site_url()."/wp-admin/user-edit.php?user_id=".$user_id."'>Edit profile</a></p>";
 		elseif ( is_user_logged_in() && get_current_user_id() == $user_id ) echo "<br><p><a href='".site_url()."/wp-admin/profile.php'>Edit profile</a></p>";
@@ -177,7 +182,7 @@ jQuery('.tlink').tooltip();
 				if (count($poduserreports)>0){
 				
 					echo "<p><i class='glyphicon glyphicon-chevron-down'></i></p>";
-						echo "<p class='directreports'>";
+						echo "<p id='directreports'>";
 
 					foreach ($poduserreports as $p){ //print_r($p);
 //					 if (get_user_meta($u->user_id, 'user_visible', true)==1){

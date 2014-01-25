@@ -34,16 +34,15 @@ class htFeatureBlogposts extends WP_Widget {
 
 		$cquery = array(
 
-					    'post_type' => 'blog',
-						'posts_per_page' => $items,
-						'date_query' => array(
-								array(
-									'after'     => $tdate,
-									'inclusive' => true,
-								),
-							),
+		    'post_type' => 'blog',
+			'posts_per_page' => $items,
+			'date_query' => array(
+					array(
+						'after'     => $tdate,
+						'inclusive' => true,
 					)
-					;
+				)
+		);
 
 		$news =new WP_Query($cquery);
 		if ($news->post_count!=0){
@@ -54,13 +53,8 @@ class htFeatureBlogposts extends WP_Widget {
 			echo "<div class='widget-area widget-blogposts'>";
 		}
 		$k=0;
-		$alreadydone= array();
-
 		while ($news->have_posts()) {
 				$news->the_post();
-			if (in_array($post->ID, $alreadydone )) { //don't show if already in stickies
-				continue;
-			}
 			$k++;
 			if ($k > 5){
 				break;
@@ -82,10 +76,10 @@ class htFeatureBlogposts extends WP_Widget {
 					echo "<a class='pull-left' href='".site_url()."/blog/".$post->post_name."/'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
 				}
 			}
-			echo "<div class='media-body'><a href='{$thisURL}'><strong>".$thistitle."</strong></a><span class='small'> by ";
+			echo "<div class='media-body'><a href='{$thisURL}'><strong>".$thistitle."</strong></a>";
+			echo "<br><span class='news_date'>".$edate." by ";
 			echo get_the_author();
-			echo "</span><br><span class='news_date'>".$edate."</span>";
-			echo "</div></div>";
+			echo "</span></div></div>";
 		}
 		if ($news->have_posts() && $more){
 			echo '<hr><strong><a title="More blog posts" class="small" href="'.site_url().'/blog/">More blog posts</a></strong> <i class="glyphicon glyphicon-chevron-right small"></i>';
