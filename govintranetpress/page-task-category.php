@@ -26,7 +26,7 @@ $catdesc = $catpod->get_field('category_page_description');
 				?>
 				<?php echo $catdesc; ?>
 							<div class="well well-sm">
-								<form class="form-horizontal" role="form" method="get" name="task-category" id="sbc-search" action="<?php echo home_url( '/' ); ?>">
+								<form class="form-horizontal" role="form" method="get" name="task-category" id="sbc-search" action="<?php echo site_url( '/' ); ?>">
 									<div class="input-group input-md">
 										<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="How do I..." />
 										 <span class="input-group-btn">

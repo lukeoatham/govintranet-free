@@ -93,7 +93,12 @@ img {width: auto; }
 .oc img {
 	width: 60px !important;
 }	
-
+ul.subteams li {
+	list-style: none;
+	display: inline;
+	border-right: 1px solid #eee;
+	padding: 0.5em;
+}
 /* SEARCH */
 
 #sbc-search label {
@@ -1131,7 +1136,6 @@ ul#menu-footer-right li{
 h1, h2,  h3,  h4,  h5,  h6  {
 	color: #0b0c0c;
 	line-height: 120%;
-	font-weight: 600;
 	font-family: 'Helvetica Neue',Helvetica,arial,sans-serif;
 	
 }

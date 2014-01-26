@@ -85,7 +85,7 @@ get_header(); ?>
 	if ($_GET['pt'] == 'user' ):
 
 ?>
-		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/' ); ?>">
+		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/' ); ?>">
 		  <div class="col-lg-12">
 			<div id="staff-search" class="well">
 					<div class="input-group">
@@ -164,7 +164,7 @@ $q = $_GET['s'];
 ?>
 	<div class="content-wrapper">
 		<div class="col-lg-6">
-			<form class="form-horizontal" role="form" action="<?php echo home_url( '/' ); ?>">
+			<form class="form-horizontal" role="form" action="<?php echo site_url( '/' ); ?>">
 			  <div class="col-lg-12">
 			    <div class="input-group">
 					<input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo $_GET['s'];?>">

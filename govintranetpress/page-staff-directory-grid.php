@@ -28,7 +28,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				<h1><?php the_title(); ?></h1>
 			</div>
 		<div>
-		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo home_url( '/search-staff/' ); ?>">
+		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/search-staff/' ); ?>">
 			<div class="col-lg-12">
 				<div id="staff-search" class="well well-sm">
 					<div class="input-group">

@@ -18,7 +18,7 @@ if ($placeholder!=''){
 	$randex = "Search";
 }	
 ?>
-	<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo home_url( '/' ); ?>">
+	<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo site_url( '/' ); ?>">
 	  <div class="row">
 		  <div class="input-group">
 	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" value="<?php echo $_GET['s'];?>">

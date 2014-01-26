@@ -30,7 +30,7 @@ $catid = $catpod->get_field('id');				//echo $catid;
 		echo "<h1 class='h1_" . $catid . "'>".$catname." news</h1>";
 ?>
 							<div  class="well well-sm">
-					<form class="form-horizontal" role="form" method="get" name="news-category" id="sbc-search" action="<?php echo home_url( '/' ); ?>">
+					<form class="form-horizontal" role="form" method="get" name="news-category" id="sbc-search" action="<?php echo site_url( '/' ); ?>">
 								<div class="input-group input-md">
 									<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="Search news..."  />
 									 <span class="input-group-btn">
