@@ -32,9 +32,13 @@ $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = s
 				echo " ";
 				bbp_displayed_user_field( 'last_name' );
 				echo "' />";
+		} else {
+			$imgsrc = get_avatar($user_id,'thumbnail');				
+			echo $imgsrc;
 		}
-		if (current_user_can('edit_themes')) echo "<br><p><a href='".site_url()."/wp-admin/user-edit.php?user_id=".$user_id."'>Edit profile</a></p>";
-		elseif ( is_user_logged_in() && get_current_user_id() == $user_id ) echo "<br><p><a href='".site_url()."/wp-admin/profile.php'>Edit profile</a></p>";
+
+		if (current_user_can('edit_themes')) echo "<br><br><p><a href='".site_url()."/wp-admin/user-edit.php?user_id=".$user_id."'>Edit profile</a></p>";
+		elseif ( is_user_logged_in() && get_current_user_id() == $user_id ) echo "<br><p><br><a href='".site_url()."/wp-admin/profile.php'>Edit profile</a></p>";
 	?>
 	</div>
 	<div class="col-lg-5 col-md-5 col-sm-9">
@@ -61,12 +65,14 @@ $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = s
 			  		    
 			  			$teamlist[]= " <a href='".site_url()."/team/{$themeURL}'>".$taxonomy['name']."</a>";
 			  			echo "<strong>Team:</strong> ".implode(" &raquo; ", $teamlist)."<br>";
+					$teamlist=array();
 
 					}
 			}  
-			echo "<p><strong>Job title: </strong>";
-			bbp_displayed_user_field( 'user_job_title' );
-			echo "</p>";
+			$jt = get_user_meta($user_id, 'user_job_title',true );
+			if ($jt) echo "<strong>Job title: </strong>".$jt."<br>";
+			$jt = get_user_meta( $user_id, 'user_grade' ); //print_r($jt);
+			if ($jt[0]['name']) echo "<strong>Grade: </strong>".$jt[0]['name']."";
 
 ?>
 		<h3 class="contacthead" >Contact</h3>
@@ -111,27 +117,33 @@ $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = s
 		  }
 		  $poduser->get_field('user_team');
 
-		  $uqblog = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and post_type='blog' and post_status='publish';",ARRAY_A);
-		  $uqforum = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and (post_type='topic' or post_type='forum' or post_type='reply') and post_status='publish';",ARRAY_A);
+		  $uqblog = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and post_type='blog' and post_status='publish' limit 3;",ARRAY_A);
+		  $uqforum = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and (post_type='topic' or post_type='forum' or post_type='reply') and post_status='publish' limit 3;",ARRAY_A);
 if (count($uqblog)>0 || count($uqforum) > 0):
 ?>
 			<h3 class="contacthead" >On the intranet</h3>
-			<ul>
 <?php if (count($uqblog)>0):?>
-			<li>
-				<span class='bbp-user-topics-created-link'>
-					<a href="/author/<?php echo $poduser->get_field('login'); ?>" title="<?php printf( esc_attr__( "%s's Blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Blog posts', 'bbpress' ); ?></a>
-				</span>
-			</li>
+			<h4><?php _e( 'Blog posts', 'bbpress' ); ?></h4>
+			<ul>
+			<?php foreach ($uqblog as $u){ //print_r($u);
+				$utitle = get_the_title($u['ID']); 
+				$ulink = get_permalink($u['ID']); 
+				echo "<li><a href='".$ulink."'>".$utitle."</a></ul>";
+			}
+			?>
+			</ul>
 <?php endif; ?>
 <?php if (count($uqforum)>0):?>
-			<li>
-				<span class='bbp-user-topics-created-link'>
-					<a href="/author/<?php echo $poduser->get_field('login'); ?>/?show=forum" title="<?php printf( esc_attr__( "%s's Blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum posts', 'bbpress' ); ?></a>
-				</span>
-			</li>
-<?php endif; ?>
+<h4><?php _e( 'Forum posts', 'bbpress' ); ?></h4>
+			<ul>
+			<?php foreach ($uqforum as $u){ //print_r($u);
+				$utitle = get_the_title($u['ID']); 
+				$ulink = get_permalink($u['ID']); 
+				echo "<li><a href='".$ulink."'>".$utitle."</a></li>";
+			}
+			?>
 			</ul>
+<?php endif; ?>
 <?php endif; ?>
 
 	</div>

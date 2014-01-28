@@ -2,7 +2,7 @@
 Theme Name: GovIntranet Bootstrap
 Theme URI: https://govintranet.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. 
-Version: 3.0.3
+Version: 3.0.7
 Author: Luke Oatham
 Author URI: http://www.helpfultechnology.com
 Tags: bootstrap,  intranet,  gov.uk
@@ -86,6 +86,9 @@ h1 small, h2 small, h3 small {
 img {width: auto; }
 #peoplenav img {
 	width: 66px;
+}
+#peoplenav ul {
+	padding-left: 0;
 }	
 #staff-profile img {
 	width: 145px;
@@ -1106,7 +1109,6 @@ ul#menu-footer-right li{
 }
 
 .page-navigation li {
-	font-weight: 400;
 	line-height: 1.25;
 	margin-bottom: 0 !important;
 	padding: 0.5em 0.5em 0.5em 0.3em;
@@ -1158,7 +1160,6 @@ h2  {
 	font-size: 1.7em;
 	margin: 0.5em 0;
 	line-height: 140%;
-	font-weight: 600;
 }
 
 h2 a  {
@@ -1300,7 +1301,16 @@ hr.light  {
 	margin: .5em 0 1em 0;
 	border-bottom: 1px solid #eee;
 }
-
+h3.light {
+	color: #aaa;
+	font-weight: normal;	
+	font-size: 1.2em;
+}
+span.light.small {
+	color: #aaa;
+	font-size: .7em !important;
+	
+}
 .hiddentext,  .printonlyheadline  {
 	position: absolute;
 	left: -9999em;

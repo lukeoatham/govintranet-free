@@ -40,7 +40,7 @@ if ($k==1 && $paged<2){
 			}
 		}
 
-			   $thisdate= $post->post_modified;
+			   $thisdate= $post->post_date;
 			   $thisdate=date("j M Y",strtotime($thisdate));
 			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
 		echo "</p></div>";
@@ -77,7 +77,7 @@ if ($k==1 && $paged<2){
 					}
 				}
 
-			   $thisdate= $post->post_modified;
+			   $thisdate= $post->post_date;
 			   $thisdate=date("j M Y",strtotime($thisdate));
 			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
 

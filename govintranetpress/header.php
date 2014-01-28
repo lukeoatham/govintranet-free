@@ -154,6 +154,9 @@ header('X-Frame-Options: SAMEORIGIN');
 		.page-template-page-news-php h1 {
 		border-bottom: ".$gisheight."px solid ".RGBToHTML($topborder).";
 		} 
+		.tax-team h2 {
+		border-bottom: ".$gisheight."px solid ".RGBToHTML($topborder).";
+		} 
 		";
 
 		//write custom css for logo

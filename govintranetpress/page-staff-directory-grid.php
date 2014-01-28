@@ -24,23 +24,39 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				<a href="<?php echo site_url(); ?>">Home</a>
 				&raquo; <?php the_title(); ?>
 			</div>
-			<div class="col-lg-12">
+			<div class="col-lg-12 col-md-12 col-sm-12">
 				<h1><?php the_title(); ?></h1>
 			</div>
 		<div>
-		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/search-staff/' ); ?>">
-			<div class="col-lg-12">
-				<div id="staff-search" class="well well-sm">
-					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Search for a name, job title, skills, phone number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
-						<span class="input-group-btn">
-						<button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-						</span>
-					</div><!-- /input-group -->
-				</div>
-			</div>
-		</form>
-		</div><!--end-->	
+<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/search-staff/' ); ?>">
+
+	  <div class="col-lg-12 col-md-12 col-sm-12 ">
+		<div id="staff-search" class="well well-sm">
+				<div class="input-group">
+			    	 <input type="text" class="form-control pull-left" placeholder="Search for a name, job title, skills, phone number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
+					 <span class="input-group-btn">
+						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+					 </span>
+					 
+				
+				<?php
+			  	$terms = get_terms('team',array('hide_empty'=>false,'parent' => '0',));
+				if ($terms) {
+					$otherteams='';
+			  		foreach ((array)$terms as $taxonomy ) {
+			  		    $themeid = $taxonomy->term_id;
+			  		    $themeURL= $taxonomy->slug;
+			  			$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
+			  		}  
+			  		echo "<div class='btn-group pull-right'><button type='button' class='btn btn-info dropdown-toggle4' data-toggle='dropdown'>Teams <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
+				}
+
+				?>
+				</div><!-- /input-group -->
+				
+			  </div>
+		</div>
+	</form>		</div><!--end-->	
 		<script>
 		jQuery("#s2").focus();
 		</script>							
@@ -63,7 +79,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				?>	
 
 
-			<div class="col-lg-12">
+			<div class="col-lg-12 col-md-12 col-sm-12">
 			<?php the_content(); ?>
 					<ul id='atozlist' class="pagination">
 					
@@ -74,7 +90,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'first_name' order by meta_value asc";
 					}					
 					$userq = $wpdb->get_results($q,ARRAY_A);
-					$html="<div class='col-lg-12'>";
+					$html="<div class='col-lg-12 col-md-12 col-sm-12'>";
 					foreach ($userq as $u){ 
 						$usergrade = get_user_meta($u['user_id'],'user_grade',true); 
 						$title = $u['name'];
@@ -115,11 +131,23 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 								$poduser = new Pod ('user' , $userid);
 								$terms = $poduser->get_field('user_team');
 								if ($terms) {				
-									$teamlist = array();
-							  		foreach ($terms as $taxonomy ) {
-							  			$teamlist[]= $taxonomy['name'];
-							  			$html.= implode(" &raquo; ", $teamlist)."<br>";
-									}
+									foreach ($terms as $taxonomy ) { //print_r($taxonomy);
+							  		    $themeid = $taxonomy['term_id'];
+							  		    $themeURL= $taxonomy['slug'];
+							  		    $themeparent = $taxonomy['parent']; 
+							   		    if ($themeURL == 'uncategorized') {
+								  		    continue;
+							  		    }
+							  		    while ($themeparent!=0){
+							  		    	$parentteam = get_term_by('id', $themeparent, 'team'); 
+								  			$themeparent = $parentname->parent; 
+							  		    }
+							  		    
+							  		    $parentslug = $parentteam->slug;
+							  			$teamlist= $parentteam->name;
+							  			$html.= "".$teamlist."<br>";
+			
+							  		}
 								}  
 								
 								?>
@@ -162,13 +190,27 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 								// display team name(s)
 								$poduser = new Pod ('user' , $userid);
 								$terms = $poduser->get_field('user_team');
-								if ($terms) {				
-									$teamlist = array();
-							  		foreach ($terms as $taxonomy ) {
-							  			$teamlist[]= $taxonomy['name'];
-							  			$html.= implode(" &raquo; ", $teamlist)."<br>";
-									}
-								}  
+
+								foreach ($terms as $taxonomy ) { //print_r($taxonomy); 
+									//echo $taxonomy['name'];
+						  		    $themeid = $taxonomy['term_id'];
+						  		    $themeparent = $taxonomy['parent']; 
+
+						  			
+						  			if ( $themeparent == 0 ) { 
+							  			$teamlist = $taxonomy['name']; 
+							  			$html.= "".$teamlist."<br>"; //echo $teamlist;
+						  			} else {
+							  		    while ($themeparent!=0){
+							  		    	$newteam = get_term_by('id', $themeparent, 'team'); 
+								  			$themeparent = $newteam->parent; 
+							  		    }
+							  			$teamlist= $newteam->name;
+							  			$html.= "".$teamlist."<br>";
+							  			
+						  			}
+	
+						  		}
 							
 								if ( get_user_meta($userid ,'user_job_title',true )) {
 									$meta = get_user_meta($userid ,'user_job_title',true );
@@ -198,7 +240,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
 					</div>
 </div>
-<div class="col-lg-12">
+<div class="col-lg-12 col-md-12 col-sm-12">
 <div class="col-lg-4 col-md-4 col-sm-6">
 <strong>Sort by:&nbsp;</strong>
   <?php if ($sort=="first") : ?>
@@ -218,19 +260,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
   <?php endif; ?>
 </div>
 <div class="col-lg-8 col-md-8 col-sm-6">
-<strong>Browse by:&nbsp;</strong>
+<strong>Filter by:&nbsp;</strong>
 	<div class="btn-group">
-	<?php if ($_REQUEST['grade']) : ?>
 	  <button type="button" class="btn btn-primary dropdown-toggle2" data-toggle="dropdown">
-	<?php else : ?>
-	  <button type="button" class="btn btn-default dropdown-toggle2" data-toggle="dropdown">
-	<?php endif; ?>  
 	  <?php 
 		  if ($grade){
 			  $sgrade=get_term_by( 'slug', $grade, 'grade' ) ;
 			  $sgrade=$sgrade->name;
 		  } else {
-			  $sgrade='Grade';
+			  $sgrade='All grades';
 		  }
 		  echo $sgrade; ?>
 		  <span class="caret"></span>
@@ -255,19 +293,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
   ?>
 	  	</ul>
 	  	</div>
-  				<?php
-		$terms = get_terms('team',array('hide_empty'=>false,'parent' => '0',));
-		if ($terms) {
-			$otherteams="";
-			foreach ((array)$terms as $taxonomy ) {
-			    $themeid = $taxonomy->term_id;
-			    $themeURL= $taxonomy->slug;
-				$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
-			}
-			echo "<div class='btn-group'><button type='button' class='btn btn-default dropdown-toggle3' data-toggle='dropdown'>Team <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
-		}  
-
-?>
   	</div><!--end team--></div>	
 <?php 
 	echo '<div id="peoplenav">'.$html."</div>";

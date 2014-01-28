@@ -49,6 +49,12 @@ If you have trouble with your existing post types you'll need to update manually
 ## Changelog ##
 
 
+### 3.0.7 - 28th January 2014 ###
+* Staff directory framework changes for IE  
+* Staff directory bugfixes  
+* Team page layout changes    
+
+
 ### 3.0.6 - 22nd January 2014 ###
 * Framework changes to header  
 * Include ungraded staff in team pages  

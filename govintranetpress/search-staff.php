@@ -88,12 +88,12 @@ foreach ((array)$sr as $u){
 					} else {
 						$image_url = get_avatar($userid,130);
 					}
-					$image_url = str_replace('avatar ', 'avatar img img-responsive' , $image_url);
+					$image_url = str_replace('avatar ', 'avatar img ' , $image_url);
 
 					if ($directorystyle==1){
-						$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive img-circle', get_avatar($userid,66));
+						$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-circle', get_avatar($userid,66));
 					}else{
-						$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-responsive', get_avatar($userid,66));
+						$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img ', get_avatar($userid,66));
 					}
 
 					$gradedisplay='';
