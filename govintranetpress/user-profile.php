@@ -163,17 +163,19 @@ jQuery('.tlink').tooltip();
 				<div class='panel-body'>
 				<div class='oc'>";
 				if ($poduserparent){
-					if (function_exists('get_wp_user_avatar')){
-						$imgsrc = get_wp_user_avatar_src($poduserparent['ID'],'thumbnail');				
-						if ($directorystyle==1){
-								$avatarhtml = str_replace('avatar-60', 'avatar-60  indexcard-avatar img img-circle', get_avatar($poduserparent['ID'],60));						
-								} else {
-								$avatarhtml = str_replace('avatar-60', 'avatar-60 indexcard-avatar img', get_avatar($poduserparent['ID'],60));	
-						}
+
+		if (function_exists('get_wp_user_avatar_src')){
+			$image_url_src = get_wp_user_avatar_src($poduserparent['ID'], 'thumbnail'); 
+			$avatarhtml = "<img src=".$image_url_src." width='60' height='60' alt='".$post->title."' class='img";
+			$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
+			if ($directorystyle==1){
+				$avatarhtml.= ' img-circle';
+			} 
+			$avatarhtml.="' />";
+		} else {
+			$avatarhtml = get_avatar($poduserparent['ID'],60);
+		}
 						echo "<a title='".$poduserparent['display_name']."' href='".site_url()."/staff/".$poduserparent['user_nicename']."/'>".$avatarhtml."</a>";						
-						} else {
-						echo "<a title='".$poduserparent['display_name']."' href='".site_url()."/staff/".$poduserparent['user_nicename']."/'></a>";						
-					}
 					echo "<p><a href='".site_url()."/staff/".$poduserparent['user_nicename']."/'>".$poduserparent['display_name']."</a><br>";
 					echo get_user_meta($poduserparent['ID'],'user_job_title',true);
 					echo "</p>";

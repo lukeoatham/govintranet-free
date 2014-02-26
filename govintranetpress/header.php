@@ -37,11 +37,19 @@ header('X-Frame-Options: SAMEORIGIN');
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/prettyPhoto.css" rel="stylesheet">
 
+	<!--[if (IE)&(lt IE 9) ]>
+	        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+	<!--<![endif]-->
+	<!--[if (IE)&(gt IE 8) ]>
+	        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<!--<![endif]-->
+
 	<!--[if lt IE 9]>
 	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/html5-shiv.min.js"></script>
 	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/respond.min.js"></script>
-	 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<![endif]-->
+
+
 	
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_stylesheet_directory_uri(); ?>/print.css" />
@@ -208,14 +216,16 @@ header('X-Frame-Options: SAMEORIGIN');
 		//write script for google analytics (only do on homepage if homepage tracking is set)
 		$gis = "general_intranet_track_homepage";
 		$gistrackhome = get_option($gis); 
-		$gis = "general_intranet_google_tracking_code";
-		$gisgtc = get_option($gis);
-		if ( is_front_page() ){
-			if ($gistrackhome == 1){
+		if ( is_front_page() || is_search() ){
+			if ($gistrackhome == 1 || is_search() ){
+				$gis = "general_intranet_google_tracking_code";
+				$gisgtc = get_option($gis);
 				echo $gisgtc;
 			}
 		}
 		else {
+			$gis = "general_intranet_google_tracking_code";
+			$gisgtc = get_option($gis);
 			echo $gisgtc;
 		}
 		?>	

@@ -120,8 +120,7 @@ if (!$removenews || !is_array($removenews)){
 
 //process expired news
 
-$gis = "general_intranet_time_zone";
-$tzone = get_option($gis);
+$tzone = get_option('timezone_string');
 date_default_timezone_set($tzone);
 $tdate= getdate();
 $tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
@@ -156,15 +155,15 @@ if ( count($oldnews) > 0 ){
 			  delete_post_meta($old->ID, 'expiry_date');
 			  delete_post_meta($old->ID, 'expiry_time');
 			  delete_post_meta($old->ID, 'expiry_action');
-			  wp_cache_post_change( $old->ID ) ;		  
-			  
+			  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
+			  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
 		}	
 		if ($expiryaction=='Change to regular news'){
 			update_post_meta($old->ID, 'news_listing_type', 'Regular', 'Need to know'); 
 			  delete_post_meta($old->ID, 'expiry_date');
 			  delete_post_meta($old->ID, 'expiry_time');
 			  delete_post_meta($old->ID, 'expiry_action');
-			  wp_cache_post_change( $old->ID ) ;		  
+			  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
 		}	
 		if ($expiryaction=='Move to trash'){
 			  $my_post = array();
@@ -173,8 +172,9 @@ if ( count($oldnews) > 0 ){
 			  delete_post_meta($old->ID, 'expiry_date');
 			  delete_post_meta($old->ID, 'expiry_time');
 			  delete_post_meta($old->ID, 'expiry_action');
-			  wp_update_post( $my_post );	  
-			  wp_cache_post_change( $old->ID ) ;		  
+			  wp_update_post( $my_post );
+			  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
+			  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
 		}	
 	}
 }

@@ -46,13 +46,17 @@
 	if ($post_type=='User'){
 		global $foundstaff;
 		$foundstaff++;
-		$image_url = get_avatar($post->user_id,96);
 		
-		$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
-		if ($directorystyle==1){
-			$image_url = str_replace('avatar-96 ', 'avatar-96 img img-circle ' , $image_url);
+		if (function_exists('get_wp_user_avatar_src')){
+			$image_url_src = get_wp_user_avatar_src($post->user_id, 'thumbnail'); 
+			$image_url = "<img src=".$image_url_src." width='96' height='96' alt='".$post->title."' class='img";
+			$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
+			if ($directorystyle==1){
+				$image_url.= ' img-circle';
+			} 
+			$image_url.=" alignleft' />";
 		} else {
-			$image_url = str_replace('avatar-96 ', 'avatar-96 img  ' , $image_url);
+			$image_url = get_avatar($post->user_id,96);
 		}
 		$userurl = get_author_posts_url( $post->user_id); 
 		$gis = "general_intranet_forum_support";

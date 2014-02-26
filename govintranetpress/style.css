@@ -2,7 +2,7 @@
 Theme Name: GovIntranet Bootstrap
 Theme URI: https://govintranet.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. 
-Version: 3.0.7
+Version: 3.0.3
 Author: Luke Oatham
 Author URI: http://www.helpfultechnology.com
 Tags: bootstrap,  intranet,  gov.uk
@@ -56,8 +56,6 @@ h1 small, h2 small, h3 small {
 	color: white;
 	text-decoration: none;
 	margin-top: 0.5em;
-	margin-left: -70px;
-	padding-left: 70px;
 	font-weight: 200;
 }
 #topstrip  {
@@ -908,6 +906,17 @@ p.taglisting.page {
 .oc {
 	text-align: center;
 }
+.bbp-user-page .panel {
+	background: aliceblue;
+	border: none;
+}
+.bbp-user-page .panel-body {
+	background: aliceblue;
+	border: none;
+}
+.bbp-user-page .panel-heading {
+	background: white;
+}
 
 #directreports img {
 	padding-right: 1% !important;
@@ -1203,9 +1212,6 @@ h3  {
 	border-top: none;
 }
 
-#need-to-know ul li a:link {
-	color: #0a0b0c;
-}
 #need-to-know ul li a:visited {
 	color: #a6a6a6;
 }
@@ -1216,26 +1222,6 @@ h3.noborder {
 	padding-top: 0 !important;
 	margin-top: 0;
 }
-#need-to-know ul.need li {
-	margin-left: 0;
-}
-#need-to-know  a:link:before {
-	content: "\e101";
-  font-family: "Glyphicons Halflings";
-  font-weight: normal;
-  font-style: normal;
-  text-decoration: inherit;
-}
-
-#need-to-know ul li a:visited:before {
-	color: #a6a6a6;
-	content: "\e101" !important;
-  font-family: "Glyphicons Halflings" !important;
-  font-weight: normal;
-  font-style: normal;
-  text-decoration: inherit;
-}
-
 
 .tinythumb {
 	width: 72px;
@@ -1305,6 +1291,7 @@ h3.light {
 	color: #aaa;
 	font-weight: normal;	
 	font-size: 1.2em;
+	padding: 0;	
 }
 span.light.small {
 	color: #aaa;
@@ -1398,11 +1385,12 @@ ul.doctypemenu li {
 .chapters-container {
 	float: left;
 	clear: both;
-	padding: 1em 0;
+	padding: 0.5em 0.1em;
 	border-top: 1px solid #A6AFC0;
 	border-bottom: 1px solid #A6AFC0;
 	margin-bottom: 1em;
 	width: 100%;
+	background: aliceblue;
 }
 .chapterl {
 	text-align: left;
@@ -1793,14 +1781,16 @@ ul.group {
 }
 
 ul#atozlist.pagination {
-	margin: 0 0 10px 1em; 
+	margin: 10px 0; 
 }
 
 h3.contacthead {
 	border-bottom: 1px solid #ddd;
 	margin-top: 1.3em;
 }
-
+#sortfilter {
+	min-height: 60px;
+}
 #peoplenav  {
 	padding-top: 4em;
 }

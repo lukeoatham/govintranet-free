@@ -34,14 +34,14 @@ get_header(); ?>
 		$alreadyshown=array();
 		
 ?>
-		<div class="col-lg-12 col-md-12 col-sm-12  white">
+		<div class="col-lg-12 col-md-12 col-sm-12">
 		<div class="col-lg-8 col-md-8 col-sm-12">
 			<h1>Staff directory</h1>
 			<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/search-staff/' ); ?>">
 			  <div class="col-lg-12 col-md-12 col-sm-12 ">
 				<div id="staff-search" class="well well-sm">
 						<div class="input-group">
-					    	 <input type="text" class="form-control pull-left" placeholder="Search for a name, job title, skills, phone number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
+					    	 <input type="text" class="form-control pull-left" placeholder="Name, job title, skills, team, number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
 							 <span class="input-group-btn">
 								 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 							 </span>
@@ -54,7 +54,9 @@ get_header(); ?>
 						  		    $themeURL= $taxonomy->slug;
 						  			$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
 						  		}  
-						  		echo "<div class='btn-group pull-right'><button type='button' class='btn btn-info dropdown-toggle4' data-toggle='dropdown'>Teams <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
+						  		$teamdrop = get_option('general_intranet_team_dropdown_name');
+						  		if ($teamdrop=='') $teamdrop = "Browse teams";
+						  		echo "<div class='btn-group pull-right'><button type='button' class='btn btn-info dropdown-toggle4' data-toggle='dropdown'>".$teamdrop." <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div><div class='btn-group pull-right'><button class='btn btn-link disabled'>Or&nbsp;</button></div>";
 							}
 							?>
 						</div><!-- /input-group -->
@@ -136,7 +138,11 @@ $terms = get_terms('team',array('hide_empty'=>false,'parent' => $termid));
 	 			$uid[] = $u->user_id;
 	 			$ulastname[] = get_user_meta($u->user_id,'last_name',true);
 	 			$g = get_user_meta($u->user_id,'user_grade',true); 
-	 			$ugrade[] =  $g['slug'];		 			
+		 			$ugrade[] =  $g['slug'];		 			
+	 			if ($g['parent']!=0){
+		 			$g = get_term($g['parent'],'grade');
+		 			$ugradeorig[] =  $g->slug;		 		
+	 			}
  			}
  			
 				
@@ -167,19 +173,18 @@ $terms = get_terms('team',array('hide_empty'=>false,'parent' => $termid));
 				$user_info = get_userdata($userid);
 				$userurl = site_url().'/staff/'.$user_info->user_login;
 				$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
-				if ( function_exists('get_wp_user_avatar')){
-					$image_url = get_wp_user_avatar($userid,130,'left');
+
+				if (function_exists('get_wp_user_avatar_src')){
+					$image_url_src = get_wp_user_avatar_src($userid, 'thumbnail'); 
+					$avatarhtml = "<img src=".$image_url_src." width='66' height='66' alt='".$user_info->display_name."' class='img";
+					$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
+					if ($directorystyle==1){
+						$avatarhtml.= ' img-circle';
+					} 
+					$avatarhtml.=" alignleft' />";
 				} else {
-					$image_url = get_avatar($userid,130);
+					$avatarhtml = get_avatar($post->user_id,66);
 				}
-				$image_url = str_replace('avatar ', 'avatar img img-responsive' , $image_url);
-
-				if ($directorystyle==1){
-					$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-circle', get_avatar($userid,66));
-				}else{
-					$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img', get_avatar($userid,66));
-				}
-
 				if ($fulldetails){
 						
 						echo "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong></a><br>";
@@ -268,18 +273,20 @@ WHERE t1.user_id in (select a.user_id from wp_usermeta as a where a.meta_key = '
 				$user_info = get_userdata($userid);
 				$userurl = site_url().'/staff/'.$user_info->user_login;
 				$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
-				if ( function_exists('get_wp_user_avatar')){
-					$image_url = get_wp_user_avatar($userid,130,'left');
-				} else {
-					$image_url = get_avatar($userid,130);
-				}
-				$image_url = str_replace('avatar ', 'avatar img' , $image_url);
 
-				if ($directorystyle==1){
-					$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-circle', get_avatar($userid,66));
-				}else{
-					$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img', get_avatar($userid,66));
+
+				if (function_exists('get_wp_user_avatar_src')){
+					$image_url_src = get_wp_user_avatar_src($userid, 'thumbnail'); 
+					$avatarhtml = "<img src=".$image_url_src." width='66' height='66' alt='".$post->title."' class='img";
+					$directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
+					if ($directorystyle==1){
+						$avatarhtml.= ' img-circle';
+					} 
+					$avatarhtml.=" alignleft' />";
+				} else {
+					$avatarhtml = get_avatar($userid,66);
 				}
+
 
 				if ($fulldetails){
 						
@@ -346,6 +353,5 @@ echo "</div>";
 			</div>
 		</div>
 	</div>
-
 </div>
 <?php get_footer(); ?>

@@ -1382,11 +1382,10 @@ remove_action('wp_title', 'bbp_title');
   }
 
 // listing page thumbnail sizes, e.g. home page
+;
 
-add_image_size( "newshead", "650", "380", true );
-/*
-add_image_size( "homehead", "544", "307", true );
-*/
+add_image_size( "newshead", get_option('large_size_w'), get_option('large_size_h'), true );
+
 
 /**
  * Determines the difference between two timestamps.
@@ -1402,8 +1401,7 @@ add_image_size( "homehead", "544", "307", true );
  * Taken from formatting.php to include months and years - Luke Oatham 
  */
 function human_time_diff_plus( $from, $to = '' ) {
-	$gis = "general_intranet_time_zone";
-	$tzone = get_option($gis);
+	$tzone = get_option('timezone_string');
 	date_default_timezone_set($tzone);
 
 	$MONTH_IN_SECONDS = DAY_IN_SECONDS * 30;
@@ -1473,5 +1471,6 @@ function relevanssi_user_filter($hits) {
     }
     return $tothits;
 }
+
 
 ?>

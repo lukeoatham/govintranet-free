@@ -3,8 +3,6 @@
  * The Template for displaying all single event posts.
  *
  * @package WordPress
- * @subpackage Starkers
- * @since Starkers 3.0
  */
 
 get_header(); ?>

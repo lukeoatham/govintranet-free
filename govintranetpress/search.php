@@ -9,6 +9,8 @@
  //****************************************************
  // if only one result found, zoom straight to the page
 
+
+
 $gis = "general_intranet_enable_helpful_search";
 $gishelpfulsearch = get_option($gis);
 if ($gishelpfulsearch == 1){
@@ -35,7 +37,9 @@ if ($gishelpfulsearch == 1){
 				
  //*****************************************************				
 
-get_header(); ?>
+get_header(); 
+
+?>
 
 	<div class="col-lg-7 col-md-8 col-sm-12 white">
 		<div class="row">

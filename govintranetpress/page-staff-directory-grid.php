@@ -28,18 +28,19 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				<h1><?php the_title(); ?></h1>
 			</div>
 		<div>
-<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/search-staff/' ); ?>">
+		<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/search-staff/' ); ?>">
 
 	  <div class="col-lg-12 col-md-12 col-sm-12 ">
 		<div id="staff-search" class="well well-sm">
 				<div class="input-group">
-			    	 <input type="text" class="form-control pull-left" placeholder="Search for a name, job title, skills, phone number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
+			    	 <input type="text" class="form-control pull-left" placeholder="Name, job title, skills, team, number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
 					 <span class="input-group-btn">
 						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 					 </span>
 					 
 				
 				<?php
+					
 			  	$terms = get_terms('team',array('hide_empty'=>false,'parent' => '0',));
 				if ($terms) {
 					$otherteams='';
@@ -48,7 +49,10 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			  		    $themeURL= $taxonomy->slug;
 			  			$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
 			  		}  
-			  		echo "<div class='btn-group pull-right'><button type='button' class='btn btn-info dropdown-toggle4' data-toggle='dropdown'>Teams <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div>";
+			  		
+			  		$teamdrop = get_option('general_intranet_team_dropdown_name');
+			  		if ($teamdrop=='') $teamdrop = "Browse teams";
+			  		echo "<div class='btn-group pull-right'><button type='button' class='btn btn-info dropdown-toggle4' data-toggle='dropdown'>".$teamdrop." <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div><div class='btn-group pull-right'><button class='btn btn-link disabled'>Or&nbsp;</button></div>";
 				}
 
 				?>
@@ -65,8 +69,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		<!-- intentionally left blank -->
 		</div>
 	</div>
-	<div class="row">
-<?php
+	<div class="col-lg-12 col-md-12 col-sm-12">
+<?php 
 			if ($sort == 'last' || $sort == 'first'){
 
 				$letters = range('A','Z');
@@ -80,7 +84,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
 
 			<div class="col-lg-12 col-md-12 col-sm-12">
-			<?php the_content(); ?>
 					<ul id='atozlist' class="pagination">
 					
 					<?php
@@ -114,7 +117,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 								if ($gradecode && $showgrade){
 									$gradedisplay = "<span class='badge pull-right'>".$gradecode."</span>";
 								}
-							 	if (function_exists('get_wp_user_avatar')){	
+							 	if (function_exists('get_wp_user_avatar_src')){	
 										$imgsrc = get_wp_user_avatar_src($userid,'thumbnail');				
 										if ($directorystyle==1){
 											$avatarhtml = "<img class='img img-circle alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
@@ -177,7 +180,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 								
 							} else {
 							 	if (function_exists('get_wp_user_avatar')){	
-										$imgsrc = get_wp_user_avatar_src($u['user_id'],66);				
+										$imgsrc = get_wp_user_avatar_src($u['user_id'],'thumbnail');				
 										if ($directorystyle==1){
 											$avatarhtml = "<img class='img img-circle alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
 										}else{
@@ -241,6 +244,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 					</div>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12">
+<div id="sortfilter">
 <div class="col-lg-4 col-md-4 col-sm-6">
 <strong>Sort by:&nbsp;</strong>
   <?php if ($sort=="first") : ?>
@@ -275,7 +279,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 	  </button>
 	  <ul class="dropdown-menu" role="menu">
 		  <?php
-			$terms = get_terms('grade',array('hide_empty'=>false,'orderby'=>'slug','order'=>'ASC'));
+			$terms = get_terms('grade',array('hide_empty'=>false,'orderby'=>'slug','order'=>'ASC',"parent"=>0));
 			echo "<li><a href='".site_url()."/staff-directory/?sort={$sort}&amp;show=".$_REQUEST['show']."'>All grades</a></li>";
 			if ($terms) {
 		  		foreach ((array)$terms as $taxonomy ) {
@@ -287,18 +291,25 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		  		    }
 		  			echo "<li><a href='".site_url()."/staff-directory/?grade={$themeURL}&amp;sort={$sort}&amp;show=".$_REQUEST['show']."'>".$taxonomy->name."</a></li>";
 				}
-
 			}  
-
-  ?>
+?>
 	  	</ul>
 	  	</div>
-  	</div><!--end team--></div>	
+  	</div>
+</div>
+</div>	
 <?php 
 	echo '<div id="peoplenav">'.$html."</div>";
 	
 	}
 ?>
+
+<div class="col-lg-12 col-md-12 col-sm-12">
+	<div class="col-lg-12 col-md-12 col-sm-12">
+		<?php the_content(); ?>
+	</div>
+</div>
+
 	</div>
 </div>
 

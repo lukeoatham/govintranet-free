@@ -15,8 +15,11 @@ $needtoknow = '';
 
 
 //determine news type
+$icon = get_option('general_intranet_need_to_know_icon');
+if ($icon=='') $icon = "flag";
+			   
 if (get_post_meta($post->ID,'news_listing_type',true) == 1 ) {
-	$needtoknow = "<i class='glyphicon glyphicon-exclamation-sign'></i> "; 
+	$needtoknow = "<i class='glyphicon glyphicon-".$icon."'></i> "; 
 }
 
 if ($k==1 && $paged<2){ 
@@ -32,6 +35,10 @@ if ($k==1 && $paged<2){
 	echo "<div class='media-body'>";
 	
 		echo "<div><p>";
+			   $thisdate= $post->post_date;
+			   $thisdate=date("j M Y",strtotime($thisdate));
+			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
+
 	$post_cat = get_the_category();		
 				foreach($post_cat as $cat){
 			if ($cat->name != 'Uncategorized' ){
@@ -40,9 +47,6 @@ if ($k==1 && $paged<2){
 			}
 		}
 
-			   $thisdate= $post->post_date;
-			   $thisdate=date("j M Y",strtotime($thisdate));
-			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
 		echo "</p></div>";
 
 		the_excerpt(); 
@@ -69,6 +73,11 @@ if ($k==1 && $paged<2){
 	echo "<div class='media-body'>";
 	
 		echo "<div><p>";
+
+			   $thisdate= $post->post_date;
+			   $thisdate=date("j M Y",strtotime($thisdate));
+			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
+
 			$post_cat = get_the_category();		
 				foreach($post_cat as $cat){
 					if ($cat->name != 'Uncategorized' ){
@@ -77,9 +86,6 @@ if ($k==1 && $paged<2){
 					}
 				}
 
-			   $thisdate= $post->post_date;
-			   $thisdate=date("j M Y",strtotime($thisdate));
-			   echo "<span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> ";
 
 		echo "</p></div>";
 
