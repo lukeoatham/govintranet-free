@@ -159,10 +159,10 @@ class SearchAutocomplete {
 						elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
 							$linkURL=str_replace('/author', '/staff', $linkURL);
 						}
-						if ($linkURL) $linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
+						$linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
 					} else {
 						$linkURL = get_permalink( $post->ID );
-						if ($linkURL) $linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
+						$linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
 					}
 				}
 				if ($post->post_status == 'publish'){

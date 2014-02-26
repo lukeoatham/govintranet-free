@@ -36,16 +36,16 @@ function ht_listtags_shortcode($atts,$content){
 		$thisexcerpt= $list->post_excerpt;
 		$thisdate= $list->post_date;
 		$thisdate=date("j M Y",strtotime($thisdate));
-		$image_url = get_the_post_thumbnail($list->ID, 'medium', array("class"=>"img img-responsive","width"=>175,"height"=>175));	
+		$image_url = get_the_post_thumbnail($list->ID, 'thumbnail', array("class"=>"img img-responsive alignleft","width"=>100,"height"=>100));	
 		
 		$output.="
-		<div class='grid-item well well-sm'>
-			<div class='itemimage'><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$image_url."</a></div>
-				<p><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$thistitle."</a></p>";
+		<div class='grid-item'>
+			<div class='media well well-sm'><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$image_url."</a>
+				<div class='media-body'><p><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$thistitle."</a></p>";
 				if ($format=="full"){
 					$output.="<p><span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> </p>".wpautop($thisexcerpt);
 				}
-		$output.="</div>";
+		$output.="</div></div></div>";
 	
 	}
 		$output=

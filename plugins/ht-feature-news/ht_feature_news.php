@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 3.0.6
+Version: 3.0.7
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -23,21 +23,20 @@ function widget($args, $instance) {
 
     global $post;
     echo $before_widget; 
-    if ( $title )
-    	echo $before_title . $title . $after_title; 
-		echo "<div id='ht-feature-news'>";
+    if ( $title ) echo $before_title . $title . $after_title; 
+	echo "<div id='ht-feature-news'>";
 
-		//load manual sticky news stories
-		$hc = new Pod ('homepage_control');
-		$top_slot =  $hc->get_field('top_news_story');
-	
-	
-		//forumalate grid of news stories and formats
-		$totalstories =  $largeitems + $mediumitems + $thumbnailitems + $listitems; 
+	//load manual sticky news stories
+	$hc = new Pod ('homepage_control');
+	$top_slot =  $hc->get_field('top_news_story');
 
-		$newsgrid=array();
-		
-		for ($i = 1; $i <= $totalstories; $i++) {
+
+	//forumalate grid of news stories and formats
+	$totalstories =  $largeitems + $mediumitems + $thumbnailitems + $listitems; 
+
+	$newsgrid=array();
+	
+	for ($i = 1; $i <= $totalstories; $i++) {
 			if ($i <= $largeitems) {
 				$newsgrid[] = "L";
 			} 
@@ -52,18 +51,18 @@ function widget($args, $instance) {
 			}
 		}	
 
-		$siteurl = site_url();
-	
-		//manual override news stories
-		//display sticky top news stories
-	
-		$num_top_slots = count($top_slot);
-		$to_fill = $totalstories - $num_top_slots;
-		$k=-1;
-		$alreadydone= array();
-	
-		if ( $num_top_slots > 0 ){
-			foreach ($top_slot as $slot){
+	$siteurl = site_url();
+
+	//manual override news stories
+	//display sticky top news stories
+
+	$num_top_slots = count($top_slot);
+	$to_fill = $totalstories - $num_top_slots;
+	$k=-1;
+	$alreadydone= array();
+
+	if ( $num_top_slots > 0 ){ 
+			foreach ((array)$top_slot as $slot){
 				$newspod = new Pod ( 'news' , $slot['ID'] );
 				if ($newspod->get_field('post_status')!='publish') {
 					continue;
@@ -87,7 +86,7 @@ function widget($args, $instance) {
 				if ($newsgrid[$k]=="M"){
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot['ID'] ), 'medium' );
 					if ($image_uri!="" && $videostill==''){
-						echo "<a href='".$siteurl."/news/".$slot['post_name']."/'><img class='img' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot)."' /></a>";									
+						echo "<a href='".$siteurl."/news/".$slot['post_name']."/'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot)."' /></a>";									
 					} 
 				} 
 	
@@ -167,7 +166,7 @@ function widget($args, $instance) {
 			$thisURL=get_permalink($news->ID); 
 
 			if ($newsgrid[$k]=="L"){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $news->ID ), 'large' );
+				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $news->ID ), 'newshead' );
 				if ($image_uri!="" && $videostill==''){
 					echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot)."' /></a>";									
 				} 
