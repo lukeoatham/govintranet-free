@@ -25,7 +25,7 @@ if (!$notfound) $notfound = "That's an error";
 							<p><?php _e( 'The page that you are trying to reach doesn\'t exist. <br><br>Please go back or try searching.', 'twentyten' ); ?></p><br>
 							<div class='col-lg-6'>
 							
-								<form class="form-horizontal" role="form" action="<?php echo home_url( '/' ); ?>">
+								<form class="form-horizontal" role="form" action="<?php echo site_url( '/' ); ?>">
 							
 								  <div class="col-lg-12">
 								    <div class="input-group">
