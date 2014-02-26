@@ -20,7 +20,7 @@ get_header(); ?>
 			<div class="well">
 				<h1><?php echo the_title(); ?></h1>
 				<?php echo the_content(); ?>
-					<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url(); ?>/">
+					<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url('/'); ?>">
 					<label for="cat">Search in: </label>
 					<div class="form-group input-md">
 						<select name='cat' id='cat' class='form-control input-md'>
