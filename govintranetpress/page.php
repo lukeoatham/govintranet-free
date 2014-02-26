@@ -8,8 +8,6 @@
  * different template.
  *
  * @package WordPress
- * @subpackage Starkers
- * @since Starkers 3.0
  */
 
 get_header(); ?>
@@ -42,6 +40,7 @@ get_header(); ?>
 								$thispage = new Pod('page',$id);
 						$relatedpages = $thispage->get_field('page_related_pages');
 						$relatedtasks = $thispage->get_field('page_related_tasks');
+						$relatedteams = get_the_terms( $id, 'team' );
 						if ($relatedpages){
 							foreach ((array)$relatedpages as $r){
 								if ($r['post_status'] == 'publish' && $r['ID'] != $id){
@@ -56,11 +55,11 @@ get_header(); ?>
 								}
 							}
 						}
-						$relatedteams = get_the_terms( $id, 'team' );
-						foreach ($relatedteams as $r){
-								$html.= "<li><a href='".site_url()."/team/".$r->slug."'>".$r->name."</a>&nbsp;<span class='glyphicon glyphicon-list-alt'></span></li>";
+						if ($relatedteams){
+							foreach ($relatedteams as $r){
+									$html.= "<li><a href='".site_url()."/team/".$r->slug."'>".$r->name."</a>&nbsp;<span class='glyphicon glyphicon-list-alt'></span></li>";
+							}
 						}
-
 						if ($html){
 							echo "<div class='widget-box'>
 							<h3 class='widget-title'>Related</h3>
