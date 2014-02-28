@@ -40,7 +40,7 @@ get_header(); ?>
 								$thispage = new Pod('page',$id);
 						$relatedpages = $thispage->get_field('page_related_pages');
 						$relatedtasks = $thispage->get_field('page_related_tasks');
-						$relatedteams = get_the_terms( $id, 'team' );
+						if (taxonomy_exists('team')) $relatedteams = get_the_terms( $id, 'team' );
 						if ($relatedpages){
 							foreach ((array)$relatedpages as $r){
 								if ($r['post_status'] == 'publish' && $r['ID'] != $id){

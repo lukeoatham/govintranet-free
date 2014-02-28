@@ -101,6 +101,13 @@ ul.subteams li {
 	padding: 0.5em;
 }
 /* SEARCH */
+#staff-search .btn {
+	font-size: 16px;
+}
+
+#searchformdiv .btn {
+	font-size: 16px;
+}
 
 #sbc-search label {
 	margin-left: -0.7em;

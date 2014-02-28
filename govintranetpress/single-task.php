@@ -4,17 +4,26 @@
  *
  * @package WordPress
  */
+ 
+ 	$taskurl = $_SERVER['REQUEST_URI'];
+ 	$taskurl = explode('/', $taskurl);
+	$rdurl = array_pop($taskurl);
+	$rdurl = array_pop($taskurl);
+	$taskpod = new Pod('task', $rdurl); 
+	$external_link = $taskpod->get_field('external_link'); 
+	if ($external_link){
+		wp_redirect($external_link); 
+		exit;
+	}	
 
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 <?php
-	
 	$chapter_header = false;
 	$singletask = false;
 	$pagetype = "";
-	
-	$taskpod = new Pod('task', $id);
+	$taskpod = new Pod('task', $id); 
 	$current_task = $id;
 	$parent_guide = $taskpod->get_field('parent_guide'); 
 	$parent_guide_id = $parent_guide[0]['ID']; 
@@ -216,48 +225,56 @@ if ($pagetype=="guide"):
 				$podtask = new Pod('task', $id);
 				$related_links = $podtask->get_field('related_tasks');
 				$related_pages = $podtask->get_field('related_pages');
-				$relatedteams = get_the_terms( $id, 'team' );
+				if (taxonomy_exists('team')) $relatedteams = get_the_terms( $id, 'team' );
 
 				if ($related_links || $related_pages || $relatedteams){
 					$html='';
-					foreach ($related_links as $rlink){ 
-						if ($rlink['post_status'] == 'publish' && $rlink['ID'] != $id ) {
-								$taskpod = new Pod ('task' , $rlink['ID']);
-								$taskparent=$taskpod->get_field('parent_guide');
-								$title_context="";
-								if ($taskparent){
-									$tparent_guide_id = $taskparent[0]['ID']; 		
-									$taskparent = get_post($tparent_guide_id);
-									$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-								}		
-						$html.= "<li><a href='".site_url()."/task/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";
+					if ($related_links){
+						foreach ($related_links as $rlink){ 
+							if ($rlink['post_status'] == 'publish' && $rlink['ID'] != $id ) {
+									$taskpod = new Pod ('task' , $rlink['ID']);
+									$taskparent=$taskpod->get_field('parent_guide');
+									$title_context="";
+									if ($taskparent){
+										$tparent_guide_id = $taskparent[0]['ID']; 		
+										$taskparent = get_post($tparent_guide_id);
+										$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+									}		
+							$html.= "<li><a href='".site_url()."/task/".$rlink['post_name']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";
+							}
 						}
 					}
-					foreach ($related_pages as $rlink){ 
-						if ($rlink['post_status'] == 'publish' && $rlink['ID'] != $id ) {
-								$taskpod = new Pod ('page' , $rlink['ID']);
-								$html.= "<li><a href='".$rlink['guid']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";
+					if ($related_pages){
+						foreach ($related_pages as $rlink){ 
+							if ($rlink['post_status'] == 'publish' && $rlink['ID'] != $id ) {
+									$taskpod = new Pod ('page' , $rlink['ID']);
+									$html.= "<li><a href='".$rlink['guid']."'>".govintranetpress_custom_title($rlink['post_title']).$title_context."</a></li>";
+							}
 						}
 					}
-					foreach ($relatedteams as $r){
-								$html.= "<li><a href='".site_url()."/team/".$r->slug."'>".$r->name."</a>&nbsp;<span class='glyphicon glyphicon-list-alt'></span></li>";
+					if ($relatedteams){
+						foreach ($relatedteams as $r){
+									$html.= "<li><a href='".site_url()."/team/".$r->slug."'>".$r->name."</a>&nbsp;<span class='glyphicon glyphicon-list-alt'></span></li>";
+						}
 					}
 					echo "<div class='widget-box list'>";
 					echo "<h3 class='widget-title'>Related</h3>";
-					echo $html;
 					echo "<ul>";
+					echo $html;
 					echo "</ul></div>";
 				}
 
 				$post_categories = wp_get_post_categories( $post->ID );
 				$cats = array();
 				$catsfound = false;	
-					$catshtml='';
+				$catshtml='';
+				if ($post_categories){
 					foreach($post_categories as $c){
-					$cat = get_category( $c );
-					$catsfound = true;
-					$catshtml.= "<span class='wptag t".$cat->term_id."'><a  href='".site_url()."/task-by-category/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+						$cat = get_category( $c );
+						$catsfound = true;
+						$catshtml.= "<span class='wptag t".$cat->term_id."'><a  href='".site_url()."/task-by-category/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 					}
+				}
 					
 				if ($catsfound){
 					echo "<div class='widget-box'><h3>Categories</h3><p class='taglisting page'>".$catshtml."</p></div>";
