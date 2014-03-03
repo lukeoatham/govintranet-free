@@ -37,7 +37,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 					 <span class="input-group-btn">
 						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 					 </span>
-					 
 				
 				<?php
 					
@@ -82,15 +81,14 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				
 				?>	
 
-
 			<div class="col-lg-12 col-md-12 col-sm-12">
 					<ul id='atozlist' class="pagination">
 					
 					<?php
 					if ($sort == 'last'){
-						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'last_name' order by meta_value asc";
+						$q = "select user_id, meta_value as name from $wpdb->usermeta where meta_key = 'last_name' order by meta_value asc";
 					} elseif ($sort == "first"){
-						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'first_name' order by meta_value asc";
+						$q = "select user_id, meta_value as name from $wpdb->usermeta where meta_key = 'first_name' order by meta_value asc";
 					}					
 					$userq = $wpdb->get_results($q,ARRAY_A);
 					$html="<div class='col-lg-12 col-md-12 col-sm-12'>";
@@ -125,7 +123,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 											$avatarhtml = "<img class='img alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
 										}
 								} else {
-									$avatarhtml = get_avatar($u['user_id'],66);
+									$avatarhtml = get_avatar($userid,66);
+									$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
 								}
 							if ($fulldetails){
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
@@ -187,15 +186,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 											$avatarhtml = "<img class='img alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
 										}
 								} else {
-									$avatarhtml = get_avatar($u['user_id'],66);
+									$avatarhtml = get_avatar($u['user_id'],66,array('class'=>'alignleft'));
+									$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
 								}							
 								$html .= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								// display team name(s)
 								$poduser = new Pod ('user' , $userid);
 								$terms = $poduser->get_field('user_team');
 
-								foreach ($terms as $taxonomy ) { //print_r($taxonomy); 
-									//echo $taxonomy['name'];
+								foreach ($terms as $taxonomy ) { 
 						  		    $themeid = $taxonomy['term_id'];
 						  		    $themeparent = $taxonomy['parent']; 
 
@@ -210,9 +209,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 							  		    }
 							  			$teamlist= $newteam->name;
 							  			$html.= "".$teamlist."<br>";
-							  			
 						  			}
-	
 						  		}
 							
 								if ( get_user_meta($userid ,'user_job_title',true )) {
@@ -221,15 +218,13 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 									$html .= '<span class="small">'.$meta."</span><br>";
 								}
 
-							if ( get_user_meta($userid ,'user_telephone',true )) $html .= '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html .= '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+								if ( get_user_meta($userid ,'user_telephone',true )) $html .= '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+								if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html .= '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
 												
 								$html .= "</div></div></a></div></div>";
-
-								
 							}																							
 						}
-						}
+					}
 						$activeletter = ($_REQUEST['show'] == strtoupper($thisletter)) ? "active" : null;
 
 						$letterlink[$thisletter] = ($hasentries[$thisletter] > 0) ? "<li  class='{$thisletter} {$activeletter}'><a href='?grade=".$grade."&amp;show=".$thisletter."&amp;sort={$sort}'>".$thisletter."</a></li>" : "<li class='{$thisletter} {$activeletter}'><a>".$thisletter."</a></li>";

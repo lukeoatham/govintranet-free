@@ -74,11 +74,4 @@ function setCookie(name,value,expires,path,domain,secure) {
     return null;
 }
 
-function pauseProfileNudge(name) { // set a short cookie if user hides nudge
-	setCookie(name,'closed','10080','/',0,1); 
-	jQuery(document).ready(function() { 
-	                jQuery('#ht_profile_nudge').delay(0).slideUp();
-	});
-	return true;
-}
 
