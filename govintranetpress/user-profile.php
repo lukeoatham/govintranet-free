@@ -42,7 +42,7 @@ $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = s
 	?>
 	</div>
 	<div class="col-lg-5 col-md-5 col-sm-9">
-		<?
+		<?php
 		  $terms = $poduser->get_field('user_team');
 			if ($terms) {
 			echo '<h3 class="contacthead">Team</h3>';
