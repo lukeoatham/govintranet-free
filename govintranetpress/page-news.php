@@ -29,6 +29,7 @@ get_header();
 
 					
 					$tzone = get_option('timezone_string');
+					
 					date_default_timezone_set($tzone);
 					
 					$tdate= getdate();

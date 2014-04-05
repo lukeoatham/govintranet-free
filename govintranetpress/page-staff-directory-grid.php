@@ -33,10 +33,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 	  <div class="col-lg-12 col-md-12 col-sm-12 ">
 		<div id="staff-search" class="well well-sm">
 				<div class="input-group">
-			    	 <input type="text" class="form-control pull-left" placeholder="Name, job title, skills, team, number..." name="q" id="s2" value="<?php echo $_GET['s'];?>">
+			    	 <input type="text" class="form-control pull-left" placeholder="Name, job title, skills, team, number..." name="q" id="s2">
 					 <span class="input-group-btn">
 						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 					 </span>
+					 
 				
 				<?php
 					
@@ -46,7 +47,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			  		foreach ((array)$terms as $taxonomy ) {
 			  		    $themeid = $taxonomy->term_id;
 			  		    $themeURL= $taxonomy->slug;
-			  			$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
+			  			$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".govintranetpress_custom_title($taxonomy->name)."</a></li>";
 			  		}  
 			  		
 			  		$teamdrop = get_option('general_intranet_team_dropdown_name');
@@ -81,14 +82,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				
 				?>	
 
+
 			<div class="col-lg-12 col-md-12 col-sm-12">
 					<ul id='atozlist' class="pagination">
 					
 					<?php
 					if ($sort == 'last'){
-						$q = "select user_id, meta_value as name from $wpdb->usermeta where meta_key = 'last_name' order by meta_value asc";
+						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'last_name' order by meta_value asc";
 					} elseif ($sort == "first"){
-						$q = "select user_id, meta_value as name from $wpdb->usermeta where meta_key = 'first_name' order by meta_value asc";
+						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'first_name' order by meta_value asc";
 					}					
 					$userq = $wpdb->get_results($q,ARRAY_A);
 					$html="<div class='col-lg-12 col-md-12 col-sm-12'>";
@@ -146,7 +148,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 							  		    }
 							  		    
 							  		    $parentslug = $parentteam->slug;
-							  			$teamlist= $parentteam->name;
+							  			$teamlist= govintranetpress_custom_title($parentteam->name);
 							  			$html.= "".$teamlist."<br>";
 			
 							  		}
@@ -193,23 +195,26 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 								// display team name(s)
 								$poduser = new Pod ('user' , $userid);
 								$terms = $poduser->get_field('user_team');
-
-								foreach ($terms as $taxonomy ) { 
+								unset($poduser);
+								foreach ($terms as $taxonomy ) { //print_r($taxonomy); 
+									//echo $taxonomy['name'];
 						  		    $themeid = $taxonomy['term_id'];
 						  		    $themeparent = $taxonomy['parent']; 
 
 						  			
 						  			if ( $themeparent == 0 ) { 
-							  			$teamlist = $taxonomy['name']; 
+							  			$teamlist = govintranetpress_custom_title($taxonomy['name']); 
 							  			$html.= "".$teamlist."<br>"; //echo $teamlist;
 						  			} else {
 							  		    while ($themeparent!=0){
 							  		    	$newteam = get_term_by('id', $themeparent, 'team'); 
 								  			$themeparent = $newteam->parent; 
 							  		    }
-							  			$teamlist= $newteam->name;
+							  			$teamlist= govintranetpress_custom_title($newteam->name);
 							  			$html.= "".$teamlist."<br>";
+							  			
 						  			}
+	
 						  		}
 							
 								if ( get_user_meta($userid ,'user_job_title',true )) {
@@ -218,13 +223,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 									$html .= '<span class="small">'.$meta."</span><br>";
 								}
 
-								if ( get_user_meta($userid ,'user_telephone',true )) $html .= '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-								if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html .= '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+							if ( get_user_meta($userid ,'user_telephone',true )) $html .= '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html .= '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
 												
 								$html .= "</div></div></a></div></div>";
+
+								
 							}																							
 						}
-					}
+						}
 						$activeletter = ($_REQUEST['show'] == strtoupper($thisletter)) ? "active" : null;
 
 						$letterlink[$thisletter] = ($hasentries[$thisletter] > 0) ? "<li  class='{$thisletter} {$activeletter}'><a href='?grade=".$grade."&amp;show=".$thisletter."&amp;sort={$sort}'>".$thisletter."</a></li>" : "<li class='{$thisletter} {$activeletter}'><a>".$thisletter."</a></li>";

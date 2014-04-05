@@ -21,7 +21,7 @@ if ($placeholder!=''){
 	<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo site_url( '/' ); ?>">
 	  <div class="row">
 		  <div class="input-group">
-	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" value="<?php echo $_GET['s'];?>">
+	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" value="<?php echo the_search_query();?>">
 			 <span class="input-group-btn">
 				 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 			 </span>

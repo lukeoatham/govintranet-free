@@ -64,7 +64,7 @@
 		
 		$linkHTML ='<div id="ajax-post-container"></div>
                   <div class="more_post">
-                      <a class="large awesome '.$buttonStyle.'" id="ajax_pagination_btn" href="#" ><span class="_ajax_link_text">'.$readMore.'</span></a> <span class="_ajaxpaging_loading" style="display: none;"><img src="'.$src_path.'" alt="Loading.." /></span>
+                      <a class="btn btn-primary" id="ajax_pagination_btn" href="#" ><span class="_ajax_link_text">'.$readMore.'</span></a> <span class="_ajaxpaging_loading" style="display: none;"><img src="'.$src_path.'" alt="Loading.." /></span>
                   </div>';
 		$linkHTML .= '<script type="text/javascript">jQuery(function() {
   jQuery("#ajax_pagination_btn").ajaxpaging({

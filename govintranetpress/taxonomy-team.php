@@ -24,7 +24,7 @@ get_header(); ?>
 
 		$slug = pods_url_variable(-1);
 		$terms = get_term_by('slug',$slug,'team',ARRAY_A); 
-		$teamname = $terms['name'];
+		$teamname = govintranetpress_custom_title($terms['name']);
 		$termid = $terms['term_id'];
 		$teamparent = $terms['parent'];
 		
@@ -52,7 +52,7 @@ get_header(); ?>
 						  		foreach ((array)$terms as $taxonomy ) {
 						  		    $themeid = $taxonomy->term_id;
 						  		    $themeURL= $taxonomy->slug;
-						  			$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".$taxonomy->name."</a></li>";
+						  			$otherteams.= " <li><a href='".site_url()."/team/{$themeURL}/'>".govintranetpress_custom_title($taxonomy->name)."</a></li>";
 						  		}  
 						  		$teamdrop = get_option('general_intranet_team_dropdown_name');
 						  		if ($teamdrop=='') $teamdrop = "Browse teams";
@@ -74,7 +74,7 @@ jQuery("#s2").focus();
 <?php
 			if ($teamparent){
 				$parentteam = get_term_by('id',$teamparent,'team');
-				echo "<h3><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".$parentteam->name."</a></h3>";
+				echo "<h3><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".govintranetpress_custom_title($parentteam->name)."</a></h3>";
 			}
 ?>	<div id="peoplenav"><a name='teamtop'></a>
 			<div class='col-lg-12'><h2><?php echo $teamname; ?></h2>
@@ -87,7 +87,7 @@ $terms = get_terms('team',array('hide_empty'=>false,'parent' => $termid));
 	  		foreach ((array)$terms as $taxonomy ) {
 	  		    $themeid = $taxonomy->term_id;
 	  		    $themeURL= $taxonomy->slug;
-	  			$teamstr.= "<a href='#{$themeURL}'>".$taxonomy->name."</a> <span class='glyphicon glyphicon-stop light small'> </span> ";
+	  			$teamstr.= "<a href='#{$themeURL}'>".govintranetpress_custom_title($taxonomy->name)."</a> <span class='glyphicon glyphicon-stop light small'> </span> ";
 			}
 			$teamstr=substr($teamstr, 0, -60);
 			echo "<div class=col-lg-12 col-md-12 col-sm-12'><strong>Sub-teams: </strong><br>".$teamstr."</div>";
@@ -118,25 +118,27 @@ $terms = get_terms('team',array('hide_empty'=>false,'parent' => $termid));
 			$newteam = get_term_by('id', $tq, 'team');//print_r($newteam);
 
 			if ($chevron!=0){
-				echo "<a name='{$newteam->slug}'></a><div class='col-lg-12 col-md-12 col-sm-12  home page'><div class='category-block'><h3>".$newteam->name;
+				echo "<a name='{$newteam->slug}'></a><div class='col-lg-12 col-md-12 col-sm-12  home page'><div class='category-block'><h3>".govintranetpress_custom_title($newteam->name);
 				echo " <a href='#teamtop'><span class='glyphicon glyphicon-chevron-up'></span></a>";	
 				echo "</h3></div></div>";
 			} 
 			$chevron=1;
  			
-	 		$q = "select user_id from $wpdb->usermeta join $wpdb->terms on $wpdb->terms.term_id = $wpdb->usermeta.meta_value where user_id in (select user_id from $wpdb->usermeta as a where a.meta_key = 'user_team' and a.meta_value = ".$tq." ) and meta_key = 'user_grade' ;
+	 		$q = "select user_id from wp_usermeta join wp_terms on wp_terms.term_id = wp_usermeta.meta_value where user_id in (select user_id from wp_usermeta as a where a.meta_key = 'user_team' and a.meta_value = ".$tq." ) and meta_key = 'user_grade' ;
  "; 
  			$user_query = $wpdb ->get_results($q);
  			$counter=0;
  			$tcounter=0;
  			$uid = array();
  			$ugrade = array();
+ 			$uorder = array();
  			$ulastname = array();
  			
  			
  			foreach ($user_query as $u){//print_r($u);
 	 			$uid[] = $u->user_id;
 	 			$ulastname[] = get_user_meta($u->user_id,'last_name',true);
+	 			$uorder[] = get_user_meta($u->user_id,'user_order',true);
 	 			$g = get_user_meta($u->user_id,'user_grade',true); 
 		 			$ugrade[] =  $g['slug'];		 			
 	 			if ($g['parent']!=0){
@@ -146,7 +148,7 @@ $terms = get_terms('team',array('hide_empty'=>false,'parent' => $termid));
  			}
  			
 				
- 			array_multisort($ugrade, $ulastname, $uid);
+ 			array_multisort($ugrade, $uorder, $ulastname, $uid);
  			
  			foreach ($uid as $u){//print_r($u);
  				$g = get_user_meta($u,'user_grade',false);
@@ -171,7 +173,7 @@ $terms = get_terms('team',array('hide_empty'=>false,'parent' => $termid));
 				if ($context=='') $context="staff";
 				$icon = "user";			
 				$user_info = get_userdata($userid);
-				$userurl = site_url().'/staff/'.$user_info->user_login;
+				$userurl = site_url().'/staff/'.$user_info->user_nicename;
 				$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
 
 				if (function_exists('get_wp_user_avatar_src')){
@@ -240,9 +242,9 @@ echo "<div class='col-lg-12 col-md-12 col-sm-12'>";
 
 //*** find ungraded staff
 
-$q = "select distinct t1.user_id from $wpdb->usermeta as t1
-left outer join $wpdb->terms on $wpdb->terms.term_id = t1.meta_value 
-WHERE t1.user_id in (select a.user_id from $wpdb->usermeta as a where a.meta_key = 'user_team' and a.meta_value = ".$newteam->term_id." ) ";
+$q = "select distinct t1.user_id from wp_usermeta as t1
+left outer join wp_terms on wp_terms.term_id = t1.meta_value 
+WHERE t1.user_id in (select a.user_id from wp_usermeta as a where a.meta_key = 'user_team' and a.meta_value = ".$newteam->term_id." ) ";
 		
 		 $user_query = $wpdb ->get_results($q);
 
@@ -272,7 +274,7 @@ WHERE t1.user_id in (select a.user_id from $wpdb->usermeta as a where a.meta_key
 				if ($context=='') $context="staff";
 				$icon = "user";			
 				$user_info = get_userdata($userid);
-				$userurl = site_url().'/staff/'.$user_info->user_login;
+				$userurl = site_url().'/staff/'.$user_info->user_nicename;
 				$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
 
 
@@ -343,6 +345,10 @@ WHERE t1.user_id in (select a.user_id from $wpdb->usermeta as a where a.meta_key
 if ($oktoshow){
 	echo "</div>";
 }
+
+
+//***
+
 
 
 echo "</div>"; 			

@@ -64,8 +64,8 @@ $tq =  						array(
  						'post_type'=>$pt,
  						'paged'=>$paged,
  						'posts_per_page'=> 10,
- 						'orderby'=>'title',
- 						'order'=>'ASC'
+ 						'orderby'=>'date',
+ 						'order'=>'DESC'
  						);
  						if ($pt=='any'){
  				$tagquery=
@@ -105,8 +105,8 @@ wp_posts.post_type='" . $pt . "'";
  			'post__in'=>$carray,
  			'paged'=>$paged,
  			'posts_per_page'=>10,
- 			'orderby'=>'title',
- 			'order'=>'ASC'
+ 			'orderby'=>'date',
+ 			'order'=>'DESC'
  			));
  			
 			$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -210,7 +210,7 @@ elseif ($post_type=='User'):
 <?php 
 else: ?>
 	<h3>				
-	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo "<small>".$title_context."</small>"; ?></a></h3>
+	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo "</a> <small>".$title_context."</small>"; ?></h3>
 
 <?php
 endif;

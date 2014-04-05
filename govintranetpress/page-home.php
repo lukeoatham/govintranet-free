@@ -95,7 +95,7 @@ get_header(); ?>
 
 			<?php 	dynamic_sidebar('home-widget-area3'); 
 				if ($forumsupport):			?>	
-					<div class="category-block"><hr><p><strong><a title="More in forums" class="small" href="<?php echo site_url();?>/forums/">More in forums</a></strong> <i class='glyphicon glyphicon-chevron-right small'></i></p></div>
+					<div class="category-block"><hr><p><strong><a title="More in forums" class="small" href="<?php echo site_url();?>/about/yourspace/">More in forums</a></strong> <i class='glyphicon glyphicon-chevron-right small'></i></p></div>
 			<?php 	
 				endif;
 				dynamic_sidebar('home-widget-area4'); ?>	

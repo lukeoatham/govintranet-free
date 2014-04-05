@@ -57,9 +57,9 @@ get_header(); ?>
             $gis = "general_intranet_forum_support";
 			$forumsupport = get_option($gis); //echo $forumsupport;
 			if ($forumsupport){
-                echo "<a class='pull-left' href='".site_url()."/staff/" . $user->user_login . "/'>";
+                echo "<a class='pull-left' href='".site_url()."/staff/" . $user->user_nicename . "/'>";
             } else {
-                echo "<a class='pull-left' href='".site_url()."/author/" . $user->user_login . "/'>";	                        
+                echo "<a class='pull-left' href='".site_url()."/author/" . $user->user_nicename . "/'>";	                        
             }
             echo get_avatar($user->ID, 96);
             echo "</a>";
@@ -70,10 +70,10 @@ get_header(); ?>
 			echo "<strong>".$jobtitle."</strong><br>";
             if ($forumsupport){
                 echo "<a href='".site_url()."/staff/";
-				echo $user->user_login . "/' title='{$user->display_name}'>Staff profile</a><br>";
+				echo $user->user_nicename . "/' title='{$user->display_name}'>Staff profile</a><br>";
             }
             echo "<a href='".site_url()."/author/";
-			echo $user->user_login . "/' title='{$user->display_name}'>Blog posts</a><br>";
+			echo $user->user_nicename . "/' title='{$user->display_name}'>Blog posts</a><br>";
 //						echo "<br>".$bio;
 			echo "</div></div></div>";
 			

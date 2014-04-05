@@ -9,8 +9,6 @@
  //****************************************************
  // if only one result found, zoom straight to the page
 
-
-
 $gis = "general_intranet_enable_helpful_search";
 $gishelpfulsearch = get_option($gis);
 if ($gishelpfulsearch == 1){
@@ -37,9 +35,7 @@ if ($gishelpfulsearch == 1){
 				
  //*****************************************************				
 
-get_header(); 
-
-?>
+get_header(); ?>
 
 	<div class="col-lg-7 col-md-8 col-sm-12 white">
 		<div class="row">
@@ -80,7 +76,9 @@ get_header();
 	<h1><?php printf( __( 'Search results for: %s', 'twentyten' ), '' . $s . '' ); ?></h1>
 	<?php
 	if ($_GET['pt']=='forums'){
-		echo "<p class='news_date'>Showing results from forums. <a href='".site_url()."/?s=".$_GET['s']."'>Search the intranet</a></p>";
+		echo "<p class='news_date'>Showing results from forums. <a href='".site_url()."/?s=";
+		echo the_search_query();
+		echo "'>Search the intranet</a></p>";
 	}
 	if ($wp_query->found_posts>1  && $_GET['pt'] != 'user' ){
 		echo "<p class='news_date'>Found ".$wp_query->found_posts." results</p>";
@@ -93,7 +91,7 @@ get_header();
 		  <div class="col-lg-12">
 			<div id="staff-search" class="well">
 					<div class="input-group">
-				    	 <input type="text" class="form-control typeahead" placeholder="Search" name="s" id="s2" value="<?php echo $_GET['s'];?>">
+				    	 <input type="text" class="form-control typeahead" placeholder="Search" name="s" id="s2" value="<?php echo the_search_query();?>">
 				    	 <input type="hidden" name="pt" value="user">
 						 <span class="input-group-btn">
 						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
@@ -121,7 +119,7 @@ get_header();
 ?>
 	<h1><?php echo $searchnotfound; ?></h1>
 	<script type="text/javascript">
-	_gaq.push(['_trackEvent', 'Search', 'Empty results', '<?php echo $_GET['s'];?>']);
+	_gaq.push(['_trackEvent', 'Search', 'Empty results', '<?php echo the_search_query();?>']);
 	</script>
 	<?php 
 	$pt = $_GET['post_type'];
@@ -171,7 +169,7 @@ $q = $_GET['s'];
 			<form class="form-horizontal" role="form" action="<?php echo site_url( '/' ); ?>">
 			  <div class="col-lg-12">
 			    <div class="input-group">
-					<input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo $_GET['s'];?>">
+					<input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo the_search_query();?>">
 					<div class="input-group-btn">
 						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 			      </div><!-- /btn-group -->

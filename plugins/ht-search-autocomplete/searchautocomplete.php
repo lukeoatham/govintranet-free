@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: Search Autocomplete
- * Plugin URI: http://hereswhatidid.com/search-autocomplete/
+ * Plugin Name: HT Search Autocomplete
+ * Plugin URI: http://www.helpfultechnology.com
  * Description: Adds jQuery Autocomplete functionality to the default WordPress search box.
  * Version: 2.1.2
- * Author: Gabe Shackle
+ * Author: Gabe Shackle, modified by Luke Oatham
  * Author URI: http://hereswhatidid.com
  * License: GPLv2 or later
  */
@@ -159,10 +159,10 @@ class SearchAutocomplete {
 						elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
 							$linkURL=str_replace('/author', '/staff', $linkURL);
 						}
-						$linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
+						if ($linkURL) $linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
 					} else {
 						$linkURL = get_permalink( $post->ID );
-						$linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
+						if ($linkURL) $linkURL = apply_filters( 'search_autocomplete_modify_url', $linkURL, $tempObject );
 					}
 				}
 				if ($post->post_status == 'publish'){

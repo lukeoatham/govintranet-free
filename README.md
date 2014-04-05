@@ -5,7 +5,7 @@ Contributors: lukeoatham
 Link: http://www.helpfultechnology.com  
 Tags: intranet, gov.uk  
 Requires at least: 3.4  
-Tested up to: 3.8  
+Tested up to: 3.8.1
 Stable Pods tag: 2.3.18  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
@@ -47,6 +47,12 @@ If you have trouble with your existing post types you'll need to update manually
 
 
 ## Changelog ##
+
+
+### 3.0.8 - 5th April 2014 ###
+* Final templates for staff directory and team pages
+* New profile nudge widget 
+* General bug fixes    
 
 
 ### 3.0.7 - 28th January 2014 ###

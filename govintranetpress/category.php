@@ -8,24 +8,25 @@
 get_header(); 
 
 ?>
-
-<div class="row white content-wrapper">
-	<div class="col-lg-9 white">
-		<h1><?php
-			printf( __( 'Category: %s', 'twentyten' ), '' . single_tag_title( '', false ) . '' );
-		?></h1>
-
 <?php
-/* Run the loop for the tag archive to output the posts
- * If you want to overload this in a child theme then include a file
- * called loop-tag.php and that will be used instead.
- */
- 
- get_template_part( 'loop', 'category' );
-
+	if ( have_posts() )
+		the_post();
 ?>
-	</div>
+		
+			<div class="col-lg-9 col-md-9 white">
+				<h1><?php
+					printf( __( 'Category: %s', 'govintranetpress' ), '' . single_tag_title( '', false ) . '' );
+				?></h1>
+		
+				<?php
 
-</div>
+				 rewind_posts();
+				 
+				 get_template_part( 'loop', 'category' );
 
+				 wp_reset_query();				
+
+				?>
+			</div>
+		
 <?php get_footer(); ?>

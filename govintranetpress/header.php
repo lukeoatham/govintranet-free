@@ -158,6 +158,18 @@ header('X-Frame-Options: SAMEORIGIN');
 		margin-top: .7em;
 		}
 		";
+		
+		echo "
+		.bbp-user-page .panel-heading {";
+		if ($giscc==1){
+			echo "border-bottom: ".$gisheight."px solid ".RGBToHTML($topborder).";";
+		} else {
+			echo "border-bottom: ".$gisheight."px solid ".$gishex.";";
+		}
+		echo "
+		}
+		";
+		
 		echo "
 		.page-template-page-news-php h1 {
 		border-bottom: ".$gisheight."px solid ".RGBToHTML($topborder).";

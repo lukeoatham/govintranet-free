@@ -81,7 +81,7 @@ foreach ((array)$sr as $u){
 					if ($context=='') $context="staff";
 					$icon = "user";			
 					$user_info = get_userdata($userid);
-					$userurl = site_url().'/staff/'.$user_info->user_login;
+					$userurl = site_url().'/staff/'.$user_info->user_nicename;
 					$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
 					if ( function_exists('get_wp_user_avatar')){
 						$image_url = get_wp_user_avatar($userid,130,'left');
@@ -113,7 +113,7 @@ foreach ((array)$sr as $u){
 							if ($terms) {				
 								$teamlist = array();
 						  		foreach ($terms as $taxonomy ) {
-						  			$teamlist[]= $taxonomy['name'];
+						  			$teamlist[]= govintranetpress_custom_title($taxonomy['name']);
 						  			echo implode(" &raquo; ", $teamlist)."<br>";
 		
 								}
@@ -152,7 +152,7 @@ foreach ((array)$sr as $u){
 							if ($terms) {				
 								$teamlist = array();
 						  		foreach ($terms as $taxonomy ) {
-						  			$teamlist[]= $taxonomy['name'];
+						  			$teamlist[]= govintranetpress_custom_title($taxonomy['name']);
 						  			echo implode(" &raquo; ", $teamlist)."<br>";
 		
 								}
@@ -177,7 +177,7 @@ foreach ((array)$sr2 as $post){
 <div class="row"><div class="col-lg-12"><br>
 
 		<h3 class='postlist'>				
-				<a href="<?php echo site_url()."/team/"; echo $post['slug']; ?>" rel="bookmark"><?php echo $post['name'];  ?> (Team)</a></h3>
+				<a href="<?php echo site_url()."/team/"; echo $post['slug']; ?>" rel="bookmark"><?php echo govintranetpress_custom_title($post['name']);  ?> (Team)</a></h3>
 				<div class='media'>
 <?php
 						echo "<div class='media-body'>";

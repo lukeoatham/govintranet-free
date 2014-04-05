@@ -58,12 +58,12 @@ $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = s
 			  		    while ($themeparent!=0){
 			  		    	$parentteam = get_term_by('id', $themeparent, 'team'); 
 			  		    	$parentURL = $parentteam->slug;
-			  		    	$parentname =$parentteam->name; 
+			  		    	$parentname =govintranetpress_custom_title($parentteam->name); 
 				  			$teamlist[]= " <a href='".site_url()."/team/{$parentURL}'>".$parentname."</a>";   
 				  			$themeparent = $parentname['parent']; 
 			  		    }
 			  		    
-			  			$teamlist[]= " <a href='".site_url()."/team/{$themeURL}'>".$taxonomy['name']."</a>";
+			  			$teamlist[]= " <a href='".site_url()."/team/{$themeURL}'>".govintranetpress_custom_title($taxonomy['name'])."</a>";
 			  			echo "<strong>Team:</strong> ".implode(" &raquo; ", $teamlist)."<br>";
 					$teamlist=array();
 
@@ -128,7 +128,7 @@ if (count($uqblog)>0 || count($uqforum) > 0):
 			<?php foreach ($uqblog as $u){ //print_r($u);
 				$utitle = get_the_title($u['ID']); 
 				$ulink = get_permalink($u['ID']); 
-				echo "<li><a href='".$ulink."'>".$utitle."</a></ul>";
+				echo "<li><a href='".$ulink."'>".$utitle."</a></li>";
 			}
 			?>
 			</ul>
