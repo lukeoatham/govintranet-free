@@ -1,5 +1,5 @@
 <?php
-/* Template name: Staff directory grid*/
+/* Template name: Staff directory grid */
 					
 get_header(); ?>
 
@@ -74,10 +74,14 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			if ($sort == 'last' || $sort == 'first'){
 
 				$letters = range('A','Z');
+
+				$activeletter = ($_REQUEST['show'] == strtoupper($thisletter)) ? "active" : null;
 				
 				foreach($letters as $l) {
 					
-					$letterlink[$l] = "<li class='disabled {$l}'><a>".$l."</a></li>";
+					$letterlink[$l] = "<li class='{$l}'><a>".$l."</a></li>";
+					$hasentries[$l] = $hasentries[$l] + 1;				
+					$letterlink[$l] = "<li  class='{$l} {$activeletter}'><a href='?grade=".$grade."&amp;show=".$l."&amp;sort={$sort}'>".$l."</a></li>";						
 				}				
 				
 				?>	
@@ -88,9 +92,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 					
 					<?php
 					if ($sort == 'last'){
-						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'last_name' order by meta_value asc";
+						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'last_name' and ucase(left(meta_value,1)) = '".strtoupper($_REQUEST['show'])."' order by meta_value asc";
 					} elseif ($sort == "first"){
-						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'first_name' order by meta_value asc";
+						$q = "select user_id, meta_value as name from wp_usermeta where meta_key = 'first_name' and ucase(left(meta_value,1)) = '".strtoupper($_REQUEST['show'])."' order by meta_value asc";
 					}					
 					$userq = $wpdb->get_results($q,ARRAY_A);
 					$html="<div class='col-lg-12 col-md-12 col-sm-12'>";
@@ -232,9 +236,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 							}																							
 						}
 						}
-						$activeletter = ($_REQUEST['show'] == strtoupper($thisletter)) ? "active" : null;
 
-						$letterlink[$thisletter] = ($hasentries[$thisletter] > 0) ? "<li  class='{$thisletter} {$activeletter}'><a href='?grade=".$grade."&amp;show=".$thisletter."&amp;sort={$sort}'>".$thisletter."</a></li>" : "<li class='{$thisletter} {$activeletter}'><a>".$thisletter."</a></li>";
+/* 						$letterlink[$thisletter] = ($hasentries[$thisletter] > 0) ? "<li  class='{$thisletter} {$activeletter}'><a href='?grade=".$grade."&amp;show=".$thisletter."&amp;sort={$sort}'>".$thisletter."</a></li>" : "<li class='{$thisletter} {$activeletter}'><a>".$thisletter."</a></li>"; */
 
 					}
 											echo @implode("",$letterlink); 
