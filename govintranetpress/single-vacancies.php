@@ -22,7 +22,7 @@ get_header(); ?>
 	
 ?>
 	
-					<div class="col-lg-8 white ">
+					<div class="col-lg-8 col-md-7 col-sm-7 white ">
 						<div class="row">
 							<div class='breadcrumbs'>
 								<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -127,7 +127,7 @@ get_header(); ?>
 			
 		</div> <!--end of first column-->
 		
-		<div class="col-lg-4 last" >	
+		<div class="col-lg-4 col-md-5 col-sm-6" >	
 
 			<?php
 			

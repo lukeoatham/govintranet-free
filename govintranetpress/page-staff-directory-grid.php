@@ -1,5 +1,5 @@
 <?php
-/* Template name: Staff directory grid */
+/* Template name: Staff directory grid*/
 					
 get_header(); ?>
 
@@ -75,13 +75,17 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
 				$letters = range('A','Z');
 
-				$activeletter = ($_REQUEST['show'] == strtoupper($thisletter)) ? "active" : null;
+				$activeletter = ($_REQUEST['show']);
+				if (!$activeletter) $activeletter = "A";
 				
 				foreach($letters as $l) {
 					
-					$letterlink[$l] = "<li class='{$l}'><a>".$l."</a></li>";
 					$hasentries[$l] = $hasentries[$l] + 1;				
-					$letterlink[$l] = "<li  class='{$l} {$activeletter}'><a href='?grade=".$grade."&amp;show=".$l."&amp;sort={$sort}'>".$l."</a></li>";						
+					if ($l == $activeletter) {
+						$letterlink[$l] = "<li  class='{$l} active'><a href='?grade=".$grade."&amp;show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
+					} else {
+						$letterlink[$l] = "<li  class='{$l}'><a href='?grade=".$grade."&amp;show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
+					}						
 				}				
 				
 				?>	
@@ -250,7 +254,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12">
 <div id="sortfilter">
-<div class="col-lg-4 col-md-4 col-sm-6">
+<div class="col-lg-4 col-md-5 col-sm-6">
 <strong>Sort by:&nbsp;</strong>
   <?php if ($sort=="first") : ?>
   <button type="button" class="btn btn-primary">
@@ -268,7 +272,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
   	<a class='btn btn-default' href="<?php the_permalink(); ?>?grade=<?php echo $grade; ?>&amp;sort=last&amp;show=<?php echo $_REQUEST['show'] ?>">Last name</a>
   <?php endif; ?>
 </div>
-<div class="col-lg-8 col-md-8 col-sm-6">
+<div class="col-lg-8 col-md-7 col-sm-6">
 <strong>Filter by:&nbsp;</strong>
 	<div class="btn-group">
 	  <button type="button" class="btn btn-primary dropdown-toggle2" data-toggle="dropdown">

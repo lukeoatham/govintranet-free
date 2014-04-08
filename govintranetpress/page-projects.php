@@ -5,7 +5,7 @@ get_header(); ?>
 
 <?php 
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-					<div class="col-lg-8 white ">
+					<div class="col-lg-8 col-md-8 col-sm-8 white ">
 						<div class="row">
 							<div class='breadcrumbs'>
 								<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -110,7 +110,7 @@ jQuery("#sbc-s").focus();
 				?>
 			</div>
 		</div>
-		<div class="col-lg-4 last">
+		<div class="col-lg-4 col-md-4 col-sm-4">
 			<div class='widget-box'>
 				<h3 class='widget-title'>Search by tag</h3>
 			<?php		echo my_colorful_tag_cloud('', '' , 'projects'); 

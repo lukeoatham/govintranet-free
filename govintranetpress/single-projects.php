@@ -44,7 +44,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 	}	
 ?>
 
-	<div class="col-lg-8 white ">
+	<div class="col-lg-8 col-md-8 col-sm-8">
 		<div class="row">
 			<div class='breadcrumbs'>
 				<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -194,7 +194,7 @@ if ('open' == $post->comment_status) {
 			 ?>
 </div> <!--end of first column-->
 
-<div class="col-lg-4" >	
+<div class="col-lg-4 col-md-4 col-sm-4">	
 
 	<?php 
 	$podtask = new Pod('projects', $id);

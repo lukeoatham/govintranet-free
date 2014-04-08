@@ -916,6 +916,8 @@ p.taglisting.page {
 .bbp-user-page .panel {
 	background: whitesmoke;
 	border: none;
+	box-shadow: none;
+	
 }
 .bbp-user-page .panel-body {
 	background: whitesmoke;

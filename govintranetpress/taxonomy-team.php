@@ -76,7 +76,7 @@ jQuery("#s2").focus();
 				$parentteam = get_term_by('id',$teamparent,'team');
 				echo "<h3><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".govintranetpress_custom_title($parentteam->name)."</a></h3>";
 			}
-?>	<div id="peoplenav"><a name='teamtop'></a>
+?>	<div id="peoplenav"><a name='teamtop'><!-- top --></a>
 			<div class='col-lg-12'><h2><?php echo $teamname; ?></h2>
 			
 	</div>
@@ -118,7 +118,7 @@ $terms = get_terms('team',array('hide_empty'=>false,'parent' => $termid));
 			$newteam = get_term_by('id', $tq, 'team');//print_r($newteam);
 
 			if ($chevron!=0){
-				echo "<a name='{$newteam->slug}'></a><div class='col-lg-12 col-md-12 col-sm-12  home page'><div class='category-block'><h3>".govintranetpress_custom_title($newteam->name);
+				echo "<a id='{$newteam->slug}' name='{$newteam->slug}'><!-- anchor --></a><div class='col-lg-12 col-md-12 col-sm-12  home page'><div class='category-block'><h3>".govintranetpress_custom_title($newteam->name);
 				echo " <a href='#teamtop'><span class='glyphicon glyphicon-chevron-up'></span></a>";	
 				echo "</h3></div></div>";
 			} 
