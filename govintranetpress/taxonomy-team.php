@@ -76,7 +76,7 @@ jQuery("#s2").focus();
 <?php
 		if ($teamparent){
 			$parentteam = get_term_by('id',$teamparent,'team');
-			echo "<h3><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".govintranetpress_custom_title($parentteam->name)."</a></h3>";
+			echo "<div class='col-lg-12'><h3><i class='glyphicon glyphicon-chevron-left'></i> <a href='".site_url()."/team/".$parentteam->slug."'>".govintranetpress_custom_title($parentteam->name)."</a></h3></div>";
 		}
 ?>	<div id="peoplenav">
 			<div class='col-lg-12'><h2><?php echo $teamname; ?></h2><a id='teamtop' name='teamtop'>&nbsp;</a>

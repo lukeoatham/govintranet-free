@@ -132,7 +132,7 @@
   
   
 $urlstr = explode("/",$_SERVER['REQUEST_URI']);
-if ( ($urlstr[1]=="newspage" && !$urlstr[2]) ):
+if ( (($urlstr[1]=="newspage" || $urlstr[1]=="blog") && !$urlstr[2]) ):
 	//define the js files
 	function ajaxpaging_js(){
 		wp_register_script('twitnavi', WP_PLUGIN_URL . '/ajax-pagination/js/jquery.ajaxpaging.js.php');

@@ -3,15 +3,9 @@
 /**
  * The template for displaying Archive pages.
  *
- * Used to display archive-type pages if nothing more specific matches a query.
- * For example, puts together date-based pages if no date.php file exists.
- *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
  * @package WordPress
  */
  
-
 get_header(); ?>
 
 <?php
@@ -32,20 +26,17 @@ get_header(); ?>
 	 	 query_posts( array('post_type'=>'blog','author'=>$author ) );
 	 }
 
-
-
 	if ( have_posts() )
 		the_post();
-
 ?>		
-			<div class="col-lg-8 col-sm-8 white">
+			<div class="col-lg-8 col-md-8 col-sm-8 white">
 				<div class="row">
 					<div class='breadcrumbs'>
 						<?php echo "<a href='".site_url()."/'>Home</a> &raquo; ";
-						 	 if ($sfilter == 'forum'){
-						 	 echo "<a href='".site_url()."/forums/'>Forums</a> &raquo; ";
-						 	 }else{
-						 	 echo "<a href='".site_url()."/blog/'>Blog</a> &raquo; ";
+						 	if ($sfilter == 'forum'){
+							 	 echo "<a href='".site_url()."/forums/'>Forums</a> &raquo; ";
+						 	} else {
+							 	 echo "<a href='".site_url()."/blog/'>Blog</a> &raquo; ";
 							}
 							echo $curauth->display_name ;
 							?>
@@ -68,13 +59,9 @@ get_header(); ?>
 					 get_template_part( 'loop', 'archive' );
 				?>
 			</div>
-		<div class="col-lg-4 col-md-4">
+		<div class="col-lg-4 col-md-4 col-sm-4">
 
 		</div>	
-
-
 <?php
-
 wp_reset_query();
-
 get_footer(); ?>

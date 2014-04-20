@@ -23,6 +23,8 @@ class htProfileNudge extends WP_Widget {
         $team = ($instance['team']);
         $key_skills = ($instance['key_skills']);
         $bio = ($instance['bio']);
+        $linemanager = ($instance['linemanager']);
+        $photo = ($instance['photo']);
 
 
 		 wp_register_script( 'pauseNudge', plugins_url("/ht-profile-nudge/pauseNudge.js"));
@@ -176,6 +178,23 @@ class htProfileNudge extends WP_Widget {
 	<?php
 			echo $after_widget; 
 	
+		elseif (!get_user_meta($userid,'user_line_manager',true) &&  !isset($_COOKIE['ht_profile_nudge_linemanager']) && $linemanager=='on'):
+			echo $before_widget; ?>
+			<h3><?php echo  $current_user->first_name; ?></h3>
+			<p>Please set your line manager in your staff profile so that you appear correctly in the staff directory.</p>
+			<a class="btn btn-primary" href="<?php echo admin_url('/profile.php'); ?>">Update now</a> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_linemanager');"><small>I'll do it later</small></a><br>
+	<?php
+			echo $after_widget; 
+
+		elseif (!get_user_meta($userid,'wp_user_avatar',true) &&  !isset($_COOKIE['ht_profile_nudge_photo']) && $photo=='on'):
+			echo $before_widget; ?>
+			<h3><?php echo  $current_user->first_name; ?></h3>
+			<p>There is no photo of you on your staff profile. Do you want to add one now?</p>
+			<a class="btn btn-primary" href="<?php echo admin_url('/profile.php'); ?>">Update now</a> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_photo');"><small>I'll do it later</small></a><br>
+	<?php
+			echo $after_widget; 
+	
+	
 		endif;
 	endif;
 	
@@ -193,6 +212,8 @@ class htProfileNudge extends WP_Widget {
 		$instance['team'] = strip_tags($new_instance['team']);
 		$instance['key_skills'] = strip_tags($new_instance['key_skills']);
 		$instance['bio'] = strip_tags($new_instance['bio']);
+		$instance['linemanager'] = strip_tags($new_instance['linemanager']);
+		$instance['photo'] = strip_tags($new_instance['photo']);
        return $instance;
     }
 
@@ -224,6 +245,12 @@ class htProfileNudge extends WP_Widget {
 
           <input id="<?php echo $this->get_field_id('bio'); ?>" name="<?php echo $this->get_field_name('bio'); ?>" type="checkbox" <?php checked((bool) $instance['bio'], true ); ?> />
           <label for="<?php echo $this->get_field_id('bio'); ?>"><?php _e('Biography'); ?></label> <br>
+
+          <input id="<?php echo $this->get_field_id('linemanager'); ?>" name="<?php echo $this->get_field_name('linemanager'); ?>" type="checkbox" <?php checked((bool) $instance['linemanager'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('linemanager'); ?>"><?php _e('Line manager'); ?></label> <br>
+
+          <input id="<?php echo $this->get_field_id('photo'); ?>" name="<?php echo $this->get_field_name('photo'); ?>" type="checkbox" <?php checked((bool) $instance['photo'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('photo'); ?>"><?php _e('Profile photo'); ?></label> <br>
 
         </p>
 
