@@ -17,13 +17,13 @@ get_header(); ?>
 	 */
 	 
 	 $curauth = (isset($_GET['author_name'])) ? get_user_by('slug',$author_name): get_userdata(intval($author));
-	 
+	 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 	 $sfilter = $_GET['show'];
 	 
 	 if ($sfilter == 'forum'){
-		 query_posts( array('post_type'=>array('reply','forum','topic'),'author'=>$author ) );
+		 query_posts( array('post_type'=>array('reply','forum','topic'),'author'=>$author,"paged"=>$paged,"posts_per_page"=>10 ) );
 	 } else {
-	 	 query_posts( array('post_type'=>'blog','author'=>$author ) );
+	 	 query_posts( array('post_type'=>'blog','author'=>$author,"paged"=>$paged,"posts_per_page"=>10 ) );
 	 }
 
 	if ( have_posts() )
@@ -43,7 +43,14 @@ get_header(); ?>
 					</div>
 				</div>
 				<h1><?php if ($sfilter=='forum'){ echo "Forum"; }else{echo "Blog"; }?> posts by <?php echo $curauth->display_name   ?></h1>
-				<p><a href='/staff/<?php echo $curauth->user_login ;?>'>Staff profile</a> | <a href="mailto:<?php echo $curauth->user_email ; ?>"><?php echo $curauth->display_name ; ?></a></p>
+				<p>
+				<?php
+				$gis = "general_intranet_forum_support";
+				$forumsupport = get_option($gis);
+				if ($forumsupport) :?>
+					<a href='/staff/<?php echo $curauth->user_login ;?>'>Staff profile</a> | 
+				<?php endif; ?>
+				<a href="mailto:<?php echo $curauth->user_email ; ?>"><?php echo $curauth->display_name ; ?></a></p>
 				<?php
 				
 					/* Since we called the_post() above, we need to

@@ -169,11 +169,12 @@ $wpdb->query(
 			<div class="widget-box">
 					<h3 class='widget-title'>Search by tag</h3>
 						<?php 
-					echo my_colorful_tag_cloud('', 'event_type' , 'event'); 
+					echo my_colorful_tag_cloud('', '' , 'event'); 
 					echo "<br>";
 					?>
 
 			</div>			
+		 	<?php dynamic_sidebar('eventslanding-widget-area'); ?> 
 			
 			</div>
 		</div>

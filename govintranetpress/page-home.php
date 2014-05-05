@@ -46,7 +46,7 @@ get_header(); ?>
 		<div class="col-lg-12">
 			<div class="alert alert-dismissable alert-<?php echo $homecontentcolour; ?>">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					<?php	echo wpautop($homecontent); ?>
+					<?php	echo apply_filters('the_content', $homecontent, true);	 ?>
 				</div>
 		</div>	
 <?php endif; ?>
@@ -95,7 +95,7 @@ get_header(); ?>
 
 			<?php 	dynamic_sidebar('home-widget-area3'); 
 				if ($forumsupport):			?>	
-					<div class="category-block"><hr><p><strong><a title="More in forums" class="small" href="<?php echo site_url();?>/about/forums/">More in forums</a></strong> <i class='glyphicon glyphicon-chevron-right small'></i></p></div>
+					<div class="category-block"><hr><p><strong><a title="More in forums" class="small" href="<?php echo site_url();?>/forums/">More in forums</a></strong> <i class='glyphicon glyphicon-chevron-right small'></i></p></div>
 			<?php 	
 				endif;
 				dynamic_sidebar('home-widget-area4'); ?>	
@@ -104,7 +104,7 @@ get_header(); ?>
 		<?php	if ($campaign_message) :  //Display campaign message ?>
 		<div class="clearfix"></div>
 		<div class="col-lg-12">
-			<?php echo wpautop($campaign_message); ?>
+			<?php 	echo apply_filters('the_content', $campaign_message, true);	 ?>
 			<br>
 		</div>
 

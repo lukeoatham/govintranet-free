@@ -15,7 +15,7 @@ Tags: bootstrap,  intranet,  gov.uk
 
 body  {
 	line-height: 146% !important;
-	background: fff;
+	background: #fff;
 	color: #0b0c0c;
 	color: #333;	
 	font-weight: 200;
@@ -2135,57 +2135,6 @@ li.comment .comment-body  {
 .page-template-page-left-nav-wide-php .grid-item {
 	width: 100% !important;	
 }
-
-
-/*
-	#searchformdiv {
-		padding:2em 1em 0 1em;
-	}
-	.content-wrapper {
-		padding: 0.5em;
-	}
-	
-	.nopadright {
-		padding-right: 1em;
-	}
-	.nopadleft {
-		padding-left: 2em;
-	}
-	#utilities {
-		padding-bottom: 1em;;
-	}
-#utilitybar {
-	float:none;
-}	
-#utilitybar ul#menu-utilities li  {
-	list-style: square;
-	display: inline;
-	border-right: none;
-	padding: 0.3em;
-	margin: 0;
-}
-
-#primarynav ul li  {
-	display: square;
-	background: transparent;
-	font-weight: normal;
-	float: none;
-	font-size: 90%;
-	text-align: left;
-	border-right: none;
-	border-top: none;
-	margin-top: none;
-
-}
-
-#primarynav {
-	background: transparent;
-	float: none;
-}
-
-
-*/
-
 
 }
 

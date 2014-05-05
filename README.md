@@ -5,8 +5,8 @@ Contributors: lukeoatham
 Link: http://www.helpfultechnology.com  
 Tags: intranet, gov.uk  
 Requires at least: 3.4  
-Tested up to: 3.8.1
-Stable Pods tag: 2.3.18  
+Tested up to: 3.9
+Stable Pods tag: 2.4
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -35,7 +35,7 @@ GOV.UK-style intranet WordPress theme
 ## Installation ##
 
 This theme requires the [Pods WordPress plugin](http://wordpress.org/extend/plugins/pods/) to manage custom post types.  
-Tested up to: 2.3.18
+Tested up to: 2.4
 Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
 [Setup instructions on the GovIntranetters help site](http://govintranetters.helpfulclients.com/task/setup-guide-instructions/)
 
@@ -47,6 +47,12 @@ If you have trouble with your existing post types you'll need to update manually
 
 
 ## Changelog ##
+
+### 3.0.9 - 5th May 2014 ###
+* Final templates for events pages   
+* Updated setup files   
+* Speed improvements to team templates
+* General bug fixes    
 
 
 ### 3.0.8 - 5th April 2014 ###

@@ -1,5 +1,5 @@
 <?php
-/* Template name: Staff directory grid */
+/* Template name: Staff directory grid*/
 					
 get_header(); ?>
 

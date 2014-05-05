@@ -7,6 +7,7 @@
 $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = squares, 1 = circles
 $showmobile = get_option('general_intranet_show_mobile_on_staff_cards'); // 1 = show
 $fulldetails=get_option('general_intranet_full_detail_staff_cards');
+$showothers=get_option('general_intranet_show_ungraded');
 
 get_header(); ?>
 <div class="row">
@@ -134,9 +135,9 @@ jQuery("#s2").focus();
  			foreach ($user_query as $u){//print_r($u);
 	 			$uid[] = $u->user_id;
 	 			$ulastname[] = get_user_meta($u->user_id,'last_name',true);
-	 			$uorder[] = get_user_meta($u->user_id,'user_order',true);
+	 			$uorder[] = intval(get_user_meta($u->user_id,'user_order',true));
 	 			$g = get_user_meta($u->user_id,'user_grade',true); 
-		 			$ugrade[] =  $g['slug'];		 			
+		 		$ugrade[] =  $g['slug'];		 			
 	 			if ($g['parent']!=0){
 		 			$g = get_term($g['parent'],'grade');
 		 			$ugradeorig[] =  $g->slug;		 		
@@ -147,14 +148,10 @@ jQuery("#s2").focus();
  			array_multisort($ugrade, $uorder, $ulastname, $uid);
  			
  			foreach ($uid as $u){//print_r($u);
- 				$g = get_user_meta($u,'user_grade',false);
- 				$l = get_user_meta($u,'last_name',false);
  				$alreadyshown[$u]=true;
- 				
  				$userid =  $u;
 
 				if ($userid ==  $teamleaderid) continue; //don't output if this person is the team head and already displayed
-
 
 				$newgrade = get_user_meta($userid,'user_grade',true);
 
@@ -238,106 +235,109 @@ echo "<div class='col-lg-12 col-md-12 col-sm-12'>";
 
 //*** find ungraded staff
 
-$q = "select distinct t1.user_id from wp_usermeta as t1
-left outer join wp_terms on wp_terms.term_id = t1.meta_value 
-WHERE t1.user_id in (select a.user_id from wp_usermeta as a where a.meta_key = 'user_team' and a.meta_value = ".$newteam->term_id." ) ";
+if ($showothers){
+	$q = "select distinct t1.user_id from wp_usermeta as t1
+	left outer join wp_terms on wp_terms.term_id = t1.meta_value 
+	WHERE t1.user_id in (select a.user_id from wp_usermeta as a where a.meta_key = 'user_team' and a.meta_value = ".$newteam->term_id." ) ";
 		
-		 $user_query = $wpdb ->get_results($q);
+	 $user_query = $wpdb ->get_results($q);
 
-		 $oktoshow=false;
-		 foreach ($user_query as $u){ // check for those already displayed
-			 $uu = $u->user_id;
-			 if (!$alreadyshown[$uu]){
-			 	$oktoshow=true;
-			 }
+	 $oktoshow=false;
+	 foreach ($user_query as $u){ // check for those already displayed
+		 $uu = $u->user_id;
+		 if (!$alreadyshown[$uu]){
+		 	$oktoshow=true;
 		 }
-		 
-		 if ($oktoshow){
-					echo "<div class='col-lg-12 col-md-12 col-sm-12  home page'><div class='row'><h3 class='light'>Other</h3></div></div><div class='row'>";
-		 }
-		 foreach ($user_query as $u){ 
-			 $uu = $u->user_id;
-		 	if (!$alreadyshown[$uu]){
-			 	
-			 	//show remaining
- 				
- 				$userid =  $uu;
+	 }
+	 
+	 if ($oktoshow){
+				echo "<div class='col-lg-12 col-md-12 col-sm-12  home page'><div class='row'><h3 class='light'>Other</h3></div></div><div class='row'>";
+	 }
+	 foreach ($user_query as $u){ 
+		 $uu = $u->user_id;
+	 	if (!$alreadyshown[$uu]){
+		 	
+		 	//show remaining
+				
+				$userid =  $uu;
 
-				if ($userid ==  $teamleaderid) continue; //don't output if this person is the team head and already displayed
-
-
-				$context = get_user_meta($userid,'user_job_title',true);
-				if ($context=='') $context="staff";
-				$icon = "user";			
-				$user_info = get_userdata($userid);
-				$userurl = site_url().'/staff/'.$user_info->user_nicename;
-				$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
+			if ($userid ==  $teamleaderid) continue; //don't output if this person is the team head and already displayed
 
 
-				if (function_exists('get_wp_user_avatar_src')){
-					$image_url_src = get_wp_user_avatar_src($userid, 'thumbnail'); 
-					$avatarhtml = "<img src=".$image_url_src." width='66' height='66' alt='".$post->title."' class='img";
-					if ($directorystyle==1){
-						$avatarhtml.= ' img-circle';
-					} 
-					$avatarhtml.=" alignleft' />";
-				} else {
-						$avatarhtml = get_avatar($userid,66);
-						$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
+			$context = get_user_meta($userid,'user_job_title',true);
+			if ($context=='') $context="staff";
+			$icon = "user";			
+			$user_info = get_userdata($userid);
+			$userurl = site_url().'/staff/'.$user_info->user_nicename;
+			$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
+
+
+			if (function_exists('get_wp_user_avatar_src')){
+				$image_url_src = get_wp_user_avatar_src($userid, 'thumbnail'); 
+				$avatarhtml = "<img src=".$image_url_src." width='66' height='66' alt='".$post->title."' class='img";
+				if ($directorystyle==1){
+					$avatarhtml.= ' img-circle';
+				} 
+				$avatarhtml.=" alignleft' />";
+			} else {
+					$avatarhtml = get_avatar($userid,66);
+					$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
+				
+			}
+
+
+			if ($fulldetails){ //******************** INDEX CARD WITH INDIVIDUAL CLICKABLE LINKS
 					
-				}
+					echo "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong></a><br>";
 
+					// display team name(s)
 
-				if ($fulldetails){ //******************** INDEX CARD WITH INDIVIDUAL CLICKABLE LINKS
-						
-						echo "<div class='col-lg-4 col-md-4 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong></a><br>";
+					if ( get_user_meta($userid ,'user_job_title',true )) : 
+		
+						echo get_user_meta($userid ,'user_job_title',true )."<br>";
+		
+					endif;
 
-						// display team name(s)
-
-						if ( get_user_meta($userid ,'user_job_title',true )) : 
-			
-							echo get_user_meta($userid ,'user_job_title',true )."<br>";
-			
-						endif;
-
-						
-						if ( get_user_meta($userid ,'user_telephone',true )) : 
-			
-							echo '<i class="glyphicon glyphicon-earphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
-			
-						endif; 
-			
-						if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
-			
-							echo '<i class="glyphicon glyphicon-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
-			
-						 endif;
-			
-							echo  '<a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></p></div></div></div>';
-							
-							$counter++;	
-							$tcounter++;	
 					
-				} else { //******************** INDEX CARD ALONE IS CLICKABLE
-					echo "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
-						// display team name(s)
+					if ( get_user_meta($userid ,'user_telephone',true )) : 
+		
+						echo '<i class="glyphicon glyphicon-earphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
+		
+					endif; 
+		
+					if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
+		
+						echo '<i class="glyphicon glyphicon-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
+		
+					 endif;
+		
+						echo  '<a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></p></div></div></div>';
 						
-							if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
+						$counter++;	
+						$tcounter++;	
+				
+			} else { //******************** INDEX CARD ALONE IS CLICKABLE
+				echo "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+					// display team name(s)
+					
+						if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
-							if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
-											
-							echo "</div></div></div></div></a>";
-							$counter++;	
-				}	
- 				 		 	}//endif
+						if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="glyphicon glyphicon-earphone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+						if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="glyphicon glyphicon-phone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+										
+						echo "</div></div></div></div></a>";
+						$counter++;	
+			}	
+				 		 	
+		}//endif
 
 
-		 }
-if ($oktoshow){
-	echo "</div>";
+	}
+	if ($oktoshow){
+		echo "</div>";
+	}
+
 }
-
 
 //***
 

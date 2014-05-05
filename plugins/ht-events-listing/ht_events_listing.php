@@ -83,7 +83,7 @@ class htEventsListing extends WP_Widget {
 								echo "</div></div>";
 					}
 							if ($news->post_count!=0){
-								echo '<hr><p><strong><a title="More in events" class="small" href="".site_url()."/events/">More in events</a></strong> <i class="glyphicon glyphicon-chevron-right small"></i></p></div>';
+								echo '<hr><p><strong><a title="More in events" class="small" href="'.site_url().'/events/">More in events</a></strong> <i class="glyphicon glyphicon-chevron-right small"></i></p></div>';
 								echo $after_widget;
 							}
 							

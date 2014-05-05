@@ -8,6 +8,7 @@
  * @package Bootstrap
  */
 
+
 // prevent clickjacking, advised by Context security review
 header('X-Frame-Options: SAMEORIGIN');
 

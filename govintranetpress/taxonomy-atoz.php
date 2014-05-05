@@ -40,7 +40,7 @@ get_header(); ?>
 						
 						//fill the default a to z array
 						$letters = range('a','z');
-						$letterlink = array();
+						$letterlink=array();
 						$hasentries = array();
 						
 						foreach($letters as $l) { 

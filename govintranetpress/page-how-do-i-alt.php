@@ -18,7 +18,7 @@ get_header(); ?>
 			</div>
 				<!-- category search box -->
 				<h1><?php echo the_title(); ?></h1>
-				<?php //echo the_content(); ?>
+				<?php echo the_content(); ?>
 			<div class="well well-sm">
 					<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url('/'); ?>">
 					<div class="input-group">

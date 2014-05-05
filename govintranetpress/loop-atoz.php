@@ -14,7 +14,7 @@
 		if ( ! have_posts() ) { 
 		
 				echo "<h1>";
-				_e( 'Not found', 'govintranetpress' );
+				_e( 'Not found', 'twentyten' );
 				echo "</h1>";
 				echo "<p>";
 				_e( 'There\'s nothing to show.', 'govintranetpress' );
@@ -75,7 +75,7 @@
 				$newwords = array();
 				$foundletter = false; //flag to check if we found a match in the shortcode
 				foreach ($otwords as $ot){ 
-		if (strtolower(substr($ot, 0, 1)) == strtolower($pageslug)  && (strlen($ot) > 2 || in_array(strtolower($ot), array("hr" , "it",  "is", "pq", "pqs", "wms" ) )) ) 
+		if (strtolower(substr($ot, 0, 1)) == strtolower($pageslug)  && (strlen($ot) > 3 || in_array(strtolower($ot), array("hr" , "it",  "is", "pq", "pqs", "wms" ) )) ) 
  //don't include tiny words but allow common acronyms
 					{
 						$foundletter=true;

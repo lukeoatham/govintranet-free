@@ -555,6 +555,24 @@ function twentyten_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 	register_sidebar( array(
+		'name' => __( 'Events landing page', 'twentyten' ),
+		'id' => 'eventslanding-widget-area',
+		'description' => __( 'Events landing page widget area', 'twentyten' ),
+		'before_widget' => '<div class="widget-box">',
+		'after_widget' => '</div>',
+		'before_title' => '<h3>',
+		'after_title' => '</h3>',
+	) );
+	register_sidebar( array(
+		'name' => __( 'Events sidebar', 'twentyten' ),
+		'id' => 'events-widget-area',
+		'description' => __( 'Events posts widget area', 'twentyten' ),
+		'before_widget' => '<div class="widget-box">',
+		'after_widget' => '</div>',
+		'before_title' => '<h3>',
+		'after_title' => '</h3>',
+	) );
+	register_sidebar( array(
 		'name' => __( 'Search results page', 'twentyten' ),
 		'id' => 'serp-widget-area',
 		'description' => __( 'Search results page widget area', 'twentyten' ),
@@ -934,33 +952,33 @@ if ((pods_url_variable(0)=='tasks')||(pods_url_variable(0)=='how-do-i')){
     $args = wp_parse_args( $args, $defaults );
     global $wpdb;
     if ( $cat_id != "" ){
-    $tquery = $wpdb->prepare("SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, terms2.slug as link, t2.count as count, t2.term_taxonomy_id as term_taxonomy_id, 0 as term_group, 'post_tag' as taxonomy FROM $wpdb->posts as p1 LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id, $wpdb->posts as p2 LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id WHERE ( t1.taxonomy = '%s' AND p1.post_status = 'publish' AND p1.post_type = '%s' AND terms1.term_id = '%s' AND t2.taxonomy = 'post_tag' AND p2.post_status = 'publish' AND p1.ID = p2.ID  ) ORDER BY t2.count desc limit 90",$tc_tax,$tc_post_type,$cat_id);
+    	$tquery = $wpdb->prepare("SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, terms2.slug as link, t2.count as count, t2.term_taxonomy_id as term_taxonomy_id, 0 as term_group, 'post_tag' as taxonomy FROM $wpdb->posts as p1 LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id, $wpdb->posts as p2 LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id WHERE ( t1.taxonomy = '%s' AND p1.post_status = 'publish' AND p1.post_type = '%s' AND terms1.term_id = '%s' AND t2.taxonomy = 'post_tag' AND p2.post_status = 'publish' AND p1.ID = p2.ID  ) ORDER BY t2.count desc limit 90",$tc_tax,$tc_post_type,$cat_id);
 
-} else {
+	} else {
 
-   $tquery = $wpdb->prepare("SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, terms2.slug as link, t2.count as count, t2.term_taxonomy_id as term_taxonomy_id, 0 as term_group, 'post_tag' as taxonomy FROM $wpdb->posts as p1 LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id, $wpdb->posts as p2 LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id WHERE ( t1.taxonomy = '%s' AND p1.post_status = 'publish' AND p1.post_type = '%s' AND t2.taxonomy = 'post_tag' AND p2.post_status = 'publish' AND p1.ID = p2.ID  ) ORDER BY t2.count desc limit 90",$tc_tax,$tc_post_type);
+		$tquery = $wpdb->prepare("SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, terms2.slug as link, t2.count as count, t2.term_taxonomy_id as term_taxonomy_id, 0 as term_group, 'post_tag' as taxonomy FROM $wpdb->posts as p1 LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id, $wpdb->posts as p2 LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id WHERE ( t1.taxonomy = '%s' AND p1.post_status = 'publish' AND p1.post_type = '%s' AND t2.taxonomy = 'post_tag' AND p2.post_status = 'publish' AND p1.ID = p2.ID  ) ORDER BY t2.count desc limit 90",$tc_tax,$tc_post_type);
 
-}
+	}
 
 					
 					if ($tc_post_type=='projects'){
 						$tquery="
 						SELECT DISTINCT
-						wp_terms.term_id,
-						wp_terms.name,
-						wp_terms.slug,
-						wp_term_taxonomy.count,
-						wp_term_taxonomy.term_taxonomy_id,
+						$wpdb->terms.term_id,
+						$wpdb->terms.name,
+						$wpdb->terms.slug,
+						$wpdb->term_taxonomy.count,
+						$wpdb->term_taxonomy.term_taxonomy_id,
 						0 as term_group,
 						'post_tag' as taxonomy
-FROM				wp_posts, wp_term_taxonomy, wp_term_relationships, wp_terms
-WHERE				wp_posts.post_type = 'projects' AND
-					wp_posts.post_status = 'publish' AND
-					wp_posts.id = wp_term_relationships.object_id AND
-					wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id AND
-					wp_term_taxonomy.taxonomy = 'post_tag' AND
-					wp_terms.term_id = wp_term_taxonomy.term_id AND
-					wp_term_taxonomy.count > 0
+FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
+WHERE				$wpdb->posts.post_type = 'projects' AND
+					$wpdb->posts.post_status = 'publish' AND
+					$wpdb->posts.id = $wpdb->term_relationships.object_id AND
+					$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
+					$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
+					$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
+					$wpdb->term_taxonomy.count > 0
 					limit 45
 					
 						";
@@ -969,21 +987,44 @@ WHERE				wp_posts.post_type = 'projects' AND
 					if ($tc_post_type=='vacancies'){
 						$tquery="
 						SELECT DISTINCT
-						wp_terms.term_id,
-						wp_terms.name,
-						wp_terms.slug,
-						wp_term_taxonomy.count,
-						wp_term_taxonomy.term_taxonomy_id,
+						$wpdb->terms.term_id,
+						$wpdb->terms.name,
+						$wpdb->terms.slug,
+						$wpdb->term_taxonomy.count,
+						$wpdb->term_taxonomy.term_taxonomy_id,
 						0 as term_group,
 						'post_tag' as taxonomy
-FROM				wp_posts, wp_term_taxonomy, wp_term_relationships, wp_terms
-WHERE				wp_posts.post_type = 'vacancies' AND
-					wp_posts.post_status = 'publish' AND
-					wp_posts.id = wp_term_relationships.object_id AND
-					wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id AND
-					wp_term_taxonomy.taxonomy = 'post_tag' AND
-					wp_terms.term_id = wp_term_taxonomy.term_id AND
-					wp_term_taxonomy.count > 0
+FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
+WHERE				$wpdb->posts.post_type = 'vacancies' AND
+					$wpdb->posts.post_status = 'publish' AND
+					$wpdb->posts.id = $wpdb->term_relationships.object_id AND
+					$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
+					$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
+					$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
+					$wpdb->term_taxonomy.count > 0
+					limit 45
+					
+						";
+					}
+
+					if ($tc_post_type=='event'){
+						$tquery="
+						SELECT DISTINCT
+						$wpdb->terms.term_id,
+						$wpdb->terms.name,
+						$wpdb->terms.slug,
+						$wpdb->term_taxonomy.count,
+						$wpdb->term_taxonomy.term_taxonomy_id,
+						0 as term_group,
+						'post_tag' as taxonomy
+FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
+WHERE				$wpdb->posts.post_type = 'event' AND
+					$wpdb->posts.post_status = 'publish' AND
+					$wpdb->posts.id = $wpdb->term_relationships.object_id AND
+					$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
+					$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
+					$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
+					$wpdb->term_taxonomy.count > 0
 					limit 45
 					
 						";
@@ -1118,7 +1159,7 @@ WHERE				wp_posts.post_type = 'vacancies' AND
 
 
 function add_pagination_to_author_page_query_string($query_string){
-    if (isset($query_string['author_name'])) $query_string['post_type'] = array('topic','reply');
+    if (isset($query_string['author_name'])) $query_string['post_type'] = array('topic','reply','blog');
     return $query_string;
 }
 add_filter('request', 'add_pagination_to_author_page_query_string');
@@ -1446,8 +1487,8 @@ function human_time_diff_plus( $from, $to = '' ) {
 //Embed Video Fix
 function add_secure_video_options($html) {
    if (strpos($html, "<iframe" ) !== false  && is_ssl() ) {
-        $search = array('src="http://www.youtu','src="http://youtu');
-        $replace = array('src="https://www.youtu','src="https://youtu');
+        $search = array('src="http://www.youtu','src="http://youtu','http://eventbrite');
+        $replace = array('src="https://www.youtu','src="https://youtu'.'https://eventbrite');
         $html = str_replace($search, $replace, $html);
 
         return $html;
@@ -1471,6 +1512,5 @@ function relevanssi_user_filter($hits) {
     }
     return $tothits;
 }
-
 
 ?>

@@ -8,6 +8,11 @@ ol li {
 		list-style-type: decimal !important;
 }
 
+img.media-object {
+	float: right;
+}
+
+
 .zign2n {
 	background: #f8f8f8;
 	border-top: 7px solid #787676;
@@ -19,6 +24,9 @@ ol li {
 	padding-right: 1em;	
 }
 
+.media-object {
+	float: right;
+}
 
 .widget-box.list li {
 	margin-left: 1em !important;

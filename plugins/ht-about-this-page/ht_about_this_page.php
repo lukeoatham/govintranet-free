@@ -21,23 +21,33 @@ class htAboutThisPage extends WP_Widget {
         $show_author = ($instance['show_author']);
 	        
 						$showabout = false;
-						if ( is_single() && pods_url_variable(0) != 'forums' ) { 
+						if ( (is_single() || is_page() ) )  { 
 						$showabout = true; }
 						if ( is_page() && pods_url_variable(0) == 'about' ) { 
-						$showabout = true; }
-						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'forums' ) {
 						$showabout = false; }
+						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) ) {
+						$showabout = false; }
+						if ( pods_url_variable(0) == 'about' && pods_url_variable(2) ) {
+						$showabout = true; }
 						if ( pods_url_variable(0) == 'forum' ) {
 						$showabout = false; }
 						if ( pods_url_variable(0) == 'topic' ) {
 						$showabout = false; }
 						if ( pods_url_variable(0) == 'reply' ) {
+						$showabout = false; }							
+						if ( pods_url_variable(0) == 'task-by-category' ) {
 						$showabout = false; }
-						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'who-we-are' ) {
-						$showabout = true; }
-						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'vacancies' && !pods_url_variable(2) ) {
+						if ( pods_url_variable(0) == 'news-by-category' ) {
 						$showabout = false; }
-						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) == 'projects' && !pods_url_variable(2) ) {
+						if ( pods_url_variable(0) == 'newspage' ) {
+						$showabout = false; }
+						if ( pods_url_variable(0) == 'how-do-i' ) {
+						$showabout = false; }
+						if ( pods_url_variable(0) == 'tasks' ) {
+						$showabout = false; }
+						if ( pods_url_variable(0) == 'events' ) {
+						$showabout = false; }
+						if ( pods_url_variable(0) == 'tagged' ) {
 						$showabout = false; }
 							
 						
@@ -46,9 +56,8 @@ class htAboutThisPage extends WP_Widget {
 							echo $before_widget; 
 							if ( $title )
 								echo $before_title . $title . $after_title; 
-							$gis = "general_intranet_time_zone";
-							$tzone = get_option($gis);
-							date_default_timezone_set($tzone);
+								$tzone = get_option('timezone_string');
+								date_default_timezone_set($tzone);
 
 							if ($show_modified_date=='on'){
 								$sdate = human_time_diff_plus(get_the_modified_time('U'));
