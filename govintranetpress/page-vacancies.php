@@ -3,12 +3,16 @@
 
 get_header(); 
 
-$tdate= getdate();
-$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
-$tday = date( 'd' , strtotime($tdate) );
-$tmonth = date( 'm' , strtotime($tdate) );
-$tyear= date( 'Y' , strtotime($tdate) );
-$sdate=$tyear."-".$tmonth."-".$tday;
+$tzone = get_option('timezone_string');
+date_default_timezone_set($tzone);
+$tdate= getdate(); 
+$tday = date( 'd' , ($tdate[0]) );
+$tmonth = date( 'm' , ($tdate[0]) );
+$tyear= date( 'Y' , ($tdate[0]) ); 
+$thour= date( 'G' , ($tdate[0]) ); 
+$tmin= date( 'i' , ($tdate[0]) ); 
+$sdate = $tyear."-".$tmonth."-".$tday." ".$thour.":".$tmin;
+
 
 //CHANGE CLOSED VACANCIES TO DRAFT STATUS
 $wpdb->query(
@@ -32,18 +36,19 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 				<!-- category search box -->
 			<div>
-	<div class="well">
-									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url('/'); ?>">
-										<label for="cat">In vacancies </label>
-										<div class="form-group input-md">
-											<input type="text" value="" name="s" id="sbc-s" class="form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
-										</div>
-										<div class="form-group input-md">
-											<button type="submit" class="btn btn-primary input-md">Search</button>
-										<input type="hidden" value="vacancies" name = "post_type" />
-										</div>
-									</form>
-	</div>
+			<div class="well well-sm">
+					<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url(); ?>/">
+					<div class="input-group">
+						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="Search..." onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+						 <span class="input-group-btn">
+						 <input type="hidden" name="post_type" value="vacancies" />
+						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+						 </span>
+					</div><!-- /input-group -->
+
+				</form>
+		
+			</div>
 
 <script>
 jQuery(function(){
@@ -173,7 +178,7 @@ jQuery("#sbc-s").focus();
 						$image_url = get_the_post_thumbnail($projectvac->get_field('ID'), 'thumbnail', array('class' => 'alignright'));
 						$thisexcerpt= $projectvac->get_field('excerpt');
 						$thisdate= $projectvac->get_field('post_date');
-						$thisdate=date("j M Y",strtotime($thisdate));
+						$thisdate=date("H:m j M Y",strtotime($thisdate));
 						echo "<div class='newsitem'><p><a href='{$thisURL}'>".$image_url;
 						echo "<h2>".$thistitle."</h2></a>";
 						echo "<p><span class='news_date'>".$thisdate."</span>";
@@ -267,7 +272,7 @@ jQuery("#sbc-s").focus();
 								$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
 								$thisexcerpt= get_the_excerpt();
 								$thisdate= get_post_meta($post->ID, 'closing_date', true);
-								$thisdate=date("j M Y",strtotime($thisdate));
+								$thisdate=date("H:i j M Y",strtotime($thisdate));
 								echo "<div class='newsitem'><a href='{$thisURL}'>".$image_url."</a>";
 								echo "<h2><a href='{$thisURL}'>".$thistitle."</a></h2>";
 								echo "<p><span class='news_date'>Closing: ".$thisdate."</span>";

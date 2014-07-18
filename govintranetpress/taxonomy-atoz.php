@@ -71,7 +71,7 @@ get_header(); ?>
 						rewind_posts();
 					
 						global $query_string;
-						query_posts( $query_string . "&orderby=title&order=ASC");
+						query_posts( $query_string . "&posts_per_page=-1&orderby=title&order=ASC");
 						
 						/* Run the loop for the archives page to output the posts.
 						 * If you want to overload this in a child theme then include a file

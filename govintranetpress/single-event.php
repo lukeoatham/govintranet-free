@@ -12,7 +12,7 @@ get_header(); ?>
 	$mainid=$post->ID;
 ?>
 
-	<div class="col-lg-8 col-md-8 white ">
+	<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 white ">
 		<div class="row">
 			<div class='breadcrumbs'>
 				<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -66,12 +66,12 @@ get_header(); ?>
 		?>
 
 		</div>
-			<div class="col-lg-4 col-md-4">	
+			<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">	
 
 				<?php
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' );
 				if ($image_uri!=""){
-					echo "<img class='img img-responsive pull-right' src='{$image_uri[0]}'  alt='".get_the_title()."' />";
+					echo "<img class='img img-responsive' src='{$image_uri[0]}'  alt='".get_the_title()."' />";
 					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 				}
 

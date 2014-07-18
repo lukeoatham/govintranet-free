@@ -22,7 +22,7 @@ get_header(); ?>
 	
 ?>
 	
-					<div class="col-lg-8 col-md-7 col-sm-7 white ">
+					<div class="col-lg-8 white ">
 						<div class="row">
 							<div class='breadcrumbs'>
 								<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -63,7 +63,7 @@ get_header(); ?>
 			echo "<p><strong>Job reference: </strong>".$job_reference;					
 			echo "<br><strong>Team: </strong>".$team;				
 			echo "<br><strong>Grade: </strong>".$grade;				
-			echo "<br><strong>Closing date: </strong>".date('l j F, Y', strtotime($closing_date));		
+			echo "<br><strong>Closing date: </strong>".date('H:i, l j F, Y', strtotime($closing_date));		
 			$tdate= getdate();
 			$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
 			$tday = date( 'd' , strtotime($tdate) );
@@ -127,7 +127,7 @@ get_header(); ?>
 			
 		</div> <!--end of first column-->
 		
-		<div class="col-lg-4 col-md-5 col-sm-6" >	
+		<div class="col-lg-4 last" >	
 
 			<?php
 			

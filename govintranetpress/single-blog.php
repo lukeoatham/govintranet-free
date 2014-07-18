@@ -95,7 +95,7 @@ get_header(); ?>
 					  	echo "</p></div>";
 				  	}
 				}
-		 	dynamic_sidebar('news-widget-area'); 
+		 	dynamic_sidebar('blog-widget-area'); 
 		 	
 		//if we're looking at a news story, show recently published news
 			echo "<div class='widget-box nobottom'>";
