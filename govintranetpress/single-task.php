@@ -5,12 +5,7 @@
  * @package WordPress
  */
  
- 	$taskurl = $_SERVER['REQUEST_URI'];
- 	$taskurl = explode('/', $taskurl);
-	$rdurl = array_pop($taskurl);
-	$rdurl = array_pop($taskurl);
-	$taskpod = new Pod('task', $rdurl); 
-	$external_link = $taskpod->get_field('external_link'); 
+	$external_link = get_post_meta($post->ID,'external_link',true); 
 	if ($external_link){
 		wp_redirect($external_link); 
 		exit;
