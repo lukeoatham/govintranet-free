@@ -1,6 +1,6 @@
  <?php
 /*
-Plugin Name: Export users
+Plugin Name: HT Export staff
 Plugin URI: http://govintranetters.helpfulclients.com
 Description: Enables easy spreadsheet export of users
 Author: Luke Oatham
