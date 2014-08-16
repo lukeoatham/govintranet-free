@@ -1,0 +1,93 @@
+#ht_tube_status_widget {
+	font-size: 80%;
+	border: 1px solid #999;
+}
+
+.ht_tubestatus {
+	border-top: 1px solid #999;
+	border-bottom: none;
+}
+
+.ht_tubestatus.ht_first-link {
+	border-top: none;
+}
+
+#ht_tube_status_widget div {
+	overflow: hidden;
+	text-overflow: clip;
+}
+
+.ht_tubeline {
+	border-bottom: none;
+}
+
+.ht_tubeline.GoodService {
+	border-bottom: 1px solid #ffffff;
+}
+
+.ht_tubeline1 {
+	color: #ffffff;
+	background: #ae6118;
+}
+
+.ht_tubeline2 {
+	color: #ffffff;
+	background: #e41f1f;
+}
+
+.ht_tubeline7 {
+	color: #113892;
+	background: #f8d42d;
+}
+
+.ht_tubeline9 {
+	color: #ffffff;
+	background: #007229;
+}
+
+.ht_tubeline81 {
+	color: #ffffff;
+	background: #00bbb4
+}
+
+.ht_tubeline8 {
+	color: #113892;
+	background: #e899a8;
+}
+
+.ht_tubeline4 {
+	color: #ffffff;
+	background: #686e72;
+}
+
+.ht_tubeline11 {
+	color: #ffffff;
+	background: #893267;
+}
+
+.ht_tubeline5 {
+	color: #ffffff;
+	background: #000000;
+}
+
+
+.ht_tubeline82 {
+	color: #ffffff;
+	background: #f86c00;
+}
+
+.ht_tubeline6 {
+	color: #ffffff;
+	background: #0450a1;
+}
+
+.ht_tubeline3 {
+	color: #ffffff;
+	background: #009fe0;
+}
+
+.ht_tubeline12 {
+	color: #113892;
+	background: #70c3ce;
+}
+
