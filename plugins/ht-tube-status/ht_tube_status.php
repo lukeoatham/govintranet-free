@@ -28,7 +28,7 @@ class htTubeStatus extends WP_Widget {
 
 		// load feed from TfL
 		
-		include_once( ABSPATH . WPINC . '/feed.php' );
+		require_once( ABSPATH . WPINC . '/feed.php' );
 			
 		$feedurl = "http://cloud.tfl.gov.uk/TrackerNet/LineStatus";
 		$rss = file_get_contents($feedurl); 

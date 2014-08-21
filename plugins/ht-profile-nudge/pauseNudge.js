@@ -6,7 +6,7 @@ function pauseProfileNudge(name) { // set a short cookie if user hides nudge
 	}
 	setCookie(name,'closed','10080','/',0,contype); 
 	jQuery(document).ready(function() { 
-	                jQuery('#ht_profile_nudge').delay(0).slideUp();
+	                jQuery('#ht_profile_nudge').delay(0).slideUp(1000);
 	});
 	return true;
 }

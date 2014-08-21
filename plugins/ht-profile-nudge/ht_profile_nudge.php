@@ -35,9 +35,9 @@ class htProfileNudge extends WP_Widget {
 
 
 
-	$current_user = wp_get_current_user();
-	if ($current_user->ID):
-		$userid = $current_user->ID;
+	$userid = wp_get_current_user();
+	if ($userid->ID):
+		$userid = $userid->ID;
 		
 		if (!get_user_meta($userid,'user_telephone',true) &&  !isset($_COOKIE['ht_profile_nudge_telephone']) && $telephone=='on'):
 			echo $before_widget; ?>
@@ -47,7 +47,10 @@ class htProfileNudge extends WP_Widget {
 			<label for"phone">Telephone</label>
 			<input class="form-control" name="phone" id="phone" placeholder="e.g. 0203 459 8765" /><br>
 			<button type="submit" class="btn btn-primary">Update now</button> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_telephone');"><small>I'll do it later</small></a><br>
-			<?php $nonce = wp_create_nonce( 'update-profile' );?>
+			<?php 
+			$nonce = plugins_url('/ht-profile-nudge/update_profile.php');
+			$nonce = wp_nonce_url ($nonce, 'update-user-'.$userid);
+			?>
 			<input type="hidden" name="_wpnonce" value="<? echo $nonce; ?>" />
 			<input type="hidden" name="userid" value="<? echo $userid; ?>" />
 			<input type="hidden" name="type" value="add-phone" />
@@ -63,7 +66,9 @@ class htProfileNudge extends WP_Widget {
 			<label for"mobile">Mobile number</label>
 			<input class="form-control" name="mobile" id="mobile" /><br>
 			<button type="submit" class="btn btn-primary">Update now</button> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_mobile');"><small>I'll do it later</small></a><br>
-			<?php $nonce = wp_create_nonce( 'update-profile' );?>
+			<?php 
+			$nonce = plugins_url('/ht-profile-nudge/update_profile.php');
+			$nonce = wp_nonce_url ($nonce, 'update-user-'.$userid);?>
 			<input type="hidden" name="_wpnonce" value="<? echo $nonce; ?>" />
 			<input type="hidden" name="userid" value="<? echo $userid; ?>" />
 			<input type="hidden" name="type" value="add-mobile" />
@@ -80,7 +85,9 @@ class htProfileNudge extends WP_Widget {
 			<label for"job_title">Job title</label>
 			<input class="form-control" name="job_title" id="job_title" placeholder="e.g. Data entry clerk" /><br>
 			<button type="submit" class="btn btn-primary">Update now</button> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_job_title');"><small>I'll do it later</small></a><br>
-			<?php $nonce = wp_create_nonce( 'update-profile' );?>
+			<?php 
+			$nonce = plugins_url('/ht-profile-nudge/update_profile.php');
+			$nonce = wp_nonce_url ($nonce, 'update-user-'.$userid);?>
 			<input type="hidden" name="_wpnonce" value="<? echo $nonce; ?>" />
 			<input type="hidden" name="userid" value="<? echo $userid; ?>" />
 			<input type="hidden" name="type" value="add-job-title" />
@@ -107,7 +114,9 @@ class htProfileNudge extends WP_Widget {
 			</select>
 			<button type="submit" class="btn btn-primary">Update</button><br>
 			<a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_grade');"><small>I'll do it later</small></a>
-			<?php $nonce = wp_create_nonce( 'update-profile' );?>
+			<?php 
+			$nonce = plugins_url('/ht-profile-nudge/update_profile.php');
+			$nonce = wp_nonce_url ($nonce, 'update-user-'.$userid);?>
 			<input type="hidden" name="_wpnonce" value="<? echo $nonce; ?>" />
 			<input type="hidden" name="userid" value="<? echo $userid; ?>" />
 			<input type="hidden" name="type" value="add-grade" />
@@ -138,7 +147,9 @@ class htProfileNudge extends WP_Widget {
 			<button type="submit" class="btn btn-primary">Update</button><br>
 			<a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_team');"><small>I'll do it later</small></a>
 			</div>
-			<?php $nonce = wp_create_nonce( 'update-profile' );?>
+			<?php 
+			$nonce = plugins_url('/ht-profile-nudge/update_profile.php');
+			$nonce = wp_nonce_url ($nonce, 'update-user-'.$userid);?>
 			<input type="hidden" name="_wpnonce" value="<? echo $nonce; ?>" />
 			<input type="hidden" name="userid" value="<? echo $userid; ?>" />
 			<input type="hidden" name="type" value="add-team" />
@@ -154,7 +165,9 @@ class htProfileNudge extends WP_Widget {
 			<label for"key_skills">Skills and experience</label>
 			<textarea class="form-control" rows="3" name="key_skills" id="key_skills" placeholder="e.g. I work in finance and can help with budget codes, procurement and invoices."></textarea><br>
 			<button type="submit" class="btn btn-primary">Update now</button> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_skills');"><small>I'll do it later</small></a><br>
-			<?php $nonce = wp_create_nonce( 'update-profile' );?>
+			<?php 
+			$nonce = plugins_url('/ht-profile-nudge/update_profile.php');
+			$nonce = wp_nonce_url ($nonce, 'update-user-'.$userid);?>
 			<input type="hidden" name="_wpnonce" value="<? echo $nonce; ?>" />
 			<input type="hidden" name="userid" value="<? echo $userid; ?>" />
 			<input type="hidden" name="type" value="add-skills" />
@@ -170,7 +183,9 @@ class htProfileNudge extends WP_Widget {
 			<label for"bio">Short bio</label>
 			<textarea class="form-control" rows="3" name="bio" id="bio" placeholder="I have been in Government 10 years..."></textarea><br>
 			<button type="submit" class="btn btn-primary">Update now</button> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_bio');"><small>I'll do it later</small></a><br>
-			<?php $nonce = wp_create_nonce( 'update-profile' );?>
+			<?php 
+			$nonce = plugins_url('/ht-profile-nudge/update_profile.php');
+			$nonce = wp_nonce_url ($nonce, 'update-user-'.$userid);?>
 			<input type="hidden" name="_wpnonce" value="<? echo $nonce; ?>" />
 			<input type="hidden" name="userid" value="<? echo $userid; ?>" />
 			<input type="hidden" name="type" value="add-bio" />
