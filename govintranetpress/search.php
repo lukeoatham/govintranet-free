@@ -148,7 +148,7 @@ get_header(); ?>
 	}
 	else
 	{
-	_e( 'Couldn\'t find anything on the intranet like that. Sometimes using less words can help.', 'twentyten' ); 				
+	_e( 'Couldn\'t find anything on the intranet like that. Sometimes using fewer words can help.', 'twentyten' ); 				
 	}
 	?>
 	

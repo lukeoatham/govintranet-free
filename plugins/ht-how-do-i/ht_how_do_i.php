@@ -28,7 +28,7 @@ class htHowDoI extends WP_Widget {
 
 
 <div class="well well-sm">
-									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="/">
+									<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url('/'); ?>">
 										<div class="form-group input-md">
 											<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="How do I..." />
 										</div>
