@@ -1112,25 +1112,25 @@ WHERE				$wpdb->posts.post_type = 'event' AND
         $count = $counts[ $key ];
         $real_count = $real_counts[ $key ];
         $pstyp='';
-        if (pods_url_variable(1) == 'projects'){
+        if (is_page('projects')){
         $pstyp='?posttype=projects';
         }
-        if (pods_url_variable(1) == 'vacancies'){
+        if (is_page('vacancies')){
         $pstyp='?posttype=vacancies';
         }
-        if (pods_url_variable(0) == 'task-by-category'){
+        if (is_page('task-by-category')){
         $pstyp='?posttype=task';
         }
-        if (pods_url_variable(0) == 'news-by-category'){
+        if (is_page('news-by-category')){
         $pstyp='?posttype=news';
         }
-        if (pods_url_variable(0) == 'tasks'){
+        if (is_page('tasks')){
         $pstyp='?posttype=task';
         }
-        if (pods_url_variable(0) == 'how-do-i'){
+        if (is_page('how-do-i')){
         $pstyp='?posttype=task';
         }
-        if (pods_url_variable(0) == 'newspage'){
+        if (is_page('newspage')){
         $pstyp='?posttype=news';
         }
         $tag_link = '#' != $tag->link ? esc_url( $tag->link ).$pstyp : '#';

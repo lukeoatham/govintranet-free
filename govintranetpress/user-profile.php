@@ -117,8 +117,8 @@ $directorystyle = get_option('general_intranet_staff_directory_style'); // 0 = s
 		  }
 		  $poduser->get_field('user_team');
 
-		  $uqblog = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and post_type='blog' and post_status='publish' limit 3;",ARRAY_A);
-		  $uqforum = $wpdb->get_results("select ID from wp_posts where post_author = ".$author." and (post_type='topic' or post_type='forum' or post_type='reply') and post_status='publish' limit 3;",ARRAY_A);
+		  $uqblog = $wpdb->get_results("select ID from $wpdb->posts where post_author = ".$author." and post_type='blog' and post_status='publish' order by post_date DESC limit 3;",ARRAY_A);
+		  $uqforum = $wpdb->get_results("select ID from $wpdb->posts where post_author = ".$author." and (post_type='topic' or post_type='forum' or post_type='reply') and post_status='publish' order by post_date DESC limit 3;",ARRAY_A);
 if (count($uqblog)>0 || count($uqforum) > 0):
 ?>
 			<h3 class="contacthead" >On the intranet</h3>
@@ -187,7 +187,7 @@ jQuery('.tlink').tooltip();
 				echo "<br>".get_user_meta($user_id,'user_job_title',true);
 				echo "</strong></p>";
 
-				$q = "select meta_value as ID, user_id, display_name from wp_users join wp_usermeta on wp_users.ID = wp_usermeta.user_id where wp_usermeta.meta_key='user_line_manager' and wp_usermeta.meta_value = ".$user_id;
+				$q = "select meta_value as ID, user_id, display_name from $wpdb->users join $wpdb->usermeta on $wpdb->users.ID = $wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='user_line_manager' and $wpdb->usermeta.meta_value = ".$user_id;
 				
 				global $wpdb;
 				

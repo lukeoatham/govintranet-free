@@ -1,0 +1,45 @@
+.upcoming-events .date-stamp {
+	width: 40px;
+	margin-right: 5%;
+	float: left;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #555;
+	font-size: 1.4em;
+	padding: 0 0 3px;
+	border-radius: 3px;
+	background: #fff;
+	box-shadow: 0 2px 3px rgba(0,0,0,.2);
+	
+}
+.upcoming-events ul {
+	list-style: none;
+}
+.upcoming-events li span {
+	display: block;
+	color: #555;
+	font-size: 0.9em;
+}
+
+.upcoming-events li strong {
+	display: block;
+}
+
+.upcoming-events .date-stamp em {
+	display: block;
+	text-transform: uppercase;
+	font-style: normal;
+	font-size: .5em;
+	line-height: 1em;
+	padding-bottom: 2px;
+	margin-bottom: 5px;
+	color: #fff;
+	background: #e6387b;
+}
+
+.upcoming-events li:after {
+	content: ' ';
+	display: block;
+	clear: both;
+}

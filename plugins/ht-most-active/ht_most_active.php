@@ -180,12 +180,12 @@ $html='';
 			$countparts = count($pathparts)-2; 
 			if ( $countparts < 1 ) $countparts = 0;
 			$thistask = $pathparts[intval($countparts)];
+			global $wpdb;
 
-			if ( !in_array( $thistask, array('how-do-i','tasks','task-by-category','news-by-category','newspage','tagged','atoz','about','home','events','blog','activate','register','members','activity','forums','jargon-buster','search-staff','staff-directory','document-finder') ) ){
+			if ( !in_array( $thistask, array('how-do-i','tasks','task-by-category','news-by-category','newspage','tagged','atoz','about','home','events','blog','activate','register','members','activity','forums','jargon-buster','search-staff','staff-search','staff-directory','document-finder') ) ){
 	
-				$q = "select post_title, ID from wp_posts where post_name = '".$thistask."' and post_status='publish' and post_type='page';";
+				$q = "select post_title, ID from $wpdb->posts where post_name = '".$thistask."' and post_status='publish' and post_type='page';";
 	
-				global $wpdb;
 				
 				$thispage = $wpdb->get_results($q, ARRAY_A);
 				foreach ($thispage as $t){ //echo $t['post_title'];
@@ -441,7 +441,7 @@ else // load fresh analytics
 
 			if ( !in_array( $thistask, array('how-do-i','task-by-category','news-by-category','newspage','tagged','atoz','about','home','events','blog','activate','register','members','activity','forums','jargon-buster' ) ) ){
 	
-				$q = "select post_title, ID from wp_posts where post_name = '".$thistask."' and post_status='publish' and post_type='page';";
+				$q = "select post_title, ID from $wpdb->posts where post_name = '".$thistask."' and post_status='publish' and post_type='page';";
 	
 				global $wpdb;
 				

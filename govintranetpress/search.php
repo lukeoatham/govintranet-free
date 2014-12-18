@@ -27,6 +27,7 @@ if ($gishelpfulsearch == 1){
 		endwhile;
 		if ($location){
 			$location = str_replace( "#038;", "&", $location);
+			$location = str_replace( "&amp;", "&", $location);
 			header('Location: '.$location);
 			exit;
 		}

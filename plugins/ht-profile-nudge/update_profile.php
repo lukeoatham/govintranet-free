@@ -8,8 +8,7 @@ require_once('../../../wp-blog-header.php');
 
 // We need to verify the nonce.
 $nonce = $_REQUEST['_wpnonce'];
-$userid = $_POST['userid'];
-if (check_ajax_referer('update-user-'.$userid, 'nonce', false ) ) {
+if ( ! wp_verify_nonce( $nonce, 'update-profile' ) ) {
     // This nonce is not valid.
     die( 'Security check - there is something wrong' ); 
 } else {

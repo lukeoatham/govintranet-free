@@ -114,7 +114,6 @@ class SearchAutocomplete {
 				) );
 
 			} else {
-					$tempPosts = new stdClass();
 					$tempPosts->query_vars = array(
 					's'           => $term,
 					'numberposts' => $this->options['autocomplete_numrows'],
@@ -147,6 +146,13 @@ class SearchAutocomplete {
 					$linkURL = '#';
 				} else {
 					if ($post->post_type=="user"){
+/*
+						$user_avatar = get_wp_user_avatar($post->user_id, 18);
+						$pos1 = strpos($user_avatar,'src=\'',0);
+						$pos2 = strpos($user_avatar,'width',$pos1+10);
+						$user_avatar=substr($user_avatar, $pos1+10,$pos2-$pos1-12);
+						$user_avatar = "<img src='".$user_avatar."' height='18' width='18' alt='' />&nbsp;";
+*/
 						$linkURL = $post->link; // default link to author page
 						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
 							$linkURL=str_replace('/author', '/members', $linkURL); }
@@ -170,8 +176,8 @@ class SearchAutocomplete {
 		if ( count( $this->options['autocomplete_taxonomies'] ) > 0 ) {
 			$taxonomyTypes = "AND ( tax.taxonomy = '" . implode( "' OR tax.taxonomy = '", $this->options['autocomplete_taxonomies'] ) . "') ";
 			$queryStringTaxonomies = 'SELECT term.term_id as id, term.name as post_title, term.slug as guid, tax.taxonomy, 0 AS content_frequency, 0 AS title_frequency FROM ' . $wpdb->term_taxonomy . ' tax ' .
-					'LEFT JOIN ' . $wpdb->terms . ' term ON term.term_id = tax.term_id WHERE  ' .
-					' term.name LIKE "%' . $term . '%" ' .
+					'LEFT JOIN ' . $wpdb->terms . ' term ON term.term_id = tax.term_id WHERE 1 = 1 ' .
+					'AND term.name LIKE "%' . $term . '%" ' .
 					$taxonomyTypes .
 					'ORDER BY tax.count DESC ' .
 					'LIMIT 0, ' . $this->options['autocomplete_numrows'];

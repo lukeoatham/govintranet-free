@@ -21,33 +21,19 @@ class htAboutThisPage extends WP_Widget {
         $show_author = ($instance['show_author']);
 	        
 						$showabout = false;
-						if ( (is_single() || is_page() ) )  { 
+						if ( is_single() && !singular(array('forum','reply','topic')) ) { 
 						$showabout = true; }
-						if ( is_page() && pods_url_variable(0) == 'about' ) { 
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'about' && pods_url_variable(1) ) {
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'about' && pods_url_variable(2) ) {
+						if ( is_page('about') ) { 
 						$showabout = true; }
-						if ( pods_url_variable(0) == 'forum' ) {
+						if ( is_page('forums') ) {
 						$showabout = false; }
-						if ( pods_url_variable(0) == 'topic' ) {
+						if ( is_page('forum') ) {
 						$showabout = false; }
-						if ( pods_url_variable(0) == 'reply' ) {
-						$showabout = false; }							
-						if ( pods_url_variable(0) == 'task-by-category' ) {
+						if ( is_page('who-we-are') ) {
+						$showabout = true; }
+						if ( is_page('vacancies')) {
 						$showabout = false; }
-						if ( pods_url_variable(0) == 'news-by-category' ) {
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'newspage' ) {
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'how-do-i' ) {
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'tasks' ) {
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'events' ) {
-						$showabout = false; }
-						if ( pods_url_variable(0) == 'tagged' ) {
+						if ( is_page('projects') ) {
 						$showabout = false; }
 							
 						

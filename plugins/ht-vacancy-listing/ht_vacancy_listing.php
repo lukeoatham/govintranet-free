@@ -1,54 +1,64 @@
 <?php
 /*
-Plugin Name: HT Events listing
+Plugin Name: HT Vacancy listing
 Plugin URI: http://www.helpfultechnology.com
-Description: Display future events
+Description: Display closing vacancies
 Author: Luke Oatham
 Version: 0.1
 Author URI: http://www.helpfultechnology.com
 */
 
-class htEventsListing extends WP_Widget {
-    function htEventsListing() {
-        parent::WP_Widget(false, 'HT Events listing', array('description' => 'Events listing widget'));
+class htVacancyListing extends WP_Widget {
+    function htVacancyListing() {
+        parent::WP_Widget(false, 'HT Vacancy listing', array('description' => 'Vacancy listing widget'));
     }
 
     function widget($args, $instance) {
 	    extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
-        $thumbnails = ($instance['thumbnails']);
+        $days = intval($instance['days']);
 
 		//display forthcoming events
 		$tzone = get_option('timezone_string');
 		date_default_timezone_set($tzone);
-		$sdate=date('Ymd');
+		$checkdate=date('Y-m-d H:i:s');
+		$numdays = "+".$days." day";
+		$sdate = date('Y-m-d H:i:s',date(strtotime($numdays, strtotime($checkdate))));
 
 		$cquery = array(
 
 		   'meta_query' => array(
+			   'relation' => 'AND',
 		       array(
-	           		'key' => 'event_start_date',
+	           		'key' => 'closing_date',
 	        	   'value' => $sdate,
+	    	       'compare' => '<',
+	    	       'type' => 'DATE' 
+	    	       ),
+		       array(
+	           		'key' => 'closing_date',
+	        	   'value' => $checkdate,
 	    	       'compare' => '>=',
 	    	       'type' => 'DATE' 
 	    	       ) 
+	    	        
 		        ),   
 			    'orderby' => 'meta_value',
-			    'meta_key' => 'event_start_date',
+			    'meta_key' => 'closing_date',
 			    'order' => 'ASC',
-			    'post_type' => 'event',
+			    'post_type' => 'vacancies',
 				'posts_per_page' => $items,
 		);
-
+		//print_r($cquery);
 		$news =new WP_Query($cquery);
 		if ($news->post_count!=0){
 			echo "
 		    <style>
-			.upcoming-events .date-stamp {
+			.upcoming-vacancies .date-stamp {
 				border: 3px solid ".get_option('general_intranet_header_background').";
 			}
-			.upcoming-events .date-stamp em {
+			.upcoming-vacancies .date-stamp em {
 				background: ".get_option('general_intranet_header_background').";
 				
 			}
@@ -61,8 +71,8 @@ class htEventsListing extends WP_Widget {
 			if ( $title ) {
 				echo $before_title . $title . $after_title;
 			}
-			echo "<div class='widget-area widget-events'>";
-			if ($thumbnails!='on') echo "<div class='upcoming-events'><ul>";
+			echo "<div class='widget-area widget-vacancies'>";
+			if ($thumbnails!='on') echo "<div class='upcoming-vacancies'><ul>";
 		}
 		$k=0;
 		$alreadydone= array();
@@ -78,8 +88,8 @@ class htEventsListing extends WP_Widget {
 			}
 			global $post;//required for access within widget
 			$thistitle = get_the_title($post->ID);
-			$edate = get_post_meta($post->ID,'event_start_date',true);
-			$etime = get_post_meta($post->ID,'event_start_time',true);
+			$edate = get_post_meta($post->ID,'closing_date',true);
+			$etime = get_post_meta($post->ID,'closing_date',true);
 			$edate = date('D j M',strtotime($edate));
 			$edate .= " ".date('g:ia',strtotime($etime));
 
@@ -89,21 +99,21 @@ class htEventsListing extends WP_Widget {
 				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'thumbnail' ); 
 				if ($image_uri!="" ){
 					echo "<div class='media'>";
-					echo "<a class='pull-right' href='".site_url()."/event/".$post->post_name."/'><img class='tinythumb' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
+					echo "<a class='pull-right' href='".site_url()."/vacancies/".$post->post_name."/'><img class='tinythumb' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
 					echo "<div class='media-body'><a href='{$thisURL}'> ".$thistitle."</a><br><small>".$edate."</small>";
 					echo "</div></div>";
 				} else {
 					echo "<div class='media'><a href='{$thisURL}'> ".$thistitle."</a><br><small>".$edate."</small></div>";
 				} 
 			} else {
-				echo "<li><a href='".site_url()."/event/".$post->post_name."/'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</span>".$thistitle."<span>".get_post_meta($post->ID,'event_location',true)."</span></a></li>";
+				echo "<li><a href='".site_url()."/vacancies/".$post->post_name."/'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'closing_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'closing_date',true)))."</span>".$thistitle."<span></span></a></li>";
 			}
 		}
 
 
 		if ($news->post_count!=0){
 		if ($thumbnails!='on') echo "</ul></div>";
-			echo '<hr><p><strong><a title="More in events" class="small" href="'.site_url().'/events/">More in events</a></strong> <i class="glyphicon glyphicon-chevron-right small"></i></p></div>';
+			echo '<hr><p><strong><a title="More in vacancies" class="small" href="'.site_url().'/about/vacancies/">More in vacancies</a></strong> <i class="glyphicon glyphicon-chevron-right small"></i></p></div>';
 			echo $after_widget;
 		}
 		
@@ -115,14 +125,14 @@ class htEventsListing extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['items'] = strip_tags($new_instance['items']);
-		$instance['thumbnails'] = strip_tags($new_instance['thumbnails']);
+		$instance['days'] = strip_tags($new_instance['days']);
        return $instance;
     }
 
     function form($instance) {
         $title = esc_attr($instance['title']);
         $items = esc_attr($instance['items']);
-        $thumbnails = esc_attr($instance['thumbnails']);
+        $days = esc_attr($instance['days']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
@@ -130,9 +140,9 @@ class htEventsListing extends WP_Widget {
 
           <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
-          
-          <input id="<?php echo $this->get_field_id('thumbnails'); ?>" name="<?php echo $this->get_field_name('thumbnails'); ?>" type="checkbox" <?php checked((bool) $instance['thumbnails'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('thumbnails'); ?>"><?php _e('Show thumbnails'); ?></label> <br>
+
+          <label for="<?php echo $this->get_field_id('days'); ?>"><?php _e('Days to look forward:'); ?></label> 
+          <input class="widefat" id="<?php echo $this->get_field_id('days'); ?>" name="<?php echo $this->get_field_name('days'); ?>" type="text" value="<?php echo $days; ?>" /><br><br>
 
         </p>
 
@@ -140,9 +150,9 @@ class htEventsListing extends WP_Widget {
     }
 
 }
-		wp_register_style( 'ht-events-listing', plugin_dir_url( ).  "ht-events-listing/ht_events_listing.css");
-		wp_enqueue_style( 'ht-events-listing' );
+		wp_register_style( 'ht-vacancy-listing', plugin_dir_url( ).  "ht-vacancy-listing/ht_vacancy_listing.css");
+		wp_enqueue_style( 'ht-vacancy-listing' );
 
-add_action('widgets_init', create_function('', 'return register_widget("htEventsListing");'));
+add_action('widgets_init', create_function('', 'return register_widget("htVacancyListing");'));
 
 ?>
