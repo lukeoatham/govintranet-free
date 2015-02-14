@@ -1,0 +1,45 @@
+.wptag {
+	padding: 10px 10px;
+}
+.progress {
+	margin-bottom: 0;
+}
+.progress-bar {
+	background: none;
+}
+.progress-bar.progress-bar-title { background-color: #ffffff;
+	background-image: none;
+	color: #535353;
+	text-align: left;
+}
+.progress {
+	margin-bottom: 1px;
+}
+.progress-bar {
+	transition: width 2.7s ease;
+}
+
+.wptag.p1 {
+	background: #D9A300;
+}
+.wptag.p2 {
+	background: #DE762F;
+}
+.wptag.p3 {
+	background: #e24c1e;
+}
+.wptag.p4 {
+	background: #e20017;
+}
+.wptag.p1 a {
+	color: white !important;
+}
+.wptag.p2 a {
+	color: white !important;
+}
+.wptag.p3 a {
+	color: white !important;
+}
+.wptag.p4 a {
+	color: white !important;
+}

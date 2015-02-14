@@ -1,0 +1,48 @@
+@import "style.css";
+
+* {
+	color: black !important;
+}
+
+ul.xoxo, #respond, #access, #topheader, .reply , .sharebuttonsanywhere, #sectionnav, #primarynav, #searchform, #footer, .breadcrumbs, #sidebar {
+	display: none;
+}
+
+#mainlogo {
+	display: none;
+}
+
+#printtags {
+	display: none;
+}
+
+#printsm {
+	display: none;
+}
+
+#podcastslist {
+	display: none;
+}
+
+
+#mainlogobw {
+	display:block;
+	}
+
+.row .col-lg-8, .row .col-lg-6, .row .col-lg-4, .row .col-lg-3, .row .col-lg-2 {
+	width: 100%;
+	padding: 0;
+}
+
+p.printonlyheadline {
+	font-size: 1.2em;
+	position: static !important;
+	top: 1em;
+	left: 0 !important;
+	font-weight: normal;
+	padding: 0.5em 0;
+}
+
+#content a:link:after, #content a:visited:after, #sidebar a:link:after, #sidebar a:visited:after { 
+	content:" [" attr(href) "] "; 
+}

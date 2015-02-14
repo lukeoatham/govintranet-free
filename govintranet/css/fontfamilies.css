@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'Monotype';
+    src: url('../assets/fonts/webfonts/Monotype-Imaging-Soho-Gothic-Std-Regular.eot?') format('embedded-opentype'), url('../assets/fonts/webfonts/Monotype-Imaging-Soho-Gothic-Std-Regular.eot#iefix') format('embedded-opentype'), url('../assets/fonts/webfonts/Monotype-Imaging-Soho-Gothic-Std-Regular.ttf') format("truetype"), url('../assets/fonts/webfonts/Monotype-Imaging-Soho-Gothic-Std-Regular.woff') format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Monotype';
+    src: url('../assets/fonts/Monotype-Imaging-Soho-Gothic-Std-Bold.ttf');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Monotype';
+    src: url('../assets/fonts/Monotype-Imaging-Soho-Gothic-Std-Italic.ttf');
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Monotype';
+    src: url('../assets/fonts/Monotype-Imaging-Soho-Gothic-Std-Bold-Italic.ttf');
+    font-weight: 700;
+    font-style: italic;
+}
+
+h1, h2, h3, h4, h5, h6, h7 {
+	font-family: 'Monotype', sans-serif !important;
+}

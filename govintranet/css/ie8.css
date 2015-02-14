@@ -1,0 +1,90 @@
+
+
+ol {
+	list-style: decimal !important;
+	list-style-type: decimal !important;
+}
+ol li {
+		list-style-type: decimal !important;
+}
+
+img.media-object {
+	float: right;
+}
+
+
+.zign2n {
+	background: #f8f8f8;
+	border-top: 7px solid #787676;
+	margin-top: 0.8em;
+	margin-bottom: 2em;
+	}
+
+.nopadright {
+	padding-right: 1em;	
+}
+
+.media-object {
+	float: right;
+}
+
+.widget-box.list li {
+	margin-left: 1em !important;
+}
+
+.wptag a  {
+	color:#454a4c !important;
+	text-decoration: none;
+	padding: 0 !important;
+	line-height: 200% !important;
+}
+
+.maildocument  {
+	background: url('../images/email.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+
+.pdfdocument  {
+	background: url('../images/pdf.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+
+.xlsdocument  {
+	background: url('../images/xls.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+.docdocument  {
+	background: url('../images/doc.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+.pptdocument  {
+	background: url('../images/icon-ppt.gif') no-repeat;
+	padding: 2px 0 4px 20px;
+	white-space: nowrap;
+	display: inline-block;
+	line-height:1.3em; margin:0 0 0.3em; vertical-align:middle; position:relative; top:0.15em;
+}
+
+#peoplenav ul li  {
+	margin-bottom: 2em !important;
+}
+
+#peoplenav well  {
+	margin-bottom: 2em !important;
+}
