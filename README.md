@@ -28,10 +28,10 @@ Intranet theme inspired by GOV.UK. Custom post types: news, blog, events, tasks 
 
 ## Installation ##
 
-This theme requires the [Advanced Custom Fields Pro plugin](http://wordpress.org/extend/plugins/acf/) to manage custom post types.  
+This theme requires the [Advanced Custom Fields Pro plugin](http://www.advancedcustomfields.com/pro) to manage custom post types.  
 Tested up to: 5
-Refer to [showcase site](https://govintranet.helpfulclients.com/) for example installation.  
-[Setup instructions](http://govintranetters.helpfulclients.com)
+Refer to [showcase site](https://govintranet.helpfulclients.com/) for example intranet.  
+Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for help and installation instructions.
 
 ## Changelog ##
 
@@ -39,6 +39,7 @@ Refer to [showcase site](https://govintranet.helpfulclients.com/) for example in
 * Major rewrite for Advanced Custom Fields
 * New widgets
 * Bug fixes
+* [Detailed list of changes and enhancements](http://govintranetters.helpfulclients.com)
 
 ### 3.0.9 - 5th May 2014 ###
 * Final templates for events pages   
