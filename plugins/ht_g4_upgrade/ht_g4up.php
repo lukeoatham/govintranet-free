@@ -583,6 +583,7 @@ function ht_g4up_options() {
 		$query = $wpdb->query("DELETE from $wpdb->postmeta WHERE $wpdb->postmeta.meta_key='parent_project';");
 		$query = $wpdb->query("DELETE from $wpdb->postmeta WHERE $wpdb->postmeta.meta_key='children_pages';");
 		$query = $wpdb->query("DELETE from $wpdb->postmeta WHERE $wpdb->postmeta.meta_key='project';");
+		$query = $wpdb->query("DELETE from $wpdb->postmeta WHERE $wpdb->postmeta.meta_key='related' AND $wpdb->postmeta.meta_value='';");
 
 	echo "<h1>Finished</h1>";    	
 	echo "<h3>Almost there! Before you activate the new theme:</h3>";    	

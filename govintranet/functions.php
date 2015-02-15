@@ -4806,4 +4806,12 @@ function save_event_meta( $post_id ) {
 }
 add_action( 'save_post', 'save_event_meta' );
 
+function filter_search($query) {
+    if ($query->is_tag && !is_admin()) {
+		$query->set('post_type', array('any'));
+    }
+    return $query;
+}; 
+add_filter('pre_get_posts', 'filter_search');
+
 ?>
