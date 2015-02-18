@@ -25,7 +25,6 @@ $mainid=$post->ID;
 	</div>
 
 	<h1><?php the_title(); ?></h1>
-  <div ></div>
     
 	<?php 
 	$sm_dates = get_post_meta($post->ID,'event_start_date',TRUE);
@@ -223,21 +222,23 @@ $mainid=$post->ID;
 
 <?php 
 function escapeString($string) {
-return preg_replace('/([\,;])/','\\\$1', $string);
+return preg_replace('/([\,\'\";])/','\\\$1', $string);
 }
+$ex = escapeString(get_the_excerpt());
+if ( !$ex ) $ex = substr( strip_tags( $post->post_content ), 0 ); 
 ?>
   <script>
       var myCalendar = createCalendar({
         options: {
-          class: 'add-to-calendar-link',
-          id: 'add-to-calendar'                               // You need to pass an ID. If you don't, one will be generated for you.
+          class: 'addto-calendar-link',
+          id: 'add-to-calendar',                               // You need to pass an ID. If you don't, one will be generated for you.
         },
         data: {
           title: '<?php echo escapeString(get_the_title()); ?>',
           start: new Date('<?php echo date('F d, Y ',strtotime(get_post_meta($post->ID,'event_start_date',TRUE))); echo date('H:i',strtotime(get_post_meta($post->ID,'event_start_time',TRUE))); ?>'),
           end: new Date('<?php echo date('F d, Y ',strtotime(get_post_meta($post->ID,'event_end_date',TRUE))); echo date('H:i',strtotime(get_post_meta($post->ID,'event_end_time',TRUE))); ?>'),
           address: '<?php echo escapeString(get_post_meta($post->ID,'event_location',TRUE)); ?>',
-          description: '<?php echo escapeString(get_the_excerpt()); ?>'
+          description: '<?php echo $ex; ?>',
         }
       });
 
