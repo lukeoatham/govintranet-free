@@ -20,15 +20,22 @@ get_header(); ?>
 					}?>
 			</div>
 		</div>
+
+		<h1><?php the_title(); 
+		$pub = get_terms( 'event-type', 'orderby=count&hide_empty=1' );
+		$cat_id = $_GET['cat'];;
+		if (count($pub)>0 and $cat_id!=''){
+			foreach ($pub as $sc) { 
+				if ($cat_id == $sc->slug) { echo ' - '.$sc->name; } 
+			}
+		}
+		if ($cdir=='b') {
+			echo " <small>Past events</small>" ;
+		}
+		?>
+		</h1>
 			
 		<?php 
-		echo "<h1>";
-		if ($cdir!='b') {
-			echo "Events";
-		} else { 
-		echo "Past events" ;
-		}
-		echo "</h1>";
 		if ($eventcat==""){
 			if ($cdir=="b"){
 				$timetravel = "<div class='futureevents'><p><a href='".home_url( '/' )."events/?cdir=f'>Future events &raquo;</a></p></div>";
@@ -41,15 +48,6 @@ get_header(); ?>
 			} else {
 				$timetravel = "<div class='pastevents'><p><a href='".home_url( '/' )."events/?cdir=b&cat=".$eventcat."'>&laquo; Past events</a></p></div>";
 			}																
-		}
-
-		$pub = get_terms( 'event_type', 'orderby=count&hide_empty=1' );
-		$cat_id='';
-		if ( isset($_GET['cat'])) $cat_id = $_GET['cat'];;
-		if (count($pub)>0 and $cat_id!=''){
-			foreach ($pub as $sc) { 
-				if ( $cat_id == $sc->slug ) echo ' - '.$sc->name;
-			}
 		}
 
 		the_content(); 
