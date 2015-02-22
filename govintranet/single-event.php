@@ -112,14 +112,19 @@ $mainid=$post->ID;
 	<?php 
 	endif;
 	
-	$map= get_post_meta($post->ID,'event_map_location',true);
-	
-	if ($map['lat']):
-		$loc = ($map['lat'].",".$map['lng']);
-		$text = esc_attr(get_post_meta($post->ID,'event_location',true));
-		?>	
+	$map = get_post_meta($post->ID,'event_map_location',true);
+	$text = esc_attr(get_post_meta($post->ID,'event_location',true));
+
+	if ( isset( $text ) ): 
+		echo'
 		<div class="widget-box">
 		<h3>Location</h3>
+		';
+	endif;
+
+	if ($map['lat']):
+		$loc = ($map['lat'].",".$map['lng']);
+		?>	
 		<script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		<script>
 			var map;
@@ -138,13 +143,16 @@ $mainid=$post->ID;
 					animation: google.maps.Animation.DROP
 				});
 			}
-
 			google.maps.event.addDomListener(window, 'load', initialize);
 		</script>
 		<div id="map-canvas" class="google_map"></div>
-		<?php echo wpautop($text); ?>
-		</div>
-	<?php endif; 
+	<?php 
+	endif; 
+		
+	if ( isset( $text ) ): 
+		echo wpautop($text); 
+		echo "</div>";
+	endif;
 	
 	$related = get_post_meta($id,'related',true);
 

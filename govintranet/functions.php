@@ -2203,64 +2203,6 @@ if ($homepageid = $homepage->ID):
 		'title' => 'Homepage',
 		'fields' => array (
 			array (
-				'key' => 'field_536f6ecd6470c',
-				'label' => 'Pin news stories',
-				'name' => 'top_news_stories',
-				'prefix' => '',
-				'type' => 'relationship',
-				'instructions' => '',
-				'required' => 0,
-				'conditional_logic' => 0,
-				'return_format' => 'object',
-				'post_type' => array (
-					0 => 'news',
-				),
-				'taxonomy' => array (
-				),
-				'filters' => array (
-					0 => 'search',
-				),
-				'result_elements' => array (
-					0 => 'featured_image',
-				),
-				'max' => '',
-				'elements' => array (
-				),
-			),
-			array (
-				'key' => 'field_536f711ab8aad',
-				'label' => 'Pin active pages',
-				'name' => 'top_pages',
-				'prefix' => '',
-				'type' => 'relationship',
-				'instructions' => '',
-				'required' => 0,
-				'conditional_logic' => 0,
-				'return_format' => 'object',
-				'post_type' => array (
-					0 => 'page',
-					1 => 'blog',
-					2 => 'event',
-					3 => 'task',
-					4 => 'news',
-					5 => 'project',
-					6 => 'vacancy',
-				),
-				'taxonomy' => array (
-				),
-				'filters' => array (
-					0 => 'search',
-					1 => 'post_type',
-				),
-				'result_elements' => array (
-					0 => 'featured_image',
-					1 => 'post_type',
-				),
-				'max' => '',
-				'elements' => array (
-				),
-			),
-			array (
 				'key' => 'field_536f714eb8aae',
 				'label' => 'Emergency message style',
 				'name' => 'emergency_message_style',

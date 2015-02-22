@@ -76,6 +76,19 @@ function ht_g4up_options() {
 */
 		$query = $wpdb->query("UPDATE $wpdb->posts, $wpdb->postmeta SET post_parent = $wpdb->postmeta.meta_value WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id and $wpdb->postmeta.meta_key='parent_guide' and $wpdb->posts.post_type = 'task';");
 		echo "<br>Upgraded ".$query." guide chapters";
+
+		$query = $wpdb->get_results("select post_id, meta_value from $wpdb->postmeta where meta_key='_pods_children_chapters';");
+		if ($query):
+			foreach ((array)$query as $q){ 
+				$cs = get_post_meta($q->post_id,'children_chapters',false); //print_r($cs);
+				$ordercount = 0;
+				foreach ($cs as $key => $oldchapter){ 
+					$o = $oldchapter['ID'];
+					$ordercount = $ordercount + 10;
+					$query2 = $wpdb->query("UPDATE $wpdb->posts SET menu_order = ".$ordercount." WHERE $wpdb->posts.ID = ".$o.";");
+				}
+			}
+		endif;
 		ob_flush();
 		unset($query);
 		$query = $wpdb->query("UPDATE $wpdb->postmeta set meta_key = 'related' WHERE meta_key = 'related_tasks';");
@@ -220,6 +233,18 @@ function ht_g4up_options() {
 		echo "<br>Upgraded ".$query." parent projects";
 		ob_flush();
 		unset($query);
+		$query = $wpdb->get_results("select post_id, meta_value from $wpdb->postmeta where meta_key='_pods_children_pages';");
+		if ($query):
+			foreach ((array)$query as $q){ 
+				$cs = get_post_meta($q->post_id,'children_pages',false); //print_r($cs);
+				$ordercount = 0;
+				foreach ($cs as $key => $oldchapter){ 
+					$o = $oldchapter['ID'];
+					$ordercount = $ordercount + 10;
+					$query2 = $wpdb->query("UPDATE $wpdb->posts SET menu_order = ".$ordercount." WHERE $wpdb->posts.ID = ".$o.";");
+				}
+			}
+		endif;
 		$query = $wpdb->query("UPDATE $wpdb->postmeta set meta_key = 'related' WHERE meta_key = 'related_projects';");
 		echo "<br>Upgraded ".$query." related project records";
 		ob_flush();
