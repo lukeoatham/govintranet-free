@@ -68,7 +68,7 @@ get_header();
 							global $k; 
 							$k = 0;
 							while ($projectspost->have_posts()) : $projectspost->the_post();
-								get_template_part( 'loop', 'newstwitter' );
+								get_template_part( 'loop', 'newsblogs' );
 							endwhile;
 							if (  $projectspost->max_num_pages > 1 ) : ?>
 							<?php if (function_exists('wp_pagenavi')) : ?>

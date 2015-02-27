@@ -4,7 +4,7 @@ Plugin Name: HT Most active
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most active pages
 Author: Luke Oatham
-Version: 0.3
+Version: 0.2
 Author URI: http://www.helpfultechnology.com
 */
  
@@ -343,7 +343,7 @@ class htMostActive extends WP_Widget {
 				$path = "/blog/"; 
 				$pathlen = strlen($path); 
 				
-				if (substr( $filtered_pagepath,0,$pathlen ) == $path && $blog == 'on' ){ 
+				if (substr( $filtered_pagepath,0,$pathlen ) == $path && $blogs == 'on' ){ 
 		
 					$pathparts = explode("/", $result->getPagePath()); 
 					if ( end($parthparts) == '' ) array_pop($pathparts); 

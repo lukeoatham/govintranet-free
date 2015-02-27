@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.0
+Version: 4.0.1.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -22,6 +22,7 @@ class htEventsListing extends WP_Widget {
         $calendar = ($instance['calendar']);
         $thumbnails = ($instance['thumbnails']);
         $excerpt = ($instance['excerpt']);
+        $location = ($instance['location']);
         $recent = ($instance['recent']);
 		wp_register_style( 'ht-events-listing', plugin_dir_url("/") ."ht-events-listing/ht_events_listing.css" );
 		wp_enqueue_style( 'ht-events-listing' );
@@ -62,6 +63,8 @@ class htEventsListing extends WP_Widget {
 		);
 
 		$news =new WP_Query($cquery);
+			echo "<div class='widget-area widget-events'><div class='upcoming-events'>";
+		
 		if ($news->post_count!=0){
 			$wtitle = "upcoming";
 			echo "
@@ -81,8 +84,7 @@ class htEventsListing extends WP_Widget {
 			if ( $title ) {
 				echo $before_title . $title . $after_title;
 			}
-			echo "<div class='widget-area widget-events upcoming-events'>";
-			if ($thumbnails!='on' || $calendar=='on') echo "<div><ul>";
+			//if ($thumbnails!='on' || $calendar=='on') echo "<div><ul>";
 		} elseif ( 'on' == $recent) {
 				$wtitle = "recent";
 				$cquery = array(
@@ -116,30 +118,30 @@ class htEventsListing extends WP_Widget {
 			$news =new WP_Query($cquery);
 				if ($news->post_count!=0){
 					echo "
-		    <style>
-			.upcoming-events .date-stamp {
-				border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-			}
-			.upcoming-events .date-stamp em {
-				background: ".get_theme_mod('header_background', '0b2d49').";
-				color: #".get_header_textcolor().";
-			}
-		    </style>
+					    <style>
+						.upcoming-events .date-stamp {
+							border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+						}
+						.upcoming-events .date-stamp em {
+							background: ".get_theme_mod('header_background', '0b2d49').";
+							color: #".get_header_textcolor().";
+						}
+					    </style>
 				    ";
 					echo $before_widget; 
 		
 					if ( $title ) {
 						echo $before_title . $title . $after_title;
 					}
-					echo "<div class='widget-area widget-events'>";
-					if ( 'recent' == $wtitle ) echo "<small><strong>Most recent</strong></small>";
-					if ( 'on' == $calendar ) echo "<div class='upcoming-events'><ul>";
 				}
 		}
 		$k=0;
 		$alreadydone= array();
 
 		while ($news->have_posts()) {
+
+			if ( 'recent' == $wtitle ) echo "<small><strong>Most recent</strong></small>";
+			
 			$news->the_post();
 			if (in_array($post->ID, $alreadydone )) { //don't show if already in stickies
 				continue;
@@ -156,41 +158,35 @@ class htEventsListing extends WP_Widget {
 			$edate .= " ".date('g:ia',strtotime($etime));
 			$thisURL=get_permalink($ID); 
 			
+			echo "<div class='row'><div class='col-sm-12'>";
+			
 			if ($thumbnails=='on'){
 				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'newsmedium' ); 
 				if ($image_uri != "" ){
-					echo "<hr><a href='".$thisURL."'><img class='img img-responsive' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
-					if (!$calendar == 'on') echo "<div class='media-body'><a href='{$thisURL}'> ".$thistitle."</a>";
-					if (!$calendar == 'on') echo "<br><small>".$edate."</small>";
-					if (!$calendar == 'on') echo "<br><span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
-					if ( $excerpt == 'on' && !$calendar == 'on' ){
-						echo "<br><span>".get_the_excerpt()."</span>";
-					}
-					if (!$calendar == 'on') echo "</div>";
+					echo "<a href='".$thisURL."'><img class='img img-responsive' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
 				}
 			} 
 
 			if ( 'on' == $calendar ) {
-				echo "<li><a href='".$thisURL."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</span>".$thistitle."</a>";
-				echo "<span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
-				if ($excerpt == 'on'){
-					echo "<br><span>".get_the_excerpt()."</span>";
-				}
-				echo "</li>";
+				echo "<a href='".$thisURL."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</span>".$thistitle."</a>";
+			} else {
+				echo "<a href='{$thisURL}'> ".$thistitle."</a>";
 			} 
 
-			if (!$thumbnails == 'on' && !$calendar == 'on') {
-				echo "<div class='media'><a href='{$thisURL}'> ".$thistitle."</a><br><small>".$edate."</small><br></div>";
-				echo "<span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
-				if ($excerpt == 'on'){
-					echo "<br><br><span>".get_the_excerpt()."</span>";
-				}
-			} 
+			if (!$calendar == 'on') echo "<br><small>".$edate."</small>";
 
+			if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) ) echo "<span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
+
+			if ( $excerpt == 'on' && get_the_excerpt() ){
+				echo "<br><span>".get_the_excerpt()."</span>";
+			}
+
+
+			echo "</div>";
+			echo "</div><hr>";
 		}
 
 		if ($news->post_count!=0){
-			if ( 'on' == $calendar ) echo "</ul></div>";
 
 			$landingpage = get_option('options_module_events_page'); 
 			if ( !$landingpage ):
@@ -201,13 +197,12 @@ class htEventsListing extends WP_Widget {
 				$landingpage = get_permalink( $landingpage[0] );
 			endif;
 
-			echo '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
+			echo '<p class="events-more"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 			echo $after_widget;
 		}
+		echo "</div>";
+		echo "</div>";
 
-		if ($news->post_count!=0){
-			echo "</div>";
-		}
 				
 		wp_reset_query();								
 
@@ -220,6 +215,7 @@ class htEventsListing extends WP_Widget {
 		$instance['calendar'] = strip_tags($new_instance['calendar']);
 		$instance['thumbnails'] = strip_tags($new_instance['thumbnails']);
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
+		$instance['location'] = strip_tags($new_instance['location']);
 		$instance['recent'] = strip_tags($new_instance['recent']);
        return $instance;
     }
@@ -230,6 +226,7 @@ class htEventsListing extends WP_Widget {
         $calendar = esc_attr($instance['calendar']);
         $thumbnails = esc_attr($instance['thumbnails']);
         $excerpt = esc_attr($instance['excerpt']);
+        $location = esc_attr($instance['location']);
         $recent = esc_attr($instance['recent']);
         ?>
          <p>
@@ -247,6 +244,9 @@ class htEventsListing extends WP_Widget {
 
           <input id="<?php echo $this->get_field_id('excerpt'); ?>" name="<?php echo $this->get_field_name('excerpt'); ?>" type="checkbox" <?php checked((bool) $instance['excerpt'], true ); ?> />
           <label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt'); ?></label> <br><br>
+
+          <input id="<?php echo $this->get_field_id('location'); ?>" name="<?php echo $this->get_field_name('location'); ?>" type="checkbox" <?php checked((bool) $instance['location'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('location'); ?>"><?php _e('Show location'); ?></label> <br><br>
 
           <input id="<?php echo $this->get_field_id('recent'); ?>" name="<?php echo $this->get_field_name('recent'); ?>" type="checkbox" <?php checked((bool) $instance['recent'], true ); ?> />
           <label for="<?php echo $this->get_field_id('recent'); ?>"><?php _e('Show recent'); ?></label> <br>

@@ -1,3 +1,6 @@
+.upcoming-events a img {
+	margin-bottom: 1em;
+}	
 .upcoming-events .date-stamp {
 	width: 40px;
 	margin-right: 5%;
@@ -16,20 +19,23 @@
 .upcoming-events ul {
 	list-style: none;
 }
-.upcoming-events li span {
+.upcoming-events span {
 	display: block;
 	color: #555;
 	font-size: 0.9em;
 	margin-top: 3px;
 }
-.upcoming-events li a+span {
+.upcoming-events p.events-more strong, .upcoming-events p.events-more span {
+	display: inline;
+}
+.upcoming-events a+span {
 	display: block;
 	color: #555;
 	font-size: 0.9em;
 	margin-top: 13px;
 }
 
-.upcoming-events li strong {
+.upcoming-events strong {
 	display: block;
 }
 
@@ -43,7 +49,12 @@
 	margin-bottom: 5px;
 }
 
-.upcoming-events li:after {
+.upcoming-events:after {
+	content: ' ';
+	display: block;
+	clear: both;
+}
+.upcoming-events hr:after {
 	content: ' ';
 	display: block;
 	clear: both;

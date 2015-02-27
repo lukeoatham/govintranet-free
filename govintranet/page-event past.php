@@ -30,7 +30,7 @@ get_header(); ?>
 			}
 		}
 		if ($cdir=='b') {
-			echo " <small>Past events</small>" ;
+			echo " <small>Past ".strtolower(get_the_title())."</small>" ;
 		}
 		?>
 		</h1>
@@ -38,15 +38,15 @@ get_header(); ?>
 		<?php 
 		if ($eventcat==""){
 			if ($cdir=="b"){
-				$timetravel = "<div class='futureevents'><p><a href='".home_url( '/' )."events/?cdir=f'>Future events &raquo;</a></p></div>";
+				$timetravel = "<div class='futureevents'><p><a href='".home_url( '/' )."events/?cdir=f'>Future ".strtolower(get_the_title())." &raquo;</a></p></div>";
 			} else {
-				$timetravel = "<div class='pastevents'><p><a href='".home_url( '/' )."events/?cdir=b'>&laquo; Past events</a></p></div>";
+				$timetravel = "<div class='pastevents'><p><a href='".home_url( '/' )."events/?cdir=b'>&laquo; Past ".strtolower(get_the_title())."</a></p></div>";
 			}
 		} else {
 			if ($cdir=="b"){
-				$timetravel = "<div class='futureevents'><p><a href='".home_url( '/' )."events/?cdir=f&cat=".$eventcat."'>Future events &raquo;</a></p></div>";
+				$timetravel = "<div class='futureevents'><p><a href='".home_url( '/' )."events/?cdir=f&cat=".$eventcat."'>Future ".strtolower(get_the_title())." &raquo;</a></p></div>";
 			} else {
-				$timetravel = "<div class='pastevents'><p><a href='".home_url( '/' )."events/?cdir=b&cat=".$eventcat."'>&laquo; Past events</a></p></div>";
+				$timetravel = "<div class='pastevents'><p><a href='".home_url( '/' )."events/?cdir=b&cat=".$eventcat."'>&laquo; Past ".strtolower(get_the_title())."</a></p></div>";
 			}																
 		}
 
@@ -219,7 +219,9 @@ get_header(); ?>
 				$customquery->the_post();
 				echo "<div class='media'>";
 				if ( has_post_thumbnail( $post->ID ) ) {
+					echo "<a href='" .get_permalink() . "'>";
 					the_post_thumbnail('thumbnail',"class=alignleft");
+					echo  "</a>";
 				}	
 				echo "<div class='media-body'><h3><a href='" .get_permalink() . "'>" . get_the_title() . "</a></h3>";
 				$thisdate =  get_post_meta($post->ID,'event_start_date',true); 
@@ -265,13 +267,15 @@ get_header(); ?>
 			echo "</p></div>";
 		}
 		?>
-		<div class="widget-box">
-				<h3 class='widget-title'>Browse by tag</h3>
-				<?php 
-				echo gi_howto_tag_cloud('event'); 
-				echo "<br>";
+				<?php
+				if ( gi_howto_tag_cloud('event') ) :
+					echo "<div class='widget-box'>";
+					echo  "<h3 class='widget-title'>Browse by tag</h3>";
+					echo gi_howto_tag_cloud('event'); 
+					echo "<br>";
+					echo "</div>";
+				endif;
 				?>
-		</div>			
 	
 	 	<?php dynamic_sidebar('eventslanding-widget-area'); ?> 
 	

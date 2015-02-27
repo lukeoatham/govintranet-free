@@ -112,47 +112,39 @@ $mainid=$post->ID;
 	<?php 
 	endif;
 	
-	$map = get_post_meta($post->ID,'event_map_location',true);
-	$text = esc_attr(get_post_meta($post->ID,'event_location',true));
-
-	if ( isset( $text ) ): 
-		echo'
-		<div class="widget-box">
-		<h3>Location</h3>
-		';
-	endif;
-
+	$map= get_post_meta($post->ID,'event_map_location',true);
+	
 	if ($map['lat']):
 		$loc = ($map['lat'].",".$map['lng']);
+		$text = esc_attr(get_post_meta($post->ID,'event_location',true));
 		?>	
-		<script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-		<script>
-			var map;
-			function initialize() {
-				var mapOptions = {
-					zoom: 15,
-					center: new google.maps.LatLng(<?php echo $loc; ?>),
-					mapTypeId: google.maps.MapTypeId.ROADMAP
-				};
-				map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-				
-				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(<?php echo $loc; ?>),
-					map: map,
-					title: '<?php the_title(); ?>',
-					animation: google.maps.Animation.DROP
-				});
-			}
-			google.maps.event.addDomListener(window, 'load', initialize);
-		</script>
-		<div id="map-canvas" class="google_map"></div>
-	<?php 
-	endif; 
-		
-	if ( isset( $text ) ): 
-		echo wpautop($text); 
-		echo "</div>";
-	endif;
+		<div class="widget-box">
+			<h3>Location</h3>
+			<script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+			<script>
+				var map;
+				function initialize() {
+					var mapOptions = {
+						zoom: 15,
+						center: new google.maps.LatLng(<?php echo $loc; ?>),
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					};
+					map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+					
+					var marker = new google.maps.Marker({
+						position: new google.maps.LatLng(<?php echo $loc; ?>),
+						map: map,
+						title: '<?php the_title(); ?>',
+						animation: google.maps.Animation.DROP
+					});
+				}
+	
+				google.maps.event.addDomListener(window, 'load', initialize);
+			</script>
+			<div id="map-canvas" class="google_map"></div>
+			<div id="map-location"><?php echo wpautop($text); ?></div>
+		</div>
+	<?php endif; 
 	
 	$related = get_post_meta($id,'related',true);
 

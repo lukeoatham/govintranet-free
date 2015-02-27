@@ -179,7 +179,7 @@ class htMostRecent extends WP_Widget {
 					$title_context='';
 					if ($taskparent){
 						$parent_guide_id = $taskparent->ID; 		
-						$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")"; 
+						$title_context=" <small>(".govintranetpress_custom_title($taskparent->post_title).")</small>"; 
 					}
 				} elseif ( get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$r->ID."&orderby=menu_order&order=ASC") ){
 					$context = "guide";
