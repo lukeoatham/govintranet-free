@@ -4,7 +4,7 @@ Plugin Name: GovIntranet 4 upgrade
 Plugin URI: http://www.helpfultechnology.com
 Description: Upgrades GovIntranet from version 3 (Pods) to version 4 (ACF)
 Author: Luke Oatham
-Version: 0.1
+Version: 0.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -76,6 +76,19 @@ function ht_g4up_options() {
 */
 		$query = $wpdb->query("UPDATE $wpdb->posts, $wpdb->postmeta SET post_parent = $wpdb->postmeta.meta_value WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id and $wpdb->postmeta.meta_key='parent_guide' and $wpdb->posts.post_type = 'task';");
 		echo "<br>Upgraded ".$query." guide chapters";
+
+		$query = $wpdb->get_results("select post_id, meta_value from $wpdb->postmeta where meta_key='_pods_children_chapters';");
+		if ($query):
+			foreach ((array)$query as $q){ 
+				$cs = get_post_meta($q->post_id,'children_chapters',false); //print_r($cs);
+				$ordercount = 0;
+				foreach ($cs as $key => $oldchapter){ 
+					$o = $oldchapter['ID'];
+					$ordercount = $ordercount + 10;
+					$query2 = $wpdb->query("UPDATE $wpdb->posts SET menu_order = ".$ordercount." WHERE $wpdb->posts.ID = ".$o.";");
+				}
+			}
+		endif;
 		ob_flush();
 		unset($query);
 		$query = $wpdb->query("UPDATE $wpdb->postmeta set meta_key = 'related' WHERE meta_key = 'related_tasks';");
@@ -220,6 +233,18 @@ function ht_g4up_options() {
 		echo "<br>Upgraded ".$query." parent projects";
 		ob_flush();
 		unset($query);
+		$query = $wpdb->get_results("select post_id, meta_value from $wpdb->postmeta where meta_key='_pods_children_pages';");
+		if ($query):
+			foreach ((array)$query as $q){ 
+				$cs = get_post_meta($q->post_id,'children_pages',false); //print_r($cs);
+				$ordercount = 0;
+				foreach ($cs as $key => $oldchapter){ 
+					$o = $oldchapter['ID'];
+					$ordercount = $ordercount + 10;
+					$query2 = $wpdb->query("UPDATE $wpdb->posts SET menu_order = ".$ordercount." WHERE $wpdb->posts.ID = ".$o.";");
+				}
+			}
+		endif;
 		$query = $wpdb->query("UPDATE $wpdb->postmeta set meta_key = 'related' WHERE meta_key = 'related_projects';");
 		echo "<br>Upgraded ".$query." related project records";
 		ob_flush();
@@ -305,6 +330,8 @@ function ht_g4up_options() {
 		echo "<br>Upgraded ".$relatedcount." related projects";
 		ob_flush();
 		unset($query);
+		$query = $wpdb->query("UPDATE $wpdb->posts set post_type = 'vacancy' WHERE post_type = 'vacancies';");
+		echo "<br>Upgraded ".$query." vacancy post types";
 
 		echo "<br><br><strong>Upgrading taxonomies</strong> ";		
 		$terms = get_terms('category');
@@ -583,6 +610,7 @@ function ht_g4up_options() {
 		$query = $wpdb->query("DELETE from $wpdb->postmeta WHERE $wpdb->postmeta.meta_key='parent_project';");
 		$query = $wpdb->query("DELETE from $wpdb->postmeta WHERE $wpdb->postmeta.meta_key='children_pages';");
 		$query = $wpdb->query("DELETE from $wpdb->postmeta WHERE $wpdb->postmeta.meta_key='project';");
+		$query = $wpdb->query("DELETE from $wpdb->postmeta WHERE $wpdb->postmeta.meta_key='related' AND $wpdb->postmeta.meta_value='';");
 
 	echo "<h1>Finished</h1>";    	
 	echo "<h3>Almost there! Before you activate the new theme:</h3>";    	

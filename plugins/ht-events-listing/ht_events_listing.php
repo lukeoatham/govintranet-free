@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.0.1.3
+Version: 4.0.1.4
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -140,8 +140,8 @@ class htEventsListing extends WP_Widget {
 
 		while ($news->have_posts()) {
 
-			if ( 'recent' == $wtitle ) echo "<small><strong>Most recent</strong></small>";
-			
+			if ( 'recent' == $wtitle ) echo "<small><strong>Nothing coming up. Here's the most recent:</strong></small><br>";
+			$wtitle = '';
 			$news->the_post();
 			if (in_array($post->ID, $alreadydone )) { //don't show if already in stickies
 				continue;

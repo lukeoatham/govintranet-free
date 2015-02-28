@@ -233,7 +233,7 @@ get_header(); ?>
 							
 							if ( get_user_meta($userid ,'user_telephone',true )) : 
 				
-								echo '<i class="dashicons dashicons-phonee"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
+								echo '<i class="dashicons dashicons-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
 				
 							endif; 
 				
