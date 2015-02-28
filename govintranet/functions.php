@@ -1199,6 +1199,7 @@ add_filter('upload_mimes', 'custom_upload_mimes');
 function custom_upload_mimes ( $existing_mimes=array() ) { 
 	// Add *.RDP files to Media upload 
 	$existing_mimes['rdp'] = 'application/rdp'; 
+	$existing_mimes['eps'] = 'application/eps'; 
 	return $existing_mimes; 
 }
 
@@ -4667,6 +4668,7 @@ function my_attributes_dropdown_pages_args($dropdown_args) {
 
     return $dropdown_args;
 }
+add_filter('page_attributes_dropdown_pages_args', 'my_attributes_dropdown_pages_args', 1, 1);
 
 /**
  * Save post metadata when a news post is saved.
