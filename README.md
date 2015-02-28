@@ -35,6 +35,20 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.0.1.3 - 28th Feb 2015 ###
+* Team page icon correction
+* Tube status widget
+* Vacancy and jargonbuster upgrade fix
+
+### 4.0.1.2 - 27th Feb 2015 ###
+* Most active widget style changes
+* Tube status widget
+
+### 4.0.1.1 - 22nd Feb 2015 ###
+* Upgrade plugin updates
+* Add to calendar events bugfix
+* Removed pin news stories from general settings to feature news widget
+
 ### 4.0.1 - 14th Feb 2015 ###
 * Major rewrite for Advanced Custom Fields
 * New widgets
