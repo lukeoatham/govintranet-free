@@ -35,6 +35,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.0.1.4 - 4 Mar 2015 ###
+* Full width images
+* Allow parents in draft
+* How do I classic template
+* Event location move
+* 
+
 ### 4.0.1.3 - 28th Feb 2015 ###
 * Team page icon correction
 * Tube status widget

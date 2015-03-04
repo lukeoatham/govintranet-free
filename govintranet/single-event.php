@@ -74,6 +74,16 @@ $mainid=$post->ID;
 		gravity_form($formtitle, $display_title=true, $display_description=true, $display_inactive=false, $field_values=$params, $ajax=false, $formid);
 	}
 
+	$sdate = date('Y-m-d');
+	$ticketid = get_post_meta($post->ID,'eventbrite_ticket',true);
+	if ($ticketid && $sdate < date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) ) : ?>
+		<h3>Tickets and registration</h3>
+		<div style="width:100%; text-align:left;" >
+			<iframe src="https://www.eventbrite.com/tickets-external?eid=<?php echo $ticketid; ?>" frameborder="0" height="256" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe>
+		</div>
+	<?php 
+	endif;
+
 	$current_attachments = get_field('document_attachments');
 	if ($current_attachments){
 		echo "<div class='alert alert-info'>";
@@ -99,18 +109,6 @@ $mainid=$post->ID;
 		echo "<img class='img img-responsive' src='{$image_uri[0]}'  alt='".get_the_title()."' />";
 		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 	}
-
-	$sdate = date('Y-m-d');
-	$ticketid = get_post_meta($post->ID,'eventbrite_ticket',true);
-	if ($ticketid && $sdate < date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) ) : ?>
-		<div class="widget-box">
-			<h3>Tickets and registration</h3>
-			<div style="width:100%; text-align:left;" >
-				<iframe src="https://www.eventbrite.com/tickets-external?eid=<?php echo $ticketid; ?>" frameborder="0" height="256" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe>
-			</div>
-		</div>
-	<?php 
-	endif;
 	
 	$map= get_post_meta($post->ID,'event_map_location',true);
 	

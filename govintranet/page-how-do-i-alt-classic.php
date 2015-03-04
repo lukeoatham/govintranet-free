@@ -23,7 +23,7 @@ get_header(); ?>
 		<div class="well well-sm">
 			<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
 				<div class="input-group">
-					<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="How do I..." onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+					<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 					 <span class="input-group-btn">
 					 <input type="hidden" name="post_type[]" value="task" />
 					 <button class="btn btn-primary" type="submit"><span class="dashicons dashicons-search"></span></button>
@@ -60,14 +60,8 @@ $terms = get_terms('category');
 	  		    continue;
   		    }
   		    $catcount++;
-  		    if ($catcount==4)
-  		    {
-	  		    $catcount=1;
-  		    }
-  		    if ($catcount==1){
-				echo "<div class='row white'><br>";
-				echo "<div class='content-wrapper'>";
-  		    }
+  		    if ($catcount==4) $catcount=1;
+  		    if ($catcount==1) echo "<div class='col-sm-12 white'><br>";
   			echo "
 			<div class='col-sm-4 white";
 			if ($catcount==3){
@@ -79,18 +73,18 @@ $terms = get_terms('category');
 					<p>".$taxonomy->description."</p>
 				</div>
 			</div>";
-			if ($catcount==3){
-				echo '</div></div>';
+			if ( $catcount == 3 ){
+				echo '</div>';
 			}
 		}
-		if ($catcount==3){
-			echo "<div class='row white'><br><div class='content-wrapper'>";
-		}
+		if ($catcount==3) echo "<div class='col-sm-12 white'><br>";
 		if ($catcount==2){
-			echo "</div><div class='row white'><br><div class='col-sm-12'>";
+			echo "</div>";
+			echo "<div class='col-sm-12 white'><br>";
 		}
 		if ($catcount==1){
-			echo "</div></div><div class='row white'><br><div class='content-wrapper'>";
+			echo "</div></div>";
+			echo "<div class='col-sm-12 white'><br>";
 		}						
 	}  
 
