@@ -5,7 +5,7 @@ function markDocumentLinks() {
 	jQuery('a[href*=".ppt"]').addClass('pptdocument').append(' (Powerpoint)');
 	jQuery('a[href*=".txt"]').addClass('txtdocument').append(' (Text)');
 	jQuery('a[href*=".csv"]').addClass('xlsdocument').append(' (CSV)');
-	jQuery('a[href*="mailto"]').prepend("<span class='dashicons dashicons-email-alt'></span>");
+	jQuery('a[href*="mailto"]').before("<span class='dashicons dashicons-email-alt'></span> ");
 	jQuery('.gallery br').remove();
 	jQuery('div.gallery').append('<div class="clearfix"></div>');
 
