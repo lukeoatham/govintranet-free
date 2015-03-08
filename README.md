@@ -35,7 +35,7 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
-### 4.0.2 - 4 Mar 2015 ###
+### 4.0.2 - 8 Mar 2015 ###
 * Staff profile frontend edit
 * Tubestatus caching
 
