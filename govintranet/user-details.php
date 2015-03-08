@@ -30,24 +30,43 @@
 					</span>
 				</li>
 
-				<li class="<?php if ( bbp_is_single_user_topics() ) :?>current<?php endif; ?>">
-					<span class='bbp-user-topics-created-link'>
-						<a href="<?php bbp_user_topics_created_url(); ?>" title="<?php printf( esc_attr__( "%s's Topics Started", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Topics Started', 'bbpress' ); ?></a>
-					</span>
-				</li>
-
-				<li class="<?php if ( bbp_is_single_user_replies() ) :?>current<?php endif; ?>">
-					<span class='bbp-user-replies-created-link'>
-						<a href="<?php bbp_user_replies_created_url(); ?>" title="<?php printf( esc_attr__( "%s's Replies Created", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Replies Created', 'bbpress' ); ?></a>
-					</span>
-				</li>
-
-				<?php if ( bbp_is_favorites_active() ) : ?>
-					<li class="<?php if ( bbp_is_favorites() ) :?>current<?php endif; ?>">
-						<span class="bbp-user-favorites-link">
-							<a href="<?php bbp_favorites_permalink(); ?>" title="<?php printf( esc_attr__( "%s's Favorites", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Favorites', 'bbpress' ); ?></a>
+				<?php 
+					global $wpdb;
+					$uqblog = $wpdb->get_results("select ID from $wpdb->posts where post_author = ".$author." and post_type='blog' and post_status='publish' order by post_date DESC limit 1;",ARRAY_A);
+					if ( count($uqblog) > 0 ):
+						$poduser = get_userdata($author);	
+						$nicename = $poduser->user_nicename;
+						?>
+						<li>
+							<span class='bbp-user-blogposts-created-link'>
+								<a href="<?php echo site_url("/author/").$nicename."/"; ?>" title="<?php printf( esc_attr__( "%s's blogposts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Blogposts', 'bbpress' ); ?></a>
+							</span>
+						</li>
+						<?php
+					endif;
+					
+					// Show forum links?
+					if ( get_option('options_forum_support') ): ?>
+					<li class="<?php if ( bbp_is_single_user_topics() ) :?>current<?php endif; ?>">
+						<span class='bbp-user-topics-created-link'>
+							<a href="<?php bbp_user_topics_created_url(); ?>" title="<?php printf( esc_attr__( "%s's Topics Started", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Topics started', 'bbpress' ); ?></a>
 						</span>
 					</li>
+	
+					<li class="<?php if ( bbp_is_single_user_replies() ) :?>current<?php endif; ?>">
+						<span class='bbp-user-replies-created-link'>
+							<a href="<?php bbp_user_replies_created_url(); ?>" title="<?php printf( esc_attr__( "%s's Replies Created", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Replies created', 'bbpress' ); ?></a>
+						</span>
+					</li>
+	
+					<?php if ( bbp_is_favorites_active() ) : ?>
+						<li class="<?php if ( bbp_is_favorites() ) :?>current<?php endif; ?>">
+							<span class="bbp-user-favorites-link">
+								<a href="<?php bbp_favorites_permalink(); ?>" title="<?php printf( esc_attr__( "%s's Favorites", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Favourites', 'bbpress' ); ?></a>
+							</span>
+						</li>
+					<?php endif; ?>
+
 				<?php endif; ?>
 
 				<?php if ( bbp_is_user_home() || current_user_can( 'edit_users' ) ) : ?>

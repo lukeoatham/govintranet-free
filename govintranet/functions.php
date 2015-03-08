@@ -1098,6 +1098,7 @@ function get_terms_by_media_type( $taxonomies, $post_types ) {
 
 if (!current_user_can('level_1')){
 	add_action( 'admin_menu', 'my_remove_menu_pages' );
+	add_filter('show_admin_bar', '__return_false');
 	function my_remove_menu_pages() {
 	    remove_menu_page('edit.php?post_type=incsub_wiki');  
 	    remove_menu_page('video-user-manuals/plugin.php');  
@@ -1105,7 +1106,8 @@ if (!current_user_can('level_1')){
 	    remove_menu_page('edit.php?post_type=project');  
 	    remove_menu_page('edit.php?post_type=news');  
 	    remove_menu_page('edit.php?post_type=blog');  
-	    remove_menu_page('edit.php?post_type=vacancies');  
+	    remove_menu_page('edit.php?post_type=vacancy');  
+	    remove_menu_page('edit.php?post_type=intravert');  
 	    remove_menu_page('edit.php?post_type=jargon-buster');  
 	    remove_menu_page('index.php');  
 	}
@@ -1743,17 +1745,17 @@ array( 'hierarchical' => true,
 	'show_admin_column' => true,
 	'labels' => array (
   'search_items' => 'News type',
-  'popular_items' => '',
-  'all_items' => '',
-  'parent_item' => '',
+  'popular_items' => 'Popular types',
+  'all_items' => 'All types',
+  'parent_item' => 'Parent type',
   'parent_item_colon' => '',
-  'edit_item' => '',
-  'update_item' => '',
-  'add_new_item' => '',
-  'new_item_name' => '',
+  'edit_item' => 'Edit news type',
+  'update_item' => 'Update news type',
+  'add_new_item' => 'Add news type',
+  'new_item_name' => 'New type',
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => '',
-  'choose_from_most_used' => '',
+  'add_or_remove_items' => 'Add or remove a type',
+  'choose_from_most_used' => 'Most used',
 )
 ) ); 
 }
@@ -1771,17 +1773,17 @@ array( 'hierarchical' => true,
 	'show_admin_column' => true,
 	'labels' => array (
   'search_items' => 'Grade',
-  'popular_items' => '',
-  'all_items' => '',
-  'parent_item' => '',
+  'popular_items' => 'Popular grades',
+  'all_items' => 'All grades',
+  'parent_item' => 'Parent grade',
   'parent_item_colon' => '',
-  'edit_item' => '',
-  'update_item' => '',
-  'add_new_item' => '',
-  'new_item_name' => '',
+  'edit_item' => 'Edit grade',
+  'update_item' => 'Update grade',
+  'add_new_item' => 'Add new grade',
+  'new_item_name' => 'New grade',
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => '',
-  'choose_from_most_used' => '',
+  'add_or_remove_items' => 'Add or remove a grade',
+  'choose_from_most_used' => 'Most used',
 )
 ) ); 
 }
@@ -1798,17 +1800,17 @@ array( 'hierarchical' => true,
 	'show_admin_column' => true,
 	'labels' => array (
   'search_items' => 'Event type',
-  'popular_items' => '',
-  'all_items' => '',
-  'parent_item' => '',
+  'popular_items' => 'Popular types',
+  'all_items' => 'All types',
+  'parent_item' => 'Parent event type',
   'parent_item_colon' => '',
-  'edit_item' => '',
-  'update_item' => '',
-  'add_new_item' => '',
-  'new_item_name' => '',
+  'edit_item' => 'Edit event type',
+  'update_item' => 'Update event type',
+  'add_new_item' => 'Add event type',
+  'new_item_name' => 'New event type',
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => '',
-  'choose_from_most_used' => '',
+  'add_or_remove_items' => 'Add or remove event types',
+  'choose_from_most_used' => 'Most used',
 )
 ) ); 
 }
@@ -1828,17 +1830,17 @@ array( 'hierarchical' => true,
 	'show_admin_column' => true,
 	'labels' => array (
   'search_items' => 'A to Z letter',
-  'popular_items' => '',
-  'all_items' => '',
-  'parent_item' => '',
+  'popular_items' => 'Popular letters',
+  'all_items' => 'All letters',
+  'parent_item' => 'Parent letter',
   'parent_item_colon' => '',
-  'edit_item' => '',
-  'update_item' => '',
-  'add_new_item' => '',
-  'new_item_name' => '',
+  'edit_item' => 'Edit letter',
+  'update_item' => 'Update letter',
+  'add_new_item' => 'Add new letter',
+  'new_item_name' => 'Letter',
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => '',
-  'choose_from_most_used' => '',
+  'add_or_remove_items' => 'Add or remove letters',
+  'choose_from_most_used' => 'Most used',
 )
 ) ); 
 }
@@ -1855,17 +1857,17 @@ array( 'hierarchical' => true,
 	'show_admin_column' => false,
 	'labels' => array (
   'search_items' => 'Document type',
-  'popular_items' => '',
-  'all_items' => '',
-  'parent_item' => '',
+  'popular_items' => 'Popular types',
+  'all_items' => 'All types',
+  'parent_item' => 'Parent document type',
   'parent_item_colon' => '',
-  'edit_item' => '',
-  'update_item' => '',
-  'add_new_item' => '',
-  'new_item_name' => '',
+  'edit_item' => 'Edit document type',
+  'update_item' => 'Update document type',
+  'add_new_item' => 'Add document type',
+  'new_item_name' => 'New document type',
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => '',
-  'choose_from_most_used' => '',
+  'add_or_remove_items' => 'Add or remove a document type',
+  'choose_from_most_used' => 'Most used',
 )
 ) ); 
 }

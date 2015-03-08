@@ -25,81 +25,92 @@ class htTubeStatus extends WP_Widget {
 		echo $before_widget; 
 		if ( $title )   echo $before_title . $title . $after_title; 
 
+		$cached = get_transient('cached_tubestatus_'.$widget_id);
+		if ($cached) : // if we have a fresh cache
 
-		// load feed from TfL
-		
-		include_once( ABSPATH . WPINC . '/feed.php' );
-			
-		$feedurl = "http://cloud.tfl.gov.uk/TrackerNet/LineStatus";
-		$rss = file_get_contents($feedurl); 
-
-		if (!$rss):
-			echo "Can't find the TfL tube status feed.";
-			exit;
-		endif;
-	
-		$feedcontent = new SimpleXMLElement($rss);
-		
-		// build into arrays
-		
-		$linestatusName = array();
-		$linestatusDesc = array();
-		$linestatusClass = array();
-		$linestatusID = array();
-		$linestatusFrom = array();
-		$linestatusTo = array();
-		$linestatusDetails = array();
-					
-		if ($feedcontent->LineStatus) {
-			$item = $feedcontent->LineStatus;
-	
-			foreach ($item as $i){
-				$linestatusID[]=$i->Line['ID'];
-				$linestatusName[]=$i->Line['Name'];
-				$linestatusDesc[]=$i->Status['Description'];
-				$linestatusClass[]=$i->Status['CssClass'];
-				$linestatusFrom[]=$i->BranchDisruptions->BranchDisruption->StationFrom['Name'];
-				$linestatusTo[]=$i->BranchDisruptions->BranchDisruption->StationTo['Name'];
-				$linestatusDetails[]=$i['StatusDetails'];
-			}			
-	
-			$counter = 0;
-			$totallines = count($linestatusName);
-			$output = array();
-			
-			foreach ((array)$linestatusName as $l){
-				$last='';
-				if ($counter == 0) $last = ' ht_first-link';
-				
-				
-				$output[]= "<div class='row'>";
-				$output[]= "<div class='col-lg-6 col-md-12 col-sm-6 ht_tubeline ht_tubeline".$linestatusID[$counter]." ".$linestatusClass[$counter]."'>".$linestatusName[$counter]."</div>";
-
-				//if problems
-				if ($linestatusDetails[$counter] != ""):
-					$output[]= "<div class='col-lg-6 col-md-12 col-sm-6 ht_tubestatus ".$linestatusClass[$counter].$last."'>";
-					$output[]= '<a data-toggle="collapse" data-parent="#ht_tube_status_widget" href="#collapse'.$counter.'">'.$linestatusDesc[$counter]."</a>";
-					$output[]= "</div><div class='col-lg-12 col-md-12 col-sm-12'><p id='collapse".$counter."' class='collapse out'>".$linestatusDetails[$counter]."</p></div>";
-				else: 
-				//if good service
-					$output[]= "<div class='col-lg-6 col-md-12 col-sm-6 ht_tubestatus ".$linestatusClass[$counter].$last."'>".$linestatusDesc[$counter];
-				$output[]= "</div>";
-
-				endif;				
-
-				//if ($linestatusTo[$counter]) $output[]= "<br>From ".$linestatusFrom[$counter]." to ".$linestatusTo[$counter];
-
-				$output[]= "</div>";
-				$counter++;
-			}
-			
-			// ouput
-			
 			echo "<div id='ht_tube_status_widget' class='col-sm-12'>";
-			echo implode("",$output);
-			echo "</div>";
+			echo implode("",$cached);
+
+		else:
+			// load feed from TfL
+			
+			include_once( ABSPATH . WPINC . '/feed.php' );
+				
+			$feedurl = "http://cloud.tfl.gov.uk/TrackerNet/LineStatus";
+			$rss = file_get_contents($feedurl); 
 	
-		}
+			if (!$rss):
+				echo "Can't find the TfL tube status feed.";
+				exit;
+			endif;
+		
+			$feedcontent = new SimpleXMLElement($rss);
+			
+			// build into arrays
+			
+			$linestatusName = array();
+			$linestatusDesc = array();
+			$linestatusClass = array();
+			$linestatusID = array();
+			$linestatusFrom = array();
+			$linestatusTo = array();
+			$linestatusDetails = array();
+						
+			if ($feedcontent->LineStatus) {
+				$item = $feedcontent->LineStatus;
+		
+				foreach ($item as $i){
+					$linestatusID[]=$i->Line['ID'];
+					$linestatusName[]=$i->Line['Name'];
+					$linestatusDesc[]=$i->Status['Description'];
+					$linestatusClass[]=$i->Status['CssClass'];
+					$linestatusFrom[]=$i->BranchDisruptions->BranchDisruption->StationFrom['Name'];
+					$linestatusTo[]=$i->BranchDisruptions->BranchDisruption->StationTo['Name'];
+					$linestatusDetails[]=$i['StatusDetails'];
+				}			
+		
+				$counter = 0;
+				$totallines = count($linestatusName);
+				$output = array();
+				
+				foreach ((array)$linestatusName as $l){
+					$last='';
+					if ($counter == 0) $last = ' ht_first-link';
+					
+					
+					$output[]= "<div class='row'>";
+					$output[]= "<div class='col-lg-6 col-md-12 col-sm-6 ht_tubeline ht_tubeline".$linestatusID[$counter]." ".$linestatusClass[$counter]."'>".$linestatusName[$counter]."</div>";
+	
+					//if problems
+					if ($linestatusDetails[$counter] != ""):
+						$output[]= "<div class='col-lg-6 col-md-12 col-sm-6 ht_tubestatus ".$linestatusClass[$counter].$last."'>";
+						$output[]= '<a data-toggle="collapse" data-parent="#ht_tube_status_widget" href="#collapse'.$counter.'">'.$linestatusDesc[$counter]."</a>";
+						$output[]= "</div><div class='col-lg-12 col-md-12 col-sm-12'><p id='collapse".$counter."' class='collapse out'>".$linestatusDetails[$counter]."</p></div>";
+					else: 
+					//if good service
+						$output[]= "<div class='col-lg-6 col-md-12 col-sm-6 ht_tubestatus ".$linestatusClass[$counter].$last."'>".$linestatusDesc[$counter];
+					$output[]= "</div>";
+	
+					endif;				
+	
+					//if ($linestatusTo[$counter]) $output[]= "<br>From ".$linestatusFrom[$counter]." to ".$linestatusTo[$counter];
+	
+					$output[]= "</div>";
+					$counter++;
+				}
+				
+				// ouput
+				
+				$output[]="</div><p><small><strong>Updated ".date('H:i')."</strong></small></p>";
+				
+				echo "<div id='ht_tube_status_widget' class='col-sm-12'>";
+				echo implode("",$output);
+		
+			}
+
+		 	set_transient( 'cached_tubestatus_'.$widget_id, $output, 60*3 ); // set cache period
+
+		endif;
 
        echo $after_widget; 
     }

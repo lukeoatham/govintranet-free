@@ -111,10 +111,11 @@ $mainid=$post->ID;
 	}
 	
 	$map= get_post_meta($post->ID,'event_map_location',true);
+	$text = esc_attr(get_post_meta($post->ID,'event_location',true));
 	
 	if ($map['lat']):
 		$loc = ($map['lat'].",".$map['lng']);
-		$text = esc_attr(get_post_meta($post->ID,'event_location',true));
+		$text = $map['address'];
 		?>	
 		<div class="widget-box">
 			<h3>Location</h3>
@@ -140,7 +141,7 @@ $mainid=$post->ID;
 				google.maps.event.addDomListener(window, 'load', initialize);
 			</script>
 			<div id="map-canvas" class="google_map"></div>
-			<div id="map-location"><?php echo wpautop($text); ?></div>
+			<div class="alert alert-info" id="map-location"><?php echo wpautop($text); ?></div>
 		</div>
 	<?php endif; 
 	
