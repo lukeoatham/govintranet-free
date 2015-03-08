@@ -68,7 +68,7 @@ get_header();
 							global $k; 
 							$k = 0;
 							while ($projectspost->have_posts()) : $projectspost->the_post();
-								get_template_part( 'loop', 'newsblogs' );
+								get_template_part( 'loop', 'newstwitter' );
 							endwhile;
 							if (  $projectspost->max_num_pages > 1 ) : ?>
 							<?php if (function_exists('wp_pagenavi')) : ?>
@@ -87,7 +87,7 @@ get_header();
 							'orderby' => 'post_date',
 						    'order' => 'DESC',
 						    'post_type' => 'news',
-						    'posts_per_page' => 10,
+						    'posts_per_page' => -1,
 						    'tax_query' => array(array(
 						    'taxonomy'=>'post_format',
 						    'field'=>'slug',
