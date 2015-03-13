@@ -72,7 +72,7 @@ do_action( 'bbp_template_before_user_profile' );
 		endif; 
 		if ( bbp_get_displayed_user_field( 'user_twitter_handle' ) ) : 
 		?>
-			<p class="bbp-user-description"><a href="https://twitter.com/<?php bbp_displayed_user_field( 'user_twitter_handle' ); ?>">Twitter</a></p>
+			<p class="bbp-user-description"><i class="dashicons dashicons-twitter"></i> <a href="https://twitter.com/<?php bbp_displayed_user_field( 'user_twitter_handle' ); ?>">Twitter</a></p>
 			<?php 
 		endif; 
 		if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : 

@@ -234,6 +234,15 @@ header('X-Frame-Options: SAMEORIGIN');
 		margin-top: 16px;
 		}
 		";
+
+		$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+		if ( $directorystyle ):
+			echo "
+			.bbp-user-page.single #bbp-user-avatar img.avatar   {
+				border-radius: 50%;
+			}
+			";
+		endif;
 		
 		echo "
 		.bbp-user-page .panel-heading {";

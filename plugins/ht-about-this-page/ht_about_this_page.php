@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -67,7 +67,8 @@ class htAboutThisPage extends WP_Widget {
         $show_author = ($instance['show_author']);
 	        
 		$showabout = false;
-		if ( is_single() ) $showabout = true; 							
+		if ( is_single() ) $showabout = true; 		
+		if ( is_singular(array('forum','topic','reply'))) $showabout = false;
 
 		if ( is_page() ):
 			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_about_this_page_children" ;  

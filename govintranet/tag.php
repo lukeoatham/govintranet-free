@@ -60,8 +60,8 @@ get_header();
  						'post_type'=>$pt,
  						'paged'=>$paged,
  						'posts_per_page'=> 10,
- 						'orderby'=>'date',
- 						'order'=>'DESC'
+ 						'orderby'=>'name',
+ 						'order'=>'ASC'
  						);
  				if ($pt=='any'){
 	 				$tagquery=
@@ -85,24 +85,24 @@ get_header();
 				}
 				$testtag = $wpdb->get_results($tagquery);
 				if (count($testtag) > 0){
-				$postsfound=true;
-				$carray = array();
+					$postsfound=true;
+					$carray = array();
 					foreach ($testtag as $tt){
 						$carray[]=$tt->object_id;
 					}
 				} else { $postsfound=false;
 					echo "<h2>Nothing on the intranet with this tag.</h2>";
 				}
+				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				if ($pt =='task'): // tasks sorted alphabetically
 					$tagged = new WP_Query(array(
 		 			'post_type'=>array("task"),
 		 			'post__in'=>$carray,
 		 			'paged'=>$paged,
 		 			'posts_per_page'=>10,
-		 			'orderby'=>'title',
-		 			'order'=>'ASC'
-		 			));
-				
+		 			'orderby'=>'name',
+		 			'order'=>'ASC',
+		 			)); 
 				else: // everything else sorted by date
 					$tagged = new WP_Query(array(
 		 			'post_type'=>array("task","vacancy","project","news","event","blog"),
@@ -113,7 +113,6 @@ get_header();
 		 			'order'=>'DESC'
 		 			));
 	 			endif;
-				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				$counter = 0;	
 	
 	 			while ($tagged->have_posts() && $postsfound ) {
