@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.0.1
+Version: 4.0.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -176,7 +176,7 @@ function widget($args, $instance) {
 	//forumalate grid of news stories and formats
 	$totalstories =  $largeitems + $mediumitems + $thumbnailitems + $listitems; 
 
-	$newsgrid=array();
+	$newsgrid = array();
 	
 	for ($i = 1; $i <= $totalstories; $i++) {
 		if ($i <= $largeitems) {
@@ -200,8 +200,8 @@ function widget($args, $instance) {
 
 	$num_top_slots = count($top_slot);
 	$to_fill = $totalstories - $num_top_slots;
-	$k=-1;
-	$alreadydone= array();
+	$k = -1;
+	$alreadydone = array();
 
 	if ( $num_top_slots > 0 ){ 
 		foreach ((array)$top_slot as $thisslot){ 
@@ -229,52 +229,56 @@ function widget($args, $instance) {
 				if ($video){
 					echo $video;
 				} elseif ($image_uri!="" ){
-					echo "<a href='".$thisurl."'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
+					echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
 				} 
 			} 
-	
+
 			if ($newsgrid[$k]=="M"){
 				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'newsmedium' );
 				if ($image_uri!="" ){
-					echo "<a href='".$thisurl."'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
+					echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
 				} 
 			} 
-	
+				
 			if ($newsgrid[$k]=="T"){
-				$image_uri = "<a class='pull-right' href='".$thisurl."'>".get_the_post_thumbnail($slot->ID, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+				$image_uri = "<a class='pull-right' href='".$thisURL."'>".get_the_post_thumbnail($slot->ID, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
 				if ($image_uri!="" ){
-					$image_url = "<a href='".$thisurl."'>".$image_uri."</a>";									
+					$image_url = $image_uri;
 				} 
 			} 
 	
 			$thisdate= $slot->post_date;
 			$post = get_post( $slot->ID );
 			setup_postdata( $post );
+			
 			$thisexcerpt= get_the_excerpt();
 			$thisdate=date("j M Y",strtotime($thisdate));
 			$ext_icon = '';
 			if ( get_post_format($slot->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
-			echo "<h3 class='noborder'>".$ext_icon."<a href='".$thisURL."'>".$thistitle."</a>".$ext_icon."</h3>";
 	
-			if ($newsgrid[$k]=="Li"){
-				echo "<p><span class='news_date'>".$thisdate."";
-				echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
-			} else {
-				echo "<p><span class='news_date'>".$thisdate."</span></p>";									
-			}
 	
 			if ($newsgrid[$k]=="T"){
 				echo "<div class='media'>".$image_url;
 			}
 	
 			echo "<div class='media-body'>";
-	
-			if ($newsgrid[$k]!="Li"){
-				echo $thisexcerpt."<p class='news_date'>";
-				echo "<a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></p>";
+			echo "<h3 class='noborder'>".$ext_icon."<a href='".$thisURL."'>".$thistitle."</a>".$ext_icon."</h3>";
+
+			if ($newsgrid[$k]=="Li"){
+				echo "<p><span class='news_date'>".$thisdate."";
+				echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
+			} else {
+				if ($showexcerpt == 'on') {
+					echo "<p><span class='news_date'>".$thisdate."</span></p>";									
+					echo $thisexcerpt;
+					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></p>";
+				} else {
+					echo "<p><span class='news_date'>".$thisdate." <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
+				}
 			}
+
 	
-				echo "</div>";
+			echo "</div>";
 	
 			if ($newsgrid[$k]=="T"){
 				echo "</div>";
@@ -320,8 +324,7 @@ function widget($args, $instance) {
 			if ( has_post_format('video', get_the_id()) ):
 				$video = apply_filters('the_content', get_post_meta( get_the_id(), 'news_video_url', true));
 			endif;
-	
-	
+		
 			if ($newsgrid[$k]=="L"){
 				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( get_the_id() ), 'newshead' );
 				if ($video){
@@ -357,6 +360,7 @@ function widget($args, $instance) {
 			echo "<div class='media-body feature-news-".strtolower($newsgrid[$k])."'>";
 			if ( get_post_format(get_the_id()) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
 			echo "<h3 class='noborder'><a href='".$thisURL."'>".$thistitle."</a> ".$ext_icon."</h3>";
+
 			if ($newsgrid[$k]=="Li"){
 				echo "<p><span class='news_date'>".$thisdate."</span></p>";									
 			} else {
@@ -365,7 +369,7 @@ function widget($args, $instance) {
 					echo $thisexcerpt;
 					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></p>";
 				} else {
-					echo "<p><span class='news_date'>".$thisdate."</span></p>";									
+					echo "<p><span class='news_date'>".$thisdate." <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
 				}
 			}
 	
@@ -437,8 +441,6 @@ function widget($args, $instance) {
     }
 
 }
-
-
 
 add_action('widgets_init', create_function('', 'return register_widget("htFeatureNews");'));
 
