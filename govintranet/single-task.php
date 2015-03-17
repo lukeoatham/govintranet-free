@@ -98,7 +98,7 @@ get_header(); ?>
 									} else {
 										$chapname = $parent_name;
 										$chapslug = $parent_slug;
-										echo "<li><a href='".site_url()."/task/{$chapslug}'><span class='part-title'>{$chapname}</span></a>";
+										echo "<li><a href='".get_permalink($parent_guide_id)."'><span class='part-title'>{$chapname}</span></a>";
 									}
 									echo "</li>";
 									$carray = array();
@@ -130,11 +130,12 @@ get_header(); ?>
 								$carray[$k]['chapter_number']=$k;
 								$carray[$k]['slug']=$chapslug;
 								$carray[$k]['name']=$chapname;
+								$carray[$k]['id']=$chapt->ID;
 								$alreadydone[]=$chapt->ID;
 								if ($chapt->ID==$current_task){
 									echo "<span class='part-label part-title'>{$chapname}</span>";
 								} else {
-									echo "<a href='".site_url()."/task/{$chapslug}'><span class='part-label part-title'>{$chapname}</span></a>";
+									echo "<a href='".get_permalink($chapt->ID)."'><span class='part-label part-title'>{$chapname}</span></a>";
 								}
 								echo "</li>";
 								}
@@ -181,20 +182,20 @@ get_header(); ?>
 	
 	        if ($chapter_header){ // if on chapter 1
 				
-				echo '<div class="col-lg-12 chapterr"><a href="'.site_url().'/task/'.$carray[2]["slug"].'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a>';
+				echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a>';
 				echo "</div>";
 	        } elseif ($current_chapter==2) { // if on chapter 2
-				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.site_url().'/task/'.$parent_slug.'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;Overview</a></div>';
+				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;Overview</a></div>';
 	            if ($carray[3]['slug']){
-					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.site_url().'/task/'.$carray[3]["slug"].'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 		        }
 	        }   else { // we're deep in the middle somewhere
 	        	$previous_chapter = $current_chapter-1; 
 				$next_chapter = $current_chapter+1;
 
-				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.site_url().'/task/'.$carray[$previous_chapter]["slug"].'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
+				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
 	            if ($carray[$next_chapter]['slug']){
-					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.site_url().'/task/'.$carray[$next_chapter]["slug"].'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 				}
 			}
 			echo "</div>";
@@ -278,7 +279,7 @@ get_header(); ?>
 					foreach($post_categories as $c){
 						$cat = get_category( $c );
 						$catsfound = true;
-						$catshtml.= "<span><a class='wptag t".$cat->term_id."' href='".site_url()."/category/".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+						$catshtml.= "<span><a class='wptag t".$cat->term_id."' href='".site_url()."/category/".$cat->slug."/'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 					}
 				}
 					

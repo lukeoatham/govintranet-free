@@ -35,6 +35,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.0.2.4 - 17 Mar 2015 ###
+* Guide chapter slug bug fix
+
 ### 4.0.2.3 - 15 Mar 2015 ###
 * Feature news widget updates
 
