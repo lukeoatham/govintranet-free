@@ -87,10 +87,10 @@ get_header(); ?>
 						$rlink = get_post($r);
 						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
 							$taskparent=$rlink->post_parent; 
-							if ($taskparent){
+							if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
 								$tparent_guide_id = $taskparent->ID; 		
-								$taskparent = get_post($tparent_guide_id);
-								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+								if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
+								if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 							}		
 							$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
 						}

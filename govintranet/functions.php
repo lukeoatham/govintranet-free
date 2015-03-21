@@ -726,7 +726,7 @@ function postHasChildren($id,$type) {
 function my_custom_login_logo() {
 	$hc = "options_login_logo";
 	$hcitem = get_option($hc);
-	$loginimage =  wp_get_attachment_image_src( $hcitem[0], 'large' );
+	$loginimage =  wp_get_attachment_image_src( $hcitem, 'large' );
 	if ($hcitem){
     echo '<style type="text/css">
            h1 a { background-image:url('.$loginimage[0].') !important; 

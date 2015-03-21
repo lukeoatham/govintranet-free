@@ -35,9 +35,9 @@ if ( have_posts() )
 			</div>
 		</div>
 
-		<h1 <?php echo "class='h1_" . $catid . "'>". single_tag_title( '', false ) ; if ($tasktag) echo " <small class='h1_'".$catid."><span class='dashicons dashicons-tag'></span> ".$tasktag."</small>";?></h1>
+		<h1 <?php echo "class='h1_" . $catid . "'>". single_tag_title( '', false ) ; ?></h1>
 	
-			<?php echo $catdesc; ?>
+			<?php echo wpautop($catdesc); ?>
 				<form class="form-horizontal" role="form" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
 					<div class="input-group input-md">
 						<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="How do I..." />
