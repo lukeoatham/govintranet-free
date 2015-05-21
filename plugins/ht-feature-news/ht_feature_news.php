@@ -307,26 +307,27 @@ function widget($args, $instance) {
 		if ($news->post_count==0){
 			echo "Nothing to show.";
 		} 
-	
+		global $post;
 		while ($news->have_posts()) {
 				$news->the_post();
-			if (in_array(get_the_id(), $alreadydone )) { //don't show if already in stickies
+				$theid = get_the_id();
+			if (in_array($theid, $alreadydone )) { //don't show if already in stickies
 				continue;
 			}
 			$k++;
 			if ($k >= $totalstories){
 				break;
 			}
-			$thistitle = get_the_title(get_the_id());
-			$thisURL=get_permalink(get_the_id()); 
+			$thistitle = get_the_title($theid);
+			$thisURL=get_permalink($theid); 
 	
 			$video = 0;
-			if ( has_post_format('video', get_the_id()) ):
-				$video = apply_filters('the_content', get_post_meta( get_the_id(), 'news_video_url', true));
+			if ( has_post_format('video', $theid) ):
+				$video = apply_filters('the_content', get_post_meta( $theid, 'news_video_url', true));
 			endif;
 		
 			if ($newsgrid[$k]=="L"){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( get_the_id() ), 'newshead' );
+				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $theid ), 'newshead' );
 				if ($video){
 					echo $video;
 				} elseif ($image_uri!="" ){
@@ -335,14 +336,14 @@ function widget($args, $instance) {
 			} 
 	
 			if ($newsgrid[$k]=="M"){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( get_the_id() ), 'newsmedium' );
+				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $theid ), 'newsmedium' );
 				if ($image_uri!="" ){
 					echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($post->post_title)."' /></a>";									
 				} 
 			} 
 	
 			if ($newsgrid[$k]=="T"){
-				$image_uri = "<a class='pull-right' href='{$thisURL}'>".get_the_post_thumbnail(get_the_id(), 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+				$image_uri = "<a class='pull-right' href='{$thisURL}'>".get_the_post_thumbnail($theid, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
 				if ($image_uri!="" ){
 					$image_url = $image_uri;
 				} 
@@ -358,7 +359,7 @@ function widget($args, $instance) {
 			}
 	
 			echo "<div class='media-body feature-news-".strtolower($newsgrid[$k])."'>";
-			if ( get_post_format(get_the_id()) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
+			if ( get_post_format($theid) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
 			echo "<h3 class='noborder'><a href='".$thisURL."'>".$thistitle."</a> ".$ext_icon."</h3>";
 
 			if ($newsgrid[$k]=="Li"){

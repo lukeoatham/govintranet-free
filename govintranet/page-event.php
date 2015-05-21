@@ -1,9 +1,6 @@
 <?php
 /* Template name: Event page */
 
-$cdir=$_GET['cdir'];
-$eventcat = $_GET['cat'];
-
 get_header(); 
 
 $tzone = get_option('timezone_string');
@@ -12,7 +9,7 @@ $sdate=date('Ymd');
 
 //CHANGE PAST EVENTS TO DRAFT STATUS
 global $wpdb;
-//$wpdb->query("update $wpdb->posts, $wpdb->postmeta set $wpdb->posts.post_status='draft' where $wpdb->postmeta.meta_key='event_end_date' and $wpdb->postmeta.meta_value < '".$sdate."' and $wpdb->postmeta.post_id = $wpdb->posts.id and $wpdb->posts.post_status='publish';");
+$wpdb->query("update $wpdb->posts, $wpdb->postmeta set $wpdb->posts.post_status='draft' where $wpdb->postmeta.meta_key='event_end_date' and $wpdb->postmeta.meta_value < '".$sdate."' and $wpdb->postmeta.post_id = $wpdb->posts.id and $wpdb->posts.post_status='publish';");
 ?>
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		<div class="col-lg-8 col-md-8 col-sm-7 col-sx-12 white ">
@@ -111,11 +108,23 @@ global $wpdb;
 						}	
 						echo "<div class='media-body'><h3><a href='" .get_permalink() . "'>" . get_the_title() . "</a></h3>";
 						$thisdate =  get_post_meta($post->ID,'event_start_date',true); //print_r($thisdate);
-						$thisyear = substr($thisdate[0], 0, 4); 
-						$thismonth = substr($thisdate[0], 4, 2); 
-						$thisday = substr($thisdate[0], 6, 2); 
-						echo "<strong>".date('l j M Y g:ia',strtotime($thisdate))."</strong>";
-						the_excerpt();
+						echo "<p><strong>".date('j M Y ',strtotime(get_post_meta($post->ID,'event_start_date',true)));
+							if (get_post_meta($post->ID,'event_start_time',true)):
+								echo "<i class='dashicons dashicons-clock'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_start_time',true))). " - ";
+							endif;
+							if (date('j M Y',strtotime(get_post_meta($post->ID,'event_start_date',true)))==date('j M Y',strtotime(get_post_meta($post->ID,'event_end_date',true))) ) {
+								if (get_post_meta($post->ID,'event_end_time',true)):
+									echo date('g:ia',strtotime(get_post_meta($post->ID,'event_end_time',true)));
+								endif;
+							} else {
+								echo date('l j M Y, ',strtotime(get_post_meta($post->ID,'event_end_date',true)));	
+								if (get_post_meta($post->ID,'event_end_time',true)):
+									echo "<i class='dashicons dashicons-clock'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_end_time',true)));	
+								endif;
+							}
+							
+							echo "</strong></p>";						
+							the_excerpt();
 						echo "</div></div>";
 					}
 				}

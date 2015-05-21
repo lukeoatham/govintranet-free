@@ -100,7 +100,9 @@ get_header();
 								$k = 0;
 								while ($projectspost->have_posts()) : $projectspost->the_post();
 									echo "<h4><a href='".get_permalink($post_>ID)."'>".get_the_title()."</a></h4>";
-									echo '<span class="listglyph">'.get_the_date("j M Y").'</span>';
+									echo '<span class="listglyph">'.get_the_date("j M Y"); 
+									comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+									echo '</span> ';
 									the_excerpt();
 								endwhile;
 					        ?>
@@ -140,7 +142,9 @@ get_header();
 						echo "<div class='media-body'><a href='{$thisURL}'><strong>".$thistitle."</strong></a>";
 						echo "<br><span class='news_date'>".$edate." by ";
 						echo get_the_author();
+						comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
 						echo "</span>";
+						
 						if (true) the_excerpt();
 						echo "</div></div>";
 			       endwhile;

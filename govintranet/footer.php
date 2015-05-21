@@ -32,26 +32,20 @@
 
 <script type='text/javascript'>
     jQuery(document).ready(function(){
-//         jQuery("#primarynav").Touchdown();
-//         jQuery("#feedback").Touchdown();
-
- 		// add dynamic classes for IE8 last-child support
  		jQuery('#menu-utilities li').last().addClass('last-link');
  		jQuery('#menu-footer-left li').last().addClass('last-link');
  		jQuery('#primarynav li').last().addClass('last-link');
  		jQuery('.category-block ul').addClass('first-link');
 	    markDocumentLinks();
 		gaTrackDownloadableFiles();
-
     });
 	
-	jQuery('#searchform').submit(function(e) {
-	    if (jQuery.trim(jQuery("#s").val()) === "") {
+	jQuery('.navbar-search').submit(function(e) {
+	    if (jQuery.trim(jQuery("#navsearchinput-lg").val()) === "") {
 	        e.preventDefault();
 	        jQuery('#s').focus();
 	    }
 	});	
-
 </script>
 
 <?php

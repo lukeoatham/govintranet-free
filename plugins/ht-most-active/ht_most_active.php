@@ -14,46 +14,68 @@ class htMostActive extends WP_Widget {
 
 		if( function_exists('register_field_group') ):
 		
-		register_field_group(array (
-			'key' => 'group_54c3150a2b558',
-			'title' => 'Most active widget',
-			'fields' => array (
-				array (
-					'key' => 'field_54c31510b4670',
-					'label' => 'Exclude',
-					'name' => 'exclude_posts',
-					'prefix' => '',
-					'type' => 'relationship',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'post_type' => '',
-					'taxonomy' => '',
-					'filters' => array (
-						0 => 'search',
-						1 => 'post_type',
-					),
-					'elements' => '',
-					'max' => '',
-					'return_format' => 'id',
-				),
-			),
-			'location' => array (
-				array (
+			register_field_group(array (
+				'key' => 'group_54c3150a2b558',
+				'title' => 'Most active widget',
+				'fields' => array (
 					array (
-						'param' => 'widget',
-						'operator' => '==',
-						'value' => 'htmostactive',
+						'key' => 'field_55327bd9f4f3d',
+						'label' => 'Show guide chapters',
+						'name' => 'show_guide_chapters',
+						'prefix' => '',
+						'type' => 'true_false',
+						'instructions' => 'If enabled, this option will show individual guide chapters. If disabled, only main guide pages will appear.',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'message' => '',
+						'default_value' => 0,
+					),
+					array (
+						'key' => 'field_54c31510b4670',
+						'label' => 'Exclude',
+						'name' => 'exclude_posts',
+						'prefix' => '',
+						'type' => 'relationship',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'post_type' => '',
+						'taxonomy' => '',
+						'filters' => array (
+							0 => 'search',
+							1 => 'post_type',
+						),
+						'elements' => '',
+						'max' => '',
+						'return_format' => 'id',
 					),
 				),
-			),
-			'menu_order' => 0,
-			'position' => 'normal',
-			'style' => 'default',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-		));
+				'location' => array (
+					array (
+						array (
+							'param' => 'widget',
+							'operator' => '==',
+							'value' => 'htmostactive',
+						),
+					),
+				),
+				'menu_order' => 0,
+				'position' => 'normal',
+				'style' => 'default',
+				'label_placement' => 'top',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+			));
 		
 		endif;
 
@@ -76,7 +98,6 @@ class htMostActive extends WP_Widget {
 		$ga_viewid = ($instance['ga_viewid']);
         $cache = intval($instance['cache']);
 		$widget_id = $id;
-
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_exclude_posts" ;  
 		$exclude = get_option($acf_key); 
 		$stoppages = array('how-do-i','task-by-category','news-by-category','newspage','tagged','atoz','about','home','blogs','events','category','news-type'); 
@@ -84,6 +105,9 @@ class htMostActive extends WP_Widget {
 			$stop = get_page($sp);
 			if ($stop) $stoppages[] = $stop->post_name;
 		}
+		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_show_guide_chapters" ;  
+		$showchapters = get_option($acf_key); echo "<!--". $showchapters. "-->";
+
        ?>
 	   <?php echo $before_widget; ?>
        <?php if ( $title ) echo $before_title . $title . $after_title; ?>
@@ -194,7 +218,8 @@ class htMostActive extends WP_Widget {
 			break;
 		}	
 				
-				$tasktitle='';
+				$tasktitle = '';
+				$tasktitlecontext = '';
 				$filtered_pagepath = str_replace(@explode(",",$conf['tab1']['gatidypaths']),"",$result->getPagePath());
 		
 				$path = "/task/"; 
@@ -205,18 +230,23 @@ class htMostActive extends WP_Widget {
 					if ( end($parthparts) == '' ) array_pop($pathparts); 
 					$thistask = end($pathparts); 
 					if ( in_array( $thistask, $stoppages ) ) continue;
-					$tasktitle = false;
-					$path = 'task/'.$thistask;
-					$taskpod = get_page_by_path( $thistask, OBJECT, 'task'); 
+					$tasktitle = false; 
+					$check = array_shift($pathparts); 
+					$check = array_shift($pathparts); 
+					$path = implode("/",$pathparts);
+					$taskpod = get_page_by_path( $path, OBJECT, 'task'); 
 					if ("publish" != $taskpod->post_status) continue;
 					$tasktitle=  govintranetpress_custom_title($taskpod->post_title);
 					$taskid = $taskpod->ID;
 					$taskslug = $taskpod->post_name;
 					if ( $taskpod->post_parent ){
 						$taskpod = get_post($taskpod->post_parent);
-						$taskid = $taskpod->ID;
-						$taskslug = $taskpod->post_name;
-						$tasktitle=  $taskpod->post_title ;
+						if ( $showchapters != 1 ):
+							$taskid = $taskpod->ID;
+							$taskslug = $taskpod->post_name;
+						else:
+							$tasktitlecontext = " <small>(".govintranetpress_custom_title($taskpod->post_title).")</small>";
+						endif;
 					}
 		
 					if (!$tasktitle){
@@ -397,8 +427,8 @@ class htMostActive extends WP_Widget {
 						
 		
 				if ($tasktitle!='' ){
-					$html .= "<li><a href='" . $baseurl . $result->getPagePath() . "'>" . $tasktitle . "</a></li>";		
-					$transga[] = "<li><a href='" . $baseurl . $result->getPagePath() . "'>" . $tasktitle . "</a></li>";		
+					$html .= "<li><a href='" . $baseurl . $result->getPagePath() . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";		
+					$transga[] = "<li><a href='" . $baseurl . $result->getPagePath() . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";		
 					$alreadydone[] = $taskid;
 				}
 

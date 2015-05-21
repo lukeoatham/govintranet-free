@@ -340,7 +340,7 @@ header('X-Frame-Options: SAMEORIGIN');
 
 <?php 
 $parentpageclass = (renderLeftNav("FALSE")) ? "parentpage" : "notparentpage"; 
-$parentpageclass.=" custom-background"
+$parentpageclass.=" custom-background";
 ?>
 
 <body <?php body_class($parentpageclass); ?>>

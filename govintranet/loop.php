@@ -27,7 +27,7 @@
 			_e( 'Not found', 'govintranet' );
 			echo "</h1>";
 			echo "<p>";
-			_e( 'There\'s nothing to show.', 'govintranetpress' );
+			_e( 'There\'s nothing to show.', 'govintranet' );
 			echo "</p>";
 			get_search_form(); 
 	};
@@ -195,8 +195,10 @@
 			}
 		}
 		if ( is_archive() || is_search() || is_author() ){
-			   $thisdate= get_the_date('j M Y');
-			   echo "<span class='listglyph'> ".$thisdate."</span> ";
+			$thisdate= get_the_date('j M Y');
+			echo '<span class="listglyph">'.get_the_date("j M Y"); 
+			comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+			echo '</span> ';
 		}
 		if ($post_type=="Blog"){
 			$image_url = get_avatar($post->post_author,32);
@@ -273,7 +275,7 @@
 		}
 		
 			?>
-<?php 
+		<?php 
 		else: 
 		if ($post_type=='Blog'){
 			the_excerpt();

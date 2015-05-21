@@ -197,7 +197,10 @@ get_header(); ?>
 	        </a>
 	      </h3>
 	    </div>
-	    <div id="collapseFilter" class="xpanel-collapse  <?php if (!$_REQUEST['include'] && !$_REQUEST['post_type'] && !$_REQUEST['orderby']) { echo 'collapse out'; } else { echo "out in";}?>">
+	    <div id="collapseFilter" class="xpanel-collapse<?php echo ' out in';
+		    //if (!$_REQUEST['include'] && !$_REQUEST['post_type'] && !$_REQUEST['orderby']) { echo 'collapse out'; } else { echo "out in";}
+			    ?>
+			    ">
 	      	<div class="xpanel-body">
 				<form role="search" method="get" id="searchfilter" action="<?php echo home_url('/'); ?>">
 					<input type="hidden" name="s" value="<?php echo get_search_query(); ?>">

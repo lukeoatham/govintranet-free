@@ -158,31 +158,40 @@ class htEventsListing extends WP_Widget {
 			$edate .= " ".date('g:ia',strtotime($etime));
 			$thisURL=get_permalink($ID); 
 			
-			echo "<div class='row'><div class='col-sm-12'>";
+			echo "<div class='row'>";
 			
 			if ($thumbnails=='on'){
+				echo "<div class='col-xs-12'>";
 				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'newsmedium' ); 
 				if ($image_uri != "" ){
 					echo "<a href='".$thisURL."'><img class='img img-responsive' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
 				}
+				echo "</div>";
 			} 
 
 			if ( 'on' == $calendar ) {
-				echo "<a href='".$thisURL."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</span>".$thistitle."</a>";
+				echo "<div class='col-lg-3 col-xs-3'>";
+				echo "<a href='".$thisURL."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</span></a>";
+				echo "</div>";
+				echo "<div class='col-lg-9 col-xs-9'>";
+				echo "<a href='{$thisURL}' class='cal-title'>".$thistitle."</a>";
 			} else {
-				echo "<a href='{$thisURL}'> ".$thistitle."</a>";
+				echo "<div class='col-xs-12'>";
+				echo "<a href='{$thisURL}' class='cal-title'>".$thistitle."</a>";
+				echo "<small>".$edate."</small>";				
 			} 
 
-			if (!$calendar == 'on') echo "<br><small>".$edate."</small>";
-
-			if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) ) echo "<span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
+			if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) && !$excerpt == 'on' ) echo "<span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
 
 			if ( $excerpt == 'on' && get_the_excerpt() ){
-				echo "<br><span>".get_the_excerpt()."</span>";
+				echo "</div><div class='col-xs-12'>";
+				if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) ) echo "<span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
+				echo "<span>".get_the_excerpt()."</span>";
 			}
 
 
 			echo "</div>";
+
 			echo "</div><hr>";
 		}
 

@@ -41,7 +41,7 @@ get_header();
 						</select>
 					</div>
 					<div class="form-group input-md">
-						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="How do I..." onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 					</div>
 					<div class="form-group input-md">
 						<button class="btn btn-primary input-md" type="submit">Search</button>

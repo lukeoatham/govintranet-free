@@ -35,6 +35,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.1 - 21 May 2015 ###
+* Bug fixes
+* Aggregator plugin
+
+### 4.0.3.1 - 29 Mar 2015 ###
+* External link icon correction on listings
+
 ### 4.0.3 - 21 Mar 2015 ###
 * Related pages corrections
 

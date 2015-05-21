@@ -76,7 +76,7 @@ class htFeatureBlogposts extends WP_Widget {
 					echo "<a class='pull-left' href='".get_permalink($post->ID)."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
 				}
 			}
-			echo "<div class='media-body'><a href='{$thisURL}'><strong>".$thistitle."</strong></a>";
+			echo "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 			echo "<br><span class='news_date'>".$edate." by ";
 			echo get_the_author();
 			echo "</span>";

@@ -51,6 +51,12 @@ $mainid=$post->ID;
 	
 	echo " " . $addToCalendar . "</p>";
 	
+	$locationname = get_post_meta($post->ID,'event_location',true);
+	if ( $locationname ):
+		echo "<h3>Location</h3>";
+		echo wpautop(esc_attr($locationname));
+	endif;
+
 	$userrec = wp_get_current_user();
 	$userid = $userrec->ID;
 	$formfields = get_post_meta($post->ID, 'event_gravity_forms_id', true ); 

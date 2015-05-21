@@ -436,7 +436,7 @@ class htIntraverts extends WP_Widget {
 			$cquery = array(
 			    'post_type' => 'intravert',
 			    'posts_per_page' => -1,
-			    'post__in' => $intravertToShow,
+			    'post__in'=>$intravertToShow,
 			    'orderby'=>'menu_order',
 			    'order' => 'ASC',
 				);

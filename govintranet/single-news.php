@@ -13,7 +13,17 @@ if ( get_post_format($post->ID) == 'link' ){
 	}	
 }
 
-get_header(); ?>
+function filter_news($query) {
+    if ($query->is_tag && !is_admin()) {
+		$query->set('post_type', array('news'));
+    }
+    return $query;
+}; 
+
+get_header(); 
+
+remove_filter('pre_get_posts', 'filter_search');
+?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
@@ -70,6 +80,13 @@ get_header(); ?>
 				if ('open' == $post->comment_status) {
 					 comments_template( '', true ); 
 				}
+				
+				$starssettings = get_option('gd-star-rating', 'oxygen');
+				$starstyle = $starsettings['style'];
+				$starsize = $starsettings['size'];
+				$startemplate = $starsettings['default_srb_template'];
+				wp_gdsr_render_article($startemplate, 0, $starstyle, $starsize);
+
 			 ?>
 
 		</div> <!--end of first column-->
@@ -85,10 +102,9 @@ get_header(); ?>
 						$rlink = get_post($r);
 						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
 							$taskparent=$rlink->post_parent; 
-							if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
-								$tparent_guide_id = $taskparent->ID; 		
-								if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
-								if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+							if ($taskparent){
+								$taskparent = get_post($taskparent);
+								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 							}		
 							$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
 							$alreadydone[] = $r;
@@ -124,28 +140,26 @@ get_header(); ?>
 					$catTitlePrinted=false;
 					foreach($post_cat as $cat){
 					if ($cat->slug != 'uncategorized'){
-						if (!$catTitlePrinted){
+						if ( !$catTitlePrinted ){
 							$catTitlePrinted = true;
 						}
 						$html.= "<span><a class='wptag t".$cat->term_id."' href='".site_url()."/news-type/".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 						}
 					}	
-					if ($html){
+					if ( $html ){
 						echo "<div class='widget-box'><h3>Categories</h3>".$html."</div>";
 					}
 				}
 				$posttags = get_the_tags();
-				if ($posttags) {
+				if ( $posttags ) {
 					$foundtags=false;	
 					$tagstr="";
-				  	foreach($posttags as $tag) {
-				  		if (substr($tag->name,0,9)!="carousel:"){
-				  			$foundtags=true;
-				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?type=news'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
-				    	}
+				  	foreach( $posttags as $tag ) {
+			  			$foundtags=true;
+			  			$tagurl = $tag->slug;
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?type=news'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				  	}
-				  	if ($foundtags){
+				  	if ( $foundtags ){
 					  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
 					  	echo $tagstr;
 					  	echo "</p></div>";
@@ -154,24 +168,24 @@ get_header(); ?>
 		 	dynamic_sidebar('news-widget-area'); 
 		 	wp_reset_postdata();
 
-
-
-/*****************
-
-AUTOMATED RELATED NEWS
-
-Show 5 latest news stories, excluding the current post and any posts already manually entered as related 
-If this post is a need to know story, show other need to know stories.
-Otherwise check for recent news stories in the same categories as this post.
-If still nothing found, show the latest news stories excluding need to know items
-	
-******************/
+			
+			/*****************
+			
+			AUTOMATED RELATED NEWS
+			
+			Show 5 latest news stories, excluding the current post and any posts already manually entered as related 
+			If this post is a need to know story, show other need to know stories.
+			Otherwise check for recent news stories in the same categories as this post.
+			If still nothing found, show the latest news stories excluding need to know items
+				
+			******************/
 	
 		 	// get meta to use for displaying related news
 
 		 	$alreadydone[] = $post->ID;
 
 			$update = has_post_format( 'status' , $post->ID ); 
+			
 			$newstype = get_the_terms( $post->ID , 'news-type' ); 
 			if ($newstype):
 				$terms = array();
@@ -179,6 +193,7 @@ If still nothing found, show the latest news stories excluding need to know item
 					$terms[] = $n->slug;
 				}
 			endif;
+			
 			$newstags = get_the_tags( $post->ID); 
 			if ($newstags):
 				$ntags = array();
@@ -190,7 +205,6 @@ If still nothing found, show the latest news stories excluding need to know item
 			endif;
 
 			$recentitems = new WP_Query(); 
-			
 			
 			// try to find other need to know stories
 			$subhead = 'Other updates';
@@ -206,8 +220,10 @@ If still nothing found, show the latest news stories excluding need to know item
 						)),
 					 ) );			
 			}
+			
 			if ( $recentitems->found_posts == 0 && $terms && $ntags ):
 			// no need to know stories so we'll look for others with the same tags AND category
+				add_filter('pre_get_posts', 'filter_news');
 				$subhead = 'Similar news';
 				$recentitems = new WP_Query(array(
 						'post_type'	=>	'news',
@@ -223,23 +239,35 @@ If still nothing found, show the latest news stories excluding need to know item
 							),
 							array(
 							'taxonomy' => 'post_tag',
-							'field' => 'slug',
-							'terms' => $ntags,
+							'field' => 'term_id',
+							'terms' => $nidtags,
 							'operator' => 'IN'
 							),
 							),
-						 ) );			
+						 ) );		
+				remove_filter('pre_get_posts', 'filter_news');
 			endif;			
-			if ( $recentitems->found_posts == 0 && $ntags): 
+			
+			if ( $recentitems->found_posts == 0 && $ntags || true): 
 			// no stories with same tags and cats so we'll look for others with just the same tags
+				add_filter('pre_get_posts', 'filter_news');
 				$subhead = 'Similar news';
 				$recentitems = new WP_Query(array(
 						'post_type'	=>	'news',
 						'posts_per_page'	=>	5,
 						'post__not_in'	=> $alreadydone,
-						'tag__in' => $nidtags,
+						'tax_query' => array(
+							array(
+							'taxonomy' => 'post_tag',
+							'field' => 'term_id',
+							'terms' => $nidtags,
+							'operator' => 'IN'
+							),
+							),
 						 ) );			
+				remove_filter('pre_get_posts', 'filter_news');
 			endif;			
+			
 			if ( $recentitems->found_posts == 0 && $terms): 
 			// still nothing found, we'll look for other stories in the same news categories as this story
 				$subhead = 'Other related news';
@@ -253,9 +281,10 @@ If still nothing found, show the latest news stories excluding need to know item
 							'field' => 'slug',
 							'terms' => $terms,
 							)),
-						 ) );			
+						 ) );	
 				endif;
 			endif;
+			
 			if ( $recentitems->found_posts == 0 ): 
 			// still nothing found, we'll load the latest 5 stories excluding any need to know
 				$subhead = 'Recent news';
@@ -290,8 +319,10 @@ If still nothing found, show the latest news stories excluding need to know item
 				endwhile; 
 				echo "</div>";
 			endif;
+
+			add_filter('pre_get_posts', 'filter_search');
 			wp_reset_query();
-				?>
+			?>
 		</div> <!--end of second column-->
 			
 <?php endwhile; // end of the loop. ?>

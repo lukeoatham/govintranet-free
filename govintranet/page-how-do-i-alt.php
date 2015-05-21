@@ -20,7 +20,7 @@ get_header(); ?>
 			<div class="well well-sm">
 				<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
 					<div class="input-group">
-						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="How do I..." onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 						 <span class="input-group-btn">
 						 <input type="hidden" name="post_type[]" value="task" />
 						 <button class="btn btn-primary" type="submit"><span class="dashicons dashicons-search"></span></button>

@@ -24,22 +24,30 @@ if ($tasktagslug):
 	$tasktag = $tasktag[0]->name;
 endif;
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-if ( have_posts() )
-		the_post();
-			 
-?>
+$landingpage = get_option('options_module_news_page'); 
+if ( !$landingpage ):
+	$landingpage_link_text = 'news';
+	$landingpage = site_url().'/newspage/';
+else:
+	$landingpage_link_text = get_the_title( $landingpage[0] );
+	$landingpage = get_permalink( $landingpage[0] );
+endif;
 
+if ( have_posts() )
+	the_post();
+	?>
 	<div class="col-lg-7 col-md-8 col-sm-12 white">
 		<div class="row">
 			<div class='breadcrumbs'>
-				<a title="Go to Home." href="<?php echo site_url(); ?>/" class="site-home">Home</a> &raquo; 
-				<a title="Go to News types?" href="<?php echo site_url(); ?>/newspage/">News</a> &raquo; <?php echo $catparentlink.$catname; ?>
+				<?php if(function_exists('bcn_display') && !is_front_page()) {
+					bcn_display();
+					}?>
 			</div>
 		</div>
 
 		<h1 <?php echo "class='h1_" . $catid . "'>". single_tag_title( '', false ) ; if ($tasktag) echo " <small><span class='glyphicon glyphicon-tag'></span> ".$tasktag."</small>";?></h1>
 	
-			<?php echo $catdesc; ?>
+		<?php echo $catdesc; ?>
 				
 		<h3 class='widget-title h1_<?php echo $catid; ?>'>Browse by tag</h3>
 		<?php 
@@ -49,28 +57,28 @@ if ( have_posts() )
 		 */
 		if ($tasktagslug):
 			$taskitems = new WP_Query(
-					array (
-			'post_type'=>'news',
-			'news-type'=>$catslug,
-			'tag'=>$tasktagslug,
-			'posts_per_page' => 25,
-			'paged' => $paged,												
-			'orderby'=>'date',
-			'order'=>'DESC',
-			'post_parent'=>0
-			)
+				array (
+				'post_type'=>'news',
+				'news-type'=>$catslug,
+				'tag'=>$tasktagslug,
+				'posts_per_page' => 25,
+				'paged' => $paged,												
+				'orderby'=>'date',
+				'order'=>'DESC',
+				'post_parent'=>0
+				)
 			);
 		else:
 			$taskitems = new WP_Query(
-					array (
-			'post_type'=>'news',
-			'news-type'=>$catslug,
-			'posts_per_page' => 25,
-			'paged' => $paged,												
-			'orderby'=>'date',
-			'order'=>'DESC',
-			'post_parent'=>0
-			)
+				array (
+				'post_type'=>'news',
+				'news-type'=>$catslug,
+				'posts_per_page' => 25,
+				'paged' => $paged,												
+				'orderby'=>'date',
+				'order'=>'DESC',
+				'post_parent'=>0
+				)
 			);
 		endif;
 		if ($taskitems->post_count==0){
@@ -86,6 +94,9 @@ if ( have_posts() )
 			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 
 			<?php
+			echo '<span class="listglyph">'.get_the_date("j M Y"); 
+			comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+			echo '</span> ';				
 			the_excerpt(); 
 			echo "</div>";
 			echo '<div class="clearfix"></div>';

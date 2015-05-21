@@ -50,7 +50,7 @@ get_header(); ?>
 						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
 							$taskparent=$rlink->post_parent; 
 							if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
-								$tparent_guide_id = $taskparent->ID; 		
+								$tparent_guide_id = $taskparent; 		
 								if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
 								if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 							}		
@@ -65,7 +65,7 @@ get_header(); ?>
 					if ($o->post_status == 'publish' && $o->ID != $id ) {
 								$taskparent=$o->post_parent; 
 								if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
-									$tparent_guide_id = $taskparent->ID; 		
+									$tparent_guide_id = $taskparent; 		
 									if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
 									if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 								}		

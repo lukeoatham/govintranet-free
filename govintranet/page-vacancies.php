@@ -193,7 +193,53 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			<?php echo $cloud; ?>
 		</div>
 		<?php endif; ?>
+		<?php
+		wp_reset_postdata();
+		the_post_thumbnail('medium', array('class'=>'img img-responsive')); 
+		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
+		$thispage = get_page($id);
+		$relatedteams = '';
+		if (taxonomy_exists('team')) $relatedteams = get_the_terms( $id, 'team' );
+		$related = get_post_meta($id,'related',true);
 
+				if ($related){
+					$html='';
+					foreach ($related as $r){ 
+						$title_context="";
+						$rlink = get_post($r);
+						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
+							$taskparent=$rlink->post_parent; 
+							if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
+								$tparent_guide_id = $taskparent; 		
+								if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
+								if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+							}		
+							$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
+						}
+					}
+				}
+				
+				//get anything related to this post
+				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
+				foreach ($otherrelated as $o){
+					if ($o->post_status == 'publish' && $o->ID != $id ) {
+								$taskparent=$o->post_parent; 
+								if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
+									$tparent_guide_id = $taskparent; 		
+									if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
+									if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+								}		
+								$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
+						}
+				}
+
+				if ($related || $otherrelated){
+					echo "<div class='widget-box list'>";
+					echo "<h3 class='widget-title'>Related</h3>";
+					echo "<ul>";
+					echo $html;
+					echo "</ul></div>";
+				}	?>
 	</div>
 
 <?php endwhile; ?>

@@ -45,12 +45,12 @@ if ($k==1 && $paged<2){
 	if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
 	echo "<h3".$headclass.">".$ext_icon."<a href='".site_url()."/news/".$post->post_name."'>".$needtoknow.$thistitle."</a></h3>";
 	echo "<div class='media-body'>";
-	
 	echo "<div><p>";
-   $thisdate= $post->post_date;
-   $thisdate=date("j M Y",strtotime($thisdate));
-   echo "<span class='listglyph'></i> ".$thisdate."</span> ";
-
+	$thisdate= $post->post_date;
+	$thisdate=date("j M Y",strtotime($thisdate));
+	echo '<span class="listglyph">'.get_the_date("j M Y"); 
+	comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+	echo '</span> ';
 	$post_cat = get_the_terms($post->ID,'news-type');		
 	if ( $post_cat ) foreach($post_cat as $cat){
 		if ($cat->name != 'Uncategorized' ){
@@ -60,7 +60,6 @@ if ($k==1 && $paged<2){
 	}
 
 	echo "</p></div>";
-
 	the_excerpt(); 
 	?>
 	</div></div></div>
@@ -68,37 +67,29 @@ if ($k==1 && $paged<2){
 } else { 
 	$ext_icon = '';
 	if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
-
 	//regular listing *********************
 	echo "<div class='media'>" ;
 	$image_url = get_the_post_thumbnail($id, 'newsmedium', array('class' => 'img-responsive'));
-	
 	echo "<a href='";
 	$userurl = get_permalink();
 	echo $userurl;
 	echo "'>".$image_url."</a>" ;
-
 	echo "<div class='media-body'>";
 	?>
-
 	<h3 class='postlist'><?php echo $needtoknow.$ext_icon;  ?>				
 	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a><?php echo $ext_icon; ?></h3>
 	<?php
-
 	echo "<div><p>";
-
-		   $thisdate= $post->post_date;
-		   $thisdate=date("j M Y",strtotime($thisdate));
-		   echo "<span class='listglyph'>".$thisdate."</span> ";
-
+	$thisdate= $post->post_date;
+	$thisdate=date("j M Y",strtotime($thisdate));
+	echo '<span class="listglyph">'.get_the_date("j M Y"); 
+	comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+	echo '</span> ';
 	echo "</p></div>";
-
 	the_excerpt(); 
 	?>
 	</div></div>
 	<?php
 }
-
 echo "<hr>";
-
 ?>
