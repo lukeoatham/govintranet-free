@@ -89,15 +89,11 @@ function widget($args, $instance) {
     $thumbnailitems = intval($instance['thumbnailitems']);
     $listitems = intval($instance['listitems']);
 	$showexcerpt = $instance['showexcerpt'];
-
 	$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_pin_stories" ;  
 	$top_slot = get_option($acf_key); 
-
 	$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_exclude_stories" ;  
 	$exclude = get_option($acf_key); 
-	
     global $post;
-
 	$removenews = get_transient('cached_removenews'); 
 	if (!$removenews || !is_array($removenews)){
 	
@@ -215,15 +211,13 @@ function widget($args, $instance) {
 			if (function_exists('get_video_thumbnail')){
 				$videostill = get_video_thumbnail( $slot->ID ); 
 			}
-	
 			$thistitle = $slot->post_title;
 			$thisURL=get_permalink($slot->ID); 
-	
 			$video = 0;
 			if ( has_post_format('video', $slot->ID) ):
 				$video = apply_filters('the_content', get_post_meta( $slot->ID, 'news_video_url', true));
 			endif;
-	
+
 			if ($newsgrid[$k]=="L"){
 				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'newshead' );
 				if ($video){
@@ -265,15 +259,26 @@ function widget($args, $instance) {
 			echo "<h3 class='noborder'>".$ext_icon."<a href='".$thisURL."'>".$thistitle."</a>".$ext_icon."</h3>";
 
 			if ($newsgrid[$k]=="Li"){
-				echo "<p><span class='news_date'>".$thisdate."";
+				echo "<p>";
+				echo '<span class="listglyph">'.get_the_date("j M Y"); 
+				comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+				echo '</span> ';
 				echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
 			} else {
 				if ($showexcerpt == 'on') {
-					echo "<p><span class='news_date'>".$thisdate."</span></p>";									
+					echo "<p>";
+					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					echo '</span> ';
+					echo "</p>";									
 					echo $thisexcerpt;
 					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></p>";
 				} else {
-					echo "<p><span class='news_date'>".$thisdate." <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
+					echo "<p>";
+					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					echo '</span> ';
+					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
 				}
 			}
 
@@ -363,14 +368,25 @@ function widget($args, $instance) {
 			echo "<h3 class='noborder'><a href='".$thisURL."'>".$thistitle."</a> ".$ext_icon."</h3>";
 
 			if ($newsgrid[$k]=="Li"){
-				echo "<p><span class='news_date'>".$thisdate."</span></p>";									
+					echo "<p>";
+					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					echo '</span> ';
+					echo "</p>";									
 			} else {
 				if ($showexcerpt == 'on') {
-					echo "<p><span class='news_date'>".$thisdate."</span></p>";									
+					echo "<p>";
+					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					echo '</span> ';
+					echo "</p>";									
 					echo $thisexcerpt;
 					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></p>";
 				} else {
-					echo "<p><span class='news_date'>".$thisdate." <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
+					echo "<p>";
+					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
 				}
 			}
 	

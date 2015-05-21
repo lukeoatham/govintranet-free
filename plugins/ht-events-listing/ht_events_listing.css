@@ -2,14 +2,15 @@
 	margin-bottom: 1em;
 }	
 .upcoming-events .date-stamp {
-	width: 100%;
-	margin-right: 0;
+	width: 40px;
+	margin-right: 5%;
+	float: left;
 	text-align: center;
 	text-transform: uppercase;
 	font-weight: bold;
 	color: #555;
-	font-size: 166%;
-	padding: 0 0 0.26em 0;
+	font-size: 1.4em;
+	padding: 0;
 	border-radius: 3px;
 	background: #fff;
 	box-shadow: 0 2px 3px rgba(0,0,0,.2);
@@ -27,10 +28,11 @@
 .upcoming-events p.events-more strong, .upcoming-events p.events-more span {
 	display: inline;
 }
-.upcoming-events a.cal-title {
+.upcoming-events a+span {
 	display: block;
-	font-size: 1em;
-	margin: 0;
+	color: #555;
+	font-size: 0.9em;
+	margin-top: 13px;
 }
 
 .upcoming-events strong {
@@ -56,9 +58,4 @@
 	content: ' ';
 	display: block;
 	clear: both;
-}
-
-.widget-events .col-xs-3, .widget-events .col-lg-3 {
-	padding-right: 0;
-	margin-right: -5px;
 }

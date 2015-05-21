@@ -35,6 +35,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.1.1 - 21 May 2015 ###
+* Plugin bugfixes
+
 ### 4.1 - 21 May 2015 ###
 * Bug fixes
 * Aggregator plugin
