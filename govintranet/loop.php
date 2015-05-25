@@ -218,7 +218,7 @@
 		$thisdate= get_post_meta($post->ID, 'event_start_date', true);
 		$thisdate=date("j M Y",strtotime($thisdate));
 		echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
-		foreach($post_cat as $cat){
+		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->name != 'Uncategorized' ){
 				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span>".$cat->name;
 			echo "</span>&nbsp;";
@@ -228,7 +228,7 @@
 	} elseif ($post_type != 'Category' && $post_type != 'User') {
 		echo "<div><p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';
-		foreach($post_cat as $cat){
+		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->name != 'Uncategorized' ){
 				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span>".$cat->name;
 			echo "</span>&nbsp;";
