@@ -35,6 +35,11 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.1.2 - 26 Jun 2015 ###
+* Events listing plugin bugfixes
+* Most active plugin - new API interface
+* Improvements to page aggregator template 
+
 ### 4.1.1 - 21 May 2015 ###
 * Plugin bugfixes
 

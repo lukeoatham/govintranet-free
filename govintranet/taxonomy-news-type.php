@@ -91,7 +91,7 @@ if ( have_posts() )
 			echo "<div class='newsitem'>".$image_url ;
 			?>
 		<h3>				
-			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
+			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s', 'govintranetpress' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 
 			<?php
 			echo '<span class="listglyph">'.get_the_date("j M Y"); 

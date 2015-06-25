@@ -46,7 +46,8 @@ if( have_rows('aggregator_column_1') ):
 	<?php
 	// loop through the rows of data
 	
-    while ( have_rows('aggregator_column_1') ) : the_row();
+    while ( have_rows('aggregator_column_1') ) : 
+    the_row();
 
 		global $post;
 		global $title;
@@ -69,6 +70,7 @@ if( have_rows('aggregator_column_1') ):
 		$freshness = '';
 		$n2n = '';
 		$tax = '';
+		$compact = '';
 
 		// NEWS LISTING
 		
@@ -85,12 +87,11 @@ if( have_rows('aggregator_column_1') ):
 			$compact = get_sub_field('aggregator_listing_compact_list');
 			if ( $compact ) $larray = array();
         	get_template_part('page-aggregator/part-news-listing');
-       	endif;
 		
 
 		// BLOG LISTING
 		
-        if ( get_row_layout() == 'aggregator_blog_listing' ) :
+        elseif ( get_row_layout() == 'aggregator_blog_listing' ) :
 			$title = get_sub_field('aggregator_listing_title');
 			$team = get_sub_field('aggregator_listing_team');
 			$checkteam = $team[0]; 
@@ -100,21 +101,19 @@ if( have_rows('aggregator_column_1') ):
 			$compact = get_sub_field('aggregator_listing_compact_list');
 			if ( $compact ) $larray = array();
         	get_template_part('page-aggregator/part-blog-listing');
-       	endif;
 
 
 		// FREE-FORMAT AREA
 
-        if( get_row_layout() == 'aggregator_free_format_area' ): 
+        elseif( get_row_layout() == 'aggregator_free_format_area' ): 
         	global $freeformat;
         	$freeformat = get_sub_field('aggregator_free_format_area_content');
         	get_template_part('page-aggregator/part-free-format');
-		endif;
 
 
 		// TEAM LISTING
 
-        if( get_row_layout() == 'aggregator_team_listing' ): 
+        elseif( get_row_layout() == 'aggregator_team_listing' ): 
 			global $alreadyshown;
 			global $directorystyle;
 			global $showmobile;
@@ -128,22 +127,20 @@ if( have_rows('aggregator_column_1') ):
 			$teamid = $team[0]; 
 			$teamleaderid = get_post_meta($teamid, 'team_lead', true);
         	get_template_part('page-aggregator/part-team-listing');
-		endif;
 
 
 		// LINKS
 
-        if( get_row_layout() == 'aggregator_link_listing' ): 
+        elseif( get_row_layout() == 'aggregator_link_listing' ): 
         	global $link;
 			$link = get_sub_field('aggregator_listing_link');
         	$title = get_sub_field('aggregator_listing_title');
         	get_template_part('page-aggregator/part-links-listing');
-		endif;
 
 
 		// DOCUMENT LINKS
 
-        if( get_row_layout() == 'aggregator_document_listing' ): 
+        elseif( get_row_layout() == 'aggregator_document_listing' ): 
 			global $cat_id;
 			global $doctyp;
 			$cat_id = get_sub_field('aggregator_listing_category'); 
@@ -152,13 +149,12 @@ if( have_rows('aggregator_column_1') ):
 			if ( !$doctyp ) $doctyp = "any";
         	$title = get_sub_field('aggregator_listing_title');
         	get_template_part('page-aggregator/part-document-listing');
-		endif;
 
 
 		// GALLERY
 
-        if( get_row_layout() == 'aggregator_gallery' ): 
-        	global $gallery;
+        elseif( get_row_layout() == 'aggregator_gallery' ): 
+        	global $gallery; 
 			$gallery = get_sub_field('aggregator_gallery_images');
         	$title = get_sub_field('aggregator_listing_title');
         	get_template_part('page-aggregator/part-gallery');

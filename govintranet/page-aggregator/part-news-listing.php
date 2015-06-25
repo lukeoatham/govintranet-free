@@ -15,15 +15,16 @@
 			"posts_per_page" => $num,
 		);
 
-	$freshness = "-".$freshness." day";
-    $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );   
- 	$query['date_query'] = array(
-				array(
-					'after'     => $tdate,
-					'inclusive' => true,
-				)
-			);
-	
+	if ($freshness):
+		$freshness = "-".$freshness." day";
+	    $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );   
+	 	$query['date_query'] = array(
+					array(
+						'after'     => $tdate,
+						'inclusive' => true,
+					)
+				);
+	endif;
 	$taxarray='';
 	$taxarray3='';
 	
