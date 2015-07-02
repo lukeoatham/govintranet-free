@@ -28,7 +28,10 @@ get_header();
 		<?php elseif ( is_year() ) : ?>
 						<?php printf( __( 'Yearly archives: %s', 'govintranetpress' ), get_the_date('Y') ); ?>
 		<?php else : ?>
-						<?php _e( 'Archives', 'govintranetpress' ); ?>
+				<?php
+				the_archive_title( '<h1 class="page-title">', '</h1>' );
+				the_archive_description( '<div class="taxonomy-description">', '</div>' );
+				?>
 		<?php endif; ?>
 			</h1>
 

@@ -111,30 +111,16 @@ class htMostActive extends WP_Widget {
 	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; // 95422553
-	    include_once('GoogleAnalyticsAPI.class.php');
-		$ga = new GoogleAnalyticsAPI();
-		$ga->auth->setClientId($client_id); // From the APIs console
-		$ga->auth->setClientSecret($client_secret); // From the APIs console
-		$ga->auth->setRedirectUri($redirect_uri); // Url to your app, must match one in the APIs console
 
-		// Get the Auth-Url
-		$url = $ga->auth->buildAuthUrl();
-
-       ?>
-	   <?php echo $before_widget; ?>
-       <?php if ( $title ) echo $before_title . $title . $after_title; ?>
-        <?php
-		//update_option( 'ga_token', null );
-		?>
-	   <?php
+		echo $before_widget; 
+       if ( $title ) echo $before_title . $title . $after_title; 
 		$baseurl = site_url();
 		$to_fill = $items;
 		$k = 0;
 		$alreadydone = array();
 		$hmtl = '';
 
-		//$cachedga = get_transient('cached_ga_'.$widget_id);
-		$cachedga = 0;
+		$cachedga = get_transient('cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ) );
 		if ($cachedga) { // if we have a fresh cache
 
 			$html='';
@@ -149,6 +135,15 @@ class htMostActive extends WP_Widget {
 			}
 
 		} else { //load fresh analytics
+
+		    include_once('GoogleAnalyticsAPI.class.php');
+			$ga = new GoogleAnalyticsAPI();
+			$ga->auth->setClientId($client_id); // From the APIs console
+			$ga->auth->setClientSecret($client_secret); // From the APIs console
+			$ga->auth->setRedirectUri($redirect_uri); // Url to your app, must match one in the APIs console
+	
+			// Get the Auth-Url
+			$url = $ga->auth->buildAuthUrl();
 
 			ini_set('error_reporting','0'); // disable all, for security
 
@@ -335,9 +330,9 @@ class htMostActive extends WP_Widget {
 
 
 		if ($cache):
-		 	set_transient('cached_ga_'.$widget_id,$transga,60*60*$cache); // set cache period
+		 	set_transient('cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,60*60*$cache); // set cache period
 		else:
-			delete_transient('cached_ga_'.$widget_id);
+			delete_transient('cached_ga_'.$widget_id).'_'.sanitize_file_name( $title );
 		endif;
 
 		if ($k==0){
@@ -369,7 +364,7 @@ class htMostActive extends WP_Widget {
 		$instance['ga_viewid'] = strip_tags($new_instance['ga_viewid']);
 		$instance['trail'] = strip_tags($new_instance['trail']);
 		$instance['cache'] = strip_tags($new_instance['cache']);
-		delete_transient( 'cached_ga_'.$widget_id );
+		delete_transient( 'cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ) );
 //		delete_option('ga_token');
 		session_start();
        return $instance;

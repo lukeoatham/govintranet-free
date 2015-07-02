@@ -34,14 +34,6 @@ class htTopTags extends WP_Widget {
 	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; // 95422553
-	    include_once('GoogleAnalyticsAPI.class.php');
-		$ga = new GoogleAnalyticsAPI();
-		$ga->auth->setClientId($client_id); // From the APIs console
-		$ga->auth->setClientSecret($client_secret); // From the APIs console
-		$ga->auth->setRedirectUri($redirect_uri); // Url to your app, must match one in the APIs console
-
-		// Get the Auth-Url
-		$url = $ga->auth->buildAuthUrl();
 		
 		wp_register_style( 'ht_top_tags', plugin_dir_url("/") . "ht-most-active/ht_top_tags.css");
 		wp_enqueue_style( 'ht_top_tags' );
@@ -61,7 +53,7 @@ class htTopTags extends WP_Widget {
 	
 		//check to see if we have saved a cache of popular pages
 	
-		//$cachedga = get_transient('cached_ga_tags_'.$widget_id);
+		$cachedga = get_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ));
 
 		if ($cachedga) { // if we have a fresh cache just display immediately
 			foreach($cachedga as $result) { 
@@ -75,6 +67,15 @@ class htTopTags extends WP_Widget {
 			$manual = $k;
 	
 		} else { // ******************* LOAD FRESH ANALYTICS *******************************	
+
+		    include_once('GoogleAnalyticsAPI.class.php');
+			$ga = new GoogleAnalyticsAPI();
+			$ga->auth->setClientId($client_id); // From the APIs console
+			$ga->auth->setClientSecret($client_secret); // From the APIs console
+			$ga->auth->setRedirectUri($redirect_uri); // Url to your app, must match one in the APIs console
+	
+			// Get the Auth-Url
+			$url = $ga->auth->buildAuthUrl();
 
 			$gatoken 		= get_option('ga_token');
 			$refreshToken 	= get_option('ga_refresh_token');
@@ -401,9 +402,9 @@ class htTopTags extends WP_Widget {
 
 			//cache new tags if we are using caching
 			if ($cache != 0 && $cache){
-				set_transient('cached_ga_tags_'.$widget_id,$transga,60*60*$cache); // set cache period
+				set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,60*60*$cache); // set cache period
 			} else {
-				delete_transient('cached_ga_tags_'.$widget_id); 
+				delete_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title )); 
 			}
 			
 			if ($toptagsslug){
@@ -442,7 +443,7 @@ class htTopTags extends WP_Widget {
 		$instance['topnumber'] = strip_tags($new_instance['topnumber']);
 		$instance['ga_viewid'] = strip_tags($new_instance['ga_viewid']);
 		$instance['cache'] = strip_tags($new_instance['cache']);
-		delete_transient('cached_ga_tags_'.$widget_id);
+		delete_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ));
        return $instance;
     }
 

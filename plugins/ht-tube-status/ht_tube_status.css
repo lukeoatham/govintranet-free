@@ -51,7 +51,8 @@
 }
 
 .ht_tubeline8 {
-	color: #113892;
+	color: #000;
+	text-shadow: 0 1px 0px rgba( 255, 255, 255, 0.6 );
 	background: #e899a8;
 }
 
@@ -76,6 +77,11 @@
 	background: #f86c00;
 }
 
+.ht_tubeline83 {
+	color: #ffffff;
+	background: #00198a;
+}
+
 .ht_tubeline6 {
 	color: #ffffff;
 	background: #0450a1;
@@ -87,7 +93,8 @@
 }
 
 .ht_tubeline12 {
-	color: #113892;
+	color: #000;
+	text-shadow: 0 1px 0px rgba( 255, 255, 255, 0.6 );
 	background: #70c3ce;
 }
 
