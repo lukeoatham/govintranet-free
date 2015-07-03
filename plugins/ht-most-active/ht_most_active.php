@@ -96,6 +96,7 @@ class htMostActive extends WP_Widget {
         $trail = intval($instance['trail']);
 		$ga_viewid = ($instance['ga_viewid']);
         $cache = intval($instance['cache']);
+		if ( !isset($cache) || $cache == 0) $cache = 1;
 		$widget_id = $id;
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_exclude_posts" ;
 		$exclude = get_option($acf_key);
@@ -112,8 +113,6 @@ class htMostActive extends WP_Widget {
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; // 95422553
 
-		echo $before_widget; 
-       if ( $title ) echo $before_title . $title . $after_title; 
 		$baseurl = site_url();
 		$to_fill = $items;
 		$k = 0;
@@ -335,19 +334,16 @@ class htMostActive extends WP_Widget {
 			delete_transient('cached_ga_'.$widget_id).'_'.sanitize_file_name( $title );
 		endif;
 
-		if ($k==0){
-			$html="<li>Looks like nobody has visited the intranet recently.</li>";
+		if ($k){
+			echo $before_widget; 
+			if ( $title ) echo $before_title . $title . $after_title; 
+			echo ("<ul>".$html."</ul>");
+			echo $after_widget;
 		}
 		// end of popular pages
 
-
-		echo ("<ul>".$html."</ul>");
-
 		wp_reset_query();
 
-		echo $after_widget;
-
-		//echo "</div>";
     }
 
     function update($new_instance, $old_instance) {
@@ -365,7 +361,6 @@ class htMostActive extends WP_Widget {
 		$instance['trail'] = strip_tags($new_instance['trail']);
 		$instance['cache'] = strip_tags($new_instance['cache']);
 		delete_transient( 'cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ) );
-//		delete_option('ga_token');
 		session_start();
        return $instance;
     }
@@ -383,6 +378,7 @@ class htMostActive extends WP_Widget {
         $ga_viewid = esc_attr($instance['ga_viewid']);
         $trail = esc_attr($instance['trail']);
         $cache = esc_attr($instance['cache']);
+        if (!isset($cache) || $cache == 0) $cache = 1;
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>

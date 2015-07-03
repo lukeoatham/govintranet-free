@@ -28,6 +28,7 @@ class htTopTags extends WP_Widget {
         $topnumber = intval($instance['topnumber']);
 		$ga_viewid = $instance['ga_viewid'];
         $cache = intval($instance['cache']);
+        if ( !isset($cache) || $cache == 0) $cache = 1;
 		$widget_id = $id;
 		
 	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
