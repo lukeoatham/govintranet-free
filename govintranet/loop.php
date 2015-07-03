@@ -122,7 +122,7 @@
 			$context = "event";
 			$icon = "calendar";			
 	}
-	if ($post_type=='Glossaryitem'){
+	if ($post_type=='jargon-buster'){
 			$context = "jargon buster";
 			$icon = "th-list";			
 	}
@@ -151,13 +151,13 @@
 		$icon = "download";			
 		?>
 		<h3 class='postlist'>				
-		<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
+		<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
 		<?php 
 	elseif ($post_type=='User'): 
 		?>			
 		<div class="row"><div class="col-lg-12">
 		<h3 class='postlist'>				
-		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
+		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
 		<?php 
 	elseif ($post_type != 'Category'): 
 		echo "<div class='media'>" ;
@@ -166,7 +166,7 @@
 
 		?>
 		<h3 class='postlist'>				
-		<a href="<?php echo get_the_permalink(get_the_id()); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
+		<a href="<?php echo get_the_permalink(get_the_id()); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
 		<?php
 	endif;
 	
@@ -179,7 +179,7 @@
 	if (($post_type=="Task" && $pageslug!="category")){
 		echo "<p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
-		foreach($post_cat as $cat){
+		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->name != 'Uncategorized' ){
 				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 			echo "</a></span>&nbsp;";
@@ -245,7 +245,7 @@
 			echo "<div class='media'>" ;
 			?>
 			<h3 class='postlist'>				
-			<a href="<?php echo $post->link; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> <small>Tasks and guides</small>"; ?></h3>
+			<a href="<?php echo $post->link; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> <small>Tasks and guides</small>"; ?></h3>
 			
 
 			<?php
@@ -282,8 +282,8 @@
 		} else {
 		
 	?>
-			<?php the_content( __( 'Continue reading &rarr;', 'govintranetpress' ) ); ?>
-			<?php wp_link_pages( array( 'before' => '' . __( 'Pages:', 'govintranetpress' ), 'after' => '' ) ); ?>
+			<?php the_content( __( 'Continue reading &rarr;', 'govintranet' ) ); ?>
+			<?php wp_link_pages( array( 'before' => '' . __( 'Pages:', 'govintranet' ), 'after' => '' ) ); ?>
 	<?php }
 	endif; ?>
 	

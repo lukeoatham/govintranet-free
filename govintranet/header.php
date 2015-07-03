@@ -306,9 +306,9 @@ header('X-Frame-Options: SAMEORIGIN');
 	  		    $themeURL= $taxonomy->slug;
 	  			$background=get_option('category_'.$themeid.'_cat_background_colour');
 	  			$foreground=get_option('category_'.$themeid.'_cat_foreground_colour');
-	  			echo "button.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background."} \n";
+	  			echo "button.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background.";} \n";
 	  			echo ".category-block .t" . $themeid . ", .category-block .t" . $themeid . " a  {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background."; width: 100%; padding: 0.5em; } \n";
-	  			echo "button:hover.btn.t" . $themeid . ", a:hover.btn.t" . $themeid . "{color: white; background: #333; border: 1px solid ".$background."} \n";
+	  			echo "button:hover.btn.t" . $themeid . ", a:hover.btn.t" . $themeid . "{color: white; background: #333; border: 1px solid ".$background.";} \n";
 	  			echo "a.t" . $themeid . "{color: " . $foreground . "; background: " . $background . ";} \n";
 	  			echo "a.t" . $themeid . " a {color: " . $foreground . " !important;} \n";
 	  			echo ".brd" . $themeid . "{border-left: 1.2em solid " . $background . ";} \n";
@@ -340,7 +340,7 @@ header('X-Frame-Options: SAMEORIGIN');
 
 <?php 
 $parentpageclass = (renderLeftNav("FALSE")) ? "parentpage" : "notparentpage"; 
-$parentpageclass.=" custom-background";
+$parentpageclass.=" custom-background"
 ?>
 
 <body <?php body_class($parentpageclass); ?>>

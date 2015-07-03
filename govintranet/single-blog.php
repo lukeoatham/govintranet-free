@@ -99,7 +99,7 @@ get_header(); ?>
 				
 				//get anything related to this post
 				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-				foreach ($otherrelated as $o){
+				if ( $otherrelated ) foreach ($otherrelated as $o){
 					if ($o->post_status == 'publish' && $o->ID != $id ) {
 								$taskparent=$o->post_parent; 
 								$title_context='';

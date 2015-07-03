@@ -147,20 +147,21 @@ if ( have_posts() )
 			?>
 			<div class="widget-box">
 				<h3 class='widget-title'>Sub-categories</h3>
-				<ul class="howdoi">
+				<div class='catlisting task'><ul class="nav nav-pills nav-stacked">
 					<?php				
 			  			foreach ((array)$terms as $taxonomy ) {
 				  		    $themeid = $taxonomy->term_id;
 				  			$themeURL= $taxonomy->slug;
 				  			$desc='';
-					  		if ($themeURL == 'uncategorized') {
+					  		if ($themeid == 0) {
 				  		    	continue;
 				  			}
 							echo "
-							<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='".site_url()."/category/{$themeURL}/'>".$taxonomy->name."</a>".$desc."</li>";
+							<li class=''><a href='".site_url()."/category/{$themeURL}/'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;".$taxonomy->name."</a>".$desc."</li>";
 						}
 						?>
 				</ul>
+				</div>
 			</div>
 			<?php
 		} 

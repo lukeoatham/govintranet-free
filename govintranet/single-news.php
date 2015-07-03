@@ -80,13 +80,6 @@ remove_filter('pre_get_posts', 'filter_search');
 				if ('open' == $post->comment_status) {
 					 comments_template( '', true ); 
 				}
-				
-				$starssettings = get_option('gd-star-rating', 'oxygen');
-				$starstyle = $starsettings['style'];
-				$starsize = $starsettings['size'];
-				$startemplate = $starsettings['default_srb_template'];
-				wp_gdsr_render_article($startemplate, 0, $starstyle, $starsize);
-
 			 ?>
 
 		</div> <!--end of first column-->

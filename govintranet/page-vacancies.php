@@ -9,7 +9,28 @@ $sdate = date('Ymd');
 $stime = date('H:i'); 
 
 //CHANGE CLOSED VACANCIES TO DRAFT STATUS
-//$wpdb->query( "update $wpdb->posts, $wpdb->postmeta set $wpdb->posts.post_status='draft' where $wpdb->postmeta.meta_key='vacancy_closing_date' and $wpdb->postmeta.meta_value < '".$sdate."' and $wpdb->postmeta.post_id = $wpdb->posts.id and $wpdb->posts.post_status='publish';");
+$oldvacs = query_posts(array(
+'post_type'=>'vacancy',
+'meta_query'=>array(array(
+'key'=>'vacancy_closing_date',
+'value'=>$tdate,
+'compare'=>'<='
+))));
+
+if ( count($oldvacs) > 0 ){
+	foreach ($oldvacs as $old) {
+		if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'vacancy_closing_date',true)) )): // if expiry today, check the time
+			if (date('H:i:s',strtotime(get_post_meta($old->ID,'vacancy_closing_time',true))) > date('H:i:s') ) continue;
+		endif;
+		
+			  $my_post = array();
+			  $my_post['ID'] = $old->ID;
+			  $my_post['post_status'] = 'draft';
+			  wp_update_post( $my_post );
+			  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
+		}	
+	}
+}
 
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 

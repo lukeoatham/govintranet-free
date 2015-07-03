@@ -31,42 +31,58 @@ get_header(); ?>
 			
 			<h1><?php the_title();?></h1>
 			<div class='well'>
-			<h3>Job details</h3> 
-			<p>
-				<?php
+			<p><h3>Job details</h3> 
+			<?php
+
 			$job_reference = get_post_meta($current_vac, 'vacancy_reference', true);
-			if ($job_reference) echo "<strong>Job reference: </strong>".$job_reference."<br>";				
+			if (!$job_reference){
+				$job_reference = 'n/a';
+			}
 
 			$team = get_post_meta($current_vac, 'vacancy_team', true);
-			if ($team) {
+			if (!$team){
+				$team = 'No team specified.';
+			} else {
 				$teamtemp = array();
 				foreach ((array)$team as $t){
 					$teamtemp[] = get_the_title($t);
 				}
 				$team = implode(", " , $teamtemp);
-				echo "<strong>Team: </strong>".$team."<br>";
 			}
 
 			$grade = wp_get_post_terms( $post->ID, 'grade' );
-			if ( $grade ) {
-				$grade = $grade[0]->name;
-				echo "<strong>Grade: </strong>".$grade."<br>";		
+			if ( $grade ) $grade = $grade[0]->name;
+			if (!$grade){
+				$grade = 'No grade specified.';
 			}
 
 			$closing_date = get_post_meta($current_vac, 'vacancy_closing_date', true);
 			$closing_time = get_post_meta($current_vac, 'vacancy_closing_time', true);
-			if ($closing_date){
+			if (!$closing_date){
+				$closing_date = 'No closing date specified.';
+			} else {
 				$closing_date = date('j F Y', strtotime($closing_date))." ".date('G:i', strtotime($closing_time));
-				echo "<strong>Closing date: </strong>".$closing_date;
-				if ( date('l j F, Y', strtotime($closing_date)) == date('l j F, Y', strtotime($sdate ) ) ) echo " (That's today!)";
-				echo "<br>";
 			}
 
 			$projects = get_post_meta($current_vac, 'vacancy_project', true);
 
 			$current_attachments = get_post_meta($current_vac, 'document_attachments', true);
+			
+			echo "<p><strong>Job reference: </strong>".$job_reference;					
+			echo "<br><strong>Team: </strong>".$team;				
+			echo "<br><strong>Grade: </strong>".$grade;				
+			echo "<br><strong>Closing date: </strong>".$closing_date;		
 
-			echo "</p>";
+			$tdate= getdate();
+			$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
+			$tday = date( 'd' , strtotime($tdate) );
+			$tmonth = date( 'm' , strtotime($tdate) );
+			$tyear= date( 'Y' , strtotime($tdate) );
+			$sdate=$tyear."-".$tmonth."-".$tday;
+			if ( date('l j F, Y', strtotime($closing_date)) == date('l j F, Y', strtotime($sdate ) ) ){
+				echo " (That's today!)";
+			}		
+
 			echo "</div>";
 			the_content(); 		
 						
@@ -128,7 +144,7 @@ get_header(); ?>
 				
 				//get anything related to this post
 				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-				foreach ($otherrelated as $o){
+				if ( $otherrelated ) foreach ($otherrelated as $o){
 					if ($o->post_status == 'publish' && $o->ID != $id ) {
 								$taskparent=$o->post_parent; 
 								$title_context='';

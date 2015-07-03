@@ -171,7 +171,7 @@ get_header(); ?>
 		 			$iteams = array();
 		 			$iteams[] = $post->ID;
 		 			$multipleteams = false;
-		 			foreach ($term_query as $tq){
+		 			if ( $term_query ) foreach ($term_query as $tq){
 			 			$iteams[] = $tq->ID;
 			 			$multipleteams = true;
 		 			}
@@ -184,12 +184,12 @@ get_header(); ?>
 		 			$uorder = array();
 		 			$ulastname = array(); 			
 
-		 			foreach ($iteams as $tq){
+		 			if ( $iteams ) foreach ($iteams as $tq){
 				 		$gradehead='';
 						$newteam = get_post( $tq ); //print_r($newteam);
 						$chevron=1;
 			 			$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_team','value'=>$tq,'compare'=>'LIKE'))));
-			 			foreach ($user_query->results as $u){ //print_r($u);
+			 			if ( $user_query ) foreach ($user_query->results as $u){ //print_r($u);
 				 			$uid[] = $u->ID;
 				 			$ulastname[] = get_user_meta($u->ID,'last_name',true);
 				 			$uorder[] = intval(get_user_meta($u->ID,'user_order',true));
@@ -197,7 +197,7 @@ get_header(); ?>
 		 			}
 
 		 			array_multisort( $uorder, $ulastname, $uid);
-		 			foreach ($uid as $u){ //print_r($u);
+		 			if ( $uid ) foreach ($uid as $u){ //print_r($u);
 		 				if ( isset( $alreadyshown[$u] ) ) continue;
 		 				$alreadyshown[$u] = true;
 		 				$userid = $u;

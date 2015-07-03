@@ -24,15 +24,6 @@ get_header();
 
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				$counter = 0;	
-				if(function_exists('genarate_ajax_pagination') && $_SERVER['SERVER_NAME'] != 'intranet2.culture.gov.uk' ) {
-					$cquery = array(
-						'orderby' => 'post_date',
-					    'order' => 'DESC',
-					    'post_type' => 'news',
-					    'posts_per_page' => 10,
-					    'post_status' => 'publish'
-					);
-				} else {
 				$cquery = array(
 					'orderby' => 'post_date',
 				    'order' => 'DESC',
@@ -41,8 +32,6 @@ get_header();
 				    'paged' => $paged												
 					);
 						
-				}
-
 				$projectspost = new WP_Query($cquery);
 				global $k; 
 				$k = 0;
@@ -50,17 +39,12 @@ get_header();
 		         get_template_part( 'loop', 'newstwitter' );
 		       endwhile;
 
-		        if(function_exists('genarate_ajax_pagination') && $_SERVER['SERVER_NAME'] != 'intranet2.culture.gov.uk' ) {
-			        genarate_ajax_pagination('Load more news', 'blue', 'loop-newstwitter', $cquery); 
-		        } else {
 					if (  $projectspost->max_num_pages > 1 ) : ?>
 			<?php if (function_exists('wp_pagenavi')) : ?>
 				<?php wp_pagenavi(array('query' => $projectspost)); ?>
 				<?php else : ?>
 				<?php next_posts_link('&larr; Older items', $projectspost->max_num_pages); ?>
 				<?php previous_posts_link('Newer items &rarr;', $projectspost->max_num_pages); ?>						
-			<?php endif; 
-			?>
 			<?php endif; 
 			wp_reset_query();								
 							

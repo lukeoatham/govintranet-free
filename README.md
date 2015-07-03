@@ -35,6 +35,14 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2 - 3 Jul 2015 ###
+* "Updates" post type and taxonomy
+* "Updates" plugin
+* Most active plugin -  API interface updates
+* Need to know news upgrade plugin
+* Various bugfixes
+* Updated Bootstrap
+
 ### 4.1.2 - 26 Jun 2015 ###
 * Events listing plugin bugfixes
 * Most active plugin - new API interface

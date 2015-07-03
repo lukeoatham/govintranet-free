@@ -11,6 +11,8 @@
  */
 
 get_header();
+$catid = get_queried_object()->term_id;	
+
 	if ( have_posts() )
 		the_post();
 ?>
@@ -22,11 +24,11 @@ get_header();
 			</div>
 			<h1>
 		<?php if ( is_day() ) : ?>
-						<?php printf( __( 'Daily archives: %s', 'govintranetpress' ), get_the_date() ); ?>
+						<?php printf( __( 'Daily archives: %s', 'govintranet' ), get_the_date() ); ?>
 		<?php elseif ( is_month() ) : ?>
-						<?php printf( __( 'Monthly archives: %s', 'govintranetpress' ), get_the_date('F Y') ); ?>
+						<?php printf( __( 'Monthly archives: %s', 'govintranet' ), get_the_date('F Y') ); ?>
 		<?php elseif ( is_year() ) : ?>
-						<?php printf( __( 'Yearly archives: %s', 'govintranetpress' ), get_the_date('Y') ); ?>
+						<?php printf( __( 'Yearly archives: %s', 'govintranet' ), get_the_date('Y') ); ?>
 		<?php else : ?>
 				<?php
 				the_archive_title( '<h1 class="page-title">', '</h1>' );
@@ -47,16 +49,35 @@ get_header();
 			 * called loop-archives.php and that will be used instead.
 			 */
 			 get_template_part( 'loop', 'archive' );
+			 wp_reset_postdata();
 		?>
 		</div>
 
 	<div class="col-lg-4 col-md-4" id="sidebar">
 		<div id="related">
-			<?php dynamic_sidebar('news-widget-area');  ?>
+			<?php if (is_tax(array('update-type')) || is_post_type_archive('update')):
+					$taxonomies=array();
+					$post_type = array();
+					$taxonomies[] = 'update-type';
+					$post_type[] = 'update';
+					$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
+					if ($post_cat){
+						echo "<div class='widget-box'><h3 class='widget-title'>Update categories</h3>";
+						echo "<p class='taglisting news'>";
+						foreach($post_cat as $cat){
+							if ( $cat->name && ( $cat->term_id != $catid ) ){
+								$newname = str_replace(" ", "&nbsp;", $cat->name );
+								echo "<span class='wptag t".$cat->term_id."'><a href='".get_term_link($cat->slug, 'update-type')."'>".$newname."</a></span> ";
+							}
+						}
+						echo "</p></div>";
+					}
+				 dynamic_sidebar('news-widget-area');  
+				 endif;
+				 ?>
 		</div>
 	</div>
 
 <?php 
-wp_reset_query();
 get_footer(); 
 ?>

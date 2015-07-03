@@ -40,8 +40,8 @@
 		gaTrackDownloadableFiles();
     });
 	
-	jQuery('.navbar-search').submit(function(e) {
-	    if (jQuery.trim(jQuery("#navsearchinput-lg").val()) === "") {
+	jQuery('#searchform').submit(function(e) {
+	    if (jQuery.trim(jQuery("#s").val()) === "") {
 	        e.preventDefault();
 	        jQuery('#s').focus();
 	    }

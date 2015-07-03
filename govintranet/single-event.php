@@ -27,7 +27,7 @@ $mainid=$post->ID;
 	<h1><?php the_title(); ?></h1>
     
 	<?php 
-	$sm_dates = get_post_meta($post->ID,'event_start_date',TRUE);
+	$sm_dates = get_post_meta($post->ID,'event_end_date',TRUE);
 	$addToCalendar = '';	
 	if ($sm_dates >= date('Ymd')) {
 		$addToCalendar = " <div class='new-cal'></div>";
@@ -50,13 +50,13 @@ $mainid=$post->ID;
 	}
 	
 	echo " " . $addToCalendar . "</p>";
-	
+
 	$locationname = get_post_meta($post->ID,'event_location',true);
 	if ( $locationname ):
 		echo "<h3>Location</h3>";
 		echo wpautop(esc_attr($locationname));
 	endif;
-
+	
 	$userrec = wp_get_current_user();
 	$userid = $userrec->ID;
 	$formfields = get_post_meta($post->ID, 'event_gravity_forms_id', true ); 
@@ -72,17 +72,17 @@ $mainid=$post->ID;
 	if ($alreadybooked) echo "<strong>* You have made a booking for this event *</strong>";
 	echo '<h3>Details</h3>';
 	the_content(); 
-	$sdate= date('Y-m-d');
+	$sdate= date('Ymd');
 	
 	//booking form ***************
 	//only display if future event and not already booked
-	if (date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) > $sdate && !$alreadybooked && get_post_meta($post->ID, 'event_gravity_forms_id', true) ) {
+	if (date('Ymd',strtotime(get_post_meta($post->ID,'event_start_date',true))) >= $sdate && !$alreadybooked && get_post_meta($post->ID, 'event_gravity_forms_id', true) ) {
 		gravity_form($formtitle, $display_title=true, $display_description=true, $display_inactive=false, $field_values=$params, $ajax=false, $formid);
 	}
 
-	$sdate = date('Y-m-d');
+	$sdate = date('Ymd');
 	$ticketid = get_post_meta($post->ID,'eventbrite_ticket',true);
-	if ($ticketid && $sdate < date('Y-m-d',strtotime(get_post_meta($post->ID,'event_start_date',true))) ) : ?>
+	if ($ticketid && $sdate <= date('Ymd',strtotime(get_post_meta($post->ID,'event_end_date',true))) ) : ?>
 		<h3>Tickets and registration</h3>
 		<div style="width:100%; text-align:left;" >
 			<iframe src="https://www.eventbrite.com/tickets-external?eid=<?php echo $ticketid; ?>" frameborder="0" height="256" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe>
@@ -172,7 +172,7 @@ $mainid=$post->ID;
 	
 	//get anything related to this post
 	$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-	foreach ($otherrelated as $o){
+	if ( $otherrelated ) foreach ($otherrelated as $o){
 		if ($o->post_status == 'publish' && $o->ID != $id ) {
 					$taskparent=$o->post_parent; 
 					$title_context='';
