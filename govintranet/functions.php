@@ -1588,20 +1588,20 @@ register_post_type('news', array(
   'parent' => 'Parent News',
 )
 ) ); }
-if ( get_option( 'options_module_updates' ) ) add_action('init', 'cptui_register_my_cpt_update');
-function cptui_register_my_cpt_update() {
+if ( get_option( 'options_module_news_updates' ) ) add_action('init', 'cptui_register_my_cpt_news_update');
+function cptui_register_my_cpt_news_update() {
 	$labels = array(
-		"name" => "Updates",
-		"singular_name" => "Update",
-		'menu_name' => 'Updates',
-		'add_new' => 'Add Update',
-		'add_new_item' => 'Add New Update',
+		"name" => "News updates",
+		"singular_name" => "News update",
+		'menu_name' => 'News updates',
+		'add_new' => 'Add News update',
+		'add_new_item' => 'Add News update',
 		'edit' => 'Edit',
-		'edit_item' => 'Edit Update',
-		'new_item' => 'New Update',
-		'not_found' => 'No Updates Found',
-		'not_found_in_trash' => 'No Updates Found in Trash',
-		'parent' => 'Parent Updates',		
+		'edit_item' => 'Edit news update',
+		'new_item' => 'New news update',
+		'not_found' => 'No news updates Found',
+		'not_found_in_trash' => 'No news updates Found in Trash',
+		'parent' => 'Parent news update',		
 		);
 
 	$args = array(
@@ -1615,10 +1615,13 @@ function cptui_register_my_cpt_update() {
 		"capability_type" => "post",
 		"map_meta_cap" => true,
 		"hierarchical" => false,
-		"rewrite" => array( "slug" => "update", "with_front" => true ),
+		"rewrite" => array( "slug" => "news-update", "with_front" => true ),
 		"query_var" => true,
-		"menu_position" => 19,		"menu_icon" => "dashicons-megaphone",		"supports" => array( "title", "editor", "excerpt", "comments", "revisions", "thumbnail", "author" ),			);
-	register_post_type( "update", $args );
+		"menu_position" => '35',		
+		"menu_icon" => "dashicons-flag",		
+		"supports" => array( "title", "editor", "excerpt", "comments", "revisions", "thumbnail", "author" ),			
+	);
+	register_post_type( "news-update", $args );
 		
 acf_add_local_field_group(array (
 	'key' => 'group_558c8b74375a2',
@@ -1627,7 +1630,7 @@ acf_add_local_field_group(array (
 		array (
 			'key' => 'field_558c8b8af3329',
 			'label' => 'Icon',
-			'name' => 'update_icon',
+			'name' => 'news_update_icon',
 			'type' => 'text',
 			'instructions' => 'See http://getbootstrap.com/components/#glyphicons',
 			'required' => 0,
@@ -1651,7 +1654,7 @@ acf_add_local_field_group(array (
 			array (
 				'param' => 'taxonomy',
 				'operator' => '==',
-				'value' => 'update-type',
+				'value' => 'news-update-type',
 			),
 		),
 	),
@@ -1665,12 +1668,12 @@ acf_add_local_field_group(array (
 
 acf_add_local_field_group(array (
 	'key' => 'group_558c8496b8b94',
-	'title' => 'Update auto expiry',
+	'title' => 'News update auto expiry',
 	'fields' => array (
 		array (
 			'key' => 'field_558c8496c4f35',
 			'label' => 'Enable auto-expiry',
-			'name' => 'update_auto_expiry',
+			'name' => 'news_update_auto_expiry',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -1686,7 +1689,7 @@ acf_add_local_field_group(array (
 		array (
 			'key' => 'field_558c8496c9d3c',
 			'label' => 'Expiry date',
-			'name' => 'update_expiry_date',
+			'name' => 'news_update_expiry_date',
 			'type' => 'date_picker',
 			'instructions' => '',
 			'required' => 1,
@@ -1711,7 +1714,7 @@ acf_add_local_field_group(array (
 		array (
 			'key' => 'field_558c8496ceb61',
 			'label' => 'Expiry time',
-			'name' => 'update_expiry_time',
+			'name' => 'news_update_expiry_time',
 			'type' => 'text',
 			'instructions' => '',
 			'required' => 1,
@@ -1740,7 +1743,7 @@ acf_add_local_field_group(array (
 		array (
 			'key' => 'field_558c8496d39b4',
 			'label' => 'Expiry action',
-			'name' => 'update_expiry_action',
+			'name' => 'news_update_expiry_action',
 			'type' => 'select',
 			'instructions' => '',
 			'required' => 0,
@@ -1779,7 +1782,7 @@ acf_add_local_field_group(array (
 			array (
 				'param' => 'post_type',
 				'operator' => '==',
-				'value' => 'update',
+				'value' => 'news-update',
 			),
 		),
 	),
@@ -1793,14 +1796,14 @@ acf_add_local_field_group(array (
 
 acf_add_local_field_group(array (
 	'key' => 'group_558c858e438b9',
-	'title' => 'Update types',
+	'title' => 'News update type',
 	'fields' => array (
 		array (
 			'key' => 'field_558c85a4c1c4b',
-			'label' => 'Update type',
-			'name' => 'update_widget_include_type',
+			'label' => 'News update type',
+			'name' => 'news_update_widget_include_type',
 			'type' => 'taxonomy',
-			'instructions' => 'Choose "None" to include all updates.',
+			'instructions' => 'Choose "None" to include all news updates.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -1808,7 +1811,7 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'taxonomy' => 'update-type',
+			'taxonomy' => 'news-update-type',
 			'field_type' => 'radio',
 			'allow_null' => 1,
 			'add_term' => 0,
@@ -1818,8 +1821,8 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_558c96d235d45',
-			'label' => 'Update background colour',
-			'name' => 'update_background_colour',
+			'label' => 'News update background colour',
+			'name' => 'news_update_background_colour',
 			'type' => 'color_picker',
 			'instructions' => '',
 			'required' => 0,
@@ -1833,8 +1836,8 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_558c96e035d46',
-			'label' => 'Update text colour',
-			'name' => 'update_text_colour',
+			'label' => 'News update text colour',
+			'name' => 'news_update_text_colour',
 			'type' => 'color_picker',
 			'instructions' => '',
 			'required' => 0,
@@ -1849,7 +1852,7 @@ acf_add_local_field_group(array (
 		array (
 			'key' => 'field_558c9cb48c113',
 			'label' => 'Border colour',
-			'name' => 'update_border_colour',
+			'name' => 'news_update_border_colour',
 			'type' => 'color_picker',
 			'instructions' => '',
 			'required' => 0,
@@ -1867,7 +1870,7 @@ acf_add_local_field_group(array (
 			array (
 				'param' => 'widget',
 				'operator' => '==',
-				'value' => 'htupdates',
+				'value' => 'htnewsupdates',
 			),
 		),
 	),
@@ -2040,9 +2043,9 @@ array( 'hierarchical' => true,
   'parent_item' => 'Parent type',
   'parent_item_colon' => '',
   'edit_item' => 'Edit news type',
-  'update_item' => 'Update news type',
-  'add_new_item' => 'Add news type',
-  'new_item_name' => 'New type',
+  'update_item' => 'Update news update type',
+  'add_new_item' => 'Add news udpdate type',
+  'new_item_name' => 'New update type',
   'separate_items_with_commas' => '',
   'add_or_remove_items' => 'Add or remove a type',
   'choose_from_most_used' => 'Most used',
@@ -2050,22 +2053,22 @@ array( 'hierarchical' => true,
 ) ); 
 }
 
-if ( get_option( 'options_module_updates' ) ) add_action('init', 'cptui_register_my_taxes_update_type');
-function cptui_register_my_taxes_update_type() {
+if ( get_option( 'options_module_news_updates' ) ) add_action('init', 'cptui_register_my_taxes_news_update_type');
+function cptui_register_my_taxes_news_update_type() {
 	$labels = array(
-		"label" => "Update types",
+		"label" => "News update type",
 			);
 
 	$args = array(
 		"labels" => $labels,
 		"hierarchical" => true,
-		"label" => "Update types",
+		"label" => "News update types",
 		"show_ui" => true,
 		"query_var" => true,
-		"rewrite" => array( 'slug' => 'update-type', 'with_front' => true ),
+		"rewrite" => array( 'slug' => 'news-update-type', 'with_front' => true ),
 		"show_admin_column" => true,
 	);
-	register_taxonomy( "update-type", array( "update" ), $args );
+	register_taxonomy( "news-update-type", array( "news-update" ), $args );
 }
 
 if ( get_option( 'options_module_vacancies' ) || get_option ( 'options_module_staff_directory' ) ) add_action('init', 'cptui_register_my_taxes_grade');
@@ -3045,7 +3048,7 @@ register_field_group(array (
 		array (
 			'key' => 'field_558dd3eeeda3b',
 			'label' => 'Updates',
-			'name' => 'module_updates',
+			'name' => 'module_news_updates',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -8442,17 +8445,17 @@ function save_news_meta( $post_id ) {
 add_action( 'save_post', 'save_news_meta' );
 
 /**
- * Save post metadata when an update post is saved.
+ * Save post metadata when a news update post is saved.
  *
  * @param int $post_id The ID of the post.
  */
-function save_update_meta( $post_id ) {
+function save_news_update_meta( $post_id ) {
 
     /*
      * In production code, $slug should be set only once in the plugin,
      * preferably as a class property, rather than in each function that needs it.
      */
-    $slug = 'update';
+    $slug = 'news-update';
 
     // If this isn't an 'vacancy' post, don't update it.
     if ( isset( $_POST['post_type'] ) && $slug != $_POST['post_type'] ) {
@@ -8460,13 +8463,13 @@ function save_update_meta( $post_id ) {
     }
 
     // - Update the post's metadata.
-    if ( $prev = get_post_meta( $post_id, 'update_expiry_time',true ) ) {
+    if ( $prev = get_post_meta( $post_id, 'news_update_expiry_time',true ) ) {
     	$newvalue = date('H:i',strtotime($prev));
-		update_post_meta( $post_id, 'update_expiry_time', $newvalue, $prev );
+		update_post_meta( $post_id, 'news_update_expiry_time', $newvalue, $prev );
 	}
 	return;
 }
-add_action( 'save_post', 'save_update_meta' );
+add_action( 'save_post', 'save_news_update_meta' );
 
 /**
  * Save post metadata when a post is saved.

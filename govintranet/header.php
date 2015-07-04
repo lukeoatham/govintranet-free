@@ -60,7 +60,6 @@ header('X-Frame-Options: SAMEORIGIN');
 
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_stylesheet_directory_uri(); ?>/print.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo get_stylesheet_directory_uri(); ?>/css/custom.css">
 
 	<!-- [if lte IE 8]>
 		<script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/ie7/IE8.js"></script>
@@ -340,7 +339,7 @@ header('X-Frame-Options: SAMEORIGIN');
 
 <?php 
 $parentpageclass = (renderLeftNav("FALSE")) ? "parentpage" : "notparentpage"; 
-$parentpageclass.=" custom-background"
+$parentpageclass.=" custom-background";
 ?>
 
 <body <?php body_class($parentpageclass); ?>>

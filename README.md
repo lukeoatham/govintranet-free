@@ -35,6 +35,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.1 - 4 Jul 2015 ###
+* "update" post type changed to "news-update"
+
 ### 4.2 - 3 Jul 2015 ###
 * "Updates" post type and taxonomy
 * "Updates" plugin

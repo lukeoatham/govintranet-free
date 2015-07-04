@@ -1,16 +1,16 @@
 <?php
 /*
-Plugin Name: HT Updates
+Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
-Description: Display updates
+Description: Display news updates configurable by type
 Author: Luke Oatham
 Version: 1.0
 Author URI: http://www.helpfultechnology.com
 */
 
-class htUpdates extends WP_Widget {
-    function htUpdates() {
-        parent::WP_Widget(false, 'HT Updates', array('description' => 'Updates widget'));
+class htNewsUpdates extends WP_Widget {
+    function htNewsUpdates() {
+        parent::WP_Widget(false, 'HT News Updates', array('description' => 'News Updates widget'));
     }
 
     function widget($args, $instance) {
@@ -25,27 +25,27 @@ class htUpdates extends WP_Widget {
 		$tdate= date('Ymd');
 		
 		$oldnews = query_posts(array(
-		'post_type'=>'update',
+		'post_type'=>'news-update',
 		'meta_query'=>array(array(
-		'key'=>'update_expiry_date',
+		'key'=>'news_update_expiry_date',
 		'value'=>$tdate,
 		'compare'=>'<='
 		))));
 		if ( count($oldnews) > 0 ){
 			foreach ($oldnews as $old) {
-				if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'update_expiry_date',true)) )): // if expiry today, check the time
-					if (date('H:i:s',strtotime(get_post_meta($old->ID,'update_expiry_time',true))) > date('H:i:s') ) continue;
+				if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'news_update_expiry_date',true)) )): // if expiry today, check the time
+					if (date('H:i:s',strtotime(get_post_meta($old->ID,'news_update_expiry_time',true))) > date('H:i:s') ) continue;
 				endif;
 				
-				$expiryaction = get_post_meta($old->ID,'update_expiry_action',true);
+				$expiryaction = get_post_meta($old->ID,'news_update_expiry_action',true);
 				if ($expiryaction=='Revert to draft status'){
 					  $my_post = array();
 					  $my_post['ID'] = $old->ID;
 					  $my_post['post_status'] = 'draft';
 					  wp_update_post( $my_post );
-					  delete_post_meta($old->ID, 'update_expiry_date');
-					  delete_post_meta($old->ID, 'update_expiry_time');
-					  delete_post_meta($old->ID, 'update_expiry_action');
+					  delete_post_meta($old->ID, 'news_update_expiry_date');
+					  delete_post_meta($old->ID, 'news_update_expiry_time');
+					  delete_post_meta($old->ID, 'news_update_expiry_action');
 					  delete_post_meta($old->ID, 'news_auto_expiry');
 					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
 					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
@@ -54,9 +54,9 @@ class htUpdates extends WP_Widget {
 					  $my_post = array();
 					  $my_post['ID'] = $old->ID;
 					  $my_post['post_status'] = 'trash';
-					  delete_post_meta($old->ID, 'update_expiry_date');
-					  delete_post_meta($old->ID, 'update_expiry_time');
-					  delete_post_meta($old->ID, 'update_expiry_action');
+					  delete_post_meta($old->ID, 'news_update_expiry_date');
+					  delete_post_meta($old->ID, 'news_update_expiry_time');
+					  delete_post_meta($old->ID, 'news_update_expiry_action');
 					  delete_post_meta($old->ID, 'news_auto_expiry');
 					  wp_update_post( $my_post );
 					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
@@ -67,38 +67,38 @@ class htUpdates extends WP_Widget {
 		}
 
 		//display need to know stories
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_update_widget_include_type" ;  
-		$update_types = get_option($acf_key); 
+		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_widget_include_type" ;  
+		$news_update_types = get_option($acf_key); 
 		if ($icon=='') $icon = get_option('options_need_to_know_icon');
 		if ($icon=='') $icon = "flag";
 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_update_background_colour" ;  
+		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_background_colour" ;  
 		$background_colour = get_option($acf_key); 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_update_text_colour" ;  
+		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_text_colour" ;  
 		$text_colour = get_option($acf_key); 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_update_border_colour" ;  
+		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_border_colour" ;  
 		$border_colour = get_option($acf_key); 
 		$border_height = get_option('options_widget_border_height','5');
 		$display_types = "(".implode(", ", $display_types).")";
 
 
-		if ( !$update_types || $update_types=="None") :
+		if ( !$news_update_types || $news_update_types=="None") :
 			$cquery = array(
 				'orderby' => 'post_date',
 			    'order' => 'DESC',
-			    'post_type' => 'update',
+			    'post_type' => 'news-update',
 			    'posts_per_page' => $items,
 				);
 		else:
 			$cquery = array(
 				'orderby' => 'post_date',
 			    'order' => 'DESC',
-			    'post_type' => 'update',
+			    'post_type' => 'news-update',
 			    'posts_per_page' => $items,
 			    'tax_query' => array(array(
-				    'taxonomy' => 'update-type',
+				    'taxonomy' => 'news-update-type',
 				    'field' => 'id',
-				    'terms' => $update_types,
+				    'terms' => $news_update_types,
 			    ))
 				);
 		endif;
@@ -146,10 +146,10 @@ class htUpdates extends WP_Widget {
 			$thisURL=get_permalink($post->ID);
 			$display_types = '';
 			$display_types = array();
-			$types_array = get_the_terms($post->ID, 'update-type'); 
+			$types_array = get_the_terms($post->ID, 'news-update-type'); 
 			if ( $types_array) foreach ( $types_array as $t){
 					$display_types[] = $t->name;
-					$icon = get_option('update-type_'.$t->term_id.'_update_icon'); 
+					$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
 					if ($icon=='') $icon = get_option('options_need_to_know_icon');
 					if ($icon=='') $icon = "flag";
 				}
@@ -158,14 +158,14 @@ class htUpdates extends WP_Widget {
 		}
 		if ($news->post_count!=0){
 			echo "</ul></div>";
-			if ( $update_types ): 
-				$landingpage = get_term_link($types_array[0]->term_id, 'update-type');
+			if ( $news_update_types ): 
+				$landingpage = get_term_link($types_array[0]->term_id, 'news-update-type');
 				echo '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$title.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 			else:
-				$landingpage = get_option('options_module_update_page'); 
+				$landingpage = get_option('options_module_news_update_page'); 
 				if ( !$landingpage ):
 					$landingpage_link_text = $title;
-					$landingpage = site_url().'/update/';
+					$landingpage = site_url().'/news-update/';
 				else: 
 					$landingpage_link_text = get_the_title( $landingpage[0] );
 					$landingpage = get_permalink( $landingpage[0] );
@@ -206,7 +206,7 @@ class htUpdates extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htupdates");'));
+add_action('widgets_init', create_function('', 'return register_widget("htnewsupdates");'));
 
 
 ?>

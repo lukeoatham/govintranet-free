@@ -78,7 +78,7 @@ get_header();
 							$cquery = array(
 							'orderby' => 'post_date',
 						    'order' => 'DESC',
-						    'post_type' => 'update',
+						    'post_type' => 'news-update',
 						    'posts_per_page' => 10,
 							);	        
 				
@@ -90,7 +90,7 @@ get_header();
 									echo '<span class="listglyph">'.get_the_date("j M Y").'</span>';
 									the_excerpt();
 								endwhile;
-								echo '<hr><p class="more-updates"><a title="All updates" class="small" href="'.site_url().'/update/">All updates</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+								echo '<hr><p class="more-updates"><a title="All updates" class="small" href="'.site_url().'/news-update/">All updates</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 								
 					        	?>
 					        

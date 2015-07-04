@@ -55,11 +55,11 @@ $catid = get_queried_object()->term_id;
 
 	<div class="col-lg-4 col-md-4" id="sidebar">
 		<div id="related">
-			<?php if (is_tax(array('update-type')) || is_post_type_archive('update')):
+			<?php if (is_tax(array('news-update-type')) || is_post_type_archive('news-update')):
 					$taxonomies=array();
 					$post_type = array();
-					$taxonomies[] = 'update-type';
-					$post_type[] = 'update';
+					$taxonomies[] = 'news-update-type';
+					$post_type[] = 'news-update';
 					$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 					if ($post_cat){
 						echo "<div class='widget-box'><h3 class='widget-title'>Update categories</h3>";
@@ -67,7 +67,7 @@ $catid = get_queried_object()->term_id;
 						foreach($post_cat as $cat){
 							if ( $cat->name && ( $cat->term_id != $catid ) ){
 								$newname = str_replace(" ", "&nbsp;", $cat->name );
-								echo "<span class='wptag t".$cat->term_id."'><a href='".get_term_link($cat->slug, 'update-type')."'>".$newname."</a></span> ";
+								echo "<span class='wptag t".$cat->term_id."'><a href='".get_term_link($cat->slug, 'news-update-type')."'>".$newname."</a></span> ";
 							}
 						}
 						echo "</p></div>";

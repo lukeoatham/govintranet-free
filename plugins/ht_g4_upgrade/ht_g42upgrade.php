@@ -2,7 +2,7 @@
 /*
 Plugin Name: GovIntranet 4.2 upgrade
 Plugin URI: http://www.helpfultechnology.com
-Description: Upgrades need to know news from version 4+ to 4.2 updates
+Description: Upgrades need to know news from version 4+ to 4.2 news updates
 Author: Luke Oatham
 Version: 1.0
 Author URI: http://www.helpfultechnology.com
@@ -52,16 +52,16 @@ function ht_g42up_options() {
 					$term_desc = $nt->description;
 					unset($new);
 					if ($term_title && strtolower($term_title) != 'uncategorized'): 
-						$termslug = "update-".$term_title;
-						$new = term_exists( $termslug, 'update-type'); 
+						$termslug = "news-update-".$term_title;
+						$new = term_exists( $termslug, 'news-update-type'); 
 					endif;
 					if (!is_array($new)): 
-						$new = wp_insert_term( $nt->name, 'update-type', array('slug'=>$termslug,'description'=>$term_desc ) ); 
+						$new = wp_insert_term( $nt->name, 'news-update-type', array('slug'=>$termslug,'description'=>$term_desc ) ); 
 						$newid = $new['term_id'];
 					else:
 						$newid = $new['term_id'];
 					endif;
-					wp_set_object_terms($post->ID, $termslug, 'update-type', true);
+					wp_set_object_terms($post->ID, $termslug, 'news-update-type', true);
 					wp_remove_object_terms( $post->ID, $term_title, 'news-type' );
 					sleep(0.1);
 				}
@@ -76,13 +76,13 @@ function ht_g42up_options() {
 			endif;
 
 			$d = get_post_meta($post->ID, 'news_expiry_date', true);
-			add_post_meta($post->ID, 'update_expiry_date', $d);
+			add_post_meta($post->ID, 'news_update_expiry_date', $d);
 			$d = get_post_meta($post->ID, 'news_expiry_time', true);
-			add_post_meta($post->ID, 'update_expiry_time', $d);
+			add_post_meta($post->ID, 'news_update_expiry_time', $d);
 			$d = get_post_meta($post->ID, 'news_expiry_action', true);
-			add_post_meta($post->ID, 'update_expiry_action', $d);
+			add_post_meta($post->ID, 'news_update_expiry_action', $d);
 			$d = get_post_meta($post->ID, 'news_auto_expiry', true);
-			add_post_meta($post->ID, 'update_auto_expiry', $d);
+			add_post_meta($post->ID, 'news_update_auto_expiry', $d);
 
 			delete_post_meta($post->ID, 'news_expiry_date');
 			delete_post_meta($post->ID, 'news_expiry_time');
@@ -101,7 +101,7 @@ function ht_g42up_options() {
 			delete_post_meta($post->ID, '_related_team');
 			delete_post_meta($post->ID, '_keywords');
 			delete_post_meta($post->ID, '_document_attachments');
-  			if ( set_post_type( $post->ID, 'update'  ) ):
+  			if ( set_post_type( $post->ID, 'news-update'  ) ):
   				echo "<BR> Upgraded ". esc_attr($post->post_title);
   			else:
   				echo "<BR> Skipped ". esc_attr($post->post_title);
@@ -115,7 +115,7 @@ function ht_g42up_options() {
 		echo "
 		<p></p> 
 		 <form method='post'>
-		 	<p>This action will upgrade your need to know news posts to GovIntranet 4.2 updates</p>
+		 	<p>This action will upgrade your need to know news posts to GovIntranet 4.2 news updates</p>
 		 	<p>It is not essential to perform this upgrade. 'Need to know' news will still work.</p>
 		 	<p>Only proceed if you wish to change 'Need to know' news to Updates.</p>
 			<p><input type='submit' value='Upgrade now' class='button-primary' /></p>
