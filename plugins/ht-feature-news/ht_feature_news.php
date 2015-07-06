@@ -263,7 +263,7 @@ function widget($args, $instance) {
 				echo '<span class="listglyph">'.get_the_date("j M Y"); 
 				comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
 				echo '</span> ';
-				echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
+				echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 			} else {
 				if ($showexcerpt == 'on') {
 					echo "<p>";
@@ -272,13 +272,13 @@ function widget($args, $instance) {
 					echo '</span> ';
 					echo "</p>";									
 					echo $thisexcerpt;
-					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></p>";
+					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 				} else {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
 					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
 					echo '</span> ';
-					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
+					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 				}
 			}
 
@@ -381,12 +381,12 @@ function widget($args, $instance) {
 					echo '</span> ';
 					echo "</p>";									
 					echo $thisexcerpt;
-					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></p>";
+					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 				} else {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
 					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
-					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right'></span></a></span></p>";
+					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 				}
 			}
 	
