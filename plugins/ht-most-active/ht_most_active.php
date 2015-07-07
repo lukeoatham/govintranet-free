@@ -4,7 +4,7 @@ Plugin Name: HT Most active
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most active pages
 Author: Luke Oatham
-Version: 0.3
+Version: 2.0
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -82,7 +82,6 @@ class htMostActive extends WP_Widget {
     }
 
     function widget($args, $instance) {
-	    session_start();
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
@@ -96,7 +95,7 @@ class htMostActive extends WP_Widget {
         $trail = intval($instance['trail']);
 		$ga_viewid = ($instance['ga_viewid']);
         $cache = intval($instance['cache']);
-		if ( !isset($cache) || $cache == 0) $cache = 1;
+        if ( !$cache ) $cache = 1;
 		$widget_id = $id;
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_exclude_posts" ;
 		$exclude = get_option($acf_key);
@@ -108,10 +107,13 @@ class htMostActive extends WP_Widget {
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_show_guide_chapters" ;
 		$showchapters = get_option($acf_key);
 
+
+		// PUBLIC
 	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
 	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+		
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
-	    $account_id = 'ga:'.$ga_viewid; // 95422553
+	    $account_id = 'ga:'.$ga_viewid; 
 
 		$baseurl = site_url();
 		$to_fill = $items;
@@ -134,7 +136,6 @@ class htMostActive extends WP_Widget {
 			}
 
 		} else { //load fresh analytics
-
 		    include_once('GoogleAnalyticsAPI.class.php');
 			$ga = new GoogleAnalyticsAPI();
 			$ga->auth->setClientId($client_id); // From the APIs console
@@ -325,25 +326,22 @@ class htMostActive extends WP_Widget {
 					endif;
 				}
 			}
+
+	 	set_transient('cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * HOUR_IN_SECONDS); // set cache period
+
 		}
 
-
-		if ($cache):
-		 	set_transient('cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,60*60*$cache); // set cache period
-		else:
-			delete_transient('cached_ga_'.$widget_id).'_'.sanitize_file_name( $title );
-		endif;
 
 		if ($k){
 			echo $before_widget; 
-			if ( $title ) echo $before_title . $title . $after_title; 
+	        if ( $title ) echo $before_title . $title . $after_title; 
 			echo ("<ul>".$html."</ul>");
 			echo $after_widget;
 		}
+
 		// end of popular pages
 
 		wp_reset_query();
-
     }
 
     function update($new_instance, $old_instance) {
@@ -360,8 +358,10 @@ class htMostActive extends WP_Widget {
 		$instance['ga_viewid'] = strip_tags($new_instance['ga_viewid']);
 		$instance['trail'] = strip_tags($new_instance['trail']);
 		$instance['cache'] = strip_tags($new_instance['cache']);
-		delete_transient( 'cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ) );
-		session_start();
+		if ( $new_instance['reset'] == "on" ) delete_option('ga_token');
+		global $wpdb;
+		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_cached_ga_%".sanitize_file_name( $new_instance['title'] )."'");
+		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_timeout_cached_ga_%".sanitize_file_name( $new_instance['title'] )."'");
        return $instance;
     }
 
@@ -378,7 +378,6 @@ class htMostActive extends WP_Widget {
         $ga_viewid = esc_attr($instance['ga_viewid']);
         $trail = esc_attr($instance['trail']);
         $cache = esc_attr($instance['cache']);
-        if (!isset($cache) || $cache == 0) $cache = 1;
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
@@ -417,6 +416,9 @@ class htMostActive extends WP_Widget {
 
           <input id="<?php echo $this->get_field_id('pages'); ?>" name="<?php echo $this->get_field_name('pages'); ?>" type="checkbox" <?php checked((bool) $instance['pages'], true ); ?> />
           <label for="<?php echo $this->get_field_id('pages'); ?>"><?php _e('Pages'); ?></label>  <br>
+
+          <input id="<?php echo $this->get_field_id('reset'); ?>" name="<?php echo $this->get_field_name('reset'); ?>" type="checkbox"  />
+          <label for="<?php echo $this->get_field_id('reset'); ?>"><?php _e('Reset authentification'); ?></label>  <br>
 
         </p>
 

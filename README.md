@@ -35,6 +35,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.1.1 - 6 Jul 2015 ###
+* Feature news widget arrow icon change
+* News type taxonomy text corrections
+* Most active widget improvements
+
+
 ### 4.2.1 - 4 Jul 2015 ###
 * "update" post type changed to "news-update"
 

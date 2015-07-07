@@ -31,6 +31,7 @@ class htTopTags extends WP_Widget {
         if ( !isset($cache) || $cache == 0) $cache = 1;
 		$widget_id = $id;
 		
+		// PUBLIC
 	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
 	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
@@ -397,35 +398,29 @@ class htTopTags extends WP_Widget {
 					
 				}
 				
-
-
 			}
 
 			//cache new tags if we are using caching
-			if ($cache != 0 && $cache){
-				set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,60*60*$cache); // set cache period
-			} else {
-				delete_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title )); 
-			}
-			
-			if ($toptagsslug){
-				echo $before_widget; 
-				if ( $title ) echo $before_title . $title . $after_title; 
-				echo "<style>";
-				echo $styles;
-				echo "</style>";
-				echo '<div id="ht-top-tags">';
-				echo '<div class="descr">';
-				echo $html;
-				echo "</div>";
-				echo "</div>";
-				echo $after_widget; 
-			}
+			set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * HOUR_IN_SECONDS); // set cache period
 
 		}
 
+		if ($toptagsslug){
+			echo $before_widget; 
+			if ( $title ) echo $before_title . $title . $after_title; 
+			echo "<style>";
+			echo $styles;
+			echo "</style>";
+			echo '<div id="ht-top-tags">';
+			echo '<div class="descr">';
+			echo $html;
+			echo "</div>";
+			echo "</div>";
+			echo $after_widget; 
+		}
+
 		wp_reset_query();								
-		// end of popular pages				
+		// end of trending
 
 	}
 
@@ -444,7 +439,10 @@ class htTopTags extends WP_Widget {
 		$instance['topnumber'] = strip_tags($new_instance['topnumber']);
 		$instance['ga_viewid'] = strip_tags($new_instance['ga_viewid']);
 		$instance['cache'] = strip_tags($new_instance['cache']);
-		delete_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ));
+		if ( $new_instance['reset'] == "on" ) delete_option('ga_token');
+		global $wpdb;
+		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_cached_ga_tags_%".sanitize_file_name( $new_instance['title'] )."'");
+		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_timeout_cached_ga_tags_%".sanitize_file_name( $new_instance['title'] )."'");
        return $instance;
     }
 
@@ -506,6 +504,8 @@ class htTopTags extends WP_Widget {
           <input id="<?php echo $this->get_field_id('project'); ?>" name="<?php echo $this->get_field_name('project'); ?>" type="checkbox" <?php checked((bool) $instance['project'], true ); ?> />
           <label for="<?php echo $this->get_field_id('project'); ?>"><?php _e('Projects'); ?></label> <br><br>
 
+          <input id="<?php echo $this->get_field_id('reset'); ?>" name="<?php echo $this->get_field_name('reset'); ?>" type="checkbox"  />
+          <label for="<?php echo $this->get_field_id('reset'); ?>"><?php _e('Reset authentification'); ?></label>  <br>
 
         </p>
 
