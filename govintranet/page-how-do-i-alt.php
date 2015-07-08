@@ -56,8 +56,8 @@ get_header(); ?>
 							  			$desc='';
 							  			if ($taxonomy->description){
 								  		    $desc = "<p class='howdesc'>".$taxonomy->description."</p>";
-								  		}
-								  		if ($themeURL == 'uncategorized') {
+								  		} 
+								  		if ($themeid == 1) {
 							  		    	continue;
 							  			}
 							  			$catcount++;

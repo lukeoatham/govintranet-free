@@ -35,6 +35,10 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.1.2 - 8 Jul 2015 ###
+* Event page updates
+* How do I template updates
+
 ### 4.2.1.1 - 6 Jul 2015 ###
 * Feature news widget arrow icon change
 * News type taxonomy text corrections

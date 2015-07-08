@@ -33,7 +33,7 @@ get_header();
 								$terms = get_terms('category',array("hide_empty"=>true,"parent"=>0));
 								if ($terms) {
 							  		foreach ((array)$terms as $taxonomy ) {
-							  			if ($taxonomy->name == 'Uncategorized') continue;
+							  			if ($taxonomy->term_id == 1) continue;
 								  		echo "<option class='level-0' value='".$taxonomy->term_id."'>".$taxonomy->name."</option>";
 								  	}
 								}
@@ -80,7 +80,7 @@ get_header();
 					  			if ($taxonomy->description){
 						  		    $desc = "<p class='howdesc'>".$taxonomy->description."</p>";
 						  		}
-						  		if ($themeURL == 'uncategorized') {
+						  		if ($themeid == 1) {
 					  		    	continue;
 					  			}
 					  			$catcount++;

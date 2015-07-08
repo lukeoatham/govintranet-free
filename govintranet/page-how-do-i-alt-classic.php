@@ -56,7 +56,7 @@ $terms = get_terms('category');
   		foreach ((array)$terms as $taxonomy ) {
   		    $themeid = $taxonomy->term_id;
   		    $themeURL= $taxonomy->slug;
-   		    if ($themeURL == 'uncategorized') {
+   		    if ($themeid == 1) {
 	  		    continue;
   		    }
   		    $catcount++;

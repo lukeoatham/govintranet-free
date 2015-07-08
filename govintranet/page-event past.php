@@ -76,6 +76,7 @@ get_header(); ?>
 				           'key' => 'event_end_date',
 				           'value' => $sdate,
 				           'compare' => '<',
+			    	       'type' => 'DATE',
 				       ),
 				       array(
 					       'relation' => 'AND',
@@ -83,6 +84,7 @@ get_header(); ?>
 					           'key' => 'event_end_date',
 					           'value' => $sdate,
 					           'compare' => '=',
+							   'type' => 'DATE',
 					       ),
 					       array(
 					           'key' => 'event_end_time',
@@ -115,6 +117,7 @@ get_header(); ?>
 				           'key' => 'event_end_date',
 				           'value' => $sdate,
 				           'compare' => '>',
+			    	       'type' => 'DATE',
 				       ),
 				       array(
 					       'relation' => 'AND',
@@ -122,6 +125,7 @@ get_header(); ?>
 					           'key' => 'event_end_date',
 					           'value' => $sdate,
 					           'compare' => '=',
+							   'type' => 'DATE',
 					       ),
 					       array(
 					           'key' => 'event_end_time',
@@ -152,6 +156,7 @@ get_header(); ?>
 				           'key' => 'event_end_date',
 				           'value' => $sdate,
 				           'compare' => '<',
+			    	       'type' => 'DATE',
 				       ),
 				       array(
 					       'relation' => 'AND',
@@ -159,6 +164,7 @@ get_header(); ?>
 					           'key' => 'event_end_date',
 					           'value' => $sdate,
 					           'compare' => '=',
+							   'type' => 'DATE',
 					       ),
 					       array(
 					           'key' => 'event_end_time',
@@ -184,6 +190,7 @@ get_header(); ?>
 				           'key' => 'event_end_date',
 				           'value' => $sdate,
 				           'compare' => '>',
+			    	       'type' => 'DATE',
 				       ),
 				       array(
 					       'relation' => 'AND',
@@ -191,6 +198,7 @@ get_header(); ?>
 					           'key' => 'event_end_date',
 					           'value' => $sdate,
 					           'compare' => '=',
+							   'type' => 'DATE',
 					       ),
 					       array(
 					           'key' => 'event_end_time',

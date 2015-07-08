@@ -153,7 +153,7 @@ if ( have_posts() )
 				  		    $themeid = $taxonomy->term_id;
 				  			$themeURL= $taxonomy->slug;
 				  			$desc='';
-					  		if ($themeid == 0) {
+					  		if ($themeid == 1) {
 				  		    	continue;
 				  			}
 							echo "
@@ -175,7 +175,7 @@ if ( have_posts() )
 			echo "<div class='widget-box'><h3 class='widget-title'>Categories</h3>";
 			echo "<div class='catlisting {$post->post_type}'><ul class='nav nav-pills nav-stacked'>";
 			foreach($post_cat as $cat){
-				if ( $cat->name!='Uncategorized' && $cat->name ){
+				if ( $cat->term_id != 1 && $cat->name ){
 					$newname = str_replace(" ", " ", $cat->name );
 					echo "<li><a ";
 					if ($cat->term_id == $catid) echo " class='active'";

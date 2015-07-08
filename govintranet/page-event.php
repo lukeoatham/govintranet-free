@@ -32,6 +32,7 @@ if ( count($oldvacs) > 0 ){
 	  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
 	}	
 }
+wp_reset_query();
 ?>
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		<div class="col-lg-8 col-md-8 col-sm-7 col-sx-12 white ">
@@ -74,7 +75,8 @@ if ( count($oldvacs) > 0 ){
 			           		'key' => 'event_start_date',
 			        	   'value' => $sdate,
 			    	       'compare' => '>=',
-			    	       'type' => 'DATE' ) 
+			    	       'type' => 'DATE',
+			    	       ) 
 		    	        ),   
 					    'orderby' => 'meta_value',
 					    'meta_key' => 'event_start_date',
@@ -93,6 +95,7 @@ if ( count($oldvacs) > 0 ){
 					           'key' => 'event_end_date',
 					           'value' => $sdate,
 					           'compare' => '>',
+							   'type' => 'DATE',
 					       ),
 					       array(
 						       'relation' => 'AND',
@@ -100,6 +103,7 @@ if ( count($oldvacs) > 0 ){
 						           'key' => 'event_end_date',
 						           'value' => $sdate,
 						           'compare' => '=',
+								   'type' => 'DATE',
 						       ),
 						       array(
 						           'key' => 'event_end_time',
