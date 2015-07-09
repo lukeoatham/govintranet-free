@@ -87,7 +87,7 @@ remove_filter('pre_get_posts', 'filter_search');
 						if ( !$catTitlePrinted ){
 							$catTitlePrinted = true;
 						}
-						$html.= "<span><a class='wptag t".$cat->term_id."' href='".site_url()."/news-update-type/".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+						$html.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug,'news-update-type')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 						}
 					}	
 					if ( $html ){
@@ -96,6 +96,81 @@ remove_filter('pre_get_posts', 'filter_search');
 				}
 		 	dynamic_sidebar('news-widget-area'); 
 		 	wp_reset_postdata();
+			wp_reset_query();
+			/*****************
+			
+			AUTOMATED RELATED POSTS
+			
+			Show 5 latest news stories, excluding the current post and any posts already manually entered as related 
+			If this post is a need to know story, show other need to know stories.
+			Otherwise check for recent news stories in the same categories as this post.
+			If still nothing found, show the latest news stories excluding need to know items
+				
+			******************/
+	
+		 	// get meta to use for displaying related news
+
+		 	$alreadydone[] = $post->ID;
+			
+			$newstype = get_the_terms( $post->ID , 'news-update-type' ); 
+			if ($newstype):
+				$terms = array();
+				foreach ( $newstype as $n ){
+					$terms[] = $n->slug;
+				}
+			endif;
+			
+			$recentitems = new WP_Query(); 
+			
+			// try to find other need to know stories
+			$subhead = 'Other updates';
+						
+			if ( $terms): 
+			// still nothing found, we'll look for other stories in the same news categories as this story
+				$subhead = 'Related updates';
+				if ($newstype): 
+					$recentitems = new WP_Query(array(
+						'post_type'	=>	'news-update',
+						'posts_per_page'	=>	5,
+						'post__not_in'	=> $alreadydone,
+						'tax_query' => array(array(
+							'taxonomy' => 'news-update-type',
+							'field' => 'slug',
+							'terms' => $terms,
+							)),
+						 ) );	
+				endif;
+			endif;
+			
+			if ( $recentitems->found_posts == 0 ): 
+			// still nothing found, we'll load the latest 5 stories excluding any need to know
+				$subhead = 'Recent updates';
+				$recentitems = new WP_Query(array(
+					'post_type'	=>	'news-update',
+					'posts_per_page'	=>	5,
+					'post__not_in'	=> $alreadydone,
+					 ) );			
+			endif;
+
+			if ( $recentitems->have_posts() ):
+				echo "<div class='widget-box nobottom'>";
+				echo "<h3>".$subhead."</h3>";
+				while ( $recentitems->have_posts() ) : $recentitems->the_post(); 
+					if ($mainid!=$post->ID) {
+						$thistitle = get_the_title($id);
+						$thisURL=get_permalink($id);
+						echo "<div class='widgetnewsitem'>";
+						$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
+						echo "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
+						$thisdate= $post->post_date;
+						$thisdate=date("j M Y",strtotime($thisdate));
+						echo "<span class='news_date'>".$thisdate;
+						echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >Read more</a></span></div><div class='clearfix'></div><hr class='light' />";
+					}
+				endwhile; 
+				echo "</div>";
+			endif;
+			add_filter('pre_get_posts', 'filter_search');
 			wp_reset_query();
 			?>
 		</div> <!--end of second column-->

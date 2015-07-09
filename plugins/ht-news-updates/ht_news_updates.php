@@ -79,7 +79,6 @@ class htNewsUpdates extends WP_Widget {
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_border_colour" ;  
 		$border_colour = get_option($acf_key); 
 		$border_height = get_option('options_widget_border_height','5');
-		$display_types = "(".implode(", ", $display_types).")";
 
 
 		if ( !$news_update_types || $news_update_types=="None") :
@@ -152,8 +151,8 @@ class htNewsUpdates extends WP_Widget {
 					$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
 					if ($icon=='') $icon = get_option('options_need_to_know_icon');
 					if ($icon=='') $icon = "flag";
+					$display_types = implode(", ", $display_types).""; 
 				}
-			$display_types = implode(", ", $display_types).""; 
 			echo "<li><a href='{$thisURL}' title='".$display_types." update'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a></li>";
 		}
 		if ($news->post_count!=0){

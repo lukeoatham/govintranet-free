@@ -13,8 +13,8 @@ $oldvacs = query_posts(array(
 'post_type'=>'vacancy',
 'meta_query'=>array(array(
 'key'=>'vacancy_closing_date',
-'value'=>$tdate,
-'compare'=>'<='
+'value'=>$sdate,
+'compare'=>'<=',
 ))));
 
 if ( count($oldvacs) > 0 ){
@@ -23,15 +23,16 @@ if ( count($oldvacs) > 0 ){
 			if (date('H:i:s',strtotime(get_post_meta($old->ID,'vacancy_closing_time',true))) > date('H:i:s') ) continue;
 		endif;
 		
-			  $my_post = array();
-			  $my_post['ID'] = $old->ID;
-			  $my_post['post_status'] = 'draft';
-			  wp_update_post( $my_post );
-			  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-		}	
-	}
+		$my_post = array();
+		$my_post['ID'] = $old->ID;
+		$my_post['post_status'] = 'draft';
+		wp_update_post( $my_post );
+		if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
+	}	
 }
 
+
+wp_reset_query();
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 	<div class="col-lg-8 col-md-8 white ">

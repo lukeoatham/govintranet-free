@@ -15,7 +15,7 @@ $oldvacs = query_posts(array(
 'post_type'=>'event',
 'meta_query'=>array(array(
 'key'=>'event_end_date',
-'value'=>$tdate,
+'value'=>$sdate,
 'compare'=>'<='
 ))));
 

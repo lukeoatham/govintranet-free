@@ -48,7 +48,7 @@ get_header();
 			<?php endif; 
 			wp_reset_query();								
 							
-        }
+        endif;
     ?>							
 	</div>
 
