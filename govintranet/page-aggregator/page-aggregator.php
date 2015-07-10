@@ -3,10 +3,6 @@
 /* Template name: Aggregator page */
 /* Allows 3 columns of custom placeholder areas for displaying categorised listings and free-format content */
 
-	 wp_register_style( 'page-aggregrator', get_stylesheet_directory_uri() .("/page-aggregator/page-aggregator.css"));
-	 wp_enqueue_style( 'page-aggregrator' );
-
-
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>

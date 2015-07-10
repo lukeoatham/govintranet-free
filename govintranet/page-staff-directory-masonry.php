@@ -10,7 +10,7 @@ get_header(); ?>
 
 	 wp_register_script( 'imagesloaded.pkgd.min', get_stylesheet_directory_uri() . "/js/imagesloaded.pkgd.min.js");
 	 wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
-	 wp_enqueue_style( 'component.css', get_stylesheet_uri()."/css" );
+
 
 $fulldetails=get_option('options_full_detail_staff_cards'); // 1 = show
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles

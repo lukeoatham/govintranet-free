@@ -31,9 +31,13 @@ class htTopTags extends WP_Widget {
         if ( !isset($cache) || $cache == 0) $cache = 1;
 		$widget_id = $id;
 		
+		// CLIENTS
+	    $client_id = '660382727637-9a6j2f87ba86mross0rvi9jr37vb28h4.apps.googleusercontent.com';
+	    $client_secret = 'BuRLl-SduOLag_6BQGB38WNi';
+
 		// PUBLIC
-	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+//	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+//	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; // 95422553
 		
