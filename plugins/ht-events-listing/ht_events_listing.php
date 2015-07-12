@@ -180,17 +180,17 @@ class htEventsListing extends WP_Widget {
 				} 
 	
 				if ( 'on' == $calendar ) {
-					$output.= "<a href='".$thisURL."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</span>".$thistitle."</a>";
+					$output.= "<a class='calendarlink' href='".$thisURL."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</span><span class='event-title'>".$thistitle."</span></a>";
 				} else {
 					$output.= "<a href='{$thisURL}'> ".$thistitle."</a>";
 				} 
 	
-				if (!$calendar == 'on') $output.= "<br><small>".$edate."</small>";
+				if (!$calendar == 'on') $output.= "<br><small><strong>".$edate."</strong></small>";
 	
 				if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) ) $output.= "<span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
 	
 				if ( $excerpt == 'on' && get_the_excerpt() ){
-					$output.= "<br><span>".get_the_excerpt()."</span>";
+						$output.= "<p class='eventclear'><span>".get_the_excerpt()."</span></p>";
 				}
 	
 	
@@ -261,11 +261,11 @@ class htEventsListing extends WP_Widget {
           <input id="<?php echo $this->get_field_id('thumbnails'); ?>" name="<?php echo $this->get_field_name('thumbnails'); ?>" type="checkbox" <?php checked((bool) $instance['thumbnails'], true ); ?> />
           <label for="<?php echo $this->get_field_id('thumbnails'); ?>"><?php _e('Show letterbox image'); ?></label> <br><br>
 
-          <input id="<?php echo $this->get_field_id('excerpt'); ?>" name="<?php echo $this->get_field_name('excerpt'); ?>" type="checkbox" <?php checked((bool) $instance['excerpt'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt'); ?></label> <br><br>
-
           <input id="<?php echo $this->get_field_id('location'); ?>" name="<?php echo $this->get_field_name('location'); ?>" type="checkbox" <?php checked((bool) $instance['location'], true ); ?> />
           <label for="<?php echo $this->get_field_id('location'); ?>"><?php _e('Show location'); ?></label> <br><br>
+
+          <input id="<?php echo $this->get_field_id('excerpt'); ?>" name="<?php echo $this->get_field_name('excerpt'); ?>" type="checkbox" <?php checked((bool) $instance['excerpt'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt'); ?></label> <br><br>
 
           <input id="<?php echo $this->get_field_id('recent'); ?>" name="<?php echo $this->get_field_name('recent'); ?>" type="checkbox" <?php checked((bool) $instance['recent'], true ); ?> />
           <label for="<?php echo $this->get_field_id('recent'); ?>"><?php _e('Show recent'); ?></label> <br><br>

@@ -14,28 +14,36 @@
 	border-radius: 3px;
 	background: #fff;
 	box-shadow: 0 2px 3px rgba(0,0,0,.2);
-	
+	margin-bottom: 10px;
 }
+
 .upcoming-events ul {
 	list-style: none;
 }
-.upcoming-events span {
+.upcoming-events > span {
 	display: block;
 	color: #555;
 	font-size: 0.9em;
 	margin-top: 3px;
 }
+.upcoming-events span.event-title {
+	display: table;
+}
+
+.upcoming-events p.eventclear {
+	display: inline-block;
+}
 .upcoming-events p.events-more strong, .upcoming-events p.events-more span {
 	display: inline;
 }
 .upcoming-events a+span {
-	display: block;
+	display: inline-grid;
 	color: #555;
 	font-size: 0.9em;
 	margin-top: 13px;
 }
 
-.upcoming-events strong {
+.upcoming-events span small strong {
 	display: block;
 }
 

@@ -24,7 +24,7 @@ class htAtoZ extends WP_Widget {
                   <?php if ( $title )
                         echo $before_title . $title . $after_title; ?>
 
-						<ul id="a-to-z-widget" class="pagination">
+						<ul class="a-to-z-widget pagination">
 			
 						<?php 
 						//fill the default a to z array
