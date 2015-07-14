@@ -218,7 +218,7 @@ class htMostActive extends WP_Widget {
 				$start_date= date("Y-m-d",time()-(86400*$days_to_trail)); // last x days
 
 				if ($projects=='on'){
-					$filter.='ga:pagePath=~/projects/';
+					$filter.='ga:pagePath=~/project/';
 					$donefilter=true;
 				}
 				if ($tasks=='on'){
@@ -228,7 +228,7 @@ class htMostActive extends WP_Widget {
 				}
 				if ($vacancies=='on'){
 					if ($donefilter) $filter.= "||";
-					$filter.='ga:pagePath=~/vacancies/';
+					$filter.='ga:pagePath=~/vacancy/';
 					$donefilter=true;
 				}
 				if ($news=='on'){
@@ -250,7 +250,11 @@ class htMostActive extends WP_Widget {
 					if ($donefilter) $filter.= "||";
 					$filter.='ga:pagePath=~/';
 					$donefilter=true;
+					if ($projects&&$tasks&&$vacancies&&$news&&$blog&&$events) $filter='ga:pagePath=~/';
 				}
+								
+				//check length of regular express; GA has a 128 character limit. If we're over, query everything and we'll filter results later.
+				if ( strlen($filter) > 128 ) $filter='ga:pagePath=~/';
 
 			    // Set the default params. For example the start/end dates and max-results
 			    $defaults = array(
@@ -265,11 +269,11 @@ class htMostActive extends WP_Widget {
 			        'dimensions' => 'ga:pagePath',
 			        'sort'		 => '-ga:uniquePageviews',
 			    );
-			    $visits = $ga->query($params);
-
-				foreach($visits as $r=>$result) {
-					if ( $r == "rows") :
+			    $visits = $ga->query($params); 
+				if ( $visits ) foreach($visits as $r=>$result) {
+					if ( $r == "rows" ) {
 						foreach ($result as $res){
+							$found = false;
 
 							if (strpos($res[0], "show=") ) continue;
 
@@ -282,15 +286,16 @@ class htMostActive extends WP_Widget {
 							$path = "/task/";
 							$pathlen = strlen($path);
 
-							if ( substr( $filtered_pagepath,0,$pathlen ) == $path && $tasks == 'on' ){ // only show tasks, but not the tasks landing page
+							if ( substr( $filtered_pagepath,0,$pathlen ) == $path && $tasks == 'on' ){ 
 								$pathparts = explode("/", $res[0]);
 								if ( end($parthparts) == '' ) array_pop($pathparts);
-								$thistask = end($pathparts);
+								$thistask = end($pathparts);								
+
 								if ( in_array( $thistask, $stoppages ) ) continue;
 								$tasktitle = false;
 								$check = array_shift($pathparts);
 								$check = array_shift($pathparts);
-								$path = implode("/",$pathparts);
+								$path = implode("/",$pathparts); 
 								$taskpod = get_page_by_path( $path, OBJECT, 'task');
 								if ("publish" != $taskpod->post_status) continue;
 								$tasktitle=  govintranetpress_custom_title($taskpod->post_title);
@@ -309,23 +314,168 @@ class htMostActive extends WP_Widget {
 								if (!$tasktitle) continue;
 								if (in_array($taskid, $alreadydone )) continue;
 
+								$found = true;
 								$k++;
 
 							}
 
+							$path = "/news/"; 
+							$pathlen = strlen($path); 
+									
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $news == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( end($parthparts) == '' ) array_pop($pathparts); 
+								$thistask = end($pathparts); 
+								if ( in_array( $thistask, $stoppages ) ) continue;
+								$tasktitle=false;
+								$path = 'news/'.$thistask;
+								$taskpod = get_page_by_path( $thistask, OBJECT, 'news'); 
+								if ("publish" != $taskpod->post_status) continue;
+								$tasktitle=  $taskpod->post_title;
+								$taskid = $taskpod->ID;
+								$taskslug = $taskpod->post_name;
+					
+								if (!$tasktitle) continue;
+								if (in_array($taskid, $alreadydone )) continue;
+								
+								$found = true;
+								$k++;
+							}	
+
+							$path = "/project/"; 
+							$pathlen = strlen($path); 
+								
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $projects == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( end($parthparts) == '' ) array_pop($pathparts); 
+								$thistask = end($pathparts); 
+								if ( in_array( $thistask, $stoppages ) ) continue;
+								$tasktitle=false;
+								$path = 'project/'.$thistask;
+								$taskpod = get_page_by_path( $thistask, OBJECT, 'project'); 
+								if ("publish" != $taskpod->post_status) continue;
+								$tasktitle=  $taskpod->post_title;
+								$taskid = $taskpod->ID;
+								$taskslug = $taskpod->post_name;
+								if ( $taskpod->post_parent ){
+									$taskpod = get_post($taskpod->post_parent);
+									$taskid = $taskpod->ID;
+									$taskslug = $taskpod->post_name;
+									$tasktitle=  $taskpod->post_title ;
+								}
+
+								if (!$tasktitle) continue;
+								if (in_array($taskid, $alreadydone )) continue;
+
+								$found = true;
+								$k++;
+							}			
+							
+							$path = "/vacancy/"; 
+							$pathlen = strlen($path); 
+								
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $vacancies == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( end($parthparts) == '' ) array_pop($pathparts); 
+								$thistask = end($pathparts); 
+								if ( in_array( $thistask, $stoppages ) ) continue;
+								$tasktitle=false;
+								$path = 'vacancy/'.$thistask;
+								$taskpod = get_page_by_path( $thistask, OBJECT, 'vacancy'); 
+								if ("publish" != $taskpod->post_status) continue;
+								$tasktitle=  $taskpod->post_title;
+								$taskid = $taskpod->ID;
+								$taskslug = $taskpod->post_name;
+
+								if (!$tasktitle) continue;
+								if (in_array($taskid, $alreadydone )) continue;
+
+								$found = true;
+								$k++;
+							}			
+					
+							$path = "/event/"; 
+							$pathlen = strlen($path); 
+							
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $events == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( end($parthparts) == '' ) array_pop($pathparts); 
+								$thistask = end($pathparts); 
+								if ( in_array( $thistask, $stoppages ) ) continue;
+								$tasktitle=false;
+								$path = 'event/'.$thistask;
+								$taskpod = get_page_by_path( $thistask, OBJECT, 'event'); 
+								if ("publish" != $taskpod->post_status) continue;
+								$tasktitle=  $taskpod->post_title;
+								$taskid = $taskpod->ID;
+								$taskslug = $taskpod->post_name;
+
+								if (!$tasktitle) continue;
+								if (in_array($taskid, $alreadydone )) continue;
+
+								$found = true;
+								$k++;
+							}	
+							
+							$path = "/blog/"; 
+							$pathlen = strlen($path); 
+							
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $blog == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( end($parthparts) == '' ) array_pop($pathparts); 
+								$thistask = end($pathparts); 
+								if ( in_array( $thistask, $stoppages ) ) continue;
+								$tasktitle=false;
+								$path = 'blog/'.$thistask;
+								$taskpod = get_page_by_path( $thistask, OBJECT, 'blog'); 
+								if ("publish" != $taskpod->post_status) continue;
+								$tasktitle=  $taskpod->post_title;
+								$taskid = $taskpod->ID;
+								$taskslug = $taskpod->post_name;
+
+								if (!$tasktitle) continue;
+								if (in_array($taskid, $alreadydone )) continue;
+
+								$found = true;
+								$k++;
+							}	
+							
+
+							$path = "/"; 
+							$pathlen = strlen($path); 
+							
+							if ( $pages == 'on' && !$found ){ // show pages		
+								$pathparts = explode("/", $res[0]); 
+								if ( end($parthparts) == '' ) array_pop($pathparts); 
+								$thistask = end($pathparts); 
+								if ( in_array( $thistask, $stoppages ) ) continue;
+
+								$path = $res[0];
+								$taskpod = get_page_by_path( $thistask, OBJECT, 'page'); 
+								if ( $taskpod ):
+									if ("publish" != $taskpod->post_status) continue;
+									$tasktitle=  $taskpod->post_title;
+									$taskid = $taskpod->ID;
+									$taskslug = $taskpod->post_name;
+									if (!$tasktitle) continue;
+									if (in_array($taskid, $alreadydone )) continue;
+
+									$found = true;
+									$k++;
+								endif;
+
+							}		
 							if ($tasktitle!='' ){
 								$html .= "<li><a href='" . $res[0] . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
 								$transga[] = "<li><a href='" .  $res[0] . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
 								$alreadydone[] = $taskid;
-							}
-
-
+							} 				
 						}
-					endif;
+					}
 				}
 			}
 
-	 	set_transient('cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * HOUR_IN_SECONDS); // set cache period
+			set_transient('cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * HOUR_IN_SECONDS); // set cache period
 
 		}
 

@@ -35,18 +35,23 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.1.4 - 12 Jul 2015 ###
+* A to Z style updates 
+* Most active widget updates 
+* Events listing widget updates
+
 ### 4.2.1.3 - 10 Jul 2015 ###
 * News updates
-* Categorized corrections
+* Categorized corrections 
 
 ### 4.2.1.2 - 8 Jul 2015 ###
 * Event page updates
-* How do I template updates
+* How do I template updates 
 
 ### 4.2.1.1 - 6 Jul 2015 ###
-* Feature news widget arrow icon change
-* News type taxonomy text corrections
-* Most active widget improvements
+* Feature news widget arrow icon change 
+* News type taxonomy text corrections 
+* Most active widget improvements 
 
 
 ### 4.2.1 - 4 Jul 2015 ###
