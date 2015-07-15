@@ -35,6 +35,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.1.6 - 15 Jul 2015 ###
+* Events and tags bugfixes
+
+### 4.2.1.5 - 15 Jul 2015 ###
+* Most Active widget updates (restored other post types)
+
 ### 4.2.1.4 - 12 Jul 2015 ###
 * A to Z style updates 
 * Most active widget updates 

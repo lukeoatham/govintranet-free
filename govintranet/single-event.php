@@ -119,7 +119,7 @@ $mainid=$post->ID;
 	$map= get_post_meta($post->ID,'event_map_location',true);
 	$text = esc_attr(get_post_meta($post->ID,'event_location',true));
 	
-	if ($map['lat']):
+	if (isset($map['lat'])):
 		$loc = ($map['lat'].",".$map['lng']);
 		$text = $map['address'];
 		?>	

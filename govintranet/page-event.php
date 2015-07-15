@@ -133,10 +133,8 @@ wp_reset_query();
 						}	
 						echo "<div class='media-body'><h3><a href='" .get_permalink() . "'>" . get_the_title() . "</a></h3>";
 						$thisdate =  get_post_meta($post->ID,'event_start_date',true); //print_r($thisdate);
-						$thisyear = substr($thisdate[0], 0, 4); 
-						$thismonth = substr($thisdate[0], 4, 2); 
-						$thisday = substr($thisdate[0], 6, 2); 
-						echo "<strong>".date('l j M Y g:ia',strtotime($thisdate))."</strong>";
+						$thistime =  get_post_meta($post->ID,'event_start_time',true); //print_r($thisdate);
+						echo "<strong>".date('l j M Y',strtotime($thisdate))." ".date('g:ia',strtotime($thistime))."</strong>";
 						the_excerpt();
 						echo "</div></div>";
 					}

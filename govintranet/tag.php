@@ -103,6 +103,16 @@ get_header();
 		 			'orderby'=>'name',
 		 			'order'=>'ASC',
 		 			)); 
+				elseif ($pt =='event'): // tasks sorted alphabetically
+					$tagged = new WP_Query(array(
+		 			'post_type'=>array("event"),
+		 			'post__in'=>$carray,
+		 			'paged'=>$paged,
+		 			'posts_per_page'=>10,
+		 			'orderby'=>'meta_value',
+		 			'order'=>'ASC',
+		 			'meta_key' => 'event_start_date',
+		 			)); 
 				else: // everything else sorted by date
 					$tagged = new WP_Query(array(
 		 			'post_type'=>array("task","vacancy","project","news","event","blog"),
@@ -214,20 +224,19 @@ get_header();
 					echo "<div class='media-body'>";
 					
 					if (($post_type=="Task")){
-				//		$taskpod = new Pod ('task' , $post->ID); 
 						echo "<p>";
 						echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
 						foreach($post_cat as $cat){
-							if ($cat->name != 'Uncategorized' ){
+							if ($cat->term_id != 1 ){
 								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 								echo "</a></span>&nbsp;";							}
 							}
 						echo "</p>";
-					} elseif (($post_type=="News" || $post_type="Blog")){
+					} elseif (($post_type=="News" || $post_type=="Blog")){
 						echo "<div><p>";
 						echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
 						foreach($post_cat as $cat){
-							if ($cat->name != 'Uncategorized' ){
+							if ($cat->term_id != 1 ){
 								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 							}
 						}
@@ -235,13 +244,13 @@ get_header();
 					   $thisdate=date("j M Y",strtotime($thisdate));
 					   echo "<span class='listglyph'>".$thisdate."</span> ";
 					   echo "</p></div>";
-					} elseif ($post_type=="Event" ){
+					} elseif ($post_type=="Event" ){ 
 						echo "<div><p>";
 						$thisdate= get_post_meta($post->ID, 'event_start_date', true);
 						$thisdate=date("j M Y",strtotime($thisdate));
 						echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
 						foreach($post_cat as $cat){
-							if ($cat->name != 'Uncategorized' ){
+							if ($cat->term_id != 1 ){
 								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 							}
 						}
@@ -253,7 +262,7 @@ get_header();
 						$thisdate=date("j M Y",strtotime($thisdate));
 						echo "<span class='listglyph'>Updated ".$thisdate."</span> ";
 						foreach($post_cat as $cat){
-							if ($cat->name != 'Uncategorized' ){
+							if ($cat->term_id != 1 ){
 								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 							}
 						}
