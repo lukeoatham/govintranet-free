@@ -27,8 +27,14 @@ header('X-Frame-Options: SAMEORIGIN');
 	
 		?></title>
 	
-	<?php if ( is_home() || is_front_page() ): 
-			if (intval(get_option('options_homepage_auto_refresh'))):
+	<!--[if (IE)&(lt IE 9) ]>
+	        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+	<![endif]-->
+	<!--[if (IE)&(gt IE 8) ]>
+	        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<![endif]-->
+	<?php if ( (is_home() || is_front_page()) && !is_search() ): 
+			if (intval(get_option('options_homepage_auto_refresh')) > 0):
 			?>
 			<meta http-equiv="refresh" content="<?php echo intval(get_option('options_homepage_auto_refresh'))*60;?>">
 			<?php 
@@ -45,12 +51,6 @@ header('X-Frame-Options: SAMEORIGIN');
 	<![endif]-->
 
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
-	<!--[if (IE)&(lt IE 9) ]>
-	        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
-	<![endif]-->
-	<!--[if (IE)&(gt IE 8) ]>
-	        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-	<![endif]-->
 
 	<!--[if lt IE 9]>
 	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/html5-shiv.min.js"></script>
@@ -86,8 +86,6 @@ header('X-Frame-Options: SAMEORIGIN');
 	/* Custom CSS rules below: */
 	<?php
 	
-		$giscss = get_option('options_custom_css_code');
-		echo $giscss;
 		
 		// write custom css for background header colour
 
@@ -111,14 +109,15 @@ header('X-Frame-Options: SAMEORIGIN');
 		color: ".$bg.";
 		}
 		";
-		
 		$gisheight = get_option('options_widget_border_height');
 		if (!$gisheight) $gisheight = 7;
 		$gis = "options_header_background";
-		$gishex = get_theme_mod('header_background', '#0b2d49'); 
-		$headtext = get_theme_mod('header_textcolor', '#ffffff');
+		$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
+		if ( $gishex == "#") $gishex = "#0b2d49";
+		$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
+		if ( $headtext == "#") $headtext = "#ffffff";
 		$headimage = get_theme_mod('header_image', '');
-		$basecol=HTMLToRGB($gishex);
+		$basecol=HTMLToRGB(substr($gishex,1,6));
 		$topborder = ChangeLuminosity($basecol, 33);
 
 		// set bar colour
@@ -127,7 +126,7 @@ header('X-Frame-Options: SAMEORIGIN');
 
 		$giscc = get_option('options_enable_automatic_complementary_colour'); 
 		if ($giscc):
-			$giscc = RGBToHTML($topborder);
+			$giscc = RGBToHTML($topborder); 
 		elseif (get_option('options_complementary_colour')):
 			$giscc = get_option('options_complementary_colour');
 		else:
@@ -138,14 +137,14 @@ header('X-Frame-Options: SAMEORIGIN');
 			echo "
 			#topstrip  {
 			background: ".$gishex." url(".get_header_image().");
-			color: #".get_header_textcolor().";
+			color: ".$headtext.";
 			}
 			";
 		else:
 			echo "
 			#topstrip  {
 			background: ".$gishex.";
-			color: #".get_header_textcolor().";
+			color: ".$headtext.";
 			}
 			";
 		endif;
@@ -154,16 +153,16 @@ header('X-Frame-Options: SAMEORIGIN');
 		@media only screen and (max-width: 767px)  {
 			#masthead  {
 			background: ".$gishex." !important;
-			color: #".get_header_textcolor().";
+			color: ".$headtext.";
 			padding: 0 1em;
 			}
 			#primarynav ul li a {
 			background: ".$gishex.";
-			color: #".get_header_textcolor().";
+			color: ".$headtext.";
 			}	
 			#primarynav ul li a:hover {
 			color: ".$gishex." !important;
-			background: #".get_header_textcolor().";
+			background: ".$headtext.";
 			}	
 		}
 		";
@@ -172,7 +171,7 @@ header('X-Frame-Options: SAMEORIGIN');
 		.btn-primary, .btn-primary a  {
 		background: ".$giscc.";
 		border: 1px solid ".$giscc.";
-		color: #".get_header_textcolor().";
+		color: ".$headtext.";
 		}
 		";
 		echo "
@@ -184,12 +183,12 @@ header('X-Frame-Options: SAMEORIGIN');
 
 		echo "
 		#topstrip a {
-		color: #".get_header_textcolor().";
+		color: ".$headtext.";
 		}
 		";
 		echo "
 		#utilitybar ul#menu-utilities li a, #menu-utilities {
-		color: #".get_header_textcolor().";
+		color: ".$headtext.";
 		}
 		";
 
@@ -288,11 +287,12 @@ header('X-Frame-Options: SAMEORIGIN');
 		border-left: 1px solid ".$gishex.";
 		}
 
+		#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }
 		";		
 
 
-		echo "a.wptag {color: #".$headtext."; background: ".$gishex.";} \n";
-		echo "a.:visited.wptag {color: #".$headtext."; background: ".$gishex.";} \n";
+		echo "a.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
+		echo "a.:visited.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
 
 
 
@@ -318,6 +318,8 @@ header('X-Frame-Options: SAMEORIGIN');
 	  			echo "a:visited.wptag.t". $themeid . "{color: " . $foreground . ";} \n";
 			}
 		}  
+		$giscss = get_option('options_custom_css_code');
+		echo $giscss;
 	?>
 	</style>
 	<!--Google Analytics-->

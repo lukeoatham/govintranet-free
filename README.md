@@ -35,6 +35,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.2 - 16 Jul 2015 ###
+* Search button override text
+
 ### 4.2.1.6 - 15 Jul 2015 ###
 * Events and tags bugfixes
 

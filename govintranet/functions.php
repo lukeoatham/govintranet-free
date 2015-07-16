@@ -1110,6 +1110,7 @@ if (!current_user_can('level_1')){
 	    remove_menu_page('edit.php?post_type=intravert');  
 	    remove_menu_page('edit.php?post_type=jargon-buster');  
 	    remove_menu_page('edit.php?post_type=news-update');  
+	    remove_menu_page('edit.php?post_type=team');  
 	    remove_menu_page('index.php');  
 	}
 }
@@ -2807,6 +2808,51 @@ register_field_group(array (
 			),
 			'default_value' => '',
 			'placeholder' => 'Search the intranet, Search the intranet e.g. book a meeting room, Search for anything',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),
+		array (
+			'key' => 'field_55a6b1424565d',
+			'label' => 'Override search button icon',
+			'name' => 'search_button_override',
+			'type' => 'true_false',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '',
+			'default_value' => 0,
+		),
+		array (
+			'key' => 'field_55a6b040e108a',
+			'label' => 'Search button text',
+			'name' => 'search_button_text',
+			'type' => 'text',
+			'instructions' => 'To override the default search icon.',
+			'required' => 0,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_55a6b1424565d',
+						'operator' => '==',
+						'value' => '1',
+					),
+				),
+			),
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => 'Search',
+			'placeholder' => '',
 			'prepend' => '',
 			'append' => '',
 			'maxlength' => '',
@@ -8431,7 +8477,7 @@ function save_news_meta( $post_id ) {
      */
     $slug = 'news';
 
-    // If this isn't an 'vacancy' post, don't update it.
+    // If this isn't a 'news' post, don't update it.
     if ( isset( $_POST['post_type'] ) && $slug != $_POST['post_type'] ) {
         return;
     }
@@ -8458,7 +8504,7 @@ function save_news_update_meta( $post_id ) {
      */
     $slug = 'news-update';
 
-    // If this isn't an 'vacancy' post, don't update it.
+    // If this isn't an 'news update' post, don't update it.
     if ( isset( $_POST['post_type'] ) && $slug != $_POST['post_type'] ) {
         return;
     }
@@ -8507,7 +8553,7 @@ function save_event_meta( $post_id ) {
      */
     $slug = 'event';
 
-    // If this isn't an 'vacancy' post, don't update it.
+    // If this isn't an 'event' post, don't update it.
     if ( isset( $_POST['post_type'] ) && $slug != $_POST['post_type'] ) {
         return;
     }

@@ -87,11 +87,11 @@ remove_filter('pre_get_posts', 'filter_search');
 						if ( !$catTitlePrinted ){
 							$catTitlePrinted = true;
 						}
-						$html.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug,'news-update-type')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+						$html.= "<span class='wptag'><a href='".get_term_link($cat->slug,'news-update-type')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 						}
 					}	
 					if ( $html ){
-						echo "<div class='widget-box'><h3>Categories</h3>".$html."</div>";
+						echo "<div class='widget-box'><h3>Update types</h3>".$html."</div>";
 					}
 				}
 		 	dynamic_sidebar('news-widget-area'); 
