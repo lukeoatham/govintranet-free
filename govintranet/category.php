@@ -157,7 +157,7 @@ if ( have_posts() )
 				  		    	continue;
 				  			}
 							echo "
-							<li class=''><a href='".get_term_link($taxonomy->slug, 'category')."><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;".$taxonomy->name."</a>".$desc."</li>";
+							<li class=''><a href='".get_term_link($taxonomy->slug, 'category')."'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;".$taxonomy->name."</a>".$desc."</li>";
 						}
 						?>
 				</ul>

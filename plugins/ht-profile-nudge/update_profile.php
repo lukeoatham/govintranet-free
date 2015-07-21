@@ -8,7 +8,10 @@ require_once('../../../wp-blog-header.php');
 
 // We need to verify the nonce.
 $nonce = $_REQUEST['_wpnonce'];
-if ( ! wp_verify_nonce( $nonce, 'update-profile' ) ) {
+$current_user = wp_get_current_user();
+if ($current_user->ID) $userid = $current_user->ID;
+
+if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
     // This nonce is not valid.
     die( 'Security check - there is something wrong' ); 
 } else {
@@ -27,7 +30,7 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile' ) ) {
 		if ($userid!=$current_userid){
 		    die( 'Security check - can\'t check your identity.' ); 	
 		}
-	    add_user_meta($current_userid,'user_grade',$usergrade, true); 
+	    update_user_meta($current_userid,'user_grade',$usergrade, ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
@@ -45,7 +48,7 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile' ) ) {
 		    die( 'Security check - can\'t check your identity.' ); 	
 		}
 		delete_user_meta($current_userid,'user_team'); 
-	    add_user_meta($current_userid,'user_team',array($team), true); 
+	    update_user_meta($current_userid,'user_team',array($team), ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
@@ -64,7 +67,7 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile' ) ) {
 		    die( 'Security check - can\'t check your identity.' ); 	
 		}
 		$skills = sanitize_text_field($skills);
-	    add_user_meta($current_userid,'user_key_skills',$skills, true); 
+	    update_user_meta($current_userid,'user_key_skills',$skills, ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
@@ -83,7 +86,7 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile' ) ) {
 		    die( 'Security check - can\'t check your identity.' ); 	
 		}
 		$jobtitle = sanitize_text_field($jobtitle);
-	    add_user_meta($current_userid,'user_job_title',$jobtitle, true); 
+	    update_user_meta($current_userid,'user_job_title',$jobtitle, ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
@@ -120,13 +123,13 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile' ) ) {
 		if ($userid!=$current_userid){
 		    die( 'Security check - can\'t check your identity.' ); 	
 		}
-		$phone = sanitize_text_field($phone);
-	    add_user_meta($current_userid,'user_telephone_number',$phone, true); 
+		//$phone = sanitize_text_field($phone);
+	    update_user_meta($current_userid,'user_telephone',$phone, ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
 
-    if ($_POST['type']=='add-mobile'){
+    if ($_POST['type']=='add-mobile'){ 
 		$userid = $_POST['userid'];
 		$current_user = wp_get_current_user();
 		$current_userid = $current_user->ID; 
@@ -139,7 +142,7 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile' ) ) {
 		    die( 'Security check - can\'t check your identity.' ); 	
 		}
 		$phone = sanitize_text_field($phone);
-	    add_user_meta($current_userid,'user_mobile',$phone, true); 
+	    update_user_meta($current_userid,'user_mobile',$phone, ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
