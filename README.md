@@ -39,6 +39,7 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 * Style changes to tag button on how do i 
 * Bugfix on events template not archiving correctly 
 * Most recent now shows a badge for new posts if showing updated posts too 
+* Minor style changes to form buttons 
 
 ### 4.2.2.1 - 21 Jul 2015 ###
 * Category template bugfix 
