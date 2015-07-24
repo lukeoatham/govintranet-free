@@ -35,6 +35,11 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.2.2- 25 Jul 2015 ###
+* Style changes to tag button on how do i 
+* Bugfix on events template not archiving correctly 
+* Most recent now shows a badge for new posts if showing updated posts too 
+
 ### 4.2.2.1 - 21 Jul 2015 ###
 * Category template bugfix 
 * Profile nudge widget updates 

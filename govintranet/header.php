@@ -306,6 +306,8 @@ header('X-Frame-Options: SAMEORIGIN');
 	  			$background=get_option('category_'.$themeid.'_cat_background_colour');
 	  			$foreground=get_option('category_'.$themeid.'_cat_foreground_colour');
 	  			echo "button.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background.";} \n";
+	  			echo ".cattagbutton a.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border-bottom: 3px solid #000; border-radius: 3px; } \n";
+	  			echo ".cattagbutton a:hover.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border-bottom: 3px solid #000; border-radius: 3px; } \n";
 	  			echo ".category-block .t" . $themeid . ", .category-block .t" . $themeid . " a  {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background."; width: 100%; padding: 0.5em; } \n";
 	  			echo "button:hover.btn.t" . $themeid . ", a:hover.btn.t" . $themeid . "{color: white; background: #333; border: 1px solid ".$background.";} \n";
 	  			echo "a.t" . $themeid . "{color: " . $foreground . "; background: " . $background . ";} \n";

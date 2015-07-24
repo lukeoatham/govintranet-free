@@ -148,7 +148,7 @@ class htMostRecent extends WP_Widget {
 		$getitems = $items + count($exclude); 
 		global $wpdb;
 		$q = "
-		select * 
+		select ID, post_parent, post_type, post_title, post_date, post_modified, post_status  
 		from $wpdb->posts 
 		where (".$filter.") and post_status = 'publish'";
 		
@@ -165,10 +165,11 @@ class htMostRecent extends WP_Widget {
 		$alreadydone=array();
 		foreach ($rpublished as $r ) {
 			if (in_array($r->ID, $alreadydone)) continue;
-			
+			$alert='';
+			if ( $lastupdated=='on' && $r->post_date == $r->post_modified ) $alert = " <span class='badge'>NEW</span>";
 			if ($r->post_type=='page'){
 				$k++; 
-				echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title(get_the_title($r->ID))."</a></li>";
+				echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title(get_the_title($r->ID))."</a>".$alert."</li>";
 				$alreadydone[]=$r->ID;
 			} elseif ($r->post_type=='task'){
 				$title_context='';
@@ -190,17 +191,17 @@ class htMostRecent extends WP_Widget {
 				}			
 	
 				$k++;
-				echo "<li><a href='".site_url()."/task/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a>".$title_context."</li>";
+				echo "<li><a href='".site_url()."/task/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a>".$title_context.$alert."</li>";
 				$alreadydone[]=$r->ID;
 			} elseif ($r->post_type=='project'){
 				if (!$r->post_parent){
 					$k++;
-					echo "<li><a href='".site_url()."/projects/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a></li>";
+					echo "<li><a href='".site_url()."/projects/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
 					$alreadydone[]=$r->ID;
 				}
 			} else {
 				$k++;
-				echo "<li><a href='".site_url()."/".$r->post_type."/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a></li>";
+				echo "<li><a href='".site_url()."/".$r->post_type."/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
 				$alreadydone[]=$r->ID;
 			}
 			

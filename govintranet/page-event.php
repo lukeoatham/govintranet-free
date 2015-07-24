@@ -21,7 +21,7 @@ $oldvacs = query_posts(array(
 
 if ( count($oldvacs) > 0 ){
 	foreach ($oldvacs as $old) {
-		if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'event_end_date',true)) )): // if expiry today, check the time
+		if ($sdate == date('Ymd',strtotime(get_post_meta($old->ID,'event_end_date',true)) )): // if expiry today, check the time
 			if (date('H:i:s',strtotime(get_post_meta($old->ID,'event_end_time',true))) > date('H:i:s') ) continue;
 		endif;
 		
