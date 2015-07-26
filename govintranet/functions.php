@@ -1109,8 +1109,8 @@ if (!current_user_can('level_1')){
 	    remove_menu_page('edit.php?post_type=vacancy');  
 	    remove_menu_page('edit.php?post_type=intravert');  
 	    remove_menu_page('edit.php?post_type=jargon-buster');  
-	    remove_menu_page('edit.php?post_type=news-update');  
-	    remove_menu_page('edit.php?post_type=team');  
+		remove_menu_page('edit.php?post_type=news-update');  
+		remove_menu_page('edit.php?post_type=team');  	    
 	    remove_menu_page('index.php');  
 	}
 }

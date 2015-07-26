@@ -7,7 +7,7 @@ Profile Nudge Update
 require_once('../../../wp-blog-header.php');
 
 // We need to verify the nonce.
-$nonce = $_REQUEST['_wpnonce'];
+$nonce = $_POST['_wpnonce'];
 $current_user = wp_get_current_user();
 if ($current_user->ID) $userid = $current_user->ID;
 

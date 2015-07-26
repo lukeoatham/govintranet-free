@@ -4,7 +4,7 @@ Plugin Name: HT Profile Nudge
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display reminders to complete the staff profile
 Author: Luke Oatham
-Version: 0.1
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 

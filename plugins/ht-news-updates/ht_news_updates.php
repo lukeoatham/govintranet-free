@@ -16,6 +16,7 @@ class htNewsUpdates extends WP_Widget {
     function widget($args, $instance) {
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
+        $moretitle = $instance['moretitle'];
         $items = intval($instance['items']);
 
 		//process expired news
@@ -111,11 +112,16 @@ class htNewsUpdates extends WP_Widget {
 		else:
 			echo ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
 		endif;
+		echo ".need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+		echo "#content .need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
 		echo ".need-to-know-container.".sanitize_file_name($title)." a { color: ".$text_colour."; }\n";
 		echo ".need-to-know-container.".sanitize_file_name($title)." .category-block { background: ".$background_colour."; }\n";
 		echo ".need-to-know-container.".sanitize_file_name($title)." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
 		echo ".need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+		echo "#content .need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
 		echo ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; margin-top: 10px; font-weight: bold; }\n";
+		echo "#content .need-to-know-container .widget-box { background-color: transparent;}";
+		echo "#content .need-to-know-container .widget-box { border-top: 0; margin-top: 0;}";
 		echo "</style>";	
 
 
@@ -157,18 +163,13 @@ class htNewsUpdates extends WP_Widget {
 		}
 		if ($news->post_count!=0){
 			echo "</ul></div>";
+			if ( !$moretitle ) $moretitle = $title;
 			if ( $news_update_types ): 
 				$landingpage = get_term_link($types_array[0]->term_id, 'news-update-type');
-				echo '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$title.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+				echo '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 			else:
-				$landingpage = get_option('options_module_news_update_page'); 
-				if ( !$landingpage ):
-					$landingpage_link_text = $title;
-					$landingpage = site_url().'/news-update/';
-				else: 
-					$landingpage_link_text = get_the_title( $landingpage[0] );
-					$landingpage = get_permalink( $landingpage[0] );
-				endif;
+				$landingpage_link_text = $moretitle;
+				$landingpage = site_url().'/news-update/';
 				echo '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 			endif;
 			echo "<div class='clearfix'></div>";			
@@ -184,12 +185,14 @@ class htNewsUpdates extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['items'] = strip_tags($new_instance['items']);
+		$instance['moretitle'] = strip_tags($new_instance['moretitle']);
        return $instance;
     }
 
     function form($instance) {
         $title = esc_attr($instance['title']);
         $items = esc_attr($instance['items']);
+        $moretitle = esc_attr($instance['moretitle']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
@@ -197,6 +200,9 @@ class htNewsUpdates extends WP_Widget {
 
           <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
+
+          <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:'); ?></label> 
+          <input class="widefat" id="<?php echo $this->get_field_id('mroetitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br>Leave blank for the default title<br>
           
         </p>
 

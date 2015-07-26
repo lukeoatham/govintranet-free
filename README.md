@@ -35,7 +35,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
-### 4.2.2.2- 25 Jul 2015 ###
+### 4.2.2.3 - 26 Jul 2015 ###
+* Profile nudge plugin bugfix 
+* Vacancy page bugfix 
+* News update widget additional option 
+
+### 4.2.2.2 - 25 Jul 2015 ###
 * Style changes to tag button on how do i 
 * Bugfix on events template not archiving correctly 
 * Most recent now shows a badge for new posts if showing updated posts too 
