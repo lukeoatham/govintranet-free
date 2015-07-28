@@ -31,8 +31,13 @@ $catid = get_queried_object()->term_id;
 						<?php printf( __( 'Yearly archives: %s', 'govintranet' ), get_the_date('Y') ); ?>
 		<?php else : ?>
 				<?php
-				the_archive_title( '<h1 class="page-title">', '</h1>' );
-				the_archive_description( '<div class="taxonomy-description">', '</div>' );
+				$archiveTitle = post_type_archive_title('',false);
+				if ( $archiveTitle != "" ):
+					echo "<h1>".$archiveTitle."</h1>";
+				else:
+					the_archive_title( '<h1">', '</h1>' );
+					the_archive_description( '<div class="taxonomy-description">', '</div>' );
+				endif;
 				?>
 		<?php endif; ?>
 			</h1>

@@ -180,16 +180,16 @@
 		echo "<p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
-			if ($cat->name != 'Uncategorized' ){
+			if ($cat->term_id != 1 ){
 				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 			echo "</a></span>&nbsp;";
 			}
 		}
-	} elseif (($post_type=="News" || $post_type =="Blog" || $post_type=='Forum' || $post_type=='Topic' || $post_type=='Reply' ) && $pageslug!="category"){
+	} elseif (($post_type=="News" || $post_type=="News-update" || $post_type =="Blog" || $post_type=='Forum' || $post_type=='Topic' || $post_type=='Reply' ) && $pageslug!="category"){
 		echo "<div><p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
-			if ($cat->name != 'Uncategorized' ){
+			if ($cat->term_id != 1 ){
 				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 				echo "</a></span>&nbsp;";
 			}
@@ -219,7 +219,7 @@
 		$thisdate=date("j M Y",strtotime($thisdate));
 		echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
-			if ($cat->name != 'Uncategorized' ){
+			if ($cat->term_id != 1 ){
 				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span>".$cat->name;
 			echo "</span>&nbsp;";
 			}
@@ -229,7 +229,7 @@
 		echo "<div><p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
-			if ($cat->name != 'Uncategorized' ){
+			if ($cat->term_id != 1 ){
 				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span>".$cat->name;
 			echo "</span>&nbsp;";
 			}

@@ -14,8 +14,19 @@ get_header(); ?>
 		
 		$thistax = $wp_query->get_queried_object();
 		$slug = $thistax->slug; 
-		$stopwords = array('the','for','and','out'); // words greater than 2 letters to ignore
-		$gowords = array("hr","it","is","pq","pqs","wms" ) // words less than 3 letters to include
+		$term_id = $thistax->term_id;
+		$blacklist = get_option("options_module_a_to_z_blacklist"); // added v4.2.3
+		$whitelist = get_option("options_module_a_to_z_whitelist"); 
+		if ( isset($blacklist) && $blacklist ): 
+			$stopwords = explode("," ,  strtolower( sanitize_text_field( $blacklist ) ) );
+		else:
+			$stopwords = array('the','for','and','out'); // words greater than 2 letters to ignore
+		endif;
+		if ( isset($whitelist) && $whitelist ):
+			$gowords = explode("," ,  strtolower( sanitize_text_field( $whitelist ) ) );
+		else:
+			$gowords = array("hr","it","is","pq" ); // words less than 3 letters to include
+		endif;
 		?>
 
 		<div class="col-lg-12 col-md-12 white">
@@ -69,7 +80,7 @@ get_header(); ?>
 			
 			if ( ! $postslist->have_posts() ) { 
 				echo "<h1>";
-				_e( 'Not found', 'twentyten' );
+				_e( 'Not found', 'govintranetpress' );
 				echo "</h1>";
 				echo "<p>";
 				_e( 'There\'s nothing to show.', 'govintranetpress' );
@@ -81,14 +92,18 @@ get_header(); ?>
 				//highlight words that begin with this letter in the standard post title
 				$foundkey = false; //set a flag to see if we get a match
 				$oldtitle = govintranetpress_custom_title($post->post_title); 
-				$otwords = explode(" ",$oldtitle); 
+				if ( strpos($oldtitle, " ") ):
+					$otwords = explode(" ",$oldtitle); 
+				else:
+					$otwords = array($oldtitle); 
+				endif;
 				$newwords = array();
 				$newtitle = '';
 				$tempot = '';
 				foreach ($otwords as $ot){
 					$orig_ot = $ot;
 					$ot = preg_replace('/[^a-z\d]+/i', '', $ot); 
-					$ot = str_replace(',', '', $ot);
+					$ot = str_replace(',', '', $ot); 
 					if (strtolower(substr($ot, 0, 1)) == strtolower($slug)  && (strlen($ot) > 2 || in_array(strtolower($ot), $gowords )) && !in_array(strtolower($ot),$stopwords)) 
 					{
 						$newwords[] ="<strong>".$orig_ot."</strong>"; 
@@ -116,7 +131,7 @@ get_header(); ?>
 				if (!$foundkey){ //if we didn't get a match via the standard post title we'll look in the keywords field for a shortcode [Extra A to Z entry]
 					$syns=0; //position marker for finding the next [ in keywords
 					$synpos=true;
-					$synonyms = get_post_meta(get_the_id(), 'keywords', true); //load the keywords for this post
+					$synonyms = sanitize_text_field ( get_post_meta(get_the_id(), 'keywords', true) ); //load the keywords for this post
 					while ($synpos && $synonyms){ //check iteratively for shortcodes
 						//get any synonym words
 						$findtxt = "["; 
@@ -126,13 +141,14 @@ get_header(); ?>
 							$findendpos = strpos ($synonyms,"]",$syns); 				
 							$synstr = substr($synonyms, $findstartpos+1, $findendpos-$findstartpos-1);
 							$otwords = explode(" ",$synstr); //process the shortcode by highlight words
-							$newwords = array();
+							$newwords = array(); 
 							$foundletter = false; //flag to check if we found a match in the shortcode
 							foreach ($otwords as $ot){ 
-								if (strtolower(substr($ot, 0, 1)) == strtolower($slug)  && (strlen($ot) > 2 || in_array(strtolower($ot), $gowords )) && !in_array(strtolower($ot),$stopwords)) 
+								$orig_ot = $ot;
+
+								if (strtolower(substr($ot, 0, 1)) == strtolower($slug)  && (strlen($ot) > 2 || in_array(strtolower($ot), $gowords )) && !in_array(strtolower($ot),$stopwords)) {
 								//don't include tiny words but allow common acronyms
-								{
-									$orig_ot = $ot;
+								
 									$ot = preg_replace('/[^a-z\d]+/i', '', $ot); 
 									$ot = str_replace(',', '', $ot);
 									$foundletter=true;
@@ -148,7 +164,7 @@ get_header(); ?>
 									endif;
 									if (!$tempot) $tempot = $ot;
 								} else {
-									$newwords[] = $orig_ot;
+									$newwords[] = $orig_ot; 
 								}
 							}
 							if ($foundletter){

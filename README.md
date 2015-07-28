@@ -35,6 +35,10 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.3 - 28 Jul 2015 ###
+* New A to Z options to include/exclude words 
+* Improved titles for news update archives and listings 
+
 ### 4.2.2.3 - 26 Jul 2015 ###
 * Profile nudge plugin bugfix 
 * Vacancy page bugfix 
