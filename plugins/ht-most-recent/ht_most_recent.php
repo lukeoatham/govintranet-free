@@ -148,7 +148,7 @@ class htMostRecent extends WP_Widget {
 		$getitems = $items + count($exclude); 
 		global $wpdb;
 		$q = "
-		select ID, post_parent, post_type, post_title, post_date, post_modified, post_status  
+		select ID, post_parent, post_type, post_title, post_name, post_date, post_modified, post_status  
 		from $wpdb->posts 
 		where (".$filter.") and post_status = 'publish'";
 		
