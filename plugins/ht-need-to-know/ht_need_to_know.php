@@ -62,7 +62,10 @@ class htNeedToKnow extends WP_Widget {
 			$thisURL=get_permalink();
 			$icon = get_option('options_need_to_know_icon');
 			if ($icon=='') $icon = "flag";
-			echo "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnow(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a></li>";
+			echo "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnow(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
+			comments_number( '', ' <span class="badge"> 1 comment</span>', ' <span class="badge"> % comments</span>' );
+
+			echo "</li>";
 		}
 		if ($news->post_count!=0 && $news->post_count <> $read && $show){
 			echo "</ul></div>";

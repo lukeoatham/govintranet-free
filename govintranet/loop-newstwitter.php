@@ -43,11 +43,11 @@ if ($k==1 && $paged<2){
 	$thisdate= $post->post_date;
 	$thisdate=date("j M Y",strtotime($thisdate));
 	echo '<span class="listglyph">'.get_the_date("j M Y"); 
-	comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+	comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 	echo '</span> ';
 	$post_cat = get_the_terms($post->ID,'news-type');		
 	if ( $post_cat ) foreach($post_cat as $cat){
-		if ($cat->name != 'Uncategorized' ){
+		if ($cat->term_id > 1 ){
 			echo "<span class='listglyph'><i class='dashicons dashicons-category gb".$cat->term_id."'></i>&nbsp;".$cat->name;
 			echo "</span>&nbsp;&nbsp;";
 		}
@@ -76,7 +76,7 @@ if ($k==1 && $paged<2){
 	$thisdate= $post->post_date;
 	$thisdate=date("j M Y",strtotime($thisdate));
 	echo '<span class="listglyph">'.get_the_date("j M Y"); 
-	comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+	comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 	echo '</span> ';
 	echo "</p></div>";
 	the_excerpt(); 

@@ -4,7 +4,7 @@ Plugin Name: HT Top tags
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display top tags from live Google Analytics feed
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
  
@@ -50,16 +50,17 @@ class htTopTags extends WP_Widget {
 		//display manual overrides first
 		
 		
-		$html='';
+		$html = '';
+		$gatransient = substr( 'cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 	
 		//check to see if we have saved a cache of popular pages
 	
-		$cachedga = get_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ));
+		$cachedga = get_transient( $gatransient );
 
 		if ($cachedga) { // if we have a fresh cache just display immediately
 			foreach($cachedga as $result) { 
 				$k++;
-				$html.=($result);
+				$html.=$result;
 				$toptagsslug[]="cached";
 				if ($k>$items-1){
 					break;
@@ -88,7 +89,8 @@ class htTopTags extends WP_Widget {
 		     */
 		    if ($gatoken==''){ // if no token stored
 		    	if( !isset($_GET['code']) ) { // if we arn't submitting GET code to the db
-					$url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
+					$url = $ga->auth->buildAuthUrl(); // give users a form to generate code 
+					?>
 					<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>">Authorise Google Analytics access</a>
 					<form id="" class="">
 						<label for="code">Enter your code from Google</label></span>
@@ -111,7 +113,8 @@ class htTopTags extends WP_Widget {
 			            update_option('ga_token_expires', $tokenExpires );
 			            update_option('ga_token_created', $tokenCreated );
 			        } else {
-			            $url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
+			            $url = $ga->auth->buildAuthUrl(); // give users a form to generate code 
+			            ?>
 			            <em>Sorry, something went wrong accessing Google Analytics :<?php echo $auth['error_description']; ?></em>
 						<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>">Authorise Google Analytics access</a>
 						<form id="" class="">
@@ -248,7 +251,7 @@ class htTopTags extends WP_Widget {
 								$taskid = 	$customquery->ID;
 								$post_tags = get_the_tags($taskid); 
 								$pageviews = $res[1];			
-								foreach ($post_tags as $pt){ 
+								if ( $post_tags ) foreach ($post_tags as $pt){ 
 									$toptagsviews[$pt->slug]+=$pageviews;
 									$toptags[$pt->slug]=$pt->name;
 									$toptagsslug[$pt->slug]=$pt->slug;
@@ -263,7 +266,7 @@ class htTopTags extends WP_Widget {
 								$taskid = 	$customquery->ID;
 								$post_tags = get_the_tags($taskid);
 								$pageviews = $res[1];			
-								foreach ($post_tags as $pt){ 
+								if ( $post_tags ) foreach ($post_tags as $pt){ 
 									$toptagsviews[$pt->slug]+=$pageviews;
 									$toptags[$pt->slug]=$pt->name;
 									$toptagsslug[$pt->slug]=$pt->slug;
@@ -301,7 +304,7 @@ class htTopTags extends WP_Widget {
 								$taskslug = $customquery->post_name;
 								$post_tags = get_the_tags($customquery->ID);
 								$pageviews = $res[1];			
-								foreach ($post_tags as $pt){
+								if ( $post_tags ) foreach ($post_tags as $pt){
 									$toptagsviews[$pt->slug]+=$pageviews;
 									$toptags[$pt->slug]=$pt->name;
 									$toptagsslug[$pt->slug]=$pt->slug;
@@ -324,7 +327,7 @@ class htTopTags extends WP_Widget {
 								$taskslug = $customquery->post_name;
 								$post_tags = get_the_tags($customquery->ID);
 								$pageviews = $res[1];			
-								foreach ($post_tags as $pt){
+								if ( $post_tags ) foreach ($post_tags as $pt){
 									$toptagsviews[$pt->slug]+=$pageviews;
 									$toptags[$pt->slug]=$pt->name;
 									$toptagsslug[$pt->slug]=$pt->slug;
@@ -400,7 +403,7 @@ class htTopTags extends WP_Widget {
 			}
 
 			//cache new tags if we are using caching
-			set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * HOUR_IN_SECONDS); // set cache period
+			set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * 60 * 60); // set cache period
 
 		}
 

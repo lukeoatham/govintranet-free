@@ -31,7 +31,7 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 		echo "<p>";
 			$post_cat = get_the_category();		
 				if ( $post_cat ) foreach($post_cat as $cat){
-					if ($cat->name != 'Uncategorized' ){
+					if ($cat->term_id > 1 ){
 						echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span>&nbsp;".$cat->name;
 						echo "</span>&nbsp;&nbsp;";
 					}

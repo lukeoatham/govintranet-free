@@ -11,6 +11,12 @@ $catid = get_queried_object()->term_id;
 $catslug = get_queried_object()->slug;	
 $catdesc = get_queried_object()->description;	
 $catparentid = get_queried_object()->parent; 
+$childrenargs = array (
+	 'orderby'           => 'name', 
+    'order'             => 'ASC',
+    'child_of'          => $catid,
+);
+$catchildren = get_terms('category', $childrenargs );
 $tasktagslug = '';
 $tasktag = '';
 if ($catparentid):
@@ -119,7 +125,16 @@ if ( have_posts() )
 				$icon = "hammer";
 			}			
 				?>
-			<h3><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a>&nbsp;<small><span class="dashicons dashicons-<?php echo $icon; ?>"></span>&nbsp;<?php echo ucfirst($context); ?></small></h3>
+			<h3><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a>&nbsp;<small><span class="dashicons dashicons-<?php echo $icon; ?>"></span>&nbsp;<?php echo ucfirst($context); ?>
+			<?php
+			if ( $catchildren ) foreach((array)$catchildren as $cc){
+				if ($cc->term_id != 1 && has_term($cc->term_id, 'category', $id) ){
+					echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cc->term_id."'></span><a href='".get_term_link($cc->slug,$cc->taxonomy)."'>".$cc->name;
+				echo "</a></span>&nbsp;";
+				}
+			}
+			?>
+			</small></h3>
 
 			<?php
 			the_excerpt(); 

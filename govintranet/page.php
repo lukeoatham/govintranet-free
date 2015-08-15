@@ -61,16 +61,16 @@ get_header(); ?>
 				
 				//get anything related to this post
 				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-				foreach ($otherrelated as $o){
+				if ( $otherrelated ) foreach ((array)$otherrelated as $o){
 					if ($o->post_status == 'publish' && $o->ID != $id ) {
-								$taskparent=$o->post_parent; 
-								if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
-									$tparent_guide_id = $taskparent; 		
-									if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
-									if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-								}		
-								$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
-						}
+						$taskparent=$o->post_parent; 
+						if ($taskparent && in_array($o->post_type, array('task','project','team') ) ){
+							$tparent_guide_id = $taskparent; 		
+							if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
+							if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+						}		
+						$html.= "<li><a href='".get_permalink($o->ID)."'>".govintranetpress_custom_title($o->post_title).$title_context."</a></li>";
+					}
 				}
 
 				if ($related || $otherrelated){

@@ -197,7 +197,7 @@
 		if ( is_archive() || is_search() || is_author() ){
 			$thisdate= get_the_date('j M Y');
 			echo '<span class="listglyph">'.get_the_date("j M Y"); 
-			comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 			echo '</span> ';
 		}
 		if ($post_type=="Blog"){

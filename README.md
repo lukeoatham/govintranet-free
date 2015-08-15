@@ -35,6 +35,14 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.4 - 15 Aug 2015 ###
+* Improved support for sub-categories 
+* External links are tracked so that they can appear in analytics 
+* Layout fixes for How do I template  
+* New comment count badge 
+* News type enhancements 
+
+
 ### 4.2.3 - 28 Jul 2015 ###
 * New A to Z options to include/exclude words 
 * Improved titles for news update archives and listings 

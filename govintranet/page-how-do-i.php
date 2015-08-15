@@ -97,7 +97,7 @@ get_header();
 					</div>
 				</div>
 			</div>
-			<div style="text-align:middle;"  class="widget-box">
+			<div style="text-align:middle; clear:both;"  class="widget-box">
 				<h3 class="widget-title">Browse by tag</h3>
 				<div class="tagcloud">
 						<?php 

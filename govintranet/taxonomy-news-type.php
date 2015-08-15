@@ -48,13 +48,17 @@ if ( have_posts() )
 		<h1 <?php echo "class='h1_" . $catid . "'>". single_tag_title( '', false ) ; if ($tasktag) echo " <small><span class='glyphicon glyphicon-tag'></span> ".$tasktag."</small>";?></h1>
 	
 		<?php echo $catdesc; ?>
-				
-		<h3 class='widget-title h1_<?php echo $catid; ?>'>Browse by tag</h3>
 		<?php 
-		//echo my_colorful_tag_cloud($catid, 'category' , 'task'); 
-		echo gi_tag_cloud('news-type',$catslug,'news');
-		/* Run the loop for the category page to output the posts.
-		 */
+		$tagcloud = gi_tag_cloud('news-type',$catslug,'news');
+		if ($tagcloud):
+			?>					
+			<h3 class='widget-title h1_<?php echo $catid; ?>'>Browse by tag</h3>
+			<?php 
+			/* Run the loop for the category page to output the posts.
+			 */
+			echo $tagcloud;	
+		endif;
+		
 		if ($tasktagslug):
 			$taskitems = new WP_Query(
 				array (
@@ -95,7 +99,7 @@ if ( have_posts() )
 
 			<?php
 			echo '<span class="listglyph">'.get_the_date("j M Y"); 
-			comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 			echo '</span> ';				
 			the_excerpt(); 
 			echo "</div>";
@@ -129,7 +133,7 @@ if ( have_posts() )
 			  		    $themeid = $taxonomy->term_id;
 			  			$themeURL= $taxonomy->slug;
 			  			$desc='';
-				  		if ($themeURL == 'uncategorized') {
+				  		if ($themeid < 2) {
 			  		    	continue;
 			  			}
 						echo "
@@ -145,12 +149,12 @@ if ( have_posts() )
 		$post_type = array();
 		$taxonomies[] = 'news-type';
 		$post_type[] = 'news';
-		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
-		if ($post_cat){
+		$post_cat = get_terms_by_post_type( $taxonomies, $post_type); 
+		if (count($post_cat) > 1){
 			echo "<div class='widget-box'><h3 class='widget-title'>Other categories</h3>";
 			echo "<p class='taglisting {$post->post_type}'>";
 			foreach($post_cat as $cat){
-				if ( $cat->name!='Uncategorized' && $cat->name && $cat->term_id != $catid ){
+				if ( $cat->term_id > 1 && $cat->name && $cat->term_id != $catid ){
 					$newname = str_replace(" ", "&nbsp;", $cat->name );
 					echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/news-type/".$cat->slug."'>".$newname."</a></span> ";
 				}

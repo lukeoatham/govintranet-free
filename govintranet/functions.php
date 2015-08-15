@@ -1096,7 +1096,7 @@ function get_terms_by_media_type( $taxonomies, $post_types ) {
 
 }
 
-if (!current_user_can('level_1')){
+if ( current_user_can('level_0') && !current_user_can('level_1') ){
 	add_action( 'admin_menu', 'my_remove_menu_pages' );
 	add_filter('show_admin_bar', '__return_false');
 	function my_remove_menu_pages() {
@@ -1105,11 +1105,12 @@ if (!current_user_can('level_1')){
 	    remove_menu_page('edit.php?post_type=task');  
 	    remove_menu_page('edit.php?post_type=project');  
 	    remove_menu_page('edit.php?post_type=news');  
+		remove_menu_page('edit.php?post_type=news-update');  
 	    remove_menu_page('edit.php?post_type=blog');  
+	    remove_menu_page('edit.php?post_type=event');  
 	    remove_menu_page('edit.php?post_type=vacancy');  
 	    remove_menu_page('edit.php?post_type=intravert');  
 	    remove_menu_page('edit.php?post_type=jargon-buster');  
-		remove_menu_page('edit.php?post_type=news-update');  
 		remove_menu_page('edit.php?post_type=team');  	    
 	    remove_menu_page('index.php');  
 	}

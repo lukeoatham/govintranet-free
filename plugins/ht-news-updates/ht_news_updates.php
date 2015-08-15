@@ -159,7 +159,10 @@ class htNewsUpdates extends WP_Widget {
 					if ($icon=='') $icon = "flag";
 					$display_types = implode(", ", $display_types).""; 
 				}
-			echo "<li><a href='{$thisURL}' title='".$display_types." update'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a></li>";
+			echo "<li><a href='{$thisURL}' title='".$display_types." update'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
+			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
+			
+			echo "</li>";
 		}
 		if ($news->post_count!=0){
 			echo "</ul></div>";

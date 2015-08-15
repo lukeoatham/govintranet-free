@@ -261,14 +261,14 @@ function widget($args, $instance) {
 			if ($newsgrid[$k]=="Li"){
 				echo "<p>";
 				echo '<span class="listglyph">'.get_the_date("j M Y"); 
-				comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+				comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 				echo '</span> ';
 				echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 			} else {
 				if ($showexcerpt == 'on') {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
 					echo "</p>";									
 					echo $thisexcerpt;
@@ -276,7 +276,7 @@ function widget($args, $instance) {
 				} else {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
 					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 				}
@@ -370,14 +370,14 @@ function widget($args, $instance) {
 			if ($newsgrid[$k]=="Li"){
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
 					echo "</p>";									
 			} else {
 				if ($showexcerpt == 'on') {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
 					echo "</p>";									
 					echo $thisexcerpt;
@@ -385,7 +385,7 @@ function widget($args, $instance) {
 				} else {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 				}
 			}

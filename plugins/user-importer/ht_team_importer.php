@@ -48,8 +48,9 @@ function ht_teamimporter_options() {
 	foreach((array)$content as $parsedf) {
 	
 	
-		// [0] team
-		// [1] parent
+		// [0] team name
+		// [1] slug
+		// [2] parent slug
 
 /*
 		$k = 12;
@@ -61,20 +62,20 @@ function ht_teamimporter_options() {
 */
 
 	
-		$parent_term_id=0;
-		if ($parsedf[1]){
-			$parent_term = get_term_by('name', $parsedf[1], 'team'); 
-			$parent_term_id = $parent_term->term_id; 
+		$parent_team_id=0;
+		if ($parsedf[2] != ""){
+			$parent_team = get_page_by_path( $parsedf[2], OBJECT, 'team'); 
+			$parent_team_id = $parent_team->ID;
 		}
-		
-		wp_insert_term(
-		  $parsedf[0], // the term 
-		  'team', // the taxonomy
-		  array(
-		    'parent'=> $parent_term_id
-		  )
-		);
-		sleep(0.5);
+		$post = array(
+		  'post_name'      =>  $parsedf[1],
+		  'post_title'     => $parsedf[0],
+		  'post_status'    => 'publish',
+		  'post_type'      => 'team',
+		  'post_parent'    => $parent_team_id,
+		  'comment_status' => 'closed',
+		); 
+		wp_insert_post($post);
         $results.="<li>".$parsedf[0]."</li>";
 	}
 	    	

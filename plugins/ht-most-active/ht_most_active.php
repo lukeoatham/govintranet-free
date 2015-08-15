@@ -4,7 +4,7 @@ Plugin Name: HT Most active
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most active pages
 Author: Luke Oatham
-Version: 2.0
+Version: 2.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -117,12 +117,11 @@ class htMostActive extends WP_Widget {
 		$to_fill = $items;
 		$k = 0;
 		$alreadydone = array();
-		$hmtl = '';
+		$html = '';
+		$gatransient = substr( 'cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+		$cachedga = get_transient( $gatransient );
+		if ($cachedga != "") { // if we have a fresh cache
 
-		$cachedga = get_transient('cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ) );
-		if ($cachedga) { // if we have a fresh cache
-
-			$html='';
 			foreach($cachedga as $result) {
 
 				if ($k>$items-1){
@@ -134,6 +133,7 @@ class htMostActive extends WP_Widget {
 			}
 
 		} else { //load fresh analytics
+
 		    include_once('GoogleAnalyticsAPI.class.php');
 			$ga = new GoogleAnalyticsAPI();
 			$ga->auth->setClientId($client_id); // From the APIs console
@@ -313,6 +313,7 @@ class htMostActive extends WP_Widget {
 
 								if (!$tasktitle) continue;
 								if (in_array($taskid, $alreadydone )) continue;
+								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
 
 								$found = true;
 								$k++;
@@ -337,6 +338,7 @@ class htMostActive extends WP_Widget {
 					
 								if (!$tasktitle) continue;
 								if (in_array($taskid, $alreadydone )) continue;
+								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
 								
 								$found = true;
 								$k++;
@@ -366,6 +368,7 @@ class htMostActive extends WP_Widget {
 
 								if (!$tasktitle) continue;
 								if (in_array($taskid, $alreadydone )) continue;
+								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
 
 								$found = true;
 								$k++;
@@ -389,6 +392,7 @@ class htMostActive extends WP_Widget {
 
 								if (!$tasktitle) continue;
 								if (in_array($taskid, $alreadydone )) continue;
+								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
 
 								$found = true;
 								$k++;
@@ -412,6 +416,7 @@ class htMostActive extends WP_Widget {
 
 								if (!$tasktitle) continue;
 								if (in_array($taskid, $alreadydone )) continue;
+								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
 
 								$found = true;
 								$k++;
@@ -435,6 +440,7 @@ class htMostActive extends WP_Widget {
 
 								if (!$tasktitle) continue;
 								if (in_array($taskid, $alreadydone )) continue;
+								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
 
 								$found = true;
 								$k++;
@@ -459,6 +465,7 @@ class htMostActive extends WP_Widget {
 									$taskslug = $taskpod->post_name;
 									if (!$tasktitle) continue;
 									if (in_array($taskid, $alreadydone )) continue;
+									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
 
 									$found = true;
 									$k++;
@@ -466,8 +473,8 @@ class htMostActive extends WP_Widget {
 
 							}		
 							if ($tasktitle!='' ){
-								$html .= "<li><a href='" . $res[0] . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
-								$transga[] = "<li><a href='" .  $res[0] . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
+								$html .= "<li><a ".$ext."href='" . $res[0] . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
+								$transga[] = "<li><a ".$ext."href='" .  $res[0] . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
 								$alreadydone[] = $taskid;
 							} 				
 						}
@@ -475,10 +482,9 @@ class htMostActive extends WP_Widget {
 				}
 			}
 
-			set_transient('cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * HOUR_IN_SECONDS); // set cache period
+			if ( count($transga) > 0 ) set_transient($gatransient,$transga,$cache * 60 * 60); // set cache period
 
 		}
-
 
 		if ($k){
 			echo $before_widget; 

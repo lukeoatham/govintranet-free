@@ -35,8 +35,16 @@ function gaTrackDownloadableFiles() {
                jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
           } else if (links[i].href.indexOf('.png') != "-1") {
                jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          }
+          }           
+
      }
+
+
+
+var links = jQuery(".external-link");
+     for(var i = 0; i < links.length; i++) {
+          jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+}
      return true;    
 }
 
