@@ -123,9 +123,11 @@ if ( have_posts() )
 			} else {
 				$context = "task";
 				$icon = "hammer";
-			}			
+			}	
+			if ( get_post_meta($post->ID,'external_link',true) ) $ext="class='external-link' ";
+		
 				?>
-			<h3><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a>&nbsp;<small><span class="dashicons dashicons-<?php echo $icon; ?>"></span>&nbsp;<?php echo ucfirst($context); ?>
+			<h3><a <?php echo $ext; ?>href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a>&nbsp;<small><span class="dashicons dashicons-<?php echo $icon; ?>"></span>&nbsp;<?php echo ucfirst($context); ?>
 			<?php
 			if ( $catchildren ) foreach((array)$catchildren as $cc){
 				if ($cc->term_id != 1 && has_term($cc->term_id, 'category', $id) ){
