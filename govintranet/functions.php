@@ -1072,7 +1072,7 @@ function get_terms_by_post_type( $taxonomies, $post_types ) {
 
     global $wpdb;
 
-    $query = "SELECT t.*, COUNT(*) as total from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'publish' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.parent = 0 AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id order by t.name";
+    $query = "SELECT t.*, COUNT(*) as total from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'publish' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.parent = 0 AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id order by t.slug";
 
     $results = $wpdb->get_results( $query );
 
@@ -1088,7 +1088,7 @@ function get_terms_by_media_type( $taxonomies, $post_types ) {
 
     global $wpdb;
 
-    $query = "SELECT t.*, COUNT(*) as total from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'inherit' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id order by t.name";
+    $query = "SELECT t.*, COUNT(*) as total from $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id WHERE p.post_status = 'inherit' AND p.post_type IN('".join( "', '", $post_types )."') AND tt.taxonomy IN('".join( "', '", $taxonomies )."') GROUP BY t.term_id order by t.slug";
 
     $results = $wpdb->get_results( $query );
 
@@ -2816,6 +2816,22 @@ register_field_group(array (
 			'disabled' => 0,
 		),
 		array (
+			'key' => 'field_55cfbabe6a350',
+			'label' => 'Jumbo searchbox',
+			'name' => 'search_jumbo_searchbox',
+			'type' => 'true_false',
+			'instructions' => 'Displays are full-width search box on the homepage.',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '',
+			'default_value' => 0,
+		),
+		array (
 			'key' => 'field_55a6b1424565d',
 			'label' => 'Override search button icon',
 			'name' => 'search_button_override',
@@ -3169,6 +3185,30 @@ register_field_group(array (
 			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => 'If checked, will display a plain tag cloud showing only tags found in tasks and guides. If unchecked, will display tags from the whole intranet in variable font sizes.',
+			'required' => 0,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_536fa173a8af6',
+						'operator' => '==',
+						'value' => '1',
+					),
+				),
+			),
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '',
+			'default_value' => 0,
+		),
+		array (
+			'key' => 'field_55cfd2dc57466',
+			'label' => 'Start with tags open',
+			'name' => 'module_tasks_tags_open',
+			'type' => 'true_false',
+			'instructions' => 'If checked, will automatically open the "Browse tags" button on individual task category pages.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -4241,7 +4281,7 @@ register_field_group(array (
 	'hide_on_screen' => '',
 ));
 
-register_field_group(array (
+acf_add_local_field_group(array (
 	'key' => 'group_54b46b388f6cb',
 	'title' => 'Video',
 	'fields' => array (
@@ -4249,18 +4289,17 @@ register_field_group(array (
 			'key' => 'field_54b46b583b956',
 			'label' => 'Video URL',
 			'name' => 'news_video_url',
-			'prefix' => '',
-			'type' => 'text',
+			'type' => 'url',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'default_value' => '',
 			'placeholder' => '',
-			'prepend' => '',
-			'append' => '',
-			'maxlength' => '',
-			'readonly' => 0,
-			'disabled' => 0,
 		),
 	),
 	'location' => array (
@@ -4279,7 +4318,6 @@ register_field_group(array (
 	'instruction_placement' => 'label',
 	'hide_on_screen' => '',
 ));
-
 
 register_field_group(array (
 	'key' => 'group_53bd5ee11b027',
@@ -8646,8 +8684,31 @@ function save_event_meta( $post_id ) {
 }
 add_action( 'save_post', 'save_event_meta' );
 
+function save_keyword_meta( $post_id ) {
+
+    /*
+     * In production code, $slug should be set only once in the plugin,
+     * preferably as a class property, rather than in each function that needs it.
+     */
+    $slug = array('news','page','task','blogpost','project','vacancy','team','event');
+
+    // If this isn't an 'event' post, don't update it.
+    if ( isset( $_POST['post_type'] ) && !in_array( $_POST['post_type'] , $slug ) ) {
+        return;
+    }
+
+    // - Update the post's metadata.
+    if ( $prev = get_post_meta( $post_id, 'keywords',true ) ) {
+    	$newvalue = str_replace("," , " ", $prev);
+    	$newvalue = str_replace("  " , " ", $newvalue);
+		update_post_meta( $post_id, 'keywords', $newvalue, $prev );
+	}
+	return;
+}
+add_action( 'save_post', 'save_keyword_meta' );
+
 function filter_search($query) {
-    if ($query->is_tag && !is_admin()) {
+    if ($query->is_tag && !is_admin()) { 
 		$query->set('post_type', array('any'));
     }
     return $query;

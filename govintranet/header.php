@@ -322,6 +322,15 @@ header('X-Frame-Options: SAMEORIGIN');
 		}  
 		$giscss = get_option('options_custom_css_code');
 		echo $giscss;
+		$jumbo_searchbox = get_option("options_search_jumbo_searchbox", false);		
+		
+		if ( $jumbo_searchbox ) echo "		
+		.altsearch { padding: 0.5em 6em 1.5em 6em; background: " . $giscc . ";   }
+		#headsearch { padding-right: 0; }
+		#searchformdiv.altsearch { padding-bottom: 1.5em; }
+		#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: white;}
+		#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black;}
+		";
 	?>
 	</style>
 	<!--Google Analytics-->
@@ -377,12 +386,19 @@ $parentpageclass.=" custom-background";
 								</div>
 							</div>
 						
-						<!--search box-->
-							<div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
-								<div id='searchformdiv' class=''>
-										<?php get_search_form(true); ?>
+						<?php  ?>
+
+						<?php if ( $jumbo_searchbox != 1 || ( !is_home() && !is_front_page() ) ) : ?>
+
+							<!--search box-->
+							<div id="headsearch" class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+								<div id='searchformdiv'>
+									<?php get_search_form(true); ?>
 								</div>
 							</div>
+							
+						<?php endif; ?>
+
 						</div>
 
 							<div class="sr-only" id="access">	
@@ -423,4 +439,17 @@ $parentpageclass.=" custom-background";
 	</div>				
 			     
 	<div id="content" class="container">			
+
+		<?php if ( $jumbo_searchbox == 1 && ( is_home() || is_front_page() ) ) : ?>
+
+		<!--search box-->
+			<div class="altsearch-container">
+				<div id='searchformdiv' class='altsearch'>
+						<?php get_search_form(true); ?>
+				</div>
+			</div>
+			
+		<?php endif; ?>
+
 		<div class="content-wrapper">
+			

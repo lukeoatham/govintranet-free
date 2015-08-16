@@ -6,10 +6,13 @@
  */
 
 get_header(); 
+$tags_open = get_option("options_module_tasks_tags_open", false );
 $catname = get_queried_object()->name;					
 $catid = get_queried_object()->term_id;	
 $catslug = get_queried_object()->slug;	
 $catdesc = get_queried_object()->description;	
+$catlongdesc = get_option("category_".$catid."_cat_long_description", "");
+if ( $catlongdesc ) $catdesc = $catlongdesc;
 $catparentid = get_queried_object()->parent; 
 $childrenargs = array (
 	 'orderby'           => 'name', 
@@ -71,9 +74,11 @@ if ( have_posts() )
 		<?php 
 		$tagcloud = gi_tag_cloud('category',$catslug,'task'); 
 		if ($tagcloud):
+			$expanded = "false";
+			if ( $tags_open ) $expanded = "true";
 			?>
-			<div class='cattagbutton' ><a class='btn t<?php echo $catid; ?>' data-toggle="collapse" href="#cattagcloud" aria-expanded="false" aria-controls="cattagcloud">Browse by tag <span class='caret'></span></a></div>
-			<div class="collapse" id="cattagcloud">
+			<div class='cattagbutton' ><a class='btn t<?php echo $catid; ?>' data-toggle="collapse" href="#cattagcloud" aria-expanded="<?php echo $expanded; ?>" aria-controls="cattagcloud">Browse by tag <span class='caret'></span></a></div>
+			<div class="collapse<?php if ( $expanded == "true" ) echo " in"; ?>" id="cattagcloud">
 			<?php echo $tagcloud; ?>
 			</div>							
 			<?php if ($tasktagslug) echo "<h3 class='h1_'".$catid."><span class='dashicons dashicons-tag'></span> ".$tasktag."</h3>";?>

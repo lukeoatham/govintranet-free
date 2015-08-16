@@ -35,6 +35,10 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.5 - 16 Aug 2015 ###
+* Task category template enhancements, option to start with tags open 
+* Jumbo search box option for homepage (altsearch and altsearch-container classes available for customisation)
+
 ### 4.2.4 - 15 Aug 2015 ###
 * Improved support for sub-categories 
 * External links are tracked so that they can appear in analytics 
