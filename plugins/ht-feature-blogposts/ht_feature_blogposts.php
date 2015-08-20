@@ -75,7 +75,7 @@ class htFeatureBlogposts extends WP_Widget {
 			echo "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 			echo "<br><span class='news_date'>".$edate." by ";
 			echo get_the_author();
-			comments_number( '', ' <span class="dashicons dashicons-admin-comments"></span> 1 comment', ' <span class="dashicons dashicons-admin-comments"></span> % comments' );
+			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 			echo "</span>";
 			echo "</span>";
 			if ($excerpt == 'on') the_excerpt();

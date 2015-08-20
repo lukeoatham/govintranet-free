@@ -66,7 +66,7 @@ $catid = get_queried_object()->term_id;
 					$taxonomies[] = 'news-update-type';
 					$post_type[] = 'news-update';
 					$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
-					if ($post_cat){
+					if ( $post_cat && count($post_cat) > 1 ){
 						echo "<div class='widget-box'><h3 class='widget-title'>Update categories</h3>";
 						echo "<p class='taglisting news'>";
 						foreach($post_cat as $cat){

@@ -30,7 +30,7 @@ get_header();
 						<select name='cat' id='cat' class='form-control input-md'>
 							<option value='0' selected='selected'>All tasks and guides</option>
 								<?php
-								$terms = get_terms('category',array("hide_empty"=>true,"parent"=>0));
+								$terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"slug"));
 								if ($terms) {
 							  		foreach ((array)$terms as $taxonomy ) {
 							  			if ($taxonomy->term_id == 1) continue;

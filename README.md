@@ -35,6 +35,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.6 - 20 Aug 2015 ###
+* Bugfix on archive template if only 1 news update type 
+* New secondary navigation menu under the search box, built into the theme, options to show profile and login links 
+* How do I templates - terms listed in slug order 
+* Comment style on feature blogposts updated to be consistent 
+* Bugfix for intraverts widget for posts with apostrophes in titles 
+
 ### 4.2.5 - 16 Aug 2015 ###
 * Task category template enhancements, option to start with tags open 
 * Jumbo search box option for homepage (altsearch and altsearch-container classes available for customisation)

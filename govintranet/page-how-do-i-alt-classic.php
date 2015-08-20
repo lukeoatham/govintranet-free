@@ -51,7 +51,7 @@ get_header(); ?>
 // Display category blocks
 
 $catcount = 0;
-$terms = get_terms('category');
+$terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"slug"));
 	if ($terms) {
   		foreach ((array)$terms as $taxonomy ) {
   		    $themeid = $taxonomy->term_id;

@@ -100,6 +100,7 @@ function govintranet_setup() {
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
 		'primary' => __( 'Primary Navigation', 'govintranet' ),
+		'secondary' => __( 'Secondary Navigation', 'govintranet' ),
 	) );
 
 	// theme options functions:
@@ -3600,6 +3601,54 @@ register_field_group(array (
 			'message' => '',
 			'default_value' => 0,
 		),
+		array (
+		'key' => 'field_55d628c205b5b',
+		'label' => 'Show My Profile link',
+		'name' => 'show_my_profile',
+		'type' => 'true_false',
+		'instructions' => 'Add a "My Profile" link to the secondary menu.',
+		'required' => 0,
+		'conditional_logic' => array (
+		array (
+		array (
+		'field' => 'field_536f764ea21c4',
+		'operator' => '==',
+		'value' => '1',
+		),
+		),
+		),
+		'wrapper' => array (
+		'width' => '',
+		'class' => '',
+		'id' => '',
+		),
+		'message' => '',
+		'default_value' => 0,
+		),
+		array (
+		'key' => 'field_55d6292505b5c',
+		'label' => 'Show login/logout link',
+		'name' => 'show_login_logout',
+		'type' => 'true_false',
+		'instructions' => 'Add a Login or Logout link to the secondary menu.',
+		'required' => 0,
+		'conditional_logic' => array (
+		array (
+		array (
+		'field' => 'field_536f764ea21c4',
+		'operator' => '==',
+		'value' => '1',
+		),
+		),
+		),
+		'wrapper' => array (
+		'width' => '',
+		'class' => '',
+		'id' => '',
+		),
+		'message' => '',
+		'default_value' => 0,
+		),		
 		array (
 			'key' => 'field_53769e3b01f93',
 			'label' => 'Staff directory',
@@ -8722,5 +8771,24 @@ return site_url("/");
 }
 
 add_filter('login_headerurl', 'ht_login_url');
+
+add_filter( 'wp_nav_menu_items', 'add_loginout_link', 10, 2 );
+function add_loginout_link( $items, $args ) {
+    if (is_user_logged_in() && $args->theme_location == 'secondary') {
+	    $current_user = wp_get_current_user();
+		$userurl = get_author_posts_url( $current_user->ID); 
+		if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+			$userurl=str_replace('/author', '/members', $userurl); }
+		elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
+			$userurl=str_replace('/author', '/staff', $userurl);
+		}	    
+	    if ( get_option("options_show_my_profile", false) ) $items .= '<li><a href="'. $userurl .'">My profile</a></li>';
+        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. wp_logout_url() .'">Log Out</a></li>';
+    }
+    elseif (!is_user_logged_in() && $args->theme_location == 'secondary') {
+        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. site_url('wp-login.php') .'">Log In</a></li>';
+    }
+    return $items;
+}
 
 ?>
