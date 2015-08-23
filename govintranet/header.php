@@ -98,14 +98,14 @@ header('X-Frame-Options: SAMEORIGIN');
 
 		$bg = get_theme_mod('link_color', '#428bca');
 		echo "
-		a  {
+		a, a .listglyph  {
 		color: ".$bg.";
 		}
 		";
 
 		$bg = get_theme_mod('link_visited_color', '#7303aa');
 		echo "
-		a:visited  {
+		a:visited, a:visited .listglyph {
 		color: ".$bg.";
 		}
 		";
@@ -325,9 +325,8 @@ header('X-Frame-Options: SAMEORIGIN');
 		$jumbo_searchbox = get_option("options_search_jumbo_searchbox", false);		
 		
 		if ( $jumbo_searchbox ) echo "		
-		.altsearch { padding: 0.5em 6em 1.5em 6em; background: " . $giscc . ";   }
 		#headsearch { padding-right: 0; }
-		#searchformdiv.altsearch { padding-bottom: 1.5em; }
+		#searchformdiv.altsearch { padding: 1.75em 6em 1.75em 6em; background: " . $giscc . ";   }
 		#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: white;}
 		#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black;}
 		";
@@ -413,14 +412,14 @@ $parentpageclass.=" custom-background";
 										
 										if ( has_nav_menu( 'secondary' ) ) :?>
 											<div id='utilitybar'>
-											<?php										
-											wp_nav_menu( array( 
-											'container_class' => 'utilities', 
-											'theme_location' => 'secondary' , 
-											'depth' 		=> 2,
-											'walker' => new wp_bootstrap_navwalker(),
-											) ); ?>
-										</div>
+												<?php										
+												wp_nav_menu( array( 
+												'container_class' => 'utilities', 
+												'theme_location' => 'secondary' , 
+												'depth' 		=> 2,
+												'walker' => new wp_bootstrap_navwalker(),
+												) ); ?>
+											</div>
 										<?php
 										else:
 										?>

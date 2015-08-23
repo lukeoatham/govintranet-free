@@ -19,24 +19,13 @@ get_header();
 
 		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 		$counter = 0;	
-		if(function_exists('genarate_ajax_pagination')) {
-			$cquery = array(
-				'orderby' => 'post_date',
-			    'order' => 'DESC',
-			    'post_type' => 'blog',
-			    'posts_per_page' => 10,
-				);
-				}
-				else
-				{
-			$cquery = array(
-				'orderby' => 'post_date',
-			    'order' => 'DESC',
-			    'post_type' => 'blog',
-			    'posts_per_page' => 10,
-			    'paged' => $paged												
-				);
-		}
+		$cquery = array(
+			'orderby' => 'post_date',
+		    'order' => 'DESC',
+		    'post_type' => 'blog',
+		    'posts_per_page' => 10,
+		    'paged' => $paged												
+			);
 
        $projectspost = new WP_Query($cquery);
 	   global $k; 

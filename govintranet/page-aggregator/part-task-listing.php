@@ -54,7 +54,7 @@
 
 	add_filter('pre_get_posts', 'filter_tasks');
 
-	$listquery = new wp_query($query);
+	$listquery = new wp_query($query); 
 	if ($listquery->have_posts()) while ($listquery->have_posts()):
 		$listquery->the_post();
 		if ( !$compact ):

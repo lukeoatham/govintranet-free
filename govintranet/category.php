@@ -51,7 +51,20 @@ if ( have_posts() )
 					<div class="input-group input-md">
 						<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="How do I..." />
 						 <span class="input-group-btn">
-						<button class="btn t<?php echo $catid; ?> input-md" type="submit" ><span class="dashicons dashicons-search"></span></button>
+				    	 <?php
+					    	 $icon_override = get_option('options_search_button_override', false); 
+					    	 if ( isset($icon_override) && $icon_override ):
+						    	 $override_text = get_option('options_search_button_text', 'Search');
+								 ?>
+						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><?php echo esc_attr($override_text); ?></button>
+							 	<?php 
+					    	 else:
+						    	 ?>
+						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><span class="dashicons dashicons-search"></span></button>
+							 	<?php 
+							 endif;
+							 ?>
+							 
 						 </span>
 						<input type="hidden" value="<?php echo $catid; ?>" name = "cat" />
 						<input type="hidden" value="task" name = "post_type[]" />

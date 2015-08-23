@@ -36,7 +36,9 @@ get_header();
 						 	if ($sfilter == 'forum'){
 							 	 echo "<a href='".site_url()."/forums/'>Forums</a> &raquo; ";
 						 	} else {
-							 	 echo "<a href='".site_url()."/blog/'>Blog</a> &raquo; ";
+							 	$blogpageid = get_option("options_module_blog_page") ; 
+							 	$blogpage = get_permalink($blogpageid[0]);
+							 	 echo "<a href='". $blogpage. "'>".get_the_title($blogpageid[0])."</a> &raquo; ";
 							}
 							echo $curauth->display_name ;
 							?>

@@ -66,6 +66,7 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 	           } else {
 	                echo " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
 			   }
+			   comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 
 		echo "</p>";
 

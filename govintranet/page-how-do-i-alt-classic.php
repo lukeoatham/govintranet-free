@@ -26,7 +26,19 @@ get_header(); ?>
 					<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 					 <span class="input-group-btn">
 					 <input type="hidden" name="post_type[]" value="task" />
-					 <button class="btn btn-primary" type="submit"><span class="dashicons dashicons-search"></span></button>
+			    	 <?php
+				    	 $icon_override = get_option('options_search_button_override', false); 
+				    	 if ( isset($icon_override) && $icon_override ):
+					    	 $override_text = get_option('options_search_button_text', 'Search');
+							 ?>
+					 		<button class="btn btn-primary" type="submit"><?php echo esc_attr($override_text); ?></button>
+						 	<?php 
+				    	 else:
+					    	 ?>
+					 		<button class="btn btn-primary" type="submit"><span class="dashicons dashicons-search"></span></button>
+						 	<?php 
+						 endif;
+						 ?>
 					 </span>
 				</div><!-- /input-group -->
 			</form>

@@ -35,6 +35,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.7 - 23 Aug 2015 ###
+* Author template fix on breadcrumb link 
+* Task category pages and How do I templates follow search box override 
+* New option for aggregator template to list events by team 
+* A to Z module is now an option 
+
 ### 4.2.6 - 20 Aug 2015 ###
 * Bugfix on archive template if only 1 news update type 
 * New secondary navigation menu under the search box, built into the theme, options to show profile and login links 
