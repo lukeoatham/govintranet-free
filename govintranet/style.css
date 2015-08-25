@@ -2,7 +2,7 @@
 Theme Name: GovIntranet 4
 Theme URI: https://govintranetters.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.2.7
+Version: 4.2.8
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -732,9 +732,11 @@ p.tagcloud {
 	font-weight: bold;
 }
 #directreports img {
+	width: 50px !important;
+}
+#directreports a {
 	padding-right: 1% !important;
 	padding-bottom: 1% !important;
-	width: 50px !important;
 }
 #bbpress-forums li{
 	list-style: none !important;
@@ -819,26 +821,26 @@ background:  none !important;
 .archive #container  {
 	padding-top: 0;
 }
-#gridcontainer .indexcard {
+.indexcard {
 	list-style: none;
 	font-size: 90%;
 	font-weight: normal;
 	line-height: 130%;
 }
-#gridcontainer .indexcard  a {
+.indexcard  a {
 	padding: 0.5em 0.5em 0.5em 0.5em;
 	margin-bottom: 1em;
 }
 #container .well  {
 	min-height: 130px;
 }
-#gridcontainer .indexcard  a:link,  #container .indexcard  a:visited  {
+.indexcard  a:link,  #container .indexcard  a:visited  {
 	color: #3a6f9e;
 	text-decoration: none;
 	display: block;
 	background: #f4f4f4 !important;
 }
-#gridcontainer .indexcard  a:hover  {
+.indexcard  a:hover  {
 	list-style: none;
 	font-weight: normal;
 	background: #DEE0E2 !important;

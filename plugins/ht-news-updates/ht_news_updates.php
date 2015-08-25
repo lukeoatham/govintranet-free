@@ -11,6 +11,95 @@ Author URI: http://www.helpfultechnology.com
 class htNewsUpdates extends WP_Widget {
     function htNewsUpdates() {
         parent::WP_Widget(false, 'HT News Updates', array('description' => 'News Updates widget'));
+
+		acf_add_local_field_group(array (
+			'key' => 'group_558c858e438b9',
+			'title' => 'Update types',
+			'fields' => array (
+				array (
+					'key' => 'field_558c85a4c1c4b',
+					'label' => 'News update type',
+					'name' => 'news_update_widget_include_type',
+					'type' => 'taxonomy',
+					'instructions' => 'Choose "None" to include all alerts.',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'taxonomy' => 'news-update-type',
+					'field_type' => 'checkbox',
+					'allow_null' => 1,
+					'add_term' => 0,
+					'save_terms' => 0,
+					'load_terms' => 0,
+					'return_format' => 'id',
+					'multiple' => 0,
+				),
+				array (
+					'key' => 'field_558c96d235d45',
+					'label' => 'Update background colour',
+					'name' => 'news_update_background_colour',
+					'type' => 'color_picker',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => '',
+				),
+				array (
+					'key' => 'field_558c96e035d46',
+					'label' => 'Update text colour',
+					'name' => 'news_update_text_colour',
+					'type' => 'color_picker',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => '',
+				),
+				array (
+					'key' => 'field_558c9cb48c113',
+					'label' => 'Border colour',
+					'name' => 'news_update_border_colour',
+					'type' => 'color_picker',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => '#000000',
+				),
+			),
+			'location' => array (
+				array (
+					array (
+						'param' => 'widget',
+						'operator' => '==',
+						'value' => 'htnewsupdates',
+					),
+				),
+			),
+			'menu_order' => 0,
+			'position' => 'normal',
+			'style' => 'default',
+			'label_placement' => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen' => '',
+		));
     }
 
     function widget($args, $instance) {
@@ -69,7 +158,7 @@ class htNewsUpdates extends WP_Widget {
 
 		//display need to know stories
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_widget_include_type" ;  
-		$news_update_types = get_option($acf_key); 
+		$news_update_types = get_option($acf_key); ;
 		if ($icon=='') $icon = get_option('options_need_to_know_icon');
 		if ($icon=='') $icon = "flag";
 
@@ -82,7 +171,7 @@ class htNewsUpdates extends WP_Widget {
 		$border_height = get_option('options_widget_border_height','5');
 
 
-		if ( !$news_update_types || $news_update_types=="None") :
+		if ( !$news_update_types || count($news_update_types) < 1 ) :
 			$cquery = array(
 				'orderby' => 'post_date',
 			    'order' => 'DESC',
@@ -126,10 +215,10 @@ class htNewsUpdates extends WP_Widget {
 
 
 		if ( $title ) {
-		echo "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
-		echo $before_widget; 
-
-		echo $before_title . $title . $after_title;}
+			echo "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
+			echo $before_widget; 
+		
+			echo $before_title . $title . $after_title;}
 			echo "
 			<div class='need-to-know'>
 			<ul class='need'>";
@@ -164,13 +253,13 @@ class htNewsUpdates extends WP_Widget {
 			
 			echo "</li>";
 		}
-		if ($news->post_count!=0){
-			echo "</ul></div>";
+		if ($news->post_count!=0){ 
+			echo "</ul></div>"; 
 			if ( !$moretitle ) $moretitle = $title;
-			if ( $news_update_types ): 
+			if ( is_array($news_update_types) && count($news_update_types) < 2 ): 
 				$landingpage = get_term_link($types_array[0]->term_id, 'news-update-type');
 				echo '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
-			else:
+			else: 
 				$landingpage_link_text = $moretitle;
 				$landingpage = site_url().'/news-update/';
 				echo '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	

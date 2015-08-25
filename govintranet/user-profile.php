@@ -12,12 +12,15 @@ global $wpdb;
 $user_id = bbp_get_displayed_user_field( 'id' ); 
 $poduser = get_userdata($user_id);		
 
-	if (function_exists('get_wp_user_avatar')){	
+if (function_exists('get_wp_user_avatar')){	
 		$imgsrc = get_wp_user_avatar_src($user_id,'thumbnail');				
 		$imgsrc.= "src='".$imgsrc."' width='145'  height='145' alt='";
 		$imgsrc.= "' />";
 } else {
-	$imgsrc = get_avatar($user_id,'thumbnail');				
+		$avstyle="";
+		if ( $directorystyle==1 ) $avstyle = " img-circle";
+		$imgsrc = get_avatar($userid ,145);
+		$imgsrc = str_replace("photo", "photo ".$avstyle, $imgsrc);
 }
 
 do_action( 'bbp_template_before_user_profile' ); 
@@ -72,7 +75,7 @@ do_action( 'bbp_template_before_user_profile' );
 		endif; 
 		if ( bbp_get_displayed_user_field( 'user_twitter_handle' ) ) : 
 		?>
-			<p class="bbp-user-description"><i class="dashicons dashicons-twitter"></i> <a href="https://twitter.com/<?php bbp_displayed_user_field( 'user_twitter_handle' ); ?>">Twitter</a></p>
+			<p class="bbp-user-description"><i class="dashicons dashicons-twitter"></i> <a href="https://twitter.com/<?php bbp_displayed_user_field( 'user_twitter_handle' ); ?>"><?php bbp_displayed_user_field( 'user_twitter_handle' ); ?></a></p>
 			<?php 
 		endif; 
 		if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : 
@@ -104,7 +107,7 @@ do_action( 'bbp_template_before_user_profile' );
 		jQuery('.tlink').tooltip();
 		</script>
 		<?php 
-		$poduserparent = get_user_meta( $user_id , 'user_line_manager', true); //print_r($poduserparent);
+		$poduserparent = get_user_meta( $user_id , 'user_line_manager', true); 
 		$poduserparent = get_userdata($poduserparent);
 		echo "<div class='panel panel-default'>
 		<div class='panel-heading oc'>Organisation tree</div>
@@ -120,7 +123,10 @@ do_action( 'bbp_template_before_user_profile' );
 				} 
 				$avatarhtml.="' />";
 			} else {
-				$avatarhtml = get_avatar($poduserparent->user_id,60,'',$poduserparent->display_name);
+				$avstyle="";
+				if ( $directorystyle==1 ) $avstyle = " img-circle";
+				$avatarhtml = get_avatar($poduserparent->ID , 60,'',$poduserparent->display_name);
+				$avatarhtml = str_replace("photo", "photo ".$avstyle, $avatarhtml);
 			}
 			echo "<a title='".$poduserparent->display_name."' href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$avatarhtml."</a>";								echo "<p><a href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$poduserparent->display_name."</a><br>";
 			echo get_user_meta($poduserparent->ID,'user_job_title',true);
@@ -138,7 +144,7 @@ do_action( 'bbp_template_before_user_profile' );
 			echo "<p id='directreports'>";
 			foreach ($poduserreports as $p){ 
 				$pid = $p['user_id'];
-                $u = get_userdata($pid);//print_r($u);
+                $u = get_userdata($pid);
                 $jobtitle = get_user_meta($pid, 'user_job_title', true);
                 if ($jobtitle) $jobtitle = " - ".$jobtitle;
 				$imgstyle='';
@@ -152,9 +158,10 @@ do_action( 'bbp_template_before_user_profile' );
 					}
 					echo "<a class='tlink' data-placement='right' data-original-title = '".$u->user_nicename."' title='".$u->display_name.$jobtitle."'  href='".site_url()."/staff/".$u->user_nicename."'><img src='".$imgsrc."' ".$imgstyle." alt='".$u->display_name."'/></a>";
 				} else { 
-					$imgsrc = get_avatar($user_id,'thumbnail','',$u->display_name);				
-					$imgsrc = str_replace('height=\'96\'', 'height="50"', $imgsrc);
-					$imgsrc = str_replace('width=\'96\'', 'width="50"', $imgsrc);
+					$avstyle="";
+					if ( $directorystyle==1 ) $avstyle = " img-circle";
+					$imgsrc = get_avatar($pid, 50,'',$u->display_name);				
+					$imgsrc = str_replace("photo", "photo ".$avstyle, $imgsrc);
 					echo "<a title='".$u->display_name."' href='".site_url()."/staff/".$u->user_nicename."'>".$imgsrc."</a>";
 				}
 			}

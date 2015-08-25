@@ -35,6 +35,11 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.2.8 - 25 Aug 2015 ###
+* Multiple news update types in news update widget 
+* Staff profile and team template enhancements 
+* Bug fix for hierarchical projects 
+
 ### 4.2.7 - 23 Aug 2015 ###
 * Author template fix on breadcrumb link 
 * Task category pages and How do I templates follow search box override 

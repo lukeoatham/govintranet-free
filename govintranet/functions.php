@@ -1592,6 +1592,7 @@ register_post_type('news', array(
   'parent' => 'Parent News',
 )
 ) ); }
+
 if ( get_option( 'options_module_news_updates' ) ) add_action('init', 'cptui_register_my_cpt_news_update');
 function cptui_register_my_cpt_news_update() {
 	$labels = array(
@@ -1798,93 +1799,6 @@ acf_add_local_field_group(array (
 	'hide_on_screen' => '',
 ));
 
-acf_add_local_field_group(array (
-	'key' => 'group_558c858e438b9',
-	'title' => 'News update type',
-	'fields' => array (
-		array (
-			'key' => 'field_558c85a4c1c4b',
-			'label' => 'News update type',
-			'name' => 'news_update_widget_include_type',
-			'type' => 'taxonomy',
-			'instructions' => 'Choose "None" to include all news updates.',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'wrapper' => array (
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-			'taxonomy' => 'news-update-type',
-			'field_type' => 'radio',
-			'allow_null' => 1,
-			'add_term' => 0,
-			'load_save_terms' => 0,
-			'return_format' => 'id',
-			'multiple' => 0,
-		),
-		array (
-			'key' => 'field_558c96d235d45',
-			'label' => 'News update background colour',
-			'name' => 'news_update_background_colour',
-			'type' => 'color_picker',
-			'instructions' => '',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'wrapper' => array (
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-			'default_value' => '',
-		),
-		array (
-			'key' => 'field_558c96e035d46',
-			'label' => 'News update text colour',
-			'name' => 'news_update_text_colour',
-			'type' => 'color_picker',
-			'instructions' => '',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'wrapper' => array (
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-			'default_value' => '',
-		),
-		array (
-			'key' => 'field_558c9cb48c113',
-			'label' => 'Border colour',
-			'name' => 'news_update_border_colour',
-			'type' => 'color_picker',
-			'instructions' => '',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'wrapper' => array (
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-			'default_value' => '#000000',
-		),
-	),
-	'location' => array (
-		array (
-			array (
-				'param' => 'widget',
-				'operator' => '==',
-				'value' => 'htnewsupdates',
-			),
-		),
-	),
-	'menu_order' => 0,
-	'position' => 'normal',
-	'style' => 'default',
-	'label_placement' => 'top',
-	'instruction_placement' => 'label',
-	'hide_on_screen' => '',
-));
 }
 if ( get_option( 'options_module_projects' ) ) add_action('init', 'cptui_register_my_cpt_project');
 function cptui_register_my_cpt_project() {
@@ -4029,7 +3943,7 @@ register_field_group(array (
 	'hide_on_screen' => '',
 ));
 
-if ( get_option( 'options_module_staff_directory' )  ):
+if ( get_option( 'options_forum_support' )  ):
 register_field_group(array (
 	'key' => 'group_53bd5ee0ea856',
 	'title' => 'Users',

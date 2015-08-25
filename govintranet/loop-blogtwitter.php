@@ -45,21 +45,18 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
                $gis = "options_forum_support";
 			   $forumsupport = get_option($gis);
 
-			   if ($forumsupport){			   
+			   if ($forumsupport){	
+				   		$authorlink = "<a href='".site_url()."/author/" . $user->user_nicename . "/'>";
 						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-							echo "<a class='' href='".site_url()."/members/" . $user->user_nicename . "/'>";
+							$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
 							} 
 						elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
-							echo "<a class='' href='".site_url()."/staff/" . $user->user_nicename . "/'>";
+							$authorlink = "<a href='".site_url()."/staff/" . $user->user_nicename . "/'>";
 							}
+						echo $authorlink;
 						echo get_avatar($user->ID, 32);
 						echo "</a>&nbsp;";
-						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-							echo "<a class='' href='".site_url()."/members/" . $user->user_nicename . "/'>";
-							} 
-						elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
-							echo "<a class='' href='".site_url()."/staff/" . $user->user_nicename . "/'>";
-							}
+						echo $authorlink;
 						$auth = get_the_author();
 						echo "<span class='listglyph'>".$auth."</span>";
 						echo "</a>";

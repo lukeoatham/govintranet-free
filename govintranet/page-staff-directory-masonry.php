@@ -168,8 +168,10 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 											$avatarhtml = "<img class='img alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
 										}
 								} else {
-									//$avatarhtml = get_avatar($userid,66);
-									$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
+									$avstyle="";
+									if ( $directorystyle==1 ) $avstyle = " img-circle";
+									$avatarhtml = get_avatar($userid,66);
+									$avatarhtml = str_replace("photo", "photo alignleft".$avstyle, $avatarhtml);
 								}
 							if ($fulldetails){
 								$html .= "<div class='col-sm-4 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
@@ -178,7 +180,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 								$poduser = get_userdata($userid);
 								$terms = get_user_meta($userid ,'user_team',true );
 								if ($terms) {				
-									foreach ((array)$terms as $t ) { //print_r($taxonomy);
+									foreach ((array)$terms as $t ) { 
 										
 							  		    $themeid = $t;
 							  		    $theme = get_post($t);
@@ -203,7 +205,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
 						<?php if ( get_user_meta($userid ,'user_job_title',true )) : 
 									$meta = get_user_meta($userid ,'user_job_title',true );
-									//$meta = str_replace(" ", "&nbsp;", $meta);
 									$html.=$meta."<br>";
 							endif; ?>
 	
@@ -233,24 +234,24 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 											$avatarhtml = "<img class='img alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
 										}
 								} else {
-									$avatarhtml = get_avatar($u['user_id'],66,array('class'=>'alignleft'));
-									$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
+									$avstyle="";
+									if ( $directorystyle==1 ) $avstyle = " img-circle";
+									$avatarhtml = get_avatar($userid,66);
+									$avatarhtml = str_replace("photo", "photo alignleft".$avstyle, $avatarhtml);
 								}							
 								$html .= "<div class='col-md-4 col-sm-6 col-xs-12 pgrid-item'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								// display team name(s)
-								//$poduser = get_userdata($userid);
 								$team = get_user_meta($userid,'user_team',true);
 								//unset($poduser);
 								if ($team):
-								foreach ((array)$team as $t ) { //print_r($taxonomy); 
-									//echo $taxonomy['name'];
+								foreach ((array)$team as $t ) { 
 						  		    $themeid = $t;
 						  		    $theme = get_post($t);
 						  		    $themeparent = $theme->post_parent; 
 
 						  			if ( $themeparent == 0 ) { 
 							  			$teamlist = govintranetpress_custom_title($theme->post_title); 
-							  			$html.= "".$teamlist."<br>"; //echo $teamlist;
+							  			$html.= "".$teamlist."<br>"; 
 						  			} else {
 							  		    while ($themeparent!=0){
 							  		    	$newteam = get_post( $themeparent); 
@@ -266,7 +267,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 							
 								if ( get_user_meta($userid ,'user_job_title',true )) {
 									$meta = get_user_meta($userid ,'user_job_title',true );
-									//$meta = str_replace(" ", "&nbsp;", $meta);
 									$html .= '<span class="small">'.$meta."</span><br>";
 								}
 

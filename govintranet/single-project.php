@@ -15,33 +15,40 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 	$pagetype = "";
 	$taskpod = get_post($id);
 	$current_task = $id;
-	$parent_guide = $parent_guide_id = 0;
-	if ( $taskpod->post_parent ):
-		$parent_guide = get_post($taskpod->post_parent);
-		$parent_guide_id = $taskpod->post_parent; 	
-	endif;
-	if (!$parent_guide_id){
+	if ($post->post_parent != 0){
+		$parent_guide = get_post($post->post_parent); 
+		if ($parent_guide){
+			$parent_guide_id = $parent_guide->ID; 
+			if (!$parent_guide_id){
+				$parent_guide_id = $post->ID;
+			}
+		}
+	} else {
 		$parent_guide_id = $post->ID;
-	}	
-	$parentpod = get_post($parent_guide_id);
-	$children_chapters = get_post_meta($parent_guide_id,'children_pages',true);
-	$current_attachments = get_post_meta($parent_guide_id,'document_attachments',true);
+	}
+	$children_chapters = get_posts ("post_type=project&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order&order=ASC");
+	
 	if (!$parent_guide && !$children_chapters){
 		$singletask=true;
 		$pagetype = "task";
+		$icon = "chart-bar";
 	} else {
 		$pagetype = "guide";
+		$icon = "chart-bar";
 	};
-	if ($children_chapters && $parent_guide==''){
+
+	if ($children_chapters && !$parent_guide){
 		$chapter_header=true;
 	}
+
 	if ($parent_guide){
 		$parent_slug=$parent_guide->post_name;
-		$parent_name=govintranetpress_custom_title($parent_guide->post_title);
+		$parent_name=govintranetpress_custom_title($parent_guide->post_title); 
 		$guidetitle =$parent_name;	
 	}
+
 	if (!$parent_guide){
-		$guidetitle = govintranetpress_custom_title($taskpod->post_title);
+		$guidetitle = govintranetpress_custom_title($post->post_title);
 	}	
 	?>
 
@@ -54,152 +61,155 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			</div>
 		</div>
 		<?php 
+
 		if ($pagetype=="guide"):
-		
-			if (!$chapter_header){
-				echo "<h1>".$guidetitle."</h1>";
-			} else {?>
-				<h1><?php the_title();?> <small><i class="glyphicon glyphicon-road"></i>&nbsp;Project</small></h1>
-			<?php
-			}
+
+		?>
+		<div>
+			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> Project</small></h1>
+			<?php 
+			$podchap = get_post($parent_guide_id); 
+			$alreadydone[]=$parent_guide_id;
+			$children_chapters = get_posts("post_type=project&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order&order=ASC");
+			$totalchapters = count($children_chapters) + 1;
+			$halfchapters = round($totalchapters/2,0,PHP_ROUND_HALF_UP); 
 			?>
-			<div class="row">
-				<div class="col-lg-6">
+			<div class="chapters-container">
+				<div class="col-lg-6 col-md-6">
 					<div class="chapters">
 						<nav role="navigation" class="page-navigation">
 							<ol>
 								<?php
-								if ($chapter_header){
-									echo "<li class='active'>";
-									echo "<span class=' part-title-label'>".$guidetitle."</span>";
-								} else {
-									$chapname = $parent_name;
-									$chapslug = $parent_slug;
-									echo "<li><a href='".site_url()."/project/{$chapslug}'><span class='part-title'>{$chapname}</span></a>";
-								}
-								echo "</li>";
-								$carray = array();
-								$k=1; 
-								foreach ($children_chapters as $chaptmast){
-									$chapt = get_post($chaptmast);
-									if ($chapt->post_status=='publish'){
-										$k++;
-										if (($k == round(count($children_chapters)/2,0) + 1) && (count($children_chapters) > 3) ):?>
-												</ol>
-											</nav>
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="chapters">
-											<nav role="navigation" class="page-navigation">
-												<ol start='<?php echo $k;?>'>
-												<?php
-									endif;
-									echo "<li ";
-									if (pods_url_variable(-1) == $chapt->post_name){
-										 echo "class='active'";
-										 $current_chapter=$k;
-									}
-									echo ">";
-									$chapname = govintranetpress_custom_title($chapt->post_title);
-									$chapslug = $chapt->post_name; 
-									$carray[$k]['chapter_number']=$k;
-									$carray[$k]['slug']=$chapslug;
-									$carray[$k]['name']=$chapname;
-									if ($chapt['ID']==$current_task){
-										echo "<span class='part-label part-title'>{$chapname}</span>";
+									if ($chapter_header){
+										echo "<li class='active'>";
+										echo "<span class='part-label part-title'>".$guidetitle."</span>";
 									} else {
-										echo "<a href='".site_url()."/project/{$chapslug}'><span class='part-label part-title'>{$chapname}</span></a>";
+										$chapname = $parent_name;
+										$chapslug = $parent_slug;
+										echo "<li><a href='".get_permalink($parent_guide_id)."'><span class='part-title'>{$chapname}</span></a>";
 									}
 									echo "</li>";
-								}
-							}
-							?>
+									$carray = array();
+									$k=1; 
+									foreach ($children_chapters as $chapt){
+										if ($chapt->post_status=='publish'){
+										$k++;
+									if (($k == $halfchapters + 1) && ($totalchapters > 3) ):?>
 							</ol>
 						</nav>
 					</div>
 				</div>
+				<div class="col-lg-6 col-md-6">
+					<div class="chapters">
+						<nav role="navigation" class="page-navigation">
+							<ol start='<?php echo $k;?>'>
+									
+								<?php
+								endif;
+				
+								echo "<li ";
+								if ($id == $chapt->ID){
+									 echo "class='active'";
+									 $current_chapter=$k;
+								}
+								echo ">";
+								$chapname = govintranetpress_custom_title($chapt->post_title);
+								$chapslug = $chapt->post_name; 
+								$carray[$k]['chapter_number']=$k;
+								$carray[$k]['slug']=$chapslug;
+								$carray[$k]['name']=$chapname;
+								$carray[$k]['id']=$chapt->ID;
+								$alreadydone[]=$chapt->ID;
+								if ($chapt->ID==$current_task){
+									echo "<span class='part-label part-title'>{$chapname}</span>";
+								} else {
+									echo "<a href='".get_permalink($chapt->ID)."'><span class='part-label part-title'>{$chapname}</span></a>";
+								}
+								echo "</li>";
+								}
+							}
+?>
+						</ol>
+					</nav>
+				</div>
 			</div>
-			<hr>
-			<?php
-			endif;
-			if ($pagetype=="guide"){
-				if (!$chapter_header){
-					echo "<h2><strong>".get_the_title()."</strong></h2>";
-				} else {
-					$poverview = $taskpod->get_field('project_overview');
-					if ($poverview) : 
-						echo "<div class='well'><p><h3>Overview</h3><p>";
-						echo $poverview;
-						echo "</div>";
-					endif;
-					$policylink = get_post_meta($taskpod->ID,'policy_link',true);
-					if ($policylink){
-						echo "<p><a href ='{$policylink}'>View the associated policy on GOV.UK</a></p>"; 
-					}
-				}
-			} 
-			if ($pagetype=='task'){
-			?>
-				<h1><?php the_title();?> <small>Project</small></h1>
-			<?php
-				$poverview = get_post_meta($taskpod->ID,'project_overview',true);
-				if ($poverview) : 
-					echo "<div class='well'><p><h3>Overview</h3>";
-					echo $poverview;
-					echo "</div>";
-				endif; 
-				$policylink = get_post_meta($taskpod->ID,'policy_link',true);
-				if ($policylink){
-					echo "<p><a href ='{$policylink}'>View the associated policy on GOV.UK</a></p>"; 
-				}
-			}		
+		</div>
+	</div>
+	
+	<?php
+				
+	endif;
+	
+	if ($pagetype=="guide"){
+		echo "<div>";
+
+		echo "<div class='content-wrapper-notop'>";
+			if ($current_chapter>1){
+				echo "<h2>".$current_chapter.". ".get_the_title()."</h2>";
+			} else {
+				echo "<h2>Overview</h2>";
+			}
 
 			the_content(); 		
-			
-			$team = get_post_meta($taskpod->ID,'project_team_members',true);
-			if ($team){
-				echo "<div id='team'><hr><h2>Team members</h2>";
-				foreach ($team as $t){
-					echo do_shortcode('[people id="'.$t.'"]');
-				}
-				echo "</div><div class='clearfix'></div>";
+
+			if( have_rows('document_attachments') ) : 
+				echo "<div class='alert alert-info'>";
+				echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
+				    while ( have_rows('document_attachments') ) : the_row(); 
+						$doc = get_sub_field('document_attachment'); //print_r($doc);
+						echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
+					endwhile;
+				echo "</div>";
+			endif;
+			if ('open' == $post->comment_status) {
+				 comments_template( '', true ); 
 			}
+			echo "</div>";
 			
-			$vacancies = get_post_meta($taskpod->ID,'project_vacancies',true);
-			if ($vacancies){
-				$html = "<div id='vacancies'><hr><h2>Project vacancies</h2><ul>";
-				$k==0;
-				foreach ($vacancies as $vmast){
-					$v = get_post($vmast);
-					if ($v->post_status=='publish') {
-						$k++;
-						$html.= "<li><a href='".site_url()."/vacancy/{$v->post_name}'>".$v->post_title."</a></li>";
-					}
-				}
-				$html .= "</ul></div>";
-				if ($k>0) {
-					echo $html;
+	        echo '<div class="row">';
+	
+	        if ($chapter_header){ // if on chapter 1
+				
+				echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a>';
+				echo "</div>";
+	        } elseif ($current_chapter==2) { // if on chapter 2
+				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;Overview</a></div>';
+	            if ($carray[3]['slug']){
+					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+		        }
+	        }   else { // we're deep in the middle somewhere
+	        	$previous_chapter = $current_chapter-1; 
+				$next_chapter = $current_chapter+1;
+
+				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
+	            if ($carray[$next_chapter]['slug']){
+					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 				}
 			}
-						
+			echo "</div>";
+			echo "</div>";
+
+			} else { ?>
+				<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
+				<?php
+				the_content(); 
+
 				$current_attachments = get_field('document_attachments');
 				if ($current_attachments){
 					echo "<div class='alert alert-info'>";
-					echo "<h3>Downloads <i class='glyphicon glyphicon-download'></i></h3>";
+					echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
 						echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
 					}
 					echo "</div>";
-				}				
-			
+				}	
+
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
-
-			
-			 ?>
+		}
+		 ?>
 		</div> <!--end of first column-->
 
 		<div class="col-lg-4 col-md-4 col-sm-4">	
