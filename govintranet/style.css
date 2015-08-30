@@ -2,7 +2,7 @@
 Theme Name: GovIntranet 4
 Theme URI: https://govintranetters.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.2.8
+Version: 4.3
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -214,7 +214,16 @@ form#category-search button.btn {
 
 .radio, .checkbox { padding-left: 20px; }
 
+@media only screen and (max-width: 420px)  {
 
+#staff-search.well { padding-bottom: 4em; }
+.page-template-search-staff #staff-search.well { padding-bottom: 1em; }
+#staff-search .btn { width: 100%; height: 4em; margin-top: 5px; }
+#staff-search .input-group { display: block; }
+#staff-search .input-group .btn-group.pull-right { display: block; float: none !important; }
+#s2 { height: 4em; }
+
+}
 /* HEADER */
 
 #crownlogo {
@@ -716,7 +725,8 @@ p.tagcloud {
 	text-align: center;
 }
 .oc img {
-	width: 60px !important;
+	width: 96px !important;
+	height: 96px !important;
 }
 .bbp-user-page .panel {
 	background: whitesmoke;
@@ -732,7 +742,8 @@ p.tagcloud {
 	font-weight: bold;
 }
 #directreports img {
-	width: 50px !important;
+	width: 66px !important;
+	height: 66px !important;
 }
 #directreports a {
 	padding-right: 1% !important;
@@ -863,6 +874,12 @@ h3.contacthead {
 	min-height: 60px;
 }
 
+.bbp-user-edit table td.acf-label label { padding: 0 10px 10px 10px; font-size: 16px !important; }
+
+.bbp-user-edit table td.acf-input { width: 100%; }
+.bbp-user-edit table td.acf-input p.description { font-size: 14px !important; margin-top: 5px; }
+.bbp-user-edit table, .bbp-user-edit table tr, .bbp-user-edit table td  { border: 1px solid #eee; }
+
 /* GENERAL FORMAT AND HELPERS */
 
 img { width: auto; }
@@ -888,6 +905,7 @@ dl.dl-atoz dt.blank-atoz {  font-weight: bold; }
 .visible-phone { display: none; }
 .clearfix:after  {  content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 .small { font-size: 0.9em !important; }
+.page-template-page-staff-directory-masonry img, .single-team img { height: 66px; width: 66px; }
 
 /* GALLERY */
 
@@ -1177,35 +1195,35 @@ h3.postlist {
 
 }
 
-@media only screen and (max-width: 990px)  {
+@media only screen and (max-width: 1024px)  {
 
-.grid-sizer { width: 48% !important; }
+.grid-sizer { width: 47% !important; }
 .grid-item { width: 47% !important;	}
-.pgrid-sizer { width: 48.5% !important;	}
+.pgrid-sizer { width: 47% !important;	}
 .page-template-page-full-width-php .grid-sizer { width: 48% !important;	}
 .page-template-page-full-width-php .grid-item { width: 47% !important; }
 .page-template-page-left-nav-php .grid-sizer { width: 49% !important; }
 .page-template-page-left-nav-php .grid-item { width: 48% !important; }
 .page-template-page-left-nav-wide-php .grid-sizer { width: 49% !important; }
 .page-template-page-left-nav-wide-php .grid-item { width: 48% !important; }
+.pagination>li>a, .wp-pagenavi a { width: 60px !important; line-height: 2em; text-align: center; }
 
 }
 
-@media only screen and (max-width: 768px)  {
+@media only screen and (max-width: 767px)  {
 
 #ht-feature-news { float:none; }
 body { left: 5px; }
 #crownlink { font-size: 0.8em; }
-.grid-sizer { width: 49% !important; }
-.grid-item { width: 48% !important;	}
-.pgrid-sizer { 	width: 49% !important; }	
+.grid-sizer { width: 47% !important; }
+.grid-item { width: 47% !important;	}
+.pgrid-sizer { 	width: 48% !important; }	
 .page-template-page-full-width-php .grid-sizer { width: 49% !important;	 }
 .page-template-page-full-width-php .grid-item { width: 48% !important;	}
 .page-template-page-left-nav-php .grid-sizer { 	width: 100% !important;	}
 .page-template-page-left-nav-php .grid-item { width: 100% !important; }
 .page-template-page-left-nav-wide-php .grid-sizer { width: 49% !important;	}
 .page-template-page-left-nav-wide-php .grid-item { width: 48% !important;	}
-.pagination>li>a, .wp-pagenavi a { padding: 13px 15px !important; }
 #primarynav { background: none; }
 #primarynav ul.menu { list-style:  none; }
 #primarynav ul li { display: list-item !important;	background: none; text-align: left;	float: none; }

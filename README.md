@@ -35,6 +35,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.3 - 30 Aug 2015 ###
+* Improved handling of avatars 
+* Improved integration of user profiles 
+* Improved staff directory for tablet and mobile 
+* Options for reciprocal related links 
+
 ### 4.2.8 - 25 Aug 2015 ###
 * Multiple news update types in news update widget 
 * Staff profile and team template enhancements 

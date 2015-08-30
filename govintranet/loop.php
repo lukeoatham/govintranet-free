@@ -52,17 +52,14 @@
 		global $foundstaff;
 		$foundstaff++;
 		
-		if (function_exists('get_wp_user_avatar_src')){
-			$image_url_src = get_wp_user_avatar_src($post->user_id, 'thumbnail'); 
-			$image_url = "<img src=".$image_url_src." width='96' height='96' alt='".$post->title."' class='img";
-			$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-			if ($directorystyle==1){
-				$image_url.= ' img-circle';
-			} 
-			$image_url.=" alignleft' />";
-		} else {
-			$image_url = get_avatar($post->user_id,96);
-		}
+		$user_info = get_userdata($userid);
+		$userurl = site_url().'/staff/'.$user_info->user_nicename;
+		$displayname = get_user_meta($post->user_id ,'first_name',true )." ".get_user_meta($post->user_id ,'last_name',true );		
+		$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+		$avstyle="";
+		if ( $directorystyle==1 ) $avstyle = " img-circle";
+		$image_url = get_avatar($post->user_id ,150);
+		$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
 		$userurl = get_author_posts_url( $post->user_id); 
 		$gis = "options_forum_support";
 		$forumsupport = get_option($gis);
@@ -155,7 +152,7 @@
 		<?php 
 	elseif ($post_type=='User'): 
 		?>			
-		<div class="row"><div class="col-lg-12">
+		<div class="media"><div>
 		<h3 class='postlist'>				
 		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
 		<?php 
@@ -170,11 +167,13 @@
 		<?php
 	endif;
 	
-	echo "<a href='";
-	echo $userurl;
-	echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
+	if ( $image_url ):
+		echo "<a href='";
+		echo $userurl;
+		echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
+	endif;
 
-	echo "<div class='media-body'>";
+//	echo "<div class='media-body'>";
 	
 	if (($post_type=="Task" && $pageslug!="category")){
 		echo "<p>";
@@ -200,8 +199,15 @@
 			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 			echo '</span> ';
 		}
-		if ($post_type=="Blog"){
-			$image_url = get_avatar($post->post_author,32);
+		if ($post_type=="Blog" && !is_author() ){
+			$user_info = get_userdata($post->post_author);
+			$userurl = site_url().'/staff/'.$user_info->user_nicename;
+			$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
+			$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+			$avstyle="";
+			if ( $directorystyle==1 ) $avstyle = " img-circle";
+			$image_url = get_avatar($post->post_author , 32);
+			$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
 			$image_url = str_replace('avatar ', 'avatar32 ' , $image_url);
 			echo "&nbsp;";
 			echo $image_url;
@@ -245,7 +251,7 @@
 			echo "<div class='media'>" ;
 			?>
 			<h3 class='postlist'>				
-			<a href="<?php echo $post->link; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> <small>Tasks and guides</small>"; ?></h3>
+			<a href="<?php echo $post->link; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> "; ?></h3><span class='listglyph'>Tasks and guides category</span>
 			
 
 			<?php
@@ -288,7 +294,7 @@
 	endif; ?>
 	
 
-	</div></div>
+	</div>
 
 
 	

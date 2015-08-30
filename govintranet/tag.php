@@ -151,7 +151,7 @@ get_header();
 							$taskparent=get_post($taskpod);
 							$title_context='';
 							if ($taskparent){
-								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")"; 
+								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";  
 							}
 						}			
 					}
@@ -211,7 +211,8 @@ get_header();
 					<?php 
 					else: ?>
 						<h3>				
-						<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo "</a>"; ?></h3>
+						<a href="<?php echo get_the_permalink(get_the_id()); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?>
+						</h3>
 					
 					<?php
 					endif;

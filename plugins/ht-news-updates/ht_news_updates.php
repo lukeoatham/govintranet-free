@@ -257,7 +257,8 @@ class htNewsUpdates extends WP_Widget {
 			echo "</ul></div>"; 
 			if ( !$moretitle ) $moretitle = $title;
 			if ( is_array($news_update_types) && count($news_update_types) < 2 ): 
-				$landingpage = get_term_link($types_array[0]->term_id, 'news-update-type');
+				$term = intval($news_update_types[0]); 
+				$landingpage = get_term_link($term, 'news-update-type'); 
 				echo '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 			else: 
 				$landingpage_link_text = $moretitle;

@@ -190,7 +190,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			echo "</div>";
 
 			} else { ?>
-				<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
+				<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> Project</small></h1>
 				<?php
 				the_content(); 
 
@@ -215,46 +215,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		<div class="col-lg-4 col-md-4 col-sm-4">	
 		
 			<?php 
-				$html='';
-				$related = get_post_meta($id,'related',true);
 
-				if ($related){
-					foreach ($related as $r){ 
-						$title_context="";
-						$rlink = get_post($r);
-						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
-							$taskparent=$rlink->post_parent; 
-							if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
-								$tparent_guide_id = $taskparent->ID; 		
-								if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
-								if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-							}		
-							$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
-						}
-					}
-				}
-				
-				//get anything related to this post
-				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-				foreach ($otherrelated as $o){
-					if ($o->post_status == 'publish' && $o->ID != $id ) {
-								$taskparent=$o->post_parent; 
-								$title_context='';
-								if ($taskparent){
-									$taskparent = get_post($taskparent);
-									$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-								}		
-								$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
-						}
-				}
+			get_template_part("part", "related");
 
-				if ($related || $otherrelated){
-					echo "<div class='widget-box list'>";
-					echo "<h3 class='widget-title'>Related</h3>";
-					echo "<ul>";
-					echo $html;
-					echo "</ul></div>";
-				}		
 			$post_cat = get_the_category();
 		
 			$posttags = get_the_tags($parent_guide_id);

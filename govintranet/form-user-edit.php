@@ -87,6 +87,9 @@
 
 	</fieldset>
 
+
+	<?php if ( !function_exists("GoogleAppsLogin")): ?>
+
 	<h2 class="entry-title"><?php _e( 'Account', 'bbpress' ) ?></h2>
 
 	<fieldset class="bbp-form">
@@ -130,13 +133,15 @@
 				<span class="description"><?php _e( 'Type your new password again.', 'bbpress' ); ?></span><br />
 
 				<div id="pass-strength-result"></div>
-				<span class="description indicator-hint"><?php _e( 'Your password should be at least ten characters long. Use upper and lower case letters, numbers, and symbols to make it even stronger.', 'bbpress' ); ?></span>
+				<span class="description indicator-hint"><?php _e( 'Your password should be at least ten characters long. Phrases with numbers and symbols are easier to remember, e.g. "Her Imperial Highness has 30 handbags!"', 'bbpress' ); ?></span>
 			</fieldset>
 		</div>
 
 		<?php do_action( 'bbp_user_edit_after_account' ); ?>
 
 	</fieldset>
+
+	<?php endif; ?>
 
 	<?php if ( current_user_can( 'edit_users' ) && ! bbp_is_user_home_edit() ) : ?>
 
@@ -167,12 +172,13 @@
 
 	<?php endif; ?>
 
+	<?php if ( get_option("options_module_staff_directory")): ?>
+	<h2>Staff directory</h2>
+	<?php endif; ?>
+
 	<?php 
 	do_action( 'bbp_user_edit_after' ); 
-	
-	wp_enqueue_style('pods-select2');
-	wp_enqueue_script('pods-select2');
-		
+			
 	?>
 
 	<fieldset class="submit">

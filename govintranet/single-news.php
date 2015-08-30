@@ -85,54 +85,15 @@ remove_filter('pre_get_posts', 'filter_search');
 		</div> <!--end of first column-->
 		<div class="col-lg-4  col-md-4 col-sm-4 col-lg-offset-1">	
 			<?php
-			$alreadydone = array();
-			$related = get_post_meta($id,'related',true);
 
-				if ($related){
-					$html='';
-					foreach ($related as $r){ 
-						$title_context="";
-						$rlink = get_post($r);
-						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
-							$taskparent=$rlink->post_parent; 
-							if ($taskparent){
-								$taskparent = get_post($taskparent);
-								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-							}		
-							$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
-							$alreadydone[] = $r;
-						}
-					}
-				}
-				
-				//get anything related to this post
-				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-				foreach ($otherrelated as $o){
-					if ($o->post_status == 'publish' && $o->ID != $id ) {
-								$taskparent=$o->post_parent; 
-								$title_context='';
-								if ($taskparent){
-									$taskparent = get_post($taskparent);
-									$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-								}		
-								$html.= "<li><a href='".get_permalink($o->ID)."'>".govintranetpress_custom_title($o->post_title).$title_context."</a></li>";
-								$alreadydone[] = $o->ID;
-						}
-				}
+				get_template_part("part", "related");
 
-				if ($related || $otherrelated){
-					echo "<div class='widget-box list'>";
-					echo "<h3 class='widget-title'>Related</h3>";
-					echo "<ul>";
-					echo $html;
-					echo "</ul></div>";
-				}
 				$post_cat = get_the_terms($post->ID,'news-type');
 				if ($post_cat){
 					$html='';
 					$catTitlePrinted=false;
 					foreach($post_cat as $cat){
-					if ($cat->slug != 'uncategorized'){
+					if ( $cat->term_id > 1 ){
 						if ( !$catTitlePrinted ){
 							$catTitlePrinted = true;
 						}

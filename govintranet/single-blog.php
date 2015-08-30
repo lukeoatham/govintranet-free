@@ -55,14 +55,24 @@ get_header(); ?>
             
             echo "<div class='widget-box'><h3>Author</h3><div class='well'><div class='media'>";
             
-            $gis = "general_intranet_forum_support";
-			$forumsupport = get_option($gis); //echo $forumsupport;
+            $gis = "options_forum_support";
+			$forumsupport = get_option($gis); 
 			if ($forumsupport){
                 echo "<a class='pull-left' href='".site_url()."/staff/" . $user->user_nicename . "/'>";
             } else {
                 echo "<a class='pull-left' href='".site_url()."/author/" . $user->user_nicename . "/'>";	                        
             }
-            echo get_avatar($user->ID, 96);
+			$user_info = get_userdata($post->post_author);
+			$userurl = site_url().'/staff/'.$user_info->user_nicename;
+			$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
+			$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+			$avstyle="";
+			if ( $directorystyle==1 ) $avstyle = " img-circle";
+			$image_url = get_avatar($post->post_author , 150, "", $user_info->display_name);
+			$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
+			$image_url = str_replace('"150"', '"96"', $image_url);
+			$image_url = str_replace("'150'", "'96'", $image_url);
+            echo $image_url;
             echo "</a>";
             echo "<div class='media-body'><p class='media-heading'>";
             echo "<strong>".$user->display_name."</strong><br>";                        
@@ -75,31 +85,31 @@ get_header(); ?>
             }
             echo "<a href='".site_url()."/author/";
 			echo $user->user_nicename . "/' title='{$user->display_name}'>Blog posts</a><br>";
-//						echo "<br>".$bio;
 			echo "</div></div></div></div>";
 			
-			$related = get_post_meta($id,'related',true);
-
+				$alreadydone = array();
+				$related = get_post_meta($id,'related',true);
+	
+				$html='';
 				if ($related){
-					$html='';
 					foreach ($related as $r){ 
 						$title_context="";
 						$rlink = get_post($r);
 						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
 							$taskparent=$rlink->post_parent; 
-							if ($taskparent && in_array($rlink->post_type, array('task','project','team') ) ){
-								$tparent_guide_id = $taskparent->ID; 		
-								if ( $tparent_guide_id ) $taskparent = get_post($tparent_guide_id);
-								if ( $taskparent ) $title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+							if ($taskparent){
+								$taskparent = get_post($taskparent);
+								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 							}		
 							$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
+							$alreadydone[] = $r;
 						}
 					}
 				}
 				
 				//get anything related to this post
 				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-				if ( $otherrelated ) foreach ($otherrelated as $o){
+				foreach ($otherrelated as $o){
 					if ($o->post_status == 'publish' && $o->ID != $id ) {
 								$taskparent=$o->post_parent; 
 								$title_context='';
@@ -108,10 +118,11 @@ get_header(); ?>
 									$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 								}		
 								$html.= "<li><a href='".get_permalink($o->ID)."'>".govintranetpress_custom_title($o->post_title).$title_context."</a></li>";
+								$alreadydone[] = $o->ID;
 						}
 				}
-
-				if ($related || $otherrelated){
+	
+				if ( $html ){
 					echo "<div class='widget-box list'>";
 					echo "<h3 class='widget-title'>Related</h3>";
 					echo "<ul>";

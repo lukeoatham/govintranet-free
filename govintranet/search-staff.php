@@ -6,6 +6,7 @@
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 $showgrade = get_option('options_show_grade_on_staff_cards'); // 1 = show 
 $showmobile = get_option('options_show_mobile_on_staff_cards'); // 1 = show
+$fulldetails = get_option('options_full_detail_staff_cards'); // 1 = show
 
 get_header(); ?>
 
@@ -90,31 +91,22 @@ if ($sw) {
 	foreach ((array)$searchmasterstaff as $u){
 
 		$g = get_user_meta($u['user_id'],'user_grade',false);
-			$l = get_user_meta($u['user_id'],'last_name',false);
-			//echo $u." ".$g[0]['name']." ".$l[0]."<br> ";	
+		$l = get_user_meta($u['user_id'],'last_name',false);
 			
-			
-			$userid =  $u['user_id'];//echo $userid;
-
+		$userid =  $u['user_id'];
 
 		$context = get_user_meta($userid,'user_job_title',true);
 		if ($context=='') $context="staff";
 		$icon = "user";			
 		$user_info = get_userdata($userid);
 		$userurl = site_url().'/staff/'.$user_info->user_nicename;
-		$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );					
-		if ( function_exists('get_wp_user_avatar')){
-			$image_url = get_wp_user_avatar($userid,130,'left');
-		} else {
-			$image_url = get_avatar($userid,130);
-		}
-		$image_url = str_replace('avatar ', 'avatar img ' , $image_url);
+		$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );
+		if ( $displayname == " " ) $displayname = $user_info->display_name;
 
-		if ($directorystyle==1){
-			$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img img-circle', get_avatar($userid,66));
-		}else{
-			$avatarhtml = str_replace('avatar-66', 'avatar-66 pull-left indexcard-avatar img ', get_avatar($userid,66));
-		}
+		$avstyle="";
+		if ( $directorystyle==1 ) $avstyle = " img-circle";
+		$avatarhtml = get_avatar($userid,66);
+		$avatarhtml = str_replace(" photo", " photo alignleft".$avstyle, $avatarhtml);
 
 		$gradedisplay='';
 		if ($showgrade){
@@ -127,16 +119,24 @@ if ($sw) {
 				
 				echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
+				$terms = get_user_meta($userid ,'user_team',true ); 
+				if ($terms) {				
+					foreach ((array)$terms as $t ) { 
+			  		    $theme = get_post($t);
+						echo govintranetpress_custom_title($theme->post_title)."<br>";
+
+			  		}
+				}  
+
 				if ( get_user_meta($userid ,'user_job_title',true )) : 
 	
-					echo get_user_meta($userid ,'user_job_title',true )."<br>";
+					echo esc_attr(get_user_meta($userid ,'user_job_title',true ))."<br>";
 	
 				endif;
-
 				
 				if ( get_user_meta($userid ,'user_telephone',true )) : 
 	
-					echo '<i class="glyphicon glyphicon-earphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
+					echo '<i class="glyphicon glyphicon-earphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.esc_attr(get_user_meta($userid ,'user_telephone',true ))."</a><br>";
 	
 				endif; 
 	
@@ -146,14 +146,22 @@ if ($sw) {
 	
 				 endif;
 	
-					echo  '<a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></p></div></div></div>';
-					
-					$counter++;	
+				echo  '<a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></p></div></div></div>';
+				
+				$counter++;	
 
 			
 		} //end full details
 		else {  
 			echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
+				$terms = get_user_meta($userid ,'user_team',true ); 
+				if ($terms) {				
+					foreach ((array)$terms as $t ) { 
+			  		    $theme = get_post($t);
+						echo govintranetpress_custom_title($theme->post_title)."<br>";
+
+			  		}
+				}  
 			
 			if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 

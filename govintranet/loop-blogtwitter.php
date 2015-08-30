@@ -54,7 +54,15 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 							$authorlink = "<a href='".site_url()."/staff/" . $user->user_nicename . "/'>";
 							}
 						echo $authorlink;
-						echo get_avatar($user->ID, 32);
+						$user_info = get_userdata($post->post_author);
+						$userurl = site_url().'/staff/'.$user_info->user_nicename;
+						$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
+						$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+						$avstyle="";
+						if ( $directorystyle==1 ) $avstyle = " img-circle";
+						$image_url = get_avatar($post->post_author , 32);
+						$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
+						echo $image_url;
 						echo "</a>&nbsp;";
 						echo $authorlink;
 						$auth = get_the_author();

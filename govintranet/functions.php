@@ -1365,6 +1365,9 @@ remove_action('wp_title', 'bbp_title');
 
 add_image_size( "newshead", get_option('large_size_w'), get_option('large_size_h'), true );
 add_image_size( "newsmedium", 650, 200, true );
+add_image_size( "square32", 32, 32, true );
+add_image_size( "square66", 66, 66, true );
+add_image_size( "square150", 150, 150, true );
 
 /**
  * Determines the difference between two timestamps.
@@ -2517,7 +2520,9 @@ if ($homepageid = $homepage->ID):
 endif;
 
 
-register_field_group(array (
+
+
+acf_add_local_field_group(array (
 	'key' => 'group_53bd5ee07ca71',
 	'title' => 'Intranet configuration',
 	'fields' => array (
@@ -2525,7 +2530,6 @@ register_field_group(array (
 			'key' => 'field_536f7306a21ae',
 			'label' => 'Style',
 			'name' => '',
-			'prefix' => '',
 			'type' => 'tab',
 			'instructions' => '',
 			'required' => 0,
@@ -2536,14 +2540,14 @@ register_field_group(array (
 				'id' => '',
 			),
 			'placement' => 'top',
+			'endpoint' => 0,
 		),
 		array (
 			'key' => 'field_536f7343a21b0',
 			'label' => 'Header logo',
 			'name' => 'header_logo',
-			'prefix' => '',
 			'type' => 'image',
-			'instructions' => '',
+			'instructions' => 'Appears top-left in the header before your site title.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2551,17 +2555,23 @@ register_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
+			'return_format' => 'array',
 			'preview_size' => 'full',
 			'library' => 'all',
-			'return_format' => 'array',
+			'min_width' => '',
+			'min_height' => '',
+			'min_size' => '',
+			'max_width' => '',
+			'max_height' => '',
+			'max_size' => '',
+			'mime_types' => '',
 		),
 		array (
 			'key' => 'field_536f75f2a21c2',
 			'label' => 'Login logo',
 			'name' => 'login_logo',
-			'prefix' => '',
 			'type' => 'image',
-			'instructions' => '',
+			'instructions' => 'Appears above the login form.	Ideal size: 320 x 84px',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2569,17 +2579,23 @@ register_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
+			'return_format' => 'array',
 			'preview_size' => 'full',
 			'library' => 'all',
-			'return_format' => 'array',
+			'min_width' => '',
+			'min_height' => '',
+			'min_size' => '',
+			'max_width' => '',
+			'max_height' => '',
+			'max_size' => '',
+			'mime_types' => '',
 		),
 		array (
 			'key' => 'field_536f7373a21b1',
 			'label' => 'Widget border height',
 			'name' => 'widget_border_height',
-			'prefix' => '',
 			'type' => 'number',
-			'instructions' => '',
+			'instructions' => 'Height in pixels of the border that appears above widget titles.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2601,9 +2617,8 @@ register_field_group(array (
 			'key' => 'field_536f7388a21b2',
 			'label' => 'Enable automatic complementary colour',
 			'name' => 'enable_automatic_complementary_colour',
-			'prefix' => '',
 			'type' => 'true_false',
-			'instructions' => '',
+			'instructions' => 'Works in conjunction with the header background colour. Enabling this setting will provide a complementary colour for borders above widget titles. Disable to choose your own colour.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2618,9 +2633,8 @@ register_field_group(array (
 			'key' => 'field_53827c0d41550',
 			'label' => 'Complementary colour',
 			'name' => 'complementary_colour',
-			'prefix' => '',
 			'type' => 'color_picker',
-			'instructions' => '',
+			'instructions' => 'Colour of the border above widget titles.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -2642,9 +2656,8 @@ register_field_group(array (
 			'key' => 'field_536f75cda21c1',
 			'label' => 'Custom CSS code',
 			'name' => 'custom_css_code',
-			'prefix' => '',
 			'type' => 'textarea',
-			'instructions' => '',
+			'instructions' => 'Advanced users only! Customise theme styles with your own CSS.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2664,7 +2677,6 @@ register_field_group(array (
 			'key' => 'field_536f73a2a21b3',
 			'label' => 'Search',
 			'name' => '',
-			'prefix' => '',
 			'type' => 'tab',
 			'instructions' => '',
 			'required' => 0,
@@ -2675,14 +2687,14 @@ register_field_group(array (
 				'id' => '',
 			),
 			'placement' => 'top',
+			'endpoint' => 0,
 		),
 		array (
 			'key' => 'field_536f73b5a21b4',
 			'label' => 'Enable helpful search',
 			'name' => 'enable_helpful_search',
-			'prefix' => '',
 			'type' => 'true_false',
-			'instructions' => 'If searching finds a perfect match result, go directly to the page instead of showing search results.',
+			'instructions' => 'If search finds a perfect match result, go directly to the page instead of showing search results.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2697,7 +2709,6 @@ register_field_group(array (
 			'key' => 'field_536f73cca21b5',
 			'label' => 'Enable search stemmer',
 			'name' => 'enable_search_stemmer',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => 'Enrich search queries by also searching for derivatives. E.g. searching for "speak" will also search for speakers and speaking etc.',
 			'required' => 0,
@@ -2714,9 +2725,8 @@ register_field_group(array (
 			'key' => 'field_536f73e6a21b6',
 			'label' => 'Search placeholder',
 			'name' => 'search_placeholder',
-			'prefix' => '',
 			'type' => 'text',
-			'instructions' => 'Enter phrases separated by a comma to be used as a nudge in the search box.	Phrases will be used at random with the first phrase most frequent.',
+			'instructions' => 'Enter phrases separated by a comma to use as a nudge in the search box.	Phrases will appear at random with the first phrase appearing most frequently.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2737,7 +2747,7 @@ register_field_group(array (
 			'label' => 'Jumbo searchbox',
 			'name' => 'search_jumbo_searchbox',
 			'type' => 'true_false',
-			'instructions' => 'Displays are full-width search box on the homepage.',
+			'instructions' => 'Displays are full-width search box and removes the regular search box on the homepage only.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2753,7 +2763,7 @@ register_field_group(array (
 			'label' => 'Override search button icon',
 			'name' => 'search_button_override',
 			'type' => 'true_false',
-			'instructions' => '',
+			'instructions' => 'Override the default magnifying glass icon search boxes.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2769,7 +2779,7 @@ register_field_group(array (
 			'label' => 'Search button text',
 			'name' => 'search_button_text',
 			'type' => 'text',
-			'instructions' => 'To override the default search icon.',
+			'instructions' => 'Text to replace the default magnifying glass icon search boxes.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -2797,7 +2807,6 @@ register_field_group(array (
 			'key' => 'field_536f741ca21b7',
 			'label' => 'Analytics',
 			'name' => '',
-			'prefix' => '',
 			'type' => 'tab',
 			'instructions' => '',
 			'required' => 0,
@@ -2808,12 +2817,12 @@ register_field_group(array (
 				'id' => '',
 			),
 			'placement' => 'top',
+			'endpoint' => 0,
 		),
 		array (
 			'key' => 'field_536f747ca21bb',
 			'label' => 'Track homepage',
 			'name' => 'track_homepage',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => 'Track the intranet homepage in Google Analytics. If your intranet loads automatically in the browser then you may want to turn off tracking on the homepage.',
 			'required' => 0,
@@ -2830,7 +2839,6 @@ register_field_group(array (
 			'key' => 'field_536f7590a21c0',
 			'label' => 'Google tracking code',
 			'name' => 'google_tracking_code',
-			'prefix' => '',
 			'type' => 'textarea',
 			'instructions' => 'You can also enter custom Javascript here. Advanced users only.',
 			'required' => 0,
@@ -2852,7 +2860,6 @@ register_field_group(array (
 			'key' => 'field_536f74cfa21bc',
 			'label' => 'General',
 			'name' => '',
-			'prefix' => '',
 			'type' => 'tab',
 			'instructions' => '',
 			'required' => 0,
@@ -2863,12 +2870,12 @@ register_field_group(array (
 				'id' => '',
 			),
 			'placement' => 'top',
+			'endpoint' => 0,
 		),
 		array (
 			'key' => 'field_536f74f2a21bd',
 			'label' => 'Search not found',
 			'name' => 'search_not_found',
-			'prefix' => '',
 			'type' => 'text',
 			'instructions' => '',
 			'required' => 0,
@@ -2888,10 +2895,25 @@ register_field_group(array (
 			'disabled' => 0,
 		),
 		array (
+			'key' => 'field_55dddf0ea5852',
+			'label' => 'Hide reciprocal related links',
+			'name' => 'hide_reciprocal_related_links',
+			'type' => 'true_false',
+			'instructions' => 'By default, if you create a related link on one page it will be also be displayed as a related link on the destination page. Enable this option to make related links one-way.',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '',
+			'default_value' => 0,
+		),
+		array (
 			'key' => 'field_536f7505a21be',
 			'label' => '404 page not found',
 			'name' => 'page_not_found',
-			'prefix' => '',
 			'type' => 'text',
 			'instructions' => '',
 			'required' => 0,
@@ -2914,7 +2936,6 @@ register_field_group(array (
 			'key' => 'field_536f751fa21bf',
 			'label' => 'Need to know icon',
 			'name' => 'need_to_know_icon',
-			'prefix' => '',
 			'type' => 'text',
 			'instructions' => 'See http://getbootstrap.com/components/#glyphicons',
 			'required' => 0,
@@ -2937,7 +2958,6 @@ register_field_group(array (
 			'key' => 'field_545ec3c99411a',
 			'label' => 'Homepage auto refresh',
 			'name' => 'homepage_auto_refresh',
-			'prefix' => '',
 			'type' => 'number',
 			'instructions' => 'Number of minutes to wait before refreshing the homepage. Enter 0 for no refresh.',
 			'required' => 1,
@@ -2961,7 +2981,6 @@ register_field_group(array (
 			'key' => 'field_536f9ff7a8af3',
 			'label' => 'Modules',
 			'name' => '',
-			'prefix' => '',
 			'type' => 'tab',
 			'instructions' => '',
 			'required' => 0,
@@ -2972,12 +2991,12 @@ register_field_group(array (
 				'id' => '',
 			),
 			'placement' => 'top',
+			'endpoint' => 0,
 		),
 		array (
 			'key' => 'field_536fa13da8af4',
 			'label' => 'News',
 			'name' => 'module_news',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -2994,7 +3013,6 @@ register_field_group(array (
 			'key' => 'field_536fa152a8af5',
 			'label' => 'News page',
 			'name' => 'module_news_page',
-			'prefix' => '',
 			'type' => 'relationship',
 			'instructions' => '',
 			'required' => 1,
@@ -3025,11 +3043,12 @@ register_field_group(array (
 			'max' => '',
 			'elements' => array (
 			),
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_558dd3eeeda3b',
-			'label' => 'Updates',
-			'name' => 'module_news_updates',
+			'label' => 'News updates',
+			'name' => 'module_udpates',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3046,7 +3065,6 @@ register_field_group(array (
 			'key' => 'field_536fa173a8af6',
 			'label' => 'Tasks and guides',
 			'name' => 'module_tasks',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3063,7 +3081,6 @@ register_field_group(array (
 			'key' => 'field_536fa18ca8af7',
 			'label' => 'How do I? page',
 			'name' => 'module_tasks_page',
-			'prefix' => '',
 			'type' => 'relationship',
 			'instructions' => '',
 			'required' => 1,
@@ -3094,14 +3111,14 @@ register_field_group(array (
 			'max' => '',
 			'elements' => array (
 			),
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_54dfc0fa682ea',
 			'label' => 'Only show tags applicable to tasks and guides',
 			'name' => 'module_tasks_showtags',
-			'prefix' => '',
 			'type' => 'true_false',
-			'instructions' => 'If checked, will display a plain tag cloud showing only tags found in tasks and guides. If unchecked, will display tags from the whole intranet in variable font sizes.',
+			'instructions' => 'If checked, will display a plain tag cloud showing only tags found in tasks and guides. If unchecked, will display tags from the whole intranet in variable font sizes, indicating volume of content.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3148,7 +3165,6 @@ register_field_group(array (
 			'key' => 'field_536fa1b3a8af8',
 			'label' => 'Projects',
 			'name' => 'module_projects',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3165,7 +3181,6 @@ register_field_group(array (
 			'key' => 'field_536fa1d7a8af9',
 			'label' => 'Projects page',
 			'name' => 'module_projects_page',
-			'prefix' => '',
 			'type' => 'relationship',
 			'instructions' => '',
 			'required' => 1,
@@ -3196,12 +3211,12 @@ register_field_group(array (
 			'max' => '',
 			'elements' => array (
 			),
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_536fa1eea8afa',
 			'label' => 'Vacancies',
 			'name' => 'module_vacancies',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3218,7 +3233,6 @@ register_field_group(array (
 			'key' => 'field_536fa1fda8afb',
 			'label' => 'Vacancies page',
 			'name' => 'module_vacancies_page',
-			'prefix' => '',
 			'type' => 'relationship',
 			'instructions' => '',
 			'required' => 1,
@@ -3249,12 +3263,12 @@ register_field_group(array (
 			'max' => '',
 			'elements' => array (
 			),
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_536fa214a8afc',
 			'label' => 'Blog posts',
 			'name' => 'module_blog',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3271,7 +3285,6 @@ register_field_group(array (
 			'key' => 'field_536fa226a8afd',
 			'label' => 'Blog page',
 			'name' => 'module_blog_page',
-			'prefix' => '',
 			'type' => 'relationship',
 			'instructions' => '',
 			'required' => 1,
@@ -3302,12 +3315,12 @@ register_field_group(array (
 			'max' => '',
 			'elements' => array (
 			),
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_536fa28bcb464',
 			'label' => 'Events',
 			'name' => 'module_events',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3324,7 +3337,6 @@ register_field_group(array (
 			'key' => 'field_536fa29acb465',
 			'label' => 'Events page',
 			'name' => 'module_events_page',
-			'prefix' => '',
 			'type' => 'relationship',
 			'instructions' => '',
 			'required' => 1,
@@ -3355,12 +3367,12 @@ register_field_group(array (
 			'max' => '',
 			'elements' => array (
 			),
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_53af48cd60e21',
 			'label' => 'Jargon buster',
 			'name' => 'module_jargon_buster',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3377,7 +3389,6 @@ register_field_group(array (
 			'key' => 'field_53af48f560e22',
 			'label' => 'Jargon buster page',
 			'name' => 'module_jargon_buster_page',
-			'prefix' => '',
 			'type' => 'relationship',
 			'instructions' => '',
 			'required' => 1,
@@ -3408,6 +3419,7 @@ register_field_group(array (
 			'max' => '',
 			'elements' => array (
 			),
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_55b7d69ff69d1',
@@ -3430,7 +3442,7 @@ register_field_group(array (
 			'label' => 'A to Z blacklist',
 			'name' => 'module_a_to_z_blacklist',
 			'type' => 'text',
-			'instructions' => 'Words longer than 2 letters to ignore.	Separate with commas.',
+			'instructions' => 'Words longer than 2 letter to ignore.	Separate with commas.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3482,12 +3494,11 @@ register_field_group(array (
 			'maxlength' => '',
 			'readonly' => 0,
 			'disabled' => 0,
-		),	
+		),
 		array (
 			'key' => 'field_54d164425d5c0',
 			'label' => 'Teams',
 			'name' => 'module_teams',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3504,9 +3515,8 @@ register_field_group(array (
 			'key' => 'field_536f764ea21c4',
 			'label' => 'Enable user account support',
 			'name' => 'forum_support',
-			'prefix' => '',
 			'type' => 'true_false',
-			'instructions' => '',
+			'instructions' => 'Provides support for forums (bbPress)',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -3518,60 +3528,59 @@ register_field_group(array (
 			'default_value' => 0,
 		),
 		array (
-		'key' => 'field_55d628c205b5b',
-		'label' => 'Show My Profile link',
-		'name' => 'show_my_profile',
-		'type' => 'true_false',
-		'instructions' => 'Add a "My Profile" link to the secondary menu.',
-		'required' => 0,
-		'conditional_logic' => array (
+			'key' => 'field_55d628c205b5b',
+			'label' => 'Show My Profile link',
+			'name' => 'show_my_profile',
+			'type' => 'true_false',
+			'instructions' => 'Add a "My Profile" link to the secondary menu if user is logged in.',
+			'required' => 0,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_536f764ea21c4',
+						'operator' => '==',
+						'value' => '1',
+					),
+				),
+			),
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '',
+			'default_value' => 0,
+		),
 		array (
-		array (
-		'field' => 'field_536f764ea21c4',
-		'operator' => '==',
-		'value' => '1',
+			'key' => 'field_55d6292505b5c',
+			'label' => 'Show login/logout link',
+			'name' => 'show_login_logout',
+			'type' => 'true_false',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_536f764ea21c4',
+						'operator' => '==',
+						'value' => '1',
+					),
+				),
+			),
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '',
+			'default_value' => 0,
 		),
-		),
-		),
-		'wrapper' => array (
-		'width' => '',
-		'class' => '',
-		'id' => '',
-		),
-		'message' => '',
-		'default_value' => 0,
-		),
-		array (
-		'key' => 'field_55d6292505b5c',
-		'label' => 'Show login/logout link',
-		'name' => 'show_login_logout',
-		'type' => 'true_false',
-		'instructions' => 'Add a Login or Logout link to the secondary menu.',
-		'required' => 0,
-		'conditional_logic' => array (
-		array (
-		array (
-		'field' => 'field_536f764ea21c4',
-		'operator' => '==',
-		'value' => '1',
-		),
-		),
-		),
-		'wrapper' => array (
-		'width' => '',
-		'class' => '',
-		'id' => '',
-		),
-		'message' => '',
-		'default_value' => 0,
-		),		
 		array (
 			'key' => 'field_53769e3b01f93',
 			'label' => 'Staff directory',
 			'name' => 'module_staff_directory',
-			'prefix' => '',
 			'type' => 'true_false',
-			'instructions' => '',
+			'instructions' => 'Provides support for staff directory and staff profiles. Integrates with teams, forums and blog posts.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3594,7 +3603,6 @@ register_field_group(array (
 			'key' => 'field_54cd5345482fc',
 			'label' => 'Staff directory page',
 			'name' => 'module_staff_directory_page',
-			'prefix' => '',
 			'type' => 'relationship',
 			'instructions' => '',
 			'required' => 1,
@@ -3620,19 +3628,20 @@ register_field_group(array (
 			'post_type' => array (
 				0 => 'page',
 			),
-			'taxonomy' => '',
+			'taxonomy' => array (
+			),
 			'filters' => array (
 				0 => 'search',
 			),
 			'elements' => '',
 			'max' => '',
 			'return_format' => 'object',
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_536f76c2a21c9',
 			'label' => 'Team dropdown name',
 			'name' => 'team_dropdown_name',
-			'prefix' => '',
 			'type' => 'text',
 			'instructions' => '',
 			'required' => 0,
@@ -3672,9 +3681,8 @@ register_field_group(array (
 			'key' => 'field_536f7667a21c5',
 			'label' => 'Show hyperlinks on staff cards',
 			'name' => 'full_detail_staff_cards',
-			'prefix' => '',
 			'type' => 'true_false',
-			'instructions' => 'Enabling this option allows you to click on individual links such as email address and name on staff tiles. With this option disabled, the whole staff tile is clickable.',
+			'instructions' => 'Enabling this option allows you to click on individual links such as email address and name on staff tiles. With this option disabled, the whole staff tile is clickable and links to the staff profile.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3702,7 +3710,6 @@ register_field_group(array (
 			'key' => 'field_536f7688a21c6',
 			'label' => 'Show circular avatars',
 			'name' => 'staff_directory_style',
-			'prefix' => '',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,
@@ -3732,9 +3739,8 @@ register_field_group(array (
 			'key' => 'field_536f769da21c7',
 			'label' => 'Show grade on staff cards',
 			'name' => 'show_grade_on_staff_cards',
-			'prefix' => '',
 			'type' => 'true_false',
-			'instructions' => '',
+			'instructions' => 'Requires setting a grade code for each term in the Grades taxonomy.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3762,9 +3768,8 @@ register_field_group(array (
 			'key' => 'field_536f76ada21c8',
 			'label' => 'Show mobile on staff cards',
 			'name' => 'show_mobile_on_staff_cards',
-			'prefix' => '',
 			'type' => 'true_false',
-			'instructions' => '',
+			'instructions' => 'Display mobile phone number on staff cards in the staff directory listings.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3797,7 +3802,7 @@ register_field_group(array (
 				'value' => 'acf-options',
 			),
 			array (
-				'param' => 'user_type',
+				'param' => 'current_user_role',
 				'operator' => '==',
 				'value' => 'administrator',
 			),
@@ -3810,6 +3815,7 @@ register_field_group(array (
 	'instruction_placement' => 'label',
 	'hide_on_screen' => '',
 ));
+
 
 
 
@@ -3944,7 +3950,9 @@ register_field_group(array (
 ));
 
 if ( get_option( 'options_forum_support' )  ):
-register_field_group(array (
+
+
+acf_add_local_field_group(array (
 	'key' => 'group_53bd5ee0ea856',
 	'title' => 'Users',
 	'fields' => array (
@@ -3952,11 +3960,15 @@ register_field_group(array (
 			'key' => 'field_536f6ba7c9894',
 			'label' => 'Job title',
 			'name' => 'user_job_title',
-			'prefix' => '',
 			'type' => 'text',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'default_value' => '',
 			'placeholder' => '',
 			'prepend' => '',
@@ -3970,31 +3982,41 @@ register_field_group(array (
 			'key' => 'field_5380e9782feba',
 			'label' => 'Team',
 			'name' => 'user_team',
-			'prefix' => '',
 			'type' => 'relationship',
-			'instructions' => '',
+			'instructions' => 'Choose just your local team,  e.g. if you work in Commmunications which is part of Business Services, you only need to choose Communications.',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'post_type' => array (
 				0 => 'team',
 			),
-			'taxonomy' => '',
+			'taxonomy' => array (
+			),
 			'filters' => array (
 				0 => 'search',
 			),
 			'elements' => '',
 			'max' => '',
 			'return_format' => 'id',
+			'min' => 0,
 		),
 		array (
 			'key' => 'field_536f6df635194',
 			'label' => 'Line manager',
 			'name' => 'user_line_manager',
-			'prefix' => '',
 			'type' => 'user',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'role' => '',
 			'allow_null' => 1,
 			'multiple' => 0,
@@ -4003,11 +4025,15 @@ register_field_group(array (
 			'key' => 'field_536f6d8835190',
 			'label' => 'Telephone number',
 			'name' => 'user_telephone',
-			'prefix' => '',
 			'type' => 'text',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'default_value' => '',
 			'placeholder' => '',
 			'prepend' => '',
@@ -4020,11 +4046,15 @@ register_field_group(array (
 			'key' => 'field_536f6dae35191',
 			'label' => 'Mobile number',
 			'name' => 'user_mobile',
-			'prefix' => '',
 			'type' => 'text',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'default_value' => '',
 			'placeholder' => '',
 			'prepend' => '',
@@ -4037,11 +4067,15 @@ register_field_group(array (
 			'key' => 'field_53ff41c0dd1ee',
 			'label' => 'Twitter handle',
 			'name' => 'user_twitter_handle',
-			'prefix' => '',
 			'type' => 'text',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'default_value' => '',
 			'placeholder' => '',
 			'prepend' => '',
@@ -4051,65 +4085,79 @@ register_field_group(array (
 			'disabled' => 0,
 		),
 		array (
+			'key' => 'field_55e06dd4eab2e',
+			'label' => 'LinkedIn',
+			'name' => 'user_linkedin_url',
+			'type' => 'url',
+			'instructions' => 'Provide the full URL of your LinkedIn profile page.',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'placeholder' => 'https://uk/linkedin.com/in/lukeoatham',
+		),
+		array (
 			'key' => 'field_536f6dbe35192',
 			'label' => 'Working pattern',
 			'name' => 'user_working_pattern',
-			'prefix' => '',
 			'type' => 'wysiwyg',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'default_value' => '',
 			'toolbar' => 'full',
 			'media_upload' => 1,
+			'tabs' => 'all',
 		),
 		array (
 			'key' => 'field_536f6dd135193',
 			'label' => 'Skills and experience',
 			'name' => 'user_key_skills',
-			'prefix' => '',
 			'type' => 'wysiwyg',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'default_value' => '',
 			'toolbar' => 'full',
 			'media_upload' => 1,
-		),
-		array (
-			'key' => 'field_536f6e5035195',
-			'label' => 'Order',
-			'name' => 'user_order',
-			'prefix' => '',
-			'type' => 'number',
-			'instructions' => '',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'default_value' => '',
-			'placeholder' => '',
-			'prepend' => '',
-			'append' => '',
-			'min' => '',
-			'max' => '',
-			'step' => '',
-			'readonly' => 0,
-			'disabled' => 0,
+			'tabs' => 'all',
 		),
 		array (
 			'key' => 'field_548dd1f76a830',
 			'label' => 'Grade',
 			'name' => 'user_grade',
-			'prefix' => '',
 			'type' => 'taxonomy',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
 			'taxonomy' => 'grade',
 			'field_type' => 'select',
-			'allow_null' => 1,
+			'allow_null' => 0,
 			'load_save_terms' => 0,
 			'return_format' => 'object',
 			'multiple' => 0,
+			'add_term' => 1,
+			'load_terms' => 0,
+			'save_terms' => 0,
 		),
 	),
 	'location' => array (
@@ -4128,7 +4176,65 @@ register_field_group(array (
 	'instruction_placement' => 'label',
 	'hide_on_screen' => '',
 ));
+
+
 endif;
+
+if ( get_option( 'options_module_staff_directory' )  ):
+
+acf_add_local_field_group(array (
+	'key' => 'group_55dd043b43161',
+	'title' => 'Staff directory order',
+	'fields' => array (
+		array (
+			'key' => 'field_55dd044565e83',
+			'label' => 'Order',
+			'name' => 'user_order',
+			'type' => 'number',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => 0,
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'min' => '',
+			'max' => '',
+			'step' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),
+	),
+	'location' => array (
+		array (
+			array (
+				'param' => 'user_form',
+				'operator' => '==',
+				'value' => 'all',
+			),
+			array (
+				'param' => 'current_user_role',
+				'operator' => '==',
+				'value' => 'administrator',
+			),
+		),
+	),
+	'menu_order' => 100,
+	'position' => 'normal',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
+));
+
+endif;
+
+if ( get_option( 'options_vacancies' )  ):
 
 register_field_group(array (
 	'key' => 'group_53bd5ee10ecdd',
@@ -4247,6 +4353,9 @@ register_field_group(array (
 	'instruction_placement' => 'label',
 	'hide_on_screen' => '',
 ));
+
+endif;
+
 
 acf_add_local_field_group(array (
 	'key' => 'group_54b46b388f6cb',

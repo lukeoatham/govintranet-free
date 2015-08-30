@@ -7,6 +7,8 @@
  * @subpackage Theme
  */
 
+$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+
 ?>
 
 	<?php do_action( 'bbp_template_before_user_details' ); ?>
@@ -16,7 +18,14 @@
 
 			<span class='vcard'>
 				<a class="url fn n" href="<?php bbp_user_profile_url(); ?>" title="<?php bbp_displayed_user_field( 'display_name' ); ?>" rel="me">
-					<?php echo get_avatar( bbp_get_displayed_user_field( 'user_email', 'raw' ), apply_filters( 'bbp_single_user_details_avatar_size', 150 ) ); ?>
+					<?php
+					$user_id = bbp_get_displayed_user_field( 'id' ); 
+					$avstyle="";
+					if ( $directorystyle==1 ) $avstyle = " img-circle";
+					$imgsrc = get_avatar($user_id ,150,"",bbp_get_displayed_user_field( 'display_name' ));
+					$imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
+					echo $imgsrc;
+					?>						
 				</a>
 			</span>
 
@@ -90,4 +99,5 @@
 			</ul>
 		</div><!-- #bbp-user-navigation -->
 	</div><!-- #bbp-single-user-details -->
+
 	<?php do_action( 'bbp_template_after_user_details' ); ?>

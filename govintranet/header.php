@@ -330,6 +330,11 @@ header('X-Frame-Options: SAMEORIGIN');
 		#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: white;}
 		#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black;}
 		";
+		
+		
+		if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ):
+			echo "#bbpress-forums img.avatar { border-radius: 50%; }";
+		endif;
 	?>
 	</style>
 	<!--Google Analytics-->

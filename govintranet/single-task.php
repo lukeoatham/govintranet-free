@@ -228,56 +228,17 @@ get_header(); ?>
 		<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-4">	
 
 				<?php 
-				$related = get_post_meta($id,'related',true);
 
-				if ($related){
-					$html='';
-					foreach ($related as $r){ 
-						if ( in_array( $r, $alreadydone ) ) continue;
-						$title_context="";
-						$rlink = get_post($r);
-						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
-							$taskparent=$rlink->post_parent; 
-							if ($taskparent){
-								$taskparent = get_post($taskparent);
-								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-							}		
-							$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
-							$alreadydone[] = $r;
-						}
-					}
-				}
-				
-				//get anything related to this post
-				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-				if ( $otherrelated ) foreach ($otherrelated as $o){
-					if ($o->post_status == 'publish' && $o->ID != $id && !in_array($o->ID,$alreadydone) ) {
-								$taskparent=$o->post_parent; 
-								$title_context='';
-								if ($taskparent){
-									$taskparent = get_post($taskparent);
-									$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-								}		
-								$html.= "<li><a href='".get_permalink($o->ID)."'>".govintranetpress_custom_title($o->post_title).$title_context."</a></li>";
-								$alreadydone[] = $o;
-						}
-				}
+				get_template_part("part", "related");
 
-				if ($related || $otherrelated){
-					echo "<div class='widget-box list'>";
-					echo "<h3 class='widget-title'>Related</h3>";
-					echo "<ul>";
-					echo $html;
-					echo "</ul></div>";
-				}
-
-				$post_categories = wp_get_post_categories( $post->ID );
+				$post_categories = wp_get_post_categories( $post->ID ); 
 				$cats = array();
 				$catsfound = false;	
 				$catshtml='';
 				if ($post_categories){
 					foreach($post_categories as $c){
 						$cat = get_category( $c );
+						if ( $c < 2 ) continue;
 						$catsfound = true;
 						$catshtml.= "<span><a class='wptag t".$cat->term_id."' href='".site_url()."/category/".$cat->slug."/'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 					}

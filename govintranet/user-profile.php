@@ -12,16 +12,10 @@ global $wpdb;
 $user_id = bbp_get_displayed_user_field( 'id' ); 
 $poduser = get_userdata($user_id);		
 
-if (function_exists('get_wp_user_avatar')){	
-		$imgsrc = get_wp_user_avatar_src($user_id,'thumbnail');				
-		$imgsrc.= "src='".$imgsrc."' width='145'  height='145' alt='";
-		$imgsrc.= "' />";
-} else {
-		$avstyle="";
-		if ( $directorystyle==1 ) $avstyle = " img-circle";
-		$imgsrc = get_avatar($userid ,145);
-		$imgsrc = str_replace("photo", "photo ".$avstyle, $imgsrc);
-}
+$avstyle="";
+if ( $directorystyle==1 ) $avstyle = " img-circle";
+$imgsrc = get_avatar($userid , 150);
+$imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
 
 do_action( 'bbp_template_before_user_profile' ); 
 ?>
@@ -57,7 +51,7 @@ do_action( 'bbp_template_before_user_profile' );
 			if ($jt['name']) echo "<strong>Grade: </strong>".$jt['name']."";
 		}
 		?>
-		<h3 class="contacthead" >Contact</h3>
+		<h3 class="contacthead">Contact</h3>
 		<?php 
 		if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
 			<p class="bbp-user-description"><i class="dashicons dashicons-phone"></i> <a href="tel:<?php echo str_replace(" ", "",  get_user_meta($user_id, 'user_telephone',true ) ); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
@@ -78,15 +72,23 @@ do_action( 'bbp_template_before_user_profile' );
 			<p class="bbp-user-description"><i class="dashicons dashicons-twitter"></i> <a href="https://twitter.com/<?php bbp_displayed_user_field( 'user_twitter_handle' ); ?>"><?php bbp_displayed_user_field( 'user_twitter_handle' ); ?></a></p>
 			<?php 
 		endif; 
+
+		if ( bbp_get_displayed_user_field( 'user_linkedin_url' ) ) : 
+		?>
+			<p class="bbp-user-description"><i class="dashicons dashicons-admin-site"></i> <a href="<?php bbp_displayed_user_field( 'user_linkedin_url' ); ?>">LinkedIn</a></p>
+			<?php 
+		endif; 
+
+
 		if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : 
 		?>
-			<h3 class="contacthead" >Working pattern</h3>
+			<h3 class="contacthead">Working pattern</h3>
 			<?php bbp_displayed_user_field( 'user_working_pattern' ); ?>
 			<?php 
 		endif;
 		if ( bbp_get_displayed_user_field( 'description' ) ) : 
 		?>
-			<h3 class="contacthead" >Roles and responsibilities</h3>
+			<h3 class="contacthead">Roles and responsibilities</h3>
 			<?php bbp_displayed_user_field( 'description' ); ?>
 			<?php
 		endif;
@@ -114,21 +116,13 @@ do_action( 'bbp_template_before_user_profile' );
 		<div class='panel-body'>
 		<div class='oc'>";
 		if ($poduserparent){
-			if (function_exists('get_wp_user_avatar_src')){
-				$image_url_src = get_wp_user_avatar_src($poduserparent->ID, 'thumbnail'); 
-				$avatarhtml = "<img src=".$image_url_src." width='60' height='60' alt='".$poduserparent->display_name."' class='img";
-				$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-				if ($directorystyle==1){
-					$avatarhtml.= ' img-circle';
-				} 
-				$avatarhtml.="' />";
-			} else {
-				$avstyle="";
-				if ( $directorystyle==1 ) $avstyle = " img-circle";
-				$avatarhtml = get_avatar($poduserparent->ID , 60,'',$poduserparent->display_name);
-				$avatarhtml = str_replace("photo", "photo ".$avstyle, $avatarhtml);
-			}
-			echo "<a title='".$poduserparent->display_name."' href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$avatarhtml."</a>";								echo "<p><a href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$poduserparent->display_name."</a><br>";
+			$avstyle="";
+			if ( $directorystyle==1 ) $avstyle = " img-circle";
+			$avatarhtml = get_avatar($poduserparent->ID , 150,'',$poduserparent->display_name);
+			$avatarhtml = str_replace(" photo", " photo ".$avstyle, $avatarhtml);
+			$avatarhtml = str_replace('"150"', '"96"', $avatarhtml);
+			$avatarhtml = str_replace("'150'", "'96'", $avatarhtml);
+			echo "<a title='".$poduserparent->display_name."' href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$avatarhtml."</a>";										echo "<p><a href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$poduserparent->display_name."</a><br>";
 			echo get_user_meta($poduserparent->ID,'user_job_title',true);
 			echo "</p>";
 			echo "<p><i class='dashicons dashicons-arrow-up-alt2'></i></p>";
@@ -148,22 +142,11 @@ do_action( 'bbp_template_before_user_profile' );
                 $jobtitle = get_user_meta($pid, 'user_job_title', true);
                 if ($jobtitle) $jobtitle = " - ".$jobtitle;
 				$imgstyle='';
-				if (function_exists('get_wp_user_avatar')){						
-					$imgsrc = get_wp_user_avatar_src($pid,'thumbnail','left');		
-					$imgstyle.=" width='50' height='50'";
-					if ($directorystyle==1){
-						 $imgstyle.=" class='img img-circle'";
-					}else{
-						 $imgstyle.=" class='img'";
-					}
-					echo "<a class='tlink' data-placement='right' data-original-title = '".$u->user_nicename."' title='".$u->display_name.$jobtitle."'  href='".site_url()."/staff/".$u->user_nicename."'><img src='".$imgsrc."' ".$imgstyle." alt='".$u->display_name."'/></a>";
-				} else { 
-					$avstyle="";
-					if ( $directorystyle==1 ) $avstyle = " img-circle";
-					$imgsrc = get_avatar($pid, 50,'',$u->display_name);				
-					$imgsrc = str_replace("photo", "photo ".$avstyle, $imgsrc);
-					echo "<a title='".$u->display_name."' href='".site_url()."/staff/".$u->user_nicename."'>".$imgsrc."</a>";
-				}
+				$avstyle="";
+				if ( $directorystyle==1 ) $avstyle = " img-circle";
+				$imgsrc = get_avatar($pid, 66,'',$u->display_name);				
+				$imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
+				echo "<a title='".$u->display_name."' href='".site_url()."/staff/".$u->user_nicename."'>".$imgsrc."</a>";
 			}
 			echo "</p>";
 		}

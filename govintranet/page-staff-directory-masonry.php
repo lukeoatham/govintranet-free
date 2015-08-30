@@ -28,7 +28,7 @@ if ( isset( $_GET["grade"] ) ) $grade = $_GET["grade"];
 if ( have_posts() ) while ( have_posts() ) : the_post(); 
 ?>
 	<div class="row">
-		<div class="col-lg-8 col-md-8 col-sm-8">
+		<div class="col-lg-8 col-md-8 col-sm-12">
 			<div class='breadcrumbs'>
 				<?php if(function_exists('bcn_display') && !is_front_page()) {
 					bcn_display();
@@ -160,43 +160,20 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 								if ($gradecode && $showgrade){
 									$gradedisplay = "<span class='badge pull-right'>".$gradecode."</span>";
 								}
-							 	if (function_exists('get_wp_user_avatar_src')){	
-										$imgsrc = get_wp_user_avatar_src($userid,'thumbnail');				
-										if ($directorystyle==1){
-											$avatarhtml = "<img class='img img-circle alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
-										}else{
-											$avatarhtml = "<img class='img alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
-										}
-								} else {
-									$avstyle="";
-									if ( $directorystyle==1 ) $avstyle = " img-circle";
-									$avatarhtml = get_avatar($userid,66);
-									$avatarhtml = str_replace("photo", "photo alignleft".$avstyle, $avatarhtml);
-								}
+								$avstyle="";
+								if ( $directorystyle==1 ) $avstyle = " img-circle ";
+								$avatarhtml = get_avatar($userid,66);
+								$avatarhtml = str_replace(" photo", " photo alignleft ".$avstyle, $avatarhtml);
 							if ($fulldetails){
-								$html .= "<div class='col-sm-4 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
+								$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
 								// display team name(s)
 								$poduser = get_userdata($userid);
-								$terms = get_user_meta($userid ,'user_team',true );
-								if ($terms) {				
-									foreach ((array)$terms as $t ) { 
-										
-							  		    $themeid = $t;
+								$team = get_user_meta($userid ,'user_team',true );
+								if ($team) {				
+									foreach ((array)$team as $t ) { 
 							  		    $theme = get_post($t);
-							  		    $themeURL= get_permalink($t);
-							  		    $themeparent = $theme->post_parent; 
-							  		    while ($themeparent!=0){
-							  		    	$parentteam = get_post($themeparent); 
-								  			$themeparent = $parentteam->post_parent; 
-							  		    }
-							  		    
-							  		    $parentslug = $parentteam->post_name;
-							  		    if ($parentslug && ($parentslug != $teamslug)):
-							  		    	$teamslug = $parentslug;
-								  			$teamlist= govintranetpress_custom_title($parentteam->post_title);
-								  			$html.= "".$teamlist."<br>";
-								  		endif;
+										$html.= "<a href='".get_permalink($theme->ID)."'>".govintranetpress_custom_title($theme->post_title)."</a><br>";
 			
 							  		}
 								}  
@@ -205,65 +182,33 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
 						<?php if ( get_user_meta($userid ,'user_job_title',true )) : 
 									$meta = get_user_meta($userid ,'user_job_title',true );
-									$html.=$meta."<br>";
-							endif; ?>
+									$html .= '<span class="small">'.$meta."</span><br>";
+							endif; 
 	
 							
-							<?php if ( get_user_meta($userid ,'user_telephone',true )) : 
+							if ( get_user_meta($userid ,'user_telephone',true )) $html.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span><br>";
 				
-								$html .= '<i class="dashicons dashicons-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
-				
-							endif; ?>
-				
-							<?php if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
-				
-								$html .= '<i class="dashicons dashicons-smartphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
-				
-							 endif;
-				
-								$html .= '<a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></p></div></div></div>';
+								$html .= '<span class="small"><a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></small></p></div></div></div>';
 								
 								$counter++;
 								
 							} else {
-							 	if (function_exists('get_wp_user_avatar')){	
-										$imgsrc = get_wp_user_avatar_src($u['user_id'],'thumbnail');				
-										if ($directorystyle==1){
-											$avatarhtml = "<img class='img img-circle alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
-										}else{
-											$avatarhtml = "<img class='img alignleft' src='".$imgsrc."' width='66'  height='66' alt='".$displayname."' />";
-										}
-								} else {
-									$avstyle="";
-									if ( $directorystyle==1 ) $avstyle = " img-circle";
-									$avatarhtml = get_avatar($userid,66);
-									$avatarhtml = str_replace("photo", "photo alignleft".$avstyle, $avatarhtml);
-								}							
-								$html .= "<div class='col-md-4 col-sm-6 col-xs-12 pgrid-item'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
+								$avstyle="";
+								if ( $directorystyle==1 ) $avstyle = " img-circle ";
+								$avatarhtml = get_avatar($userid,66);
+								$avatarhtml = str_replace(" photo", " photo alignleft ".$avstyle, $avatarhtml);
+								$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 								// display team name(s)
 								$team = get_user_meta($userid,'user_team',true);
-								//unset($poduser);
-								if ($team):
-								foreach ((array)$team as $t ) { 
-						  		    $themeid = $t;
-						  		    $theme = get_post($t);
-						  		    $themeparent = $theme->post_parent; 
-
-						  			if ( $themeparent == 0 ) { 
-							  			$teamlist = govintranetpress_custom_title($theme->post_title); 
-							  			$html.= "".$teamlist."<br>"; 
-						  			} else {
-							  		    while ($themeparent!=0){
-							  		    	$newteam = get_post( $themeparent); 
-								  			$themeparent = $newteam->post_parent; 
-							  		    }
-							  			$teamlist= govintranetpress_custom_title($newteam->post_title);
-							  			$html.= "".$teamlist."<br>";
+								if ($team){
+									foreach ((array)$team as $t ) { 
+							  		    $theme = get_post($t);
+										$html.= govintranetpress_custom_title($theme->post_title)."<br>";
 							  			
 						  			}
 	
 						  		}
-						  		endif;
 							
 								if ( get_user_meta($userid ,'user_job_title',true )) {
 									$meta = get_user_meta($userid ,'user_job_title',true );
