@@ -1026,7 +1026,7 @@ WHERE				$wpdb->posts.post_type = 'task' AND
         $pstyp='?posttype=project';
         }
         if ($post->post_type == 'vacancy'){
-        $pstyp='?posttype=vacancies';
+        $pstyp='?posttype=vacancy';
         }
 
         if ($post->post_type == 'task'){
@@ -4234,7 +4234,7 @@ acf_add_local_field_group(array (
 
 endif;
 
-if ( get_option( 'options_vacancies' )  ):
+if ( get_option( 'options_module_vacancies' )  ):
 
 register_field_group(array (
 	'key' => 'group_53bd5ee10ecdd',

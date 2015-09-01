@@ -241,13 +241,13 @@ class htNewsUpdates extends WP_Widget {
 			$display_types = '';
 			$display_types = array();
 			$types_array = get_the_terms($post->ID, 'news-update-type'); 
-			if ( $types_array) foreach ( $types_array as $t){
+			if ( $types_array ) foreach ( $types_array as $t ){
 					$display_types[] = $t->name;
 					$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
 					if ($icon=='') $icon = get_option('options_need_to_know_icon');
 					if ($icon=='') $icon = "flag";
-					$display_types = implode(", ", $display_types).""; 
-				}
+			}
+			$display_types = implode(", ", $display_types); 
 			echo "<li><a href='{$thisURL}' title='".$display_types." update'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
 			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 			
