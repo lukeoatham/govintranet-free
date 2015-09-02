@@ -88,7 +88,6 @@
 	</fieldset>
 
 
-	<?php if ( !function_exists("GoogleAppsLogin")): ?>
 
 	<h2 class="entry-title"><?php _e( 'Account', 'bbpress' ) ?></h2>
 
@@ -122,6 +121,7 @@
 			<?php endif; ?>
 
 		</div>
+	<?php if ( !function_exists("GoogleAppsLogin")): ?>
 
 		<div id="password">
 			<label for="pass1"><?php _e( 'New Password', 'bbpress' ); ?></label>
@@ -136,12 +136,12 @@
 				<span class="description indicator-hint"><?php _e( 'Your password should be at least ten characters long. Phrases with numbers and symbols are easier to remember, e.g. "Her Imperial Highness has 30 handbags!"', 'bbpress' ); ?></span>
 			</fieldset>
 		</div>
-
+	<?php endif; ?>
 		<?php do_action( 'bbp_user_edit_after_account' ); ?>
 
 	</fieldset>
 
-	<?php endif; ?>
+
 
 	<?php if ( current_user_can( 'edit_users' ) && ! bbp_is_user_home_edit() ) : ?>
 

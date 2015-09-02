@@ -2,7 +2,7 @@
 Theme Name: GovIntranet 4
 Theme URI: https://govintranetters.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.3.1
+Version: 4.3.2
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -1108,6 +1108,10 @@ ul.howdoi { list-style: none; }
 .howdoi a:link { text-decoration: underline; }
 .widget-box ul.howdoi { padding-left: 0 !important; }
 li p.howdesc  { margin-top: 10px; margin-bottom: 1.2em !important; }
+.page-template-page-how-do-i-alt-classic .category-block p { padding: 0.5em;}
+
+/* NEED TO KNOW NEWS */
+
 .zign2n {
 	border-top: 7px solid #787676 !important;
 	background: #f8f8f8;
@@ -1118,10 +1122,11 @@ li p.howdesc  { margin-top: 10px; margin-bottom: 1.2em !important; }
 	padding-left: 1em;
 	}
 .zign2n ul li { margin-left: 1em !important; }
-.zign2n h3 { border-top: 0 !important; margin-top: 0 !important; }
+.zign2n h3 { padding-bottom: 0.6em; }
+.home .zign2n h3 { border-top: 0 !important; margin-top: 0 !important; }
 #need-to-know ul li { border-bottom: none !important; padding: 0; padding-bottom: 0.3em; border-top: none; }
-#need-to-know ul li a:visited { color: #a6a6a6; }
-.page-template-page-how-do-i-alt-classic .category-block p { padding: 0.5em;}
+#need-to-know ul li a:visited { color: #bbbbbb; }
+
 
 /* NEWS */
 
@@ -1130,6 +1135,7 @@ li p.howdesc  { margin-top: 10px; margin-bottom: 1.2em !important; }
 #content h3.postlist>media-body>p {
 	margin-bottom: 0 !important;
 }
+
 /* FEATURE NEWS */
 
 #ht-feature-news .feature-news-t h3 {

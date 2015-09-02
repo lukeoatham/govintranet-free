@@ -35,6 +35,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.3.2 - 2 Sep 2015 ###
+* User profile edit fix 
+* Need to know widget style updates 
+
+### 4.3.1 - 1 Sep 2015 ###
+* News update plugin fix 
+
 ### 4.3 - 30 Aug 2015 ###
 * Improved handling of avatars 
 * Improved integration of user profiles 
