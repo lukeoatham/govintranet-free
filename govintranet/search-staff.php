@@ -56,14 +56,15 @@ if ($sw) {
 	<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/search-staff/' ); ?>">
 	  <div class="col-lg-12">
 		<div id="staff-search" class="well well-sm">
-				<div class="input-group">
-			    	 <input type="text" class="form-control" placeholder="Search for a name, job title, skills, phone number..." name="q" id="s2" value="<?php echo $sw;?>">
-					 <span class="input-group-btn">
-						 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-					 </span>
-				</div><!-- /input-group -->
+			<div class="input-group">
+		    	 <input type="text" class="form-control" placeholder="Search for a name, job title, skills, phone number..." name="q" id="s2" value="<?php echo $sw;?>">
+				 <label for="searchbutton" class="sr-only">Search</label>	 
+				 <span class="input-group-btn">
+					 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+				 </span>
+			</div><!-- /input-group -->
 		  </div>
-	  </div>
+	  	</div>
 	</form>
 	<script type='text/javascript'>
 	    jQuery(document).ready(function(){

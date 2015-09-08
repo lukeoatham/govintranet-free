@@ -35,6 +35,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.3.3 - 9 Sep 2015 ###
+* User profile display updates 
+* User profile edit updates 
+* Accessibility improvements for form fields 
+* Most active widget bugfix for guide chapter titles 
+* New need to know widget with AJAX 
+
 ### 4.3.2 - 2 Sep 2015 ###
 * User profile edit fix 
 * Need to know widget style updates 

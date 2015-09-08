@@ -298,22 +298,23 @@ class htMostActive extends WP_Widget {
 								$path = implode("/",$pathparts); 
 								$taskpod = get_page_by_path( $path, OBJECT, 'task');
 								if ("publish" != $taskpod->post_status) continue;
-								$tasktitle=  govintranetpress_custom_title($taskpod->post_title);
+								$tasktitle =  govintranetpress_custom_title($taskpod->post_title);
 								$taskid = $taskpod->ID;
 								$taskslug = $taskpod->post_name;
-								if ( $taskpod->post_parent ){
-									$taskpod = get_post($taskpod->post_parent);
-									if ( $showchapters != 1 ):
-										$taskid = $taskpod->ID;
-										$taskslug = $taskpod->post_name;
-									else:
-										$tasktitlecontext = " <small>(".govintranetpress_custom_title($taskpod->post_title).")</small>";
+								if ( $taskpod->post_parent ){ 
+									$taskpod2 = get_post($taskpod->post_parent);
+									if ( $showchapters != 1 ): // hide individual chapters
+										$taskid = $taskpod2->ID;
+										$taskslug = $taskpod2->post_name;
+										$tasktitle =  govintranetpress_custom_title($taskpod2->post_title);
+									else: // show individual chapters
+										$tasktitlecontext = " <small>(".govintranetpress_custom_title($taskpod2->post_title).")</small>";
 									endif;
 								}
 
 								if (!$tasktitle) continue;
 								if (in_array($taskid, $alreadydone )) continue;
-								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
+								if ( get_post_meta($taskid,'external_link',true) ) $ext="class='external-link' ";
 
 								$found = true;
 								$k++;
@@ -473,8 +474,8 @@ class htMostActive extends WP_Widget {
 
 							}		
 							if ($tasktitle!='' ){
-								$html .= "<li><a ".$ext."href='" . $res[0] . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
-								$transga[] = "<li><a ".$ext."href='" .  $res[0] . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
+								$html .= "<li><a ".$ext."href='" . get_permalink($taskid) . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
+								$transga[] = "<li><a ".$ext."href='" .  get_permalink($taskid) . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";
 								$alreadydone[] = $taskid;
 							} 				
 						}

@@ -88,7 +88,7 @@ do_action( 'bbp_template_before_user_profile' );
 		endif;
 		if ( bbp_get_displayed_user_field( 'description' ) ) : 
 		?>
-			<h3 class="contacthead">Roles and responsibilities</h3>
+			<h3 class="contacthead">About me</h3>
 			<?php bbp_displayed_user_field( 'description' ); ?>
 			<?php
 		endif;

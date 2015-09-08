@@ -19,6 +19,8 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 
 
 ?>
+	<a class="sr-only sr-only-focusable" href="#gridcontainer">Skip to staff</a>
+
 <div class="row">
 
 	<?php
@@ -59,15 +61,25 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 
 				
 				<?php if ( $directory ): ?>
-				<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/search-staff/' ); ?>">
-				  <div class="col-lg-12 col-md-12 col-sm-12">
-					<div id="staff-search" class="well well-sm">
+				<div class="col-sm-12 well well-sm">
+				<div id="staff-search">
+			  <div class="col-sm-8">
+			<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo "/"; } else { echo site_url( '/search-staff/' ); } ?>">
 						<div class="input-group">
-						    <input type="text" class="form-control pull-left" placeholder="Name, job title, skills, team, number..." name="q" id="s2" value="<?php echo the_search_query();?>">
-							<span class="input-group-btn">
-							<button class="btn btn-primary" type="submit"><i class="dashicons dashicons-search"></i></button>
+							<label for="s2" class="sr-only">Search staff</label>
+					    	 <input type="text" class="form-control pull-left" placeholder="Name, job title, skills, team, number..." name="<?php if ( function_exists('relevanssi_do_query') ) { echo "s"; } else { echo "q"; } ?>" id="s2">
+					    	 <input type="hidden" name="include" value="user">
+					    	 <input type="hidden" name="post_type[]" value="team">
+							 <span class="input-group-btn">
+								 <label for="searchbutton2" class="sr-only">Search</label>
+								 <button class="btn btn-primary" type="submit" id="searchbutton2"><i class="dashicons dashicons-search"></i></button>
 							 </span>
-							<?php
+							
+						</div><!-- /input-group -->
+			</form>
+				</div>
+				<div class="col-sm-4">
+					<?php
 							$terms = get_posts('post_type=team&posts_per_page=-1&post_parent=0&orderby=title&order=ASC');
 							if ($terms) {
 								$otherteams='';
@@ -78,13 +90,21 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						  		}  
 						  		$teamdrop = get_option('options_team_dropdown_name');
 						  		if ($teamdrop=='') $teamdrop = "Browse teams";
-						  		echo "<div class='btn-group pull-right'><button type='button' class='btn btn-info dropdown-toggle4' data-toggle='dropdown'>".$teamdrop." <span class='caret'></span></button><ul class='dropdown-menu' role='menu'>".$otherteams."</ul></div><div class='btn-group pull-right'><button class='btn btn-link disabled'></button></div>";
+						  		echo '
+								<div class="dropdown">
+								  <button class="btn btn-info pull-right dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    ' . $teamdrop . '
+								    <span class="caret"></span>
+								  </button>
+								  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">' . $otherteams . '
+								  </ul>
+								</div>					
+								';
 							}
-								?>
-						</div><!-- /input-group -->
-					  </div>
-					</div>
-				</form>
+							?>
+				</div>
+				  </div>
+			</div>
 
 				<script type='text/javascript'>
 				    jQuery(document).ready(function(){

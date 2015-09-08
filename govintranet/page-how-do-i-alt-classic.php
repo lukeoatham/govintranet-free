@@ -23,19 +23,21 @@ get_header(); ?>
 		<div class="well well-sm">
 			<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
 				<div class="input-group">
+					 <label for="sbc-s" class="sr-only">Search for</label>
 					<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 					 <span class="input-group-btn">
 					 <input type="hidden" name="post_type[]" value="task" />
+					 <label for="searchbutton2" class="sr-only">Search</label>
 			    	 <?php
 				    	 $icon_override = get_option('options_search_button_override', false); 
 				    	 if ( isset($icon_override) && $icon_override ):
 					    	 $override_text = get_option('options_search_button_text', 'Search');
 							 ?>
-					 		<button class="btn btn-primary" type="submit"><?php echo esc_attr($override_text); ?></button>
+					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><?php echo esc_attr($override_text); ?></button>
 						 	<?php 
 				    	 else:
 					    	 ?>
-					 		<button class="btn btn-primary" type="submit"><span class="dashicons dashicons-search"></span></button>
+					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span></button>
 						 	<?php 
 						 endif;
 						 ?>

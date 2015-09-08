@@ -17,21 +17,23 @@ if ($placeholder!=''){
 	$randex = "Search";
 }	
 ?>
-	<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo site_url( '/' ); ?>">
+	<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo site_url( '/' ); ?>">
 	  <div class="row">
 		  <div class="input-group">
-	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" value="<?php echo the_search_query();?>">
+			 <label for="s2" class="sr-only">Search for</label>
+	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s2" value="<?php echo the_search_query();?>">
 			 <span class="input-group-btn">
+			<label for="searchbutton" class="sr-only">Search</label>	 
 	    	 <?php
 		    	 $icon_override = get_option('options_search_button_override', false); 
 		    	 if ( isset($icon_override) && $icon_override ):
 			    	 $override_text = get_option('options_search_button_text', 'Search');
 					 ?>
-			 		<button class="btn btn-primary" type="submit"><?php echo esc_attr($override_text); ?></button>
+			 		<button class="btn btn-primary" id="searchbutton" type="submit"><?php echo esc_attr($override_text); ?></button>
 				 	<?php 
 		    	 else:
 			    	 ?>
-			 		<button class="btn btn-primary" type="submit"><span class="dashicons dashicons-search"></span></button>
+			 		<button class="btn btn-primary" id="searchbutton" type="submit"><span class="dashicons dashicons-search"></span></button>
 				 	<?php 
 				 endif;
 				 ?>
@@ -39,3 +41,14 @@ if ($placeholder!=''){
 		</div><!-- /input-group -->
 	  </div>
 	</form>
+	<script type='text/javascript'>
+	    jQuery(document).ready(function(){
+			jQuery('#searchform2').submit(function(e) {
+			    if (jQuery.trim(jQuery("#s2").val()) === "") {
+			        e.preventDefault();
+			        jQuery('#s2').focus();
+			    }
+			});	
+		});	
+	
+	</script>

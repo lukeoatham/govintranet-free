@@ -21,12 +21,12 @@
 		<?php do_action( 'bbp_user_edit_before_name' ); ?>
 
 		<div>
-			<label for="first_name"><?php _e( 'First Name', 'bbpress' ) ?></label>
+			<label for="first_name"><?php _e( 'First name', 'bbpress' ) ?></label>
 			<input type="text" name="first_name" id="first_name" value="<?php bbp_displayed_user_field( 'first_name', 'edit' ); ?>" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
 		</div>
 
 		<div>
-			<label for="last_name"><?php _e( 'Last Name', 'bbpress' ) ?></label>
+			<label for="last_name"><?php _e( 'Last name', 'bbpress' ) ?></label>
 			<input type="text" name="last_name" id="last_name" value="<?php bbp_displayed_user_field( 'last_name', 'edit' ); ?>" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
 		</div>
 
@@ -36,7 +36,7 @@
 		</div>
 
 		<div>
-			<label for="display_name"><?php _e( 'Display Name', 'bbpress' ) ?></label>
+			<label for="display_name"><?php _e( 'Display name', 'bbpress' ) ?></label>
 
 			<?php bbp_edit_user_display_name(); ?>
 
@@ -46,10 +46,10 @@
 
 	</fieldset>
 
-	<h2 class="entry-title"><?php _e( 'Contact Info', 'bbpress' ) ?></h2>
+	<h2 class="entry-title"><?php _e( 'Contact info', 'bbpress' ) ?></h2>
 
 	<fieldset class="bbp-form">
-		<legend><?php _e( 'Contact Info', 'bbpress' ) ?></legend>
+		<legend><?php _e( 'Contact info', 'bbpress' ) ?></legend>
 
 		<?php do_action( 'bbp_user_edit_before_contact' ); ?>
 
@@ -71,15 +71,15 @@
 
 	</fieldset>
 
-	<h2 class="entry-title"><?php bbp_is_user_home_edit() ? _e( 'About Yourself', 'bbpress' ) : _e( 'About the user', 'bbpress' ); ?></h2>
+	<h2 class="entry-title"><?php bbp_is_user_home_edit() ? _e( 'About yourself', 'bbpress' ) : _e( 'About the user', 'bbpress' ); ?></h2>
 
 	<fieldset class="bbp-form">
-		<legend><?php bbp_is_user_home_edit() ? _e( 'About Yourself', 'bbpress' ) : _e( 'About the user', 'bbpress' ); ?></legend>
+		<legend><?php bbp_is_user_home_edit() ? _e( 'About yourself', 'bbpress' ) : _e( 'About the user', 'bbpress' ); ?></legend>
 
 		<?php do_action( 'bbp_user_edit_before_about' ); ?>
 
 		<div>
-			<label for="description"><?php _e( 'Biographical Info', 'bbpress' ); ?></label>
+			<label for="description"><?php _e( 'About me', 'bbpress' ); ?></label>
 			<textarea name="description" id="description" rows="5" cols="30" tabindex="<?php bbp_tab_index(); ?>"><?php bbp_displayed_user_field( 'description', 'edit' ); ?></textarea>
 		</div>
 
@@ -124,7 +124,7 @@
 	<?php if ( !function_exists("GoogleAppsLogin")): ?>
 
 		<div id="password">
-			<label for="pass1"><?php _e( 'New Password', 'bbpress' ); ?></label>
+			<label for="pass1"><?php _e( 'New password', 'bbpress' ); ?></label>
 			<fieldset class="bbp-form password">
 				<input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" tabindex="<?php bbp_tab_index(); ?>" />
 				<span class="description"><?php _e( 'If you would like to change the password type a new one. Otherwise leave this blank.', 'bbpress' ); ?></span>
@@ -145,17 +145,17 @@
 
 	<?php if ( current_user_can( 'edit_users' ) && ! bbp_is_user_home_edit() ) : ?>
 
-		<h2 class="entry-title"><?php _e( 'User Role', 'bbpress' ) ?></h2>
+		<h2 class="entry-title"><?php _e( 'User role', 'bbpress' ) ?></h2>
 
 		<fieldset class="bbp-form">
-			<legend><?php _e( 'User Role', 'bbpress' ); ?></legend>
+			<legend><?php _e( 'User role', 'bbpress' ); ?></legend>
 
 			<?php do_action( 'bbp_user_edit_before_role' ); ?>
 
 			<?php if ( is_multisite() && is_super_admin() && current_user_can( 'manage_network_options' ) ) : ?>
 
 				<div>
-					<label for="super_admin"><?php _e( 'Network Role', 'bbpress' ); ?></label>
+					<label for="super_admin"><?php _e( 'Network role', 'bbpress' ); ?></label>
 					<label>
 						<input class="checkbox" type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( bbp_get_displayed_user_id() ) ); ?> tabindex="<?php bbp_tab_index(); ?>" />
 						<?php _e( 'Grant this user super admin privileges for the Network.', 'bbpress' ); ?>
@@ -173,7 +173,7 @@
 	<?php endif; ?>
 
 	<?php if ( get_option("options_module_staff_directory")): ?>
-	<h2>Staff directory</h2>
+	<h2 class="entry-title">Staff directory</h2>
 	<?php endif; ?>
 
 	<?php 
@@ -182,12 +182,13 @@
 	?>
 
 	<fieldset class="submit">
-		<legend><?php _e( 'Save Changes', 'bbpress' ); ?></legend>
+		<legend><?php _e( 'Save changes', 'bbpress' ); ?></legend>
 		<div>
 
 			<?php bbp_edit_user_form_fields(); ?>
 
-			<button type="submit" tabindex="<?php bbp_tab_index(); ?>" id="bbp_user_edit_submit" name="bbp_user_edit_submit" class="button submit user-submit"><?php bbp_is_user_home_edit() ? _e( 'Update Profile', 'bbpress' ) : _e( 'Update User', 'bbpress' ); ?></button>
+			<label for="bbp_user_edit_submit" class="sr-only">Update profile</label>
+			<input type="submit" id="bbp_user_edit_submit" name="bbp_user_edit_submit" class="button submit user-submit" value="<?php bbp_is_user_home_edit() ? _e( 'Update profile', 'bbpress' ) : _e( 'Update user', 'bbpress' ); ?>" />
 		</div>
 	</fieldset>
 

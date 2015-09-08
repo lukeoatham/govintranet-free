@@ -4105,7 +4105,7 @@ acf_add_local_field_group(array (
 			'label' => 'Working pattern',
 			'name' => 'user_working_pattern',
 			'type' => 'wysiwyg',
-			'instructions' => '',
+			'instructions' => 'Which days do you work? Where are you based?',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -4123,7 +4123,7 @@ acf_add_local_field_group(array (
 			'label' => 'Skills and experience',
 			'name' => 'user_key_skills',
 			'type' => 'wysiwyg',
-			'instructions' => '',
+			'instructions' => 'List your skills and experience so that others can find you.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
