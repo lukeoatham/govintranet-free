@@ -35,6 +35,17 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.4 - 12 Sep 2015 ###
+* Icons for tasks and guides 
+* Staff profile template updates 
+* New shortcode listteams 
+* Accessibility improvements 
+* Search templates updates 
+* Need to know news tracking 
+* New Intraverts widget using AJAX (beta) 
+* New Need to know widget using AJAX (beta) 
+* New Profile nudge widget using AJAX (beta) 
+
 ### 4.3.3 - 9 Sep 2015 ###
 * User profile display updates 
 * User profile edit updates 

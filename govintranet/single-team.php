@@ -123,13 +123,11 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 		<div class="col-md-4 col-sm-12">
 			<?php
 			wp_reset_postdata();
-			$terms = get_posts('post_type=team&posts_per_page=-1&orderby=title&order=ASC&post_parent='.$post->ID);
-			if ($terms) {
+			$teams = get_posts('post_type=team&posts_per_page=-1&orderby=menu_order , title&order=ASC&post_parent='.$post->ID);
+			if ($teams) {
 				$teamstr = '';
-		  		foreach ((array)$terms as $taxonomy ) {
-		  		    $themeid = $taxonomy->ID;
-		  		    $themeURL= $taxonomy->post_name;
-		  			$teamstr.= "<li><a href='/team/".$themeURL."/'>".govintranetpress_custom_title($taxonomy->post_title)."</a></li>";
+		  		foreach ((array)$teams as $team ) {
+		  			$teamstr.= "<li><a href='".get_permalink($team->ID)."'>".govintranetpress_custom_title($team->post_title)."</a></li>";
 				}
 				echo "<div class='widget-box'><h3 class='widget-title'>Sub-teams</h3><ul>".$teamstr."</ul></div>";
 			}  

@@ -22,8 +22,8 @@ get_header();
 
 			<!-- category search box -->
 			<div class="well">
-				<h1><?php echo the_title(); ?></h1>
-				<?php echo the_content(); ?>
+				<h1><?php  the_title(); ?></h1>
+				<?php  the_content(); ?>
 				<form class="form-horizontal" role="form" method="get" id="task-search" action="<?php echo site_url('/'); ?>">
 					<label for="cat">Search in: </label>
 					<div class="form-group input-md">
@@ -55,7 +55,7 @@ get_header();
 						 	<?php 
 				    	 else:
 					    	 ?>
-					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span></button>
+					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only">Search</span></button>
 						 	<?php 
 						 endif;
 						 ?>

@@ -78,13 +78,13 @@ get_header(); ?>
             echo "<strong>".$user->display_name."</strong><br>";                        
             $jobtitle = get_user_meta($user->ID, 'user_job_title',true);
             $bio = get_user_meta($user->ID,'description',true);                        
-			echo "<strong>".$jobtitle."</strong><br>";
+			echo "<strong>".$jobtitle."</strong><br class='blog-staff-profile-link'>";
             if ($forumsupport){
-                echo "<a href='".site_url()."/staff/";
+                echo "<a class='blog-staff-profile-link' href='".site_url()."/staff/";
 				echo $user->user_nicename . "/' title='{$user->display_name}'>Staff profile</a><br>";
             }
-            echo "<a href='".site_url()."/author/";
-			echo $user->user_nicename . "/' title='{$user->display_name}'>Blog posts</a><br>";
+            echo "<a class='blog-author-link'  href='".site_url()."/author/";
+			echo $user->user_nicename . "/' title='{$user->display_name}'>Blog posts</a><br class='blog-author-link'>";
 			echo "</div></div></div></div>";
 			
 				$alreadydone = array();

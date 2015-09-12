@@ -15,8 +15,8 @@ get_header(); ?>
 		</div>
 	</div>
 	<div class="content-wrapper">
-		<h1><?php echo the_title(); ?></h1>
-		<?php echo the_content(); ?>
+		<h1><?php  the_title(); ?></h1>
+		<?php  the_content(); ?>
 	</div>					
 
 	<div class="category-search">
@@ -37,7 +37,7 @@ get_header(); ?>
 						 	<?php 
 				    	 else:
 					    	 ?>
-					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span></button>
+					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only">Search</span></button>
 						 	<?php 
 						 endif;
 						 ?>

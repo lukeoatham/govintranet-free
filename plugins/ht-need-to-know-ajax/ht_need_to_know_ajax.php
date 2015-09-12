@@ -8,8 +8,8 @@ Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
-class htNeedToKnowAJAX extends WP_Widget {
-    function htNeedToKnowAJAX() {
+class htNeedToknowAJAX extends WP_Widget {
+    function htNeedToknowAJAX() {
         parent::WP_Widget(false, 'HT Need to know AJAX', array('description' => 'Need to know AJAX news widget'));
     }
     
@@ -112,6 +112,7 @@ function ht_need_to_know_ajax_show() {
 
 
  function load_news( $items, $title, $before_widget, $after_widget, $before_title, $after_title, $hide ) {
+ 		global $post;
  		$html = "";
 	
 		$cquery = array(
@@ -144,7 +145,7 @@ function ht_need_to_know_ajax_show() {
 			$html.= "<div class='need-to-know'><ul class='need'>"; 
 		}
 		$k=0;
-		while ($news->have_posts() && $news->post_count != $read && $show ) {
+		while ($news->have_posts()) {
 			$news->the_post();
 			if (in_array(get_the_id(), $alreadydone ) || $k > $items) continue;  //don't show if already read
 			$k++;
@@ -161,13 +162,13 @@ function ht_need_to_know_ajax_show() {
 	
 			$html.= "</li>";
 		}
-		if ($news->post_count!=0 && $news->post_count != $read && $show){
+		if ($news->post_count!=0 && $news->post_count <> $read && $show){
 			$html.= "</ul></div>";
 			$html.= $after_widget;
 		}
 		return $html;	 
  }
  
-add_action('widgets_init', create_function('', 'return register_widget("htNeedToKnowAJAX");'));
+add_action('widgets_init', create_function('', 'return register_widget("htNeedToknowAJAX");'));
 		
 ?>

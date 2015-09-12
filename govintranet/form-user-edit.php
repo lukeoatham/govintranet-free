@@ -46,6 +46,7 @@
 
 	</fieldset>
 
+<!--
 	<h2 class="entry-title"><?php _e( 'Contact info', 'bbpress' ) ?></h2>
 
 	<fieldset class="bbp-form">
@@ -70,6 +71,7 @@
 		<?php do_action( 'bbp_user_edit_after_contact' ); ?>
 
 	</fieldset>
+-->
 
 	<h2 class="entry-title"><?php bbp_is_user_home_edit() ? _e( 'About yourself', 'bbpress' ) : _e( 'About the user', 'bbpress' ); ?></h2>
 

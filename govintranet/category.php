@@ -6,6 +6,8 @@
  */
 
 get_header(); 
+$taskicon = get_option("options_module_tasks_icon_tasks", "glyphicon glyphicon-file");
+$guideicon = get_option("options_module_tasks_icon_guides", "glyphicon glyphicon-duplicate");
 $tags_open = get_option("options_module_tasks_tags_open", false );
 $catname = get_queried_object()->name;					
 $catid = get_queried_object()->term_id;	
@@ -49,6 +51,7 @@ if ( have_posts() )
 			<?php echo wpautop($catdesc); ?>
 				<form class="form-horizontal" role="form" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
 					<div class="input-group input-md">
+						<label for="sbc-s" class="sr-only">Search for</label>
 						<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="How do I..." />
 						 <span class="input-group-btn">
 				    	 <?php
@@ -60,7 +63,7 @@ if ( have_posts() )
 							 	<?php 
 					    	 else:
 						    	 ?>
-						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><span class="dashicons dashicons-search"></span></button>
+						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only">Search</span></button>
 							 	<?php 
 							 endif;
 							 ?>
@@ -110,12 +113,11 @@ if ( have_posts() )
 			'paged' => $paged,												
 			'orderby'=>'name',
 			'order'=>'ASC',
-			'post_parent'=>0,
 			)
 			);
 		else: 
 			$taskitems = new WP_Query(
-					array (
+			array (
 			'post_type'=>'task',
 			'cat'=>$catid,
 			'posts_per_page' => 25,
@@ -134,18 +136,30 @@ if ( have_posts() )
 			$ID = $post->ID;
 			$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
 			echo "<div class='newsitem'>".$image_url ;
-			echo "<hr>";			
+			echo "<hr>";	
+			$tagcontext = "";	
 			if ( get_posts(array("post_type"=>"task",'post_parent'=>$post->ID,"post_status"=>"publish"))) { 
-				$context = "guide";
-				$icon = "book";
+				$context = "Guide";
+				$icon = $guideicon;
 			} else {
-				$context = "task";
-				$icon = "hammer";
+				if ( $tasktagslug ){
+					$context = "Guide";
+					$icon = $guideicon;
+					$tagcontext = " (" . get_the_title($post->post_parent) . ")" ;
+				} else {
+					$context = "Task";
+					$icon = $taskicon;
+				}
 			}	
-			if ( get_post_meta($post->ID,'external_link',true) ) $ext="class='external-link' ";
+			$ext_icon = '';
+			$ext = '';
+			if ( get_post_format($ID) == 'link' ):
+				$ext_icon = " <span class='dashicons dashicons-migrate'></span>";
+				$ext="class='external-link' ";
+			endif;
 		
 				?>
-			<h3><a <?php echo $ext; ?>href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a>&nbsp;<small><span class="dashicons dashicons-<?php echo $icon; ?>"></span>&nbsp;<?php echo ucfirst($context); ?>
+			<h3><a <?php echo $ext; ?> href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $ext_icon; ?></a>&nbsp;<small><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $context.$tagcontext; ?>
 			<?php
 			if ( $catchildren ) foreach((array)$catchildren as $cc){
 				if ($cc->term_id != 1 && has_term($cc->term_id, 'category', $id) ){

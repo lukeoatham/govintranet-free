@@ -15,7 +15,13 @@ if ($related){
 				$taskparent = get_post($taskparent);
 				$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 			}		
-			$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
+			$ext_icon = '';
+			$ext = '';
+			if ( get_post_format($r) == 'link' ):
+				$ext_icon = " <span class='dashicons dashicons-migrate'></span> ";
+				$ext="class='external-link' ";
+			endif;
+			$html.= "<li><a href='".get_permalink($rlink->ID)."'".$ext.">".govintranetpress_custom_title($rlink->post_title).$title_context."</a>".$ext_icon."</li>";
 			$alreadydone[] = $r;
 		}
 	}

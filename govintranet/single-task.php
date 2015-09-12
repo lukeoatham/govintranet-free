@@ -15,8 +15,10 @@ if ( get_post_format($post->ID) == 'link' ){
 
 get_header(); ?>
 
-<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-	<?php
+<?php if ( have_posts() ) while ( have_posts() ) : the_post(); 
+
+	$taskicon = get_option("options_module_tasks_icon_tasks", "glyphicon glyphicon-file");
+	$guideicon = get_option("options_module_tasks_icon_guides", "glyphicon glyphicon-duplicate");
 		
 	$alreadydone = array();	
 	$chapter_header = false;
@@ -44,10 +46,10 @@ get_header(); ?>
 	if (!$parent_guide && !$children_chapters){
 		$singletask=true;
 		$pagetype = "task";
-		$icon = "hammer";
+		$icon = $taskicon;
 	} else {
 		$pagetype = "guide";
-		$icon = "book";
+		$icon = $guideicon;
 	};
 
 	if ($children_chapters && !$parent_guide){
@@ -78,7 +80,7 @@ get_header(); ?>
 
 		?>
 		<div>
-			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
+			<h1><?php echo $guidetitle; ?> <small><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 			<?php 
 			$podchap = get_post($parent_guide_id); 
 			$alreadydone[]=$parent_guide_id;
@@ -202,7 +204,7 @@ get_header(); ?>
 			echo "</div>";
 
 			} else { ?>
-				<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
+				<h1><?php echo $guidetitle; ?> <small><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 				<?php
 				the_content(); 
 

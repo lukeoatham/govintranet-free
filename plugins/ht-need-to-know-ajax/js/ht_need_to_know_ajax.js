@@ -31,7 +31,7 @@ jQuery(document).ready(function($) {
             var message = $(data).find('supplemental message').text();
             if( status == 'success' ) {
                 jQuery('.ht_need_to_know_ajax').html(message);
-				jQuery('.ht_need_to_know_ajax').slideDown(768);
+				jQuery('.ht_need_to_know_ajax').slideDown(200);
             }
         });
 

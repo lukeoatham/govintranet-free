@@ -3138,6 +3138,68 @@ acf_add_local_field_group(array (
 			'default_value' => 0,
 		),
 		array (
+			'key' => 'field_55f451fdf1fa4',
+			'label' => 'Icon for tasks',
+			'name' => 'module_tasks_icon_tasks',
+			'type' => 'text',
+			'instructions' => 'Supports glyphicons and dashicons. Use the full CSS class e.g. glyphicon glyphicon-file
+http://getbootstrap.com/components/#glyphicons
+https://developer.wordpress.org/resource/dashicons/',
+			'required' => 0,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_536fa173a8af6',
+						'operator' => '==',
+						'value' => '1',
+					),
+				),
+			),
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => 'glyphicon glyphicon-file',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),
+		array (
+			'key' => 'field_55f452abf1fa5',
+			'label' => 'Icon for guides',
+			'name' => 'module_tasks_icon_guides',
+			'type' => 'text',
+			'instructions' => 'Supports glyphicons and dashicons. Use the full CSS class e.g. glyphicon glyphicon-file
+http://getbootstrap.com/components/#glyphicons
+https://developer.wordpress.org/resource/dashicons/',
+			'required' => 0,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_536fa173a8af6',
+						'operator' => '==',
+						'value' => '1',
+					),
+				),
+			),
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => 'glyphicon glyphicon-duplicate',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),		
+		array (
 			'key' => 'field_55cfd2dc57466',
 			'label' => 'Start with tags open',
 			'name' => 'module_tasks_tags_open',
@@ -4151,11 +4213,11 @@ acf_add_local_field_group(array (
 			),
 			'taxonomy' => 'grade',
 			'field_type' => 'select',
-			'allow_null' => 0,
+			'allow_null' => 1,
 			'load_save_terms' => 0,
 			'return_format' => 'object',
 			'multiple' => 0,
-			'add_term' => 1,
+			'add_term' => 0,
 			'load_terms' => 0,
 			'save_terms' => 0,
 		),
@@ -8842,6 +8904,17 @@ function ht_landingpages_shortcode($atts,$content){
 
 add_shortcode("landingpage", "ht_landingpages_shortcode");
 
+function ht_listteams_shortcode(){
+	$args = array(
+		'echo'         => 0,
+		'post_type'    => 'team',
+		'post_status'  => 'publish',
+		'title_li'     => "", 
+	);			
+	$teams = wp_list_pages( $args );
+	return $teams;
+}
+add_shortcode("listteams", "ht_listteams_shortcode");
 
 function ht_listtags_shortcode($atts,$content){
 
@@ -8979,7 +9052,6 @@ function gi_tag_cloud($taxonomy, $term, $post_type) {
 		'post_type' => $post_type,
 		'posts_per_page' => -1,
 		'post_status' => 'publish',
-		'post_parent' => 0,
 		'tax_query' => array(
 			array(
 				'taxonomy' => $taxonomy,

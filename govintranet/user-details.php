@@ -48,7 +48,7 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 						?>
 						<li>
 							<span class='bbp-user-blogposts-created-link'>
-								<a href="<?php echo site_url("/author/").$nicename."/"; ?>" title="<?php printf( esc_attr__( "%s's blogposts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Blogposts', 'bbpress' ); ?></a>
+								<a href="<?php echo site_url("/author/").$nicename."/"; ?>" title="<?php printf( esc_attr__( "%s's blog posts", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Blog posts', 'bbpress' ); ?></a>
 							</span>
 						</li>
 						<?php
@@ -58,20 +58,20 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 					if ( get_option('options_forum_support') ): ?>
 					<li class="<?php if ( bbp_is_single_user_topics() ) :?>current<?php endif; ?>">
 						<span class='bbp-user-topics-created-link'>
-							<a href="<?php bbp_user_topics_created_url(); ?>" title="<?php printf( esc_attr__( "%s's Topics Started", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Topics started', 'bbpress' ); ?></a>
+							<a href="<?php bbp_user_topics_created_url(); ?>" title="<?php printf( esc_attr__( "%s's forum topics", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum topics', 'bbpress' ); ?></a>
 						</span>
 					</li>
 	
 					<li class="<?php if ( bbp_is_single_user_replies() ) :?>current<?php endif; ?>">
 						<span class='bbp-user-replies-created-link'>
-							<a href="<?php bbp_user_replies_created_url(); ?>" title="<?php printf( esc_attr__( "%s's Replies Created", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Replies created', 'bbpress' ); ?></a>
+							<a href="<?php bbp_user_replies_created_url(); ?>" title="<?php printf( esc_attr__( "%s's forum replies", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum replies', 'bbpress' ); ?></a>
 						</span>
 					</li>
 	
 					<?php if ( bbp_is_favorites_active() ) : ?>
 						<li class="<?php if ( bbp_is_favorites() ) :?>current<?php endif; ?>">
 							<span class="bbp-user-favorites-link">
-								<a href="<?php bbp_favorites_permalink(); ?>" title="<?php printf( esc_attr__( "%s's Favorites", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Favourites', 'bbpress' ); ?></a>
+								<a href="<?php bbp_favorites_permalink(); ?>" title="<?php printf( esc_attr__( "%s's forum favourites", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Favourites', 'bbpress' ); ?></a>
 							</span>
 						</li>
 					<?php endif; ?>
@@ -83,14 +83,14 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 					<?php if ( bbp_is_subscriptions_active() ) : ?>
 						<li class="<?php if ( bbp_is_subscriptions() ) :?>current<?php endif; ?>">
 							<span class="bbp-user-subscriptions-link">
-								<a href="<?php bbp_subscriptions_permalink(); ?>" title="<?php printf( esc_attr__( "%s's Subscriptions", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Subscriptions', 'bbpress' ); ?></a>
+								<a href="<?php bbp_subscriptions_permalink(); ?>" title="<?php printf( esc_attr__( "%s's forum subscriptions", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Subscriptions', 'bbpress' ); ?></a>
 							</span>
 						</li>
 					<?php endif; ?>
 
 					<li class="<?php if ( bbp_is_single_user_edit() ) :?>current<?php endif; ?>">
 						<span class="bbp-user-edit-link">
-							<a href="<?php bbp_user_profile_edit_url(); ?>" title="<?php printf( esc_attr__( "Edit %s's Profile", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Edit profile', 'bbpress' ); ?></a>
+							<a href="<?php bbp_user_profile_edit_url(); ?>" title="<?php printf( esc_attr__( "Edit %s's profile", 'bbpress' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Edit profile', 'bbpress' ); ?></a>
 						</span>
 					</li>
 

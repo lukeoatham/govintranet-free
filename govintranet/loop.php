@@ -159,11 +159,14 @@
 	elseif ($post_type != 'Category'): 
 		echo "<div class='media'>" ;
 		$ext_icon = '';
-		if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
-
+		$ext = '';
+		if ( get_post_format($post->ID) == 'link' ):
+			$ext_icon = "<span class='dashicons dashicons-migrate'></span>";
+			$ext="class='external-link' ";
+		endif;
 		?>
 		<h3 class='postlist'>				
-		<a href="<?php echo get_the_permalink(get_the_id()); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
+		<a href="<?php echo get_the_permalink(get_the_id()); ?>" <?php echo $ext; ?> title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
 		<?php
 	endif;
 	

@@ -41,7 +41,7 @@ class htProfileNudge extends WP_Widget {
 		
 		if (!get_user_meta($userid,'user_telephone',true) &&  !isset($_COOKIE['ht_profile_nudge_telephone']) && $telephone=='on'):
 			echo $before_widget; ?>
-			<h3><?php echo  $current_user->first_name; ?>, your number is not listed</h3>
+			<h3><?php echo  $current_user->user_firstname; ?>, your number is not listed</h3>
 			<p>We noticed that your telephone number is missing from your staff profile. You can add it now if you like?</p>
 			<form class="form-horizontal" role="form" name="update-profile" action="<?php echo plugins_url('/ht-profile-nudge/update_profile.php'); ?>" method="post">
 			<label for"phone">Telephone</label>
@@ -74,7 +74,7 @@ class htProfileNudge extends WP_Widget {
 		elseif (!get_user_meta($userid,'user_job_title',true) &&  !isset($_COOKIE['ht_profile_nudge_job_title']) && $job_title=='on'):
 		echo isset($_COOKIE['ht_profile_nudge_job_title']);
 			echo $before_widget; ?>
-			<h3><?php echo  $current_user->first_name; ?>, did you know?</h3>
+			<h3><?php echo  $current_user->user_firstname; ?>, did you know?</h3>
 			<p>Your job title is missing from your staff profile. You can add it now if you like?</p>
 			<form class="form-horizontal" role="form" name="update-profile" action="<?php echo plugins_url('/ht-profile-nudge/update_profile.php'); ?>" method="post">
 			<label for"job_title">Job title</label>
@@ -90,7 +90,7 @@ class htProfileNudge extends WP_Widget {
 		
 		elseif (!get_user_meta($userid,'user_grade',true) &&  !isset($_COOKIE['ht_profile_nudge_grade']) && $grade=='on'):
 			echo $before_widget; ?>
-			<h3>Pssst, <?php echo  $current_user->first_name; ?>!</h3> <p>Please enter your grade so that you appear correctly in team listings.</p>
+			<h3>Pssst, <?php echo  $current_user->user_firstname; ?>!</h3> <p>Please enter your grade so that you appear correctly in team listings.</p>
 			<form class="form-inline" role="form" name="update-profile" id="update-profile" action="<?php echo plugins_url('/ht-profile-nudge/update_profile.php'); ?>" method="post">
 			<select class="form-control" name="grade" id="grade">
 						  <?php
@@ -117,7 +117,7 @@ class htProfileNudge extends WP_Widget {
 		
 		elseif (!get_user_meta($userid,'user_team',true) &&  !isset($_COOKIE['ht_profile_nudge_team']) && $team=='on'):
 			echo $before_widget; ?>
-			<h3><?php echo  $current_user->first_name; ?>, join a team!</h3>
+			<h3><?php echo  $current_user->user_firstname; ?>, join a team!</h3>
 			<p>To be listed correctly in the staff directory, please choose your team:</p>
 			<form class="form-horizontal" role="form" name="update-profile" id="update-profile" action="<?php echo plugins_url('/ht-profile-nudge/update_profile.php'); ?>" method="post">
 			<label for="team">Teams</label>
@@ -148,7 +148,7 @@ class htProfileNudge extends WP_Widget {
 		
 		elseif (!get_user_meta($userid,'user_key_skills',true) &&  !isset($_COOKIE['ht_profile_nudge_skills']) && $key_skills=='on'):
 			echo $before_widget; ?>
-			<h3><?php echo  $current_user->first_name; ?>, get listed!</h3>
+			<h3><?php echo  $current_user->user_firstname; ?>, get listed!</h3>
 			<p>Make sure you appear in staff directory search results by adding your skills and experience.</p>
 			<form class="form" role="form" name="update-profile" id="update-profile" action="<?php echo plugins_url('/ht-profile-nudge/update_profile.php'); ?>" method="post">
 			<label for"key_skills">Skills and experience</label>
@@ -164,7 +164,7 @@ class htProfileNudge extends WP_Widget {
 		
 		elseif (!get_user_meta($userid,'description',true) &&  !isset($_COOKIE['ht_profile_nudge_bio']) && $bio=='on'):
 			echo $before_widget; ?>
-			<h3>About <?php echo  $current_user->first_name; ?></h3>
+			<h3>About <?php echo  $current_user->user_firstname; ?></h3>
 			<p>Your staff bio is empty. Do you want to tell us a little about yourself now?</p>
 			<form class="form" role="form" name="update-profile" id="update-profile" action="<?php echo plugins_url('/ht-profile-nudge/update_profile.php'); ?>" method="post">
 			<label for"bio">Short bio</label>
@@ -180,7 +180,7 @@ class htProfileNudge extends WP_Widget {
 	
 		elseif (!get_user_meta($userid,'user_line_manager',true) &&  !isset($_COOKIE['ht_profile_nudge_linemanager']) && $linemanager=='on'):
 			echo $before_widget; ?>
-			<h3><?php echo  $current_user->first_name; ?></h3>
+			<h3><?php echo  $current_user->user_firstname; ?></h3>
 			<p>Please set your line manager in your staff profile so that you appear correctly in the staff directory.</p>
 			<a class="btn btn-primary" href="<?php echo admin_url('/profile.php'); ?>">Update now</a> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_linemanager');"><small>I'll do it later</small></a><br>
 	<?php
@@ -188,7 +188,7 @@ class htProfileNudge extends WP_Widget {
 
 		elseif (!get_user_meta($userid,'wp_user_avatar',true) &&  !isset($_COOKIE['ht_profile_nudge_photo']) && $photo=='on'):
 			echo $before_widget; ?>
-			<h3><?php echo  $current_user->first_name; ?></h3>
+			<h3><?php echo  $current_user->user_firstname; ?></h3>
 			<p>There is no photo of you on your staff profile. Do you want to add one now?</p>
 			<a class="btn btn-primary" href="<?php echo admin_url('/profile.php'); ?>">Update now</a> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_photo');"><small>I'll do it later</small></a><br>
 	<?php

@@ -139,7 +139,7 @@ get_header(); ?>
 			<?php
 			// add did you mean function
 			 if (function_exists('relevanssi_didyoumean')) { 
-			 	relevanssi_didyoumean(get_search_query(), "<p>Did you mean: ", "?</p>", 5);
+			 	relevanssi_didyoumean(get_search_query(), "<div class='did_you_mean'><p>Did you mean? ", "</p></div>", 5);
 			 }
 			?>
 			<div class="content-wrapper">

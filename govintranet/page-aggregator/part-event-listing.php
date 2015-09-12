@@ -1,12 +1,16 @@
 <?php
-global $title;
-global $team;
-global $checkteam;
-global $num;
-global $showthumbnail;
-global $showcalendar;
-global $showlocation;
-$items = $num;
+
+$output = get_transient('aggregator_events_'.$id); 
+if ( $output == '' ):
+
+	global $title;
+	global $team;
+	global $checkteam;
+	global $num;
+	global $showthumbnail;
+	global $showcalendar;
+	global $showlocation;
+	$items = $num;
 		
 	//display forthcoming events
 	$tzone = get_option('timezone_string');
@@ -133,6 +137,10 @@ $items = $num;
 	}
 	$output.= "</div>";
 	$output.= "</div>";
+
+ 	set_transient('aggregator_events_'.$id,$output,5*60); // set cache period 5 minutes 
+
+endif;
 
 
 if ( $output ):

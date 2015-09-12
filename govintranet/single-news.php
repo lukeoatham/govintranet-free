@@ -280,5 +280,13 @@ remove_filter('pre_get_posts', 'filter_search');
 		</div> <!--end of second column-->
 			
 <?php endwhile; // end of the loop. ?>
+<script>
+	if (location.protocol === 'https:') {
+		var contype = 1;
+	}else{
+		var contype = 0;
+	}
+	setCookie('ht_need_to_know_<?php echo $post->ID; ?>','closed','10080','/',0,contype); 
+</script>
 
 <?php get_footer(); ?>
