@@ -308,11 +308,30 @@ function govintranet_comment( $comment, $args, $depth ) {
 	switch ( $comment->comment_type ) :
 		case '' :
 	?>
-	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+	<li <?php comment_class('well'); ?> id="li-comment-<?php comment_ID(); ?>">
 		<div id="comment-<?php comment_ID(); ?>">
 		<div class="comment-author vcard">
-			<?php echo get_avatar( $comment, 40 ); ?>
-			<?php printf( __( '%s <span class="says">says:</span>', 'govintranet' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
+			<?php 
+				
+			$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+			$avstyle="";
+			if ( $directorystyle==1 ) $avstyle = " img-circle";
+			$image_url = get_avatar($comment , 66);
+			$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
+			$userurl = get_author_posts_url( $comment->user_id); 
+			$gis = "options_forum_support";
+			$forumsupport = get_option($gis);
+			if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+				$userurl=str_replace('/author', '/members', $userurl); }
+			elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
+				$userurl=str_replace('/author', '/staff', $userurl);
+			}
+			$user_object = get_userdata( $comment->user_id );
+			$userdisplay = $user_object->display_name;
+			echo "<a href='".$userurl."'>".$image_url."</a>";
+			$userlink = "<a href='".$userurl."'>".$userdisplay."</a>";
+			?>
+			<?php printf( __( '%s <span class="says">says:</span>', 'govintranet' ), sprintf( '<cite class="fn">%s</cite>', $userlink ) ); ?>
 		</div><!-- .comment-author .vcard -->
 		<?php if ( $comment->comment_approved == '0' ) : ?>
 			<em><?php _e( 'Your comment is awaiting moderation.', 'govintranet' ); ?></em>
@@ -322,7 +341,7 @@ function govintranet_comment( $comment, $args, $depth ) {
 		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
 			<?php
 				/* translators: 1: date, 2: time */
-				printf( __( '%1$s at %2$s', 'govintranet' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'govintranet' ), ' ' );
+				printf( __( '<small>%1$s at %2$s</small>', 'govintranet' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'govintranet' ), ' ' );
 			?>
 		</div><!-- .comment-meta .commentmetadata -->
 
@@ -345,6 +364,8 @@ function govintranet_comment( $comment, $args, $depth ) {
 	endswitch;
 }
 endif;
+
+
 
 /**
  * Register widgetized areas, including two sidebars and four widget-ready columns in the footer.
@@ -1147,35 +1168,32 @@ function your_relevanssi_remove_punct($a) {
 */
 add_filter('relevanssi_hits_filter', 'ht_exclude_user_search');
 function ht_exclude_user_search($hits){
-	if ( isset( $_REQUEST['include'] ) && !$_REQUEST['include']=='user' && isset( $_REQUEST['post_type'] ) ): 
+	if ( ( !isset( $_GET['include'] ) || !$_GET['include']=='user' ) && isset( $_GET['post_type'] ) ): 
+		//  just search post types, no users
 		$hcount=-1;
 		$recs=array();
-		//$recs = $hits[0];
 		$newrecs = $hits;
 		foreach ($hits[0] as $h){ 
 			$hcount++;
 			if ($h->post_type!='user'):
-				//$newrecs = array_diff($newrecs, (array)$h);
-				//unset($newrecs,$hits[$h]);
 				array_push($recs, $h);
 			endif;	
 		}
 		return array($recs);
-	elseif ( isset( $_REQUEST['include'] ) && $_REQUEST['include']=='user' && !isset( $_REQUEST['post_type'] ) ): 
+	elseif ( isset( $_GET['include'] ) && $_GET['include']=='user' && !isset( $_GET['post_type'] ) ): 
+		// just search users
 		$hcount=-1;
 		$recs=array();
-		//$recs = $hits[0];
 		$newrecs = $hits;
 		foreach ($hits[0] as $h){ 
 			$hcount++;
 			if ($h->post_type=='user'):
-				//$newrecs = array_diff($newrecs, (array)$h);
-				//unset($newrecs,$hits[$h]);
 				array_push($recs, $h);
 			endif;	
 		}
 		return array($recs);
 	else:
+		// include everything
 		return $hits;
 	endif;
 }
@@ -1199,6 +1217,11 @@ function saveampersands_2($a) {
     return $a;
 }
 
+add_filter('relevanssi_get_words_query', 'fix_query');
+function fix_query($query) {
+    $query = $query . " HAVING c > 1";
+    return $query;
+}
 
 // Added to extend allowed file types in Media upload 
 add_filter('upload_mimes', 'custom_upload_mimes'); 
@@ -2954,6 +2977,42 @@ acf_add_local_field_group(array (
 			'readonly' => 0,
 			'disabled' => 0,
 		),
+		array (
+			'key' => 'field_55fe03fa315df',
+			'label' => 'Comment instructions (logged in)',
+			'name' => 'comment_instructions_logged_in',
+			'type' => 'wysiwyg',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'tabs' => 'all',
+			'toolbar' => 'basic',
+			'media_upload' => 1,
+		),
+		array (
+			'key' => 'field_56043fdd3b3c5',
+			'label' => 'Comment instructions (logged out)',
+			'name' => 'comment_instructions_logged_out',
+			'type' => 'wysiwyg',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'tabs' => 'all',
+			'toolbar' => 'basic',
+			'media_upload' => 1,
+		),			
 		array (
 			'key' => 'field_545ec3c99411a',
 			'label' => 'Homepage auto refresh',
@@ -8684,7 +8743,7 @@ if ( get_option( 'options_module_teams' ) ):
 				),
 			),
 		),
-		'menu_order' => 0,
+		'menu_order' => 20,
 		'position' => 'normal',
 		'style' => 'default',
 		'label_placement' => 'top',
@@ -8692,6 +8751,95 @@ if ( get_option( 'options_module_teams' ) ):
 		'hide_on_screen' => '',
 	));
 endif;
+
+acf_add_local_field_group(array (
+	'key' => 'group_55feb1d56546e',
+	'title' => 'Sidebar',
+	'fields' => array (
+		array (
+			'key' => 'field_55feb1e8ab53b',
+			'label' => 'Sidebar content',
+			'name' => 'ht_sidebar_content',
+			'type' => 'wysiwyg',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'tabs' => 'all',
+			'toolbar' => 'full',
+			'media_upload' => 1,
+		),
+	),
+	'location' => array (
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'page',
+			),
+		),
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'blog',
+			),
+		),
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'news',
+			),
+		),
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'vacancy',
+			),
+		),
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'project',
+			),
+		),
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'task',
+			),
+		),
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'event',
+			),
+		),
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'news-update',
+			),
+		),
+	),
+	'menu_order' => 17,
+	'position' => 'normal',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
+));
 
 endif;
 
@@ -9149,7 +9297,7 @@ add_shortcode('loginform', 'pippin_login_form_shortcode');
 //allow attributing a post to a parent that is in draft status
 function my_attributes_dropdown_pages_args($dropdown_args) {
 
-    $dropdown_args['post_status'] = array('publish','draft','private');
+    $dropdown_args['post_status'] = array('publish','draft','private','pending','future');
 
     return $dropdown_args;
 }
@@ -9270,7 +9418,6 @@ function save_keyword_meta( $post_id ) {
      */
     $slug = array('news','page','task','blogpost','project','vacancy','team','event');
 
-    // If this isn't an 'event' post, don't update it.
     if ( isset( $_POST['post_type'] ) && !in_array( $_POST['post_type'] , $slug ) ) {
         return;
     }
@@ -9312,12 +9459,45 @@ function add_loginout_link( $items, $args ) {
 			$userurl=str_replace('/author', '/staff', $userurl);
 		}	    
 	    if ( get_option("options_show_my_profile", false) ) $items .= '<li><a href="'. $userurl .'">My profile</a></li>';
-        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. wp_logout_url() .'">Log Out</a></li>';
+        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. wp_logout_url() .'">Logout</a></li>';
     }
     elseif (!is_user_logged_in() && $args->theme_location == 'secondary') {
-        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. site_url('wp-login.php') .'">Log In</a></li>';
+        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. site_url('wp-login.php') .'">Login</a></li>';
     }
     return $items;
 }
+
+
+/*
+ * Change the comment reply link to use 'Reply to &lt;Author First Name>'
+ */
+function add_comment_author_to_reply_link($link, $args, $comment){
+ 
+    $comment = get_comment( $comment );
+ 
+    // If no comment author is blank, use 'Anonymous'
+    if ( empty($comment->comment_author) ) {
+        if (!empty($comment->user_id)){
+            $user=get_userdata($comment->user_id);
+            $author=$user->user_login;
+        } else {
+            $author = __('Anonymous');
+        }
+    } else {
+        $author = $comment->comment_author;
+    }
+ 
+    // If the user provided more than a first name, use only first name
+    if(strpos($author, ' ')){
+        $author = substr($author, 0, strpos($author, ' '));
+    }
+ 
+    // Replace Reply Link with "Reply to &lt;Author First Name>"
+    $reply_link_text = $args['reply_text'];
+    $link = str_replace($reply_link_text, 'Reply to ' . $author, $link);
+ 
+    return $link;
+}
+add_filter('comment_reply_link', 'add_comment_author_to_reply_link', 10, 3);
 
 ?>

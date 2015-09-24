@@ -157,7 +157,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
 				    while ( have_rows('document_attachments') ) : the_row(); 
 						$doc = get_sub_field('document_attachment'); //print_r($doc);
-						echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
+						if ( isset($doc['title']) ) echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
 					endwhile;
 				echo "</div>";
 			endif;
@@ -200,7 +200,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 					echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
-						echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
+						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
 					}
 					echo "</div>";
 				}	
@@ -217,6 +217,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			<?php 
 
 			get_template_part("part", "related");
+
+			get_template_part("part", "sidebar");
 
 			$post_cat = get_the_category();
 		

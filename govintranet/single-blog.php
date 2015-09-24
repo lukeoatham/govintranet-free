@@ -87,71 +87,32 @@ get_header(); ?>
 			echo $user->user_nicename . "/' title='{$user->display_name}'>Blog posts</a><br class='blog-author-link'>";
 			echo "</div></div></div></div>";
 			
-				$alreadydone = array();
-				$related = get_post_meta($id,'related',true);
-	
-				$html='';
-				if ($related){
-					foreach ($related as $r){ 
-						$title_context="";
-						$rlink = get_post($r);
-						if ($rlink->post_status == 'publish' && $rlink->ID != $id ) {
-							$taskparent=$rlink->post_parent; 
-							if ($taskparent){
-								$taskparent = get_post($taskparent);
-								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-							}		
-							$html.= "<li><a href='".get_permalink($rlink->ID)."'>".govintranetpress_custom_title($rlink->post_title).$title_context."</a></li>";
-							$alreadydone[] = $r;
-						}
-					}
-				}
-				
-				//get anything related to this post
-				$otherrelated = get_posts(array('post_type'=>array('task','news','project','vacancy','blog','team','event'),'posts_per_page'=>-1,'exclude'=>$related,'meta_query'=>array(array('key'=>'related','compare'=>'LIKE','value'=>'"'.$id.'"')))); 
-				foreach ($otherrelated as $o){
-					if ($o->post_status == 'publish' && $o->ID != $id ) {
-								$taskparent=$o->post_parent; 
-								$title_context='';
-								if ($taskparent){
-									$taskparent = get_post($taskparent);
-									$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-								}		
-								$html.= "<li><a href='".get_permalink($o->ID)."'>".govintranetpress_custom_title($o->post_title).$title_context."</a></li>";
-								$alreadydone[] = $o->ID;
-						}
-				}
-	
-				if ( $html ){
-					echo "<div class='widget-box list'>";
-					echo "<h3 class='widget-title'>Related</h3>";
-					echo "<ul>";
-					echo $html;
-					echo "</ul></div>";
-				}
+			get_template_part("part", "related");
 
-				$posttags = get_the_tags();
-				if ($posttags) {
-					$foundtags=false;	
-					$tagstr="";
-				  	foreach($posttags as $tag) {
-				  		if (substr($tag->name,0,9)!="carousel:"){
-				  			$foundtags=true;
-				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?post_type=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
-				    	}
-				  	}
-				  	if ($foundtags){
-					  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
-					  	echo $tagstr;
-					  	echo "</p></div>";
-				  	}
-				}
+			get_template_part("part", "sidebar");
+
+			$posttags = get_the_tags();
+			if ($posttags) {
+				$foundtags=false;	
+				$tagstr="";
+			  	foreach($posttags as $tag) {
+			  		if (substr($tag->name,0,9)!="carousel:"){
+			  			$foundtags=true;
+			  			$tagurl = $tag->slug;
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?post_type=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+			    	}
+			  	}
+			  	if ($foundtags){
+				  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
+				  	echo $tagstr;
+				  	echo "</p></div>";
+			  	}
+			}
+
 		 	dynamic_sidebar('blog-widget-area'); 
 		 	
-		//if we're looking at a news story, show recently published news
+		//if we're looking at a blog post, show recently published 
 			echo "<div class='widget-box nobottom'>";
-			$category = get_the_category(); 
 			$recentitems = new WP_Query('post_type=blog&posts_per_page=5');			
 			echo "<h3>Recent posts</h3>";
 			if ($recentitems->post_count==0 || ($recentitems->post_count==1 && $mainid==$post->ID)){

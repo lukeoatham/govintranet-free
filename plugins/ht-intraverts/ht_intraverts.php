@@ -502,24 +502,25 @@ class htIntraverts extends WP_Widget {
 			$catcheck = false;
 
 			// target content?
-			if ( get_post_meta(get_the_id(), 'intravert_target_content', true) ): 
+			$targetcontent = get_post_meta(get_the_id(), 'intravert_target_content', true); 
+			if ( $targetcontent == "Task category" && is_singular("task") ): 
 				if ( $icategory = get_post_meta(get_the_id(), 'intravert_category', true) ): 
-					if ($icategory) foreach ((array)$icategory as $u){
+					if ($icategory) foreach ((array)$icategory as $u){ 
 						if (in_array($u,$currentpostterms)) $catcheck = true; 
 					}
-					if (!$catcheck && !get_post_meta(get_the_id(), 'intravert_news_type', true)) continue;
 				endif;
 			endif;
 
-			if ( get_post_meta(get_the_id(), 'intravert_target_content', true) ): 
+			if ( $targetcontent == "News type"  && is_singular("news") ): 
 				if ( $icategory = get_post_meta(get_the_id(), 'intravert_news_type', true) ): 
 					if ($icategory) foreach ((array)$icategory as $u){
 						if (in_array($u,$currentnewsterms)) $catcheck = true; 
 					}
-					if (!$catcheck) continue;
 				endif;
 			endif;
 
+			if ($targetcontent == "Task category"  && !$catcheck) continue;
+			if ($targetcontent == "News type"  && !$catcheck) continue;
 			
 			
 			/*
@@ -534,13 +535,13 @@ class htIntraverts extends WP_Widget {
 			$destination = get_post_meta(get_the_id(),'intravert_destination_page',true);
 			if ($destination) { $destination = get_permalink($destination[0]); } else { $destination="#nowhere"; }
 			if (has_post_thumbnail($post->ID)):
-				echo "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_html($post->post_title)."\",\"".esc_html($originaltitle)."\");'> ";
+				echo "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$post->post_title."\",\"".$originaltitle."\");'> ";
 				the_post_thumbnail('large',array('class'=>'img-responsive'));
 				echo "</a>";
 			endif;
 			the_content();
 			if (get_post_meta(get_the_id(),'intravert_link_text',true)):
-				echo "<a id='intravert_hook' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_html($post->post_title)."\",\"".esc_html($originaltitle)."\");'> ";
+				echo "<a id='intravert_hook' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$post->post_title."\",\"".$originaltitle."\");'> ";
 				echo get_post_meta(get_the_id(),'intravert_link_text',true);
 				if ( $destination != '#nowhere' ) echo " <span class='dashicons dashicons-arrow-right-alt2'></span>";
 				echo "</a> ";

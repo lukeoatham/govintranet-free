@@ -21,6 +21,7 @@ class htEventsListing extends WP_Widget {
         $items = intval($instance['items']);
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
+        if ( !intval($cacheperiod) ) $cacheperiod = 60 * 60;
         $calendar = ($instance['calendar']);
         $thumbnails = ($instance['thumbnails']);
         $excerpt = ($instance['excerpt']);
@@ -31,11 +32,10 @@ class htEventsListing extends WP_Widget {
 		wp_register_style( 'ht-events-listing', plugin_dir_url("/") ."ht-events-listing/ht_events_listing.css" );
 		wp_enqueue_style( 'ht-events-listing' );
 
-
-		$output = get_transient('events_'.$widget_id); 
+		$gatransient = substr( 'event_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+		$output = get_transient( $gatransient );
 
 		if ( $output == '' ):
-
 			//display forthcoming events
 			$tzone = get_option('timezone_string');
 			date_default_timezone_set($tzone);
@@ -74,7 +74,7 @@ class htEventsListing extends WP_Widget {
 			);
 	
 			$news =new WP_Query($cquery);
-				$output.= "<div class='widget-area widget-events'><div class='upcoming-events'>";
+			$output.= "<div class='widget-area widget-events'><div class='upcoming-events'>";
 			
 			if ($news->post_count!=0){
 				$wtitle = "upcoming";
@@ -214,12 +214,10 @@ class htEventsListing extends WP_Widget {
 			}
 			$output.= "</div>";
 			$output.= "</div>";
-	 	set_transient('events_'.$widget_id,$output,$cacheperiod); // set cache period 5 minutes 
+			set_transient($gatransient,$output,$cacheperiod); // set cache period 60 minutes default
 		
 		endif;
 		echo $output;
-
-		if ( !$cacheperiod ) delete_transient('events_'.$widget_id);
 		
 		wp_reset_query();								
 
@@ -235,6 +233,9 @@ class htEventsListing extends WP_Widget {
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
 		$instance['location'] = strip_tags($new_instance['location']);
 		$instance['recent'] = strip_tags($new_instance['recent']);
+		global $wpdb;
+		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_event_%".sanitize_file_name( $new_instance['title'] )."'");
+		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_timeout_event_%".sanitize_file_name( $new_instance['title'] )."'");
        return $instance;
     }
 
@@ -276,7 +277,56 @@ class htEventsListing extends WP_Widget {
         <?php 
     }
 
+    
+
 }
+if( function_exists('acf_add_local_field_group') ):
+
+acf_add_local_field_group(array (
+	'key' => 'group_55ee1a9ecbd0d',
+	'title' => 'Limit event types',
+	'fields' => array (
+		array (
+			'key' => 'field_55ee1ab48bb29',
+			'label' => 'Event types',
+			'name' => 'event_listing_event_types',
+			'type' => 'taxonomy',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'taxonomy' => 'event-type',
+			'field_type' => 'checkbox',
+			'allow_null' => 1,
+			'add_term' => 0,
+			'save_terms' => 0,
+			'load_terms' => 0,
+			'return_format' => 'id',
+			'multiple' => 0,
+		),
+	),
+	'location' => array (
+		array (
+			array (
+				'param' => 'widget',
+				'operator' => '==',
+				'value' => 'hteventslisting',
+			),
+		),
+	),
+	'menu_order' => 0,
+	'position' => 'normal',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
+));
+
+endif;
 
 add_action('widgets_init', create_function('', 'return register_widget("htEventsListing");'));
 

@@ -72,7 +72,7 @@ remove_filter('pre_get_posts', 'filter_search');
 					echo "<h3>Downloads <i class='glyphicon glyphicon-download'></i></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
-						echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
+						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
 					}
 					echo "</div>";
 				}				
@@ -87,6 +87,8 @@ remove_filter('pre_get_posts', 'filter_search');
 			<?php
 
 				get_template_part("part", "related");
+
+				get_template_part("part", "sidebar");
 
 				$post_cat = get_the_terms($post->ID,'news-type');
 				if ($post_cat){

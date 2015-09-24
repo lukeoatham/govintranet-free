@@ -103,7 +103,7 @@ get_header(); ?>
 				echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
 				foreach ($current_attachments as $ca){
 					$c = $ca['document_attachment'];
-					echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
+					if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
 				}
 				echo "</div>";
 			}	
@@ -125,6 +125,8 @@ get_header(); ?>
 			<?php
 
 			get_template_part("part", "related");
+
+			get_template_part("part", "sidebar");
 						
 			$post_cat = get_the_category();
 			if ($post_cat){

@@ -35,6 +35,17 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.5 - 24 Sep 2015 ###
+* Category template fixes and updates 
+* Custom text on comment forms 
+* Improved layout of comments and reply to 
+* Vacancy template fixes - removed related links, ordered by closing date 
+* WYSIWYG sidebar on custom post types 
+* Search results template improvements and further integration with Relevanssi 
+* Need to know and About this page widgets with AJAX 
+* Event listing widget caching 
+* 
+
 ### 4.4 - 12 Sep 2015 ###
 * Icons for tasks and guides 
 * Staff profile template updates 

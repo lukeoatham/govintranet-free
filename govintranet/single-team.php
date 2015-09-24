@@ -19,7 +19,8 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 
 
 ?>
-	<a class="sr-only sr-only-focusable" href="#gridcontainer">Skip to staff</a>
+
+<a class="sr-only sr-only-focusable" href="#gridcontainer">Skip to staff</a>
 
 <div class="row">
 

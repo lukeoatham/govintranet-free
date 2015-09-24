@@ -171,7 +171,7 @@ get_header(); ?>
 				echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
 				    while ( have_rows('document_attachments') ) : the_row(); 
 						$doc = get_sub_field('document_attachment'); //print_r($doc);
-						echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
+						if ( isset($doc['title']) )  echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
 					endwhile;
 				echo "</div>";
 			endif;
@@ -214,7 +214,7 @@ get_header(); ?>
 					echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
-						echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
+						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
 					}
 					echo "</div>";
 				}	
@@ -232,6 +232,9 @@ get_header(); ?>
 				<?php 
 
 				get_template_part("part", "related");
+
+				get_template_part("part", "sidebar");
+
 
 				$post_categories = wp_get_post_categories( $post->ID ); 
 				$cats = array();

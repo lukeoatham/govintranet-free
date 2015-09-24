@@ -67,3 +67,6 @@
 	display: block;
 	clear: both;
 }
+.widget-area.widget-events .media-body {
+	font-size: 1em;
+}

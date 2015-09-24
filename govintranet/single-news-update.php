@@ -65,7 +65,7 @@ remove_filter('pre_get_posts', 'filter_search');
 					echo "<h3>Downloads <i class='glyphicon glyphicon-download'></i></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
-						echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
+						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
 					}
 					echo "</div>";
 				}				
@@ -78,23 +78,28 @@ remove_filter('pre_get_posts', 'filter_search');
 		</div> <!--end of first column-->
 		<div class="col-lg-4  col-md-4 col-sm-4 col-lg-offset-1">	
 			<?php
-				$post_cat = get_the_terms($post->ID,'news-update-type');
-				if ($post_cat){
-					$html='';
-					$catTitlePrinted=false;
-					foreach($post_cat as $cat){
-					if ($cat->term_id){
-						if ( !$catTitlePrinted ){
-							$catTitlePrinted = true;
-						}
-						$html.= "<span class='wptag'><a href='".get_term_link($cat->slug,'news-update-type')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
-						}
-					}	
-					if ( $html ){
-						echo "<div class='widget-box'><h3>Update types</h3>".$html."</div>";
+
+			get_template_part("part", "sidebar");
+
+			$post_cat = get_the_terms($post->ID,'news-update-type');
+			if ($post_cat){
+				$html='';
+				$catTitlePrinted=false;
+				foreach($post_cat as $cat){
+				if ($cat->term_id){
+					if ( !$catTitlePrinted ){
+						$catTitlePrinted = true;
 					}
+					$html.= "<span class='wptag'><a href='".get_term_link($cat->slug,'news-update-type')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+					}
+				}	
+				if ( $html ){
+					echo "<div class='widget-box'><h3>Update types</h3>".$html."</div>";
 				}
+			}
+
 		 	dynamic_sidebar('news-widget-area'); 
+
 		 	wp_reset_postdata();
 			wp_reset_query();
 			/*****************

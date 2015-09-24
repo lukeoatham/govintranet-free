@@ -96,7 +96,7 @@ $mainid=$post->ID;
 		echo "<h3>Downloads <i class='glyphicon glyphicon-download'></i></h3>";
 		foreach ($current_attachments as $ca){
 			$c = $ca['document_attachment'];
-			echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
+			if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
 		}
 		echo "</div>";
 	}				
@@ -152,6 +152,8 @@ $mainid=$post->ID;
 	<?php endif; 
 	
 	get_template_part("part", "related");
+
+	get_template_part("part", "sidebar");
 
 	$post_cat = get_the_terms($post->ID, 'event-type' ); 
 	if ($post_cat){

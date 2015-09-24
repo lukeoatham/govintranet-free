@@ -5,7 +5,7 @@ $alreadydone = array();
 $related = get_post_meta($id,'related',true);
 
 $html='';
-if ($related){
+if (is_array($related)){
 	foreach ($related as $r){ 
 		$title_context="";
 		$rlink = get_post($r);

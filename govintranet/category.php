@@ -15,19 +15,19 @@ $catslug = get_queried_object()->slug;
 $catdesc = get_queried_object()->description;	
 $catlongdesc = get_option("category_".$catid."_cat_long_description", "");
 if ( $catlongdesc ) $catdesc = $catlongdesc;
-$catparentid = get_queried_object()->parent; 
 $childrenargs = array (
-	 'orderby'           => 'name', 
-    'order'             => 'ASC',
-    'child_of'          => $catid,
+'orderby'           => 'name', 
+'order'             => 'ASC',
+'child_of'          => $catid,
 );
-$catchildren = get_terms('category', $childrenargs );
+$catchildren = get_terms('category', $childrenargs ); 
+$catparentid = get_queried_object()->parent; 
+if ( $catparentid ):
+	$catparent = get_term($catparentid, 'category');
+	$catparentlink = "<a href='".get_term_link($catparentid, 'category')."'>".$catparent->name."</a>";
+endif;
 $tasktagslug = '';
 $tasktag = '';
-if ($catparentid):
-	$catparent = get_term($catparentid, 'category');
-	$catparentlink = "<a href='".get_term_link($catparentid, 'category')."'>".$catparent->name."</a> &raquo; ";
-endif;
 if ( isset( $_GET['showtag'] ) ) $tasktagslug = $_GET['showtag'];
 if ($tasktagslug):
 	$tasktag = get_tags(array('slug'=>$tasktagslug));
@@ -45,6 +45,12 @@ if ( have_posts() )
 					}?>
 			</div>
 		</div>
+		
+		<?php
+		if ($catparentid){
+			echo "<h3><i class='dashicons dashicons-arrow-left-alt2'></i>".$catparentlink."</h3>";
+		}
+		?>		
 
 		<h1 <?php echo "class='h1_" . $catid . "'>". single_tag_title( '', false ) ; ?></h1>
 	
@@ -141,15 +147,13 @@ if ( have_posts() )
 			if ( get_posts(array("post_type"=>"task",'post_parent'=>$post->ID,"post_status"=>"publish"))) { 
 				$context = "Guide";
 				$icon = $guideicon;
+			} elseif ( $post->post_parent ) {
+				$context = "Guide";
+				$icon = $guideicon;
+				$tagcontext = " (" . get_the_title($post->post_parent) . ")" ;
 			} else {
-				if ( $tasktagslug ){
-					$context = "Guide";
-					$icon = $guideicon;
-					$tagcontext = " (" . get_the_title($post->post_parent) . ")" ;
-				} else {
-					$context = "Task";
-					$icon = $taskicon;
-				}
+				$context = "Task";
+				$icon = $taskicon;
 			}	
 			$ext_icon = '';
 			$ext = '';

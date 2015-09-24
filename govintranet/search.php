@@ -44,39 +44,17 @@ get_header(); ?>
 					}?>
 			</div>
 		</div>
-
 	<?php 
 	$s=get_search_query();
-	if ( have_posts() ) : 
-		?>
-		<h1><?php printf( __( 'Search results for: %s', 'govintranet' ), '' . $s . '' ); ?></h1>
-		<?php
-		if ( isset( $_GET['pt'] ) && $_GET['pt'] =='forums'){
-			echo "<p class='news_date'>Showing results from forums. <a href='".site_url()."/?s=";
-			echo the_search_query();
-			echo "'>Search the intranet</a></p>";
-		}
-		if ($wp_query->found_posts>1  && $_GET['include'] != 'user' ){
-			echo "<p class='news_date'>Found ".$wp_query->found_posts." results</p>";
-		}
-	
-		/* Run the loop for the search to output the results.
-		 * If you want to overload this in a child theme then include a file
-		 * called loop-search.php and that will be used instead.
-		 */
-		 get_template_part( 'loop', 'search' );
-	
-	 else : 
 
-			$searchnotfound=get_option('options_search_not_found');
-			if (!$searchnotfound) $searchnotfound = "Nope";
-			?>
-			<h1><?php echo $searchnotfound; ?></h1>
-			<script type="text/javascript">
-			_gaq.push(['_trackEvent', 'Search', 'Empty results', '<?php echo the_search_query();?>']);
-			</script>
-			<?php 
-			if ( isset( $_GET['post_type'] ) ):
+	if ( !have_posts() ) : 
+
+		$searchnotfound=get_option('options_search_not_found');
+		if (!$searchnotfound) $searchnotfound = "Nope";
+		?>
+		<h1><?php echo $searchnotfound; ?></h1>
+		<?php 
+		if ( isset( $_GET['post_type'] ) ):
 			$pt = $_GET['post_type']; 
 			$ct = $_GET['cat'];
 			$ct = get_category($ct);
@@ -125,50 +103,68 @@ get_header(); ?>
 				$searchcon.=' vacancies';
 			}
 		endif; 
-			
-			?>
-			<p>
-			<?php 
-			if ($pt){
-				_e( 'Couldn\'t find anything in ' . $searchcon . '. Try searching the whole intranet.', 'govintranet' ); 
-			} else {
-				_e( 'Couldn\'t find anything on the intranet like that. Sometimes using fewer words can help.', 'govintranet' ); 				
-			}
-			?>
-			</p>
-			<?php
-			// add did you mean function
-			 if (function_exists('relevanssi_didyoumean')) { 
-			 	relevanssi_didyoumean(get_search_query(), "<div class='did_you_mean'><p>Did you mean? ", "</p></div>", 5);
-			 }
-			?>
-			<div class="content-wrapper">
-				<div class="col-lg-6">
-					<form class="form-horizontal" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
-					  <div class="col-lg-12">
-					    <div class="input-group">
-							<input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo the_search_query();?>">
-							<div class="input-group-btn">
-								<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
-					      </div><!-- /btn-group -->
-					    </div><!-- /input-group -->
-					  </div><!-- /.col-lg-6 -->
-					</form>
-				</div>
+		
+		echo "<p>";
+		if ($pt){
+			_e( 'Couldn\'t find anything in ' . $searchcon . '. Try searching the whole intranet.', 'govintranet' ); 
+		} else {
+			_e( 'Couldn\'t find anything on the intranet like that. Sometimes using fewer words can help.', 'govintranet' ); 				
+		}
+		echo "</p>";
+
+		if (function_exists('relevanssi_didyoumean')) { 
+			relevanssi_didyoumean(get_search_query(), "<div class='did_you_mean'><h2>Did you mean?</h2><p> ", "</p></div>", 5);
+		}
+
+		?>
+		<div class="well">
+		<form class="form" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
+			<div class="form-group">
+		    <label for="snf">Search again</label>
+			<input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo the_search_query();?>">
 			</div>
-			<script type='text/javascript'>
-			    jQuery(document).ready(function(){
-					jQuery('#serps_search').submit(function(e) {
-					    if (jQuery.trim(jQuery("#snf").val()) === "") {
-					        e.preventDefault();
-					        jQuery('#snf').focus();
-					    }
-					});	
+			<div class="form-group">
+			<button type="submit" class="btn btn-primary">Search again</button>
+			</div>
+		</form>
+		</div>
+
+		<script type='text/javascript'>
+		    jQuery(document).ready(function(){
+				jQuery('#serps_search').submit(function(e) {
+				    if (jQuery.trim(jQuery("#snf").val()) === "") {
+				        e.preventDefault();
+				        jQuery('#snf').focus();
+				    }
 				});	
-			
-			</script>
+				_gaq.push(['_trackEvent', 'Search', 'Empty results', '<?php echo the_search_query();?>']);
+			});	
+		
+		</script>
+		<?php
+				
+	else:
+
+		?>
+		<h1><?php printf( __( 'Search results for: %s', 'govintranet' ), '' . $s . '' ); ?></h1>
+		<?php
+		if ( isset( $_GET['pt'] ) && $_GET['pt'] =='forums'){
+			echo "<p class='news_date'>Showing results from forums. <a href='".site_url()."/?s=";
+			echo the_search_query();
+			echo "'>Search the intranet</a></p>";
+		}
+
+		if ($wp_query->found_posts > 1 && $_GET['include'] != 'user' ){
+			echo "<p class='news_date'>Found ".$wp_query->found_posts." results</p>";
+		}
+
 	
-			<?php 
+		/* Run the loop for the search to output the results.
+		 * If you want to overload this in a child theme then include a file
+		 * called loop-search.php and that will be used instead.
+		 */
+		 get_template_part( 'loop', 'search' );
+	
 	endif;
 	
 	?>
@@ -188,6 +184,7 @@ get_header(); ?>
 	</div>
 
 </div>
+
 <div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
 	<div id="search_filter">
 		<div id="accordion">
@@ -197,10 +194,7 @@ get_header(); ?>
 	        </a>
 	      </h3>
 	    </div>
-	    <div id="collapseFilter" class="xpanel-collapse<?php echo ' out in';
-		    //if (!$_REQUEST['include'] && !$_REQUEST['post_type'] && !$_REQUEST['orderby']) { echo 'collapse out'; } else { echo "out in";}
-			    ?>
-			    ">
+	    <div id="collapseFilter" class="xpanel-collapse out in">
 	      	<div class="xpanel-body">
 				<form role="search" method="get" id="searchfilter" action="<?php echo home_url('/'); ?>">
 					<input type="hidden" name="s" value="<?php echo get_search_query(); ?>">
@@ -247,7 +241,6 @@ get_header(); ?>
 							if(in_array($pt->query_var, $sposttype)){ 
 								$checkbox .= " checked=\"checked\"";
 							}
-							
 							$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';// print_r($pt);
 						}
 					}

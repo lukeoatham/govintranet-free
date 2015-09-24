@@ -58,7 +58,7 @@
 		$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 		$avstyle="";
 		if ( $directorystyle==1 ) $avstyle = " img-circle";
-		$image_url = get_avatar($post->user_id ,150);
+		$image_url = get_avatar($post->user_id ,100);
 		$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
 		$userurl = get_author_posts_url( $post->user_id); 
 		$gis = "options_forum_support";
