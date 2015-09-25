@@ -94,7 +94,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			// showing all vacancies for a specific grade
 
 			$vacancies =new WP_Query(array ( 
-			'orderby' => 'title', 
+			'orderby' => 'vacancy_closing_date', 
 			'order' => 'ASC',
 			'post_type'=>'vacancy',
 			'posts_per_page'=>10,
@@ -181,7 +181,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 		if ($vacancies->have_posts()) while ($vacancies->have_posts()) {
 			$vacancies->the_post();
-  		    //print_R( $vacancies);
 			$thistitle = get_the_title($id);
 			$thisURL=get_permalink($id);
 			$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));

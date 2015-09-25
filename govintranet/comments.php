@@ -65,7 +65,7 @@
 		endif; // end ! comments_open() 
 		
 	endif; // end have_comments()
-
+	$custom_comment_text = "";
 	if ( is_user_logged_in() ):
 		$custom_comment_text = get_option("options_comment_instructions_logged_in", "");	
 	else:

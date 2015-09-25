@@ -312,24 +312,33 @@ function govintranet_comment( $comment, $args, $depth ) {
 		<div id="comment-<?php comment_ID(); ?>">
 		<div class="comment-author vcard">
 			<?php 
-				
-			$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-			$avstyle="";
-			if ( $directorystyle==1 ) $avstyle = " img-circle";
-			$image_url = get_avatar($comment , 66);
-			$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
-			$userurl = get_author_posts_url( $comment->user_id); 
-			$gis = "options_forum_support";
-			$forumsupport = get_option($gis);
-			if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-				$userurl=str_replace('/author', '/members', $userurl); }
-			elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
-				$userurl=str_replace('/author', '/staff', $userurl);
-			}
-			$user_object = get_userdata( $comment->user_id );
-			$userdisplay = $user_object->display_name;
-			echo "<a href='".$userurl."'>".$image_url."</a>";
-			$userlink = "<a href='".$userurl."'>".$userdisplay."</a>";
+			$directory = 	get_option('options_forum_support');
+			if ( $directory ):
+				$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+				$avstyle="";
+				if ( $directorystyle==1 ) $avstyle = " img-circle";
+				$image_url = get_avatar($comment , 66);
+				$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
+				$userurl = get_author_posts_url( $comment->user_id );  
+				if ( $userurl == site_url("author/") ) $userurl = "";
+				if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+					$userurl=str_replace('/author', '/members', $userurl); }
+				elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
+					$userurl=str_replace('/author', '/staff', $userurl);
+				} 
+				$userdisplay = "";
+				$user_object = get_userdata( $comment->user_id );
+				if ( $user_object ) $userdisplay = $user_object->display_name;
+				if ( $userurl ):
+					echo "<a href='".$userurl."'>".$image_url."</a>";
+					$userlink = "<a href='".$userurl."'>".$userdisplay."</a>";
+				else:
+					echo $image_url;
+					$userlink = get_comment_author_link();
+				endif;
+			else:
+				$userlink = get_comment_author_link();
+			endif;
 			?>
 			<?php printf( __( '%s <span class="says">says:</span>', 'govintranet' ), sprintf( '<cite class="fn">%s</cite>', $userlink ) ); ?>
 		</div><!-- .comment-author .vcard -->
@@ -9499,5 +9508,17 @@ function add_comment_author_to_reply_link($link, $args, $comment){
     return $link;
 }
 add_filter('comment_reply_link', 'add_comment_author_to_reply_link', 10, 3);
+
+function ht_add_comment_form_top($comment){
+	$custom_comment_text = "";
+	if ( is_user_logged_in() ):
+		$custom_comment_text = get_option("options_comment_instructions_logged_in", "");	
+	else:
+		$custom_comment_text = get_option("options_comment_instructions_logged_out", "Your email address will not be published. Name, email address and comment are required fields.");	
+	endif;
+	echo wpautop($custom_comment_text);
+}
+add_filter('comment_form_top', 'ht_add_comment_form_top', 10, 3);
+
 
 ?>

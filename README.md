@@ -44,7 +44,7 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 * Search results template improvements and further integration with Relevanssi 
 * Need to know and About this page widgets with AJAX 
 * Event listing widget caching 
-* 
+* New Recent comments widget 
 
 ### 4.4 - 12 Sep 2015 ###
 * Icons for tasks and guides 
