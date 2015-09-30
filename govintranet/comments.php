@@ -69,7 +69,7 @@
 	if ( is_user_logged_in() ):
 		$custom_comment_text = get_option("options_comment_instructions_logged_in", "");	
 	else:
-		$custom_comment_text = get_option("options_comment_instructions_logged_out", "Your email address will not be published. Name, email address and comment are required fields.");	
+		$custom_comment_text = get_option("options_comment_instructions_logged_out", "");	
 	endif;
 	$args = array(
 		'comment_notes_before' => wpautop($custom_comment_text),

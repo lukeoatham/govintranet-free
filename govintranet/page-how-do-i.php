@@ -85,7 +85,6 @@ get_header();
 						<?php
 						// Display category blocks
 						$catcount = 0;
-						//$terms = get_terms('category',array("hide_empty"=>true));
 						if ($terms) {
 				  			foreach ((array)$terms as $taxonomy ) {
 					  		    $themeid = $taxonomy->term_id;
@@ -114,18 +113,23 @@ get_header();
 			<div style="text-align:middle; clear:both;"  class="widget-box">
 				<h3 class="widget-title">Browse by tag</h3>
 				<div class="tagcloud">
-						<?php 
-							$taskcloud = get_option('options_module_tasks_showtags');
-							if ( $taskcloud ):
-								echo gi_howto_tag_cloud('task');
-							else:
-								echo my_colorful_tag_cloud('','category','task'); 
-							endif;
-							?>
+					<?php 
+					$taghtml = "";
+					$taghtml = get_transient("ht_how_do_i_tags");
+					if ( !$taghtml ):
+						$taskcloud = get_option('options_module_tasks_showtags');
+						if ( $taskcloud ):
+							$taghtml = gi_howto_tag_cloud('task');
+						else:
+							$taghtml =  my_colorful_tag_cloud('','category','task'); 
+						endif;
+						set_transient("ht_how_do_i_tags", $taghtml, 60*60);
+					endif;
+					echo $taghtml;
+					?>
 				</div>
 			</div>
 		</div>
-
 	</div>
 <?php endwhile; ?>
 

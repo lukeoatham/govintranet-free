@@ -252,7 +252,7 @@ get_header(); ?>
 					echo $checkbox;
 					?>
 					<br>
-					<button  class="btn btn-primary">Refine search <i class="glyphicon glyphicon-search"></i></button>
+					<button  class="btn btn-primary">Refine search <i class="dashicons dashicons-search"></i></button>
 				</form>
 			 </div>
 		</div>

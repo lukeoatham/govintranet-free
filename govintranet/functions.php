@@ -9513,10 +9513,11 @@ function ht_add_comment_form_top($comment){
 	$custom_comment_text = "";
 	if ( is_user_logged_in() ):
 		$custom_comment_text = get_option("options_comment_instructions_logged_in", "");	
+		echo wpautop($custom_comment_text);
 	else:
-		$custom_comment_text = get_option("options_comment_instructions_logged_out", "Your email address will not be published. Name, email address and comment are required fields.");	
+		$custom_comment_text = get_option("options_comment_instructions_logged_out", "");	
 	endif;
-	echo wpautop($custom_comment_text);
+	return;
 }
 add_filter('comment_form_top', 'ht_add_comment_form_top', 10, 3);
 

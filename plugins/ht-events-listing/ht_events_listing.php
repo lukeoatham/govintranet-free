@@ -34,8 +34,14 @@ class htEventsListing extends WP_Widget {
 
 		$gatransient = substr( 'event_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 		$output = get_transient( $gatransient );
+		
+		if ( empty( $output ) ): 
 
-		if ( $output == '' ):
+			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_event_listing_event_types" ;
+			$etypes = get_option($acf_key);
+			$eventtypes =$etypes;
+
+
 			//display forthcoming events
 			$tzone = get_option('timezone_string');
 			date_default_timezone_set($tzone);
@@ -72,6 +78,13 @@ class htEventsListing extends WP_Widget {
 				'fields' => "id",
 				
 			);
+			
+			if ( $eventtypes ) $cquery['tax_query'] = array(array(
+					'taxonomy' => 'event-type',
+					'terms' => $eventtypes,
+					'field' => 'id',	
+				));
+			
 	
 			$news =new WP_Query($cquery);
 			$output.= "<div class='widget-area widget-events'><div class='upcoming-events'>";
@@ -95,7 +108,6 @@ class htEventsListing extends WP_Widget {
 				if ( $title ) {
 					$output.= $before_title . $title . $after_title;
 				}
-				//if ($thumbnails!='on' || $calendar=='on') echo "<div><ul>";
 			} elseif ( 'on' == $recent) {
 					$wtitle = "recent";
 					$cquery = array(
@@ -127,6 +139,13 @@ class htEventsListing extends WP_Widget {
 					'posts_per_page' => $items,
 					'fields' => "id",
 				);
+				
+				if ( $eventtypes ) $cquery['tax_query'] = array(array(
+					'taxonomy' => 'event-type',
+					'terms' => $eventtypes,
+					'field' => 'id',	
+				));
+				
 				$news =new WP_Query($cquery);
 					if ($news->post_count!=0){
 						$output.= "
@@ -215,7 +234,6 @@ class htEventsListing extends WP_Widget {
 			$output.= "</div>";
 			$output.= "</div>";
 			set_transient($gatransient,$output,$cacheperiod); // set cache period 60 minutes default
-		
 		endif;
 		echo $output;
 		

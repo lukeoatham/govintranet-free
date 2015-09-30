@@ -4,34 +4,61 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.0.2
+Version: 4.1
 Author URI: http://www.helpfultechnology.com
 */
 
 class htFeatureNews extends WP_Widget {
     function htFeatureNews() {
         parent::WP_Widget(false, 'HT Feature news', array('description' => 'Display feature news stories'));
-		if( function_exists('register_field_group') ):
+		if( function_exists('acf_add_local_field_group') ):
 		
-		register_field_group(array (
+		acf_add_local_field_group(array (
 			'key' => 'group_54bfacd48f6e7',
 			'title' => 'Feature news widget',
 			'fields' => array (
 				array (
+					'key' => 'field_560c502fb460c',
+					'label' => 'News type',
+					'name' => 'news_listing_news_type',
+					'type' => 'taxonomy',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'taxonomy' => 'news-type',
+					'field_type' => 'checkbox',
+					'allow_null' => 1,
+					'add_term' => 0,
+					'save_terms' => 0,
+					'load_terms' => 0,
+					'return_format' => 'id',
+					'multiple' => 0,
+				),
+				array (
 					'key' => 'field_54c03e5d0f3f4',
 					'label' => 'Pin stories',
 					'name' => 'pin_stories',
-					'prefix' => '',
 					'type' => 'relationship',
 					'instructions' => '',
 					'required' => 0,
 					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
 					'post_type' => array (
 						0 => 'news',
 						1 => 'blog',
 						2 => 'event',
 					),
-					'taxonomy' => '',
+					'taxonomy' => array (
+					),
 					'filters' => array (
 						0 => 'search',
 						1 => 'post_type',
@@ -39,26 +66,33 @@ class htFeatureNews extends WP_Widget {
 					'elements' => '',
 					'max' => '',
 					'return_format' => 'id',
+					'min' => 0,
 				),
 				array (
 					'key' => 'field_54bfacd9a9fbb',
 					'label' => 'Exclude stories',
 					'name' => 'exclude_stories',
-					'prefix' => '',
 					'type' => 'relationship',
 					'instructions' => '',
 					'required' => 0,
 					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
 					'post_type' => array (
 						0 => 'news',
 					),
-					'taxonomy' => '',
+					'taxonomy' => array (
+					),
 					'filters' => array (
 						0 => 'search',
 					),
 					'elements' => '',
 					'max' => '',
 					'return_format' => 'id',
+					'min' => 0,
 				),
 			),
 			'location' => array (
@@ -76,6 +110,8 @@ class htFeatureNews extends WP_Widget {
 			'label_placement' => 'top',
 			'instruction_placement' => 'label',
 			'hide_on_screen' => '',
+			'active' => 1,
+			'description' => '',
 		));
 		
 		endif;
@@ -93,10 +129,13 @@ function widget($args, $instance) {
 	$top_slot = get_option($acf_key); 
 	$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_exclude_stories" ;  
 	$exclude = get_option($acf_key); 
+	$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_listing_news_type" ;  
+	$newstypes = get_option($acf_key); 
     global $post;
 	$removenews = get_transient('cached_removenews'); 
 	if (!$removenews || !is_array($removenews)){
 	
+		set_transient('cached_removenews',"wait",60*3); 
 		//process expired news
 		
 		$tzone = get_option('timezone_string'); 
@@ -164,12 +203,8 @@ function widget($args, $instance) {
 	endif;
 
 	echo '<div id="ht-feature-news">';
-
-	//load manual sticky news stories
-	//	$home = get_page_by_path('/home/',OBJECT,'page'); 
-	//$top_slot =  get_post_meta($home->ID,'top_news_stories'); 
 	
-	//forumalate grid of news stories and formats
+	//formulate grid of news stories and formats
 	$totalstories =  $largeitems + $mediumitems + $thumbnailitems + $listitems; 
 
 	$newsgrid = array();
@@ -307,6 +342,22 @@ function widget($args, $instance) {
 			    "operator"=>"NOT IN"
 			    ))
 				);
+			if ( $newstypes ) $cquery['tax_query'] = array(
+					"relation"=>"AND",
+					array(
+					'taxonomy' => 'news-type',
+					'terms' => $newstypes,
+					'field' => 'id',	
+					),
+					array(
+					'taxonomy'=>'post_format',
+				    'field'=>'slug',
+				    'terms'=>array('post-format-status'),
+				    "operator"=>"NOT IN"
+	
+					),
+					);
+			
 	
 		$news =new WP_Query($cquery);
 		if ($news->post_count==0){

@@ -35,6 +35,15 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.6 - 30 Sep 2015 ###
+* Events listing widget now includes choice of event types 
+* Feature news listing widget now includes choice of news types 
+* Improvements to comments - options for custom text 
+* Caching on How do I tag clouds 
+* New staff directory template to support older browsers 
+* Search button consistency on search forms 
+* Improved support for users accounts on blog template
+
 ### 4.5 - 24 Sep 2015 ###
 * Category template fixes and updates 
 * Custom text on comment forms 

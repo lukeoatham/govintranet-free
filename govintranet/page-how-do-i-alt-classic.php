@@ -109,27 +109,26 @@ $terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"s
 
 	<h3>Search by tag</h3>
 	<?php 
-	$taskcloud = get_option('options_module_tasks_showtags');
-	if ( $taskcloud ):
-		echo gi_howto_tag_cloud('task');
-	else:
-		echo my_colorful_tag_cloud('','category','task'); 
+	$taghtml = "";
+	$taghtml = get_transient("ht_how_do_i_tags");
+	if ( !$taghtml ):
+		$taskcloud = get_option('options_module_tasks_showtags');
+		if ( $taskcloud ):
+			$taghtml = gi_howto_tag_cloud('task');
+		else:
+			$taghtml =  my_colorful_tag_cloud('','category','task'); 
+		endif;
+		set_transient("ht_how_do_i_tags", $taghtml, 60*60);
 	endif;
+	echo $taghtml;
 	?>
 	<br><br>
 </div><br>
 </div>
 <?php 
-
-if ($catcount == 3){
-echo "</div>";
-			}
-if ($catcount == 2){
-echo "</div></div>";
-			}
-if ($catcount == 1){
-echo "</div>";
-			}
+if ($catcount == 3) echo "</div>";
+if ($catcount == 2) echo "</div></div>";
+if ($catcount == 1) echo "</div>";
 ?>			
 
 <?php endwhile; ?>
