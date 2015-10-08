@@ -105,6 +105,7 @@ class htNewsUpdates extends WP_Widget {
     function widget($args, $instance) {
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
+        if ( !$title ) $title = "no_title_" . $id;
         $moretitle = $instance['moretitle'];
         $items = intval($instance['items']);
 
@@ -217,8 +218,8 @@ class htNewsUpdates extends WP_Widget {
 		if ( $title ) {
 			echo "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
 			echo $before_widget; 
-		
-			echo $before_title . $title . $after_title;}
+			if ( $title == "no_title_" . $id ) $title = "";
+			if ( $title ) echo $before_title . $title . $after_title;}
 			echo "
 			<div class='need-to-know'>
 			<ul class='need'>";

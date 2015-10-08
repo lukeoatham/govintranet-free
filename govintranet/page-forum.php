@@ -20,6 +20,19 @@ get_header(); ?>
 			echo "<h1>".get_the_title()."</h1>";
 				
 			the_content();
+			
+			?>
+			<?php if ( bbp_allow_search() ) : ?>
+		
+				<div class="bbp-search-form">
+		
+					<?php bbp_get_template_part( 'form', 'search' ); ?>
+		
+				</div>
+		
+			<?php endif; ?>
+			
+			<?php
 
 			if (is_user_logged_in()){
 				get_currentuserinfo();

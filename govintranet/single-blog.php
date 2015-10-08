@@ -17,7 +17,7 @@ get_header(); ?>
 							}?>
 					</div>
 				</div>
-<?php 
+				<?php 
 				$video=null;
 				//check if a video thumbnail exists, if so we won't use it to display as a headline image
 				if (function_exists('get_video_thumbnail')){
@@ -55,7 +55,7 @@ get_header(); ?>
             
             echo "<div class='widget-box'><h3>Author</h3><div class='well'><div class='media'>";
             
-            $gis = "options_forum_support";
+            $gis = "options_module_staff_directory";
 			$forumsupport = get_option($gis); 
 			if ($forumsupport){
                 echo "<a class='pull-left' href='".site_url()."/staff/" . $user->user_nicename . "/'>";

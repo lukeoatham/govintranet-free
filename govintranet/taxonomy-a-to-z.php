@@ -132,8 +132,10 @@ get_header(); ?>
 					$syns=0; //position marker for finding the next [ in keywords
 					$synpos=true;
 					$synonyms = sanitize_text_field ( get_post_meta(get_the_id(), 'keywords', true) ); //load the keywords for this post
+					$foundletter = false; //flag to check if we found a match in the shortcode
 					while ($synpos && $synonyms){ //check iteratively for shortcodes
 						//get any synonym words
+						if ( $foundletter ) break;
 						$findtxt = "["; 
 						$findstartpos = strpos ($synonyms,$findtxt,$syns);  
 						if ($findstartpos > -1){ 
@@ -168,7 +170,7 @@ get_header(); ?>
 								}
 							}
 							if ($foundletter){
-								$newsyn = implode(" ", $newwords);
+								$newsyn = implode(" ", $newwords); 
 								$newtitle .= $newsyn ;
 							}
 						} else {
@@ -176,9 +178,9 @@ get_header(); ?>
 						}
 					}
 					$newtitle = ucfirst($newtitle);
-				}
-				if (substr($newtitle,strlen($newtitle)-9,strlen($newtitle)) == '</li><li>') $newtitle = substr($newtitle,0,strlen($newtitle)-9); //if we have an open trailing li we remove it here.
-				if ( isset($tempot) && $tempot && isset($newtitle) && $newtitle && ((isset($foundletter) && $foundletter ) || (isset($foundkey) && $foundkey)) ) $sortedlist[get_the_id()]['newtitle'] = $newtitle;
+					if ( isset($foundletter) && $foundletter ) $sortedlist[get_the_id()]['newtitle'] = $newtitle;
+				} 
+				if ( isset($tempot) && $tempot && isset($newtitle) && $newtitle && ( (isset($foundletter) && $foundletter ) || (isset($foundkey) && $foundkey) ) ) $sortedlist[get_the_id()]['newtitle'] = $newtitle;
 			endwhile;
 
 			asort($sortedlist);
@@ -186,7 +188,7 @@ get_header(); ?>
 			echo "<dl class='dl-atoz row'>";
 			//final check to see if we actually found anything
 			$lastword = '';
-			$stripe = 'even';
+			$stripe = 'even'; 
 			foreach ( $sortedlist as $key => $val ){ 
 				global $post; 
 				$post = get_post($key);

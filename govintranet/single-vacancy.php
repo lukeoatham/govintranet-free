@@ -31,18 +31,13 @@ get_header(); ?>
 			
 			<h1><?php the_title();?></h1>
 			<div class='well'>
-			<p><h3>Job details</h3> 
+			<h3>Job details</h3> 
 			<?php
 
 			$job_reference = get_post_meta($current_vac, 'vacancy_reference', true);
-			if (!$job_reference){
-				$job_reference = 'n/a';
-			}
 
 			$team = get_post_meta($current_vac, 'vacancy_team', true);
-			if (!$team){
-				$team = 'No team specified.';
-			} else {
+			if ($team) {
 				$teamtemp = array();
 				foreach ((array)$team as $t){
 					$teamtemp[] = get_the_title($t);
@@ -52,26 +47,19 @@ get_header(); ?>
 
 			$grade = wp_get_post_terms( $post->ID, 'grade' );
 			if ( $grade ) $grade = $grade[0]->name;
-			if (!$grade){
-				$grade = 'No grade specified.';
-			}
 
 			$closing_date = get_post_meta($current_vac, 'vacancy_closing_date', true);
 			$closing_time = get_post_meta($current_vac, 'vacancy_closing_time', true);
-			if (!$closing_date){
-				$closing_date = 'No closing date specified.';
-			} else {
-				$closing_date = date('j F Y', strtotime($closing_date))." ".date('G:i', strtotime($closing_time));
-			}
+			if ($closing_date) $closing_date = date('j F Y', strtotime($closing_date))." ".date('G:i', strtotime($closing_time));
 
 			$projects = get_post_meta($current_vac, 'vacancy_project', true);
 
 			$current_attachments = get_post_meta($current_vac, 'document_attachments', true);
 			
-			echo "<p><strong>Job reference: </strong>".$job_reference;					
-			echo "<br><strong>Team: </strong>".$team;				
-			echo "<br><strong>Grade: </strong>".$grade;				
-			echo "<br><strong>Closing date: </strong>".$closing_date;		
+			if ( $job_reference ) echo "<strong>Job reference: </strong>".esc_attr($job_reference)."<br>";
+			if ( $team ) echo "<strong>Team: </strong>".$team."<br>";
+			if ( $grade ) echo "<strong>Grade: </strong>".$grade."<br>";			
+			if ( $closing_date ) echo "<strong>Closing date: </strong>".$closing_date;
 
 			$tdate= getdate();
 			$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];

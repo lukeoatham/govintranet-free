@@ -35,6 +35,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.6.1 - 8 Oct 2015 ###
+* Vacancy template improvements, order by closing date 
+* A to Z fixes 
+* News updates widget updates 
+* New calendar widget for use with The Events Calendar 
+
 ### 4.6 - 30 Sep 2015 ###
 * Events listing widget now includes choice of event types 
 * Feature news listing widget now includes choice of news types 
