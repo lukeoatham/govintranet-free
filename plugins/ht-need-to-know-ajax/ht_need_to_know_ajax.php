@@ -30,7 +30,7 @@ class htNeedToknowAJAX extends WP_Widget {
 		'after_widget' => stripcslashes($after_widget),
 		'before_title' => stripcslashes($before_title),
 		'after_title' => stripcslashes($after_title),
-		'title' => ($title),
+		'title' => $title,
 		'hide' => $hide,
           
         );
@@ -78,7 +78,7 @@ function ht_need_to_know_ajax_show() {
 	$after_widget = stripcslashes($_POST['after_widget']);
 	$before_title = stripcslashes($_POST['before_title']);
 	$after_title = stripcslashes($_POST['after_title']);
-	$hide = esc_attr($_POST['hide']);
+	$hide = $_POST['hide'];
 	
     $response = new WP_Ajax_Response;
 	global $post;
@@ -123,7 +123,7 @@ function ht_need_to_know_ajax_show() {
 		    'tax_query' => array(array(
 		    'taxonomy'=>'post_format',
 		    'field'=>'slug',
-		    'terms'=>array('post-format-status')
+		    'terms'=>array('post-format-status'),
 		    ))
 			);
 	
@@ -132,22 +132,23 @@ function ht_need_to_know_ajax_show() {
 		$show = 0;
 		$alreadydone = array();
 		if ($hide):
-			while ($news->have_posts()) {
+			while ($news->have_posts()):
 				$news->the_post();  
-				if (isset($_COOKIE['ht_need_to_know_'.get_the_id()])) {$read++; $alreadydone[]=get_the_id();} else { $show++; }
-			}
+				if (isset($_COOKIE['ht_need_to_know_'.get_the_id()])):
+					$read++; 
+					$alreadydone[]=get_the_id();
+				else:
+					$show++; 
+				endif;
+			endwhile;
 		else:
 			$show=1; 
 		endif;
-		if ($news->post_count!=0 && $news->post_count != $read && $show){ 
-			$html.= "<div class='zign2n category-block'>"; 
-			if ( $title ) $html.=  $before_title . $title . $after_title;
-			$html.= "<div class='need-to-know'><ul class='need'>"; 
-		}
 		$k=0;
 		while ($news->have_posts()) {
 			$news->the_post();
 			if (in_array(get_the_id(), $alreadydone ) || $k > $items) continue;  //don't show if already read
+			if ( get_post_status(get_the_id()) != "publish" ) continue;  //don't show if already read
 			$k++;
 			if ($k > $items) break;
 			$thistitle = get_the_title();
@@ -162,7 +163,10 @@ function ht_need_to_know_ajax_show() {
 	
 			$html.= "</li>";
 		}
-		if ($news->post_count!=0 && $news->post_count <> $read && $show){
+		if ($k){
+			if ( $title ) $html =  $before_title . $title . $after_title . $html;
+			$html= "<div class='need-to-know'><ul class='need'>" . $html; 
+			$html= "<div class='zign2n category-block'>" . $html; 
 			$html.= "</ul></div>";
 			$html.= $after_widget;
 		}
