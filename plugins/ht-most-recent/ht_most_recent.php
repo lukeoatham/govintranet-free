@@ -191,17 +191,17 @@ class htMostRecent extends WP_Widget {
 				}			
 	
 				$k++;
-				echo "<li><a href='".site_url()."/task/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a>".$title_context.$alert."</li>";
+				echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$title_context.$alert."</li>";
 				$alreadydone[]=$r->ID;
 			} elseif ($r->post_type=='project'){
 				if (!$r->post_parent){
 					$k++;
-					echo "<li><a href='".site_url()."/projects/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
+					echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
 					$alreadydone[]=$r->ID;
 				}
 			} else {
 				$k++;
-				echo "<li><a href='".site_url()."/".$r->post_type."/".$r->post_name."/'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
+				echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
 				$alreadydone[]=$r->ID;
 			}
 			
