@@ -9218,23 +9218,23 @@ function gi_tag_cloud($taxonomy, $term, $post_type) {
 		)	
 	);
 	$alltags = array();
-	foreach ($posts as $p): 
-		$tags = get_the_tags($p->ID); 
-		if ( $tags ) foreach ($tags as $t):
-			if (isset($alltags[$t->slug]['count'])):
+	foreach ($posts as $p){
+		$tags = get_the_tags($p->ID);
+		if ( $tags ) foreach ($tags as $t){
+			if (isset($alltags[$t->slug]['count'])){
 				$alltags[$t->slug]['count']++;
-			else:
-				if (isset($alltags[$t->slug]['count'])):
+			} else {
+				if (isset($alltags[$t->slug]['count'])){
 					$alltags[$t->slug]['count']++;
-				else:
+				} else {
 					$alltags[$t->slug]['count'] = 1;
-				endif;
+				}
 				$alltags[$t->slug]['name'] = $t->name;
 				$alltags[$t->slug]['slug'] = $t->slug;
 				$alltags[$t->slug]['link'] = get_term_link( intval($t->term_id), $t->taxonomy );
-			endif;
-		endforeach;
-	endforeach;
+			}
+		}
+	}
 	
 	ksort($alltags);
 	$tagstr="<span><a  class='wptag t".$taxid."' href='?showtag=&paged=1'>All</a></span> "; 

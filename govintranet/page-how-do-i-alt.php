@@ -91,9 +91,6 @@ get_header(); ?>
 			</div>
 
 			<div class="col-lg-5 col-md-5">
-				<div style="text-align:middle;"  class="widget-box">
-					<h3 class="widget-title">Browse by tag</h3>
-					<div class="tagcloud">
 					<?php 
 					$taghtml = "";
 					$taghtml = get_transient("ht_how_do_i_tags");
@@ -106,10 +103,16 @@ get_header(); ?>
 						endif;
 						set_transient("ht_how_do_i_tags", $taghtml, 60*60);
 					endif;
-					echo $taghtml;
-					?>
+					if ($taghtml): ?>
+					<div style="text-align:middle;"  class="widget-box">
+					<h3 class="widget-title">Browse by tag</h3>
+					<div class="tagcloud">
+					 <?php	echo $taghtml; ?>
 					</div>
-				</div>
+					</div>
+					<?php
+					endif;
+					?>
 			</div>
 
 		</div>

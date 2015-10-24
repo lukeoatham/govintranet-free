@@ -107,7 +107,6 @@ $terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"s
 
 <div class="col-sm-12">
 
-	<h3>Search by tag</h3>
 	<?php 
 	$taghtml = "";
 	$taghtml = get_transient("ht_how_do_i_tags");
@@ -120,10 +119,12 @@ $terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"s
 		endif;
 		set_transient("ht_how_do_i_tags", $taghtml, 60*60);
 	endif;
-	echo $taghtml;
+	if ($taghtml):
+		echo "<h3>Search by tag</h3>";
+		echo $taghtml;
+		echo "<br><br></div><br>";
+	endif;
 	?>
-	<br><br>
-</div><br>
 </div>
 <?php 
 if ($catcount == 3) echo "</div>";

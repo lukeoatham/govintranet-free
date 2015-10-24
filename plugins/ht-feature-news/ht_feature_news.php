@@ -131,6 +131,9 @@ function widget($args, $instance) {
 	$exclude = get_option($acf_key); 
 	$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_listing_news_type" ;  
 	$newstypes = get_option($acf_key); 
+    if ( !$title ) $title = "no_title_" . $id;
+    $moretitle = $instance['moretitle'];
+
     global $post;
 	$removenews = get_transient('cached_removenews'); 
 	if (!$removenews || !is_array($removenews)){
@@ -296,13 +299,15 @@ function widget($args, $instance) {
 			if ($newsgrid[$k]=="Li"){
 				echo "<p>";
 				echo '<span class="listglyph">'.get_the_date("j M Y"); 
+				echo " <span class='badge'>Featured</span>";
 				comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 				echo '</span> ';
-				echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+				echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 			} else {
 				if ($showexcerpt == 'on') {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					echo " <span class='badge'>Featured</span>";
 					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
 					echo "</p>";									
@@ -311,12 +316,12 @@ function widget($args, $instance) {
 				} else {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					echo " <span class='badge'>Featured</span>";
 					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
-					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+					echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 				}
 			}
-
 	
 			echo "</div>";
 	
@@ -437,7 +442,7 @@ function widget($args, $instance) {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
 					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
-					echo " <a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+					echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 				}
 			}
 	
@@ -458,8 +463,16 @@ function widget($args, $instance) {
 			$landingpage_link_text = get_the_title( $landingpage[0] );
 			$landingpage = get_permalink( $landingpage[0] );
 		endif;
-		
-		echo '<p><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
+
+		if ( !$moretitle ) $moretitle = $title;
+		if ( is_array($newstypes) && count($newstypes) < 2 ): 
+			$term = intval($newstypes[0]); 
+			$landingpage = get_term_link($term, 'news-type'); 
+			echo '<p class="more-updates"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+		else: 
+			$landingpage_link_text = $moretitle;
+			echo '<p class="more-updates"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+		endif;
 
 		echo "<div class='clearfix'></div>";
 		echo "</div>";
@@ -475,6 +488,7 @@ function widget($args, $instance) {
 		$instance['thumbnailitems'] = strip_tags($new_instance['thumbnailitems']);
 		$instance['listitems'] = strip_tags($new_instance['listitems']);
 		$instance['showexcerpt'] = strip_tags($new_instance['showexcerpt']);
+		$instance['moretitle'] = strip_tags($new_instance['moretitle']);
        return $instance;
     }
 
@@ -485,6 +499,7 @@ function widget($args, $instance) {
         $thumbnailitems = esc_attr($instance['thumbnailitems']);
         $listitems = esc_attr($instance['listitems']);
         $showexcerpt = esc_attr($instance['showexcerpt']);
+        $moretitle = esc_attr($instance['moretitle']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
@@ -505,6 +520,9 @@ function widget($args, $instance) {
           <input id="<?php echo $this->get_field_id('showexcerpt'); ?>" name="<?php echo $this->get_field_name('showexcerpt'); ?>" type="checkbox" <?php checked((bool) $instance['showexcerpt'], true ); ?> />
           <label for="<?php echo $this->get_field_id('showexcerpt'); ?>"><?php _e('Show excerpt'); ?></label> <br>
         </p>
+          <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:'); ?></label> 
+          <input class="widefat" id="<?php echo $this->get_field_id('mroetitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br>Leave blank for the default title<br>
+
         <?php 
     }
 
