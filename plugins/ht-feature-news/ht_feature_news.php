@@ -199,7 +199,7 @@ function widget($args, $instance) {
 	
     echo $before_widget; 
 
-    if ( $title ) :
+    if ( $title && $title != "no_title_" . $id) :
 	    echo $before_title;
 		echo $title;
 	    echo $after_title; 
@@ -465,6 +465,7 @@ function widget($args, $instance) {
 		endif;
 
 		if ( !$moretitle ) $moretitle = $title;
+		if ( $moretitle = "no_title_" . $id ) $moretitle = "More";
 		if ( is_array($newstypes) && count($newstypes) < 2 ): 
 			$term = intval($newstypes[0]); 
 			$landingpage = get_term_link($term, 'news-type'); 

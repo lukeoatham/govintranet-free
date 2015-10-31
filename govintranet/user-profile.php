@@ -39,16 +39,17 @@ do_action( 'bbp_template_before_user_profile' );
 			  			$teamparent = $parentteam->post_parent; 
 		  		    }
 		  			$teamlist[]= " <a href='".site_url()."/team/{$teamurl}/'>".govintranetpress_custom_title($team->post_title)."</a>";
-		  			echo "<strong>Team:</strong> ".implode(" &raquo; ", $teamlist)."<br>";
+		  			echo "<p><strong>Team:</strong> ".implode(" &raquo; ", $teamlist)."</p>";
 		  			$teamlist=array();
 				}
 		}  
+		if (!$teams) echo '<h3 class="contacthead">Role</h3>';
 		$jt = get_user_meta($user_id, 'user_job_title',true );
-		if ($jt) echo "<strong>Job title: </strong>".$jt."<br>";
+		if ($jt) echo "<p><strong>Job title: </strong>".$jt."</p>";
 		$jt = get_user_meta( $user_id, 'user_grade',true ); 
 		if ($jt) {
 			$jt = get_term($jt, 'grade', ARRAY_A);
-			if ($jt['name']) echo "<strong>Grade: </strong>".$jt['name']."";
+			if ($jt['name']) echo "<p><strong>Grade: </strong>".$jt['name']."</p>";
 		}
 		?>
 		<h3 class="contacthead">Contact</h3>
@@ -104,7 +105,7 @@ do_action( 'bbp_template_before_user_profile' );
 	</div>
 
 	<div class="clearfix col-lg-6 col-md-6 col-sm-12">
-
+		<?php if ( get_option('options_staff_directory') ):?>
 		<script>
 		jQuery('.tlink').tooltip();
 		</script>
@@ -153,6 +154,7 @@ do_action( 'bbp_template_before_user_profile' );
 		echo "</div></div>";
 		?>
 		</div>
+	<?php endif; ?>
 	</div>
 	<?php do_action( 'bbp_template_after_user_profile' ); ?>
 </div>

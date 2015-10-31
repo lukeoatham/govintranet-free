@@ -3116,7 +3116,7 @@ acf_add_local_field_group(array (
 		array (
 			'key' => 'field_558dd3eeeda3b',
 			'label' => 'News updates',
-			'name' => 'module_udpates',
+			'name' => 'module_news_updates',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,

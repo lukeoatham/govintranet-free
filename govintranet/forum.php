@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying forum pages. Excludes regular breakcrumb.
+ * The template for displaying user profile pages. 
  *
  */
 get_header(); 
@@ -17,7 +17,11 @@ get_header();
 				> <a href="<?php echo site_url(); ?>/staff-directory/">Staff directory</a>
 				> <?php the_title(); ?>
 		<?php
-		 else: 
+		 elseif ($r[1] == 'users'):?>
+				<a href="<?php echo site_url(); ?>">Home</a>
+				> <?php the_title(); ?>
+		<?php
+		else: 
 		 if (function_exists('bcn_display') && !is_front_page()) {
 				bcn_display();
 				}

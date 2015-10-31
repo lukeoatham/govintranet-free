@@ -92,8 +92,8 @@ class htFeatureBlogposts extends WP_Widget {
         $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );  
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_pin_posts" ;  
 		$top_slot = get_option($acf_key); 
-
-		$num_top_slots = count($top_slot);
+		$num_top_slots = 0;
+		if ( is_array($top_slot) ) $num_top_slots = count($top_slot); 
 		$to_fill = $items - $num_top_slots;
 		$k = -1;
 		$alreadydone = array();
@@ -106,36 +106,41 @@ class htFeatureBlogposts extends WP_Widget {
 			}
 			echo "<div class='widget-area widget-blogposts'>";
 			$titledone = 1;
-			foreach ((array)$top_slot as $thisslot){ 
-				if (!$thisslot) continue;
-				$post = get_post($thisslot); 
-				if ($post->post_status != 'publish') continue;
+			$cquery = array(
+		    'post_type' => 'blog',
+			'posts_per_page' => -1,
+			'post__in' => $top_slot,
+			);
+			
+			$news =new WP_Query($cquery);
+			if ( $news->have_posts() ) while ( $news->have_posts() ):
+				$news->the_post(); 
 				$k++;
-				$alreadydone[] = $post->ID;
-				$thistitle = get_the_title($post->ID);
-				$edate = $post->post_date;
+				$alreadydone[] = get_the_id();
+				$thistitle = get_the_title();
+				$edate = get_the_date($post->ID);
 				$edate = date('j M Y',strtotime($edate));
-				$thisURL=get_permalink($post->ID); 
+				$thisURL=get_permalink();
 				echo "<div class='media'>";
 				if ($thumbnails=='on'){
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' ); 
 					if (!$image_uri){
-						$image_uri = get_avatar($post->post_author,72);
+						$image_uri = get_avatar(get_the_author_id(),72);
 						$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
-						echo "<a class='pull-left' href='".get_permalink($post->ID)."'>{$image_uri}</a>";		
+						echo "<a class='pull-left' href='".get_permalink(get_the_id())."'>{$image_uri}</a>";		
 					} else {
-						echo "<a class='pull-left' href='".get_permalink($post->ID)."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";					}
+						echo "<a class='pull-left' href='".get_permalink(get_the_id())."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";					}
 				}
 				echo "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 				echo "<br><span class='news_date'>".$edate." by ";
 				echo get_the_author();
-				echo " <span class='badge'>Featured</span>";
+				echo " <span class='badge'>Featured</span>"; 
 				comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 				echo "</span>";
 				echo "</span>";
 				if ($excerpt == 'on') the_excerpt();
 				echo "</div></div>";
-			}		
+			endwhile;		
 		};
 		
 		//fetch fresh blogposts 
@@ -202,7 +207,7 @@ class htFeatureBlogposts extends WP_Widget {
 			endif;
 			echo '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 		} 
-		if ($news->have_posts()){
+		if ($news->have_posts() || $num_top_slots > 0 ){
 			echo '</div>';
 			echo $after_widget;
 		}

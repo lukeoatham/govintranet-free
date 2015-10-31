@@ -20,10 +20,12 @@ Intranet theme inspired by GOV.UK. Custom post types: news, blog, events, tasks 
 * Projects
 * Vacancies
 * News
-* Blog
-* Events
-* A to Z
-* Jargon buster
+* News updates 
+* Blog 
+* Events 
+* A to Z 
+* Jargon buster 
+* Intraverts (targeted messages) 
 
 
 ## Installation ##
@@ -34,6 +36,19 @@ Refer to [showcase site](https://govintranet.helpfulclients.com/) for example in
 Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for help and installation instructions.
 
 ## Changelog ##
+
+### 4.6.4 - 31 Oct 2015 ###
+* User profile improvements 
+* Correction to News update module setting - please reset if missing 
+* Feature news / Feature blogposts widget bugfixes 
+
+### 4.6.3 - 24 Oct 2015 ###
+* How do I template tidy for no tags 
+* New pinned post options in Feature blogpost widget 
+* Features news by type - link text options 
+
+### 4.6.2 - 20 Oct 2015 ###
+* Most recent widget updates 
 
 ### 4.6.1 - 8 Oct 2015 ###
 * Vacancy template improvements, order by closing date 
