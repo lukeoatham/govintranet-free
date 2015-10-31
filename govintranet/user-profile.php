@@ -105,7 +105,7 @@ do_action( 'bbp_template_before_user_profile' );
 	</div>
 
 	<div class="clearfix col-lg-6 col-md-6 col-sm-12">
-		<?php if ( get_option('options_staff_directory') ):?>
+		<?php if ( get_option('options_module_staff_directory') ):?>
 		<script>
 		jQuery('.tlink').tooltip();
 		</script>

@@ -37,6 +37,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.6.4.1 - 31 Oct 2015 ###
+* User profile bugfix 
+
 ### 4.6.4 - 31 Oct 2015 ###
 * User profile improvements 
 * Correction to News update module setting - please reset if missing 
