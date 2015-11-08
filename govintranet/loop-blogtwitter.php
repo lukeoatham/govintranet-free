@@ -16,7 +16,7 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 ?>
 
 <h3 class='postlist'>		
-	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a><?php echo $ext_icon; ?></h3>
+	<a href="<?php the_permalink(); ?>" title="<?php  the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a><?php echo $ext_icon; ?></h3>
 <?php
 	echo "<div class='media'>" ;
 	$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
@@ -71,7 +71,7 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 	           } else {
 	                echo " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
 			   }
-			   comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
+			   if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 
 		echo "</p>";
 

@@ -32,9 +32,11 @@ get_header();
 			<div class="col-lg-8 col-md-8 col-sm-8 white">
 				<div class="row">
 					<div class='breadcrumbs'>
-						<?php echo "<a href='".site_url()."/'>Home</a> &raquo; ";
+						<?php echo "<a href='".site_url()."/'>";
+							_ex('Home','The homepage link','govintranet');
+							echo "</a> &raquo; ";
 						 	if ($sfilter == 'forum'){
-							 	 echo "<a href='".site_url()."/forums/'>Forums</a> &raquo; ";
+							 	 echo "<a href='".site_url()."/forums/'>" . __('Forums','govintranet') . "</a> &raquo; ";
 						 	} else {
 							 	$blogpageid = get_option("options_module_blog_page") ; 
 							 	$blogpage = get_permalink($blogpageid[0]);
@@ -44,13 +46,19 @@ get_header();
 							?>
 					</div>
 				</div>
-				<h1><?php if ($sfilter=='forum'){ echo "Forum"; }else{echo "Blog"; }?> posts by <?php echo $curauth->display_name   ?></h1>
+				<h1><?php 
+				if ($sfilter=='forum'){ 
+					printf( __('Forum posts by %s' , 'govintranet'), $curauth->display_name); 
+				}else{ 
+					printf( __('Blog posts by %s' , 'govintranet'), $curauth->display_name); 
+				} 
+				?></h1>
 				<p>
 				<?php
 				$gis = "general_intranet_forum_support";
 				$forumsupport = get_option($gis);
 				if ($forumsupport) :?>
-					<a href='/staff/<?php echo $curauth->user_login ;?>'>Staff profile</a> | 
+					<a href='/staff/<?php echo $curauth->user_login ;?>'><?php _e('Staff profile','govintranet'); ?></a> | 
 				<?php endif; ?>
 				<a href="mailto:<?php echo $curauth->user_email ; ?>"><?php echo $curauth->display_name ; ?></a></p>
 				<?php
@@ -69,7 +77,7 @@ get_header();
 				?>
 			</div>
 		<div class="col-lg-4 col-md-4 col-sm-4">
-
+		<!-- left blank -->
 		</div>	
 <?php
 wp_reset_query();

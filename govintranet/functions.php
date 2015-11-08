@@ -90,12 +90,8 @@ function govintranet_setup() {
 
 	// Make theme available for translation
 	// Translations can be filed in the /languages/ directory
-	load_theme_textdomain( 'govintranet', TEMPLATEPATH . '/languages' );
+	load_theme_textdomain( 'govintranet');
 
-	$locale = get_locale();
-	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
-	if ( is_readable( $locale_file ) )
-		require_once( $locale_file );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
@@ -170,42 +166,42 @@ function govintranet_filter_wp_title( $title, $separator ) {
 			$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 		}			
 	
-		$title .= $title_context. " - tasks and guides" ;
+		$title .= $title_context. " - " . __('tasks and guides','govintranet')  ;
 	}
 	else if ($post->post_type == "project"  ) {
-		$title .= " - projects" ;
+		$title .= " - " . __('project','govintranet') ;
 	}
 	else if ($post->post_type == "vacancy"  ) {
-		$title .= " - job vacancies" ;
+		$title .= " - " . __('job vacancies','govintranet') ;
 	}
 	else if ($post->post_type == "user"  ) {
 		global $post;
 		$u = $post->post_title;
-		$title .= $u." - staff profile" ;
+		$title .= $u." - " . __('staff profile','govintranet') ;
 	}
 	else if ($post->post_type == "event"  ) {
-		$title .= " - events" ;
+		$title .= " - " . __('events','govintranet') ;
 	}
 	else if ($post->post_type == "jargon-buster"  ) {
-		$title .= " - jargon buster" ;
+		$title .= " - " . __('jargon buster','govintranet') ;
 	}
 	else if ($post->post_type == "a_to_z"  ) {
-		$title .= " - A to Z" ;
+		$title .= " - " . __('A to Z','govintranet') ;
 	}
 	else if ($post->post_type == "forums"  ) {
-		$title .= " - forums" ;
+		$title .= " - " . __('forums','govintranet') ;
 	}
 	else if ($post->post_type == "topics"  ) {
-		$title .= " - forum topics" ;
+		$title .= " - " . __('forum topics','govintranet') ;
 	}
 	else if ($post->post_type == "replies"  ) {
-		$title .= " - forum replies" ;
+		$title .= " - " . __('forum replies','govintranet') ;
 	}
 	else if ($post->post_type == "news"  ) {
-		$title .= " - news" ;
+		$title .= " - " . __('news','govintranet') ;
 	}
 	else if ($post->post_type == "blog"  ) {
-		$title .= " - blog" ;
+		$title .= " - " . __('blog','govintranet') ;
 	}
 
 	// If we have a site description and we're on the home/front page, add the description:
@@ -398,9 +394,9 @@ function govintranet_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name' => __( 'Homepage hero column', 'govintranet' ),
+		'name' => __( 'Homepage hero area', 'govintranet' ),
 		'id' => 'home-widget-area-hero',
-		'description' => __( 'Homepage top right', 'govintranet' ),
+		'description' => __( 'Homepage hero area', 'govintranet' ),
 		'before_widget' => '<div class="category-block">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
@@ -409,7 +405,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Homepage second column', 'govintranet' ),
 		'id' => 'home-widget-area2',
-		'description' => __( 'Homepage top left', 'govintranet' ),
+		'description' => __( 'Homepage second column', 'govintranet' ),
 		'before_widget' => '<div class="category-block">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
@@ -418,7 +414,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Homepage third column top', 'govintranet' ),
 		'id' => 'home-widget-area3t',
-		'description' => __( 'Homepage bottom left', 'govintranet' ),
+		'description' => __( 'Homepage third column top', 'govintranet' ),
 		'before_widget' => '<div class="category-block">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
@@ -427,7 +423,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Homepage third column bottom', 'govintranet' ),
 		'id' => 'home-widget-area3b',
-		'description' => __( 'Homepage top right', 'govintranet' ),
+		'description' => __( 'Homepage third column bottom', 'govintranet' ),
 		'before_widget' => '<div class="category-block">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
@@ -436,7 +432,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Utility widget box', 'govintranet' ),
 		'id' => 'utility-widget-area',
-		'description' => __( 'The utility widget area', 'govintranet' ),
+		'description' => __( 'Utility widget area appears beneath the search box', 'govintranet' ),
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
@@ -444,7 +440,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Left footer', 'govintranet' ),
 		'id' => 'first-footer-widget-area',
-		'description' => __( 'The main footer widget area', 'govintranet' ),
+		'description' => __( 'Left footer widget area', 'govintranet' ),
 		'before_widget' => '<div class="widget-box">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3 class="widget-title">',
@@ -473,7 +469,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Tasks sidebar', 'govintranet' ),
 		'id' => 'task-widget-area',
-		'description' => __( 'Tasks widget area', 'govintranet' ),
+		'description' => __( 'Tasks widget area, appears on individual tasks', 'govintranet' ),
 		'before_widget' => '<div class="widget-box">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
@@ -491,7 +487,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'News sidebar', 'govintranet' ),
 		'id' => 'news-widget-area',
-		'description' => __( 'News widget area', 'govintranet' ),
+		'description' => __( 'News widget area, appears on individual news and news updtes', 'govintranet' ),
 		'before_widget' => '<div class="widget-box">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
@@ -509,7 +505,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Blog sidebar', 'govintranet' ),
 		'id' => 'blog-widget-area',
-		'description' => __( 'Blog posts widget area', 'govintranet' ),
+		'description' => __( 'Blog posts widget area, appears on individual blog posts', 'govintranet' ),
 		'before_widget' => '<div class="widget-box">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
@@ -527,7 +523,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Events sidebar', 'govintranet' ),
 		'id' => 'events-widget-area',
-		'description' => __( 'Events posts widget area', 'govintranet' ),
+		'description' => __( 'Events posts widget area, appears on individual events', 'govintranet' ),
 		'before_widget' => '<div class="widget-box">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
@@ -1504,22 +1500,23 @@ register_post_type('blog', array(
 'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author','post-formats'),
 'taxonomies' => array('post_tag'),
 'labels' => array (
-  'name' => 'Blog posts',
-  'singular_name' => 'Blog post',
-  'menu_name' => 'Blog posts',
-  'add_new' => 'Add Blog post',
-  'add_new_item' => 'Add New Blog post',
-  'edit' => 'Edit',
-  'edit_item' => 'Edit Blog post',
-  'new_item' => 'New Blog post',
-  'view' => 'View Blog post',
-  'view_item' => 'View Blog post',
-  'search_items' => 'Search Blog posts',
-  'not_found' => 'No Blog posts Found',
-  'not_found_in_trash' => 'No Blog posts Found in Trash',
-  'parent' => 'Parent Blog post',
+  'name' => _x('Blog posts','post type name plural','govintranet'),
+  'singular_name' => _x('Blog post','post type name singular','govintranet'),
+  'menu_name' => _x('Blog posts','post type name','govintranet'),
+  'add_new' => __('Add Blog post','govintranet'),
+  'add_new_item' => __('Add New Blog post','govintranet'),
+  'edit' => __('Edit','govintranet'),
+  'edit_item' => __('Edit Blog post','govintranet'),
+  'new_item' => __('New Blog post','govintranet'),
+  'view' => __('View Blog post','govintranet'),
+  'view_item' => __('View Blog post','govintranet'),
+  'search_items' => __('Search Blog posts','govintranet'),
+  'not_found' => __('No Blog posts found','govintranet'),
+  'not_found_in_trash' => __('No Blog posts found in trash','govintranet'),
+  'parent' => __('Parent Blog post','govintranet'),
 )
-) ); }
+) ); 
+}
 
 if ( get_option( 'options_module_events' ) ) add_action('init', 'cptui_register_my_cpt_event');
 function cptui_register_my_cpt_event() {
@@ -1712,7 +1709,7 @@ acf_add_local_field_group(array (
 	'fields' => array (
 		array (
 			'key' => 'field_558c8496c4f35',
-			'label' => 'Enable auto-expiry',
+			'label' => __('Enable auto-expiry','govintranet'),
 			'name' => 'news_update_auto_expiry',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -1728,7 +1725,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_558c8496c9d3c',
-			'label' => 'Expiry date',
+			'label' => __('Expiry date','govintranet'),
 			'name' => 'news_update_expiry_date',
 			'type' => 'date_picker',
 			'instructions' => '',
@@ -1753,7 +1750,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_558c8496ceb61',
-			'label' => 'Expiry time',
+			'label' => __('Expiry time','govintranet'),
 			'name' => 'news_update_expiry_time',
 			'type' => 'text',
 			'instructions' => '',
@@ -1782,7 +1779,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_558c8496d39b4',
-			'label' => 'Expiry action',
+			'label' => __('Expiry action','govintranet'),
 			'name' => 'news_update_expiry_action',
 			'type' => 'select',
 			'instructions' => '',
@@ -8883,7 +8880,7 @@ function listdocs_func( $atts ) {
 		$catname = $catterm->name;
 		$catid = $catterm->term_id;
 	} else {
-		$catname = "All categories";
+		$catname = __('All categories','govintranet');
 	}	
 	
 	if ($doctyp != "any") {
@@ -8891,7 +8888,7 @@ function listdocs_func( $atts ) {
 		$dtname = $dtterm->name;
 		$dtid = $dtterm->term_id;
 	} else {
-		$dtname = "All document types";
+		$dtname = __('All document types','govintranet');
 	}	
 	
 	// get all document types for the left hand menu
@@ -9001,7 +8998,7 @@ function listdocs_func( $atts ) {
 		$html.= '<li><a href="'.$post->guid.'">';
 		$html.= ''.$post->post_title;
 		$html.= '</a>';
-		if ($post->post_content && $desc) $html.='<br class="">'.$post->post_content.'</li>';
+		if ($post->post_content && $desc) $html.='<br>'.$post->post_content.'</li>';
 	endwhile;
 
 	$html.= '</ul>';
@@ -9237,14 +9234,14 @@ function gi_tag_cloud($taxonomy, $term, $post_type) {
 	}
 	
 	ksort($alltags);
-	$tagstr="<span><a  class='wptag t".$taxid."' href='?showtag=&paged=1'>All</a></span> "; 
+	$tagstr="<span><a  class='wptag t".$taxid."' href='?showtag=&paged=1'>"._x('All','all tags','govintranet')."</a></span> "; 
 	foreach ($alltags as $a):
 		$active='';
 		if (isset( $_GET['showtag'] ) && $_GET['showtag'] == $a['slug']) { $active = 'active " '; $activeicon="<span class='dashicons dashicons-tag'></span>&nbsp;"; } else { $active = ''; $activeicon = '';};
 		$tagstr.="<span><a class='wptag ".$active."t".$taxid;
 		$tagstr.="' href='?showtag=".$a['slug']."&paged=1'>" . $activeicon . str_replace(' ', '&nbsp;' , $a['name']) . '</a></span> '; 
 	endforeach;
-	if ( "<span><a  class='wptag t".$taxid."' href='?showtag=&paged=1'>All</a></span> " == $tagstr ):
+	if ( "<span><a  class='wptag t".$taxid."' href='?showtag=&paged=1'>"._x('All','all tags','govintranet')."</a></span> " == $tagstr ):
 		return;
 	else:
 		return $tagstr;
@@ -9467,11 +9464,11 @@ function add_loginout_link( $items, $args ) {
 		elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
 			$userurl=str_replace('/author', '/staff', $userurl);
 		}	    
-	    if ( get_option("options_show_my_profile", false) ) $items .= '<li><a href="'. $userurl .'">My profile</a></li>';
-        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. wp_logout_url() .'">Logout</a></li>';
+	    if ( get_option("options_show_my_profile", false) ) $items .= '<li><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>';
+        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. wp_logout_url() .'">'.__("Logout","govintranet").'</a></li>';
     }
     elseif (!is_user_logged_in() && $args->theme_location == 'secondary') {
-        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. site_url('wp-login.php') .'">Login</a></li>';
+        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. site_url('wp-login.php') .'">'.__("Login","govintranet").'</a></li>';
     }
     return $items;
 }
@@ -9490,7 +9487,7 @@ function add_comment_author_to_reply_link($link, $args, $comment){
             $user=get_userdata($comment->user_id);
             $author=$user->user_login;
         } else {
-            $author = __('Anonymous');
+            $author = __('Anonymous','govintranet');
         }
     } else {
         $author = $comment->comment_author;
@@ -9503,7 +9500,8 @@ function add_comment_author_to_reply_link($link, $args, $comment){
  
     // Replace Reply Link with "Reply to &lt;Author First Name>"
     $reply_link_text = $args['reply_text'];
-    $link = str_replace($reply_link_text, 'Reply to ' . $author, $link);
+    $replyto = sprintf( __('Reply to %s', 'govintranet'), $author );
+    $link = str_replace($reply_link_text, $replyto , $link);
  
     return $link;
 }

@@ -33,7 +33,7 @@ $mainid=$post->ID;
 		$addToCalendar = " <div class='new-cal'></div>";
 	}
   
-	echo '<h3>Date</h3>';
+	echo '<h3>' . __('Date' , 'govintranet') . '</h3>';
 	echo "<p>".date('l j M Y ',strtotime(get_post_meta($post->ID,'event_start_date',true)));
 	if (get_post_meta($post->ID,'event_start_time',true)):
 		echo "<i class='dashicons dashicons-clock'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_start_time',true))). " - ";
@@ -53,7 +53,7 @@ $mainid=$post->ID;
 
 	$locationname = get_post_meta($post->ID,'event_location',true);
 	if ( $locationname ):
-		echo "<h3>Location</h3>";
+		echo "<h3>" . __('Location' , 'govintranet') . "</h3>";
 		echo wpautop(esc_attr($locationname));
 	endif;
 	
@@ -63,14 +63,14 @@ $mainid=$post->ID;
 	$alreadybooked='';
 	if ($formfields){
 		$formid = $formfields;
-		$formtitle = 'Event booking';
+		$formtitle = __('Event booking','govintranet');
 		global $wpdb;
 		$q = $wpdb->prepare("select distinct $wpdb->rg_lead.id from $wpdb->rg_lead join $wpdb->rg_lead_detail on $wpdb->rg_lead_detail.form_id = $wpdb->rg_lead.form_id where $wpdb->rg_lead.form_id = ".$formid." and created_by = ".$userid." and $wpdb->rg_lead_detail.field_number = 1 and $wpdb->rg_lead_detail.value = %d and $wpdb->rg_lead.status = 'active'",$post->ID); 
 		$alreadybooked = $wpdb->get_results($q,"ARRAY_A");
 	} 
 	
-	if ($alreadybooked) echo "<strong>* You have made a booking for this event *</strong>";
-	echo '<h3>Details</h3>';
+	if ($alreadybooked) echo "<strong>* " . __('You have made a booking for this event') . " *</strong>";
+	echo '<h3>' . __('Details' , 'govintranet') . '</h3>';
 	the_content(); 
 	$sdate= date('Ymd');
 	
@@ -83,7 +83,7 @@ $mainid=$post->ID;
 	$sdate = date('Ymd');
 	$ticketid = get_post_meta($post->ID,'eventbrite_ticket',true);
 	if ($ticketid && $sdate <= date('Ymd',strtotime(get_post_meta($post->ID,'event_end_date',true))) ) : ?>
-		<h3>Tickets and registration</h3>
+		<h3><?php _e('Tickets and registration' , 'govintranet') ;?></h3>
 		<div style="width:100%; text-align:left;" >
 			<iframe src="https://www.eventbrite.com/tickets-external?eid=<?php echo $ticketid; ?>" frameborder="0" height="256" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe>
 		</div>
@@ -93,7 +93,7 @@ $mainid=$post->ID;
 	$current_attachments = get_field('document_attachments');
 	if ($current_attachments){
 		echo "<div class='alert alert-info'>";
-		echo "<h3>Downloads <i class='glyphicon glyphicon-download'></i></h3>";
+		echo "<h3>" . _x('Downloads' , 'Document downloads' , 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
 		foreach ($current_attachments as $ca){
 			$c = $ca['document_attachment'];
 			if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
@@ -124,7 +124,7 @@ $mainid=$post->ID;
 		$text = $map['address'];
 		?>	
 		<div class="widget-box">
-			<h3>Location</h3>
+			<h3><?php _e('Location' , 'govintranet') ;?></h3>
 			<script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 			<script>
 				var map;
@@ -159,12 +159,12 @@ $mainid=$post->ID;
 	if ($post_cat){
 		$html='';
 		foreach($post_cat as $cat){
-			if ($cat->slug != 'uncategorized'){
+			if ($cat->term_id > 1){
 				$html.= "<span><a class='wptag t".$cat->term_id."' href='".site_url()."/events/?cat=".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 			}
 		}	
 		if ($html){
-			echo "<div class='widget-box'><h3>Categories</h3>".$html."</div>";
+			echo "<div class='widget-box'><h3>" . __('Categories' , 'govintranet') . "</h3>".$html."</div>";
 		}
 	}
 	$posttags = get_the_tags();
@@ -174,10 +174,10 @@ $mainid=$post->ID;
 	  	foreach($posttags as $tag) { 
 	  			$foundtags=true;
 	  			$tagurl = $tag->slug;
-		    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?type=event'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+		    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl) . "?type=event'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 	  	}
 	  	if ($foundtags){
-		  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
+		  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
 		  	echo $tagstr;
 		  	echo "</p></div>";
 	  	}

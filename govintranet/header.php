@@ -368,12 +368,12 @@ $parentpageclass.=" custom-background";
 		  <!-- Brand and toggle get grouped for better mobile display -->
 		  <div class="navbar-header">
 		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-		      <span class="sr-only">Toggle navigation</span>
+		      <span class="sr-only"><?php _e('Toggle navigation' , 'govintranet'); ?></span>
 		      <span class="icon-bar"></span>
 		      <span class="icon-bar"></span>
 		      <span class="icon-bar"></span>
 		    </button>
-		    <p><a class='navbar-brand visible-xs pull-left' href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><i class="glyphicon glyphicon-home"></i> Home</a></p>
+		    <p><a class='navbar-brand visible-xs pull-left' href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><i class="glyphicon glyphicon-home"></i> <?php _e('Home' , 'govintranet'); ?></a></p>
 		  </div>
 
 		  <!-- Collect the nav links, forms, and other content for toggling -->
@@ -382,7 +382,7 @@ $parentpageclass.=" custom-background";
 				<div class="row" id="masthead">	
 
 					<div class="container">
-						<a class="sr-only" href="#content">Skip to content</a>
+						<a class="sr-only" href="#content"><?php _e('Skip to content' , 'govintranet');?></a>
 						<div class="row">							
 						<!--logo and name-->
 							<div class="col-lg-8 col-md-7 col-sm-6 hidden-xs" id="crownlogo">

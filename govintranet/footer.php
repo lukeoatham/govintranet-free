@@ -5,7 +5,7 @@
  * @package WordPress
  */
 ?>
-</div>
+	</div>
 </div>
 <div id='footerwrapper'>
 	<div class="container">
@@ -48,8 +48,6 @@
 	});	
 </script>
 
-<?php
-	wp_footer();
-?>
+<?php wp_footer(); ?>
 </body>
 </html>

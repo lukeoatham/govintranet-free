@@ -46,19 +46,14 @@ function govintranet_customize_register ( $wp_customize ){
 		'section' => 'colors',
 		'settings' => 'link_visited_color',
 	)));
-
 	
 }
 
 add_action ( 'customize_register', 'govintranet_customize_register' );
 
-
-
-
 function govintranet_customizer_script() {
 	wp_enqueue_script( 'govintranet-customizer-script', get_template_directory_uri().'/js/theme-options.js', array ( 'jquery', 'customize-preview'), '', true );
 }	
 add_action ( 'customize_preview_init', 'govintranet_customizer_script' );
-
 
 ?>

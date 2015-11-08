@@ -23,21 +23,21 @@ get_header(); ?>
 		<div class="well well-sm">
 			<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
 				<div class="input-group">
-					 <label for="sbc-s" class="sr-only">Search for</label>
+					 <label for="sbc-s" class="sr-only"><?php _e('Search for' , 'govintranet'); ?></label>
 					<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 					 <span class="input-group-btn">
 					 <input type="hidden" name="post_type[]" value="task" />
-					 <label for="searchbutton2" class="sr-only">Search</label>
+					 <label for="searchbutton2" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>
 			    	 <?php
 				    	 $icon_override = get_option('options_search_button_override', false); 
 				    	 if ( isset($icon_override) && $icon_override ):
-					    	 $override_text = get_option('options_search_button_text', 'Search');
+					    	 $override_text = get_option('options_search_button_text', __('Search' , 'govintranet') );
 							 ?>
 					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><?php echo esc_attr($override_text); ?></button>
 						 	<?php 
 				    	 else:
 					    	 ?>
-					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only">Search</span></button>
+					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only"><?php _e('Search' , 'govintranet'); ?></span></button>
 						 	<?php 
 						 endif;
 						 ?>
@@ -120,7 +120,7 @@ $terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"s
 		set_transient("ht_how_do_i_tags", $taghtml, 60*60);
 	endif;
 	if ($taghtml):
-		echo "<h3>Search by tag</h3>";
+		echo "<h3>" . __('Search by tag' , 'govintranet') . "</h3>";
 		echo $taghtml;
 		echo "<br><br></div><br>";
 	endif;

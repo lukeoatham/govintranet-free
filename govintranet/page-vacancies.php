@@ -31,7 +31,6 @@ if ( count($oldvacs) > 0 ){
 	}	
 }
 
-
 wp_reset_query();
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
@@ -50,12 +49,12 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		<!-- category search box -->
 		<div class="well">
 			<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url('/'); ?>">
-				<label for="cat">In <?php echo strtolower(get_the_title()); ?> </label>
+				<label for="cat"><?php _e('In', 'govintranet') ; ?> <?php echo strtolower(get_the_title()); ?> </label>
 				<div class="form-group input-md">
 					<input type="text" value="" name="s" id="sbc-s" class="form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 				</div>
 				<div class="form-group input-md">
-					<button type="submit" class="btn btn-primary input-md">Search</button>
+					<button type="submit" class="btn btn-primary input-md"><?php _e('Search' , 'govintranet'); ?></button>
 					<input type="hidden" value="vacancy" name = "post_type" />
 				</div>
 			</form>
@@ -66,11 +65,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		$jobgrade='';
 		if ( isset( $_GET['grade'] ) ) $jobgrade = $_GET['grade'];
 		if ( $terms = get_terms('grade') ): 
-			echo "<p>Grades: ";
+			echo "<p>" . __('Grades','govintranet'). ": ";
 			if ($jobgrade=='all' || !$jobgrade) : ?>
-					<strong>All grades</strong> | 
+					<strong><?php _e('All grades' , 'govintranet'); ?></strong> | 
 			<?php else: ?>
-					<a href='?grade=all'>All grades</a> | 
+					<a href='?grade=all'><?php _e('All grades' , 'govintranet'); ?></a> | 
 			<?php endif; 
 			if ($terms) {
 		  		foreach ((array)$terms as $taxonomy ) {
@@ -167,7 +166,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				);
 		}
 		if ($vacancies->post_count==0){
-			echo "Nothing to show.";
+			echo __("Nothing to show.","govintranet");
 		}
 
 		if (  $vacancies->max_num_pages > 1 ) : 
@@ -191,7 +190,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			$thistime=date("H:i",strtotime($thistime));
 			echo "<div class='newsitem'><a href='{$thisURL}'>".$image_url."</a>";
 			echo "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
-			echo "<p><span class='news_date'>Closing: ".$thisdate." ".$thistime."</span>";
+			echo "<p><span class='news_date'>" . __('Closing','govintranet') .": ".$thisdate." ".$thistime."</span>";
 			$post_type = get_the_category();
 			$thistype = '';
 			if ( $post_type ) foreach ($post_type as $p) {
@@ -200,7 +199,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			}
 			echo "&nbsp;<span class='wptagsinfo news'>".$thistype."</span></p>";
 			echo "<p>".$thisexcerpt."</p>";
-			echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >Read more</a></p>";
+			echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Read more' , 'govintranet') . "</a></p>";
 			echo "</div><div class='clearfix'></div><hr class='light' />";
 		}
 		wp_reset_query();								
@@ -211,7 +210,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 		<?php if ( $cloud = gi_howto_tag_cloud('vacancy') ): ?>
 		<div class='widget-box'>
-			<h3 class='widget-title'>Browse by tag</h3>
+			<h3 class='widget-title'><?php _e('Browse by tag' , 'govintranet'); ?></h3>
 			<?php echo $cloud; ?>
 		</div>
 		<?php endif; ?>

@@ -66,7 +66,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
 		?>
 		<div>
-			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> Project</small></h1>
+			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranedt'); ?></small></h1>
 			<?php 
 			$podchap = get_post($parent_guide_id); 
 			$alreadydone[]=$parent_guide_id;
@@ -147,7 +147,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			if ($current_chapter>1){
 				echo "<h2>".$current_chapter.". ".get_the_title()."</h2>";
 			} else {
-				echo "<h2>Overview</h2>";
+				echo "<h2>" . __('Overview' , 'govintranet') . "</h2>";
 			}
 
 			the_content(); 		
@@ -156,7 +156,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				echo "<div class='alert alert-info'>";
 				echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
 				    while ( have_rows('document_attachments') ) : the_row(); 
-						$doc = get_sub_field('document_attachment'); //print_r($doc);
+						$doc = get_sub_field('document_attachment'); 
 						if ( isset($doc['title']) ) echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
 					endwhile;
 				echo "</div>";
@@ -170,34 +170,36 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 	
 	        if ($chapter_header){ // if on chapter 1
 				
-				echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a>';
-				echo "</div>";
+				echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'" title="'. __("Navigate to next part" , "govintranet") .'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+				
 	        } elseif ($current_chapter==2) { // if on chapter 2
-				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;Overview</a></div>';
+
+				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="' . __("Navigate to previous part" ,"govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;' . __("Overview" , "govintranet") . '</a></div>';
 	            if ($carray[3]['slug']){
-					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'" title="'. __("Navigate to next part" , "govintranet").'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 		        }
 	        }   else { // we're deep in the middle somewhere
 	        	$previous_chapter = $current_chapter-1; 
 				$next_chapter = $current_chapter+1;
 
-				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
+				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="'. __("Navigate to previous part" , "govintranet") .'"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
+
 	            if ($carray[$next_chapter]['slug']){
-					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'" title="'. __("Navigate to next part" , "govintranet").'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 				}
 			}
 			echo "</div>";
 			echo "</div>";
 
 			} else { ?>
-				<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> Project</small></h1>
+				<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranet') ; ?></small></h1>
 				<?php
 				the_content(); 
 
 				$current_attachments = get_field('document_attachments');
 				if ($current_attachments){
 					echo "<div class='alert alert-info'>";
-					echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
+					echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
 						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
@@ -220,8 +222,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
 			get_template_part("part", "sidebar");
 
-			$post_cat = get_the_category();
-		
 			$posttags = get_the_tags($parent_guide_id);
 			if ($posttags) {
 				$foundtags=false;	
@@ -230,11 +230,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			  		if (substr($tag->name,0,9)!="carousel:"){
 			  			$foundtags=true;
 			  			$tagurl = $tag->slug;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?type=project'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tag->slug)."?type=project'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 			    	}
 			  	}
 			  	if ($foundtags){
-				  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
+				  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
 				  	echo $tagstr;
 				  	echo "</p></div>";
 			  	}

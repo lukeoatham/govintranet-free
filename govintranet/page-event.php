@@ -121,7 +121,7 @@ wp_reset_query();
 				$customquery = new WP_Query($cquery);
 				
 				if (!$customquery->have_posts()){
-					echo "<p>Nothing to show.</p>";
+					echo "<p>" . __('Nothing to show' ,'govintranet') . ".</p>";
 				}
 				if ( $customquery->have_posts() ) {
 	
@@ -132,8 +132,8 @@ wp_reset_query();
 							the_post_thumbnail('thumbnail',"class=alignleft");
 						}	
 						echo "<div class='media-body'><h3><a href='" .get_permalink() . "'>" . get_the_title() . "</a></h3>";
-						$thisdate =  get_post_meta($post->ID,'event_start_date',true); //print_r($thisdate);
-						$thistime =  get_post_meta($post->ID,'event_start_time',true); //print_r($thisdate);
+						$thisdate =  get_post_meta($post->ID,'event_start_date',true); 
+						$thistime =  get_post_meta($post->ID,'event_start_time',true); 
 						echo "<strong>".date('l j M Y',strtotime($thisdate))." ".date('g:ia',strtotime($thistime))."</strong>";
 						the_excerpt();
 						echo "</div></div>";
@@ -160,13 +160,13 @@ wp_reset_query();
 				$post_type[] = 'event';
 				$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 				if ($post_cat){
-					echo "<div class='widget-box'><h3 class='widget-title'>Categories</h3>";
+					echo "<div class='widget-box'><h3 class='widget-title'>". __('Categories' , 'govintranet') . "</h3>";
 					echo "<p class='taglisting {$post->post_type}'>";
-					echo "<span><a  class='wptag t' href='".site_url()."/events/?cdir=".$cdir."'>All</a></span> ";
+					echo "<span><a  class='wptag t' href='".get_permalink(get_the_id())."/?cdir=".$cdir."'>" . __('All' , 'govintranet') . "</a></span> ";
 					foreach($post_cat as $cat){
 						if ($cat->name!='Uncategorized' && $cat->name){
 							$newname = str_replace(" ", "&nbsp;", $cat->name );
-							echo "<span><a  class='wptag t".$cat->term_id."' href='".site_url()."/events/?cat=".$cat->slug."&cdir=".$cdir."'>".$newname."</a></span> ";
+							echo "<span><a  class='wptag t".$cat->term_id."' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&cdir=".$cdir."'>".$newname."</a></span> ";
 						}
 					}
 					echo "</p></div>";
@@ -175,7 +175,7 @@ wp_reset_query();
 				$eventcloud = gi_howto_tag_cloud('event'); 
 				if ($eventcloud) :?>
 					<div class="widget-box">
-					<h3 class='widget-title'>Browse by tag</h3>
+					<h3 class='widget-title'><?php _e('Browse by tag' , 'govintranet'); ?></h3>
 					<?php echo $eventcloud; ?>
 					</div>
 					<br>			

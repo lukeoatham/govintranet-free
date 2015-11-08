@@ -37,7 +37,7 @@ get_header(); ?>
 						}?>
 				</div>
 			</div>
-			<h1>A to Z</h1>
+			<h1><?php _e('A to Z' , 'govintranet' ); ?></h1>
 			<ul class="pagination">
 
 			<?php 
@@ -53,9 +53,8 @@ get_header(); ?>
 			$terms = get_terms('a-to-z'); 
 			if ($terms) {
 				foreach ((array)$terms as $taxonomy ) {
-	
-				$letterlink[$taxonomy->slug] = "<li";
-				if (strtolower($slug)==strtolower($taxonomy->slug)) $letterlink[$taxonomy->slug] .=  " class='active'";
+					$letterlink[$taxonomy->slug] = "<li";
+					if (strtolower($slug)==strtolower($taxonomy->slug)) $letterlink[$taxonomy->slug] .=  " class='active'";
 					$letterlink[$taxonomy->slug] .=  "><a href='".get_term_link($taxonomy->slug,'a-to-z')."'>".strtoupper($taxonomy->name)."</a></li>";
 				}
 			}
@@ -80,10 +79,10 @@ get_header(); ?>
 			
 			if ( ! $postslist->have_posts() ) { 
 				echo "<h1>";
-				_e( 'Not found', 'govintranetpress' );
+				_e( 'Not found', 'govintranet' );
 				echo "</h1>";
 				echo "<p>";
-				_e( 'There\'s nothing to show.', 'govintranetpress' );
+				_e( 'There\'s nothing to show.', 'govintranet' );
 				echo "</p>";
 				get_search_form(); 
 			};

@@ -3,7 +3,6 @@
 
 get_header(); 
 
-
 ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
@@ -25,14 +24,14 @@ get_header();
 				
 				 <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
 				    <ul id="myTab" class="nav nav-tabs" role="tablist">
-				      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">News</a></li>
-				      <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Need to know</a></li>
+				      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><?php _e('News' , 'govintranet'); ?></a></li>
+				      <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"><?php _e('Need to know' , 'govintranet'); ?></a></li>
 					        <?php
 						    $newsTypes = get_terms( 'news-type', array('hide_empty'=>true) );
 						    if ( $newsTypes ):
 					        	?>
 								<li role="presentation" class="dropdown">
-						        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents">Category <span class="caret"></span></a>					        
+						        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents"><?php _e('Category' , 'govintranet') ;?> <span class="caret"></span></a>					        
 						        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents"><?php
 							     foreach ( $newsTypes as $n){ 
 								    $term_link = get_term_link($n->slug, 'news-type');
@@ -46,7 +45,6 @@ get_header();
 				      	<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
 				
 							<?php
-			
 							$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 							$showitems = 10;
 							if ( $paged > 1) $showitems = 10;
@@ -96,15 +94,15 @@ get_header();
 							);	        
 				
 							$projectspost = new WP_Query($cquery);
-								global $k; 
-								$k = 0;
-								while ($projectspost->have_posts()) : $projectspost->the_post();
-									echo "<h4><a href='".get_permalink($post_>ID)."'>".get_the_title()."</a></h4>";
-									echo '<span class="listglyph">'.get_the_date("j M Y"); 
-									comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
-									echo '</span> ';
-									the_excerpt();
-								endwhile;
+							global $k; 
+							$k = 0;
+							while ($projectspost->have_posts()) : $projectspost->the_post();
+								echo "<h4><a href='".get_permalink($post_>ID)."'>".get_the_title()."</a></h4>";
+								echo '<span class="listglyph">'.get_the_date("j M Y"); 
+								if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+								echo '</span> ';
+								the_excerpt();
+							endwhile;
 					        ?>
 				      	</div>
 				    </div>

@@ -1,5 +1,5 @@
 <?php
-/* Template name: Document finder*/
+/* Template name: Document finder */
 
 get_header();
 	 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
@@ -29,7 +29,7 @@ get_header();
 		$catname = $catterm->name;
 		$catid = $catterm->term_id;
 	} else {
-		$catname = "All categories <span class='caret'></span>";
+		$catname = __("All categories","govintranet") . " <span class='caret'></span>";
 	}	
 	
 	if ($doctyp != "any") {
@@ -37,7 +37,7 @@ get_header();
 		$dtname = $dtterm->name;
 		$dtid = $dtterm->term_id;
 	} else {
-		$dtname = "All document types  <span class='caret'></span>";
+		$dtname = __("All document types","govintranet") . " <span class='caret'></span>";
 	}	
 	
 	// get all document types for the left hand menu
@@ -57,7 +57,7 @@ get_header();
 <div class="row">
 <div class="col-lg-12 col-md-12 col-sm-6">
 	<div id="document_category_dropdown" class="widget-box">
-		<h3 class="widget-title">Category</h3>
+		<h3 class="widget-title"><?php _e('Category','govintranet'); ?></h3>
 		<?php
 		$taxonomies[]='category';
 		$post_type[]='attachment';
@@ -71,28 +71,26 @@ get_header();
 			<?php echo $catname; ?></button>
 			<ul class='dropdown-menu docspinner' role="menu">
 			<?php
-			//echo "<p class='taglisting {$post->post_type}'><ul class='menu'>";
 			if ($doctyp) {
-				if ($cat_id =='any' ) {
-				} else {
-					echo "<li><a class='doccatspinner' href='".site_url()."/document-finder/?doctyp=".$doctyp."'>All categories</a></li>";
+				if ($cat_id !='any' ) {
+					echo "<li><a class='doccatspinner' href='".get_permalink(get_the_id())."?doctyp=".$doctyp."'>" . __('All categories','govintranet') . "</a></li>";
 				}
 			} else {
-				echo "<li><a class='doccatspinner' href='".site_url()."/document-finder/'>All categories</a></li>";
+				echo "<li><a class='doccatspinner' href='".get_permalink(get_the_id())."'>" . __('All categories','govintranet') . "</a></li>";
 			}
 			foreach($post_cat as $cat){ 
-				if ($cat->name!='Uncategorized' && $cat->name){
+				if ($cat->term_id > 1 && $cat->name){
 					$newname = str_replace(" ", "&nbsp;", $cat->name );
 					if ($doctyp) { // show chosen doc type as selected
 						if ($cat->slug == $cat_id) {
-							echo "<li class='disabled'><a class='doccatspinner' href='".site_url()."/document-finder/?cat=".$cat->slug."&doctyp=".$doctyp."'>";
+							echo "<li class='disabled'><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&doctyp=".$doctyp."'>";
 							echo $newname."</a></li>";
 						} else {
-							echo "<li><a class='doccatspinner' href='".site_url()."/document-finder/?cat=".$cat->slug."&doctyp=".$doctyp."'>";
+							echo "<li><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&doctyp=".$doctyp."'>";
 							echo $newname."</a></li>";
 						}
 					} else {
-					echo "<li><a class='doccatspinner' href='".site_url()."/document-finder/?cat=".$cat->slug."'>";
+					echo "<li><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."'>";
 					echo $newname."</a></li>";
 					}
 				}
@@ -104,7 +102,7 @@ get_header();
 </div>
 <div class="col-lg-12 col-md-12 col-sm-6">
 	<div id="document_type_dropdown" class="widget-box">
-		<h3 class="widget-title">Document type</h3>
+		<h3 class="widget-title"><?php _e('Document type' , 'govintranet' ); ?></h3>
 		<div class="btn-group">
 			<img id="doctypespinner" class="hidden" src="<?php echo get_stylesheet_directory_uri() . '/images/small-squares.gif'; ?>" />
 			<button  id="doctypebutton" type="button" class="btn btn-primary dropdown-toggle2" data-toggle="dropdown">
@@ -113,22 +111,21 @@ get_header();
 			<?php
 			if ($doctyp != 'any') {
 				if ($cat_id){    
-					echo "<li><a class='doctypespinner' href='".home_url( '/' )."document-finder/?doctyp=any&cat={$cat_id}'>";								
-					echo "All types</a></li>";
+					echo "<li><a class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp=any&cat={$cat_id}'>" . __('All document types' , 'govintranet') . "</a></li>";
 				} else {
-			       echo "<li><a  class='doctypespinner' href='".home_url( '/' )."document-finder/?doctyp=any'>All documents</a></li>";
+			       echo "<li><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp=any'>" . __('All document types' , 'govintranet') . "</a></li>";
 				}
 			}
 			foreach ($subcat as $sc) { 
 				if ($doctyp == $sc->slug) {
-				       echo "<li class='disabled'><a  class='doctypespinner' href='".home_url( '/' )."document-finder/?doctyp={$sc->slug}&cat={$cat_id}'>";
+				       echo "<li class='disabled'><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}&cat={$cat_id}'>";
 				       echo "{$sc->name}</a></li>";
 			    } else {
 				    if ($cat_id){   
-				       echo "<li><a  class='doctypespinner' href='".home_url( '/' )."document-finder/?doctyp={$sc->slug}&cat={$cat_id}'>";
+				       echo "<li><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}&cat={$cat_id}'>";
 				       echo "{$sc->name}</a></li>";
 				    } else {
-				       echo "<li><a  class='doctypespinner' href='".home_url( '/' )."document-finder/?doctyp={$sc->slug}'>{$sc->name}</a></li>";
+				       echo "<li><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}'>{$sc->name}</a></li>";
 					}
 				}
 			}
@@ -248,26 +245,28 @@ get_header();
 		$counter = 0;	
 		$docs = new wp_query(array('orderby'=>'title','order'=>'ASC','post_status'=>'inherit','posts_per_page'=>25,'paged'=>$paged,'post_type'=>'attachment','post__in'=>$postsarray));
 		if ($docs->found_posts == 0 ) {
-		?>
-		<h3 class="widget-title">No results</h3>
-		<?php
-			echo "Nothing to show.";
+			?>
+			<h3 class="widget-title"><?php _e('No results' , 'govintranet'); ?></h3>
+			<?php
+			_e('Nothing to show' , 'govintranet'); echo ".";
 		} else {
-		?>
-		<h3 class="widget-title">Results <small>(<?php echo $docs->found_posts;
-?> item<?php if ( $docs->found_posts > 1 ) echo "s";?>)</small></h3>
-		<?php
-						
+			?>
+			<h3 class="widget-title"><?php _e('Results', 'govintranet'); ?> <small>(
+			<?php 
+				echo $docs->found_posts;
+				echo _n( 'item' , 'items' , $docs->found_posts );
+			?>)</small></h3>
+			<?php
 		}
 		?>
 		<div id="docspinner" class="col-sm-12 hidden">
-			<img src="<?php echo includes_url('/images/spinner-2x.gif'); ?>" alt="Please wait" />
+			<img src="<?php echo includes_url('/images/spinner-2x.gif'); ?>" alt="<?php _e('Please wait' , 'govintranet') ;?>" />
 		</div>
 		<?php
 		echo '<ul id="docresults" class="docmenu">';
 	
 		if ( $docs->have_posts() ) while ( $docs->have_posts() ) : $docs->the_post(); 
-			echo '<li><a href="'.wp_get_attachment_url().'" class="">';
+			echo '<li><a href="'.wp_get_attachment_url().'">';
 			echo ''.$post->post_title;
 			echo '</a></li>';
 		endwhile;
@@ -291,22 +290,21 @@ get_header();
 <script>
 jQuery(document).ready(function($) {
 	jQuery('.docspinner').click(function(){
-	//jQuery('#docspinner').removeClass('hidden');
-	jQuery('#docresults').slideUp();
-	jQuery('.wp-pagenavi').addClass('hidden');
-	return;
+		jQuery('#docresults').slideUp();
+		jQuery('.wp-pagenavi').addClass('hidden');
+		return;
 	});
 	jQuery('a.doctypespinner').click(function(){
-	jQuery('#doctypespinner').removeClass('hidden');
-	jQuery('#doctypebutton').addClass('hidden');
-	jQuery('#doccatbutton').addClass('hidden');
-	return;
+		jQuery('#doctypespinner').removeClass('hidden');
+		jQuery('#doctypebutton').addClass('hidden');
+		jQuery('#doccatbutton').addClass('hidden');
+		return;
 	});
 	jQuery('a.doccatspinner').click(function(){
-	jQuery('#doccatspinner').removeClass('hidden');
-	jQuery('#doccatbutton').addClass('hidden');
-	jQuery('#doctypebutton').addClass('hidden');
-	return;
+		jQuery('#doccatspinner').removeClass('hidden');
+		jQuery('#doccatbutton').addClass('hidden');
+		jQuery('#doctypebutton').addClass('hidden');
+		return;
 	});
 });
 </script>

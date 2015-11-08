@@ -22,10 +22,7 @@ get_header(); ?>
 			</div>
 			<h1><?php the_title(); ?></h1>
 
-			<?php
-			$article_date=get_the_date();
-			$article_date = date("j F Y",strtotime($article_date));	?>
-			<?php echo the_date('j M Y', '<p class=news_date>', '</p>') ?>
+			<?php the_date('j M Y', '<p class=news_date>', '</p>' , 1) ?>
 
 			<?php the_content(); ?>
 
@@ -36,9 +33,6 @@ get_header(); ?>
 		<div class="col-lg-4" id="sidebar">	
 			
 		</div> <!--end of second column-->
-
-
-				
 
 			
 <?php endwhile; // end of the loop. ?>

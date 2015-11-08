@@ -49,29 +49,9 @@ get_header();
 		?>							
 	</div>
 	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
-			<div id="related">
-			<?php
-				$taxonomies=array();
-				$post_type = array();
-				$taxonomies[] = 'category';
-				$post_type[] = 'blog';
-				$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
-				if ($post_cat){
-					echo "<h3 class='widget-title'>Categories</h3>";
-					echo "<p class='taglisting {$post->post_type}'>";
-					foreach($post_cat as $cat){
-						if ($cat->name!='Uncategorized' && $cat->name){
-							$newname = str_replace(" ", "&nbsp;", $cat->name );
-							echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/news-by-category/?cat=".$cat->slug."'>".$newname."</a></span> ";
-						}
-					}
-					echo "</p>";
-				}
-			?>
-			</div>			
+		
 			<?php dynamic_sidebar('bloglanding-widget-area'); ?>
 
-		</div>
 	</div>
 
 <?php endwhile; 

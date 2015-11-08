@@ -25,10 +25,10 @@ get_header();
 				<h1><?php  the_title(); ?></h1>
 				<?php  the_content(); ?>
 				<form class="form-horizontal" role="form" method="get" id="task-search" action="<?php echo site_url('/'); ?>">
-					<label for="cat">Search in: </label>
+					<label for="cat"><?php _e('Search in' , 'govintranet'); ?>: </label>
 					<div class="form-group input-md">
 						<select name='cat' id='cat' class='form-control input-md'>
-							<option value='0' selected='selected'>All tasks and guides</option>
+							<option value='0' selected='selected'><?php _e('All tasks and guides' , 'govintranet'); ?></option>
 								<?php
 								$terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"slug"));
 								if ($terms) {
@@ -40,22 +40,22 @@ get_header();
 								?>
 						</select>
 					</div>
-					<label for="sbc-s" class="sr-only">Search for</label>
+					<label for="sbc-s" class="sr-only"><?php _e('Search for' , 'govintranet'); ?></label>
 					<div class="form-group input-md">
 						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 					</div>
-					<label for="searchbutton2" class="sr-only">Search</label>
+					<label for="searchbutton2" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>
 					<div class="form-group input-md">
 			    	 <?php
 				    	 $icon_override = get_option('options_search_button_override', false); 
 				    	 if ( isset($icon_override) && $icon_override ):
-					    	 $override_text = get_option('options_search_button_text', 'Search');
+					    	 $override_text = esc_attr(get_option('options_search_button_text', __('Search' , 'govintranet') ));
 							 ?>
-					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><?php echo esc_attr($override_text); ?></button>
+					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><?php echo $override_text; ?></button>
 						 	<?php 
 				    	 else:
 					    	 ?>
-					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only">Search</span></button>
+					 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only"><?php _e('Search' , 'govintranet'); ?></span></button>
 						 	<?php 
 						 endif;
 						 ?>
@@ -78,7 +78,7 @@ get_header();
 
 		<div class="col-lg-7 col-md-7 col-sm-12">
 			<div class="widget-box">
-				<h3 class="widget-title">Browse by category</h3>
+				<h3 class="widget-title"><?php _e('Browse by category' , 'govintranet'); ?></h3>
 				<div class="col-lg-6 col-md-6 col-sm-6">
 					<div class="row">
 						<ul class="howdoi">
@@ -93,7 +93,7 @@ get_header();
 					  			if ($taxonomy->description){
 						  		    $desc = "<p class='howdesc'>".$taxonomy->description."</p>";
 						  		}
-						  		if ($themeid == 1) {
+						  		if ($themeid < 2) {
 					  		    	continue;
 					  			}
 					  			$catcount++;
@@ -102,7 +102,7 @@ get_header();
 									$catcount=0;
 								}
 								echo "
-								<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='".site_url()."/category/{$themeURL}/'>".$taxonomy->name."</a>".$desc."</li>";
+								<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='".get_term_link($taxonomy->term_id , 'category' )."'>".$taxonomy->name."</a>".$desc."</li>";
 							}
 						} 
 						?>
@@ -110,27 +110,26 @@ get_header();
 					</div>
 				</div>
 			</div>
-					<?php 
-					$taghtml = "";
-					$taghtml = get_transient("ht_how_do_i_tags");
-					if ( !$taghtml ):
-						$taskcloud = get_option('options_module_tasks_showtags');
-						if ( $taskcloud ):
-							$taghtml = gi_howto_tag_cloud('task');
-						else:
-							$taghtml =  my_colorful_tag_cloud('','category','task'); 
-						endif;
-						set_transient("ht_how_do_i_tags", $taghtml, 60*60);
-					endif;
-					if ($taghtml):?>
-					<div style="text-align:middle; clear:both;"  class="widget-box">
-					<h3 class="widget-title">Browse by tag</h3>
+			<?php 
+			$taghtml = "";
+			$taghtml = get_transient("ht_how_do_i_tags");
+			if ( !$taghtml ):
+				$taskcloud = get_option('options_module_tasks_showtags');
+				if ( $taskcloud ):
+					$taghtml = gi_howto_tag_cloud('task');
+				else:
+					$taghtml =  my_colorful_tag_cloud('','category','task'); 
+				endif;
+				set_transient("ht_how_do_i_tags", $taghtml, 60*60);
+			endif;
+			if ($taghtml):?>
+				<div style="text-align:middle; clear:both;"  class="widget-box">
+					<h3 class="widget-title"><?php _e('Browse by tag' , 'govintranet'); ?></h3>
 					<div class="tagcloud">
 						<?php echo $taghtml; ?>
 					</div>
-					</div>
-					<?php endif;
-					?>
+				</div>
+			<?php endif; ?>
 		</div>
 	</div>
 <?php endwhile; ?>

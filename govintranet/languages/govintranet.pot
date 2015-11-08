@@ -1,433 +1,1238 @@
-# Translation of the WordPress theme Twenty Ten 1.0 by the WordPress team.
-# Copyright (C) 2010 the WordPress team
-# This file is distributed under the same license as the Twenty Ten package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
-#
+# GovIntranet
+# Copyright (C) 2015 Luke Oatham
+# This file is distributed under the GNU General Public License v2 or later.
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Ten 1.0\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/govintranet\n"
-"POT-Creation-Date: 2010-06-15 16:21+0000\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: GovIntranet v1.0.0\n"
+"Report-Msgid-Bugs-To: Luke Oatham <lukeoatham@gmail.com>\n"
+"POT-Creation-Date: 2015-11-08 00:26+0000\n"
+"\"PO-Revision-Date: \n"
+"Last-Translator: Luke Oatham <lukeoatham@gmail.com>\n"
+"Language-Team: Helpful Technology <luke@helpfultechnology.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Textdomain-Support: yesX-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,"
+"_nc:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.8.6\n"
+"PO-Revision-Date: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: js\n"
 
-#: 404.php:16 loop.php:33
-msgid "Not Found"
+#: 404.php:10 loop.php:27 taxonomy-a-to-z.php:82
+msgid "Not found"
 msgstr ""
 
-#: 404.php:18
+#: 404.php:15
 msgid ""
-"Apologies, but the page you requested could not be found. Perhaps searching "
-"will help."
+"The page that you are trying to reach doesn't exist. <br><br>Please go back "
+"or try searching."
 msgstr ""
 
-#: archive.php:33
+#: 404.php:20 category.php:60 category.php:66 category.php:72
+#: page-how-do-i-alt-classic.php:30 page-how-do-i-alt-classic.php:34
+#: page-how-do-i-alt-classic.php:40 page-how-do-i-alt.php:22
+#: page-how-do-i-alt.php:27 page-how-do-i-alt.php:31 page-how-do-i-alt.php:37
+#: page-how-do-i.php:47 page-how-do-i.php:52 page-how-do-i.php:58
+#: page-staff-directory-masonry.php:46 page-vacancies.php:57
+#: search-staff.php:59 searchform.php:17 searchform.php:23 searchform.php:26
+#: searchform.php:30 searchform.php:36 single-team.php:71
+msgid "Search"
+msgstr ""
+
+#: archive.php:27
 #, php-format
-msgid "Daily Archives: <span>%s</span>"
+msgid "Daily archives: %s"
 msgstr ""
 
-#: archive.php:35
+#: archive.php:29
 #, php-format
-msgid "Monthly Archives: <span>%s</span>"
+msgid "Monthly archives: %s"
 msgstr ""
 
-#: archive.php:37
+#: archive.php:31
 #, php-format
-msgid "Yearly Archives: <span>%s</span>"
+msgid "Yearly archives: %s"
 msgstr ""
 
-#: archive.php:39
-msgid "Blog Archives"
+#: archive.php:71
+msgctxt "A title for the news update category"
+msgid "Update categories"
 msgstr ""
 
-#: attachment.php:17
+#: attachment.php:50 loop.php:294
+msgid "Continue reading &rarr;"
+msgstr ""
+
+#: author.php:36
+msgctxt "The homepage link"
+msgid "Home"
+msgstr ""
+
+#: author.php:39 search.php:227
+msgid "Forums"
+msgstr ""
+
+#: author.php:51
 #, php-format
-msgid "Return to %s"
+msgid "Forum posts by %s"
 msgstr ""
 
-#. translators: %s - title of parent post
-#: attachment.php:19
+#: author.php:53
 #, php-format
-msgid "<span class=\"meta-nav\">&larr;</span> %s"
+msgid "Blog posts by %s"
 msgstr ""
 
-#: attachment.php:27
-#, php-format
-msgid "<span class=\"%1$s\">By</span> %2$s"
+#: author.php:61
+msgid "Staff profile"
 msgstr ""
 
-#: attachment.php:31 functions.php:509
-#, php-format
-msgid "View all posts by %s"
+#: category.php:102 page-event.php:178 page-how-do-i-alt.php:108
+#: page-how-do-i.php:127 page-vacancies.php:213
+msgid "Browse by tag"
 msgstr ""
 
-#: attachment.php:38
-#, php-format
-msgid "<span class=\"%1$s\">Published</span> %2$s"
+#: category.php:138 page-doc-finder.php:251 page-event.php:124
+msgid "Nothing to show"
 msgstr ""
 
-#: attachment.php:48
-#, php-format
-msgid "Full size is %s pixels"
+#: category.php:148 category.php:151
+msgid "Guide"
 msgstr ""
 
-#: attachment.php:51
-msgid "Link to full-size image"
+#: category.php:155
+msgid "Task"
 msgstr ""
 
-#: attachment.php:58 attachment.php:105 loop.php:94 loop.php:117 loop.php:159
-#: onecolumn-page.php:27 page.php:32 single.php:53
-msgid "Edit"
+#: category.php:202
+msgid "Sub-categories"
 msgstr ""
 
-#: attachment.php:98 functions.php:299 loop.php:109 loop.php:137
-msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+#: category.php:228 page-event past.php:268 page-event.php:163
+#: page-news.php:64 single-event.php:167 single-task.php:251
+#: single-vacancy.php:118
+msgid "Categories"
 msgstr ""
 
-#: attachment.php:99 loop.php:138 onecolumn-page.php:26 page.php:31
-#: single.php:31
-msgid "Pages:"
-msgstr ""
-
-#: author.php:27
-#, php-format
-msgid "Author Archives: %s"
-msgstr ""
-
-#: author.php:37 single.php:40
-#, php-format
-msgid "About %s"
-msgstr ""
-
-#: category.php:16
-#, php-format
-msgid "Category Archives: %s"
-msgstr ""
-
-#: comments.php:18
+#: comments.php:14
 msgid ""
 "This post is password protected. Enter the password to view any comments."
 msgstr ""
 
-#: comments.php:35
+#: comments.php:28
 #, php-format
-msgid "One Response to %2$s"
-msgid_plural "%1$s Responses to %2$s"
+msgid "One response to %2$s"
+msgid_plural "%1$s responses to %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:41 comments.php:60
-msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+#: comments.php:34 comments.php:52
+msgid "&larr; Older comments"
 msgstr ""
 
-#: comments.php:42 comments.php:61
-msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+#: comments.php:35 comments.php:53
+msgid "Newer comments &rarr;"
 msgstr ""
 
-#: comments.php:72
-msgid "Comments are closed."
+#: comments.php:66
+msgid "Leave a comment"
 msgstr ""
 
-#. #-#-#-#-#  govintranet.pot (Twenty Ten 1.0)  #-#-#-#-#
-#. Theme URI of the plugin/theme
-#: footer.php:33
-msgid "http://wordpress.org/"
+#: form-user-edit.php:14 form-user-edit.php:19
+msgid "Name"
 msgstr ""
 
-#: footer.php:34
-msgid "Semantic Personal Publishing Platform"
+#: form-user-edit.php:24 page-staff-directory-masonry.php:222
+#: page-staff-directory-masonry.php:224
+msgid "First name"
 msgstr ""
 
-#: footer.php:35
+#: form-user-edit.php:29 page-staff-directory-masonry.php:228
+#: page-staff-directory-masonry.php:230
+msgid "Last name"
+msgstr ""
+
+#: form-user-edit.php:34
+msgid "Nickname"
+msgstr ""
+
+#: form-user-edit.php:39
+msgid "Display name"
+msgstr ""
+
+#: form-user-edit.php:50 form-user-edit.php:53
+msgid "Contact info"
+msgstr ""
+
+#: form-user-edit.php:58
+msgid "Website"
+msgstr ""
+
+#: form-user-edit.php:76 form-user-edit.php:79
+msgid "About yourself"
+msgstr ""
+
+#: form-user-edit.php:76 form-user-edit.php:79
+msgid "About the user"
+msgstr ""
+
+#: form-user-edit.php:84 user-profile.php:91
+msgid "About me"
+msgstr ""
+
+#: form-user-edit.php:94 form-user-edit.php:97
+msgid "Account"
+msgstr ""
+
+#: form-user-edit.php:102
+msgid "Username"
+msgstr ""
+
+#: form-user-edit.php:107 search-staff.php:147 single-team.php:268
+msgid "Email"
+msgstr ""
+
+#: form-user-edit.php:119
 #, php-format
-msgid "Proudly powered by %s."
+msgid ""
+"There is a pending email address change to <code>%1$s</code>. <a href=\"%2$s"
+"\">Cancel</a>"
 msgstr ""
 
-#: functions.php:97
+#: form-user-edit.php:129
+msgid "New password"
+msgstr ""
+
+#: form-user-edit.php:132
+msgid ""
+"If you would like to change the password type a new one. Otherwise leave "
+"this blank."
+msgstr ""
+
+#: form-user-edit.php:135
+msgid "Type your new password again."
+msgstr ""
+
+#: form-user-edit.php:138
+msgid ""
+"Your password should be at least ten characters long. Phrases with numbers "
+"and symbols are easier to remember, e.g. \"Her Imperial Highness has 30 "
+"handbags!\""
+msgstr ""
+
+#: form-user-edit.php:150 form-user-edit.php:153
+msgid "User role"
+msgstr ""
+
+#: form-user-edit.php:160
+msgid "Network role"
+msgstr ""
+
+#: form-user-edit.php:163
+msgid "Grant this user super admin privileges for the Network."
+msgstr ""
+
+#: form-user-edit.php:178 forum.php:17
+msgid "Staff directory"
+msgstr ""
+
+#: form-user-edit.php:187
+msgid "Save changes"
+msgstr ""
+
+#: form-user-edit.php:192 form-user-edit.php:193
+msgid "Update profile"
+msgstr ""
+
+#: form-user-edit.php:192 form-user-edit.php:193
+msgid "Update user"
+msgstr ""
+
+#: forum.php:16 forum.php:21
+msgctxt "The site homepage"
+msgid "Home"
+msgstr ""
+
+#: functions.php:98
 msgid "Primary Navigation"
 msgstr ""
 
-#. translators: header image description
-#: functions.php:133
-msgid "Berries"
+#: functions.php:99
+msgid "Secondary Navigation"
 msgstr ""
 
-#. translators: header image description
-#: functions.php:139
-msgid "Cherry Blossoms"
-msgstr ""
-
-#. translators: header image description
-#: functions.php:145
-msgid "Concave"
-msgstr ""
-
-#. translators: header image description
-#: functions.php:151
-msgid "Fern"
-msgstr ""
-
-#. translators: header image description
-#: functions.php:157
-msgid "Forest Floor"
-msgstr ""
-
-#. translators: header image description
-#: functions.php:163
-msgid "Inkwell"
-msgstr ""
-
-#. translators: header image description
-#: functions.php:169
-msgid "Path"
-msgstr ""
-
-#. translators: header image description
-#: functions.php:175
-msgid "Sunset"
-msgstr ""
-
-#: functions.php:237
+#: functions.php:143
 #, php-format
 msgid "Search results for %s"
 msgstr ""
 
-#: functions.php:240 functions.php:257
+#: functions.php:146 functions.php:214
 #, php-format
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:366
+#: functions.php:169
+msgid "tasks and guides"
+msgstr ""
+
+#: functions.php:172
+msgid "project"
+msgstr ""
+
+#: functions.php:175
+msgid "job vacancies"
+msgstr ""
+
+#: functions.php:180
+msgid "staff profile"
+msgstr ""
+
+#: functions.php:183 search.php:71
+msgid "events"
+msgstr ""
+
+#: functions.php:186
+msgid "jargon buster"
+msgstr ""
+
+#: functions.php:189 taxonomy-a-to-z.php:40
+msgid "A to Z"
+msgstr ""
+
+#: functions.php:192
+msgid "forums"
+msgstr ""
+
+#: functions.php:195
+msgid "forum topics"
+msgstr ""
+
+#: functions.php:198
+msgid "forum replies"
+msgstr ""
+
+#: functions.php:201 search.php:83
+msgid "news"
+msgstr ""
+
+#: functions.php:204
+msgid "blog"
+msgstr ""
+
+#: functions.php:257
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: functions.php:339
 #, php-format
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: functions.php:369
+#: functions.php:342
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#. translators: 1: date, 2: time
-#: functions.php:376
+#: functions.php:349
 #, php-format
-msgid "%1$s at %2$s"
+msgid "<small>%1$s at %2$s</small>"
 msgstr ""
 
-#: functions.php:376 functions.php:393
+#: functions.php:349 functions.php:366
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:393
+#: functions.php:366
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:412
-msgid "Primary Widget Area"
+#: functions.php:387
+msgid "Homepage first column"
 msgstr ""
 
-#: functions.php:414
-msgid "The primary widget area"
+#: functions.php:389
+msgid "Homepage 1st column"
 msgstr ""
 
-#: functions.php:423
-msgid "Secondary Widget Area"
+#: functions.php:397 functions.php:399
+msgid "Homepage hero area"
 msgstr ""
 
-#: functions.php:425
-msgid "The secondary widget area"
+#: functions.php:406 functions.php:408
+msgid "Homepage second column"
 msgstr ""
 
-#: functions.php:434
-msgid "First Footer Widget Area"
+#: functions.php:415 functions.php:417
+msgid "Homepage third column top"
 msgstr ""
 
-#: functions.php:436
-msgid "The first footer widget area"
+#: functions.php:424 functions.php:426
+msgid "Homepage third column bottom"
 msgstr ""
 
-#: functions.php:445
-msgid "Second Footer Widget Area"
+#: functions.php:433
+msgid "Utility widget box"
 msgstr ""
 
-#: functions.php:447
-msgid "The second footer widget area"
+#: functions.php:435
+msgid "Utility widget area appears beneath the search box"
 msgstr ""
 
-#: functions.php:456
-msgid "Third Footer Widget Area"
+#: functions.php:441
+msgid "Left footer"
 msgstr ""
 
-#: functions.php:458
-msgid "The third footer widget area"
+#: functions.php:443
+msgid "Left footer widget area"
 msgstr ""
 
-#: functions.php:467
-msgid "Fourth Footer Widget Area"
+#: functions.php:451
+msgid "Right footer 1"
 msgstr ""
 
-#: functions.php:469
-msgid "The fourth footer widget area"
+#: functions.php:453
+msgid "The 1st right footer widget area"
 msgstr ""
 
-#: functions.php:500
-#, php-format
-msgid ""
-"<span class=\"%1$s\">Posted on</span> %2$s <span class=\"meta-sep\">by</"
-"span> %3$s"
+#: functions.php:461
+msgid "Right footer 2"
+msgstr ""
+
+#: functions.php:463
+msgid "The 2nd right footer widget area"
+msgstr ""
+
+#: functions.php:470
+msgid "Tasks sidebar"
+msgstr ""
+
+#: functions.php:472
+msgid "Tasks widget area, appears on individual tasks"
+msgstr ""
+
+#: functions.php:479
+msgid "News landing page"
+msgstr ""
+
+#: functions.php:481
+msgid "The right-hand col on the news page"
+msgstr ""
+
+#: functions.php:488
+msgid "News sidebar"
+msgstr ""
+
+#: functions.php:490
+msgid "News widget area, appears on individual news and news updtes"
+msgstr ""
+
+#: functions.php:497
+msgid "Blog landing page"
+msgstr ""
+
+#: functions.php:499
+msgid "Blog landing page widget area"
+msgstr ""
+
+#: functions.php:506
+msgid "Blog sidebar"
+msgstr ""
+
+#: functions.php:508
+msgid "Blog posts widget area, appears on individual blog posts"
+msgstr ""
+
+#: functions.php:515
+msgid "Events landing page"
+msgstr ""
+
+#: functions.php:517
+msgid "Events landing page widget area"
+msgstr ""
+
+#: functions.php:524
+msgid "Events sidebar"
 msgstr ""
 
 #: functions.php:526
-#, php-format
-msgid ""
-"This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" "
-"title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgid "Events posts widget area, appears on individual events"
 msgstr ""
 
-#: functions.php:528
-#, php-format
-msgid ""
-"This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
-"\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+#: functions.php:533
+msgid "Search results page"
 msgstr ""
 
-#: functions.php:530
-#, php-format
-msgid ""
-"Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark"
-"\">permalink</a>."
+#: functions.php:535
+msgid "Search results page widget area"
 msgstr ""
 
-#: header.php:71
+#: functions.php:542
+msgid "Login area"
+msgstr ""
+
+#: functions.php:544
+msgid "Login widget area"
+msgstr ""
+
+#: functions.php:1427
+#, php-format
+msgid "%s min"
+msgid_plural "%s mins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1433
+#, php-format
+msgid "%s hour"
+msgid_plural "%s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1439
+#, php-format
+msgid "%s year"
+msgid_plural "%s years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1445
+#, php-format
+msgid "%s month"
+msgid_plural "%s months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1451
+#, php-format
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1503
+msgctxt "post type name plural"
+msgid "Blog posts"
+msgstr ""
+
+#: functions.php:1504
+msgctxt "post type name singular"
+msgid "Blog post"
+msgstr ""
+
+#: functions.php:1505
+msgctxt "post type name"
+msgid "Blog posts"
+msgstr ""
+
+#: functions.php:1506
+msgid "Add Blog post"
+msgstr ""
+
+#: functions.php:1507
+msgid "Add New Blog post"
+msgstr ""
+
+#: functions.php:1508
+msgid "Edit"
+msgstr ""
+
+#: functions.php:1509
+msgid "Edit Blog post"
+msgstr ""
+
+#: functions.php:1510
+msgid "New Blog post"
+msgstr ""
+
+#: functions.php:1511 functions.php:1512
+msgid "View Blog post"
+msgstr ""
+
+#: functions.php:1513
+msgid "Search Blog posts"
+msgstr ""
+
+#: functions.php:1514
+msgid "No Blog posts found"
+msgstr ""
+
+#: functions.php:1515
+msgid "No Blog posts found in trash"
+msgstr ""
+
+#: functions.php:1516
+msgid "Parent Blog post"
+msgstr ""
+
+#: functions.php:1712
+msgid "Enable auto-expiry"
+msgstr ""
+
+#: functions.php:1728
+msgid "Expiry date"
+msgstr ""
+
+#: functions.php:1753
+msgid "Expiry time"
+msgstr ""
+
+#: functions.php:1782
+msgid "Expiry action"
+msgstr ""
+
+#: functions.php:8883 page-doc-finder.php:32 page-doc-finder.php:76
+#: page-doc-finder.php:79
+msgid "All categories"
+msgstr ""
+
+#: functions.php:8891 page-doc-finder.php:40 page-doc-finder.php:114
+#: page-doc-finder.php:116
+msgid "All document types"
+msgstr ""
+
+#: functions.php:9237 functions.php:9244
+msgctxt "all tags"
+msgid "All"
+msgstr ""
+
+#: functions.php:9467
+msgid "My profile"
+msgstr ""
+
+#: functions.php:9468 page-forum-simple.php:28
+msgid "Logout"
+msgstr ""
+
+#: functions.php:9471 page-forum-simple.php:30
+msgid "Login"
+msgstr ""
+
+#: functions.php:9490
+msgid "Anonymous"
+msgstr ""
+
+#: functions.php:9503
+#, php-format
+msgid "Reply to %s"
+msgstr ""
+
+#: header.php:371
+msgid "Toggle navigation"
+msgstr ""
+
+#: header.php:376
+msgid "Home"
+msgstr ""
+
+#: header.php:385 header.php:410
 msgid "Skip to content"
 msgstr ""
 
-#: loop.php:25 loop.php:172
-msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+#: loop-blogtwitter.php:19 loop-newstwitter.php:74
+#, php-format
+msgid "%s %s"
 msgstr ""
 
-#: loop.php:26 loop.php:173
-msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+#: loop-blogtwitter.php:74 loop-newsblogs.php:53 loop-newsblogs.php:87
+#: loop-newstwitter.php:47 loop-newstwitter.php:81 loop.php:203
+#: page-news-multi.php:102 page-news-updates.php:91 taxonomy-news-type.php:102
+#, php-format
+msgid "<span class=\"badge\">1 comment</span>"
+msgid_plural "<span class=\"badge\">%d comments</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: loop.php:30 taxonomy-a-to-z.php:85
+msgid "There's nothing to show."
 msgstr ""
 
-#: loop.php:35
+#: loop.php:151 loop.php:157 loop.php:169 loop.php:257
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: loop.php:252
+#, php-format
+msgctxt "represents the tag name"
+msgid "All intranet pages tagged with %s"
+msgstr ""
+
+#: loop.php:257
+msgid "Tasks and guides category"
+msgstr ""
+
+#: loop.php:275
+msgctxt "noun"
+msgid "Email"
+msgstr ""
+
+#: loop.php:295
+msgid "Pages:"
+msgstr ""
+
+#: page-doc-finder.php:60 page-news-multi.php:34
+msgid "Category"
+msgstr ""
+
+#: page-doc-finder.php:105
+msgid "Document type"
+msgstr ""
+
+#: page-doc-finder.php:249
+msgid "No results"
+msgstr ""
+
+#: page-doc-finder.php:254
+msgid "Results"
+msgstr ""
+
+#: page-doc-finder.php:257
+msgid "item"
+msgid_plural "items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: page-doc-finder.php:263
+msgid "Please wait"
+msgstr ""
+
+#: page-event past.php:34 past.php:45 past.php:51
+#, php-format
+msgid "Past %s"
+msgstr ""
+
+#: page-event past.php:43 past.php:49
+#, php-format
+msgid "Future %s"
+msgstr ""
+
+#: page-event past.php:270 page-event.php:165
+msgid "All"
+msgstr ""
+
+#: page-forum-simple.php:27
+#, php-format
+msgid "Logged in as %s"
+msgstr ""
+
+#: page-forum-simple.php:30
+msgctxt "verb"
+msgid "Register"
+msgstr ""
+
+#: page-forum-simple.php:61
+msgid "Topics"
+msgstr ""
+
+#: page-forum-simple.php:62
+msgid "Posts"
+msgstr ""
+
+#: page-forum-simple.php:63
+msgid "Freshness"
+msgstr ""
+
+#: page-forum-simple.php:124
+msgid "No activity"
+msgstr ""
+
+#: page-how-do-i-alt-classic.php:26 page-how-do-i.php:43
+msgid "Search for"
+msgstr ""
+
+#: page-how-do-i-alt-classic.php:123 page-news.php:81
+msgid "Search by tag"
+msgstr ""
+
+#: page-how-do-i-alt.php:58 page-how-do-i.php:81
+msgid "Browse by category"
+msgstr ""
+
+#: page-how-do-i.php:28
+msgid "Search in"
+msgstr ""
+
+#: page-how-do-i.php:31
+msgid "All tasks and guides"
+msgstr ""
+
+#: page-jargon-buster.php:72
+#, php-format
+msgid "1 term"
+msgid_plural "%d terms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: page-news-multi.php:27
+msgid "News"
+msgstr ""
+
+#: page-news-multi.php:28
+msgid "Need to know"
+msgstr ""
+
+#: page-staff-directory-masonry.php:26
+msgctxt "Screen reader text"
+msgid "Skip to staff"
+msgstr ""
+
+#: page-staff-directory-masonry.php:41 single-team.php:66
+msgid "Search staff"
+msgstr ""
+
+#: page-staff-directory-masonry.php:42 single-team.php:67
+msgid "Name, job title, skills, team, number..."
+msgstr ""
+
+#: page-staff-directory-masonry.php:61 single-team.php:88
+msgid "Browse teams"
+msgstr ""
+
+#: page-staff-directory-masonry.php:220
+msgid "Sort by"
+msgstr ""
+
+#: page-vacancies.php:52
+msgid "In"
+msgstr ""
+
+#: page-vacancies.php:68
+msgid "Grades"
+msgstr ""
+
+#: page-vacancies.php:70 page-vacancies.php:72
+msgid "All grades"
+msgstr ""
+
+#: page-vacancies.php:169
+msgid "Nothing to show."
+msgstr ""
+
+#: page-vacancies.php:193
+msgid "Closing"
+msgstr ""
+
+#: page-vacancies.php:202 single-blog.php:131 single-news-update.php:173
+#: single-news.php:273
+msgid "Read more"
+msgstr ""
+
+#: part-related.php:49
+msgid "Related"
+msgstr ""
+
+#: search-staff.php:53 search.php:149
+#, php-format
+msgid "Search results for: %s"
+msgstr ""
+
+#: search-staff.php:58
+msgid "Search for a name, job title, skills, phone number..."
+msgstr ""
+
+#: search-staff.php:83
+#, php-format
+msgid "Found 1 result"
+msgid_plural "Found %d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: search-staff.php:180 single-vacancy.php:56 user-profile.php:26
+#: user-profile.php:41
+msgid "Team"
+msgstr ""
+
+#: search-staff.php:202
+msgid "Not on the directory"
+msgstr ""
+
+#: search-staff.php:204
+#, php-format
+msgctxt "param 1 is the URL, param 2 is the title of the staff directory page"
+msgid "Try searching again or go back to the <a href=\"%1$s\">%2$s</a>"
+msgstr ""
+
+#: search.php:53
+msgctxt "search not found"
+msgid "Nope"
+msgstr ""
+
+#: search.php:67
+msgid "blog posts"
+msgstr ""
+
+#: search.php:75
+msgid "the forums"
+msgstr ""
+
+#: search.php:79
+msgid "jargon busters"
+msgstr ""
+
+#: search.php:87
+msgid "projects"
+msgstr ""
+
+#: search.php:91
+msgid "the staff directory"
+msgstr ""
+
+#: search.php:95
+msgid "tasks"
+msgstr ""
+
+#: search.php:99
+msgid "teams"
+msgstr ""
+
+#: search.php:103
+msgid "vacancies"
+msgstr ""
+
+#: search.php:109
+#, php-format
+msgid "Couldn't find anything in %s. Try searching the whole intranet."
+msgstr ""
+
+#: search.php:111
 msgid ""
-"Apologies, but no results were found for the requested archive. Perhaps "
-"searching will help find a related post."
+"Couldn't find anything on the intranet like that. Sometimes using fewer "
+"words can help."
 msgstr ""
 
-#: loop.php:60 loop.php:91
-msgctxt "gallery category slug"
-msgid "gallery"
+#: search.php:116
+msgid "Did you mean?"
 msgstr ""
 
-#: loop.php:62 loop.php:82 loop.php:125
+#: search.php:123 search.php:127
+msgid "Search again"
+msgstr ""
+
+#: search.php:193
+msgctxt "action"
+msgid "Filter results"
+msgstr ""
+
+#: search.php:219
+msgid "Staff profiles"
+msgstr ""
+
+#: search.php:232 user-details.php:61
+msgid "Forum topics"
+msgstr ""
+
+#: search.php:237 user-details.php:67
+msgid "Forum replies"
+msgstr ""
+
+#: search.php:251
+msgid "Recently published first"
+msgstr ""
+
+#: search.php:255
+msgid "Refine search"
+msgstr ""
+
+#: single-blog.php:56
+msgid "Author"
+msgstr ""
+
+#: single-blog.php:106 single-event.php:180 single-project.php:237
+#: single-task.php:266 single-vacancy.php:137
+msgid "Tags"
+msgstr ""
+
+#: single-blog.php:117
+msgid "Recent posts"
+msgstr ""
+
+#: single-blog.php:119
+msgid "Nothing to show yet"
+msgstr ""
+
+#: single-event.php:36
+msgid "Date"
+msgstr ""
+
+#: single-event.php:56 single-event.php:127
+msgid "Location"
+msgstr ""
+
+#: single-event.php:66
+msgid "Event booking"
+msgstr ""
+
+#: single-event.php:72
+msgid "You have made a booking for this event"
+msgstr ""
+
+#: single-event.php:73
+msgid "Details"
+msgstr ""
+
+#: single-event.php:86
+msgid "Tickets and registration"
+msgstr ""
+
+#: single-event.php:96 single-news-update.php:65 single-news.php:72
+#: single-task.php:171
+msgctxt "Document downloads"
+msgid "Downloads"
+msgstr ""
+
+#: single-news-update.php:97
+msgctxt "Taxonomy name for News Update Types"
+msgid "Update types"
+msgstr ""
+
+#: single-news-update.php:135
+msgid "Related updates"
+msgstr ""
+
+#: single-news-update.php:152
+msgid "Recent updates"
+msgstr ""
+
+#: single-news.php:166
+msgid "Other updates"
+msgstr ""
+
+#: single-news.php:183
+msgid "Similar news"
+msgstr ""
+
+#: single-news.php:229
+msgid "Other related news"
+msgstr ""
+
+#: single-news.php:246
+msgid "Recent news"
+msgstr ""
+
+#: single-project.php:69 single-project.php:195 single-vacancy.php:74
+msgctxt "noun"
+msgid "Project"
+msgstr ""
+
+#: single-project.php:150 single-project.php:177 single-task.php:164
+#: single-task.php:190
+msgid "Overview"
+msgstr ""
+
+#: single-project.php:173 single-project.php:179 single-project.php:188
+msgid "Navigate to next part"
+msgstr ""
+
+#: single-project.php:177 single-project.php:185 single-task.php:190
+#: single-task.php:198
+msgid "Navigate to previous part"
+msgstr ""
+
+#: single-project.php:202 single-vacancy.php:87
+msgctxt "Documents to download"
+msgid "Downloads"
+msgstr ""
+
+#: single-task.php:214
+msgctxt "Document downloads"
+msgid "Downloads "
+msgstr ""
+
+#: single-team.php:20
+msgid "Skip to staff"
+msgstr ""
+
+#: single-team.php:128
+msgid "Sub-teams"
+msgstr ""
+
+#: single-vacancy.php:30
+msgid "Job details"
+msgstr ""
+
+#: single-vacancy.php:55
+msgid "Job reference"
+msgstr ""
+
+#: single-vacancy.php:57 user-profile.php:51
+msgid "Grade"
+msgstr ""
+
+#: single-vacancy.php:58
+msgid "Closing date"
+msgstr ""
+
+#: tag.php:21
 #, php-format
-msgid "Permalink to %s"
+msgid "Tasks/guides tagged: %s"
 msgstr ""
 
-#: loop.php:81
+#: tag.php:24
 #, php-format
-msgid "This gallery contains <a %1$s>%2$s photos</a>."
+msgid "Projects tagged: %s"
 msgstr ""
 
-#: loop.php:91
-msgid "View posts in the Gallery category"
-msgstr ""
-
-#: loop.php:91
-msgid "More Galleries"
-msgstr ""
-
-#: loop.php:93 loop.php:116 loop.php:158
-msgid "Leave a comment"
-msgstr ""
-
-#: loop.php:93 loop.php:116 loop.php:158
-msgid "1 Comment"
-msgstr ""
-
-#: loop.php:93 loop.php:116 loop.php:158
-msgid "% Comments"
-msgstr ""
-
-#: loop.php:100
-msgctxt "asides category slug"
-msgid "asides"
-msgstr ""
-
-#: loop.php:145
+#: tag.php:27
 #, php-format
-msgid "<span class=\"%1$s\">Posted in</span> %2$s"
+msgid "Job vacancies tagged: %s"
 msgstr ""
 
-#: loop.php:154
+#: tag.php:30
 #, php-format
-msgid "<span class=\"%1$s\">Tagged</span> %2$s"
+msgid "News tagged: %s"
 msgstr ""
 
-#: search.php:16
+#: tag.php:33
 #, php-format
-msgid "Search Results for: %s"
+msgid "Blog posts tagged: %s"
 msgstr ""
 
-#: search.php:26
-msgid "Nothing Found"
-msgstr ""
-
-#: search.php:28
-msgid ""
-"Sorry, but nothing matched your search criteria. Please try again with some "
-"different keywords."
-msgstr ""
-
-#: sidebar.php:27
-msgid "Archives"
-msgstr ""
-
-#: sidebar.php:34
-msgid "Meta"
-msgstr ""
-
-#: single.php:18 single.php:58
-msgctxt "Previous post link"
-msgid "&larr;"
-msgstr ""
-
-#: single.php:19 single.php:59
-msgctxt "Next post link"
-msgid "&rarr;"
-msgstr ""
-
-#: single.php:44
+#: tag.php:36
 #, php-format
-msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
+msgid "Events tagged: %s"
 msgstr ""
 
-#: tag.php:16
+#: tag.php:40
 #, php-format
-msgid "Tag Archives: %s"
+msgid "Everything tagged: %s"
 msgstr ""
 
-#. Theme Name of the plugin/theme
-msgid "Twenty Ten"
+#: tag.php:388
+#, php-format
+msgid "Go to %s"
 msgstr ""
 
-#. Description of the plugin/theme
-msgid "The 2010 default theme for WordPress."
+#: tag.php:393
+#, php-format
+msgid "<strong>Everything</strong> tagged: %s"
 msgstr ""
 
-#. Author of the plugin/theme
-msgid "the WordPress team"
+#: tag.php:409
+#, php-format
+msgid "<strong>Tasks and guides</strong> tagged: %s"
 msgstr ""
 
-#. Tags of the plugin/theme
-msgid ""
-"black, blue, white, two-columns, fixed-width, custom-header, custom-"
-"background, threaded-comments, sticky-post, translation-ready, microformats, "
-"rtl-language-support, editor-style"
+#: tag.php:426
+#, php-format
+msgid "<strong>Projects</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:442
+#, php-format
+msgid "<strong>Job vacancies</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:459
+#, php-format
+msgid "<strong>News</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:476
+#, php-format
+msgid "<strong>Blog posts</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:493
+#, php-format
+msgid "<strong>Events</strong> tagged: %s"
+msgstr ""
+
+#: theme-options.php:33
+msgid "Header background colour"
+msgstr ""
+
+#: theme-options.php:39
+msgid "Link colour"
+msgstr ""
+
+#: theme-options.php:45
+msgid "Visited colour"
+msgstr ""
+
+#: user-details.php:38
+#, php-format
+msgid "%s's Profile"
+msgstr ""
+
+#: user-details.php:38
+msgid "Profile"
+msgstr ""
+
+#: user-details.php:51
+#, php-format
+msgid "%s's blog posts"
+msgstr ""
+
+#: user-details.php:51
+msgid "Blog posts"
+msgstr ""
+
+#: user-details.php:61
+#, php-format
+msgid "%s's forum topics"
+msgstr ""
+
+#: user-details.php:67
+#, php-format
+msgid "%s's forum replies"
+msgstr ""
+
+#: user-details.php:74
+#, php-format
+msgid "%s's forum favourites"
+msgstr ""
+
+#: user-details.php:74
+msgid "Favourites"
+msgstr ""
+
+#: user-details.php:86
+#, php-format
+msgid "%s's forum subscriptions"
+msgstr ""
+
+#: user-details.php:86
+msgid "Subscriptions"
+msgstr ""
+
+#: user-details.php:93
+#, php-format
+msgid "Edit %s's profile"
+msgstr ""
+
+#: user-details.php:93
+msgid "Edit profile"
+msgstr ""
+
+#: user-profile.php:45
+msgid "Role"
+msgstr ""
+
+#: user-profile.php:47
+msgid "Job title"
+msgstr ""
+
+#: user-profile.php:54
+msgctxt "Address book details"
+msgid "Contact"
+msgstr ""
+
+#: user-profile.php:67
+msgctxt "verb"
+msgid "Email"
+msgstr ""
+
+#: user-profile.php:85
+msgctxt "Hours of work"
+msgid "Working pattern"
+msgstr ""
+
+#: user-profile.php:98
+msgctxt "Job skills"
+msgid "Key skills and experience"
 msgstr ""

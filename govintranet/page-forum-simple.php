@@ -23,9 +23,11 @@ get_header(); ?>
 
 			if (is_user_logged_in()){
 				get_currentuserinfo();
-				echo "<br><p>Logged in as: ".$current_user->display_name." | <a href='".wp_logout_url(get_permalink($post->ID))."'>Logout</a></p><br>";
+				echo "<br><p>";
+				printf( __('Logged in as %s' , 'govintranet') , $current_user->display_name );
+				echo " | <a href='".wp_logout_url(get_permalink($post->ID))."'>" . __('Logout' , 'govintranet') . "</a></p><br>";
 			} else {
-				echo "<p><a href='".wp_login_url(get_permalink($post->ID))."'>Login</a> | <a href='".site_url()."/wp-login.php?action=register'>Register</a></p>";
+				echo "<p><a href='".wp_login_url(get_permalink($post->ID))."'>" . __('Login' , 'govintranet') . "</a> | <a href='".site_url()."/wp-login.php?action=register'>" . _x('Register' , 'verb' , 'govintranet') . "</a></p>";
 			}
 
 			?>				
@@ -56,9 +58,9 @@ get_header(); ?>
 					<li class='bbp-header'>
 					<ul class='forum-titles'>
 					<li class='bbp-forum-info'>&nbsp;</li>
-					<li class='bbp-forum-topic-count'>Topics</li>
-					<li class='bbp-forum-reply-count'>Posts</li>			
-					<li class='bbp-forum-freshness'>Freshness</li>												
+					<li class='bbp-forum-topic-count'>" . __('Topics','govintranet') . "</li>
+					<li class='bbp-forum-reply-count'>" . __('Posts','govintranet') . "</li>			
+					<li class='bbp-forum-freshness'>" . __('Freshness','govintranet') . "</li>												
 					</ul>
 					</li>";
 					
@@ -119,7 +121,7 @@ get_header(); ?>
 						}
 						
 						if ($latestdate==0){
-							$latest='No activity';
+							$latest= __('No activity','govintranet');
 						} else 	{
 							$latest = human_time_diff( date('U',strtotime($latestdate,TRUE)), current_time('timestamp') ). " ago";
 						}

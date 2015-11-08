@@ -11,7 +11,6 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 global $wpdb;
 $user_id = bbp_get_displayed_user_field( 'id' ); 
 $poduser = get_userdata($user_id);		
-
 $avstyle="";
 if ( $directorystyle==1 ) $avstyle = " img-circle";
 $imgsrc = get_avatar($userid , 150);
@@ -24,7 +23,7 @@ do_action( 'bbp_template_before_user_profile' );
 		<?php
 	  	$teams = get_user_meta($user_id,'user_team',true);
 		if ($teams) {
-			echo '<h3 class="contacthead">Team</h3>';
+			echo '<h3 class="contacthead">' . __('Team' , 'govintranet') . '</h3>';
 			$teamlist = array(); //build array of hierarchical teams
 		  		foreach ((array)$teams as $t ) { 
 		  			$team = get_post($t);
@@ -35,24 +34,24 @@ do_action( 'bbp_template_before_user_profile' );
 		  		    	$parentteam = get_post($teamparent); 
 		  		    	$parentURL = $parentteam->post_name;
 		  		    	$parentname =govintranetpress_custom_title($parentteam->post_title); 
-			  			$teamlist[]= " <a href='".site_url()."/team/{$parentURL}/'>".$parentname."</a>";   
+			  			$teamlist[]= " <a href='".get_permalink($teamparent)."'>".$parentname."</a>";   
 			  			$teamparent = $parentteam->post_parent; 
 		  		    }
-		  			$teamlist[]= " <a href='".site_url()."/team/{$teamurl}/'>".govintranetpress_custom_title($team->post_title)."</a>";
-		  			echo "<p><strong>Team:</strong> ".implode(" &raquo; ", $teamlist)."</p>";
+		  			$teamlist[]= " <a href='".get_permalink($team->ID)."'>".govintranetpress_custom_title($team->post_title)."</a>";
+		  			echo "<p><strong>" . __('Team' , 'govintranet'). ":</strong> ".implode(" &raquo; ", $teamlist)."</p>";
 		  			$teamlist=array();
 				}
 		}  
-		if (!$teams) echo '<h3 class="contacthead">Role</h3>';
+		if (!$teams) echo '<h3 class="contacthead">' . __("Role" , "govintranet") . '</h3>';
 		$jt = get_user_meta($user_id, 'user_job_title',true );
-		if ($jt) echo "<p><strong>Job title: </strong>".$jt."</p>";
+		if ($jt) echo "<p><strong>" . __('Job title' , 'govintranet' ) . ": </strong>".$jt."</p>";
 		$jt = get_user_meta( $user_id, 'user_grade',true ); 
 		if ($jt) {
 			$jt = get_term($jt, 'grade', ARRAY_A);
-			if ($jt['name']) echo "<p><strong>Grade: </strong>".$jt['name']."</p>";
+			if ($jt['name']) echo "<p><strong>" . __('Grade' , 'govintranet') . ": </strong>".$jt['name']."</p>";
 		}
 		?>
-		<h3 class="contacthead">Contact</h3>
+		<h3 class="contacthead"><?php echo _x('Contact' , 'Address book details' , 'govintranet'); ?></h3>
 		<?php 
 		if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
 			<p class="bbp-user-description"><i class="dashicons dashicons-phone"></i> <a href="tel:<?php echo str_replace(" ", "",  get_user_meta($user_id, 'user_telephone',true ) ); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
@@ -65,7 +64,7 @@ do_action( 'bbp_template_before_user_profile' );
 		endif;
 		if ( bbp_get_displayed_user_field( 'user_email' ) ) : 
 		?>
-			<p class="bbp-user-description"><a href="mailto:<?php bbp_displayed_user_field( 'user_email' ); ?>">Email <?php bbp_displayed_user_field( 'first_name' ); echo " "; bbp_displayed_user_field( 'last_name' ); ?></a></p>
+			<p class="bbp-user-description"><a href="mailto:<?php bbp_displayed_user_field( 'user_email' ); ?>"><?php echo _x('Email' , 'verb' , 'govintranet'); ?> <?php bbp_displayed_user_field( 'first_name' ); echo " "; bbp_displayed_user_field( 'last_name' ); ?></a></p>
 			<?php 
 		endif; 
 		if ( bbp_get_displayed_user_field( 'user_twitter_handle' ) ) : 
@@ -83,20 +82,20 @@ do_action( 'bbp_template_before_user_profile' );
 
 		if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : 
 		?>
-			<h3 class="contacthead">Working pattern</h3>
-			<?php bbp_displayed_user_field( 'user_working_pattern' ); ?>
+			<h3 class="contacthead"><?php echo _x('Working pattern' , 'Hours of work' , 'govintranet'); ?></h3>
+			<?php echo wpautop(get_user_meta($user_id,'user_working_pattern',true)); ?>
 			<?php 
 		endif;
 		if ( bbp_get_displayed_user_field( 'description' ) ) : 
 		?>
-			<h3 class="contacthead">About me</h3>
-			<?php bbp_displayed_user_field( 'description' ); ?>
+			<h3 class="contacthead"><?php _e('About me' , 'govintranet'); ?></h3>
+			<p><?php bbp_displayed_user_field( 'description' ); ?></p>
 			<?php
 		endif;
 		
 		$skills = get_user_meta($user_id,'user_key_skills',true);
 		if ($skills){
-		  echo "<h3 class='contacthead'>Key skills and experience</h3>";
+		  echo "<h3 class='contacthead'>" . _x('Key skills and experience' , 'Job skills' , 'govintranet'). "</h3>";
 		  echo wpautop($skills);
 		}
 		$poduser = get_user_meta($user_id,'user_team',true);
@@ -123,7 +122,8 @@ do_action( 'bbp_template_before_user_profile' );
 			$avatarhtml = str_replace(" photo", " photo ".$avstyle, $avatarhtml);
 			$avatarhtml = str_replace('"150"', '"96"', $avatarhtml);
 			$avatarhtml = str_replace("'150'", "'96'", $avatarhtml);
-			echo "<a title='".$poduserparent->display_name."' href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$avatarhtml."</a>";										echo "<p><a href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$poduserparent->display_name."</a><br>";
+			echo "<a title='".$poduserparent->display_name."' href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$avatarhtml."</a>";										
+			echo "<p><a href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$poduserparent->display_name."</a><br>";
 			echo get_user_meta($poduserparent->ID,'user_job_title',true);
 			echo "</p>";
 			echo "<p><i class='dashicons dashicons-arrow-up-alt2'></i></p>";

@@ -57,19 +57,19 @@ if ( have_posts() )
 			<?php echo wpautop($catdesc); ?>
 				<form class="form-horizontal" role="form" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
 					<div class="input-group input-md">
-						<label for="sbc-s" class="sr-only">Search for</label>
+						<label for="sbc-s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
 						<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="How do I..." />
 						 <span class="input-group-btn">
 				    	 <?php
 					    	 $icon_override = get_option('options_search_button_override', false); 
 					    	 if ( isset($icon_override) && $icon_override ):
-						    	 $override_text = get_option('options_search_button_text', 'Search');
+						    	 $override_text = esc_attr(get_option('options_search_button_text', __('Search','govintranet')));
 								 ?>
-						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><?php echo esc_attr($override_text); ?></button>
+						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><?php echo $override_text; ?></button>
 							 	<?php 
 					    	 else:
 						    	 ?>
-						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only">Search</span></button>
+						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only"><?php _e('Search','govintranet'); ?></span></button>
 							 	<?php 
 							 endif;
 							 ?>
@@ -99,7 +99,7 @@ if ( have_posts() )
 			$expanded = "false";
 			if ( $tags_open ) $expanded = "true";
 			?>
-			<div class='cattagbutton' ><a class='btn t<?php echo $catid; ?>' data-toggle="collapse" href="#cattagcloud" aria-expanded="<?php echo $expanded; ?>" aria-controls="cattagcloud">Browse by tag <span class='caret'></span></a></div>
+			<div class='cattagbutton' ><a class='btn t<?php echo $catid; ?>' data-toggle="collapse" href="#cattagcloud" aria-expanded="<?php echo $expanded; ?>" aria-controls="cattagcloud"><?php _e('Browse by tag','govintranet'); ?> <span class='caret'></span></a></div>
 			<div class="collapse<?php if ( $expanded == "true" ) echo " in"; ?>" id="cattagcloud">
 			<?php echo $tagcloud; ?>
 			</div>							
@@ -135,7 +135,7 @@ if ( have_posts() )
 			);
 		endif;
 		if ($taskitems->post_count==0){
-			echo "<p>Nothing to show.</p>";
+			echo "<p>" . __('Nothing to show','govintranet') . ".</p>";
 		}
 		while ($taskitems->have_posts()) {
 			$taskitems->the_post();
@@ -145,14 +145,14 @@ if ( have_posts() )
 			echo "<hr>";	
 			$tagcontext = "";	
 			if ( get_posts(array("post_type"=>"task",'post_parent'=>$post->ID,"post_status"=>"publish"))) { 
-				$context = "Guide";
+				$context = __('Guide','govintranet');
 				$icon = $guideicon;
 			} elseif ( $post->post_parent ) {
-				$context = "Guide";
+				$context = __('Guide','govintranet');
 				$icon = $guideicon;
 				$tagcontext = " (" . get_the_title($post->post_parent) . ")" ;
 			} else {
-				$context = "Task";
+				$context = __('Task','govintranet');
 				$icon = $taskicon;
 			}	
 			$ext_icon = '';
@@ -163,7 +163,7 @@ if ( have_posts() )
 			endif;
 		
 				?>
-			<h3><a <?php echo $ext; ?> href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); echo $ext_icon; ?></a>&nbsp;<small><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $context.$tagcontext; ?>
+			<h3><a <?php echo $ext; ?> href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); echo $ext_icon; ?></a>&nbsp;<small><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $context.$tagcontext; ?>
 			<?php
 			if ( $catchildren ) foreach((array)$catchildren as $cc){
 				if ($cc->term_id != 1 && has_term($cc->term_id, 'category', $id) ){
@@ -199,7 +199,7 @@ if ( have_posts() )
 		if ($terms) {
 			?>
 			<div class="widget-box">
-				<h3 class='widget-title'>Sub-categories</h3>
+				<h3 class='widget-title'><?php _e('Sub-categories','govintranet'); ?></h3>
 				<div class='catlisting task'><ul class="nav nav-pills nav-stacked">
 					<?php				
 			  			foreach ((array)$terms as $taxonomy ) {
@@ -225,7 +225,7 @@ if ( have_posts() )
 		$post_type[] = 'task';
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 		if ($post_cat){
-			echo "<div class='widget-box'><h3 class='widget-title'>Categories</h3>";
+			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Categories','govintranet') . "</h3>";
 			echo "<div class='catlisting {$post->post_type}'><ul class='nav nav-pills nav-stacked'>";
 			foreach($post_cat as $cat){
 				if ( $cat->term_id != 1 && $cat->name ){

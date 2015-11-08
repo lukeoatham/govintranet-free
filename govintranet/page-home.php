@@ -3,8 +3,6 @@
 
 get_header(); ?>
 
-
-
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); 
 
 	// Load intranet homepage settings
@@ -29,7 +27,6 @@ get_header(); ?>
 		<?php 
 	endif; ?>
 
-
 	<div id="home-col-1" class="col-lg-6 col-md-6 col-sm-7">
 		<?php 	if (is_active_sidebar('home-widget-area1')) dynamic_sidebar('home-widget-area1'); ?>	
 	</div>
@@ -37,12 +34,15 @@ get_header(); ?>
 	<?php 	if (is_active_sidebar('home-widget-area-hero')): ?>
 	<div id="home-hero" class="col-lg-6 col-md-6 col-sm-5">
 	<?php 	dynamic_sidebar('home-widget-area-hero'); ?>
+	<?php endif; ?>
+	<?php 	if (is_active_sidebar('home-widget-area-hero')): ?>
 	</div>
 	<?php endif; ?>
 
 	<div  id="home-col-2"  class="col-lg-3 col-md-3 col-sm-5">
 		<?php 	if (is_active_sidebar('home-widget-area2')) dynamic_sidebar('home-widget-area2'); ?>
 	</div>
+	
 	<div  id="home-col-3" class="col-lg-3 col-md-3 col-sm-5">
 	<?php
 
@@ -51,27 +51,27 @@ get_header(); ?>
 			?>
 			<div id="loginrow" class="category-block">
 				<div id="loginaccordion">
-					<h3 class="widget-title">
-					    <a class="accordion-toggle" data-toggle="collapse" data-parent="#loginaccordion" href="#logincollapselogin">
-						<?php if (is_user_logged_in()):?>
-							      <?php 
-							      if (function_exists('get_wp_user_avatar')){
-								      echo get_wp_user_avatar(intval($current_user->id),32); 
-							      }
-							      echo " ".$current_user->display_name; ?>
-						<?php else :?>
-							       Login <i class="glyphicon glyphicon-chevron-down"></i>
-						<?php endif; ?>
-					        </a>
-					</h3>
-			    </div>
-			    <div id="logincollapselogin" class="xpanel-collapse collapse out">
-			      	<div class="xpanel-body">
-					<?php if (is_active_sidebar('login-widget-area')) dynamic_sidebar('login-widget-area');	?> 
+				<h3 class="widget-title">
+				    <a class="accordion-toggle" data-toggle="collapse" data-parent="#loginaccordion" href="#logincollapselogin">
+					<?php if (is_user_logged_in()):?>
+						      <?php 
+						      if (function_exists('get_wp_user_avatar')){
+							      echo get_wp_user_avatar(intval($current_user->id),32); 
+						      }
+						      echo " ".$current_user->display_name; ?>
+					<?php else :?>
+						       Login <i class="glyphicon glyphicon-chevron-down"></i>
+					<?php endif; ?>
+				        </a>
+				</h3>
+				    </div>
+				    <div id="logincollapselogin" class="xpanel-collapse collapse out">
+				      <div class="xpanel-body">
+						<?php if (is_active_sidebar('login-widget-area')) dynamic_sidebar('login-widget-area');	?> 
 					</div>
 					<!--<h3 class="widget-title>">Personalisation</h3> -->
+					
 				</div>
-
 			</div>
 	<?php endif; ?>
 
@@ -80,7 +80,7 @@ get_header(); ?>
 		if (is_active_sidebar('home-widget-area3b')) dynamic_sidebar('home-widget-area3b'); 	
 		echo "</div>";
 		if (is_active_sidebar('home-widget-area-hero')): 
-			echo "</div><!-- end hero -->";
+			echo "</div>";
 		endif; 
 
 		if ($campaign_message) :  //Display campaign message ?>
@@ -93,8 +93,6 @@ get_header(); ?>
 			<?php 
 		endif; 
 		?>
-	
-
 
 <?php endwhile; ?>
 <?php get_footer(); ?>

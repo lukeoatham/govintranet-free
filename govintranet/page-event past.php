@@ -1,5 +1,6 @@
 <?php
 /* Template name: Events (inc past) page */
+
 $cdir = '';
 $eventcat = '';
 if ( isset($_GET['cdir'])) $cdir = $_GET['cdir'];
@@ -10,7 +11,6 @@ date_default_timezone_set($tzone);
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-
 
 	<div class="col-md-8 white ">
 		<div class="row">
@@ -30,7 +30,9 @@ get_header(); ?>
 			}
 		}
 		if ($cdir=='b') {
-			echo " <small>Past ".strtolower(get_the_title())."</small>" ;
+			echo " <small>";
+			printf( __('Past %s', 'govintranet') , strtolower(get_the_title() ) ); 
+			echo "</small>" ;
 		}
 		?>
 		</h1>
@@ -38,15 +40,15 @@ get_header(); ?>
 		<?php 
 		if ($eventcat==""){
 			if ($cdir=="b"){
-				$timetravel = "<div class='futureevents'><p><a href='".home_url( '/' )."events/?cdir=f'>Future ".strtolower(get_the_title())." &raquo;</a></p></div>";
+				$timetravel = "<div class='futureevents'><p><a href='".get_permalink(get_the_id())."?cdir=f'>".sprintf(__('Future %s' , 'govintranet' ) , strtolower(get_the_title() ) )." &raquo;</a></p></div>";
 			} else {
-				$timetravel = "<div class='pastevents'><p><a href='".home_url( '/' )."events/?cdir=b'>&laquo; Past ".strtolower(get_the_title())."</a></p></div>";
+				$timetravel = "<div class='pastevents'><p><a href='".get_permalink(get_the_id())."?cdir=b'>&laquo;".sprintf(__('Past %s' , 'govintranet' ) , strtolower(get_the_title() ) )."</a></p></div>";
 			}
 		} else {
 			if ($cdir=="b"){
-				$timetravel = "<div class='futureevents'><p><a href='".home_url( '/' )."events/?cdir=f&cat=".$eventcat."'>Future ".strtolower(get_the_title())." &raquo;</a></p></div>";
+				$timetravel = "<div class='futureevents'><p><a href='".get_permalink(get_the_id())."?cdir=f&cat=".$eventcat."'>".sprintf(__('Future %s' , 'govintranet' ) , strtolower(get_the_title() ) )." &raquo;</a></p></div>";
 			} else {
-				$timetravel = "<div class='pastevents'><p><a href='".home_url( '/' )."events/?cdir=b&cat=".$eventcat."'>&laquo; Past ".strtolower(get_the_title())."</a></p></div>";
+				$timetravel = "<div class='pastevents'><p><a href='".get_permalink(get_the_id())."?cdir=b&cat=".$eventcat."'>&laquo; ".sprintf(__('Past %s' , 'govintranet' ) , strtolower(get_the_title() ) )."</a></p></div>";
 			}																
 		}
 
@@ -263,27 +265,25 @@ get_header(); ?>
 		$post_type[] = 'event';
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 		if ($post_cat){
-			echo "<div class='widget-box'><h3 class='widget-title'>Categories</h3>";
+			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Categories' , 'govintranet') . "</h3>";
 			echo "<p class='taglisting {$post->post_type}'>";
-			echo "<span><a class='wptag t' href='".site_url()."/events/?cdir=".$cdir."'>All</a></span> ";
+			echo "<span><a class='wptag t' href='".site_url()."/events/?cdir=".$cdir."'>" . __('All' , 'govintranet') . "</a></span> ";
 			foreach($post_cat as $cat){
 				if ($cat->name!='Uncategorized' && $cat->name){
-				$newname = str_replace(" ", "&nbsp;", $cat->name );
-				echo "<span><a  class='wptag t".$cat->term_id."' href='".site_url()."/events/?cat=".$cat->slug."&cdir=".$cdir."'>".$newname."</a></span> ";
-			}
+					$newname = str_replace(" ", "&nbsp;", $cat->name );
+					echo "<span><a  class='wptag t".$cat->term_id."' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&cdir=".$cdir."'>".$newname."</a></span> ";
+				}
 			}
 			echo "</p></div>";
 		}
+		if ( gi_howto_tag_cloud('event') ) :
+			echo "<div class='widget-box'>";
+			echo  "<h3 class='widget-title'>Browse by tag</h3>";
+			echo gi_howto_tag_cloud('event'); 
+			echo "<br>";
+			echo "</div>";
+		endif;
 		?>
-				<?php
-				if ( gi_howto_tag_cloud('event') ) :
-					echo "<div class='widget-box'>";
-					echo  "<h3 class='widget-title'>Browse by tag</h3>";
-					echo gi_howto_tag_cloud('event'); 
-					echo "<br>";
-					echo "</div>";
-				endif;
-				?>
 	
 	 	<?php dynamic_sidebar('eventslanding-widget-area'); ?> 
 	

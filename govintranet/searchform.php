@@ -14,26 +14,26 @@ if ($placeholder!=''){
 		$randex=trim($placeholder[0]);
 	}
 } else {
-	$randex = "Search";
+	$randex = __("Search","govintranet");
 }	
 ?>
 	<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo site_url( '/' ); ?>">
 	  <div class="row">
 		  <div class="input-group">
-			 <label for="s" class="sr-only">Search for</label>
+			 <label for="s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
 	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" value="<?php echo the_search_query();?>">
 			 <span class="input-group-btn">
-			<label for="searchbutton" class="sr-only">Search</label>	 
+			<label for="searchbutton" class="sr-only"><?php _e('Search','govintranet'); ?></label>	 
 	    	 <?php
 		    	 $icon_override = get_option('options_search_button_override', false); 
 		    	 if ( isset($icon_override) && $icon_override ):
-			    	 $override_text = get_option('options_search_button_text', 'Search');
+			    	 $override_text = esc_attr(get_option('options_search_button_text', __('Search', 'govintranet') ));
 					 ?>
-			 		<button class="btn btn-primary" id="searchbutton" type="submit"><?php echo esc_attr($override_text); ?></button>
+			 		<button class="btn btn-primary" id="searchbutton" type="submit"><?php echo $override_text; ?></button>
 				 	<?php 
 		    	 else:
 			    	 ?>
-			 		<button class="btn btn-primary" id="searchbutton" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only">Search</span></button>
+			 		<button class="btn btn-primary" id="searchbutton" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only"><?php _e('Search','govintranet'); ?></span></button>
 				 	<?php 
 				 endif;
 				 ?>

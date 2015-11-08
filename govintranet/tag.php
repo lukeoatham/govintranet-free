@@ -201,17 +201,17 @@ get_header();
 						$icon = "download";			
 						?>
 						<h3>				
-						<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
+						<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
 					<?php 
 					elseif ($post_type=='User'): 
 					?>
 						<h3>				
-						<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
+						<a href="<?php echo $userurl; ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
 					
 					<?php 
 					else: ?>
 						<h3>				
-						<a href="<?php echo get_the_permalink(get_the_id()); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?>
+						<a href="<?php echo get_the_permalink(get_the_id()); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?>
 						</h3>
 					
 					<?php
@@ -384,7 +384,9 @@ get_header();
 								$landingpage_link_text = get_the_title( $landingpage[0] );
 								$landingpage = get_permalink( $landingpage[0] );
 							endif;
-							echo "<li><a href='".$landingpage."'>Go to ".$landingpage_link_text."</a></li>";
+							echo "<li><a href='".$landingpage."'>";
+							printf( __('Go to %s' , 'govintranet' ) , $landingpage_link_text );
+							echo "</a></li>";
 						}
 						if ($posttype != ''){
 						echo "<li><a href='".site_url()."/tag/".$thistagslug."'>";
@@ -403,7 +405,9 @@ get_header();
 							";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=task'><strong>Tasks and guides</strong> tagged: ".$thistag."</a></li>";		
+								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=task'>";
+								printf( __( '<strong>Tasks and guides</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
+								echo "</a></li>";		
 							}
 						}
 						if ($posttype != 'project'){
@@ -418,7 +422,9 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=project'><strong>Projects</strong> tagged: ".$thistag."</a></li>";		
+								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=project'>";
+								printf( __( '<strong>Projects</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
+								echo "</a></li>";		
 							}
 						}
 						if ($posttype != 'vacancy'){
@@ -432,7 +438,9 @@ get_header();
 							$wpdb->posts.post_status = 'publish'					";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=vacancy'><strong>Job vacancies</strong> tagged: ".$thistag."</a></li>";		
+								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=vacancy'>";
+								printf( __( '<strong>Job vacancies</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
+								echo "</a></li>";		
 							}
 						}
 						if ($posttype != 'news'){
@@ -447,7 +455,9 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=news'><strong>News</strong> tagged: ".$thistag."</a></li>";		
+								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=news'>";
+								printf( __( '<strong>News</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
+								echo "</a></li>";		
 							}
 						}
 						if ($posttype != 'blog'){
@@ -462,7 +472,9 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=blog'><strong>Blog posts</strong> tagged: ".$thistag."</a></li>";		
+								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=blog'>";
+								printf( __( '<strong>Blog posts</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
+								echo "</a></li>";		
 							}
 						}
 						if ($posttype != 'event'){
@@ -477,7 +489,9 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=event'><strong>Events</strong> tagged: ".$thistag."</a></li>";		
+								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=event'>";
+								printf( __( '<strong>Events</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
+								echo "</a></li>";		
 							}
 						}
 						?>

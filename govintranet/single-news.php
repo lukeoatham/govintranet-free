@@ -69,7 +69,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				$current_attachments = get_field('document_attachments');
 				if ($current_attachments){
 					echo "<div class='alert alert-info'>";
-					echo "<h3>Downloads <i class='glyphicon glyphicon-download'></i></h3>";
+					echo "<h3>" . _x('Downloads' , 'Document downloads', 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
 						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
@@ -163,7 +163,7 @@ remove_filter('pre_get_posts', 'filter_search');
 			$recentitems = new WP_Query(); 
 			
 			// try to find other need to know stories
-			$subhead = 'Other updates';
+			$subhead = __('Other updates', 'govintranet');
 			if ($update) { 
 				$recentitems = new WP_Query(array(
 					'post_type'	=>	'news',
@@ -180,7 +180,7 @@ remove_filter('pre_get_posts', 'filter_search');
 			if ( $recentitems->found_posts == 0 && $terms && $ntags ):
 			// no need to know stories so we'll look for others with the same tags AND category
 				add_filter('pre_get_posts', 'filter_news');
-				$subhead = 'Similar news';
+				$subhead = __('Similar news','govintranet');
 				$recentitems = new WP_Query(array(
 						'post_type'	=>	'news',
 						'posts_per_page'	=>	5,
@@ -226,7 +226,7 @@ remove_filter('pre_get_posts', 'filter_search');
 			
 			if ( $recentitems->found_posts == 0 && $terms): 
 			// still nothing found, we'll look for other stories in the same news categories as this story
-				$subhead = 'Other related news';
+				$subhead = __('Other related news','govintranet');
 				if ($newstype):
 					$recentitems = new WP_Query(array(
 						'post_type'	=>	'news',
@@ -243,7 +243,7 @@ remove_filter('pre_get_posts', 'filter_search');
 			
 			if ( $recentitems->found_posts == 0 ): 
 			// still nothing found, we'll load the latest 5 stories excluding any need to know
-				$subhead = 'Recent news';
+				$subhead = __('Recent news','govintranet');
 				$recentitems = new WP_Query(array(
 					'post_type'	=>	'news',
 					'posts_per_page'	=>	5,
@@ -270,7 +270,7 @@ remove_filter('pre_get_posts', 'filter_search');
 						$thisdate= $post->post_date;
 						$thisdate=date("j M Y",strtotime($thisdate));
 						echo "<span class='news_date'>".$thisdate;
-						echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >Read more</a></span></div><div class='clearfix'></div><hr class='light' />";
+						echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 					}
 				endwhile; 
 				echo "</div>";

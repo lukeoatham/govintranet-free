@@ -161,16 +161,16 @@ get_header(); ?>
 			if ($current_chapter>1){
 				echo "<h2>".$current_chapter.". ".get_the_title()."</h2>";
 			} else {
-				echo "<h2>Overview</h2>";
+				echo "<h2>" . __('Overview' , 'govintranet') . "</h2>";
 			}
 
 			the_content(); 		
 
 			if( have_rows('document_attachments') ) : 
 				echo "<div class='alert alert-info'>";
-				echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
+				echo "<h3>" . _x('Downloads' , 'Document downloads' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
 				    while ( have_rows('document_attachments') ) : the_row(); 
-						$doc = get_sub_field('document_attachment'); //print_r($doc);
+						$doc = get_sub_field('document_attachment'); 
 						if ( isset($doc['title']) )  echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
 					endwhile;
 				echo "</div>";
@@ -187,7 +187,7 @@ get_header(); ?>
 				echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a>';
 				echo "</div>";
 	        } elseif ($current_chapter==2) { // if on chapter 2
-				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;Overview</a></div>';
+				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="' . __("Navigate to previous part" , "govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;' . __("Overview" ,"govintranet") .'</a></div>';
 	            if ($carray[3]['slug']){
 					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 		        }
@@ -195,7 +195,7 @@ get_header(); ?>
 	        	$previous_chapter = $current_chapter-1; 
 				$next_chapter = $current_chapter+1;
 
-				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="Navigate to previous part"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
+				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="' . __("Navigate to previous part" , "govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
 	            if ($carray[$next_chapter]['slug']){
 					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 				}
@@ -211,7 +211,7 @@ get_header(); ?>
 				$current_attachments = get_field('document_attachments');
 				if ($current_attachments){
 					echo "<div class='alert alert-info'>";
-					echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
+					echo "<h3>" . _x('Downloads ' , 'Document downloads' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
 						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
@@ -230,11 +230,9 @@ get_header(); ?>
 		<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-4">	
 
 				<?php 
-
 				get_template_part("part", "related");
 
 				get_template_part("part", "sidebar");
-
 
 				$post_categories = wp_get_post_categories( $post->ID ); 
 				$cats = array();
@@ -245,12 +243,12 @@ get_header(); ?>
 						$cat = get_category( $c );
 						if ( $c < 2 ) continue;
 						$catsfound = true;
-						$catshtml.= "<span><a class='wptag t".$cat->term_id."' href='".site_url()."/category/".$cat->slug."/'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+						$catshtml.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug, 'category')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 					}
 				}
 					
 				if ($catsfound){
-					echo "<div class='widget-box'><h3>Categories</h3><p class='taglisting page'>".$catshtml."</p></div>";
+					echo "<div class='widget-box'><h3>" . __('Categories' , 'govintranet') . "</h3><p class='taglisting page'>".$catshtml."</p></div>";
 				}
 				
 				$posttags = get_the_tags();
@@ -261,11 +259,11 @@ get_header(); ?>
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
 				  			$tagurl = $tag->slug;
-					    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?type=task'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+					    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=task'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
 				  	}
 				  	if ($foundtags){
-					  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
+					  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
 					  	echo $tagstr;
 					  	echo "</p></div>";
 				  	}

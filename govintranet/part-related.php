@@ -46,7 +46,7 @@ endif;
 
 if ( $html ){
 	echo "<div class='widget-box list'>";
-	echo "<h3 class='widget-title'>Related</h3>";
+	echo "<h3 class='widget-title'>" . __('Related' , 'govintranet') . "</h3>";
 	echo "<ul>";
 	echo $html;
 	echo "</ul></div>";

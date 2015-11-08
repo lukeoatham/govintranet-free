@@ -43,8 +43,9 @@ if ($k==1 && $paged<2){
 	$thisdate= $post->post_date;
 	$thisdate=date("j M Y",strtotime($thisdate));
 	echo '<span class="listglyph">'.get_the_date("j M Y"); 
-	comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 	echo '</span> ';
+	if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+
 	$post_cat = get_the_terms($post->ID,'news-type');		
 	if ( $post_cat ) foreach($post_cat as $cat){
 		if ($cat->term_id > 1 ){
@@ -70,14 +71,14 @@ if ($k==1 && $paged<2){
 	echo "<div class='media-body'>";
 	?>
 	<h3 class='postlist'><?php echo $needtoknow;  ?>				
-	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a><?php echo $ext_icon; ?></h3>
+	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a><?php echo $ext_icon; ?></h3>
 	<?php
 	echo "<div><p>";
 	$thisdate= $post->post_date;
 	$thisdate=date("j M Y",strtotime($thisdate));
 	echo '<span class="listglyph">'.get_the_date("j M Y"); 
-	comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 	echo '</span> ';
+	if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 	echo "</p></div>";
 	the_excerpt(); 
 	?>

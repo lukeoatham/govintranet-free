@@ -50,7 +50,7 @@ get_header(); ?>
 	if ( !have_posts() ) : 
 
 		$searchnotfound=get_option('options_search_not_found');
-		if (!$searchnotfound) $searchnotfound = "Nope";
+		if (!$searchnotfound) $searchnotfound = _x("Nope","search not found","govintranet");
 		?>
 		<h1><?php echo $searchnotfound; ?></h1>
 		<?php 
@@ -64,67 +64,67 @@ get_header(); ?>
 			}
 			if (in_array('blog', $pt)){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' blog posts';
+				$searchcon.= " " . __('blog posts','govintranet');
 			}
 			if (in_array('event', $pt)){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' events';
+				$searchcon.=" " . __('events', 'govintranet');
 			}
 			if ( in_array('forum', $pt) || in_array('topic', $pt) || in_array('reply', $pt) ){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' the forums';
+				$searchcon.=" " . __('the forums','govintranet');
 			}	
 			if (in_array('jargon-buster', $pt)){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' jargon busters';
+				$searchcon.=" " . __('jargon busters','govintranet');
 			}
 			if (in_array('news', $pt)){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' news';
+				$searchcon.=" " . __('news','govintranet');
 			}
 			if (in_array('project', $pt)){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' projects';
+				$searchcon.=" " . __('projects','govintranet');
 			}
 			if ($_GET['include']=='user'){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' the staff directory';
+				$searchcon.=" " . __('the staff directory','govintranet');
 			}					 
 			if (in_array('task', $pt)){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' tasks';
+				$searchcon.=" " . __('tasks','govintranet');
 			}
 			if (in_array('team', $pt)){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' teams';
+				$searchcon.=" " . __('teams','govintranet');
 			}
 			if (in_array('vacancy', $pt)){
 				if ($searchcon) $searchcon.=" or";
-				$searchcon.=' vacancies';
+				$searchcon.=" " . __('vacancies','govintranet');
 			}
 		endif; 
 		
 		echo "<p>";
 		if ($pt){
-			_e( 'Couldn\'t find anything in ' . $searchcon . '. Try searching the whole intranet.', 'govintranet' ); 
+			 printf(__( 'Couldn\'t find anything in %s. Try searching the whole intranet.', 'govintranet' ) , $searchcon) ; 
 		} else {
 			_e( 'Couldn\'t find anything on the intranet like that. Sometimes using fewer words can help.', 'govintranet' ); 				
 		}
 		echo "</p>";
 
 		if (function_exists('relevanssi_didyoumean')) { 
-			relevanssi_didyoumean(get_search_query(), "<div class='did_you_mean'><h2>Did you mean?</h2><p> ", "</p></div>", 5);
+			relevanssi_didyoumean(get_search_query(), "<div class='did_you_mean'><h2>" . __('Did you mean?','govintranet') . "</h2><p> ", "</p></div>", 5);
 		}
 
 		?>
 		<div class="well">
 		<form class="form" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
 			<div class="form-group">
-		    <label for="snf">Search again</label>
+		    <label for="snf"><?php _e('Search again','govintranet'); ?></label>
 			<input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo the_search_query();?>">
 			</div>
 			<div class="form-group">
-			<button type="submit" class="btn btn-primary">Search again</button>
+			<button type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
 			</div>
 		</form>
 		</div>
@@ -190,7 +190,7 @@ get_header(); ?>
 		<div id="accordion">
 	      <h3>
 	        <a class="accordion-toggle btn btn-success dropdown filter_results" data-toggle="collapse" data-parent="#accordion" href="#collapseFilter">
-				Filter results <span class="caret"></span>
+				<?php _ex('Filter results', 'action', 'govintranet');?> <span class="caret"></span>
 	        </a>
 	      </h3>
 	    </div>
@@ -216,7 +216,7 @@ get_header(); ?>
 							if( isset( $_GET['include'] ) && $_GET['include'] == 'user'){ 
 								$checkbox .= " checked=\"checked\"";
 							}
-							$checkbox .= '> <span class="labelForCheck">Staff profiles</span></label>';
+							$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
 						}
 						if( $pt->labels->name > "Forums" && $showforums){
 							$showforums = false;
@@ -224,35 +224,35 @@ get_header(); ?>
 							if(in_array('forum', $sposttype)){ 
 								$checkbox .= " checked=\"checked\"";
 							}
-							$checkbox .= '> <span class="labelForCheck">Forums</span></label>';
+							$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
 							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="topic"';
 							if(in_array('topic', $sposttype)){ 
 								$checkbox .= " checked=\"checked\"";
 							}
-							$checkbox .= '> <span class="labelForCheck">Forum topics</span></label>';
+							$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
 							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="reply"';
 							if(in_array('reply', $sposttype)){ 
 								$checkbox .= " checked=\"checked\"";
 							}
-							$checkbox .= '> <span class="labelForCheck">Forum replies</span></label>';
+							$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
 						}
 						if( $pt->rewrite["slug"] != "spot" ){
 							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="'. $pt->query_var .'"';
 							if(in_array($pt->query_var, $sposttype)){ 
 								$checkbox .= " checked=\"checked\"";
 							}
-							$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';// print_r($pt);
+							$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';
 						}
 					}
 					$checkbox .= '<label class="checkbox"><input type="checkbox" name="orderby" value="date"';
 					if( isset( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] ){ 
 						$checkbox .= " checked=\"checked\"";
 					}
-					$checkbox .= '<span class="labelForCheck">Recently published first</span></label>';
+					$checkbox .= '<span class="labelForCheck">' . __("Recently published first","govintranet") . '</span></label>';
 					echo $checkbox;
 					?>
 					<br>
-					<button  class="btn btn-primary">Refine search <i class="dashicons dashicons-search"></i></button>
+					<button  class="btn btn-primary"><?php _e('Refine search','govintranet');?> <i class="dashicons dashicons-search"></i></button>
 				</form>
 			 </div>
 		</div>

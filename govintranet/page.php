@@ -39,6 +39,8 @@ get_header(); ?>
 
 		get_template_part("part", "related");
 
+		get_template_part("part", "sidebar");
+
 		?>
 	</div>
 	

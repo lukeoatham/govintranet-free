@@ -70,7 +70,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				$icon = "road";
 			?>
 			<h3>				
-				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranetpress' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
+				<a href="<?php the_permalink(); ?>" title="<?php echo get_the_title(); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 
 			<?php
 			the_excerpt(); 

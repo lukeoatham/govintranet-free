@@ -26,7 +26,7 @@
 		<div id="comments">
 		<h3 id="comments-title"><?php
 		printf( _n( 'One response to %2$s', '%1$s responses to %2$s', get_comments_number(), 'govintranet' ),
-		number_format_i18n( get_comments_number() ), '' . get_the_title() . '' );
+		number_format_i18n( get_comments_number() ),  get_the_title()  );
 		?></h3>
 
 		<?php 
@@ -52,18 +52,7 @@
 			previous_comments_link( __( '&larr; Older comments', 'govintranet' ) ); 
 			next_comments_link( __( 'Newer comments &rarr;', 'govintranet' ) ); 
 		endif; // check for comment navigation 
-
-	else : // or, if we don't have comments:
-
-		/* If there are no comments and comments are closed,
-		 * let's leave a little note, shall we?
-		 */
-		if ( ! comments_open() ) :
-			?>
-			<p><?php _e( '', 'govintranet' ); ?></p>
-			<?php 
-		endif; // end ! comments_open() 
-		
+	
 	endif; // end have_comments()
 	$custom_comment_text = "";
 	if ( is_user_logged_in() ):
@@ -74,7 +63,7 @@
 	$args = array(
 		'comment_notes_before' => wpautop($custom_comment_text),
 		'comment_notes_after' => '',
-		'title_reply' => 'Leave a comment',
+		'title_reply' => __('Leave a comment','govintranet'),
 	);
 	echo "<div class='well'>";
 	comment_form($args); 

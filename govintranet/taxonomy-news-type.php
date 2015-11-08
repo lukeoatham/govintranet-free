@@ -95,11 +95,11 @@ if ( have_posts() )
 			echo "<div class='newsitem'>".$image_url ;
 			?>
 		<h3>				
-			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s', 'govintranetpress' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
+			<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 
 			<?php
 			echo '<span class="listglyph">'.get_the_date("j M Y"); 
-			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
+			if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 			echo '</span> ';				
 			the_excerpt(); 
 			echo "</div>";

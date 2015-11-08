@@ -53,7 +53,7 @@ get_header(); ?>
 			<?php
             $user = get_userdata($post->post_author);
             
-            echo "<div class='widget-box'><h3>Author</h3><div class='well'><div class='media'>";
+            echo "<div class='widget-box'><h3>" . __('Author' , 'govintranet') . "</h3><div class='well'><div class='media'>";
             
             $gis = "options_module_staff_directory";
 			$forumsupport = get_option($gis); 
@@ -99,11 +99,11 @@ get_header(); ?>
 			  		if (substr($tag->name,0,9)!="carousel:"){
 			  			$foundtags=true;
 			  			$tagurl = $tag->slug;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?post_type=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl) . "?post_type=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 			    	}
 			  	}
 			  	if ($foundtags){
-				  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
+				  	echo "<div class='widget-box'><h3>" . __('Tags','govintranet') . "</h3><p> "; 
 				  	echo $tagstr;
 				  	echo "</p></div>";
 			  	}
@@ -114,9 +114,9 @@ get_header(); ?>
 		//if we're looking at a blog post, show recently published 
 			echo "<div class='widget-box nobottom'>";
 			$recentitems = new WP_Query('post_type=blog&posts_per_page=5');			
-			echo "<h3>Recent posts</h3>";
+			echo "<h3>" . __('Recent posts' , 'govintranet') . "</h3>";
 			if ($recentitems->post_count==0 || ($recentitems->post_count==1 && $mainid==$post->ID)){
-				echo "<p>Nothing to show yet.</p>";
+				echo "<p>" . __('Nothing to show yet' , 'govintranet') . ".</p>";
 			}
 			if ( $recentitems->have_posts() ) while ( $recentitems->have_posts() ) : $recentitems->the_post(); 
 				if ($mainid!=$post->ID) {
@@ -128,7 +128,7 @@ get_header(); ?>
 					$thisdate= $post->post_date;
 					$thisdate=date("j M Y",strtotime($thisdate));
 					echo "<span class='news_date'>".$thisdate;
-					echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >Read more</a></span></div><div class='clearfix'></div><hr class='light' />";
+					echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 				}
 			endwhile; 
 			echo "</div>";

@@ -47,7 +47,7 @@ get_header();
 					<a href="<?php echo wp_get_attachment_url(); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" ><?php echo esc_attr( get_the_title() ); ?></a>
 <?php 			endif; ?>
 				<?php if ( !empty( $post->post_excerpt ) ) the_excerpt(); ?>
-				<?php the_content( __( 'Continue reading &rarr;', 'govintranetpress' ) ); ?>
+				<?php the_content( __( 'Continue reading &rarr;', 'govintranet' ) ); ?>
 			</div>
 
 <?php endwhile; 

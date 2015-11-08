@@ -13,12 +13,12 @@ get_header();
 		$r = $_SERVER['REQUEST_URI']; 
 		$r = explode('/', $r);
 		if ($r[1] == 'staff'):?>
-				<a href="<?php echo site_url(); ?>">Home</a>
-				> <a href="<?php echo site_url(); ?>/staff-directory/">Staff directory</a>
+				<a href="<?php echo site_url(); ?>"><?php _ex('Home','The site homepage','govintranet'); ?></a>
+				> <a href="<?php echo site_url(); ?>/staff-directory/"><?php _e('Staff directory','govintranet'); ?></a>
 				> <?php the_title(); ?>
 		<?php
 		 elseif ($r[1] == 'users'):?>
-				<a href="<?php echo site_url(); ?>">Home</a>
+				<a href="<?php echo site_url(); ?>"><?php _ex('Home','The site homepage','govintranet'); ?></a>
 				> <?php the_title(); ?>
 		<?php
 		else: 

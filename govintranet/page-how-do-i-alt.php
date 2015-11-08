@@ -19,22 +19,22 @@ get_header(); ?>
 			<?php  the_content(); ?>
 			<div class="well well-sm">
 				<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
-					<label for="sbc-s" class="sr-only">Search for</label>
+					<label for="sbc-s" class="sr-only"><?php _e('Search'); ?></label>
 					<div class="input-group">
 						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 						 <span class="input-group-btn">
 						 <input type="hidden" name="post_type[]" value="task" />
-						 <label for="searchbutton2" class="sr-only">Search</label>
+						 <label for="searchbutton2" class="sr-only"><?php _e('Search'); ?></label>
 				    	 <?php
 					    	 $icon_override = get_option('options_search_button_override', false); 
 					    	 if ( isset($icon_override) && $icon_override ):
-						    	 $override_text = get_option('options_search_button_text', 'Search');
+						    	 $override_text = esc_attr(get_option('options_search_button_text', __('Search','govintranet') ));
 								 ?>
-						 		<button class="btn btn-primary" id="searchbutton2" type="submit"><?php echo esc_attr($override_text); ?></button>
+						 		<button class="btn btn-primary" id="searchbutton2" type="submit"><?php echo $override_text; ?></button>
 							 	<?php 
 					    	 else:
 						    	 ?>
-						 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only">Search</span></button>
+						 		<button class="btn btn-primary" id="searchbutton2" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only"><?php _e('Search','govintranet'); ?></span></button>
 							 	<?php 
 							 endif;
 							 ?>
@@ -55,11 +55,11 @@ get_header(); ?>
 			</script>
 
 			<div class="widget-box">
-				<h3 class="widget-title">Browse by category</h3>
+				<h3 class="widget-title"><?php _e('Browse by category','govintranet'); ?></h3>
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-6">
 							<ul class="howdoi">
-								<?php
+								<?php 
 								// Display category blocks
 								$catcount = 0;
 								$terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"slug"));
@@ -105,7 +105,7 @@ get_header(); ?>
 					endif;
 					if ($taghtml): ?>
 					<div style="text-align:middle;"  class="widget-box">
-					<h3 class="widget-title">Browse by tag</h3>
+					<h3 class="widget-title"><?php _e('Browse by tag','govintranet'); ?></h3>
 					<div class="tagcloud">
 					 <?php	echo $taghtml; ?>
 					</div>

@@ -1,24 +1,20 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * The Template for displaying all single vacancy posts.
  *
  * @package WordPress
- * @subpackage Starkers
- * @since Starkers 3.0
  */
 
 get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-	<?php
-	
-	$chapterheader = false;
-	$singletask = false;
-	$pagetype = "";
-	
-	$current_vac = $id;
-		
-	?>
+
+<?php
+$chapterheader = false;
+$singletask = false;
+$pagetype = "";
+$current_vac = $id;
+?>
 	
 		<div class="col-lg-8 col-md-7 col-sm-7 white ">
 			<div class="row">
@@ -31,7 +27,7 @@ get_header(); ?>
 			
 			<h1><?php the_title();?></h1>
 			<div class='well'>
-			<h3>Job details</h3> 
+			<h3><?php _e('Job details' , 'govintranet') ; ?></h3> 
 			<?php
 
 			$job_reference = get_post_meta($current_vac, 'vacancy_reference', true);
@@ -56,10 +52,10 @@ get_header(); ?>
 
 			$current_attachments = get_post_meta($current_vac, 'document_attachments', true);
 			
-			if ( $job_reference ) echo "<strong>Job reference: </strong>".esc_attr($job_reference)."<br>";
-			if ( $team ) echo "<strong>Team: </strong>".$team."<br>";
-			if ( $grade ) echo "<strong>Grade: </strong>".$grade."<br>";			
-			if ( $closing_date ) echo "<strong>Closing date: </strong>".$closing_date;
+			if ( $job_reference ) echo "<strong>" . __('Job reference' , 'govintranet') . ": </strong>".esc_attr($job_reference)."<br>";
+			if ( $team ) echo "<strong>" . __('Team' , 'govintranet') . ": </strong>".$team."<br>";
+			if ( $grade ) echo "<strong>" . __('Grade' , 'govintranet') . ": </strong>".$grade."<br>";			
+			if ( $closing_date ) echo "<strong>" . __('Closing date' , 'govintranet') . ": </strong>".$closing_date;
 
 			$tdate= getdate();
 			$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
@@ -75,7 +71,7 @@ get_header(); ?>
 			the_content(); 		
 						
 			if ($projects){
-				echo "<div id='projects'><h2>Project</h2><ul>";
+				echo "<div id='projects'><h2>" . _x('Project' , 'noun' , 'govintranet') . "</h2><ul>";
 				foreach ((array)$projects as $t){
 					if (get_post_status($t) == 'publish' ){
 						echo "<li><a href='".get_permalink($t)."'>".get_the_title($t)."</a></li>";
@@ -88,7 +84,7 @@ get_header(); ?>
 			$current_attachments = get_field('document_attachments');
 			if ($current_attachments){
 				echo "<div class='alert alert-info'>";
-				echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
+				echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
 				foreach ($current_attachments as $ca){
 					$c = $ca['document_attachment'];
 					if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
@@ -119,9 +115,9 @@ get_header(); ?>
 			$post_cat = get_the_category();
 			if ($post_cat){
 				echo "<div class='widget-box x'>
-					<h3>Categories</h3><p>";
+					<h3>" . __('Categories' , 'govintranet') . "</h3><p>";
 				foreach($post_cat as $cat){
-					echo "<span><a  class='wptag' href='".site_url()."/category/".$cat->slug."/?type=vacancy'>".$cat->name."</a></span> ";
+					echo "<span><a  class='wptag' href='" . get_term_link($cat->term_id, 'category') . "/?type=vacancy'>".$cat->name."</a></span> ";
 				}
 				echo "</p></div>";
 			}
@@ -134,11 +130,11 @@ get_header(); ?>
 			  		if (substr($tag->name,0,9)!="carousel:"){
 			  			$foundtags=true;
 			  			$tagurl = $tag->slug;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?type=vacancy'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."/?type=vacancy'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 			    	}
 			  	}
 			  	if ($foundtags){
-				  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
+				  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
 				  	echo $tagstr;
 				  	echo "</p></div>";
 			  	}

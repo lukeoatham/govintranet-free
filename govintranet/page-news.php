@@ -35,9 +35,9 @@ get_header();
 				$projectspost = new WP_Query($cquery);
 				global $k; 
 				$k = 0;
-		       while ($projectspost->have_posts()) : $projectspost->the_post();
-		         get_template_part( 'loop', 'newstwitter' );
-		       endwhile;
+				while ($projectspost->have_posts()) : $projectspost->the_post();
+					get_template_part( 'loop', 'newstwitter' );
+				endwhile;
 
 					if (  $projectspost->max_num_pages > 1 ) : ?>
 			<?php if (function_exists('wp_pagenavi')) : ?>
@@ -61,10 +61,10 @@ get_header();
 		$post_type[] = 'news';
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 		if ($post_cat){
-			echo "<div class='widget-box'><h3 class='widget-title'>Categories</h3>";
+			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Categories' , 'govintranet') . "</h3>";
 			echo "<p class='taglisting {$post->post_type}'>";
 			foreach($post_cat as $cat){
-				if ($cat->name!='Uncategorized' && $cat->name){
+				if ($cat->term_id > 1 && $cat->name){
 					$newname = str_replace(" ", "&nbsp;", $cat->name );
 					echo "<span><a  class='wptag t".$cat->term_id."' href='".site_url()."/news-type/".$cat->slug."'>".$newname."</a></span> ";
 				}
@@ -78,7 +78,7 @@ get_header();
 		if ( $tagcloud != '' ) :   
 	
 			echo "<div class='widget-box'>";
-			echo "<h3 class='widget-title'>Search by tag</h3>";
+			echo "<h3 class='widget-title'>".__('Search by tag','govintranet')."</h3>";
 			echo "<div class='tagcloud'>";
 			echo $tagcloud; 
 			echo "</div>";

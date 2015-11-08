@@ -88,7 +88,7 @@ get_header();
 								while ($qposts->have_posts()) : $qposts->the_post();
 									echo "<h4><a href='".get_permalink($post_>ID)."'>".get_the_title()."</a></h4>";
 									echo '<span class="listglyph">'.get_the_date("j M Y"); 
-									comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
+									if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 									echo '</span> ';
 									the_excerpt();
 								endwhile;
