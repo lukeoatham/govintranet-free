@@ -49,7 +49,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		<!-- category search box -->
 		<div class="well">
 			<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url('/'); ?>">
-				<label for="cat"><?php _e('In', 'govintranet') ; ?> <?php echo strtolower(get_the_title()); ?> </label>
+				<label for="cat"><?php printf( __('In %s', 'govintranet') , strtolower(get_the_title()) ) ; ?></label>
 				<div class="form-group input-md">
 					<input type="text" value="" name="s" id="sbc-s" class="form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 				</div>
@@ -166,15 +166,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				);
 		}
 		if ($vacancies->post_count==0){
-			echo __("Nothing to show.","govintranet");
+			echo __("Nothing to show","govintranet") . ".";
 		}
 
 		if (  $vacancies->max_num_pages > 1 ) : 
 			if (function_exists(wp_pagenavi)) : 
 				wp_pagenavi(array('query' => $vacancies)); 
 			else : 
-				next_posts_link('&larr; Older items', $vacancies->max_num_pages); 
-				previous_posts_link('Newer items &rarr;', $vacancies->max_num_pages); 
+				next_posts_link(__('&larr; Older items','govintranet'), $vacancies->max_num_pages); 
+				previous_posts_link(__('Newer items &rarr;','govintranet'), $vacancies->max_num_pages); 
 			endif; 
 		endif; 
 

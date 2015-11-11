@@ -37,6 +37,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.7.1 - 11 Nov 2015 ###
+* Translation updates 
+
 ### 4.7 - 8 Nov 2015 ###
 * Theme templates ready for translation  
 

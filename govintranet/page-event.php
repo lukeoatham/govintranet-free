@@ -24,7 +24,6 @@ if ( count($oldvacs) > 0 ){
 		if ($sdate == date('Ymd',strtotime(get_post_meta($old->ID,'event_end_date',true)) )): // if expiry today, check the time
 			if (date('H:i:s',strtotime(get_post_meta($old->ID,'event_end_time',true))) > date('H:i:s') ) continue;
 		endif;
-		
 	  $my_post = array();
 	  $my_post['ID'] = $old->ID;
 	  $my_post['post_status'] = 'draft';
@@ -147,8 +146,8 @@ wp_reset_query();
 					<?php if (function_exists(wp_pagenavi)) : ?>
 						<?php wp_pagenavi(array('query' => $customquery)); ?>
 						<?php else : ?>
-						<?php next_posts_link('&larr; Older items', $customquery->max_num_pages); ?>
-						<?php previous_posts_link('Newer items &rarr;', $customquery->max_num_pages); ?>						
+						<?php next_posts_link(__('&larr; Older items','govintranet'), $customquery->max_num_pages); ?>
+						<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $customquery->max_num_pages); ?>						
 					<?php endif; ?>
 				<?php endif; ?>
 			</div>

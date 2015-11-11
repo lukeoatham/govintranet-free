@@ -69,7 +69,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				$current_attachments = get_field('document_attachments');
 				if ($current_attachments){
 					echo "<div class='alert alert-info'>";
-					echo "<h3>" . _x('Downloads' , 'Document downloads', 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
+					echo "<h3>" . _x('Downloads' , 'Documents to download', 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
 						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
@@ -99,11 +99,11 @@ remove_filter('pre_get_posts', 'filter_search');
 						if ( !$catTitlePrinted ){
 							$catTitlePrinted = true;
 						}
-						$html.= "<span><a class='wptag t".$cat->term_id."' href='".site_url()."/news-type/".$cat->slug."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+						$html.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug , 'news-type') . "'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 						}
 					}	
 					if ( $html ){
-						echo "<div class='widget-box'><h3>Categories</h3>".$html."</div>";
+						echo "<div class='widget-box'><h3>" . __('Categories' , 'govintranet') . "</h3>".$html."</div>";
 					}
 				}
 				$posttags = get_the_tags();
@@ -116,7 +116,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?type=news'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				  	}
 				  	if ( $foundtags ){
-					  	echo "<div class='widget-box'><h3>Tags</h3><p> "; 
+					  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
 					  	echo $tagstr;
 					  	echo "</p></div>";
 				  	}
@@ -124,7 +124,6 @@ remove_filter('pre_get_posts', 'filter_search');
 		 	dynamic_sidebar('news-widget-area'); 
 		 	wp_reset_postdata();
 
-			
 			/*****************
 			
 			AUTOMATED RELATED NEWS
@@ -207,7 +206,7 @@ remove_filter('pre_get_posts', 'filter_search');
 			if ( $recentitems->found_posts == 0 && $ntags || true): 
 			// no stories with same tags and cats so we'll look for others with just the same tags
 				add_filter('pre_get_posts', 'filter_news');
-				$subhead = 'Similar news';
+				$subhead = __('Similar news' , 'govintranet');
 				$recentitems = new WP_Query(array(
 						'post_type'	=>	'news',
 						'posts_per_page'	=>	5,

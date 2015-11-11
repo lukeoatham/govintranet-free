@@ -40,8 +40,8 @@ get_header();
 			<?php if (function_exists('wp_pagenavi')) : ?>
 				<?php wp_pagenavi(array('query' => $projectspost)); ?>
 				<?php else : ?>
-				<?php next_posts_link('&larr; Older items', $projectspost->max_num_pages); ?>
-				<?php previous_posts_link('Newer items &rarr;', $projectspost->max_num_pages); ?>						
+				<?php next_posts_link(__('&larr; Older items','govintranet'), $projectspost->max_num_pages); ?>
+				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $projectspost->max_num_pages); ?>						
 			<?php endif; 
 			?>
 		<?php endif; 

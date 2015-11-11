@@ -52,7 +52,7 @@ if ( have_posts() )
 		$tagcloud = gi_tag_cloud('news-type',$catslug,'news');
 		if ($tagcloud):
 			?>					
-			<h3 class='widget-title h1_<?php echo $catid; ?>'>Browse by tag</h3>
+			<h3 class='widget-title h1_<?php echo $catid; ?>'><?php _e('Browse by tag','govintranet'); ?></h3>
 			<?php 
 			/* Run the loop for the category page to output the posts.
 			 */
@@ -86,7 +86,7 @@ if ( have_posts() )
 			);
 		endif;
 		if ($taskitems->post_count==0){
-			echo "<p>Nothing to show.</p>";
+			echo "<p>" . __('Nothing to show','govintranet') . ".</p>";
 		}
 		while ($taskitems->have_posts()) {
 			$taskitems->the_post();
@@ -94,24 +94,27 @@ if ( have_posts() )
 			echo "<hr>";			
 			echo "<div class='newsitem'>".$image_url ;
 			?>
-		<h3>				
-			<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
+			<h3><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 
 			<?php
 			echo '<span class="listglyph">'.get_the_date("j M Y"); 
-			if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 			echo '</span> ';				
+			if ( get_comments_number() ){
+						echo "<a href='".get_permalink($id)."#comments'>";
+						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						echo "</a>";
+					}
 			the_excerpt(); 
 			echo "</div>";
 			echo '<div class="clearfix"></div>';
 		 }
 		 ?>
-<?php 	if (  $taskitems->max_num_pages > 1 ) : ?>
-<?php 		if (function_exists(wp_pagenavi)) : ?>
+		 <?php if (  $taskitems->max_num_pages > 1 ) : ?>
+		 <?php if (function_exists(wp_pagenavi)) : ?>
 			<?php wp_pagenavi(array('query' => $taskitems)); ?>
 			<?php else : ?>
-			<?php next_posts_link('&larr; Older items', $taskitems->max_num_pages); ?>
-			<?php previous_posts_link('Newer items &rarr;', $taskitems->max_num_pages); ?>						
+			<?php next_posts_link(__('&larr; Older items','govintranet'), $taskitems->max_num_pages); ?>
+			<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $taskitems->max_num_pages); ?>						
 			<?php 
 			endif; 
 		endif; 
@@ -121,42 +124,36 @@ if ( have_posts() )
 
 	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
 
-			<?php
-				$terms = get_terms('news-type',array("hide_empty"=>true,"parent"=>$catid));
-				if ($terms) {
-				?>
-		<div class="widget-box">
-			<h3 class='widget-title'>Sub-categories</h3>
-			<ul class="howdoi">
-				<?php				
-		  			foreach ((array)$terms as $taxonomy ) {
-			  		    $themeid = $taxonomy->term_id;
-			  			$themeURL= $taxonomy->slug;
-			  			$desc='';
-				  		if ($themeid < 2) {
-			  		    	continue;
-			  			}
-						echo "
-						<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='".site_url()."/news-type/{$themeURL}/'>".$taxonomy->name."</a>".$desc."</li>";
-					}
-					?>
-			</ul>
-		</div>
 		<?php
-				} 
+		$terms = get_terms('news-type',array("hide_empty"=>true,"parent"=>$catid));
+		if ($terms) {
+		?>
+			<div class="widget-box">
+				<h3 class='widget-title'><?php _e('Sub-categories' , 'govintranet'); ?></h3>
+				<ul class="howdoi">
+					<?php				
+			  			foreach ((array)$terms as $taxonomy ) {
+							echo "
+							<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='".get_term_link($taxonomy->slug , 'news-type')."'>".$taxonomy->name."</a>".$desc."</li>";
+						}
+						?>
+				</ul>
+			</div>
+			<?php
+		} 
 
-			$taxonomies=array();
+		$taxonomies=array();
 		$post_type = array();
 		$taxonomies[] = 'news-type';
 		$post_type[] = 'news';
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type); 
-		if (count($post_cat) > 1){
-			echo "<div class='widget-box'><h3 class='widget-title'>Other categories</h3>";
-			echo "<p class='taglisting {$post->post_type}'>";
-			foreach($post_cat as $cat){
-				if ( $cat->term_id > 1 && $cat->name && $cat->term_id != $catid ){
+		if ( count($post_cat) > 1 ){
+			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Other categories' , 'govintranet') . "</h3>";
+			echo "<p class='taglisting " . $post->post_type . "'>";
+			foreach($post_cat as $cat){ 
+				if ( $cat->term_id != $catid ){
 					$newname = str_replace(" ", "&nbsp;", $cat->name );
-					echo "<span class='wptag t".$cat->term_id."'><a href='".site_url()."/news-type/".$cat->slug."'>".$newname."</a></span> ";
+					echo "<span class='wptag t".$cat->term_id."'><a href='" . get_term_link($cat->slug, 'news-type') . "'>" . $newname . "</a></span> ";
 				}
 			}
 			echo "</p></div>";

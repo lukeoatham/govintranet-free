@@ -43,8 +43,8 @@ get_header();
 			<?php if (function_exists('wp_pagenavi')) : ?>
 				<?php wp_pagenavi(array('query' => $projectspost)); ?>
 				<?php else : ?>
-				<?php next_posts_link('&larr; Older items', $projectspost->max_num_pages); ?>
-				<?php previous_posts_link('Newer items &rarr;', $projectspost->max_num_pages); ?>						
+				<?php next_posts_link(__('&larr; Older items','govintranet'), $projectspost->max_num_pages); ?>
+				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $projectspost->max_num_pages); ?>						
 			<?php endif; 
 			wp_reset_query();								
 							
@@ -62,11 +62,11 @@ get_header();
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 		if ($post_cat){
 			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Categories' , 'govintranet') . "</h3>";
-			echo "<p class='taglisting {$post->post_type}'>";
+			echo "<p class='taglisting " . $post->post_type . "'>";
 			foreach($post_cat as $cat){
-				if ($cat->term_id > 1 && $cat->name){
+				if ($cat->name){
 					$newname = str_replace(" ", "&nbsp;", $cat->name );
-					echo "<span><a  class='wptag t".$cat->term_id."' href='".site_url()."/news-type/".$cat->slug."'>".$newname."</a></span> ";
+					echo "<span><a  class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug,'news-type')."'>".$newname."</a></span> ";
 				}
 			}
 			echo "</p></div>";

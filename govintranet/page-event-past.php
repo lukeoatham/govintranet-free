@@ -23,7 +23,7 @@ get_header(); ?>
 
 		<h1><?php the_title(); 
 		$pub = get_terms( 'event-type', 'orderby=count&hide_empty=1' );
-		$cat_id = $_GET['cat'];;
+		$cat_id = $_GET['cat'];
 		if (count($pub)>0 and $cat_id!=''){
 			foreach ($pub as $sc) { 
 				if ($cat_id == $sc->slug) { echo ' - '.$sc->name; } 
@@ -221,7 +221,7 @@ get_header(); ?>
 		$customquery = new WP_Query($cquery);
 		
 		if (!$customquery->have_posts()){
-			echo "<p>Nothing to show.</p>";
+			echo "<p>" . __('Nothing to show' , 'govintranet') . ".</p>";
 		}
 			
 		if ( $customquery->have_posts() ) {
@@ -250,8 +250,8 @@ get_header(); ?>
 			<?php if (function_exists('wp_pagenavi')) : ?>
 				<?php wp_pagenavi(array('query' => $customquery)); ?>
 				<?php else : ?>
-				<?php next_posts_link('&larr; Older items', $customquery->max_num_pages); ?>
-				<?php previous_posts_link('Newer items &rarr;', $customquery->max_num_pages); ?>						
+				<?php next_posts_link(__('&larr; Older items','govintranet'), $customquery->max_num_pages); ?>
+				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $customquery->max_num_pages); ?>						
 			<?php endif; ?>
 		<?php endif; ?>
 
@@ -278,7 +278,7 @@ get_header(); ?>
 		}
 		if ( gi_howto_tag_cloud('event') ) :
 			echo "<div class='widget-box'>";
-			echo  "<h3 class='widget-title'>Browse by tag</h3>";
+			echo  "<h3 class='widget-title'>" . __('Browse by tag' , 'govintranet') . "</h3>";
 			echo gi_howto_tag_cloud('event'); 
 			echo "<br>";
 			echo "</div>";

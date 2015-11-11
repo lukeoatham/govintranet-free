@@ -152,11 +152,21 @@ function govintranet_filter_wp_title( $title, $separator ) {
 
 	// Otherwise, let's start by adding the site name to the end:
 	
-	if ( is_front_page() ){
+if ( is_front_page() ){
 		$title .= get_bloginfo( 'name', 'display' );
 	}
-	
-	if ($post->post_type == "task"  ) {
+	global $wp_query;
+	$view = $wp_query->get_queried_object();
+	if (isset($view) && $view->taxonomy == "a-to-z") {
+		$title = _x("Letter","alphabet","govintranet") .  " " . $title ;
+	}
+	else if (isset($view) && $view->taxonomy == "category") {
+		$title.= " " . __("tasks and guides category","govintranet");
+	}
+	else if (isset($view) && $view->taxonomy ) {
+		return $title;
+	}
+	else if ($post->post_type == "task"  ) {
 
 		$taskparent=$post->post_parent;
 		$title_context='';
@@ -174,19 +184,11 @@ function govintranet_filter_wp_title( $title, $separator ) {
 	else if ($post->post_type == "vacancy"  ) {
 		$title .= " - " . __('job vacancies','govintranet') ;
 	}
-	else if ($post->post_type == "user"  ) {
-		global $post;
-		$u = $post->post_title;
-		$title .= $u." - " . __('staff profile','govintranet') ;
-	}
 	else if ($post->post_type == "event"  ) {
 		$title .= " - " . __('events','govintranet') ;
 	}
 	else if ($post->post_type == "jargon-buster"  ) {
 		$title .= " - " . __('jargon buster','govintranet') ;
-	}
-	else if ($post->post_type == "a_to_z"  ) {
-		$title .= " - " . __('A to Z','govintranet') ;
 	}
 	else if ($post->post_type == "forums"  ) {
 		$title .= " - " . __('forums','govintranet') ;
@@ -200,10 +202,17 @@ function govintranet_filter_wp_title( $title, $separator ) {
 	else if ($post->post_type == "news"  ) {
 		$title .= " - " . __('news','govintranet') ;
 	}
+	else if ($post->post_type == "news-update"  ) {
+		$title .= " - " . __('news update','govintranet') ;
+	}
 	else if ($post->post_type == "blog"  ) {
 		$title .= " - " . __('blog','govintranet') ;
 	}
-
+	else if (!$post->post_type  ) {
+		global $post;
+		$u = $post->post_title;
+		$title .= $u." - " . __('staff profile','govintranet') ;
+	}
 	// If we have a site description and we're on the home/front page, add the description:
 	$site_description = get_bloginfo( 'description', 'display' );
 	if ( $site_description && ( is_home() || is_front_page() ) )
@@ -631,6 +640,7 @@ add_action('switch_theme', 'govintranetpress_setup_roles');
 function add_mtc_post_types( $types )
 {
     $types[] = 'news';
+    $types[] = 'news-update';
     $types[] = 'blog';
     $types[] = 'task';
     $types[] = 'team';
@@ -681,8 +691,6 @@ function renderLeftNav($outputcontent="TRUE") {
 			$subnavString .=  "<a href='".$currentpost->guid."'>".$currentpost->post_title."</a></li>";
 		}
 										
-
-
 		if (!is_search() ) {
 		
 			$output = "
@@ -1484,7 +1492,7 @@ add_action( 'init', 'iweb_register_additional_oembed_providers' );
 if ( get_option( 'options_module_blog' ) ) add_action('init', 'cptui_register_my_cpt_blog');
 function cptui_register_my_cpt_blog() {
 register_post_type('blog', array(
-'label' => 'Blog posts',
+'label' => _x('Blog posts','post type name','govintranet'),
 'description' => '',
 'public' => true,
 'show_ui' => true,
@@ -1521,7 +1529,7 @@ register_post_type('blog', array(
 if ( get_option( 'options_module_events' ) ) add_action('init', 'cptui_register_my_cpt_event');
 function cptui_register_my_cpt_event() {
 register_post_type('event', array(
-'label' => 'Events',
+'label' => __('Events','govintranet'),
 'description' => '',
 'public' => true,
 'show_ui' => true,
@@ -1537,27 +1545,27 @@ register_post_type('event', array(
 'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author'),
 'taxonomies' => array('post_tag','event-type'),
 'labels' => array (
-  'name' => 'Events',
-  'singular_name' => 'Event',
-  'menu_name' => 'Events',
-  'add_new' => 'Add Event',
-  'add_new_item' => 'Add New Event',
-  'edit' => 'Edit',
-  'edit_item' => 'Edit Event',
-  'new_item' => 'New Event',
-  'view' => 'View Event',
-  'view_item' => 'View Event',
-  'search_items' => 'Search Events',
-  'not_found' => 'No Events Found',
-  'not_found_in_trash' => 'No Events Found in Trash',
-  'parent' => 'Parent Event',
+  'name' => __('Events','govintranet'),
+  'singular_name' => __('Event','govintranet'),
+  'menu_name' => __('Events','govintranet'),
+  'add_new' => __('Add Event','govintranet'),
+  'add_new_item' => __('Add New Event','govintranet'),
+  'edit' => __('Edit','govintranet'),
+  'edit_item' => __('Edit Event','govintranet'),
+  'new_item' => __('New Event','govintranet'),
+  'view' => __('View Event','govintranet'),
+  'view_item' => __('View Event','govintranet'),
+  'search_items' => __('Search Events','govintranet'),
+  'not_found' => __('No Events Found','govintranet'),
+  'not_found_in_trash' => __('No Events found in trash','govintranet'),
+  'parent' => __('Parent Event','govintranet'),
 )
 ) ); }
 
 if ( get_option( 'options_module_jargon_buster' ) ) add_action('init', 'cptui_register_my_cpt_jargon_buster');
 function cptui_register_my_cpt_jargon_buster() {
 register_post_type('jargon-buster', array(
-'label' => 'Jargon busters',
+'label' => __('Jargon busters','govintranet'),
 'description' => '',
 'public' => true,
 'show_ui' => true,
@@ -1572,27 +1580,27 @@ register_post_type('jargon-buster', array(
 'menu_icon' => 'dashicons-info',
 'supports' => array('title','editor','excerpt','revisions','thumbnail','author'),
 'labels' => array (
-  'name' => 'Jargon busters',
-  'singular_name' => 'Jargon buster',
-  'menu_name' => 'Jargon busters',
-  'add_new' => 'Add Jargon buster',
-  'add_new_item' => 'Add New Jargon buster',
-  'edit' => 'Edit',
-  'edit_item' => 'Edit Jargon buster',
-  'new_item' => 'New Jargon buster',
-  'view' => 'View Jargon buster',
-  'view_item' => 'View Jargon buster',
-  'search_items' => 'Search Jargon busters',
-  'not_found' => 'No Jargon busters Found',
-  'not_found_in_trash' => 'No Jargon busters Found in Trash',
-  'parent' => 'Parent Jargon buster',
+  'name' => __('Jargon busters','govintranet'),
+  'singular_name' => __('Jargon buster','govintranet'),
+  'menu_name' => __('Jargon busters','govintranet'),
+  'add_new' => __('Add Jargon buster','govintranet'),
+  'add_new_item' => __('Add New Jargon buster','govintranet'),
+  'edit' => __('Edit','govintranet'),
+  'edit_item' => __('Edit Jargon buster','govintranet'),
+  'new_item' => __('New Jargon buster','govintranet'),
+  'view' => __('View Jargon buster','govintranet'),
+  'view_item' => __('View Jargon buster','govintranet'),
+  'search_items' => __('Search Jargon busters','govintranet'),
+  'not_found' => __('No Jargon busters found','govintranet'),
+  'not_found_in_trash' => __('No Jargon busters found in trash','govintranet'),
+  'parent' => __('Parent Jargon buster','govintranet'),
 )
 ) ); }
 
 if ( get_option( 'options_module_news' ) ) add_action('init', 'cptui_register_my_cpt_news');
 function cptui_register_my_cpt_news() {
 register_post_type('news', array(
-'label' => 'News',
+'label' => __('News','govintranet'),
 'description' => '',
 'public' => true,
 'show_ui' => true,
@@ -1608,37 +1616,37 @@ register_post_type('news', array(
 'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author','post-formats'),
 'taxonomies' => array('post_tag'),
 'labels' => array (
-  'name' => 'News',
-  'singular_name' => 'News',
-  'menu_name' => 'News',
-  'add_new' => 'Add News',
-  'add_new_item' => 'Add New News',
-  'edit' => 'Edit',
-  'edit_item' => 'Edit News',
-  'new_item' => 'New News',
-  'view' => 'View News',
-  'view_item' => 'View News',
-  'search_items' => 'Search News',
-  'not_found' => 'No News Found',
-  'not_found_in_trash' => 'No News Found in Trash',
-  'parent' => 'Parent News',
+  'name' => _x('News','post type plural','govintranet'),
+  'singular_name' => _x('News','post type singular','govintranet'),
+  'menu_name' => __('News','govintranet'),
+  'add_new' => __('Add News','govintranet'),
+  'add_new_item' => __('Add New News','govintranet'),
+  'edit' => __('Edit','govintranet'),
+  'edit_item' => __('Edit News','govintranet'),
+  'new_item' => __('New News','govintranet'),
+  'view' => __('View News','govintranet'),
+  'view_item' => __('View News','govintranet'),
+  'search_items' => __('Search News','govintranet'),
+  'not_found' => __('No News found','govintranet'),
+  'not_found_in_trash' => __('No News found in trash','govintranet'),
+  'parent' => __('Parent News','govintranet'),
 )
 ) ); }
 
 if ( get_option( 'options_module_news_updates' ) ) add_action('init', 'cptui_register_my_cpt_news_update');
 function cptui_register_my_cpt_news_update() {
 	$labels = array(
-		"name" => "News updates",
-		"singular_name" => "News update",
-		'menu_name' => 'News updates',
-		'add_new' => 'Add News update',
-		'add_new_item' => 'Add News update',
-		'edit' => 'Edit',
-		'edit_item' => 'Edit news update',
-		'new_item' => 'New news update',
-		'not_found' => 'No news updates Found',
-		'not_found_in_trash' => 'No news updates Found in Trash',
-		'parent' => 'Parent news update',		
+		"name" => __("News updates",'govintranet'),
+		"singular_name" => __("News update",'govintranet'),
+		'menu_name' => __('News updates','govintranet'),
+		'add_new' => __('Add News update','govintranet'),
+		'add_new_item' => __('Add News update','govintranet'),
+		'edit' => __('Edit','govintranet'),
+		'edit_item' => __('Edit news update','govintranet'),
+		'new_item' => __('New news update','govintranet'),
+		'not_found' => __('No news updates found','govintranet'),
+		'not_found_in_trash' => __('No news updates found in trash','govintranet'),
+		'parent' => __('Parent news update','govintranet'),
 		);
 
 	$args = array(
@@ -1662,14 +1670,14 @@ function cptui_register_my_cpt_news_update() {
 		
 acf_add_local_field_group(array (
 	'key' => 'group_558c8b74375a2',
-	'title' => 'Options',
+	'title' => __('Options','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_558c8b8af3329',
-			'label' => 'Icon',
+			'label' => __('Icon','govintranet'),
 			'name' => 'news_update_icon',
 			'type' => 'text',
-			'instructions' => 'See http://getbootstrap.com/components/#glyphicons',
+			'instructions' => __('See http://getbootstrap.com/components/#glyphicons','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -1705,7 +1713,7 @@ acf_add_local_field_group(array (
 
 acf_add_local_field_group(array (
 	'key' => 'group_558c8496b8b94',
-	'title' => 'News update auto expiry',
+	'title' => __('News update auto expiry','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_558c8496c4f35',
@@ -1835,7 +1843,7 @@ acf_add_local_field_group(array (
 if ( get_option( 'options_module_projects' ) ) add_action('init', 'cptui_register_my_cpt_project');
 function cptui_register_my_cpt_project() {
 register_post_type('project', array(
-'label' => 'Projects',
+'label' => _x('Projects','noun','govintranet'),
 'description' => '',
 'public' => true,
 'show_ui' => true,
@@ -1851,27 +1859,27 @@ register_post_type('project', array(
 'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author','page-attributes'),
 'taxonomies' => array('post_tag'),
 'labels' => array (
-  'name' => 'Projects',
-  'singular_name' => 'Project',
-  'menu_name' => 'Projects',
-  'add_new' => 'Add Project',
-  'add_new_item' => 'Add New Project',
-  'edit' => 'Edit',
-  'edit_item' => 'Edit Project',
-  'new_item' => 'New Project',
-  'view' => 'View Project',
-  'view_item' => 'View Project',
-  'search_items' => 'Search Projects',
-  'not_found' => 'No Projects Found',
-  'not_found_in_trash' => 'No Projects Found in Trash',
-  'parent' => 'Parent Project',
+  'name' => _x('Projects','noun','govintranet'),
+  'singular_name' => _x('Projects','noun','govintranet'),
+  'menu_name' => _x('Projects','noun','govintranet'),
+  'add_new' => __('Add Project','govintranet'),
+  'add_new_item' => __('Add New Project','govintranet'),
+  'edit' => __('Edit','govintranet'),
+  'edit_item' => __('Edit Project','govintranet'),
+  'new_item' => __('New Project','govintranet'),
+  'view' => __('View Project','govintranet'),
+  'view_item' => __('View Project','govintranet'),
+  'search_items' => __('Search Projects','govintranet'),
+  'not_found' => __('No Projects found','govintranet'),
+  'not_found_in_trash' => __('No Projects found in trash','govintranet'),
+  'parent' => __('Parent Project','govintranet'),
 )
 ) ); }
 
 if ( get_option( 'options_module_tasks' ) ) add_action('init', 'cptui_register_my_cpt_task');
 function cptui_register_my_cpt_task() {
 register_post_type('task', array(
-'label' => 'Tasks',
+'label' => __('Tasks','govintranet'),
 'description' => '',
 'public' => true,
 'show_ui' => true,
@@ -1887,27 +1895,27 @@ register_post_type('task', array(
 'supports' => array('title','editor','excerpt','comments','revisions','author','page-attributes'),
 'taxonomies' => array('category','post_tag'),
 'labels' => array (
-  'name' => 'Tasks',
-  'singular_name' => 'Task',
-  'menu_name' => 'Tasks',
-  'add_new' => 'Add Task',
-  'add_new_item' => 'Add New Task',
-  'edit' => 'Edit',
-  'edit_item' => 'Edit Task',
-  'new_item' => 'New Task',
-  'view' => 'View Task',
-  'view_item' => 'View Task',
-  'search_items' => 'Search Tasks',
-  'not_found' => 'No Tasks Found',
-  'not_found_in_trash' => 'No Tasks Found in Trash',
-  'parent' => 'Parent Task',
+  'name' => __('Tasks','govintranet'),
+  'singular_name' => __('Task','govintranet'),
+  'menu_name' => __('Tasks','govintranet'),
+  'add_new' => __('Add Task','govintranet'),
+  'add_new_item' => __('Add New Task','govintranet'),
+  'edit' => __('Edit','govintranet'),
+  'edit_item' => __('Edit Task','govintranet'),
+  'new_item' => __('New Task','govintranet'),
+  'view' => __('View Task','govintranet'),
+  'view_item' => __('View Task','govintranet'),
+  'search_items' => __('Search Tasks','govintranet'),
+  'not_found' => __('No Tasks found','govintranet'),
+  'not_found_in_trash' => __('No Tasks found in trash','govintranet'),
+  'parent' => __('Parent Task','govintranet'),
 )
 ) ); }
 
 if ( get_option( 'options_module_teams' ) ) add_action('init', 'cptui_register_my_cpt_team');
 function cptui_register_my_cpt_team() {
 register_post_type('team', array(
-'label' => 'Teams',
+'label' => __('Teams','govintranet'),
 'description' => '',
 'public' => true,
 'show_ui' => true,
@@ -1923,27 +1931,27 @@ register_post_type('team', array(
 'supports' => array('title','editor','excerpt','revisions','thumbnail','author','page-attributes'),
 'taxonomies' => array('post_tag'),
 'labels' => array (
-  'name' => 'Teams',
-  'singular_name' => 'Team',
-  'menu_name' => 'Teams',
-  'add_new' => 'Add Team',
-  'add_new_item' => 'Add New Team',
-  'edit' => 'Edit',
-  'edit_item' => 'Edit Team',
-  'new_item' => 'New Team',
-  'view' => 'View Team',
-  'view_item' => 'View Team',
-  'search_items' => 'Search Teams',
-  'not_found' => 'No Teams Found',
-  'not_found_in_trash' => 'No Teams Found in Trash',
-  'parent' => 'Parent Team',
+  'name' => __('Teams','govintranet'),
+  'singular_name' => __('Team','govintranet'),
+  'menu_name' => __('Teams','govintranet'),
+  'add_new' => __('Add Team','govintranet'),
+  'add_new_item' => __('Add New Team','govintranet'),
+  'edit' => __('Edit','govintranet'),
+  'edit_item' => __('Edit Team','govintranet'),
+  'new_item' => __('New Team','govintranet'),
+  'view' => __('View Team','govintranet'),
+  'view_item' => __('View Team','govintranet'),
+  'search_items' => __('Search Teams','govintranet'),
+  'not_found' => __('No Teams found','govintranet'),
+  'not_found_in_trash' =>__( 'No Teams found in trash','govintranet'),
+  'parent' => __('Parent Team','govintranet'),
 )
 ) ); }
 
 if ( get_option( 'options_module_vacancies' ) ) add_action('init', 'cptui_register_my_cpt_vacancy');
 function cptui_register_my_cpt_vacancy() {
 register_post_type('vacancy', array(
-'label' => 'Vacancies',
+'label' => __('Vacancies','govintranet'),
 'description' => '',
 'public' => true,
 'show_ui' => true,
@@ -1959,20 +1967,20 @@ register_post_type('vacancy', array(
 'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author'),
 'taxonomies' => array('post_tag','grade'),
 'labels' => array (
-  'name' => 'Vacancies',
-  'singular_name' => 'Vacancy',
-  'menu_name' => 'Vacancies',
-  'add_new' => 'Add Vacancy',
-  'add_new_item' => 'Add New Vacancy',
-  'edit' => 'Edit',
-  'edit_item' => 'Edit Vacancy',
-  'new_item' => 'New Vacancy',
-  'view' => 'View Vacancy',
-  'view_item' => 'View Vacancy',
-  'search_items' => 'Search Vacancies',
-  'not_found' => 'No Vacancies Found',
-  'not_found_in_trash' => 'No Vacancies Found in Trash',
-  'parent' => 'Parent Vacancy',
+  'name' => __('Vacancies','govintranet'),
+  'singular_name' => __('Vacancy','govintranet'),
+  'menu_name' => __('Vacancies','govintranet'),
+  'add_new' => __('Add Vacancy','govintranet'),
+  'add_new_item' => __('Add New Vacancy','govintranet'),
+  'edit' => __('Edit','govintranet'),
+  'edit_item' => __('Edit Vacancy','govintranet'),
+  'new_item' => __('New Vacancy','govintranet'),
+  'view' => __('View Vacancy','govintranet'),
+  'view_item' => __('View Vacancy','govintranet'),
+  'search_items' => __('Search Vacancies','govintranet'),
+  'not_found' => __('No Vacancies found','govintranet'),
+  'not_found_in_trash' => __('No Vacancies found in trash','govintranet'),
+  'parent' => __('Parent Vacancy','govintranet'),
 )
 ) ); }
 
@@ -1982,23 +1990,23 @@ register_taxonomy( 'news-type',array (
   0 => 'news',
 ),
 array( 'hierarchical' => true,
-	'label' => 'News types',
+	'label' => __('News types','govintranet'),
 	'show_ui' => true,
 	'query_var' => true,
 	'show_admin_column' => true,
 	'labels' => array (
-  'search_items' => 'News type',
-  'popular_items' => 'Popular types',
-  'all_items' => 'All types',
-  'parent_item' => 'Parent type',
+  'search_items' => __('News type','govintranet'),
+  'popular_items' => __('Popular types','govintranet'),
+  'all_items' => __('All types','govintranet'),
+  'parent_item' => __('Parent type','govintranet'),
   'parent_item_colon' => '',
-  'edit_item' => 'Edit news type',
-  'update_item' => 'Update news type',
-  'add_new_item' => 'Add news type',
-  'new_item_name' => 'New type',
+  'edit_item' => __('Edit news type','govintranet'),
+  'update_item' => __('Update news type','govintranet'),
+  'add_new_item' => __('Add news type','govintranet'),
+  'new_item_name' => __('New type','govintranet'),
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => 'Add or remove a type',
-  'choose_from_most_used' => 'Most used',
+  'add_or_remove_items' => __('Add or remove a type','govintranet'),
+  'choose_from_most_used' => __('Most used','govintranet'),
 )
 ) ); 
 }
@@ -2006,13 +2014,13 @@ array( 'hierarchical' => true,
 if ( get_option( 'options_module_news_updates' ) ) add_action('init', 'cptui_register_my_taxes_news_update_type');
 function cptui_register_my_taxes_news_update_type() {
 	$labels = array(
-		"label" => "News update type",
+		"label" => __("News update type",'govintranet'),
 			);
 
 	$args = array(
 		"labels" => $labels,
 		"hierarchical" => true,
-		"label" => "News update types",
+		"label" => __("News update types",'govintranet'),
 		"show_ui" => true,
 		"query_var" => true,
 		"rewrite" => array( 'slug' => 'news-update-type', 'with_front' => true ),
@@ -2028,23 +2036,23 @@ register_taxonomy( 'grade',array (
   1 => 'vacancy',
 ),
 array( 'hierarchical' => true,
-	'label' => 'Grades',
+	'label' => __('Grades','govintranet'),
 	'show_ui' => true,
 	'query_var' => true,
 	'show_admin_column' => true,
 	'labels' => array (
-  'search_items' => 'Grade',
-  'popular_items' => 'Popular grades',
-  'all_items' => 'All grades',
-  'parent_item' => 'Parent grade',
+  'search_items' => __('Grade','govintranet'),
+  'popular_items' => __('Popular grades','govintranet'),
+  'all_items' => __('All grades','govintranet'),
+  'parent_item' => __('Parent grade','govintranet'),
   'parent_item_colon' => '',
-  'edit_item' => 'Edit grade',
-  'update_item' => 'Update grade',
-  'add_new_item' => 'Add new grade',
-  'new_item_name' => 'New grade',
+  'edit_item' => __('Edit grade','govintranet'),
+  'update_item' => __('Update grade','govintranet'),
+  'add_new_item' => __('Add new grade','govintranet'),
+  'new_item_name' => __('New grade','govintranet'),
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => 'Add or remove a grade',
-  'choose_from_most_used' => 'Most used',
+  'add_or_remove_items' => __('Add or remove a grade','govintranet'),
+  'choose_from_most_used' => __('Most used','govintranet'),
 )
 ) ); 
 }
@@ -2055,23 +2063,23 @@ register_taxonomy( 'event-type',array (
   0 => 'event',
 ),
 array( 'hierarchical' => true,
-	'label' => 'Event types',
+	'label' => __('Event types','govintranet'),
 	'show_ui' => true,
 	'query_var' => true,
 	'show_admin_column' => true,
 	'labels' => array (
-  'search_items' => 'Event type',
-  'popular_items' => 'Popular types',
-  'all_items' => 'All types',
-  'parent_item' => 'Parent event type',
+  'search_items' => __('Event type','govintranet'),
+  'popular_items' => __('Popular types','govintranet'),
+  'all_items' => __('All types','govintranet'),
+  'parent_item' => __('Parent event type','govintranet'),
   'parent_item_colon' => '',
-  'edit_item' => 'Edit event type',
-  'update_item' => 'Update event type',
-  'add_new_item' => 'Add event type',
-  'new_item_name' => 'New event type',
+  'edit_item' => __('Edit event type','govintranet'),
+  'update_item' => __('Update event type','govintranet'),
+  'add_new_item' => __('Add event type','govintranet'),
+  'new_item_name' => __('New event type','govintranet'),
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => 'Add or remove event types',
-  'choose_from_most_used' => 'Most used',
+  'add_or_remove_items' => __('Add or remove event types','govintranet'),
+  'choose_from_most_used' => __('Most used','govintranet'),
 )
 ) ); 
 }
@@ -2086,23 +2094,23 @@ register_taxonomy( 'a-to-z',array (
   3 => 'project',
 ),
 array( 'hierarchical' => true,
-	'label' => 'A to Z letters',
+	'label' => __('A to Z letters','govintranet'),
 	'show_ui' => true,
 	'query_var' => true,
 	'show_admin_column' => true,
 	'labels' => array (
-  'search_items' => 'A to Z letter',
-  'popular_items' => 'Popular letters',
-  'all_items' => 'All letters',
-  'parent_item' => 'Parent letter',
+  'search_items' => __('A to Z letter','govintranet'),
+  'popular_items' => __('Popular letters','govintranet'),
+  'all_items' => __('All letters','govintranet'),
+  'parent_item' => __('Parent letter','govintranet'),
   'parent_item_colon' => '',
-  'edit_item' => 'Edit letter',
-  'update_item' => 'Update letter',
-  'add_new_item' => 'Add new letter',
-  'new_item_name' => 'Letter',
+  'edit_item' => __('Edit letter','govintranet'),
+  'update_item' => __('Update letter','govintranet'),
+  'add_new_item' => __('Add new letter','govintranet'),
+  'new_item_name' => _x('Letter','alphabet','govintranet'),
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => 'Add or remove letters',
-  'choose_from_most_used' => 'Most used',
+  'add_or_remove_items' => __('Add or remove letters','govintranet'),
+  'choose_from_most_used' => __('Most used','govintranet'),
 )
 ) ); 
 }
@@ -2114,23 +2122,23 @@ register_taxonomy( 'document-type',array (
   0 => 'post',
 ),
 array( 'hierarchical' => true,
-	'label' => 'Document types',
+	'label' => __('Document types','govintranet'),
 	'show_ui' => true,
 	'query_var' => true,
 	'show_admin_column' => false,
 	'labels' => array (
-  'search_items' => 'Document type',
-  'popular_items' => 'Popular types',
-  'all_items' => 'All types',
-  'parent_item' => 'Parent document type',
+  'search_items' => __('Document type','govintranet'),
+  'popular_items' => __('Popular types','govintranet'),
+  'all_items' => __('All types','govintranet'),
+  'parent_item' => __('Parent document type','govintranet'),
   'parent_item_colon' => '',
-  'edit_item' => 'Edit document type',
-  'update_item' => 'Update document type',
-  'add_new_item' => 'Add document type',
-  'new_item_name' => 'New document type',
+  'edit_item' => __('Edit document type','govintranet'),
+  'update_item' => __('Update document type','govintranet'),
+  'add_new_item' => __('Add document type','govintranet'),
+  'new_item_name' => __('New document type','govintranet'),
   'separate_items_with_commas' => '',
-  'add_or_remove_items' => 'Add or remove a document type',
-  'choose_from_most_used' => 'Most used',
+  'add_or_remove_items' => __('Add or remove a document type','govintranet'),
+  'choose_from_most_used' => __('Most used','govintranet'),
 )
 ) ); 
 }
@@ -2139,11 +2147,11 @@ if( function_exists('register_field_group') ):
 
 register_field_group(array (
 	'key' => 'group_53bd5ee04bd4d',
-	'title' => 'Category',
+	'title' => __('Category','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536ecbde02869',
-			'label' => 'Text colour',
+			'label' => __('Text colour','govintranet'),
 			'name' => 'cat_foreground_colour',
 			'prefix' => '',
 			'type' => 'color_picker',
@@ -2154,7 +2162,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536ecbee0286a',
-			'label' => 'Background colour',
+			'label' => __('Background colour','govintranet'),
 			'name' => 'cat_background_colour',
 			'prefix' => '',
 			'type' => 'color_picker',
@@ -2165,7 +2173,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536ecba302868',
-			'label' => 'Long description',
+			'label' => __('Long description','govintranet'),
 			'name' => 'cat_long_description',
 			'prefix' => '',
 			'type' => 'wysiwyg',
@@ -2197,11 +2205,11 @@ register_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_54cd1e8380c49',
-	'title' => 'Grades',
+	'title' => __('Grades','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_54cd1e8c7b238',
-			'label' => 'Grade code',
+			'label' => __('Grade code','govintranet'),
 			'name' => 'grade_code',
 			'prefix' => '',
 			'type' => 'text',
@@ -2236,11 +2244,11 @@ register_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_54cd25add8aaa',
-	'title' => 'Teams',
+	'title' => __('Teams','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_54cd25b266b0f',
-			'label' => 'Team lead',
+			'label' => __('Team lead','govintranet'),
 			'name' => 'team_lead',
 			'prefix' => '',
 			'type' => 'user',
@@ -2271,11 +2279,11 @@ register_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_53bd5ee05808f',
-	'title' => 'Events',
+	'title' => __('Events','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536ecdf48462e',
-			'label' => 'Start date',
+			'label' => __('Start date','govintranet'),
 			'name' => 'event_start_date',
 			'prefix' => '',
 			'type' => 'date_picker',
@@ -2288,7 +2296,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536ece118462f',
-			'label' => 'End date',
+			'label' => __('End date','govintranet'),
 			'name' => 'event_end_date',
 			'prefix' => '',
 			'type' => 'date_picker',
@@ -2301,7 +2309,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_53d256390bc51',
-			'label' => 'Start time',
+			'label' => __('Start time','govintranet'),
 			'name' => 'event_start_time',
 			'prefix' => '',
 			'type' => 'text',
@@ -2309,7 +2317,7 @@ register_field_group(array (
 			'required' => 0,
 			'conditional_logic' => 0,
 			'default_value' => '',
-			'placeholder' => 'Use 24 hour format 14:32',
+			'placeholder' => __('Use 24 hour format 14:32','govintranet'),
 			'prepend' => '',
 			'append' => '',
 			'maxlength' => '',
@@ -2318,7 +2326,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_53d256630bc52',
-			'label' => 'End time',
+			'label' => __('End time','govintranet'),
 			'name' => 'event_end_time',
 			'prefix' => '',
 			'type' => 'text',
@@ -2354,7 +2362,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536ece4884631',
-			'label' => 'Eventbrite ticket #',
+			'label' => __('Eventbrite ticket #','govintranet'),
 			'name' => 'eventbrite_ticket',
 			'prefix' => '',
 			'type' => 'text',
@@ -2372,7 +2380,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_547a52aa11a3e',
-			'label' => 'Event location name',
+			'label' => __('Event location name','govintranet'),
 			'name' => 'event_location',
 			'prefix' => '',
 			'type' => 'text',
@@ -2389,7 +2397,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_547a52d911a3f',
-			'label' => 'Event map location',
+			'label' => __('Event map location','govintranet'),
 			'name' => 'event_map_location',
 			'prefix' => '',
 			'type' => 'google_map',
@@ -2421,11 +2429,11 @@ register_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_53bd5ee0643f8',
-	'title' => 'External link',
+	'title' => __('External link','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536ec7ecd5837',
-			'label' => 'External link',
+			'label' => __('External link','govintranet'),
 			'name' => 'external_link',
 			'prefix' => '',
 			'type' => 'text',
@@ -2466,11 +2474,11 @@ if (!$homepage) $homepage = get_page_by_title( 'Homepage', OBJECT, 'page' );
 if ($homepageid = $homepage->ID):
 	register_field_group(array (
 		'key' => 'group_53bd5ee06e039',
-		'title' => 'Homepage',
+		'title' => __('Homepage','govintranet'),
 		'fields' => array (
 			array (
 				'key' => 'field_536f714eb8aae',
-				'label' => 'Emergency message style',
+				'label' => __('Emergency message style','govintranet'),
 				'name' => 'emergency_message_style',
 				'prefix' => '',
 				'type' => 'select',
@@ -2496,7 +2504,7 @@ if ($homepageid = $homepage->ID):
 			),
 			array (
 				'key' => 'field_536f71aab8aaf',
-				'label' => 'Emergency message',
+				'label' => __('Emergency message','govintranet'),
 				'name' => 'emergency_message',
 				'prefix' => '',
 				'type' => 'wysiwyg',
@@ -2517,7 +2525,7 @@ if ($homepageid = $homepage->ID):
 			),
 			array (
 				'key' => 'field_536f71c4b8ab0',
-				'label' => 'Campaign message',
+				'label' => __('Campaign message','govintranet'),
 				'name' => 'campaign_message',
 				'prefix' => '',
 				'type' => 'wysiwyg',
@@ -2553,11 +2561,11 @@ endif;
 
 acf_add_local_field_group(array (
 	'key' => 'group_53bd5ee07ca71',
-	'title' => 'Intranet configuration',
+	'title' => __('Intranet configuration','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536f7306a21ae',
-			'label' => 'Style',
+			'label' => __('Style','govintranet'),
 			'name' => '',
 			'type' => 'tab',
 			'instructions' => '',
@@ -2573,10 +2581,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f7343a21b0',
-			'label' => 'Header logo',
+			'label' => __('Header logo','govintranet'),
 			'name' => 'header_logo',
 			'type' => 'image',
-			'instructions' => 'Appears top-left in the header before your site title.',
+			'instructions' => __('Appears top-left in the header before your site title.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2597,10 +2605,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f75f2a21c2',
-			'label' => 'Login logo',
+			'label' => __('Login logo','govintranet'),
 			'name' => 'login_logo',
 			'type' => 'image',
-			'instructions' => 'Appears above the login form.	Ideal size: 320 x 84px',
+			'instructions' => __('Appears above the login form. Ideal size: 320 x 84px','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2621,10 +2629,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f7373a21b1',
-			'label' => 'Widget border height',
+			'label' => __('Widget border height','govintranet'),
 			'name' => 'widget_border_height',
 			'type' => 'number',
-			'instructions' => 'Height in pixels of the border that appears above widget titles.',
+			'instructions' => __('Height in pixels of the border that appears above widget titles.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2644,10 +2652,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f7388a21b2',
-			'label' => 'Enable automatic complementary colour',
+			'label' => __('Enable automatic complementary colour','govintranet'),
 			'name' => 'enable_automatic_complementary_colour',
 			'type' => 'true_false',
-			'instructions' => 'Works in conjunction with the header background colour. Enabling this setting will provide a complementary colour for borders above widget titles. Disable to choose your own colour.',
+			'instructions' => __('Works in conjunction with the header background colour. Enabling this setting will provide a complementary colour for borders above widget titles. Disable to choose your own colour.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2660,10 +2668,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_53827c0d41550',
-			'label' => 'Complementary colour',
+			'label' => __('Complementary colour','govintranet'),
 			'name' => 'complementary_colour',
 			'type' => 'color_picker',
-			'instructions' => 'Colour of the border above widget titles.',
+			'instructions' => __('Colour of the border above widget titles.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -2683,10 +2691,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f75cda21c1',
-			'label' => 'Custom CSS code',
+			'label' => __('Custom CSS code','govintranet'),
 			'name' => 'custom_css_code',
 			'type' => 'textarea',
-			'instructions' => 'Advanced users only! Customise theme styles with your own CSS.',
+			'instructions' => __('Advanced users only! Customise theme styles with your own CSS.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2704,7 +2712,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f73a2a21b3',
-			'label' => 'Search',
+			'label' => __('Search','govintranet'),
 			'name' => '',
 			'type' => 'tab',
 			'instructions' => '',
@@ -2720,10 +2728,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f73b5a21b4',
-			'label' => 'Enable helpful search',
+			'label' => __('Enable helpful search','govintranet'),
 			'name' => 'enable_helpful_search',
 			'type' => 'true_false',
-			'instructions' => 'If search finds a perfect match result, go directly to the page instead of showing search results.',
+			'instructions' => __('If search finds a perfect match result, go directly to the page instead of showing search results.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2736,10 +2744,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f73cca21b5',
-			'label' => 'Enable search stemmer',
+			'label' => __('Enable search stemmer','govintranet'),
 			'name' => 'enable_search_stemmer',
 			'type' => 'true_false',
-			'instructions' => 'Enrich search queries by also searching for derivatives. E.g. searching for "speak" will also search for speakers and speaking etc.',
+			'instructions' => __('Enrich search queries by also searching for derivatives. E.g. searching for "speak" will also search for speakers and speaking etc.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2752,10 +2760,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f73e6a21b6',
-			'label' => 'Search placeholder',
+			'label' => __('Search placeholder','govintranet'),
 			'name' => 'search_placeholder',
 			'type' => 'text',
-			'instructions' => 'Enter phrases separated by a comma to use as a nudge in the search box.	Phrases will appear at random with the first phrase appearing most frequently.',
+			'instructions' => __('Enter phrases separated by a comma to use as a nudge in the search box.	Phrases will appear at random with the first phrase appearing most frequently.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2764,7 +2772,7 @@ acf_add_local_field_group(array (
 				'id' => '',
 			),
 			'default_value' => '',
-			'placeholder' => 'Search the intranet, Search the intranet e.g. book a meeting room, Search for anything',
+			'placeholder' => __('Search the intranet, Search the intranet e.g. book a meeting room, Search for anything','govintranet'),
 			'prepend' => '',
 			'append' => '',
 			'maxlength' => '',
@@ -2773,10 +2781,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55cfbabe6a350',
-			'label' => 'Jumbo searchbox',
+			'label' => __('Jumbo searchbox','govintranet'),
 			'name' => 'search_jumbo_searchbox',
 			'type' => 'true_false',
-			'instructions' => 'Displays are full-width search box and removes the regular search box on the homepage only.',
+			'instructions' => __('Displays are full-width search box and removes the regular search box on the homepage only.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2789,10 +2797,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55a6b1424565d',
-			'label' => 'Override search button icon',
+			'label' => __('Override search button icon','govintranet'),
 			'name' => 'search_button_override',
 			'type' => 'true_false',
-			'instructions' => 'Override the default magnifying glass icon search boxes.',
+			'instructions' => __('Override the default magnifying glass icon search boxes.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2805,10 +2813,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55a6b040e108a',
-			'label' => 'Search button text',
+			'label' => __('Search button text','govintranet'),
 			'name' => 'search_button_text',
 			'type' => 'text',
-			'instructions' => 'Text to replace the default magnifying glass icon search boxes.',
+			'instructions' => __('Text to replace the default magnifying glass icon search boxes.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -2824,7 +2832,7 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => 'Search',
+			'default_value' => __('Search','govintranet'),
 			'placeholder' => '',
 			'prepend' => '',
 			'append' => '',
@@ -2834,7 +2842,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f741ca21b7',
-			'label' => 'Analytics',
+			'label' => __('Analytics','govintranet'),
 			'name' => '',
 			'type' => 'tab',
 			'instructions' => '',
@@ -2850,10 +2858,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f747ca21bb',
-			'label' => 'Track homepage',
+			'label' => __('Track homepage','govintranet'),
 			'name' => 'track_homepage',
 			'type' => 'true_false',
-			'instructions' => 'Track the intranet homepage in Google Analytics. If your intranet loads automatically in the browser then you may want to turn off tracking on the homepage.',
+			'instructions' => __('Track the intranet homepage in Google Analytics. If your intranet loads automatically in the browser then you may want to turn off tracking on the homepage.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2866,10 +2874,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f7590a21c0',
-			'label' => 'Google tracking code',
+			'label' => __('Google tracking code','govintranet'),
 			'name' => 'google_tracking_code',
 			'type' => 'textarea',
-			'instructions' => 'You can also enter custom Javascript here. Advanced users only.',
+			'instructions' => __('You can also enter custom Javascript here. Advanced users only.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2887,7 +2895,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f74cfa21bc',
-			'label' => 'General',
+			'label' => __('General','govintranet'),
 			'name' => '',
 			'type' => 'tab',
 			'instructions' => '',
@@ -2903,7 +2911,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f74f2a21bd',
-			'label' => 'Search not found',
+			'label' => __('Search not found','govintranet'),
 			'name' => 'search_not_found',
 			'type' => 'text',
 			'instructions' => '',
@@ -2925,10 +2933,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55dddf0ea5852',
-			'label' => 'Hide reciprocal related links',
+			'label' => __('Hide reciprocal related links','govintranet'),
 			'name' => 'hide_reciprocal_related_links',
 			'type' => 'true_false',
-			'instructions' => 'By default, if you create a related link on one page it will be also be displayed as a related link on the destination page. Enable this option to make related links one-way.',
+			'instructions' => __('By default, if you create a related link on one page it will be also be displayed as a related link on the destination page. Enable this option to make related links one-way.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2941,7 +2949,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f7505a21be',
-			'label' => '404 page not found',
+			'label' => __('404 page not found','govintranet'),
 			'name' => 'page_not_found',
 			'type' => 'text',
 			'instructions' => '',
@@ -2963,10 +2971,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f751fa21bf',
-			'label' => 'Need to know icon',
+			'label' => __('Need to know icon','govintranet'),
 			'name' => 'need_to_know_icon',
 			'type' => 'text',
-			'instructions' => 'See http://getbootstrap.com/components/#glyphicons',
+			'instructions' => __('See http://getbootstrap.com/components/#glyphicons','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -2985,7 +2993,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55fe03fa315df',
-			'label' => 'Comment instructions (logged in)',
+			'label' => __('Comment instructions (logged in)','govintranet'),
 			'name' => 'comment_instructions_logged_in',
 			'type' => 'wysiwyg',
 			'instructions' => '',
@@ -3003,7 +3011,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_56043fdd3b3c5',
-			'label' => 'Comment instructions (logged out)',
+			'label' => __('Comment instructions (logged out)','govintranet'),
 			'name' => 'comment_instructions_logged_out',
 			'type' => 'wysiwyg',
 			'instructions' => '',
@@ -3021,10 +3029,10 @@ acf_add_local_field_group(array (
 		),			
 		array (
 			'key' => 'field_545ec3c99411a',
-			'label' => 'Homepage auto refresh',
+			'label' => __('Homepage auto refresh','govintranet'),
 			'name' => 'homepage_auto_refresh',
 			'type' => 'number',
-			'instructions' => 'Number of minutes to wait before refreshing the homepage. Enter 0 for no refresh.',
+			'instructions' => __('Number of minutes to wait before refreshing the homepage. Enter 0 for no refresh.','govintranet'),
 			'required' => 1,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -3044,7 +3052,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f9ff7a8af3',
-			'label' => 'Modules',
+			'label' => __('Modules','govintranet'),
 			'name' => '',
 			'type' => 'tab',
 			'instructions' => '',
@@ -3060,7 +3068,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536fa13da8af4',
-			'label' => 'News',
+			'label' => __('News','govintranet'),
 			'name' => 'module_news',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3076,7 +3084,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536fa152a8af5',
-			'label' => 'News page',
+			'label' => __('News page','govintranet'),
 			'name' => 'module_news_page',
 			'type' => 'relationship',
 			'instructions' => '',
@@ -3112,7 +3120,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_558dd3eeeda3b',
-			'label' => 'News updates',
+			'label' => __('News updates','govintranet'),
 			'name' => 'module_news_updates',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3128,7 +3136,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536fa173a8af6',
-			'label' => 'Tasks and guides',
+			'label' => __('Tasks and guides','govintranet'),
 			'name' => 'module_tasks',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3144,7 +3152,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536fa18ca8af7',
-			'label' => 'How do I? page',
+			'label' => __('How do I? page','govintranet'),
 			'name' => 'module_tasks_page',
 			'type' => 'relationship',
 			'instructions' => '',
@@ -3180,10 +3188,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_54dfc0fa682ea',
-			'label' => 'Only show tags applicable to tasks and guides',
+			'label' => __('Only show tags applicable to tasks and guides','govintranet'),
 			'name' => 'module_tasks_showtags',
 			'type' => 'true_false',
-			'instructions' => 'If checked, will display a plain tag cloud showing only tags found in tasks and guides. If unchecked, will display tags from the whole intranet in variable font sizes, indicating volume of content.',
+			'instructions' => __('If checked, will display a plain tag cloud showing only tags found in tasks and guides. If unchecked, will display tags from the whole intranet in variable font sizes, indicating volume of content.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3204,12 +3212,12 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_55f451fdf1fa4',
-			'label' => 'Icon for tasks',
+			'label' => __('Icon for tasks','govintranet'),
 			'name' => 'module_tasks_icon_tasks',
 			'type' => 'text',
-			'instructions' => 'Supports glyphicons and dashicons. Use the full CSS class e.g. glyphicon glyphicon-file
+			'instructions' => __('Supports glyphicons and dashicons. Use the full CSS class e.g. glyphicon glyphicon-file
 http://getbootstrap.com/components/#glyphicons
-https://developer.wordpress.org/resource/dashicons/',
+https://developer.wordpress.org/resource/dashicons/','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3235,12 +3243,12 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_55f452abf1fa5',
-			'label' => 'Icon for guides',
+			'label' => __('Icon for guides','govintranet'),
 			'name' => 'module_tasks_icon_guides',
 			'type' => 'text',
-			'instructions' => 'Supports glyphicons and dashicons. Use the full CSS class e.g. glyphicon glyphicon-file
+			'instructions' => __('Supports glyphicons and dashicons. Use the full CSS class e.g. glyphicon glyphicon-file
 http://getbootstrap.com/components/#glyphicons
-https://developer.wordpress.org/resource/dashicons/',
+https://developer.wordpress.org/resource/dashicons/','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3266,10 +3274,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),		
 		array (
 			'key' => 'field_55cfd2dc57466',
-			'label' => 'Start with tags open',
+			'label' => __('Start with tags open','govintranet'),
 			'name' => 'module_tasks_tags_open',
 			'type' => 'true_false',
-			'instructions' => 'If checked, will automatically open the "Browse tags" button on individual task category pages.',
+			'instructions' => __('If checked, will automatically open the "Browse tags" button on individual task category pages.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3290,7 +3298,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536fa1b3a8af8',
-			'label' => 'Projects',
+			'label' => _x('Projects','noun','govintranet'),
 			'name' => 'module_projects',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3306,7 +3314,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536fa1d7a8af9',
-			'label' => 'Projects page',
+			'label' => __('Projects page','govintranet'),
 			'name' => 'module_projects_page',
 			'type' => 'relationship',
 			'instructions' => '',
@@ -3342,7 +3350,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536fa1eea8afa',
-			'label' => 'Vacancies',
+			'label' => __('Vacancies','govintranet'),
 			'name' => 'module_vacancies',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3358,7 +3366,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536fa1fda8afb',
-			'label' => 'Vacancies page',
+			'label' => __('Vacancies page','govintranet'),
 			'name' => 'module_vacancies_page',
 			'type' => 'relationship',
 			'instructions' => '',
@@ -3394,7 +3402,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536fa214a8afc',
-			'label' => 'Blog posts',
+			'label' => __('Blog posts','govintranet'),
 			'name' => 'module_blog',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3410,7 +3418,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536fa226a8afd',
-			'label' => 'Blog page',
+			'label' => __('Blog page','govintranet'),
 			'name' => 'module_blog_page',
 			'type' => 'relationship',
 			'instructions' => '',
@@ -3446,7 +3454,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536fa28bcb464',
-			'label' => 'Events',
+			'label' => __('Events','govintranet'),
 			'name' => 'module_events',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3462,7 +3470,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536fa29acb465',
-			'label' => 'Events page',
+			'label' => __('Events page','govintranet'),
 			'name' => 'module_events_page',
 			'type' => 'relationship',
 			'instructions' => '',
@@ -3498,7 +3506,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_53af48cd60e21',
-			'label' => 'Jargon buster',
+			'label' => __('Jargon buster','govintranet'),
 			'name' => 'module_jargon_buster',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3514,7 +3522,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_53af48f560e22',
-			'label' => 'Jargon buster page',
+			'label' => __('Jargon buster page','govintranet'),
 			'name' => 'module_jargon_buster_page',
 			'type' => 'relationship',
 			'instructions' => '',
@@ -3550,7 +3558,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_55b7d69ff69d1',
-			'label' => 'A to Z',
+			'label' => __('A to Z','govintranet'),
 			'name' => 'module_a_to_z',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3566,10 +3574,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_55b7d719f69d2',
-			'label' => 'A to Z blacklist',
+			'label' => __('A to Z blacklist','govintranet'),
 			'name' => 'module_a_to_z_blacklist',
 			'type' => 'text',
-			'instructions' => 'Words longer than 2 letter to ignore.	Separate with commas.',
+			'instructions' => __('Words longer than 2 letter to ignore.	Separate with commas.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3595,10 +3603,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_55b7d75bf69d3',
-			'label' => 'A to Z whitelist',
+			'label' => __('A to Z whitelist','govintranet'),
 			'name' => 'module_a_to_z_whitelist',
 			'type' => 'text',
-			'instructions' => 'Words shorter than 3 letters to include. Separate with commas.',
+			'instructions' => __('Words shorter than 3 letters to include. Separate with commas.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3624,7 +3632,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_54d164425d5c0',
-			'label' => 'Teams',
+			'label' => __('Teams','govintranet'),
 			'name' => 'module_teams',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3640,10 +3648,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536f764ea21c4',
-			'label' => 'Enable user account support',
+			'label' => __('Enable user account support','govintranet'),
 			'name' => 'forum_support',
 			'type' => 'true_false',
-			'instructions' => 'Provides support for forums (bbPress)',
+			'instructions' => __('Provides support for forums (bbPress)','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -3656,10 +3664,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_55d628c205b5b',
-			'label' => 'Show My Profile link',
+			'label' => __('Show My Profile link','govintranet'),
 			'name' => 'show_my_profile',
 			'type' => 'true_false',
-			'instructions' => 'Add a "My Profile" link to the secondary menu if user is logged in.',
+			'instructions' => __('Add a "My Profile" link to the secondary menu if user is logged in.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3680,7 +3688,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_55d6292505b5c',
-			'label' => 'Show login/logout link',
+			'label' => __('Show login/logout link','govintranet'),
 			'name' => 'show_login_logout',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3704,10 +3712,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_53769e3b01f93',
-			'label' => 'Staff directory',
+			'label' => __('Staff directory','govintranet'),
 			'name' => 'module_staff_directory',
 			'type' => 'true_false',
-			'instructions' => 'Provides support for staff directory and staff profiles. Integrates with teams, forums and blog posts.',
+			'instructions' => __('Provides support for staff directory and staff profiles. Integrates with teams, forums and blog posts.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3728,7 +3736,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_54cd5345482fc',
-			'label' => 'Staff directory page',
+			'label' => __('Staff directory page','govintranet'),
 			'name' => 'module_staff_directory_page',
 			'type' => 'relationship',
 			'instructions' => '',
@@ -3767,7 +3775,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536f76c2a21c9',
-			'label' => 'Team dropdown name',
+			'label' => __('Team dropdown name','govintranet'),
 			'name' => 'team_dropdown_name',
 			'type' => 'text',
 			'instructions' => '',
@@ -3806,10 +3814,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536f7667a21c5',
-			'label' => 'Show hyperlinks on staff cards',
+			'label' => __('Show hyperlinks on staff cards','govintranet'),
 			'name' => 'full_detail_staff_cards',
 			'type' => 'true_false',
-			'instructions' => 'Enabling this option allows you to click on individual links such as email address and name on staff tiles. With this option disabled, the whole staff tile is clickable and links to the staff profile.',
+			'instructions' => __('Enabling this option allows you to click on individual links such as email address and name on staff tiles. With this option disabled, the whole staff tile is clickable and links to the staff profile.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3835,7 +3843,7 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536f7688a21c6',
-			'label' => 'Show circular avatars',
+			'label' => __('Show circular avatars','govintranet'),
 			'name' => 'staff_directory_style',
 			'type' => 'true_false',
 			'instructions' => '',
@@ -3864,10 +3872,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536f769da21c7',
-			'label' => 'Show grade on staff cards',
+			'label' => __('Show grade on staff cards','govintranet'),
 			'name' => 'show_grade_on_staff_cards',
 			'type' => 'true_false',
-			'instructions' => 'Requires setting a grade code for each term in the Grades taxonomy.',
+			'instructions' => __('Requires setting a grade code for each term in the Grades taxonomy.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3893,10 +3901,10 @@ https://developer.wordpress.org/resource/dashicons/',
 		),
 		array (
 			'key' => 'field_536f76ada21c8',
-			'label' => 'Show mobile on staff cards',
+			'label' => __('Show mobile on staff cards','govintranet'),
 			'name' => 'show_mobile_on_staff_cards',
 			'type' => 'true_false',
-			'instructions' => 'Display mobile phone number on staff cards in the staff directory listings.',
+			'instructions' => __('Display mobile phone number on staff cards in the staff directory listings.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -3948,11 +3956,11 @@ https://developer.wordpress.org/resource/dashicons/',
 
 register_field_group(array (
 	'key' => 'group_53c6e3abc8544',
-	'title' => 'Media',
+	'title' => __('Media','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_53c6e3b04383e',
-			'label' => 'Document type',
+			'label' => __('Document type','govintranet'),
 			'name' => 'document_type',
 			'prefix' => '',
 			'type' => 'taxonomy',
@@ -3986,11 +3994,11 @@ register_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_53bd5ee0dbdca',
-	'title' => 'Projects',
+	'title' => _x('Projects','noun','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536f674993a97',
-			'label' => 'Project overview',
+			'label' => __('Project overview','govintranet'),
 			'name' => 'project_overview',
 			'prefix' => '',
 			'type' => 'wysiwyg',
@@ -4003,7 +4011,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536f675d93a98',
-			'label' => 'Project start date',
+			'label' => __('Project start date','govintranet'),
 			'name' => 'project_start_date',
 			'prefix' => '',
 			'type' => 'date_picker',
@@ -4016,7 +4024,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536f677693a99',
-			'label' => 'Project end date',
+			'label' => __('Project end date','govintranet'),
 			'name' => 'project_end_date',
 			'prefix' => '',
 			'type' => 'date_picker',
@@ -4029,7 +4037,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536f679093a9a',
-			'label' => 'Policy link',
+			'label' => __('Policy link','govintranet'),
 			'name' => 'project_policy_link',
 			'prefix' => '',
 			'type' => 'text',
@@ -4047,7 +4055,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536f67c693a9b',
-			'label' => 'Team members',
+			'label' => __('Team members','govintranet'),
 			'name' => 'project_team_members',
 			'prefix' => '',
 			'type' => 'user',
@@ -4081,11 +4089,11 @@ if ( get_option( 'options_forum_support' )  ):
 
 acf_add_local_field_group(array (
 	'key' => 'group_53bd5ee0ea856',
-	'title' => 'Users',
+	'title' => __('Users','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536f6ba7c9894',
-			'label' => 'Job title',
+			'label' => __('Job title','govintranet'),
 			'name' => 'user_job_title',
 			'type' => 'text',
 			'instructions' => '',
@@ -4107,10 +4115,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_5380e9782feba',
-			'label' => 'Team',
+			'label' => __('Team','govintranet'),
 			'name' => 'user_team',
 			'type' => 'relationship',
-			'instructions' => 'Choose just your local team,  e.g. if you work in Commmunications which is part of Business Services, you only need to choose Communications.',
+			'instructions' => __('Choose just your local team, e.g. if you work in Communications which is part of Business Services, you only need to choose Communications.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -4133,7 +4141,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f6df635194',
-			'label' => 'Line manager',
+			'label' => __('Line manager','govintranet'),
 			'name' => 'user_line_manager',
 			'type' => 'user',
 			'instructions' => '',
@@ -4150,7 +4158,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f6d8835190',
-			'label' => 'Telephone number',
+			'label' => __('Telephone number','govintranet'),
 			'name' => 'user_telephone',
 			'type' => 'text',
 			'instructions' => '',
@@ -4171,7 +4179,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f6dae35191',
-			'label' => 'Mobile number',
+			'label' => __('Mobile number','govintranet'),
 			'name' => 'user_mobile',
 			'type' => 'text',
 			'instructions' => '',
@@ -4192,10 +4200,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_53ff41c0dd1ee',
-			'label' => 'Twitter handle',
+			'label' => __('Twitter handle','govintranet'),
 			'name' => 'user_twitter_handle',
 			'type' => 'text',
-			'instructions' => '',
+			'instructions' => __('e.g. @Luke_Oatham','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -4216,7 +4224,7 @@ acf_add_local_field_group(array (
 			'label' => 'LinkedIn',
 			'name' => 'user_linkedin_url',
 			'type' => 'url',
-			'instructions' => 'Provide the full URL of your LinkedIn profile page.',
+			'instructions' => __('Provide the full URL of your LinkedIn profile page.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -4229,10 +4237,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f6dbe35192',
-			'label' => 'Working pattern',
+			'label' => _x('Working pattern','Hours of work','govintranet'),
 			'name' => 'user_working_pattern',
 			'type' => 'wysiwyg',
-			'instructions' => 'Which days do you work? Where are you based?',
+			'instructions' => __('Which days do you work? Where are you based?','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -4247,10 +4255,10 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_536f6dd135193',
-			'label' => 'Skills and experience',
+			'label' => __('Skills and experience','govintranet'),
 			'name' => 'user_key_skills',
 			'type' => 'wysiwyg',
-			'instructions' => 'List your skills and experience so that others can find you.',
+			'instructions' => __('List your skills and experience so that others can find you.','govintranet'),
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
@@ -4265,7 +4273,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_548dd1f76a830',
-			'label' => 'Grade',
+			'label' => __('Grade','govintranet'),
 			'name' => 'user_grade',
 			'type' => 'taxonomy',
 			'instructions' => '',
@@ -4311,11 +4319,11 @@ if ( get_option( 'options_module_staff_directory' )  ):
 
 acf_add_local_field_group(array (
 	'key' => 'group_55dd043b43161',
-	'title' => 'Staff directory order',
+	'title' => __('Staff directory order','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_55dd044565e83',
-			'label' => 'Order',
+			'label' => __('Order','govintranet'),
 			'name' => 'user_order',
 			'type' => 'number',
 			'instructions' => '',
@@ -4365,11 +4373,11 @@ if ( get_option( 'options_module_vacancies' )  ):
 
 register_field_group(array (
 	'key' => 'group_53bd5ee10ecdd',
-	'title' => 'Vacancies',
+	'title' => __('Vacancies','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536f694e9d08e',
-			'label' => 'Vacancy reference',
+			'label' => __('Vacancy reference','govintranet'),
 			'name' => 'vacancy_reference',
 			'prefix' => '',
 			'type' => 'text',
@@ -4387,7 +4395,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536f69949d090',
-			'label' => 'Closing date',
+			'label' => __('Closing date','govintranet'),
 			'name' => 'vacancy_closing_date',
 			'prefix' => '',
 			'type' => 'date_picker',
@@ -4400,7 +4408,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_53e7c2d49e602',
-			'label' => 'Closing time',
+			'label' => __('Closing time','govintranet'),
 			'name' => 'vacancy_closing_time',
 			'prefix' => '',
 			'type' => 'text',
@@ -4417,7 +4425,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_53b5ccf55edea',
-			'label' => 'Team',
+			'label' => __('Team','govintranet'),
 			'name' => 'vacancy_team',
 			'prefix' => '',
 			'type' => 'relationship',
@@ -4440,7 +4448,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_53b5cd3b5edeb',
-			'label' => 'Project',
+			'label' => _x('Project','noun','govintranet'),
 			'name' => 'vacancy_project',
 			'prefix' => '',
 			'type' => 'relationship',
@@ -4486,11 +4494,11 @@ endif;
 
 acf_add_local_field_group(array (
 	'key' => 'group_54b46b388f6cb',
-	'title' => 'Video',
+	'title' => __('Video','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_54b46b583b956',
-			'label' => 'Video URL',
+			'label' => __('Video URL','govintranet'),
 			'name' => 'news_video_url',
 			'type' => 'url',
 			'instructions' => '',
@@ -4524,11 +4532,11 @@ acf_add_local_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_53bd5ee11b027',
-	'title' => 'News expiry',
+	'title' => __('News expiry','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536ec2de62b52',
-			'label' => 'Auto expiry',
+			'label' => __('Auto expiry','govintranet'),
 			'name' => 'news_auto_expiry',
 			'prefix' => '',
 			'type' => 'true_false',
@@ -4540,7 +4548,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536ec04f59dd7',
-			'label' => 'Expiry date',
+			'label' => __('Expiry date','govintranet'),
 			'name' => 'news_expiry_date',
 			'prefix' => '',
 			'type' => 'date_picker',
@@ -4561,7 +4569,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_53dab2da88e2b',
-			'label' => 'Expiry time',
+			'label' => __('Expiry time','govintranet'),
 			'name' => 'news_expiry_time',
 			'prefix' => '',
 			'type' => 'text',
@@ -4586,7 +4594,7 @@ register_field_group(array (
 		),
 		array (
 			'key' => 'field_536ec0ad59dd8',
-			'label' => 'Expiry action',
+			'label' => __('Expiry action','govintranet'),
 			'name' => 'news_expiry_action',
 			'prefix' => '',
 			'type' => 'select',
@@ -4637,11 +4645,11 @@ register_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_53bd5ee124c55',
-	'title' => 'Attachments',
+	'title' => __('Attachments','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536ec90dc8419',
-			'label' => 'Document attachments',
+			'label' => __('Document attachments','govintranet'),
 			'name' => 'document_attachments',
 			'prefix' => '',
 			'type' => 'repeater',
@@ -4651,11 +4659,11 @@ register_field_group(array (
 			'min' => '',
 			'max' => '',
 			'layout' => 'table',
-			'button_label' => 'Add document',
+			'button_label' => __('Add document','govintranet'),
 			'sub_fields' => array (
 				array (
 					'key' => 'field_53bd6e229b9b3',
-					'label' => 'Document',
+					'label' => __('Document','govintranet'),
 					'name' => 'document_attachment',
 					'prefix' => '',
 					'type' => 'file',
@@ -4733,11 +4741,11 @@ register_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_53bd5ee129a41',
-	'title' => 'Related',
+	'title' => __('Related','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536ec1db85f01',
-			'label' => 'Related',
+			'label' => __('Related','govintranet'),
 			'name' => 'related',
 			'prefix' => '',
 			'type' => 'relationship',
@@ -4822,11 +4830,11 @@ register_field_group(array (
 
 register_field_group(array (
 	'key' => 'group_53bd5ee12e8a1',
-	'title' => 'Keywords',
+	'title' => __('Keywords','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_536ec1aaee33c',
-			'label' => 'Keywords',
+			'label' => __('Keywords','govintranet'),
 			'name' => 'keywords',
 			'prefix' => '',
 			'type' => 'text',
@@ -4913,11 +4921,11 @@ register_field_group(array (
 
 acf_add_local_field_group(array (
 	'key' => 'group_5522f15806b4b',
-	'title' => 'Column placeholders',
+	'title' => __('Column placeholders','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_5522f18701f2f',
-			'label' => 'Column 1',
+			'label' => __('Column 1','govintranet'),
 			'name' => 'aggregator_column_1',
 			'type' => 'flexible_content',
 			'instructions' => '',
@@ -4928,19 +4936,19 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'button_label' => 'Add to column 1',
+			'button_label' => __('Add to column 1','govintranet'),
 			'min' => '',
 			'max' => '',
 			'layouts' => array (
 				array (
 					'key' => '5522f1a577034',
 					'name' => 'aggregator_news_listing',
-					'label' => 'News listing',
+					'label' => __('News listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_5522f6f1c32b0',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -4961,7 +4969,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f4cbfb45f',
-							'label' => 'Need to know',
+							'label' => __('Need to know','govintranet'),
 							'name' => 'aggregator_listing_need_to_know',
 							'type' => 'radio',
 							'instructions' => '',
@@ -4984,10 +4992,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f5354b383',
-							'label' => 'Freshness',
+							'label' => __('Freshness','govintranet'),
 							'name' => 'aggregator_listing_freshness',
 							'type' => 'number',
-							'instructions' => 'Don\'t show if older than this number of days. Leave blank to show all.',
+							'instructions' => __('Don\'t show if older than this number of days. Leave blank to show all.','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -5007,7 +5015,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f6904b384',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -5030,7 +5038,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552526506f4c9',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -5046,7 +5054,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55231b9ce6826',
-							'label' => 'News items to display',
+							'label' => __('News items to display','govintranet'),
 							'name' => 'message',
 							'type' => 'message',
 							'instructions' => '',
@@ -5057,12 +5065,12 @@ acf_add_local_field_group(array (
 								'class' => '',
 								'id' => '',
 							),
-							'message' => 'Display latest news items matching any of the chosen criteria in the tabs below.',
+							'message' => __('Display latest news items matching any of the chosen criteria in the tabs below.','govintranet'),
 							'esc_html' => 0,
 						),
 						array (
 							'key' => 'field_5522f280a1ad9',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -5078,7 +5086,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f3b283f96',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -5104,7 +5112,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55231afad7dad',
-							'label' => 'News type',
+							'label' => __('News type','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -5120,7 +5128,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f423de845',
-							'label' => 'News type',
+							'label' => __('News type','govintranet'),
 							'name' => 'aggregator_listing_tax',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -5143,7 +5151,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55231b06d7dae',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -5159,10 +5167,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f450de846',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_tag',
 							'type' => 'taxonomy',
-							'instructions' => 'Match ANY of the tags (with teams/categories)',
+							'instructions' => __('Match ANY of the tags (with teams/categories)','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -5187,12 +5195,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '554a06258d677',
 					'name' => 'aggregator_blog_listing',
-					'label' => 'Blog listing',
+					'label' => __('Blog listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_554a06258d678',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -5213,10 +5221,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06258d67a',
-							'label' => 'Freshness',
+							'label' => __('Freshness','govintranet'),
 							'name' => 'aggregator_listing_freshness',
 							'type' => 'number',
-							'instructions' => 'Don\'t show if older than this number of days. Leave blank to show all.',
+							'instructions' => __('Don\'t show if older than this number of days. Leave blank to show all.','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -5236,7 +5244,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06258d67b',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -5259,7 +5267,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06258d67c',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -5275,7 +5283,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06258d67f',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -5306,12 +5314,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f8e2a0432',
 					'name' => 'aggregator_task_listing',
-					'label' => 'Task listing',
+					'label' => __('Task listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_5522f8e2a0433',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -5332,7 +5340,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552533ae1e480',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -5348,7 +5356,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55240f7c69a28',
-							'label' => 'Tasks to display',
+							'label' => __('Tasks to display','govintranet'),
 							'name' => 'message',
 							'type' => 'message',
 							'instructions' => '',
@@ -5359,12 +5367,12 @@ acf_add_local_field_group(array (
 								'class' => '',
 								'id' => '',
 							),
-							'message' => 'Display tasks and guides matching any of the chosen criteria in the tabs below.',
+							'message' => __('Display tasks and guides matching any of the chosen criteria in the tabs below.','govintranet'),
 							'esc_html' => 0,
 						),
 						array (
 							'key' => 'field_55240f20bdd33',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -5380,7 +5388,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f8e2a0435',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -5406,7 +5414,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55240f5d69a26',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -5422,7 +5430,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f8e2a0436',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'aggregator_listing_tax',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -5445,7 +5453,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55240f6d69a27',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -5461,7 +5469,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f8e2a0437',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_tag',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -5489,12 +5497,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f7a98627a',
 					'name' => 'aggregator_free_format_area',
-					'label' => 'Free-format area',
+					'label' => __('Free-format area','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_5522f7ca8627b',
-							'label' => 'Content',
+							'label' => _x('Content','Page content, data','govintranet'),
 							'name' => 'aggregator_free_format_area_content',
 							'type' => 'wysiwyg',
 							'instructions' => '',
@@ -5517,12 +5525,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f8048627d',
 					'name' => 'aggregator_team_listing',
-					'label' => 'Team listing',
+					'label' => __('Team listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552318e1c1264',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -5543,7 +5551,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522f8128627e',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -5574,12 +5582,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522fc1de503b',
 					'name' => 'aggregator_document_listing',
-					'label' => 'Document listing',
+					'label' => __('Document listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552318fcc1265',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -5600,7 +5608,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522fc2fe503c',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'aggregator_listing_category',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -5623,7 +5631,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522fc78e503d',
-							'label' => 'Type',
+							'label' => __('Type','govintranet'),
 							'name' => 'aggregator_listing_doctype',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -5651,12 +5659,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522fe5bc50ab',
 					'name' => 'aggregator_link_listing',
-					'label' => 'Link listing',
+					'label' => __('Link listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_55231936c1266',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -5677,7 +5685,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5522fe67c50ac',
-							'label' => 'Link',
+							'label' => __('Link','govintranet'),
 							'name' => 'aggregator_listing_link',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -5712,12 +5720,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '552308960a092',
 					'name' => 'aggregator_gallery',
-					'label' => 'Gallery',
+					'label' => __('Gallery','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_55231947c1267',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -5738,7 +5746,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_5523090f0a093',
-							'label' => 'Images',
+							'label' => __('Images','govintranet'),
 							'name' => 'aggregator_gallery_images',
 							'type' => 'gallery',
 							'instructions' => '',
@@ -5768,12 +5776,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '55d72e157085e',
 					'name' => 'aggregator_event_listing',
-					'label' => 'Event listing',
+					'label' => __('Event listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_55d72e657085f',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -5794,7 +5802,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55d72e9a70860',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -5820,7 +5828,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55d73b63351a8',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -5843,7 +5851,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da155110065',
-							'label' => 'Options',
+							'label' => __('Options','govintranet'),
 							'name' => 'aggregator_listing_options',
 							'type' => 'checkbox',
 							'instructions' => '',
@@ -5872,7 +5880,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_552ababc4e4e9',
-			'label' => 'Hero column',
+			'label' => __('Hero column','govintranet'),
 			'name' => 'aggregator_column_hero',
 			'type' => 'flexible_content',
 			'instructions' => '',
@@ -5883,19 +5891,19 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'button_label' => 'Add to column 1',
+			'button_label' => __('Add to column 1','govintranet'),
 			'min' => '',
 			'max' => '',
 			'layouts' => array (
 				array (
 					'key' => '5522f1a577034',
 					'name' => 'aggregator_news_listing',
-					'label' => 'News listing',
+					'label' => __('News listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552ababd4e4ea',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -5916,7 +5924,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4eb',
-							'label' => 'Need to know',
+							'label' => __('Need to know','govintranet'),
 							'name' => 'aggregator_listing_need_to_know',
 							'type' => 'radio',
 							'instructions' => '',
@@ -5939,10 +5947,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4ec',
-							'label' => 'Freshness',
+							'label' => __('Freshness','govintranet'),
 							'name' => 'aggregator_listing_freshness',
 							'type' => 'number',
-							'instructions' => 'Don\'t show if older than this number of days. Leave blank to show all.',
+							'instructions' => __('Don\'t show if older than this number of days. Leave blank to show all.','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -5962,7 +5970,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4ed',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -5985,7 +5993,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4ee',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -6001,7 +6009,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4ef',
-							'label' => 'News items to display',
+							'label' => __('News items to display','govintranet'),
 							'name' => 'message',
 							'type' => 'message',
 							'instructions' => '',
@@ -6012,12 +6020,12 @@ acf_add_local_field_group(array (
 								'class' => '',
 								'id' => '',
 							),
-							'message' => 'Display latest news items matching any of the chosen criteria in the tabs below.',
+							'message' => __('Display latest news items matching any of the chosen criteria in the tabs below.','govintranet'),
 							'esc_html' => 0,
 						),
 						array (
 							'key' => 'field_552ababd4e4f0',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -6033,7 +6041,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4f1',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -6059,7 +6067,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4f2',
-							'label' => 'News type',
+							'label' => __('News type','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -6075,7 +6083,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4f3',
-							'label' => 'News type',
+							'label' => __('News type','govintranet'),
 							'name' => 'aggregator_listing_tax',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -6098,7 +6106,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4f4',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -6114,7 +6122,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4f5',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_tag',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -6142,12 +6150,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '554a06bf237ed',
 					'name' => 'aggregator_blog_listing',
-					'label' => 'Blog listing',
+					'label' => __('Blog listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_554a06bf237ee',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -6168,10 +6176,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06bf237f0',
-							'label' => 'Freshness',
+							'label' => __('Freshness','govintranet'),
 							'name' => 'aggregator_listing_freshness',
 							'type' => 'number',
-							'instructions' => 'Don\'t show if older than this number of days. Leave blank to show all.',
+							'instructions' => __('Don\'t show if older than this number of days. Leave blank to show all.','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -6191,7 +6199,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06bf237f1',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -6214,7 +6222,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06bf237f2',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -6230,7 +6238,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06bf237f5',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -6261,12 +6269,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f8e2a0432',
 					'name' => 'aggregator_task_listing',
-					'label' => 'Task listing',
+					'label' => __('Task listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552ababd4e4f6',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -6287,7 +6295,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4f7',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -6303,7 +6311,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4f8',
-							'label' => 'Tasks to display',
+							'label' => __('Tasks to display','govintranet'),
 							'name' => 'message',
 							'type' => 'message',
 							'instructions' => '',
@@ -6314,12 +6322,12 @@ acf_add_local_field_group(array (
 								'class' => '',
 								'id' => '',
 							),
-							'message' => 'Display tasks and guides matching any of the chosen criteria in the tabs below.',
+							'message' => __('Display tasks and guides matching any of the chosen criteria in the tabs below.','govintranet'),
 							'esc_html' => 0,
 						),
 						array (
 							'key' => 'field_552ababd4e4f9',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -6335,7 +6343,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4fa',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -6361,7 +6369,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4fb',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -6377,7 +6385,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4fc',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'aggregator_listing_tax',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -6400,7 +6408,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4fd',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -6416,7 +6424,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e4fe',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_tag',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -6444,12 +6452,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f7a98627a',
 					'name' => 'aggregator_free_format_area',
-					'label' => 'Free-format area',
+					'label' => __('Free-format area','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552ababd4e4ff',
-							'label' => 'Content',
+							'label' => _x('Content','Page content, data','govintranet'),
 							'name' => 'aggregator_free_format_area_content',
 							'type' => 'wysiwyg',
 							'instructions' => '',
@@ -6472,12 +6480,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f8048627d',
 					'name' => 'aggregator_team_listing',
-					'label' => 'Team listing',
+					'label' => __('Team listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552ababd4e500',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -6498,7 +6506,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e501',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -6529,12 +6537,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522fc1de503b',
 					'name' => 'aggregator_document_listing',
-					'label' => 'Document listing',
+					'label' => __('Document listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552ababd4e502',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -6555,7 +6563,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e503',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'aggregator_listing_category',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -6578,7 +6586,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e504',
-							'label' => 'Type',
+							'label' => __('Type','govintranet'),
 							'name' => 'aggregator_listing_doctype',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -6606,12 +6614,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522fe5bc50ab',
 					'name' => 'aggregator_link_listing',
-					'label' => 'Link listing',
+					'label' => __('Link listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552ababd4e505',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -6632,7 +6640,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e506',
-							'label' => 'Link',
+							'label' => __('Link','govintranet'),
 							'name' => 'aggregator_listing_link',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -6667,12 +6675,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '552308960a092',
 					'name' => 'aggregator_gallery',
-					'label' => 'Gallery',
+					'label' => __('Gallery','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552ababd4e507',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -6693,7 +6701,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552ababd4e508',
-							'label' => 'Images',
+							'label' => __('Images','govintranet'),
 							'name' => 'aggregator_gallery_images',
 							'type' => 'gallery',
 							'instructions' => '',
@@ -6723,12 +6731,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '55da0fda069ef',
 					'name' => 'aggregator_event_listing',
-					'label' => 'Event listing',
+					'label' => __('Event listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_55da0fda069f0',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -6749,7 +6757,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da0fda069f4',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -6775,7 +6783,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da0fda069f2',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -6798,7 +6806,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da153310064',
-							'label' => 'Options',
+							'label' => __('Options','govintranet'),
 							'name' => 'aggregator_listing_options',
 							'type' => 'checkbox',
 							'instructions' => '',
@@ -6827,7 +6835,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_552a8996ca0ec',
-			'label' => 'Column 2',
+			'label' => __('Column 2','govintranet'),
 			'name' => 'aggregator_column_2',
 			'type' => 'flexible_content',
 			'instructions' => '',
@@ -6838,19 +6846,19 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'button_label' => 'Add to column 2',
+			'button_label' => __('Add to column 2','govintranet'),
 			'min' => '',
 			'max' => '',
 			'layouts' => array (
 				array (
 					'key' => '5522f1a577034',
 					'name' => 'aggregator_news_listing',
-					'label' => 'News listing',
+					'label' => __('News listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a8997ca0ed',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -6871,7 +6879,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0ee',
-							'label' => 'Need to know',
+							'label' => __('Need to know','govintranet'),
 							'name' => 'aggregator_listing_need_to_know',
 							'type' => 'radio',
 							'instructions' => '',
@@ -6894,10 +6902,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0ef',
-							'label' => 'Freshness',
+							'label' => __('Freshness','govintranet'),
 							'name' => 'aggregator_listing_freshness',
 							'type' => 'number',
-							'instructions' => 'Don\'t show if older than this number of days. Leave blank to show all.',
+							'instructions' => __('Don\'t show if older than this number of days. Leave blank to show all.','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -6917,7 +6925,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0f0',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -6940,7 +6948,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0f1',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -6956,7 +6964,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0f2',
-							'label' => 'News items to display',
+							'label' => __('News items to display','govintranet'),
 							'name' => 'message',
 							'type' => 'message',
 							'instructions' => '',
@@ -6967,12 +6975,12 @@ acf_add_local_field_group(array (
 								'class' => '',
 								'id' => '',
 							),
-							'message' => 'Display latest news items matching any of the chosen criteria in the tabs below.',
+							'message' => __('Display latest news items matching any of the chosen criteria in the tabs below.','govintranet'),
 							'esc_html' => 0,
 						),
 						array (
 							'key' => 'field_552a8997ca0f3',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -6988,7 +6996,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0f4',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -7014,7 +7022,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0f5',
-							'label' => 'News type',
+							'label' => __('News type','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -7030,7 +7038,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0f6',
-							'label' => 'News type',
+							'label' => __('News type','govintranet'),
 							'name' => 'aggregator_listing_tax',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -7053,7 +7061,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0f7',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -7069,7 +7077,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0f8',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_tag',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -7097,12 +7105,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '554a06fb237fa',
 					'name' => 'aggregator_blog_listing',
-					'label' => 'Blog listing',
+					'label' => __('Blog listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_554a06fb237fb',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -7123,7 +7131,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06fb237fc',
-							'label' => 'Need to know',
+							'label' => __('Need to know','govintranet'),
 							'name' => 'aggregator_listing_need_to_know',
 							'type' => 'radio',
 							'instructions' => '',
@@ -7146,10 +7154,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06fb237fd',
-							'label' => 'Freshness',
+							'label' => __('Freshness','govintranet'),
 							'name' => 'aggregator_listing_freshness',
 							'type' => 'number',
-							'instructions' => 'Don\'t show if older than this number of days. Leave blank to show all.',
+							'instructions' => __('Don\'t show if older than this number of days. Leave blank to show all.','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -7169,7 +7177,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06fb237fe',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -7192,7 +7200,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06fb237ff',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -7208,7 +7216,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a06fb23802',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -7239,12 +7247,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f8e2a0432',
 					'name' => 'aggregator_task_listing',
-					'label' => 'Task listing',
+					'label' => __('Task listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a8997ca0f9',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -7265,7 +7273,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0fa',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -7281,7 +7289,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0fb',
-							'label' => 'Tasks to display',
+							'label' => __('Tasks to display','govintranet'),
 							'name' => 'message',
 							'type' => 'message',
 							'instructions' => '',
@@ -7292,12 +7300,12 @@ acf_add_local_field_group(array (
 								'class' => '',
 								'id' => '',
 							),
-							'message' => 'Display tasks and guides matching any of the chosen criteria in the tabs below.',
+							'message' => __('Display tasks and guides matching any of the chosen criteria in the tabs below.','govintranet'),
 							'esc_html' => 0,
 						),
 						array (
 							'key' => 'field_552a8997ca0fc',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -7313,7 +7321,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0fd',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -7339,7 +7347,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0fe',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -7355,7 +7363,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca0ff',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'aggregator_listing_tax',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -7378,7 +7386,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca100',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -7394,7 +7402,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca101',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_tag',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -7422,12 +7430,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f7a98627a',
 					'name' => 'aggregator_free_format_area',
-					'label' => 'Free-format area',
+					'label' => __('Free-format area','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a8997ca102',
-							'label' => 'Content',
+							'label' => __('Content','Page content, data','govintranet'),
 							'name' => 'aggregator_free_format_area_content',
 							'type' => 'wysiwyg',
 							'instructions' => '',
@@ -7450,12 +7458,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f8048627d',
 					'name' => 'aggregator_team_listing',
-					'label' => 'Team listing',
+					'label' => __('Team listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a8997ca103',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -7476,7 +7484,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca104',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -7507,12 +7515,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522fc1de503b',
 					'name' => 'aggregator_document_listing',
-					'label' => 'Document listing',
+					'label' => __('Document listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a8997ca105',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -7533,7 +7541,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca106',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'aggregator_listing_category',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -7556,7 +7564,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca107',
-							'label' => 'Type',
+							'label' => __('Type','govintranet'),
 							'name' => 'aggregator_listing_doctype',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -7584,12 +7592,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522fe5bc50ab',
 					'name' => 'aggregator_link_listing',
-					'label' => 'Link listing',
+					'label' => __('Link listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a8997ca108',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -7610,7 +7618,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a8997ca109',
-							'label' => 'Link',
+							'label' => __('Link','govintranet'),
 							'name' => 'aggregator_listing_link',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -7645,12 +7653,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '55da1017069f5',
 					'name' => 'aggregator_event_listing',
-					'label' => 'Event listing',
+					'label' => __('Event listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_55da1017069f6',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -7671,7 +7679,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da1017069fb',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -7697,7 +7705,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da1017069f9',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -7720,7 +7728,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da14e110063',
-							'label' => 'Options',
+							'label' => __('Options','govintranet'),
 							'name' => 'aggregator_listing_options',
 							'type' => 'checkbox',
 							'instructions' => '',
@@ -7749,7 +7757,7 @@ acf_add_local_field_group(array (
 		),
 		array (
 			'key' => 'field_552a89ad6eb68',
-			'label' => 'Column 3',
+			'label' => __('Column 3','govintranet'),
 			'name' => 'aggregator_column_3',
 			'type' => 'flexible_content',
 			'instructions' => '',
@@ -7760,19 +7768,19 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'button_label' => 'Add to column 3',
+			'button_label' => __('Add to column 3','govintranet'),
 			'min' => '',
 			'max' => '',
 			'layouts' => array (
 				array (
 					'key' => '5522f1a577034',
 					'name' => 'aggregator_news_listing',
-					'label' => 'News listing',
+					'label' => __('News listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a89ae6eb69',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -7793,7 +7801,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb6a',
-							'label' => 'Need to know',
+							'label' => __('Need to know','govintranet'),
 							'name' => 'aggregator_listing_need_to_know',
 							'type' => 'radio',
 							'instructions' => '',
@@ -7816,10 +7824,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb6b',
-							'label' => 'Freshness',
+							'label' => __('Freshness','govintranet'),
 							'name' => 'aggregator_listing_freshness',
 							'type' => 'number',
-							'instructions' => 'Don\'t show if older than this number of days. Leave blank to show all.',
+							'instructions' => __('Don\'t show if older than this number of days. Leave blank to show all.','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -7839,7 +7847,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb6c',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -7862,7 +7870,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb6d',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -7878,7 +7886,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb6e',
-							'label' => 'News items to display',
+							'label' => __('News items to display','govintranet'),
 							'name' => 'message',
 							'type' => 'message',
 							'instructions' => '',
@@ -7889,12 +7897,12 @@ acf_add_local_field_group(array (
 								'class' => '',
 								'id' => '',
 							),
-							'message' => 'Display latest news items matching any of the chosen criteria in the tabs below.',
+							'message' => __('Display latest news items matching any of the chosen criteria in the tabs below.','govintranet'),
 							'esc_html' => 0,
 						),
 						array (
 							'key' => 'field_552a89ae6eb6f',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -7910,7 +7918,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb70',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -7936,7 +7944,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb71',
-							'label' => 'News type',
+							'label' => __('News type','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -7952,7 +7960,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb72',
-							'label' => 'News type',
+							'label' => __('News type','govintranet'),
 							'name' => 'aggregator_listing_tax',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -7975,7 +7983,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb73',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_type',
 							'type' => 'tab',
 							'instructions' => '',
@@ -7991,7 +7999,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb74',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_tag',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -8019,12 +8027,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '554a072f23807',
 					'name' => 'aggregator_blog_listing',
-					'label' => 'Blog listing',
+					'label' => __('Blog listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_554a072f23808',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -8045,7 +8053,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a072f23809',
-							'label' => 'Need to know',
+							'label' => __('Need to know','govintranet'),
 							'name' => 'aggregator_listing_need_to_know',
 							'type' => 'radio',
 							'instructions' => '',
@@ -8068,10 +8076,10 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a072f2380a',
-							'label' => 'Freshness',
+							'label' => __('Freshness','govintranet'),
 							'name' => 'aggregator_listing_freshness',
 							'type' => 'number',
-							'instructions' => 'Don\'t show if older than this number of days. Leave blank to show all.',
+							'instructions' => __('Don\'t show if older than this number of days. Leave blank to show all.','govintranet'),
 							'required' => 0,
 							'conditional_logic' => 0,
 							'wrapper' => array (
@@ -8091,7 +8099,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a072f2380b',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -8114,7 +8122,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a072f2380c',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -8130,7 +8138,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_554a072f2380f',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -8161,12 +8169,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f8e2a0432',
 					'name' => 'aggregator_task_listing',
-					'label' => 'Task listing',
+					'label' => __('Task listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a89ae6eb75',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -8187,7 +8195,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb76',
-							'label' => 'Compact list',
+							'label' => __('Compact list','govintranet'),
 							'name' => 'aggregator_listing_compact_list',
 							'type' => 'true_false',
 							'instructions' => '',
@@ -8203,7 +8211,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb77',
-							'label' => 'Tasks to display',
+							'label' => __('Tasks to display','govintranet'),
 							'name' => 'message',
 							'type' => 'message',
 							'instructions' => '',
@@ -8214,12 +8222,12 @@ acf_add_local_field_group(array (
 								'class' => '',
 								'id' => '',
 							),
-							'message' => 'Display tasks and guides matching any of the chosen criteria in the tabs below.',
+							'message' => __('Display tasks and guides matching any of the chosen criteria in the tabs below.','govintranet'),
 							'esc_html' => 0,
 						),
 						array (
 							'key' => 'field_552a89ae6eb78',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -8235,7 +8243,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb79',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -8261,7 +8269,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb7a',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -8277,7 +8285,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb7b',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'aggregator_listing_tax',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -8300,7 +8308,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb7c',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'team',
 							'type' => 'tab',
 							'instructions' => '',
@@ -8316,7 +8324,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb7d',
-							'label' => 'Tag',
+							'label' => __('Tag','govintranet'),
 							'name' => 'aggregator_listing_tag',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -8344,12 +8352,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f7a98627a',
 					'name' => 'aggregator_free_format_area',
-					'label' => 'Free-format area',
+					'label' => __('Free-format area','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a89ae6eb7e',
-							'label' => 'Content',
+							'label' => __('Content','Page content, data','govintranet'),
 							'name' => 'aggregator_free_format_area_content',
 							'type' => 'wysiwyg',
 							'instructions' => '',
@@ -8372,12 +8380,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522f8048627d',
 					'name' => 'aggregator_team_listing',
-					'label' => 'Team listing',
+					'label' => __('Team listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a89ae6eb7f',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -8398,7 +8406,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb80',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -8429,12 +8437,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522fc1de503b',
 					'name' => 'aggregator_document_listing',
-					'label' => 'Document listing',
+					'label' => __('Document listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a89ae6eb81',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -8455,7 +8463,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb82',
-							'label' => 'Category',
+							'label' => __('Category','govintranet'),
 							'name' => 'aggregator_listing_category',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -8478,7 +8486,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb83',
-							'label' => 'Type',
+							'label' => __('Type','govintranet'),
 							'name' => 'aggregator_listing_doctype',
 							'type' => 'taxonomy',
 							'instructions' => '',
@@ -8506,12 +8514,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '5522fe5bc50ab',
 					'name' => 'aggregator_link_listing',
-					'label' => 'Link listing',
+					'label' => __('Link listing','govintranet'),
 					'display' => 'row',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_552a89ae6eb84',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -8532,7 +8540,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_552a89ae6eb85',
-							'label' => 'Link',
+							'label' => __('Link','govintranet'),
 							'name' => 'aggregator_listing_link',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -8567,12 +8575,12 @@ acf_add_local_field_group(array (
 				array (
 					'key' => '55da103d069fc',
 					'name' => 'aggregator_event_listing',
-					'label' => 'Event listing',
+					'label' => __('Event listing','govintranet'),
 					'display' => 'block',
 					'sub_fields' => array (
 						array (
 							'key' => 'field_55da103d069fd',
-							'label' => 'Title',
+							'label' => __('Title','govintranet'),
 							'name' => 'aggregator_listing_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -8593,7 +8601,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da103d06a02',
-							'label' => 'Team',
+							'label' => __('Team','govintranet'),
 							'name' => 'aggregator_listing_team',
 							'type' => 'relationship',
 							'instructions' => '',
@@ -8619,7 +8627,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da103d06a00',
-							'label' => 'Number to display',
+							'label' => __('Number to display','govintranet'),
 							'name' => 'aggregator_listing_number',
 							'type' => 'number',
 							'instructions' => '',
@@ -8642,7 +8650,7 @@ acf_add_local_field_group(array (
 						),
 						array (
 							'key' => 'field_55da147810062',
-							'label' => 'Options',
+							'label' => __('Options','govintranet'),
 							'name' => 'aggregator_listing_options',
 							'type' => 'checkbox',
 							'instructions' => '',
@@ -8691,11 +8699,11 @@ acf_add_local_field_group(array (
 if ( get_option( 'options_module_teams' ) ):
 	register_field_group(array (
 		'key' => 'group_5522eeebca049',
-		'title' => 'Related teams',
+		'title' => __('Related teams','govintranet'),
 		'fields' => array (
 			array (
 				'key' => 'field_5522eef7229a4',
-				'label' => 'Team',
+				'label' => __('Team','govintranet'),
 				'name' => 'related_team',
 				'prefix' => '',
 				'type' => 'relationship',
@@ -8760,11 +8768,11 @@ endif;
 
 acf_add_local_field_group(array (
 	'key' => 'group_55feb1d56546e',
-	'title' => 'Sidebar',
+	'title' => __('Sidebar','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_55feb1e8ab53b',
-			'label' => 'Sidebar content',
+			'label' => __('Sidebar content','govintranet'),
 			'name' => 'ht_sidebar_content',
 			'type' => 'wysiwyg',
 			'instructions' => '',
@@ -9173,7 +9181,7 @@ function ht_people_shortcode($atts){
 
 		 endif;
 
-		$html.=  '<a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></p></div></div></div>';
+		$html.=  '<a href="mailto:'.$user_info->user_email.'">' . __("Email","govintranet") . ' '. $user_info->first_name. '</a></p></div></div></div>';
 		
 		$counter++;	
 		$tcounter++;	

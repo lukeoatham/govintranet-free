@@ -10,16 +10,16 @@ Author URI: http://www.helpfultechnology.com
 
 class htFeatureNews extends WP_Widget {
     function htFeatureNews() {
-        parent::WP_Widget(false, 'HT Feature news', array('description' => 'Display feature news stories'));
+        parent::WP_Widget(false, __('HT Feature news','govintranet'), array('description' => __('Display feature news stories','govintranet')));
 		if( function_exists('acf_add_local_field_group') ):
 		
 		acf_add_local_field_group(array (
 			'key' => 'group_54bfacd48f6e7',
-			'title' => 'Feature news widget',
+			'title' => __('Feature news widget','govintranet'),
 			'fields' => array (
 				array (
 					'key' => 'field_560c502fb460c',
-					'label' => 'News type',
+					'label' => _x('News type' , 'Categories for news' , 'govintranet'),
 					'name' => 'news_listing_news_type',
 					'type' => 'taxonomy',
 					'instructions' => '',
@@ -41,7 +41,7 @@ class htFeatureNews extends WP_Widget {
 				),
 				array (
 					'key' => 'field_54c03e5d0f3f4',
-					'label' => 'Pin stories',
+					'label' => _x('Pin stories','Make news stories sticky and appear at the top','govintranet'),
 					'name' => 'pin_stories',
 					'type' => 'relationship',
 					'instructions' => '',
@@ -70,7 +70,7 @@ class htFeatureNews extends WP_Widget {
 				),
 				array (
 					'key' => 'field_54bfacd9a9fbb',
-					'label' => 'Exclude stories',
+					'label' => __('Exclude stories','govintranet'),
 					'name' => 'exclude_stories',
 					'type' => 'relationship',
 					'instructions' => '',
@@ -299,27 +299,39 @@ function widget($args, $instance) {
 			if ($newsgrid[$k]=="Li"){
 				echo "<p>";
 				echo '<span class="listglyph">'.get_the_date("j M Y"); 
-				echo " <span class='badge'>Featured</span>";
-				comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 				echo '</span> ';
-				echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+				echo " <span class='badge'>Featured</span>";
+				if ( get_comments_number() ){
+					echo "<a href='".$thisURL."#comments'>";
+					 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+					 echo "</a>";
+				}
+				echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 			} else {
 				if ($showexcerpt == 'on') {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					echo " <span class='badge'>Featured</span>";
-					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
+					echo " <span class='badge'>" . __('Featured','govitranet') . "</span>";
+					if ( get_comments_number() ){
+						echo "<a href='".$thisURL."#comments'>";
+						 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						 echo "</a>";
+					}
 					echo "</p>";									
 					echo $thisexcerpt;
-					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 				} else {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					echo " <span class='badge'>Featured</span>";
-					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
-					echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+					echo " <span class='badge'>" . __('Featured','govitranet') . "</span>";
+					if ( get_comments_number() ){
+						echo "<a href='".$thisURL."#comments'>";
+						 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						 echo "</a>";
+					}
+					echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
 				}
 			}
 	
@@ -426,23 +438,36 @@ function widget($args, $instance) {
 			if ($newsgrid[$k]=="Li"){
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
+					if ( get_comments_number() ){
+						echo "<a href='".$thisURL."#comments'>";
+						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						echo "</a>";
+					}
 					echo "</p>";									
 			} else {
 				if ($showexcerpt == 'on') {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 					echo '</span> ';
+					if ( get_comments_number() ){
+						echo "<a href='".$thisURL."#comments'>";
+						 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						 echo "</a>";
+					}
 					echo "</p>";									
 					echo $thisexcerpt;
-					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 				} else {
 					echo "<p>";
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
-					comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
-					echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>Full story <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+					echo '</span> ';
+				if ( get_comments_number() ){
+					echo "<a href='".$thisURL."#comments'>";
+					 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+					 echo "</a>";
+				}
+					echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 				}
 			}
 	
@@ -465,7 +490,7 @@ function widget($args, $instance) {
 		endif;
 
 		if ( !$moretitle ) $moretitle = $title;
-		if ( $moretitle = "no_title_" . $id ) $moretitle = "More";
+		if ( $moretitle = "no_title_" . $id ) $moretitle = __("More","govintranet");
 		if ( is_array($newstypes) && count($newstypes) < 2 ): 
 			$term = intval($newstypes[0]); 
 			$landingpage = get_term_link($term, 'news-type'); 
@@ -505,24 +530,24 @@ function widget($args, $instance) {
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
-          <label>Number of stories</label><br>
-          <label for="<?php echo $this->get_field_id('largeitems'); ?>"><?php _e('Large'); ?></label> 
+          <label><?php __('Number of stories','govintranet'); ?></label><br>
+          <label for="<?php echo $this->get_field_id('largeitems'); ?>"><?php _e('Large','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('largeitems'); ?>" name="<?php echo $this->get_field_name('largeitems'); ?>" type="text" value="<?php echo $largeitems; ?>" /><br><br>
           
-          <label for="<?php echo $this->get_field_id('mediumitems'); ?>"><?php _e('Medium'); ?></label> 
+          <label for="<?php echo $this->get_field_id('mediumitems'); ?>"><?php _e('Medium','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('mediumitems'); ?>" name="<?php echo $this->get_field_name('mediumitems'); ?>" type="text" value="<?php echo $mediumitems; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('thumbnailitems'); ?>"><?php _e('Thumbnail'); ?></label> 
+          <label for="<?php echo $this->get_field_id('thumbnailitems'); ?>"><?php _e('Thumbnail','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('thumbnailitems'); ?>" name="<?php echo $this->get_field_name('thumbnailitems'); ?>" type="text" value="<?php echo $thumbnailitems; ?>" /><br><br>
           
-          <label for="<?php echo $this->get_field_id('listitems'); ?>"><?php _e('List format (no photos)'); ?></label> 
+          <label for="<?php echo $this->get_field_id('listitems'); ?>"><?php _e('List format (no photos)','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('listitems'); ?>" name="<?php echo $this->get_field_name('listitems'); ?>" type="text" value="<?php echo $listitems; ?>" /><br><br>
 
           <input id="<?php echo $this->get_field_id('showexcerpt'); ?>" name="<?php echo $this->get_field_name('showexcerpt'); ?>" type="checkbox" <?php checked((bool) $instance['showexcerpt'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('showexcerpt'); ?>"><?php _e('Show excerpt'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('showexcerpt'); ?>"><?php _e('Show excerpt','govintranet'); ?></label> <br>
         </p>
-          <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:'); ?></label> 
-          <input class="widefat" id="<?php echo $this->get_field_id('mroetitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br>Leave blank for the default title<br>
+          <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:','govintranet'); ?></label> 
+          <input class="widefat" id="<?php echo $this->get_field_id('mroetitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br><?php _e('Leave blank for the default title','govintranet');?><br>
 
         <?php 
     }

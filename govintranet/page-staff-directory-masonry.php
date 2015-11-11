@@ -43,7 +43,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					    	<input type="hidden" name="include" value="user">
 					    	<input type="hidden" name="post_types[]" value="team">
 							<span class="input-group-btn">
-							<label for="searchbutton2" class="sr-only"><?php _e('Search'); ?></label>
+							<label for="searchbutton2" class="sr-only"><?php _e('Search','govintranet'); ?></label>
 							<button class="btn btn-primary" type="submit" id="searchbutton2"><i class="dashicons dashicons-search"></i></button>
 							 </span>
 						</div><!-- /input-group -->

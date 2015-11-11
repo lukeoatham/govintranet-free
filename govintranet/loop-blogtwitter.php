@@ -64,14 +64,16 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 						$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
 						echo $image_url;
 						echo "</a>&nbsp;";
-						echo $authorlink;
 						$auth = get_the_author();
-						echo "<span class='listglyph'>".$auth."</span>";
-						echo "</a>";
+						echo $authorlink . "<span class='listglyph'>".$auth."</a></span>&nbsp";
 	           } else {
-	                echo " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
+	                echo " <span class='listglyph'><a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a></span>&nbsp";			   
 			   }
-			   if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+			   if ( get_comments_number() ){
+						echo "<a href='".get_permalink($post->ID)."#comments'>";
+						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						echo "</a>";
+					}
 
 		echo "</p>";
 

@@ -139,6 +139,7 @@
 			</fieldset>
 		</div>
 	<?php endif; ?>
+		
 		<?php do_action( 'bbp_user_edit_after_account' ); ?>
 
 	</fieldset>
@@ -180,7 +181,6 @@
 
 	<?php 
 	do_action( 'bbp_user_edit_after' ); 
-			
 	?>
 
 	<fieldset class="submit">

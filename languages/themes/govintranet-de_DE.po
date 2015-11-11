@@ -1,0 +1,1192 @@
+# Translation of GovIntranet in German
+# This file is distributed under the same license as the GovIntranet package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-11-08 01:34+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.8.6\n"
+"Project-Id-Version: GovIntranet\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+
+#: search.php:53
+msgctxt "search not found"
+msgid "Nope"
+msgstr ""
+
+#: search.php:67
+msgid "blog posts"
+msgstr "Blog-Beiträge"
+
+#: search.php:75
+msgid "the forums"
+msgstr "die Foren"
+
+#: search.php:91
+#, fuzzy
+msgid "the staff directory"
+msgstr "Mitarbeiterverzeichnis"
+
+#: search.php:95
+msgid "tasks"
+msgstr ""
+
+#: search.php:99
+msgid "teams"
+msgstr ""
+
+#: search.php:103
+#, fuzzy
+msgid "vacancies"
+msgstr "offene Stellen"
+
+#: search.php:109
+msgid "Couldn't find anything in %s. Try searching the whole intranet."
+msgstr ""
+
+#: search.php:116
+msgid "Did you mean?"
+msgstr "Meinten Sie"
+
+#: search.php:123 search.php:127
+#, fuzzy
+msgid "Search again"
+msgstr "Suche"
+
+#: search.php:193
+#, fuzzy
+msgctxt "action"
+msgid "Filter results"
+msgstr "Suchergebnisseite"
+
+#: search.php:219
+#, fuzzy
+msgid "Staff profiles"
+msgstr "Mitarbeiterverzeichnis"
+
+#: search.php:251
+#, fuzzy
+msgid "Recently published first"
+msgstr "Startseite erste Spalte"
+
+#: search.php:255
+msgid "Refine search"
+msgstr ""
+
+#: loop.php:252
+msgctxt "represents the tag name"
+msgid "All intranet pages tagged with %s"
+msgstr ""
+
+#: loop.php:257
+msgid "Tasks and guides category"
+msgstr ""
+
+#: loop.php:275
+#, fuzzy
+msgctxt "noun"
+msgid "Email"
+msgstr "E-Mail"
+
+#: page-how-do-i-alt-classic.php:26 page-how-do-i.php:43
+#, fuzzy
+msgid "Search for"
+msgstr "Suche"
+
+#: page-how-do-i.php:28
+#, fuzzy
+msgid "Search in"
+msgstr "Suche"
+
+#: page-how-do-i.php:31
+#, fuzzy
+msgid "All tasks and guides"
+msgstr "Tätigkeiten und Anleitungen"
+
+#: page-staff-directory-masonry.php:41 single-team.php:66
+#, fuzzy
+msgid "Search staff"
+msgstr "Mitarbeiterprofil"
+
+#: page-staff-directory-masonry.php:61 single-team.php:88
+msgid "Browse teams"
+msgstr ""
+
+#: page-staff-directory-masonry.php:220
+msgid "Sort by"
+msgstr ""
+
+#: user-profile.php:45
+msgid "Role"
+msgstr "Rolle"
+
+#: user-profile.php:47
+#, fuzzy
+msgid "Job title"
+msgstr "Titel:"
+
+#: user-profile.php:67
+#, fuzzy
+msgctxt "verb"
+msgid "Email"
+msgstr "E-Mail"
+
+#: user-profile.php:85
+msgctxt "Hours of work"
+msgid "Working pattern"
+msgstr ""
+
+#: user-profile.php:98
+msgctxt "Job skills"
+msgid "Key skills and experience"
+msgstr ""
+
+#: 404.php:20 category.php:60 category.php:66 category.php:72
+#: page-how-do-i-alt-classic.php:30 page-how-do-i-alt-classic.php:34
+#: page-how-do-i-alt-classic.php:40 page-how-do-i-alt.php:22
+#: page-how-do-i-alt.php:27 page-how-do-i-alt.php:31 page-how-do-i-alt.php:37
+#: page-how-do-i.php:47 page-how-do-i.php:52 page-how-do-i.php:58
+#: page-staff-directory-masonry.php:46 page-vacancies.php:57
+#: search-staff.php:59 searchform.php:17 searchform.php:23 searchform.php:26
+#: searchform.php:30 searchform.php:36 single-team.php:71
+msgid "Search"
+msgstr "Suche"
+
+#: category.php:102 page-event.php:178 page-how-do-i-alt.php:108
+#: page-how-do-i.php:127 page-vacancies.php:213
+msgid "Browse by tag"
+msgstr "Nach Tag blättern"
+
+#: category.php:138 page-doc-finder.php:251 page-event.php:124
+msgid "Nothing to show"
+msgstr "Nichts anzuzeigen"
+
+#: category.php:148 category.php:151
+msgid "Guide"
+msgstr "Anleitung"
+
+#: category.php:155
+msgid "Task"
+msgstr "Tätigkeit"
+
+#: category.php:202
+msgid "Sub-categories"
+msgstr "Unterkategorien"
+
+#: category.php:228 page-event past.php:268 page-event.php:163 page-news.php:64
+#: single-event.php:167 single-task.php:251 single-vacancy.php:118
+msgid "Categories"
+msgstr "Kategorien"
+
+#: comments.php:28
+msgid "One response to %2$s"
+msgid_plural "%1$s responses to %2$s"
+msgstr[0] "Eine Antwort auf %2$s"
+msgstr[1] "%1$s Antworten auf %2$s"
+
+#: comments.php:66
+msgid "Leave a comment"
+msgstr "Kommentar hinterlassen"
+
+#: form-user-edit.php:14 form-user-edit.php:19
+msgid "Name"
+msgstr "Name"
+
+#: form-user-edit.php:24 page-staff-directory-masonry.php:222
+#: page-staff-directory-masonry.php:224
+msgid "First name"
+msgstr "Vorname"
+
+#: form-user-edit.php:29 page-staff-directory-masonry.php:228
+#: page-staff-directory-masonry.php:230
+msgid "Last name"
+msgstr "Nachname"
+
+#: form-user-edit.php:34
+msgid "Nickname"
+msgstr "Spitzname"
+
+#: form-user-edit.php:39
+msgid "Display name"
+msgstr "Angezeigter Name"
+
+#: functions.php:98
+msgid "Primary Navigation"
+msgstr "Primärnavigation"
+
+#: functions.php:99
+msgid "Secondary Navigation"
+msgstr "Sekundärnavigation"
+
+#: functions.php:143
+msgid "Search results for %s"
+msgstr "Suchergebnisse für %s"
+
+#: functions.php:169
+msgid "tasks and guides"
+msgstr "Tätigkeiten und Anleitungen"
+
+#: functions.php:9467
+msgid "My profile"
+msgstr "Mein Profil"
+
+#: functions.php:9468 page-forum-simple.php:28
+msgid "Logout"
+msgstr "Abmelden"
+
+#: functions.php:9471 page-forum-simple.php:30
+msgid "Login"
+msgstr "Anmelden"
+
+#: author.php:51
+msgid "Forum posts by %s"
+msgstr "Forum-Antworten von %s"
+
+#: author.php:53
+msgid "Blog posts by %s"
+msgstr "Blogbeiträge von: %s"
+
+#: functions.php:9503
+msgid "Reply to %s"
+msgstr "Antwort an"
+
+#: page-forum-simple.php:27
+#, fuzzy
+msgid "Logged in as %s"
+msgstr "Seite %s"
+
+#: page-forum-simple.php:30
+msgctxt "verb"
+msgid "Register"
+msgstr ""
+
+#: page-forum-simple.php:61
+msgid "Topics"
+msgstr "Forumbeiträge "
+
+#: page-forum-simple.php:62
+msgid "Posts"
+msgstr "Beiträge"
+
+#: page-forum-simple.php:63
+msgid "Freshness"
+msgstr ""
+
+#: page-forum-simple.php:124
+msgid "No activity"
+msgstr ""
+
+#: page-vacancies.php:52
+msgid "In"
+msgstr ""
+
+#: page-vacancies.php:68
+msgid "Grades"
+msgstr ""
+
+#: page-vacancies.php:70 page-vacancies.php:72
+msgid "All grades"
+msgstr ""
+
+#: page-vacancies.php:169
+#, fuzzy
+msgid "Nothing to show."
+msgstr "Nichts anzuzeigen"
+
+#: page-vacancies.php:193
+msgid "Closing"
+msgstr ""
+
+#: part-related.php:49
+msgid "Related"
+msgstr ""
+
+#: single-blog.php:56
+msgid "Author"
+msgstr ""
+
+#: single-blog.php:117
+msgid "Recent posts"
+msgstr ""
+
+#: single-blog.php:119
+#, fuzzy
+msgid "Nothing to show yet"
+msgstr "Es gibt nichts anzuzeigen."
+
+#: single-event.php:36
+msgid "Date"
+msgstr ""
+
+#: single-event.php:56 single-event.php:127
+msgid "Location"
+msgstr ""
+
+#: single-event.php:66
+msgid "Event booking"
+msgstr ""
+
+#: single-event.php:72
+msgid "You have made a booking for this event"
+msgstr ""
+
+#: single-event.php:73
+msgid "Details"
+msgstr ""
+
+#: single-event.php:86
+msgid "Tickets and registration"
+msgstr ""
+
+#: single-news.php:166
+msgid "Other updates"
+msgstr ""
+
+#: single-news.php:183
+#, fuzzy
+msgid "Similar news"
+msgstr "Neuigkeiten"
+
+#: single-news.php:229
+#, fuzzy
+msgid "Other related news"
+msgstr "Neuigkeiten-Seitenleiste"
+
+#: single-news.php:246
+#, fuzzy
+msgid "Recent news"
+msgstr "Neuigkeiten"
+
+#: single-team.php:128
+msgid "Sub-teams"
+msgstr ""
+
+#: tag.php:388
+#, fuzzy
+msgid "Go to %s"
+msgstr "Seite %s"
+
+#: tag.php:409
+msgid "<strong>Tasks and guides</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:426
+msgid "<strong>Projects</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:442
+msgid "<strong>Job vacancies</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:459
+msgid "<strong>News</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:476
+msgid "<strong>Blog posts</strong> tagged: %s"
+msgstr ""
+
+#: tag.php:493
+msgid "<strong>Events</strong> tagged: %s"
+msgstr ""
+
+#: header.php:371
+#, fuzzy
+msgid "Toggle navigation"
+msgstr "Primärnavigation"
+
+#: header.php:376
+#, fuzzy
+msgid "Home"
+msgstr "Startseite"
+
+#: page-news-multi.php:27
+#, fuzzy
+msgid "News"
+msgstr "Neuigkeiten"
+
+#: page-news-multi.php:28
+msgid "Need to know"
+msgstr ""
+
+#: single-event.php:96 single-news-update.php:65 single-news.php:72
+#: single-task.php:171
+msgctxt "Document downloads"
+msgid "Downloads"
+msgstr ""
+
+#: single-news-update.php:97
+msgctxt "Taxonomy name for News Update Types"
+msgid "Update types"
+msgstr ""
+
+#: single-news-update.php:135
+msgid "Related updates"
+msgstr ""
+
+#: single-news-update.php:152
+msgid "Recent updates"
+msgstr ""
+
+#: page-vacancies.php:202 single-blog.php:131 single-news-update.php:173
+#: single-news.php:273
+msgid "Read more"
+msgstr ""
+
+#: single-task.php:214
+msgctxt "Document downloads"
+msgid "Downloads "
+msgstr ""
+
+#: single-team.php:20
+msgid "Skip to staff"
+msgstr ""
+
+#: page-event past.php:34 past.php:45 past.php:51
+msgid "Past %s"
+msgstr ""
+
+#: page-event past.php:43 past.php:49
+msgid "Future %s"
+msgstr ""
+
+#: page-event past.php:270 page-event.php:165
+#, fuzzy
+msgid "All"
+msgstr "Alle"
+
+#: search-staff.php:58
+msgid "Search for a name, job title, skills, phone number..."
+msgstr ""
+
+#: search-staff.php:83
+msgid "Found 1 result"
+msgid_plural "Found %d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: search-staff.php:202
+#, fuzzy
+msgid "Not on the directory"
+msgstr "Mitarbeiterverzeichnis"
+
+#: search-staff.php:204
+msgctxt "param 1 is the URL, param 2 is the title of the staff directory page"
+msgid "Try searching again or go back to the <a href=\"%1$s\">%2$s</a>"
+msgstr ""
+
+#: page-jargon-buster.php:72
+msgid "1 term"
+msgid_plural "%d terms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: page-doc-finder.php:105
+msgid "Document type"
+msgstr ""
+
+#: page-doc-finder.php:249
+msgid "No results"
+msgstr ""
+
+#: page-doc-finder.php:254
+msgid "Results"
+msgstr ""
+
+#: page-doc-finder.php:257
+msgid "item"
+msgid_plural "items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: page-doc-finder.php:263
+msgid "Please wait"
+msgstr ""
+
+#: search.php:79
+#, fuzzy
+msgid "jargon busters"
+msgstr "Begriffsklärung"
+
+#: search.php:87
+msgid "projects"
+msgstr ""
+
+#: page-staff-directory-masonry.php:26
+msgctxt "Screen reader text"
+msgid "Skip to staff"
+msgstr ""
+
+#: page-staff-directory-masonry.php:42 single-team.php:67
+msgid "Name, job title, skills, team, number..."
+msgstr ""
+
+#: single-project.php:69 single-project.php:195 single-vacancy.php:74
+#, fuzzy
+msgctxt "noun"
+msgid "Project"
+msgstr "Projekt"
+
+#: single-project.php:173 single-project.php:179 single-project.php:188
+msgid "Navigate to next part"
+msgstr ""
+
+#: single-project.php:177 single-project.php:185 single-task.php:190
+#: single-task.php:198
+msgid "Navigate to previous part"
+msgstr ""
+
+#: single-project.php:202 single-vacancy.php:87
+msgctxt "Documents to download"
+msgid "Downloads"
+msgstr ""
+
+#: single-blog.php:106 single-event.php:180 single-project.php:237
+#: single-task.php:266 single-vacancy.php:137
+msgid "Tags"
+msgstr ""
+
+#: single-vacancy.php:30
+msgid "Job details"
+msgstr ""
+
+#: single-vacancy.php:55
+msgid "Job reference"
+msgstr ""
+
+#: search-staff.php:180 single-vacancy.php:56 user-profile.php:26
+#: user-profile.php:41
+msgid "Team"
+msgstr ""
+
+#: single-vacancy.php:57 user-profile.php:51
+msgid "Grade"
+msgstr ""
+
+#: single-vacancy.php:58
+#, fuzzy
+msgid "Closing date"
+msgstr "Ablaufdatum"
+
+#: user-profile.php:54
+#, fuzzy
+msgctxt "Address book details"
+msgid "Contact"
+msgstr "Kontaktdaten"
+
+#: 404.php:15
+msgid "The page that you are trying to reach doesn't exist. <br><br>Please go back or try searching."
+msgstr "Die Seite, die du zu erreichen versuchst, existiert nicht. <br><br>Bitte gehe zurück oder oder versuche die Suchfunktion."
+
+#: archive.php:27
+msgid "Daily archives: %s"
+msgstr "Tagesarchive: %s"
+
+#: archive.php:29
+msgid "Monthly archives: %s"
+msgstr "Monatsarchive: %s"
+
+#: archive.php:31
+msgid "Yearly archives: %s"
+msgstr "Jahresarchive: %s"
+
+#: archive.php:71
+msgctxt "A title for the news update category"
+msgid "Update categories"
+msgstr "Kategorien aktualisieren"
+
+#: attachment.php:50 loop.php:294
+msgid "Continue reading &rarr;"
+msgstr "Weiterlesen &rarr;"
+
+#: author.php:36
+msgctxt "The homepage link"
+msgid "Home"
+msgstr "Startseite"
+
+#: author.php:39 search.php:227
+msgid "Forums"
+msgstr "Foren"
+
+#: author.php:61
+msgid "Staff profile"
+msgstr "Mitarbeiterprofil"
+
+#: loop-newstwitter.php:74
+msgid "%s %s"
+msgstr "%s %s"
+
+#: comments.php:14
+msgid "This post is password protected. Enter the password to view any comments."
+msgstr "Dieser Beitrag ist passwortgeschützt. Passwort eingeben um Kommentare anzuzeigen."
+
+#: comments.php:34 comments.php:52
+msgid "&larr; Older comments"
+msgstr "&larr; Ältere Kommentare"
+
+#: comments.php:35 comments.php:53
+msgid "Newer comments &rarr;"
+msgstr "Neuere Kommentare &rarr;"
+
+#: form-user-edit.php:50 form-user-edit.php:53
+msgid "Contact info"
+msgstr "Kontaktdaten"
+
+#: form-user-edit.php:58
+msgid "Website"
+msgstr "Website"
+
+#: form-user-edit.php:76 form-user-edit.php:79
+msgid "About yourself"
+msgstr "Über dich"
+
+#: form-user-edit.php:76 form-user-edit.php:79
+msgid "About the user"
+msgstr "Über den Benutzer"
+
+#: form-user-edit.php:84 user-profile.php:91
+msgid "About me"
+msgstr "Über mich"
+
+#: form-user-edit.php:94 form-user-edit.php:97
+msgid "Account"
+msgstr "Konto"
+
+#: form-user-edit.php:102
+msgid "Username"
+msgstr "Benutzername"
+
+#: form-user-edit.php:107 search-staff.php:147 single-team.php:268
+msgid "Email"
+msgstr "E-Mail"
+
+#: form-user-edit.php:119
+msgid "There is a pending email address change to <code>%1$s</code>. <a href=\"%2$s\">Cancel</a>"
+msgstr "Ein E-Mail-Adresswechsel auf <code>%1$s</code> ist ausstehend. <a href=\"%2$s\">Abbrechen</a>"
+
+#: form-user-edit.php:129
+msgid "New password"
+msgstr "Neues Passwort"
+
+#: form-user-edit.php:132
+msgid "If you would like to change the password type a new one. Otherwise leave this blank."
+msgstr "Um das Passwort zu ändern, ein neues eingeben, sonst leer lassen."
+
+#: form-user-edit.php:135
+msgid "Type your new password again."
+msgstr "Neues Passwort erneut eingeben."
+
+#: form-user-edit.php:138
+msgid "Your password should be at least ten characters long. Phrases with numbers and symbols are easier to remember, e.g. \"Her Imperial Highness has 30 handbags!\""
+msgstr "Dein Passwort sollte mindestens zehn Zeichen lang sein. Sätze mit Zahlen und Satzzeichen sind einfacher zu merken; wie etwa \"Ihre kaiserliche Hoheit hat 30 Handtaschen!\""
+
+#: form-user-edit.php:150 form-user-edit.php:153
+msgid "User role"
+msgstr "Benutzerrolle"
+
+#: form-user-edit.php:160
+msgid "Network role"
+msgstr "Netzwerkrolle"
+
+#: form-user-edit.php:163
+msgid "Grant this user super admin privileges for the Network."
+msgstr "Diesem Benutzer Superadmin-Rechte für das Netzwerk erteilen."
+
+#: form-user-edit.php:178 forum.php:17
+msgid "Staff directory"
+msgstr "Mitarbeiterverzeichnis"
+
+#: form-user-edit.php:187
+msgid "Save changes"
+msgstr "Änderungen sichern"
+
+#: form-user-edit.php:192 form-user-edit.php:193
+msgid "Update profile"
+msgstr "Profil aktualisieren"
+
+#: form-user-edit.php:192 form-user-edit.php:193
+msgid "Update user"
+msgstr "Benutzer aktualisieren"
+
+#: forum.php:16 forum.php:21
+msgctxt "The site homepage"
+msgid "Home"
+msgstr "Startseite"
+
+#: functions.php:146 functions.php:214
+msgid "Page %s"
+msgstr "Seite %s"
+
+#: functions.php:172
+msgid "project"
+msgstr "Projekt"
+
+#: functions.php:175
+msgid "job vacancies"
+msgstr "offene Stellen"
+
+#: functions.php:180
+msgid "staff profile"
+msgstr "Mitarbeiterprofil"
+
+#: functions.php:183 search.php:71
+msgid "events"
+msgstr "Veranstaltungen"
+
+#: functions.php:186
+msgid "jargon buster"
+msgstr "Begriffsklärung"
+
+#: functions.php:189 taxonomy-a-to-z.php:40
+msgid "A to Z"
+msgstr "A bis Z"
+
+#: functions.php:192
+msgid "forums"
+msgstr "Foren"
+
+#: functions.php:195
+msgid "forum topics"
+msgstr "Forum-Themen"
+
+#: functions.php:198
+msgid "forum replies"
+msgstr "Forum-Antworten"
+
+#: functions.php:201 search.php:83
+msgid "news"
+msgstr "Neuigkeiten"
+
+#: functions.php:204
+msgid "blog"
+msgstr "Blog"
+
+#: functions.php:257
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Weiterlesen <span class=\"meta-nav\">&rarr;</span>"
+
+#: functions.php:339
+msgid "%s <span class=\"says\">says:</span>"
+msgstr "%s <span class=\"says\">sagt:</span>"
+
+#: functions.php:342
+msgid "Your comment is awaiting moderation."
+msgstr "Dein Kommentar wartet auf Moderation."
+
+#: functions.php:349
+msgid "<small>%1$s at %2$s</small>"
+msgstr "<small>%1$s um %2$s</small>"
+
+#: functions.php:349 functions.php:366
+msgid "(Edit)"
+msgstr "(Bearbeiten)"
+
+#: functions.php:366
+msgid "Pingback:"
+msgstr "Pingback:"
+
+#: functions.php:387
+msgid "Homepage first column"
+msgstr "Startseite erste Spalte"
+
+#: functions.php:389
+msgid "Homepage 1st column"
+msgstr "Startseite 1. Spalte"
+
+#: functions.php:397 functions.php:399
+msgid "Homepage hero area"
+msgstr "Startseite Hero-Bereich"
+
+#: functions.php:406 functions.php:408
+msgid "Homepage second column"
+msgstr "Startseite zweite Spalte"
+
+#: functions.php:415 functions.php:417
+msgid "Homepage third column top"
+msgstr "Startseite dritte Spalte oben"
+
+#: functions.php:424 functions.php:426
+msgid "Homepage third column bottom"
+msgstr "Startseite dritte Spalte unten"
+
+#: functions.php:433
+msgid "Utility widget box"
+msgstr "Utility-Widget-Rahmen"
+
+#: functions.php:435
+msgid "Utility widget area appears beneath the search box"
+msgstr "Utility-Widget-Bereich wird unter dem Suchfeld angezeigt"
+
+#: functions.php:441
+msgid "Left footer"
+msgstr "Linke Fußzeile"
+
+#: functions.php:443
+msgid "Left footer widget area"
+msgstr "Widget-Bereich linke Fußzeile"
+
+#: functions.php:451
+msgid "Right footer 1"
+msgstr "Rechte Fußzeile 1"
+
+#: functions.php:453
+msgid "The 1st right footer widget area"
+msgstr "Der Widget-Bereich der 1. rechten Fußzeile"
+
+#: functions.php:461
+msgid "Right footer 2"
+msgstr "Rechte Fußzeile 2"
+
+#: functions.php:463
+msgid "The 2nd right footer widget area"
+msgstr "Der Widget-Bereich der 2. rechten Fußzeile"
+
+#: functions.php:470
+msgid "Tasks sidebar"
+msgstr "Tätigkeiten-Seitenleiste"
+
+#: functions.php:472
+msgid "Tasks widget area, appears on individual tasks"
+msgstr "Tätigkeiten-Widget-Bereich, wird auf einzelnen Tätigkeiten angezeigt"
+
+#: functions.php:479
+msgid "News landing page"
+msgstr "Neuigkeiten-Zielseite"
+
+#: functions.php:481
+msgid "The right-hand col on the news page"
+msgstr "Die rechte Spalte auf der Neuigkeiten-Seite"
+
+#: functions.php:488
+msgid "News sidebar"
+msgstr "Neuigkeiten-Seitenleiste"
+
+#: functions.php:490
+msgid "News widget area, appears on individual news and news updtes"
+msgstr "Neuigkeiten-Widget-Bereich, wird auf einzelnen Neuigkeiten und aktuellen Meldungen angezeigt"
+
+#: functions.php:497
+msgid "Blog landing page"
+msgstr "Blog-Zielseite"
+
+#: functions.php:499
+msgid "Blog landing page widget area"
+msgstr "Widget-Bereich der Blog-Zielseite"
+
+#: functions.php:506
+msgid "Blog sidebar"
+msgstr "Blog-Seitenleiste"
+
+#: functions.php:508
+msgid "Blog posts widget area, appears on individual blog posts"
+msgstr "Blogbeitrag-Widget-Bereicht, wird auf einzelnen Blogbeiträgen angezeigt"
+
+#: functions.php:515
+msgid "Events landing page"
+msgstr "Veranstaltungen-Zielseite"
+
+#: functions.php:517
+msgid "Events landing page widget area"
+msgstr "Widget-Bereich der Veranstaltungen-Zielseite"
+
+#: functions.php:524
+msgid "Events sidebar"
+msgstr "Veranstaltungen-Seitenleiste"
+
+#: functions.php:526
+msgid "Events posts widget area, appears on individual events"
+msgstr "Widget-Bereich des Veranstaltungs-Eintrags, wird auf einzelnen Veranstaltungen angezeigt"
+
+#: functions.php:533
+msgid "Search results page"
+msgstr "Suchergebnisseite"
+
+#: functions.php:535
+msgid "Search results page widget area"
+msgstr "Widget-Bereich der Suchergebnisseite"
+
+#: functions.php:542
+msgid "Login area"
+msgstr "Anmeldebereich"
+
+#: functions.php:544
+msgid "Login widget area"
+msgstr "Anmelde-Widget-Bereich"
+
+#: functions.php:1427
+msgid "%s min"
+msgid_plural "%s mins"
+msgstr[0] "%s Minute"
+msgstr[1] "%s Minuten"
+
+#: functions.php:1433
+msgid "%s hour"
+msgid_plural "%s hours"
+msgstr[0] "%s Stunde"
+msgstr[1] "%s Stunden"
+
+#: functions.php:1439
+msgid "%s year"
+msgid_plural "%s years"
+msgstr[0] "%s Jahr"
+msgstr[1] "%s Jahre"
+
+#: functions.php:1445
+msgid "%s month"
+msgid_plural "%s months"
+msgstr[0] "%s Monat"
+msgstr[1] "%s Monate"
+
+#: functions.php:1451
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] "%s Tag"
+msgstr[1] "%s Tage"
+
+#: functions.php:1503
+msgctxt "post type name plural"
+msgid "Blog posts"
+msgstr "Blogbeiträge"
+
+#: functions.php:1504
+msgctxt "post type name singular"
+msgid "Blog post"
+msgstr "Blogbeitrag"
+
+#: functions.php:1505
+msgctxt "post type name"
+msgid "Blog posts"
+msgstr "Blogbeiträge"
+
+#: functions.php:1506
+msgid "Add Blog post"
+msgstr "Blogbeitrag hinzufügen"
+
+#: functions.php:1507
+msgid "Add New Blog post"
+msgstr "Neuen Blogbeitrag hinzufügen"
+
+#: functions.php:1508
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: functions.php:1509
+msgid "Edit Blog post"
+msgstr "Blogbeitrag bearbeiten"
+
+#: functions.php:1510
+msgid "New Blog post"
+msgstr "Neuer Blogbeitrag"
+
+#: functions.php:1511 functions.php:1512
+msgid "View Blog post"
+msgstr "Blogbeitrag anzeigen"
+
+#: functions.php:1513
+msgid "Search Blog posts"
+msgstr "Blogbeiträge durchsuchen"
+
+#: functions.php:1514
+msgid "No Blog posts found"
+msgstr "Keine Blogbeiträge gefunden"
+
+#: functions.php:1515
+msgid "No Blog posts found in trash"
+msgstr "Keine Blogbeiträge im Papierkorb gefunden"
+
+#: functions.php:1516
+msgid "Parent Blog post"
+msgstr "Übergeordneter Blogbeitrag"
+
+#: functions.php:1712
+msgid "Enable auto-expiry"
+msgstr "Auto-Ablauf aktivieren"
+
+#: functions.php:1728
+msgid "Expiry date"
+msgstr "Ablaufdatum"
+
+#: functions.php:1753
+msgid "Expiry time"
+msgstr "Ablaufzeit"
+
+#: functions.php:1782
+msgid "Expiry action"
+msgstr "Ablaufaktion"
+
+#: functions.php:8883 page-doc-finder.php:32 page-doc-finder.php:76
+#: page-doc-finder.php:79
+msgid "All categories"
+msgstr "Alle Kategorien"
+
+#: functions.php:8891 page-doc-finder.php:40 page-doc-finder.php:114
+#: page-doc-finder.php:116
+msgid "All document types"
+msgstr "Alle Dokumentarten"
+
+#: functions.php:9237 functions.php:9244
+msgctxt "all tags"
+msgid "All"
+msgstr "Alle"
+
+#: functions.php:9490
+msgid "Anonymous"
+msgstr "Anonym"
+
+#: loop-blogtwitter.php:74 loop-newsblogs.php:53 loop-newsblogs.php:87
+#: loop-newstwitter.php:47 loop-newstwitter.php:81 loop.php:203
+#: page-news-multi.php:102 page-news-updates.php:91 taxonomy-news-type.php:102
+msgid "<span class=\"badge\">1 comment</span>"
+msgid_plural "<span class=\"badge\">%d comments</span>"
+msgstr[0] "<span class=\"badge\">1 Kommentar</span>"
+msgstr[1] "<span class=\"badge\">%d Kommentare</span>"
+
+#: 404.php:10 loop.php:27 taxonomy-a-to-z.php:82
+msgid "Not found"
+msgstr "Nicht gefunden"
+
+#: loop.php:30 taxonomy-a-to-z.php:85
+msgid "There's nothing to show."
+msgstr "Es gibt nichts anzuzeigen."
+
+#: loop.php:295
+msgid "Pages:"
+msgstr "Seiten:"
+
+#: page-doc-finder.php:60 page-news-multi.php:34
+msgid "Category"
+msgstr "Kategorie"
+
+#: page-how-do-i-alt.php:58 page-how-do-i.php:81
+msgid "Browse by category"
+msgstr "Blättern nach Kategorie"
+
+#: page-how-do-i-alt-classic.php:123 page-news.php:81
+msgid "Search by tag"
+msgstr "Suche nach Tag"
+
+#: search-staff.php:53 search.php:149
+msgid "Search results for: %s"
+msgstr "Suchergebnisse für: %s"
+
+#: search.php:111
+msgid "Couldn't find anything on the intranet like that. Sometimes using fewer words can help."
+msgstr "Konnte im Intranet nichts desgleichen finden. Manchmal hilft es, weniger Worte anzugeben."
+
+#: tag.php:21
+msgid "Tasks/guides tagged: %s"
+msgstr "Tätigkeiten/Anleitungen tagged: %s"
+
+#: tag.php:24
+msgid "Projects tagged: %s"
+msgstr "Projekte tagged: %s"
+
+#: tag.php:27
+msgid "Job vacancies tagged: %s"
+msgstr "Offene Stellen tagged: %s"
+
+#: tag.php:30
+msgid "News tagged: %s"
+msgstr "Neuigkeiten tagged: %s"
+
+#: tag.php:33
+msgid "Blog posts tagged: %s"
+msgstr "Blogbeiträge tagged: %s"
+
+#: tag.php:36
+msgid "Events tagged: %s"
+msgstr "Veranstaltungen tagged: %s"
+
+#: tag.php:40
+msgid "Everything tagged: %s"
+msgstr "Alles tagged: %s"
+
+#: tag.php:393
+msgid "<strong>Everything</strong> tagged: %s"
+msgstr "<strong>Alles</strong> tagged: %s"
+
+#: theme-options.php:33
+msgid "Header background colour"
+msgstr "Kopfzeilen-Hintergrundfarbe"
+
+#: theme-options.php:39
+msgid "Link colour"
+msgstr "Linkfarbe"
+
+#: theme-options.php:45
+msgid "Visited colour"
+msgstr "Besuchte Linkfarbe"
+
+#: user-details.php:38
+msgid "%s's Profile"
+msgstr "Profil von %s"
+
+#: user-details.php:38
+msgid "Profile"
+msgstr "Profil"
+
+#: user-details.php:51
+msgid "%s's blog posts"
+msgstr "Blogbeiträge von %s"
+
+#: user-details.php:51
+msgid "Blog posts"
+msgstr "Blogbeiträge"
+
+#: user-details.php:61
+msgid "%s's forum topics"
+msgstr "Forumbeiträge von %s"
+
+#: search.php:232 user-details.php:61
+msgid "Forum topics"
+msgstr "Forumthemen"
+
+#: user-details.php:67
+msgid "%s's forum replies"
+msgstr "Forum-Antworten von %s"
+
+#: search.php:237 user-details.php:67
+msgid "Forum replies"
+msgstr "Forum-Antworten"
+
+#: user-details.php:74
+msgid "%s's forum favourites"
+msgstr "Forum-Favoriten von %s"
+
+#: user-details.php:74
+msgid "Favourites"
+msgstr "Favoriten"
+
+#: user-details.php:86
+msgid "%s's forum subscriptions"
+msgstr "Forum-Abonnements von %s"
+
+#: user-details.php:86
+msgid "Subscriptions"
+msgstr "Abonnements"
+
+#: user-details.php:93
+msgid "Edit %s's profile"
+msgstr "Profil von %s bearbeiten"
+
+#: user-details.php:93
+msgid "Edit profile"
+msgstr "Profil bearbeiten"
+
+#: header.php:385 header.php:410
+msgid "Skip to content"
+msgstr ""
+
+#: single-project.php:150 single-project.php:177 single-task.php:164
+#: single-task.php:190
+msgid "Overview"
+msgstr ""
+
+#: loop.php:157 loop.php:169 loop.php:257
+msgid "%s"
+msgstr ""

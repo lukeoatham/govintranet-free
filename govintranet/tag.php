@@ -91,7 +91,7 @@ get_header();
 						$carray[]=$tt->object_id;
 					}
 				} else { $postsfound=false;
-					echo "<h2>Nothing on the intranet with this tag.</h2>";
+					echo "<h2>" . __('Nothing on the intranet with this tag' , 'govintranet') . ".</h2>";
 				}
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				if ($pt =='task'): // tasks sorted alphabetically
@@ -115,7 +115,7 @@ get_header();
 		 			)); 
 				else: // everything else sorted by date
 					$tagged = new WP_Query(array(
-		 			'post_type'=>array("task","vacancy","project","news","event","blog"),
+		 			'post_type'=>array("task","vacancy","project","news","news-update","event","blog"),
 		 			'post__in'=>$carray,
 		 			'paged'=>$paged,
 		 			'posts_per_page'=>10,
@@ -142,11 +142,11 @@ get_header();
 						$contexturl = "/tasks/";
 						$taskpod = $post->post_parent; 
 						if ( !$taskpod ){		
-							$context = "task";
+							$context = __("task","govintranet");
 							$icon = "question-sign";
 							$title_context='';
 						} else {
-							$context = "guide";
+							$context = __("guide","govintranet");
 							$icon = "book";
 							$taskparent=get_post($taskpod);
 							$title_context='';
@@ -156,7 +156,7 @@ get_header();
 						}			
 					}
 					if ($post_type=='Project'){
-						$context = "project";
+						$context = __("project","govintranet");
 						$contexturl = "/about/projects/";
 						$icon = "road";
 						$projparent=$post->post_parent;
@@ -167,37 +167,37 @@ get_header();
 						}			
 					}
 					if ($post_type=='News'){
-							$context = "news";
+							$context = __("news","govintranet");
 							$contexturl = "/news/";
 							$icon = "star-empty";			
 					}
 					if ($post_type=='Vacancy'){
-							$context = "job vacancy";
+							$context = __("job vacancy","govintranet");
 							$contexturl = "/about/vacancies/";
 							$icon = "random";			
 					}
 					if ($post_type=='Blog'){
-							$context = "blog";
+							$context = __("blog","govintranet");
 							$contexturl = "/blog/";
 							$icon = "comment";			
 					}
 					if ($post_type=='Event'){
-							$context = "event";
+							$context = __("event","govintranet");
 							$contexturl = "/events/";
 							$icon = "calendar";			
 					}
 					if ($post_type=='Glossaryitem'){
-							$context = "jargon buster";
+							$context = __("jargon buster","govintranet");
 							$contexturl = "/glossaryitem/";
 							$icon = "th-list";			
 					}
 					if ($post_type=='User'){
-							$context = "staff";
+							$context = __("staff","govintranet");
 							$contexturl = "/staff/";
 							$icon = "user";			
 					}
 					if ($post_type=='Attachment'): 
-						$context='download';
+						$context= __('download',"govintranet");
 						$icon = "download";			
 						?>
 						<h3>				
@@ -297,8 +297,8 @@ get_header();
 				<?php if (function_exists('wp_pagenavi')) : ?>
 					<?php wp_pagenavi(array('query' => $tagged)); ?>
 					<?php else : ?>
-					<?php next_posts_link('&larr; Older items', $tagged->max_num_pages); ?>
-					<?php previous_posts_link('Newer items &rarr;', $tagged->max_num_pages); ?>						
+					<?php next_posts_link(__('&larr; Older items','govintranet'), $tagged->max_num_pages); ?>
+					<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $tagged->max_num_pages); ?>						
 				<?php endif; ?>
 				<?php endif; 
 				wp_reset_query();								

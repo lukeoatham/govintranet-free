@@ -55,25 +55,31 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 					endif;
 					
 					// Show forum links?
-					if ( get_option('options_forum_support') ): ?>
-					<li class="<?php if ( bbp_is_single_user_topics() ) :?>current<?php endif; ?>">
-						<span class='bbp-user-topics-created-link'>
-							<a href="<?php bbp_user_topics_created_url(); ?>" title="<?php printf( esc_attr__( "%s's forum topics", 'govintranet' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum topics', 'govintranet' ); ?></a>
-						</span>
-					</li>
-	
-					<li class="<?php if ( bbp_is_single_user_replies() ) :?>current<?php endif; ?>">
-						<span class='bbp-user-replies-created-link'>
-							<a href="<?php bbp_user_replies_created_url(); ?>" title="<?php printf( esc_attr__( "%s's forum replies", 'govintranet' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum replies', 'govintranet' ); ?></a>
-						</span>
-					</li>
-	
-					<?php if ( bbp_is_favorites_active() ) : ?>
-						<li class="<?php if ( bbp_is_favorites() ) :?>current<?php endif; ?>">
-							<span class="bbp-user-favorites-link">
-								<a href="<?php bbp_favorites_permalink(); ?>" title="<?php printf( esc_attr__( "%s's forum favourites", 'govintranet' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Favourites', 'govintranet' ); ?></a>
+					if ( get_option('options_forum_support') ): 
+						if ( bbp_get_user_topic_count() ) : ?>
+						<li class="<?php if ( bbp_is_single_user_topics() ) :?>current<?php endif; ?>">
+							<span class='bbp-user-topics-created-link'>
+								<a href="<?php bbp_user_topics_created_url(); ?>" title="<?php printf( esc_attr__( "%s's forum topics", 'govintranet' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum topics', 'govintranet' ); ?></a>
 							</span>
 						</li>
+						<?php
+						endif;
+						if ( bbp_get_user_reply_count() ) : ?>						
+						<li class="<?php if ( bbp_is_single_user_replies() ) :?>current<?php endif; ?>">
+							<span class='bbp-user-replies-created-link'>
+								<a href="<?php bbp_user_replies_created_url(); ?>" title="<?php printf( esc_attr__( "%s's forum replies", 'govintranet' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Forum replies', 'govintranet' ); ?></a>
+							</span>
+						</li>
+						<?php
+						endif;
+						?>						
+		
+						<?php if ( bbp_is_favorites_active() ) : ?>
+							<li class="<?php if ( bbp_is_favorites() ) :?>current<?php endif; ?>">
+								<span class="bbp-user-favorites-link">
+									<a href="<?php bbp_favorites_permalink(); ?>" title="<?php printf( esc_attr__( "%s's forum favourites", 'govintranet' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>"><?php _e( 'Favourites', 'govintranet' ); ?></a>
+								</span>
+							</li>
 					<?php endif; ?>
 
 				<?php endif; ?>

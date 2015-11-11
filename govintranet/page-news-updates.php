@@ -3,7 +3,6 @@
 
 get_header(); 
 
-
 ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
@@ -25,7 +24,7 @@ get_header();
 				
 				 <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
 				    <ul id="myTab" class="nav nav-tabs" role="tablist">
-				      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">News</a></li>
+				      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><?php __('News' , 'govintranet'); ?></a></li>
 				      <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Updates</a></li>
 					        <?php
 						    $newsTypes = get_terms( 'news-type', array('hide_empty'=>true) );
@@ -66,8 +65,8 @@ get_header();
 							<?php if (function_exists('wp_pagenavi')) : ?>
 								<?php wp_pagenavi(array('query' => $qposts)); ?>
 								<?php else : ?>
-								<?php next_posts_link('&larr; Older items', $qposts->max_num_pages); ?>
-								<?php previous_posts_link('Newer items &rarr;', $qposts->max_num_pages); ?>						
+								<?php next_posts_link(__('&larr; Older items','govintranet'), $qposts->max_num_pages); ?>
+								<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $qposts->max_num_pages); ?>						
 							<?php endif; 
 								endif;
 							?>							
@@ -88,11 +87,16 @@ get_header();
 								while ($qposts->have_posts()) : $qposts->the_post();
 									echo "<h4><a href='".get_permalink($post_>ID)."'>".get_the_title()."</a></h4>";
 									echo '<span class="listglyph">'.get_the_date("j M Y"); 
-									if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 									echo '</span> ';
+									if ( get_comments_number() ){
+										echo "<a href='".get_permalink($qposts->ID)."#comments'>";
+										printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+										echo "</a>";
+									}
+									
 									the_excerpt();
 								endwhile;
-								echo '<hr><p class="more-updates"><a title="All updates" class="small" href="'.site_url().'/news-update/">All updates</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+								echo '<hr><p class="more-updates"><a class="small" href="'.site_url().'/news-update/">' . __("All updates" , "govintranet") . '</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 								
 					        	?>
 					        
@@ -135,19 +139,18 @@ get_header();
 						echo "</span>";
 						if (true) the_excerpt();
 						echo "</div></div>";
-			       endwhile;
+			        endwhile;
 					if ($qposts->have_posts()){
-								$landingpage = get_option('options_module_blog_page'); 
-								if ( !$landingpage ):
-									$landingpage_link_text = 'blogposts';
-									$landingpage = site_url().'/blogposts/';
-								else:
-									$landingpage_link_text = get_the_title( $landingpage[0] );
-									$landingpage = get_permalink( $landingpage[0] );
-								endif;
-								
-								echo '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
-							} 			       
+						$landingpage = get_option('options_module_blog_page'); 
+						if ( !$landingpage ):
+							$landingpage_link_text = 'blogposts';
+							$landingpage = site_url().'/blogposts/';
+						else:
+							$landingpage_link_text = get_the_title( $landingpage[0] );
+							$landingpage = get_permalink( $landingpage[0] );
+						endif;
+						echo '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
+					} 			       
 				   ?>
 				</div>
 			</div>

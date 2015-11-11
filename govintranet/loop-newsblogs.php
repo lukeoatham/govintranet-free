@@ -40,17 +40,21 @@ if ($k==1 && $paged<2){
 	if ($video){
 		echo $video;
 	} elseif ($image_uri!="" ){
-		echo "<a href='".site_url()."/news/".$post->post_name."/'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".$thistitle."' /></a>";																			} 
+		echo "<a href='".get_permalink($post->ID)."'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".$thistitle."' /></a>";																			} 
 	$ext_icon = '';
 	if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
-	echo "<h3".$headclass.">".$ext_icon."<a href='".site_url()."/news/".$post->post_name."'>".$needtoknow.$thistitle."</a></h3>";
+	echo "<h3".$headclass.">".$ext_icon."<a href='".get_permalink($post->ID)."'>".$needtoknow.$thistitle."</a></h3>";
 	echo "<div class='media-body'>";
 	echo "<div><p>";
 	$thisdate= $post->post_date;
 	$thisdate=date("j M Y",strtotime($thisdate));
 	echo '<span class="listglyph">'.get_the_date("j M Y"); 
 	echo '</span> ';
-	if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+	if ( get_comments_number() ){
+						echo "<a href='".get_permalink($post->ID)."#comments'>";
+						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						echo "</a>";
+					}
 	$post_cat = get_the_terms($post->ID,'news-type');		
 	if ( $post_cat ) foreach($post_cat as $cat){
 		if ($cat->term_id > 1 ){
@@ -84,7 +88,11 @@ if ($k==1 && $paged<2){
 	$thisdate=date("j M Y",strtotime($thisdate));
 	echo '<span class="listglyph">'.get_the_date("j M Y"); 
 	echo '</span> ';
-	if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+	if ( get_comments_number() ){
+						echo "<a href='".$thisURL."#comments'>";
+						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						echo "</a>";
+					}
 	echo "</p></div>";
 	the_excerpt(); 
 	?>

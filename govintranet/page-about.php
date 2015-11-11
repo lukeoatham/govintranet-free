@@ -48,7 +48,7 @@ get_header(); ?>
 		    }
 			echo "<div class='col-lg-3 col-md-6 col-sm-6 white'>
 				<div class='category-block'>
-					<h2><a href='{$themeURL}/'>".govintranetpress_custom_title($c->post_title)."</a></h2>
+					<h2><a href='".get_permalink($c->ID)."'>".govintranetpress_custom_title($c->post_title)."</a></h2>
 					<p>".$excerpt."</p>
 				</div>
 			</div>";

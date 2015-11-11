@@ -93,7 +93,7 @@ $mainid=$post->ID;
 	$current_attachments = get_field('document_attachments');
 	if ($current_attachments){
 		echo "<div class='alert alert-info'>";
-		echo "<h3>" . _x('Downloads' , 'Document downloads' , 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
+		echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
 		foreach ($current_attachments as $ca){
 			$c = $ca['document_attachment'];
 			if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GovIntranet v1.0.0\n"
 "Report-Msgid-Bugs-To: Luke Oatham <lukeoatham@gmail.com>\n"
-"POT-Creation-Date: 2015-11-08 00:26+0000\n"
+"POT-Creation-Date: 2015-11-10 19:28+0000\n"
 "\"PO-Revision-Date: \n"
 "Last-Translator: Luke Oatham <lukeoatham@gmail.com>\n"
 "Language-Team: Helpful Technology <luke@helpfultechnology.com>\n"
@@ -17,15 +17,13 @@ msgstr ""
 "X-Textdomain-Support: yesX-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
-"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,"
-"_nc:4c,1,2\n"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Generator: Poedit 1.8.6\n"
 "PO-Revision-Date: \n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: js\n"
 
-#: 404.php:10 loop.php:27 taxonomy-a-to-z.php:82
+#: 404.php:10 404.php:11 loop.php:27 taxonomy-a-to-z.php:82
 msgid "Not found"
 msgstr ""
 
@@ -39,7 +37,8 @@ msgstr ""
 #: page-how-do-i-alt-classic.php:30 page-how-do-i-alt-classic.php:34
 #: page-how-do-i-alt-classic.php:40 page-how-do-i-alt.php:22
 #: page-how-do-i-alt.php:27 page-how-do-i-alt.php:31 page-how-do-i-alt.php:37
-#: page-how-do-i.php:47 page-how-do-i.php:52 page-how-do-i.php:58
+#: page-how-do-i.php:45 page-how-do-i.php:50 page-how-do-i.php:56
+#: page-projects.php:29 page-projects.php:34
 #: page-staff-directory-masonry.php:46 page-vacancies.php:57
 #: search-staff.php:59 searchform.php:17 searchform.php:23 searchform.php:26
 #: searchform.php:30 searchform.php:36 single-team.php:71
@@ -93,12 +92,14 @@ msgstr ""
 msgid "Staff profile"
 msgstr ""
 
-#: category.php:102 page-event.php:178 page-how-do-i-alt.php:108
-#: page-how-do-i.php:127 page-vacancies.php:213
+#: category.php:102 page-event-past.php:281 page-event.php:177
+#: page-how-do-i-alt.php:108 page-how-do-i.php:125 page-projects.php:97
+#: page-vacancies.php:213 taxonomy-news-type.php:55
 msgid "Browse by tag"
 msgstr ""
 
-#: category.php:138 page-doc-finder.php:251 page-event.php:124
+#: category.php:138 page-doc-finder.php:251 page-event-past.php:224
+#: page-event.php:123 page-vacancies.php:169 taxonomy-news-type.php:89
 msgid "Nothing to show"
 msgstr ""
 
@@ -110,13 +111,27 @@ msgstr ""
 msgid "Task"
 msgstr ""
 
-#: category.php:202
+#: category.php:186 loop.php:312 page-blog.php:43 page-doc-finder.php:283
+#: page-event-past.php:253 page-event.php:149 page-news-multi.php:75
+#: page-news-updates.php:68 page-news.php:46 page-projects.php:84
+#: page-vacancies.php:176 search.php:176 tag.php:300 taxonomy-news-type.php:112
+msgid "&larr; Older items"
+msgstr ""
+
+#: category.php:187 loop.php:313 page-blog.php:44 page-doc-finder.php:284
+#: page-event-past.php:254 page-event.php:150 page-news-multi.php:76
+#: page-news-updates.php:69 page-news.php:47 page-projects.php:85
+#: page-vacancies.php:177 search.php:177 tag.php:301 taxonomy-news-type.php:113
+msgid "Newer items &rarr;"
+msgstr ""
+
+#: category.php:202 taxonomy-news-type.php:128
 msgid "Sub-categories"
 msgstr ""
 
-#: category.php:228 page-event past.php:268 page-event.php:163
-#: page-news.php:64 single-event.php:167 single-task.php:251
-#: single-vacancy.php:118
+#: category.php:228 page-event-past.php:268 page-event.php:162 page-news.php:64
+#: single-event.php:167 single-news.php:106 single-task.php:251
+#: single-vacancy.php:115
 msgid "Categories"
 msgstr ""
 
@@ -226,19 +241,19 @@ msgid ""
 "handbags!\""
 msgstr ""
 
-#: form-user-edit.php:150 form-user-edit.php:153
+#: form-user-edit.php:151 form-user-edit.php:154
 msgid "User role"
 msgstr ""
 
-#: form-user-edit.php:160
+#: form-user-edit.php:161
 msgid "Network role"
 msgstr ""
 
-#: form-user-edit.php:163
+#: form-user-edit.php:164
 msgid "Grant this user super admin privileges for the Network."
 msgstr ""
 
-#: form-user-edit.php:178 forum.php:17
+#: form-user-edit.php:179 forum.php:17
 msgid "Staff directory"
 msgstr ""
 
@@ -281,7 +296,7 @@ msgstr ""
 msgid "tasks and guides"
 msgstr ""
 
-#: functions.php:172
+#: functions.php:172 loop.php:97 tag.php:159
 msgid "project"
 msgstr ""
 
@@ -297,7 +312,7 @@ msgstr ""
 msgid "events"
 msgstr ""
 
-#: functions.php:186
+#: functions.php:186 loop.php:123 tag.php:190
 msgid "jargon buster"
 msgstr ""
 
@@ -317,11 +332,11 @@ msgstr ""
 msgid "forum replies"
 msgstr ""
 
-#: functions.php:201 search.php:83
+#: functions.php:201 loop.php:107 search.php:83 tag.php:170
 msgid "news"
 msgstr ""
 
-#: functions.php:204
+#: functions.php:204 loop.php:115 tag.php:180
 msgid "blog"
 msgstr ""
 
@@ -585,6 +600,74 @@ msgstr ""
 msgid "Expiry action"
 msgstr ""
 
+#: functions.php:4088 user-profile.php:47
+msgid "Job title"
+msgstr ""
+
+#: functions.php:4110 search-staff.php:180 single-vacancy.php:56
+#: user-profile.php:26 user-profile.php:41
+msgid "Team"
+msgstr ""
+
+#: functions.php:4113
+msgid ""
+"Choose just your local team, e.g. if you work in Communications which is "
+"part of Business Services, you only need to choose Communications."
+msgstr ""
+
+#: functions.php:4136
+msgid "Line manager"
+msgstr ""
+
+#: functions.php:4153
+msgid "Telephone number"
+msgstr ""
+
+#: functions.php:4174
+msgid "Mobile number"
+msgstr ""
+
+#: functions.php:4195
+msgid "Twitter handle"
+msgstr ""
+
+#: functions.php:4198
+msgid "e.g. @Luke_Oatham"
+msgstr ""
+
+#: functions.php:4219
+msgid "Provide the full URL of your LinkedIn profile page."
+msgstr ""
+
+#: functions.php:4232 user-profile.php:85
+msgctxt "Hours of work"
+msgid "Working pattern"
+msgstr ""
+
+#: functions.php:4235
+msgid "Which days do you work? Where are you based?"
+msgstr ""
+
+#: functions.php:4250
+msgid "Skills and experience"
+msgstr ""
+
+#: functions.php:4253
+msgid "List your skills and experience so that others can find you."
+msgstr ""
+
+#: functions.php:4268 single-vacancy.php:57 user-profile.php:51
+msgid "Grade"
+msgstr ""
+
+#: functions.php:4314
+msgid "Staff directory order"
+msgstr ""
+
+#: functions.php:4318
+msgid "Order"
+msgstr ""
+
 #: functions.php:8883 page-doc-finder.php:32 page-doc-finder.php:76
 #: page-doc-finder.php:79
 msgid "All categories"
@@ -608,7 +691,7 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: functions.php:9471 page-forum-simple.php:30
+#: functions.php:9471 page-forum-simple.php:30 page-home.php:63
 msgid "Login"
 msgstr ""
 
@@ -633,14 +716,9 @@ msgstr ""
 msgid "Skip to content"
 msgstr ""
 
-#: loop-blogtwitter.php:19 loop-newstwitter.php:74
-#, php-format
-msgid "%s %s"
-msgstr ""
-
 #: loop-blogtwitter.php:74 loop-newsblogs.php:53 loop-newsblogs.php:87
 #: loop-newstwitter.php:47 loop-newstwitter.php:81 loop.php:203
-#: page-news-multi.php:102 page-news-updates.php:91 taxonomy-news-type.php:102
+#: page-news-multi.php:102 page-news-updates.php:90 taxonomy-news-type.php:101
 #, php-format
 msgid "<span class=\"badge\">1 comment</span>"
 msgid_plural "<span class=\"badge\">%d comments</span>"
@@ -648,12 +726,43 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: loop.php:30 taxonomy-a-to-z.php:85
-msgid "There's nothing to show."
+msgid "There's nothing to show"
 msgstr ""
 
-#: loop.php:151 loop.php:157 loop.php:169 loop.php:257
-#, php-format
-msgid "%s"
+#: loop.php:80 loop.php:89 tag.php:149
+msgid "guide"
+msgstr ""
+
+#: loop.php:92 tag.php:145
+msgid "task"
+msgstr ""
+
+#: loop.php:111 tag.php:175
+msgid "job vacancy"
+msgstr ""
+
+#: loop.php:119 tag.php:185
+msgid "event"
+msgstr ""
+
+#: loop.php:128 tag.php:195
+msgid "staff"
+msgstr ""
+
+#: loop.php:132
+msgid "team"
+msgstr ""
+
+#: loop.php:137
+msgid "page"
+msgstr ""
+
+#: loop.php:142
+msgid "forum"
+msgstr ""
+
+#: loop.php:147
+msgid "document download"
 msgstr ""
 
 #: loop.php:252
@@ -666,8 +775,8 @@ msgstr ""
 msgid "Tasks and guides category"
 msgstr ""
 
-#: loop.php:275
-msgctxt "noun"
+#: loop.php:275 user-profile.php:67
+msgctxt "verb"
 msgid "Email"
 msgstr ""
 
@@ -701,17 +810,17 @@ msgstr[1] ""
 msgid "Please wait"
 msgstr ""
 
-#: page-event past.php:34 past.php:45 past.php:51
+#: page-event-past.php:34 page-event-past.php:45 page-event-past.php:51
 #, php-format
 msgid "Past %s"
 msgstr ""
 
-#: page-event past.php:43 past.php:49
+#: page-event-past.php:43 page-event-past.php:49
 #, php-format
 msgid "Future %s"
 msgstr ""
 
-#: page-event past.php:270 page-event.php:165
+#: page-event-past.php:270 page-event.php:164
 msgid "All"
 msgstr ""
 
@@ -741,7 +850,7 @@ msgstr ""
 msgid "No activity"
 msgstr ""
 
-#: page-how-do-i-alt-classic.php:26 page-how-do-i.php:43
+#: page-how-do-i-alt-classic.php:26 page-how-do-i.php:41
 msgid "Search for"
 msgstr ""
 
@@ -749,15 +858,15 @@ msgstr ""
 msgid "Search by tag"
 msgstr ""
 
-#: page-how-do-i-alt.php:58 page-how-do-i.php:81
+#: page-how-do-i-alt.php:58 page-how-do-i.php:79
 msgid "Browse by category"
 msgstr ""
 
-#: page-how-do-i.php:28
+#: page-how-do-i.php:26
 msgid "Search in"
 msgstr ""
 
-#: page-how-do-i.php:31
+#: page-how-do-i.php:29
 msgid "All tasks and guides"
 msgstr ""
 
@@ -768,12 +877,20 @@ msgid_plural "%d terms"
 msgstr[0] ""
 msgstr[1] ""
 
-#: page-news-multi.php:27
+#: page-news-multi.php:27 page-news-updates.php:27
 msgid "News"
 msgstr ""
 
 #: page-news-multi.php:28
 msgid "Need to know"
+msgstr ""
+
+#: page-news-updates.php:94
+msgid "All updates"
+msgstr ""
+
+#: page-projects.php:61
+msgid "Nothing to showgovintranet"
 msgstr ""
 
 #: page-staff-directory-masonry.php:26
@@ -798,7 +915,8 @@ msgid "Sort by"
 msgstr ""
 
 #: page-vacancies.php:52
-msgid "In"
+#, php-format
+msgid "In %s"
 msgstr ""
 
 #: page-vacancies.php:68
@@ -809,16 +927,12 @@ msgstr ""
 msgid "All grades"
 msgstr ""
 
-#: page-vacancies.php:169
-msgid "Nothing to show."
-msgstr ""
-
 #: page-vacancies.php:193
 msgid "Closing"
 msgstr ""
 
 #: page-vacancies.php:202 single-blog.php:131 single-news-update.php:173
-#: single-news.php:273
+#: single-news.php:272
 msgid "Read more"
 msgstr ""
 
@@ -841,11 +955,6 @@ msgid "Found 1 result"
 msgid_plural "Found %d results"
 msgstr[0] ""
 msgstr[1] ""
-
-#: search-staff.php:180 single-vacancy.php:56 user-profile.php:26
-#: user-profile.php:41
-msgid "Team"
-msgstr ""
 
 #: search-staff.php:202
 msgid "Not on the directory"
@@ -913,6 +1022,14 @@ msgstr ""
 msgid "Search again"
 msgstr ""
 
+#: search.php:152
+msgid "Showing results from forums"
+msgstr ""
+
+#: search.php:154
+msgid "Search the intranet"
+msgstr ""
+
 #: search.php:193
 msgctxt "action"
 msgid "Filter results"
@@ -922,11 +1039,11 @@ msgstr ""
 msgid "Staff profiles"
 msgstr ""
 
-#: search.php:232 user-details.php:61
+#: search.php:232 user-details.php:62
 msgid "Forum topics"
 msgstr ""
 
-#: search.php:237 user-details.php:67
+#: search.php:237 user-details.php:70
 msgid "Forum replies"
 msgstr ""
 
@@ -942,8 +1059,8 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: single-blog.php:106 single-event.php:180 single-project.php:237
-#: single-task.php:266 single-vacancy.php:137
+#: single-blog.php:106 single-event.php:180 single-news.php:119
+#: single-project.php:237 single-task.php:266 single-vacancy.php:134
 msgid "Tags"
 msgstr ""
 
@@ -980,14 +1097,19 @@ msgid "Tickets and registration"
 msgstr ""
 
 #: single-event.php:96 single-news-update.php:65 single-news.php:72
-#: single-task.php:171
-msgctxt "Document downloads"
+#: single-project.php:202 single-task.php:171 single-task.php:214
+#: single-vacancy.php:87
+msgctxt "Documents to download"
 msgid "Downloads"
 msgstr ""
 
 #: single-news-update.php:97
 msgctxt "Taxonomy name for News Update Types"
 msgid "Update types"
+msgstr ""
+
+#: single-news-update.php:131 single-news.php:165
+msgid "Other updates"
 msgstr ""
 
 #: single-news-update.php:135
@@ -998,19 +1120,15 @@ msgstr ""
 msgid "Recent updates"
 msgstr ""
 
-#: single-news.php:166
-msgid "Other updates"
-msgstr ""
-
-#: single-news.php:183
+#: single-news.php:182 single-news.php:209
 msgid "Similar news"
 msgstr ""
 
-#: single-news.php:229
+#: single-news.php:228
 msgid "Other related news"
 msgstr ""
 
-#: single-news.php:246
+#: single-news.php:245
 msgid "Recent news"
 msgstr ""
 
@@ -1033,16 +1151,6 @@ msgstr ""
 msgid "Navigate to previous part"
 msgstr ""
 
-#: single-project.php:202 single-vacancy.php:87
-msgctxt "Documents to download"
-msgid "Downloads"
-msgstr ""
-
-#: single-task.php:214
-msgctxt "Document downloads"
-msgid "Downloads "
-msgstr ""
-
 #: single-team.php:20
 msgid "Skip to staff"
 msgstr ""
@@ -1059,12 +1167,12 @@ msgstr ""
 msgid "Job reference"
 msgstr ""
 
-#: single-vacancy.php:57 user-profile.php:51
-msgid "Grade"
-msgstr ""
-
 #: single-vacancy.php:58
 msgid "Closing date"
+msgstr ""
+
+#: single-vacancy.php:67
+msgid "That's today!"
 msgstr ""
 
 #: tag.php:21
@@ -1100,6 +1208,14 @@ msgstr ""
 #: tag.php:40
 #, php-format
 msgid "Everything tagged: %s"
+msgstr ""
+
+#: tag.php:94
+msgid "Nothing on the intranet with this tag"
+msgstr ""
+
+#: tag.php:200
+msgid "download"
 msgstr ""
 
 #: tag.php:388
@@ -1142,6 +1258,10 @@ msgstr ""
 msgid "<strong>Events</strong> tagged: %s"
 msgstr ""
 
+#: taxonomy-news-type.php:147
+msgid "Other categories"
+msgstr ""
+
 #: theme-options.php:33
 msgid "Header background colour"
 msgstr ""
@@ -1172,40 +1292,40 @@ msgstr ""
 msgid "Blog posts"
 msgstr ""
 
-#: user-details.php:61
+#: user-details.php:62
 #, php-format
 msgid "%s's forum topics"
 msgstr ""
 
-#: user-details.php:67
+#: user-details.php:70
 #, php-format
 msgid "%s's forum replies"
 msgstr ""
 
-#: user-details.php:74
+#: user-details.php:80
 #, php-format
 msgid "%s's forum favourites"
 msgstr ""
 
-#: user-details.php:74
+#: user-details.php:80
 msgid "Favourites"
 msgstr ""
 
-#: user-details.php:86
+#: user-details.php:92
 #, php-format
 msgid "%s's forum subscriptions"
 msgstr ""
 
-#: user-details.php:86
+#: user-details.php:92
 msgid "Subscriptions"
 msgstr ""
 
-#: user-details.php:93
+#: user-details.php:99
 #, php-format
 msgid "Edit %s's profile"
 msgstr ""
 
-#: user-details.php:93
+#: user-details.php:99
 msgid "Edit profile"
 msgstr ""
 
@@ -1213,23 +1333,9 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: user-profile.php:47
-msgid "Job title"
-msgstr ""
-
 #: user-profile.php:54
 msgctxt "Address book details"
 msgid "Contact"
-msgstr ""
-
-#: user-profile.php:67
-msgctxt "verb"
-msgid "Email"
-msgstr ""
-
-#: user-profile.php:85
-msgctxt "Hours of work"
-msgid "Working pattern"
 msgstr ""
 
 #: user-profile.php:98

@@ -72,8 +72,8 @@ get_header();
 							<?php if (function_exists('wp_pagenavi')) : ?>
 								<?php wp_pagenavi(array('query' => $projectspost)); ?>
 								<?php else : ?>
-								<?php next_posts_link('&larr; Older items', $projectspost->max_num_pages); ?>
-								<?php previous_posts_link('Newer items &rarr;', $projectspost->max_num_pages); ?>						
+								<?php next_posts_link(__('&larr; Older items','govintranet'), $projectspost->max_num_pages); ?>
+								<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $projectspost->max_num_pages); ?>						
 							<?php endif; 
 								endif;
 							?>							
@@ -97,10 +97,15 @@ get_header();
 							global $k; 
 							$k = 0;
 							while ($projectspost->have_posts()) : $projectspost->the_post();
-								echo "<h4><a href='".get_permalink($post_>ID)."'>".get_the_title()."</a></h4>";
+								echo "<h4><a href='".get_permalink($post->ID)."'>".get_the_title()."</a></h4>";
 								echo '<span class="listglyph">'.get_the_date("j M Y"); 
-								if ( get_comments_number() ) printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 								echo '</span> ';
+								if ( get_comments_number() ){
+									echo "<a href='".get_permalink($post->ID)."#comments'>";
+									printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+									echo "</a>";
+								}
+								
 								the_excerpt();
 							endwhile;
 					        ?>
@@ -162,7 +167,7 @@ get_header();
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-6 white">
-			<?php 		if (is_active_sidebar('newslanding-widget-area')) dynamic_sidebar('newslanding-widget-area'); ?>
+			<?php if (is_active_sidebar('newslanding-widget-area')) dynamic_sidebar('newslanding-widget-area'); ?>
 			</div>			
 
 <?php endwhile; ?>

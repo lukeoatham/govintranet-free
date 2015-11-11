@@ -64,7 +64,7 @@ $current_vac = $id;
 			$tyear= date( 'Y' , strtotime($tdate) );
 			$sdate=$tyear."-".$tmonth."-".$tday;
 			if ( date('l j F, Y', strtotime($closing_date)) == date('l j F, Y', strtotime($sdate ) ) ){
-				echo " (That's today!)";
+				echo " (" . __("That's today!" , "govintranet") . ")";
 			}		
 
 			echo "</div>";
@@ -96,11 +96,8 @@ $current_vac = $id;
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
-
-
 			
 			 ?>
-
 			
 		</div> <!--end of first column-->
 		
@@ -117,7 +114,7 @@ $current_vac = $id;
 				echo "<div class='widget-box x'>
 					<h3>" . __('Categories' , 'govintranet') . "</h3><p>";
 				foreach($post_cat as $cat){
-					echo "<span><a  class='wptag' href='" . get_term_link($cat->term_id, 'category') . "/?type=vacancy'>".$cat->name."</a></span> ";
+					echo "<span><a  class='wptag' href='" . get_term_link($cat->slug, 'category') . "/?type=vacancy'>".$cat->name."</a></span> ";
 				}
 				echo "</p></div>";
 			}

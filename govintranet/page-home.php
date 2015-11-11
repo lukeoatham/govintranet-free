@@ -60,7 +60,7 @@ get_header(); ?>
 						      }
 						      echo " ".$current_user->display_name; ?>
 					<?php else :?>
-						       Login <i class="glyphicon glyphicon-chevron-down"></i>
+						       <?php _e('Login' , 'govintranet'); ?> <i class="glyphicon glyphicon-chevron-down"></i>
 					<?php endif; ?>
 				        </a>
 				</h3>

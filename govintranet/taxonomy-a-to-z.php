@@ -82,8 +82,8 @@ get_header(); ?>
 				_e( 'Not found', 'govintranet' );
 				echo "</h1>";
 				echo "<p>";
-				_e( 'There\'s nothing to show.', 'govintranet' );
-				echo "</p>";
+				_e( 'There\'s nothing to show', 'govintranet' );
+				echo ".</p>";
 				get_search_form(); 
 			};
 			

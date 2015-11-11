@@ -183,8 +183,8 @@ if ( have_posts() )
 		 		<?php if (function_exists(wp_pagenavi)) : ?>
 					<?php wp_pagenavi(array('query' => $taskitems)); ?>
 				<?php else : ?>
-			<?php next_posts_link('&larr; Older items', $taskitems->max_num_pages); ?>
-			<?php previous_posts_link('Newer items &rarr;', $taskitems->max_num_pages); ?>						
+			<?php next_posts_link(__('&larr; Older items','govintranet'), $taskitems->max_num_pages); ?>
+			<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $taskitems->max_num_pages); ?>						
 			<?php 
 			endif; 
 		endif; 

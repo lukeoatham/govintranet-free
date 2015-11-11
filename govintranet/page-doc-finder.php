@@ -280,8 +280,8 @@ get_header();
 			<?php if (function_exists(wp_pagenavi)) : ?>
 				<?php wp_pagenavi(array('query' => $docs)); ?>
 			<?php else : ?>
-				<?php next_posts_link('&larr; Older items', $docs->max_num_pages); ?>
-				<?php previous_posts_link('Newer items &rarr;', $docs->max_num_pages); ?>						
+				<?php next_posts_link(__('&larr; Older items','govintranet'), $docs->max_num_pages); ?>
+				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $docs->max_num_pages); ?>						
 			<?php endif; ?>
 		<?php endif; ?>
 

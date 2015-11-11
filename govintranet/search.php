@@ -149,13 +149,15 @@ get_header(); ?>
 		<h1><?php printf( __( 'Search results for: %s', 'govintranet' ), '' . $s . '' ); ?></h1>
 		<?php
 		if ( isset( $_GET['pt'] ) && $_GET['pt'] =='forums'){
-			echo "<p class='news_date'>Showing results from forums. <a href='".site_url()."/?s=";
+			echo "<p class='news_date'>" . __('Showing results from forums' , 'govintranet') . ". <a href='".site_url()."/?s=";
 			echo the_search_query();
-			echo "'>Search the intranet</a></p>";
+			echo "'>" . __('Search the intranet' , 'govintranet') . "</a></p>";
 		}
 
 		if ($wp_query->found_posts > 1 && $_GET['include'] != 'user' ){
-			echo "<p class='news_date'>Found ".$wp_query->found_posts." results</p>";
+			echo "<p class='news_date'>";
+			printf( __('Found %d results' , 'govintranet' ) , $wp_query->found_posts );
+			echo "</p>";
 		}
 
 	
@@ -173,8 +175,8 @@ get_header(); ?>
 		<?php if (function_exists('wp_pagenavi')) : ?>
 			<?php wp_pagenavi(array('query' => $wp_query)); ?>
 			<?php else : ?>
-			<?php next_posts_link('&larr; Older items', $wp_query->max_num_pages); ?>
-			<?php previous_posts_link('Newer items &rarr;', $wp_query->max_num_pages); ?>						
+			<?php next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); ?>
+			<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages); ?>						
 		<?php endif; ?>
 	<?php endif; ?>
 	<?php 

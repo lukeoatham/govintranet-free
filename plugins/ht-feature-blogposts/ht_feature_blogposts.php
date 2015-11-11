@@ -14,16 +14,16 @@ Pin posts added
 
 class htFeatureBlogposts extends WP_Widget {
     function htFeatureBlogposts() {
-        parent::WP_Widget(false, 'HT Feature blogposts', array('description' => 'Blogpost listing widget'));
+        parent::WP_Widget(false, __('HT Feature blogposts','govintranet'), array('description' => __('Blogpost listing widget','govintranet')));
 		if( function_exists('acf_add_local_field_group') ):
 
 		acf_add_local_field_group(array (
 			'key' => 'group_562a555eac132',
-			'title' => 'Feature blog widget',
+			'title' => __('Feature blog widget','govintranet'),
 			'fields' => array (
 				array (
 					'key' => 'field_562a555eb8501',
-					'label' => 'Pin posts',
+					'label' => _x('Pin posts','Make stories sticky and appear at the top','govintranet'),
 					'name' => 'pin_posts',
 					'type' => 'relationship',
 					'instructions' => '',
@@ -134,9 +134,13 @@ class htFeatureBlogposts extends WP_Widget {
 				echo "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 				echo "<br><span class='news_date'>".$edate." by ";
 				echo get_the_author();
-				echo " <span class='badge'>Featured</span>"; 
-				comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 				echo "</span>";
+				echo " <span class='badge'>" . __('Featured','govintranet') . "</span>"; 
+				if ( get_comments_number() ){
+						echo "<a href='".$thisURL."#comments'>";
+						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						echo "</a>";
+					}
 				echo "</span>";
 				if ($excerpt == 'on') the_excerpt();
 				echo "</div></div>";
@@ -190,9 +194,12 @@ class htFeatureBlogposts extends WP_Widget {
 			echo "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 			echo "<br><span class='news_date'>".$edate." by ";
 			echo get_the_author();
-			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 			echo "</span>";
-			echo "</span>";
+			if ( get_comments_number() ){
+						echo "<a href='".$thisURL."#comments'>";
+						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+						echo "</a>";
+					}
 			if ($excerpt == 'on') the_excerpt();
 			echo "</div></div>";
 		}
@@ -234,20 +241,20 @@ class htFeatureBlogposts extends WP_Widget {
 		$more = esc_attr($instance['excerpt']);
 		?>
 		<p>
-		<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+		<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
 		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
-		<label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
+		<label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
 		<input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
-		<label for="<?php echo $this->get_field_id('freshness'); ?>"><?php _e('Freshness (days)'); ?></label> 
+		<label for="<?php echo $this->get_field_id('freshness'); ?>"><?php _e('Freshness (days)','govintranet'); ?></label> 
 		<input class="widefat" id="<?php echo $this->get_field_id('freshness'); ?>" name="<?php echo $this->get_field_name('freshness'); ?>" type="text" value="<?php echo $freshness; ?>" /><br><br>
 		<input id="<?php echo $this->get_field_id('excerpt'); ?>" name="<?php echo $this->get_field_name('excerpt'); ?>" type="checkbox" <?php checked((bool) $instance['excerpt'], true ); ?> />
-		<label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt'); ?></label> <br><br>
+		<label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt','govintranet'); ?></label> <br><br>
 		<input id="<?php echo $this->get_field_id('thumbnails'); ?>" name="<?php echo $this->get_field_name('thumbnails'); ?>" type="checkbox" <?php checked((bool) $instance['thumbnails'], true ); ?> />
-		<label for="<?php echo $this->get_field_id('thumbnails'); ?>"><?php _e('Show thumbnails'); ?></label> 
+		<label for="<?php echo $this->get_field_id('thumbnails'); ?>"><?php _e('Show thumbnails','govintranet'); ?></label> 
 		<p>Displays the featured image if present, otherwise the author avatar.</p>
 		<br><br>
 		<input id="<?php echo $this->get_field_id('more'); ?>" name="<?php echo $this->get_field_name('more'); ?>" type="checkbox" <?php checked((bool) $instance['more'], true ); ?> />
-		<label for="<?php echo $this->get_field_id('more'); ?>"><?php _e('Show link to more'); ?></label> <br><br>
+		<label for="<?php echo $this->get_field_id('more'); ?>"><?php _e('Show link to more','govintranet'); ?></label> <br><br>
         </p>
         <?php 
     }

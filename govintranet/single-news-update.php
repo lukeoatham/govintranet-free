@@ -62,7 +62,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				$current_attachments = get_field('document_attachments');
 				if ($current_attachments){
 					echo "<div class='alert alert-info'>";
-					echo "<h3>" . _x('Downloads' , 'Document downloads' , 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
+					echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
 					foreach ($current_attachments as $ca){
 						$c = $ca['document_attachment'];
 						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
@@ -128,7 +128,7 @@ remove_filter('pre_get_posts', 'filter_search');
 			$recentitems = new WP_Query(); 
 			
 			// try to find other need to know stories
-			$subhead = 'Other updates';
+			$subhead = __('Other updates' , 'govintranet') ;
 						
 			if ( $terms): 
 			// still nothing found, we'll look for other stories in the same news categories as this story

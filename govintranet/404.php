@@ -8,7 +8,7 @@
 get_header(); 
 
 $notfound = get_option('options_page_not_found', __('Not found','govintranet'));
-if ( !$notfound ) $notfound = "Not found";
+if ( !$notfound ) $notfound = __("Not found","govintranet");
 ?>
 	<div class='col-lg-12 white'>
 		<h1 class="entry-title"><?php  echo $notfound;  ?></h1>

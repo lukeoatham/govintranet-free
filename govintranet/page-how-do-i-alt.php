@@ -19,12 +19,12 @@ get_header(); ?>
 			<?php  the_content(); ?>
 			<div class="well well-sm">
 				<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
-					<label for="sbc-s" class="sr-only"><?php _e('Search'); ?></label>
+					<label for="sbc-s" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>
 					<div class="input-group">
 						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 						 <span class="input-group-btn">
 						 <input type="hidden" name="post_type[]" value="task" />
-						 <label for="searchbutton2" class="sr-only"><?php _e('Search'); ?></label>
+						 <label for="searchbutton2" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>
 				    	 <?php
 					    	 $icon_override = get_option('options_search_button_override', false); 
 					    	 if ( isset($icon_override) && $icon_override ):
