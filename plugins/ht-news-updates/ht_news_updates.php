@@ -250,8 +250,11 @@ class htNewsUpdates extends WP_Widget {
 			}
 			$display_types = implode(", ", $display_types); 
 			echo "<li><a href='{$thisURL}' title='".$display_types." update'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
-			comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
-			
+			if ( get_comments_number() ){
+				echo " <a href='".$thisURL."#comments'>";
+				printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+				echo "</a>";
+			}
 			echo "</li>";
 		}
 		if ($news->post_count!=0){ 

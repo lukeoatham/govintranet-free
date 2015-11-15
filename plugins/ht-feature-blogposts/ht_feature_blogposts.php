@@ -137,11 +137,10 @@ class htFeatureBlogposts extends WP_Widget {
 				echo "</span>";
 				echo " <span class='badge'>" . __('Featured','govintranet') . "</span>"; 
 				if ( get_comments_number() ){
-						echo "<a href='".$thisURL."#comments'>";
-						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-						echo "</a>";
-					}
-				echo "</span>";
+					echo " <a href='".$thisURL."#comments'>";
+					printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+					echo "</a>";
+				}
 				if ($excerpt == 'on') the_excerpt();
 				echo "</div></div>";
 			endwhile;		
@@ -196,10 +195,10 @@ class htFeatureBlogposts extends WP_Widget {
 			echo get_the_author();
 			echo "</span>";
 			if ( get_comments_number() ){
-						echo "<a href='".$thisURL."#comments'>";
-						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-						echo "</a>";
-					}
+				echo " <a href='".$thisURL."#comments'>";
+				printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+				echo "</a>";
+			}
 			if ($excerpt == 'on') the_excerpt();
 			echo "</div></div>";
 		}
