@@ -9528,4 +9528,3 @@ function ht_add_comment_form_top($comment){
 add_filter('comment_form_top', 'ht_add_comment_form_top', 10, 3);
 
 
-?>
