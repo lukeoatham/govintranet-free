@@ -231,7 +231,7 @@ class htProfileNudge extends WP_Widget {
 			}    
 			?>
 			<h3><?php echo  $current_user->user_firstname; ?></h3>
-			<p>Please set your line manager in your staff profile so that you appear correctly in the staff directory.</p>
+			<p><?php _e('Please set your line manager in your staff profile so that you appear correctly in the staff directory.','govintranet');?></p>
 			<a class="btn btn-primary" href="<?php echo $userurl; ?>"><?php _e('Update now','govintranet');?></a> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_linemanager');"><small><?php _e('I\'ll do it later','govintranet');?></small></a><br>
 	<?php
 			echo $after_widget; 
@@ -254,7 +254,7 @@ class htProfileNudge extends WP_Widget {
 			}    			
 			?>
 			<h3><?php echo  $current_user->user_firstname; ?></h3>
-			<p>There is no photo of you on your staff profile. Do you want to add one now?</p>
+			<p><?php _e('There is no photo of you on your staff profile. Do you want to add one now?','govintranet');?></p>
 			<a class="btn btn-primary" href="<?php echo $userurl; ?>"><?php _e('Update now','govintranet'); ?></a> <a href="#" onclick="javascript:pauseProfileNudge('ht_profile_nudge_photo');"><small><?php _e('I\'ll do it later','govintranet');?></small></a><br>
 	<?php
 			echo $after_widget; 

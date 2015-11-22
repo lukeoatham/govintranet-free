@@ -111,7 +111,7 @@ class htAboutThisPage extends WP_Widget {
 			}
 
 			if ($show_published_date=='on'){
-				$sdate= date( "j M Y",strtotime(get_the_date() )); 
+				$sdate= date( get_option('date_format'),strtotime(get_the_date() )); 
 				$sdate = human_time_diff_plus(get_the_time('U'));
 				if ($sdate=="0 mins") {
 					$sdate=" " . __("just now","govintranet");

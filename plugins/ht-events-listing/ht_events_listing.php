@@ -185,8 +185,8 @@ class htEventsListing extends WP_Widget {
 				$thistitle = get_the_title($post->ID);
 				$edate = get_post_meta($post->ID,'event_start_date',true);
 				$etime = get_post_meta($post->ID,'event_start_time',true);
-				$edate = date('D j M',strtotime($edate));
-				$edate .= " ".date('g:ia',strtotime($etime));
+				$edate = date(get_option('date_format'),strtotime($edate));
+				$edate .= " ".date(get_option('time_format'),strtotime($etime));
 				$thisURL=get_permalink($ID); 
 				
 				$output.= "<div class='row'><div class='col-sm-12'>";

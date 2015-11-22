@@ -133,7 +133,7 @@ wp_reset_query();
 						echo "<div class='media-body'><h3><a href='" .get_permalink() . "'>" . get_the_title() . "</a></h3>";
 						$thisdate =  get_post_meta($post->ID,'event_start_date',true); 
 						$thistime =  get_post_meta($post->ID,'event_start_time',true); 
-						echo "<strong>".date('l j M Y',strtotime($thisdate))." ".date('g:ia',strtotime($thistime))."</strong>";
+						echo "<strong>".date(get_option('date_format'),strtotime($thisdate))." ".date(get_option('time_format'),strtotime($thistime))."</strong>";
 						the_excerpt();
 						echo "</div></div>";
 					}

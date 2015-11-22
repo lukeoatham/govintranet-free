@@ -242,13 +242,13 @@ get_header();
 							}
 						}
 					   $thisdate= $post->post_date;
-					   $thisdate=date("j M Y",strtotime($thisdate));
+					   $thisdate=date(get_option('date_format'),strtotime($thisdate));
 					   echo "<span class='listglyph'>".$thisdate."</span> ";
 					   echo "</p></div>";
 					} elseif ($post_type=="Event" ){ 
 						echo "<div><p>";
 						$thisdate= get_post_meta($post->ID, 'event_start_date', true);
-						$thisdate=date("j M Y",strtotime($thisdate));
+						$thisdate=date(get_option('date_format'),strtotime($thisdate));
 						echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
 						foreach($post_cat as $cat){
 							if ($cat->term_id != 1 ){
@@ -260,8 +260,8 @@ get_header();
 						echo "<div><p>";
 						echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
 						$thisdate= $post->post_modified;
-						$thisdate=date("j M Y",strtotime($thisdate));
-						echo "<span class='listglyph'>Updated ".$thisdate."</span> ";
+						$thisdate=date(get_option('date_format'),strtotime($thisdate));
+						echo "<span class='listglyph'>" . __('Updated','govintranet') . " ".$thisdate."</span> ";
 						foreach($post_cat as $cat){
 							if ($cat->term_id != 1 ){
 								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
@@ -275,9 +275,10 @@ get_header();
 				<?php	
 			
 					if ($post_type=='Post_tag') { 
-						echo "All intranet pages tagged with \"". get_the_title() ."\""; 
+						printf( __("All intranet pages tagged with \"%s\"" , 'govintranet' ), get_the_title() ); 
 					} else if ($post_type=='Category') { 
-						echo "All intranet pages categorised as \"". get_the_title() ."\""; 
+						printf( __("All intranet pages categorised as \"%s\"" , 'govintranet' ), get_the_title() ); 
+
 					}
 			
 					the_excerpt(); 				

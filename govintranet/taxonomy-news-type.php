@@ -97,7 +97,7 @@ if ( have_posts() )
 			<h3><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 
 			<?php
-			echo '<span class="listglyph">'.get_the_date("j M Y"); 
+			echo '<span class="listglyph">'.get_the_date(); 
 			echo '</span> ';				
 			if ( get_comments_number() ){
 						echo "<a href='".get_permalink($id)."#comments'>";

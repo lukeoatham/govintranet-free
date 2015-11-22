@@ -198,8 +198,8 @@
 			}
 		}
 		if ( is_archive() || is_search() || is_author() ){
-			$thisdate= get_the_date('j M Y');
-			echo '<span class="listglyph">'.get_the_date("j M Y"); 
+			$thisdate= get_the_date();
+			echo '<span class="listglyph">'.get_the_date(); 
 			echo '</span> ';
 			if ( get_comments_number() ){
 				echo " <a href='".get_permalink($post->ID)."#comments'>";
@@ -230,7 +230,7 @@
 	} elseif ($post_type=="Event" && $pageslug!="category"){
 		echo "<div><p>";
 		$thisdate= get_post_meta($post->ID, 'event_start_date', true);
-		$thisdate=date("j M Y",strtotime($thisdate));
+		$thisdate=date(get_option('date_format'),strtotime($thisdate));
 		echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->term_id != 1 ){

@@ -22,7 +22,7 @@ get_header(); ?>
 			</div>
 			<h1><?php the_title(); ?></h1>
 
-			<?php the_date('j M Y', '<p class="news_date">', '</p>' , 1) ?>
+			<?php the_date(get_option('date_format'), '<p class="news_date">', '</p>' , 1) ?>
 
 			<?php the_content(); ?>
 

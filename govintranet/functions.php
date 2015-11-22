@@ -9107,7 +9107,7 @@ function ht_listtags_shortcode($atts,$content){
 		$thisURL=get_permalink($list->ID);
 		$thisexcerpt= $list->post_excerpt;
 		$thisdate= $list->post_date;
-		$thisdate=date("j M Y",strtotime($thisdate));
+		$thisdate=date(get_option('date_format'),strtotime($thisdate));
 		$image_url = get_the_post_thumbnail($list->ID, 'medium', array("class"=>"img img-responsive","width"=>175,"height"=>175));	
 		
 		$output.="
@@ -9340,7 +9340,7 @@ function save_news_meta( $post_id ) {
 
     // - Update the post's metadata.
     if ( $prev = get_post_meta( $post_id, 'news_expiry_time',true ) ) {
-    	$newvalue = date('H:i',strtotime($prev));
+    	$newvalue = date(get_option('time_format'),strtotime($prev));
 		update_post_meta( $post_id, 'news_expiry_time', $newvalue, $prev );
 	}
 	return;
@@ -9367,7 +9367,7 @@ function save_news_update_meta( $post_id ) {
 
     // - Update the post's metadata.
     if ( $prev = get_post_meta( $post_id, 'news_update_expiry_time',true ) ) {
-    	$newvalue = date('H:i',strtotime($prev));
+    	$newvalue = date(get_option('time_format'),strtotime($prev));
 		update_post_meta( $post_id, 'news_update_expiry_time', $newvalue, $prev );
 	}
 	return;
@@ -9394,7 +9394,7 @@ function save_vacancy_meta( $post_id ) {
 
     // - Update the post's metadata.
     if ( $prev = get_post_meta( $post_id, 'vacancy_closing_time', true ) ) {
-    	$newvalue = date( 'H:i', strtotime( $prev ));
+    	$newvalue = date( get_option('time_format'), strtotime( $prev ));
 		update_post_meta( $post_id, 'vacancy_closing_time', $newvalue, $prev );
 	}
 	return;
@@ -9416,11 +9416,11 @@ function save_event_meta( $post_id ) {
 
     // - Update the post's metadata.
     if ( $prev = get_post_meta( $post_id, 'event_start_time',true ) ) {
-    	$newvalue = date('H:i',strtotime($prev));
+    	$newvalue = date(get_option('time_format'),strtotime($prev));
 		update_post_meta( $post_id, 'event_start_time', $newvalue, $prev );
 	}
     if ( $prev = get_post_meta( $post_id, 'event_end_time',true ) ) {
-    	$newvalue = date('H:i',strtotime($prev));
+    	$newvalue = date(get_option('time_format'),strtotime($prev));
 		update_post_meta( $post_id, 'event_end_time', $newvalue, $prev );
 	}
 	return;
@@ -9532,5 +9532,3 @@ function ht_add_comment_form_top($comment){
 	return;
 }
 add_filter('comment_form_top', 'ht_add_comment_form_top', 10, 3);
-
-

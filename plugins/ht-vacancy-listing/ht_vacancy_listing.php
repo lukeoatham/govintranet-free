@@ -113,8 +113,8 @@ class htVacancyListing extends WP_Widget {
 				global $post; //required for access within widget
 				$thistitle = get_the_title($post->ID);
 				$edate = get_post_meta($post->ID,'vacancy_closing_date',true);
-				$etime = date('H:i',strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
-				$edate = date('D j M',strtotime($edate));
+				$etime = date(get_option('time_format'),strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
+				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink($ID); 
 				if ($thumbnails=='on'){
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'thumbnail' ); 
@@ -129,7 +129,7 @@ class htVacancyListing extends WP_Widget {
 				} else {
 					echo "<li><a href='".get_permalink($post->ID)."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</span>".$thistitle;
 					echo "<span></span>";
-					if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) echo "<span class='alert-vacancy' >Closing at ".date('H:i',strtotime($etime))."</span>";
+					if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) echo "<span class='alert-vacancy' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
 					echo "</a></li>";
 				}
 			}

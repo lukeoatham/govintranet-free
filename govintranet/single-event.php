@@ -34,18 +34,18 @@ $mainid=$post->ID;
 	}
   
 	echo '<h3>' . __('Date' , 'govintranet') . '</h3>';
-	echo "<p>".date('l j M Y ',strtotime(get_post_meta($post->ID,'event_start_date',true)));
+	echo "<p>".date(get_option('date_format'),strtotime(get_post_meta($post->ID,'event_start_date',true)));
 	if (get_post_meta($post->ID,'event_start_time',true)):
-		echo "<i class='dashicons dashicons-clock'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_start_time',true))). " - ";
+		echo " <i class='dashicons dashicons-clock'></i> ".date(get_option('time_format'),strtotime(get_post_meta($post->ID,'event_start_time',true))). " - ";
 	endif;
-	if (date('j M Y',strtotime(get_post_meta($post->ID,'event_start_date',true)))==date('j M Y',strtotime(get_post_meta($post->ID,'event_end_date',true))) ) {
+	if (date(get_option('date_format'),strtotime(get_post_meta($post->ID,'event_start_date',true)))==date(get_option('date_format'),strtotime(get_post_meta($post->ID,'event_end_date',true))) ) {
 		if (get_post_meta($post->ID,'event_end_time',true)):
-			echo date('g:ia',strtotime(get_post_meta($post->ID,'event_end_time',true)));
+			echo date(get_option('time_format'),strtotime(get_post_meta($post->ID,'event_end_time',true)));
 		endif;
 	} else {
-		echo date('l j M Y, ',strtotime(get_post_meta($post->ID,'event_end_date',true)));	
+		echo date(get_option('date_format'),strtotime(get_post_meta($post->ID,'event_end_date',true)));	
 		if (get_post_meta($post->ID,'event_end_time',true)):
-			echo "<i class='dashicons dashicons-clock'></i> ".date('g:ia',strtotime(get_post_meta($post->ID,'event_end_time',true)));	
+			echo " <i class='dashicons dashicons-clock'></i> ".date(get_option('time_format'),strtotime(get_post_meta($post->ID,'event_end_time',true)));	
 		endif;
 	}
 	

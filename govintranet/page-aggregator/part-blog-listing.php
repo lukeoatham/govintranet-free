@@ -55,7 +55,7 @@ if ($listquery->have_posts()):
 			the_title();
 			echo "</a>";
 			echo "</h3>";
-			the_date('j F Y');
+			the_date();
 			the_excerpt();
 			echo "</div>";
 			if ( has_post_thumbnail($post->ID)):
@@ -66,7 +66,7 @@ if ($listquery->have_posts()):
 			echo "</div>";
 			echo "<hr>";
 		else:
-			$larray[] = "<li><a href='".get_permalink($post->ID)."'>".get_the_title($post->ID)."</a> <span class='small'>".get_the_date('j F  Y')."</span></li>";
+			$larray[] = "<li><a href='".get_permalink($post->ID)."'>".get_the_title($post->ID)."</a> <span class='small'>".get_the_date()."</span></li>";
 		endif;
 	endwhile;
 	if ( $compact ) echo "<ul>".implode( '', $larray )."</ul>";

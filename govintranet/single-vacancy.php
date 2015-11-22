@@ -46,7 +46,7 @@ $current_vac = $id;
 
 			$closing_date = get_post_meta($current_vac, 'vacancy_closing_date', true);
 			$closing_time = get_post_meta($current_vac, 'vacancy_closing_time', true);
-			if ($closing_date) $closing_date = date('j F Y', strtotime($closing_date))." ".date('G:i', strtotime($closing_time));
+			if ($closing_date) $closing_date = date(get_option('date_format'), strtotime($closing_date))." ".date(get_option('time_format'), strtotime($closing_time));
 
 			$projects = get_post_meta($current_vac, 'vacancy_project', true);
 

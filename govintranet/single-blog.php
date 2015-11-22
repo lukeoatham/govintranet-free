@@ -39,8 +39,8 @@ get_header(); ?>
 				<?php
 				$article_date=get_the_date();
 				$mainid=$post->ID;
-				$article_date = date("j F Y",strtotime($article_date));	?>
-				<?php echo the_date('j M Y', '<p class=news_date>', '</p>') ?>
+				$article_date = date(get_option('date_format'),strtotime($article_date));	?>
+				<?php echo the_date(get_option('date_format'), '<p class=news_date>', '</p>') ?>
 				<?php the_content(); ?>
 				<?php
 				if ('open' == $post->comment_status) {
@@ -126,7 +126,7 @@ get_header(); ?>
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 					echo "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
 					$thisdate= $post->post_date;
-					$thisdate=date("j M Y",strtotime($thisdate));
+					$thisdate=date(get_option('date_format'),strtotime($thisdate));
 					echo "<span class='news_date'>".$thisdate;
 					echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 				}

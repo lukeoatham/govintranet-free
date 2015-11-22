@@ -568,7 +568,7 @@ class htIntraverts extends WP_Widget {
         $title = esc_attr($instance['title']);
         ?>
          <p>
-		 Choose all intraverts eligible to appear in this widget.
+		 <?php _e('Choose all intraverts eligible to appear in this widget.','govintranet');?>
         </p>
 		<?php
     }

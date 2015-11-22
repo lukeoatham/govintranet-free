@@ -119,7 +119,7 @@ class htFeatureBlogposts extends WP_Widget {
 				$alreadydone[] = get_the_id();
 				$thistitle = get_the_title();
 				$edate = get_the_date($post->ID);
-				$edate = date('j M Y',strtotime($edate));
+				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink();
 				echo "<div class='media'>";
 				if ($thumbnails=='on'){
@@ -178,7 +178,7 @@ class htFeatureBlogposts extends WP_Widget {
 			global $post;//required for access within widget
 			$thistitle = get_the_title($post->ID);
 			$edate = $post->post_date;
-			$edate = date('j M Y',strtotime($edate));
+			$edate = date(get_option('date_format'),strtotime($edate));
 			$thisURL=get_permalink($ID); 
 			echo "<div class='media'>";
 			if ($thumbnails=='on'){

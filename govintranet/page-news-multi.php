@@ -98,7 +98,7 @@ get_header();
 							$k = 0;
 							while ($projectspost->have_posts()) : $projectspost->the_post();
 								echo "<h4><a href='".get_permalink($post->ID)."'>".get_the_title()."</a></h4>";
-								echo '<span class="listglyph">'.get_the_date("j M Y"); 
+								echo '<span class="listglyph">'.get_the_date(); 
 								echo '</span> ';
 								if ( get_comments_number() ){
 									echo "<a href='".get_permalink($post->ID)."#comments'>";
@@ -129,7 +129,7 @@ get_header();
 			       while ($projectspost->have_posts()) : $projectspost->the_post();
 				   		$thistitle = get_the_title($post->ID);
 						$edate = $post->post_date;
-						$edate = date('j M Y',strtotime($edate));
+						$edate = date(get_option('date_format'),strtotime($edate));
 						$thisURL=get_permalink($ID); 
 						echo "<div class='media'>";
 						if (true){

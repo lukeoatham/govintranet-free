@@ -284,7 +284,7 @@ function widget($args, $instance) {
 			setup_postdata( $post );
 			
 			$thisexcerpt= get_the_excerpt();
-			$thisdate=date("j M Y",strtotime($thisdate));
+			$thisdate=date(get_option('date_format'),strtotime($thisdate));
 			$ext_icon = '';
 			if ( get_post_format($slot->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
 	
@@ -298,7 +298,7 @@ function widget($args, $instance) {
 
 			if ($newsgrid[$k]=="Li"){
 				echo "<p>";
-				echo '<span class="listglyph">'.get_the_date("j M Y"); 
+				echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
 				echo '</span> ';
 				echo " <span class='badge'>Featured</span>";
 				if ( get_comments_number() ){
@@ -310,7 +310,7 @@ function widget($args, $instance) {
 			} else {
 				if ($showexcerpt == 'on') {
 					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
 					echo '</span> ';
 					echo " <span class='badge'>" . __('Featured','govitranet') . "</span>";
 					if ( get_comments_number() ){
@@ -323,7 +323,7 @@ function widget($args, $instance) {
 					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 				} else {
 					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
 					echo '</span> ';
 					echo " <span class='badge'>" . __('Featured','govitranet') . "</span>";
 					if ( get_comments_number() ){
@@ -422,7 +422,7 @@ function widget($args, $instance) {
 				} 
 			} 
 			
-			$thisdate= get_the_date("j M Y"); 
+			$thisdate= get_the_date(get_option('date_format')); 
 			$thisexcerpt= get_the_excerpt();
 			$ext_icon = '';
 	
@@ -437,7 +437,7 @@ function widget($args, $instance) {
 
 			if ($newsgrid[$k]=="Li"){
 					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
 					echo '</span> ';
 					if ( get_comments_number() ){
 						echo "<a href='".$thisURL."#comments'>";
@@ -448,7 +448,7 @@ function widget($args, $instance) {
 			} else {
 				if ($showexcerpt == 'on') {
 					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
 					echo '</span> ';
 					if ( get_comments_number() ){
 						echo " <a href='".$thisURL."#comments'>";
@@ -460,7 +460,7 @@ function widget($args, $instance) {
 					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 				} else {
 					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date("j M Y"); 
+					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
 					echo '</span> ';
 				if ( get_comments_number() ){
 					echo " <a href='".$thisURL."#comments'>";

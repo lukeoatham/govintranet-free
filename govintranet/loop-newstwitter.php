@@ -9,7 +9,7 @@ $thisURL=get_permalink($id);
 $videoimg = get_the_post_thumbnail($post->ID, 'thumbnail', array('class' => 'alignright'));
 $thisexcerpt= get_the_excerpt();
 $thisdate= $post->post_date;
-$thisdate=date("j M Y",strtotime($thisdate));
+$thisdate=date(get_option('date_format'),strtotime($thisdate));
 $needtoknow = '';
 
 //determine news type
@@ -41,8 +41,8 @@ if ($k==1 && $paged<2){
 	echo "<div class='media-body'>";
 	echo "<div><p>";
 	$thisdate= $post->post_date;
-	$thisdate=date("j M Y",strtotime($thisdate));
-	echo '<span class="listglyph">'.get_the_date("j M Y"); 
+	$thisdate=date(get_option('date_format'),strtotime($thisdate));
+	echo '<span class="listglyph">'.get_the_date(); 
 	echo '</span> ';
 	if ( get_comments_number() ){
 		echo " <a href='".$thisURL."#comments'>";
@@ -79,8 +79,8 @@ if ($k==1 && $paged<2){
 	<?php
 	echo "<div><p>";
 	$thisdate= $post->post_date;
-	$thisdate=date("j M Y",strtotime($thisdate));
-	echo '<span class="listglyph">'.get_the_date("j M Y"); 
+	$thisdate=date(get_option('date_format'),strtotime($thisdate));
+	echo '<span class="listglyph">'.get_the_date(); 
 	echo '</span> ';
 	if ( get_comments_number() ){
 		echo " <a href='".$thisURL."#comments'>";

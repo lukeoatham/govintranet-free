@@ -185,9 +185,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 			$thisexcerpt= get_the_excerpt();
 			$thisdate= get_post_meta($post->ID, 'vacancy_closing_date', true);
-			$thisdate=date("j M Y",strtotime($thisdate));
+			$thisdate=date(get_option('date_format'),strtotime($thisdate));
 			$thistime= get_post_meta($post->ID, 'vacancy_closing_time', true);
-			$thistime=date("H:i",strtotime($thistime));
+			$thistime=date(get_option('time_format'),strtotime($thistime));
 			echo "<div class='newsitem'><a href='{$thisURL}'>".$image_url."</a>";
 			echo "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
 			echo "<p><span class='news_date'>" . __('Closing','govintranet') .": ".$thisdate." ".$thistime."</span>";

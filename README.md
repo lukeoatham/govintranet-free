@@ -37,6 +37,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.7.3 - 22 Nov 2015 ###
+* Date and time updates to support core settings 
+
 ### 4.7.2 - 22 Nov 2015 ###
 * Translation updates 
 * Staff profile integration improvements 

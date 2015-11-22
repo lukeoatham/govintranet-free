@@ -8,7 +8,7 @@ $thistitle = get_the_title($id);
 $thisURL=get_permalink($id);
 $thisexcerpt= get_the_excerpt();
 $thisdate= $post->post_date;
-$thisdate=date("j M Y",strtotime($thisdate));
+$thisdate=date(get_option('date_format'),strtotime($thisdate));
 
 $ext_icon = '';
 if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
@@ -38,8 +38,8 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 				}
 
 			   $thisdate= $post->post_date;
-			   $thisdate=date("j M Y",strtotime($thisdate));
-			   echo "<span class='listglyph'>".get_the_date('j M Y')."</span>&nbsp;";
+			   $thisdate=date(get_option('date_format'),strtotime($thisdate));
+			   echo "<span class='listglyph'>".get_the_date()."</span>&nbsp;";
 			   
                $user = get_userdata($post->post_author);
                $gis = "options_forum_support";
