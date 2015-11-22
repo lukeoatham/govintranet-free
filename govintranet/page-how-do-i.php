@@ -100,7 +100,7 @@ get_header();
 									$catcount=0;
 								}
 								echo "
-								<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='".get_term_link($taxonomy->term_id , 'category' )."'>".$taxonomy->name."</a>".$desc."</li>";
+								<li class='howdoi'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;<a href='".get_term_link($taxonomy->slug , 'category' )."'>".$taxonomy->name."</a>".$desc."</li>";
 							}
 						} 
 						?>

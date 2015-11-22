@@ -10,7 +10,7 @@ Author URI: http://www.helpfultechnology.com
  
 class htTopTags extends WP_Widget {
     function htTopTags() {
-        parent::WP_Widget(false, 'HT Top tags', array('description' => 'Display top tags from pages with most pageviews'));
+        parent::WP_Widget(false, __('HT Top tags','govintranet'), array('description' => __('Display top tags from pages with most pageviews','govintranet')));
     }
     
     function widget($args, $instance) {
@@ -89,13 +89,12 @@ class htTopTags extends WP_Widget {
 		     */
 		    if ($gatoken==''){ // if no token stored
 		    	if( !isset($_GET['code']) ) { // if we arn't submitting GET code to the db
-					$url = $ga->auth->buildAuthUrl(); // give users a form to generate code 
-					?>
-					<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>">Authorise Google Analytics access</a>
+					$url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
+					<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Authorise Google Analytics access','govintranet');?></a>
 					<form id="" class="">
-						<label for="code">Enter your code from Google</label></span>
+						<label for="code"><?php _e('Enter your code from Google','govintranet');?></label></span>
 						<input id="code" name="code" />
-						<button class="submit" type="submit">Save</button>
+						<button class="submit" type="submit"><?php _e('Save','govintranet');?></button>
 					</form>
 				<?php
 				} else { // we are submitting GET code to the db
@@ -113,14 +112,13 @@ class htTopTags extends WP_Widget {
 			            update_option('ga_token_expires', $tokenExpires );
 			            update_option('ga_token_created', $tokenCreated );
 			        } else {
-			            $url = $ga->auth->buildAuthUrl(); // give users a form to generate code 
-			            ?>
-			            <em>Sorry, something went wrong accessing Google Analytics :<?php echo $auth['error_description']; ?></em>
-						<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>">Authorise Google Analytics access</a>
+			            $url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
+			            <em><?php _e('Sorry, something went wrong accessing Google Analytics','govintranet');?>:<?php echo $auth['error_description']; ?></em>
+						<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Authorise Google Analytics access','govintranet');?></a>
 						<form id="" class="">
-							<label for="code">Enter your code from Google</label></span>
+							<label for="code"><?php _e('Enter your code from Google','govintranet');?></label></span>
 							<input id="code" name="code" type="text"/>
-							<button class="submit" type="submit">Save</button>
+							<button class="submit" type="submit"><?php _e('Save','govintranet');?></button>
 						</form>
 			        <?php
 			        }

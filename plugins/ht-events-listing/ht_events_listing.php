@@ -11,7 +11,7 @@ Author URI: http://www.helpfultechnology.com
 
 class htEventsListing extends WP_Widget {
     function htEventsListing() {
-        parent::WP_Widget(false, 'HT Events listing', array('description' => 'Events listing widget'));
+        parent::WP_Widget(false, __('HT Events listing','govintranet'), array('description' => __('Events listing widget','govintranet')));
     }
 
 
@@ -171,7 +171,7 @@ class htEventsListing extends WP_Widget {
 	
 			while ($news->have_posts()) {
 	
-				if ( 'recent' == $wtitle ) $output.= "<small><strong>Nothing coming up. Here's the most recent:</strong></small><br>";
+				if ( 'recent' == $wtitle ) $output.= "<small><strong>" . __("Nothing coming up. Here's the most recent:","govintranet") . "</strong></small><br>";
 				$wtitle = '';
 				$news->the_post();
 				if (in_array($post->ID, $alreadydone )) { //don't show if already in stickies
@@ -211,7 +211,6 @@ class htEventsListing extends WP_Widget {
 				if ( $excerpt == 'on' && get_the_excerpt() ){
 						$output.= "<p class='eventclear'><span>".get_the_excerpt()."</span></p>";
 				}
-	
 	
 				$output.= "</div>";
 				$output.= "</div><hr>";
@@ -268,45 +267,43 @@ class htEventsListing extends WP_Widget {
         $recent = esc_attr($instance['recent']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
           
           <input id="<?php echo $this->get_field_id('calendar'); ?>" name="<?php echo $this->get_field_name('calendar'); ?>" type="checkbox" <?php checked((bool) $instance['calendar'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('calendar'); ?>"><?php _e('Show calendar'); ?></label> <br><br>
+          <label for="<?php echo $this->get_field_id('calendar'); ?>"><?php _e('Show calendar','govintranet'); ?></label> <br><br>
 
           <input id="<?php echo $this->get_field_id('thumbnails'); ?>" name="<?php echo $this->get_field_name('thumbnails'); ?>" type="checkbox" <?php checked((bool) $instance['thumbnails'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('thumbnails'); ?>"><?php _e('Show letterbox image'); ?></label> <br><br>
+          <label for="<?php echo $this->get_field_id('thumbnails'); ?>"><?php _e('Show letterbox image','govintranet'); ?></label> <br><br>
 
           <input id="<?php echo $this->get_field_id('location'); ?>" name="<?php echo $this->get_field_name('location'); ?>" type="checkbox" <?php checked((bool) $instance['location'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('location'); ?>"><?php _e('Show location'); ?></label> <br><br>
+          <label for="<?php echo $this->get_field_id('location'); ?>"><?php _e('Show location','govintranet'); ?></label> <br><br>
 
           <input id="<?php echo $this->get_field_id('excerpt'); ?>" name="<?php echo $this->get_field_name('excerpt'); ?>" type="checkbox" <?php checked((bool) $instance['excerpt'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt'); ?></label> <br><br>
+          <label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt','govintranet'); ?></label> <br><br>
 
           <input id="<?php echo $this->get_field_id('recent'); ?>" name="<?php echo $this->get_field_name('recent'); ?>" type="checkbox" <?php checked((bool) $instance['recent'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('recent'); ?>"><?php _e('Show recent'); ?></label> <br><br>
-          <label for="<?php echo $this->get_field_id('cacheperiod'); ?>"><?php _e('Cache (minutes):'); ?></label> 
+          <label for="<?php echo $this->get_field_id('recent'); ?>"><?php _e('Show recent','govintranet'); ?></label> <br><br>
+          <label for="<?php echo $this->get_field_id('cacheperiod'); ?>"><?php _e('Cache (minutes):','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('cacheperiod'); ?>" name="<?php echo $this->get_field_name('cacheperiod'); ?>" type="text" value="<?php echo $cacheperiod; ?>" /><br>
         </p>
 
         <?php 
     }
 
-    
-
 }
 if( function_exists('acf_add_local_field_group') ):
 
 acf_add_local_field_group(array (
 	'key' => 'group_55ee1a9ecbd0d',
-	'title' => 'Limit event types',
+	'title' => __('Limit event types','govintranet'),
 	'fields' => array (
 		array (
 			'key' => 'field_55ee1ab48bb29',
-			'label' => 'Event types',
+			'label' => __('Event types','govintranet'),
 			'name' => 'event_listing_event_types',
 			'type' => 'taxonomy',
 			'instructions' => '',

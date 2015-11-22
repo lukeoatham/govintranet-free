@@ -250,7 +250,7 @@ class htFeatureBlogposts extends WP_Widget {
 		<label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt','govintranet'); ?></label> <br><br>
 		<input id="<?php echo $this->get_field_id('thumbnails'); ?>" name="<?php echo $this->get_field_name('thumbnails'); ?>" type="checkbox" <?php checked((bool) $instance['thumbnails'], true ); ?> />
 		<label for="<?php echo $this->get_field_id('thumbnails'); ?>"><?php _e('Show thumbnails','govintranet'); ?></label> 
-		<p>Displays the featured image if present, otherwise the author avatar.</p>
+		<p><?php _e('Displays the featured image if present, otherwise the author avatar','govintranet'); ?>.</p>
 		<br><br>
 		<input id="<?php echo $this->get_field_id('more'); ?>" name="<?php echo $this->get_field_name('more'); ?>" type="checkbox" <?php checked((bool) $instance['more'], true ); ?> />
 		<label for="<?php echo $this->get_field_id('more'); ?>"><?php _e('Show link to more','govintranet'); ?></label> <br><br>

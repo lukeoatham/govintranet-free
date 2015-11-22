@@ -11,8 +11,8 @@ Author URI: http://www.helpfultechnology.com
 class WP_Widget_HT_Recent_Comments extends WP_Widget {
 
 	public function __construct() {
-		$widget_ops = array('classname' => 'widget_HT_Recent_Comments', 'description' => __( 'Your site&#8217;s most recent comments.' ) );
-		parent::__construct('ht-recent-comments', __('HT Recent Comments'), $widget_ops);
+		$widget_ops = array('classname' => 'widget_HT_Recent_Comments', 'description' => __( 'Your site&#8217;s most recent comments.' ,'govintranet' ));
+		parent::__construct('ht-recent-comments', __('HT Recent Comments','govintranet'), $widget_ops);
 		$this->alt_option_name = 'widget_HT_Recent_Comments';
 
 		if ( is_active_widget(false, false, $this->id_base) )
@@ -78,7 +78,7 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 
 		$output = '';
 
-		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Comments' );
+		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Comments' ,'govintranet') ;
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -172,10 +172,10 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 		$title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
 ?>
-		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ,'govintranet' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 
-		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:' ); ?></label>
+		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:' ,'govintranet' ); ?></label>
 		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
 <?php
 	}

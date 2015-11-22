@@ -13,7 +13,7 @@ if ($current_user->ID) $userid = $current_user->ID;
 
 if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
     // This nonce is not valid.
-    die( 'Security check - there is something wrong' ); 
+    die( __('Security check - there is something wrong' ,'govintranet' )); 
 } else {
     // The nonce was valid.
     // Do stuff here.
@@ -28,7 +28,7 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
 			wp_redirect($referer);
 		}
 		if ($userid!=$current_userid){
-		    die( 'Security check - can\'t check your identity.' ); 	
+		    die( __("Security check - can\'t check your identity.",'govintranet') ); 	
 		}
 	    update_user_meta($current_userid,'user_grade',$usergrade, ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
@@ -45,14 +45,13 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
 			wp_redirect($referer);
 		}
 		if ($userid!=$current_userid){
-		    die( 'Security check - can\'t check your identity.' ); 	
+		    die( __("Security check - can\'t check your identity.",'govintranet') ); 	
 		}
 		delete_user_meta($current_userid,'user_team'); 
 	    update_user_meta($current_userid,'user_team',array($team), ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
-
 
     if ($_POST['type']=='add-skills'){
 		$userid = $_POST['userid'];
@@ -64,14 +63,13 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
 			wp_redirect($referer);
 		}
 		if ($userid!=$current_userid){
-		    die( 'Security check - can\'t check your identity.' ); 	
+		    die( __("Security check - can\'t check your identity.",'govintranet') ); 	
 		}
 		$skills = sanitize_text_field($skills);
 	    update_user_meta($current_userid,'user_key_skills',$skills, ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
-
 
     if ($_POST['type']=='add-job-title'){
 		$userid = $_POST['userid'];
@@ -83,7 +81,7 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
 			wp_redirect($referer);
 		}
 		if ($userid!=$current_userid){
-		    die( 'Security check - can\'t check your identity.' ); 	
+		    die( __("Security check - can\'t check your identity.",'govintranet') ); 	
 		}
 		$jobtitle = sanitize_text_field($jobtitle);
 	    update_user_meta($current_userid,'user_job_title',$jobtitle, ''); 
@@ -102,14 +100,13 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
 			wp_redirect($referer);
 		}
 		if ($userid!=$current_userid){
-		    die( 'Security check - can\'t check your identity.' ); 	
+		    die( __("Security check - can\'t check your identity.",'govintranet') ); 	
 		}
 		$bio = sanitize_text_field($bio);
 	    update_user_meta($current_userid,'description',$bio); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
-	
 	
     if ($_POST['type']=='add-phone'){
 		$userid = $_POST['userid'];
@@ -121,7 +118,7 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
 			wp_redirect($referer);
 		}
 		if ($userid!=$current_userid){
-		    die( 'Security check - can\'t check your identity.' ); 	
+		    die( __("Security check - can\'t check your identity.",'govintranet') ); 	
 		}
 		//$phone = sanitize_text_field($phone);
 	    update_user_meta($current_userid,'user_telephone',$phone, ''); 
@@ -139,21 +136,17 @@ if ( ! wp_verify_nonce( $nonce, 'update-profile_'.$userid ) ) {
 			wp_redirect($referer);
 		}
 		if ($userid!=$current_userid){
-		    die( 'Security check - can\'t check your identity.' ); 	
+		    die( __("Security check - can\'t check your identity.",'govintranet') ); 	
 		}
 		$phone = sanitize_text_field($phone);
 	    update_user_meta($current_userid,'user_mobile',$phone, ''); 
 		$referer = $_SERVER['HTTP_REFERER'];
 		wp_redirect($referer);
 	}
-	
 		
 	$referer = $_SERVER['HTTP_REFERER'];
 	wp_redirect($referer);
-
 	
 }
-
-
 
 ?>

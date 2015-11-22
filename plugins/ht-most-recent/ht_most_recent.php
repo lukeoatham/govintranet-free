@@ -10,17 +10,17 @@ Author URI: http://www.helpfultechnology.com
 
 class htMostRecent extends WP_Widget {
     function htMostRecent() {
-        parent::WP_Widget(false, 'HT MostRecent', array('description' => 'Display most recent posts'));
+        parent::WP_Widget(false, __('HT MostRecent','govintranet'), array('description' => __('Display most recent posts','govintranet')));
 
 		if( function_exists('register_field_group') ):
 		
 		register_field_group(array (
 			'key' => 'group_54c30b1243bd6',
-			'title' => 'Most recent widget',
+			'title' => _x('Most recent widget','Widget that lists the most recent posts','govintranet'),
 			'fields' => array (
 				array (
 					'key' => 'field_54c30b1d69d24',
-					'label' => 'Exclude',
+					'label' => __('Exclude','govintranet'),
 					'name' => 'exclude_posts',
 					'prefix' => '',
 					'type' => 'relationship',
@@ -166,7 +166,7 @@ class htMostRecent extends WP_Widget {
 		foreach ($rpublished as $r ) {
 			if (in_array($r->ID, $alreadydone)) continue;
 			$alert='';
-			if ( $lastupdated=='on' && $r->post_date == $r->post_modified ) $alert = " <span class='badge'>NEW</span>";
+			if ( $lastupdated=='on' && $r->post_date == $r->post_modified ) $alert = " <span class='badge'>" . __('NEW','govintranet') . "</span>";
 			if ($r->post_type=='page'){
 				$k++; 
 				echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title(get_the_title($r->ID))."</a>".$alert."</li>";
@@ -174,7 +174,6 @@ class htMostRecent extends WP_Widget {
 			} elseif ($r->post_type=='task'){
 				$title_context='';
 				if ($r->post_parent){ // child chapter
-					$context = "guide";
 					$icon = "book";
 					$taskparent=get_post($r->post_parent);
 					$title_context='';
@@ -183,10 +182,8 @@ class htMostRecent extends WP_Widget {
 						$title_context=" <small>(".govintranetpress_custom_title($taskparent->post_title).")</small>"; 
 					}
 				} elseif ( get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$r->ID."&orderby=menu_order&order=ASC") ){
-					$context = "guide";
 					$icon = "book";
 				} else {
-					$context = "task";
 					$icon = "question-sign";
 				}			
 	
@@ -242,40 +239,40 @@ class htMostRecent extends WP_Widget {
         $lastupdated = esc_attr($instance['lastupdated']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
           
           <label>Include:</label><br>
           
           <input id="<?php echo $this->get_field_id('tasks'); ?>" name="<?php echo $this->get_field_name('tasks'); ?>" type="checkbox" <?php checked((bool) $instance['tasks'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('tasks'); ?>"><?php _e('Tasks and guides'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('tasks'); ?>"><?php _e('Tasks and guides','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('projects'); ?>" name="<?php echo $this->get_field_name('projects'); ?>" type="checkbox" <?php checked((bool) $instance['projects'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('projects'); ?>"><?php _e('Projects'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('projects'); ?>"><?php _e('Projects','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('vacancies'); ?>" name="<?php echo $this->get_field_name('vacancies'); ?>" type="checkbox" <?php checked((bool) $instance['vacancies'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('vacancies'); ?>"><?php _e('Vacancies'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('vacancies'); ?>"><?php _e('Vacancies','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('news'); ?>" name="<?php echo $this->get_field_name('news'); ?>" type="checkbox" <?php checked((bool) $instance['news'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('news'); ?>"><?php _e('News'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('news'); ?>"><?php _e('News','govintranet'); ?></label> <br>
           
           <input id="<?php echo $this->get_field_id('blog'); ?>" name="<?php echo $this->get_field_name('blog'); ?>" type="checkbox" <?php checked((bool) $instance['blog'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts','govintranet'); ?></label> <br>
          
           <input id="<?php echo $this->get_field_id('events'); ?>" name="<?php echo $this->get_field_name('events'); ?>" type="checkbox" <?php checked((bool) $instance['events'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('events'); ?>"><?php _e('Events'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('events'); ?>"><?php _e('Events','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('pages'); ?>" name="<?php echo $this->get_field_name('pages'); ?>" type="checkbox" <?php checked((bool) $instance['pages'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('pages'); ?>"><?php _e('Pages'); ?></label> <br><br>
+          <label for="<?php echo $this->get_field_id('pages'); ?>"><?php _e('Pages','govintranet'); ?></label> <br><br>
 
 
-<label>Updates:</label><br>
+<label><?php _ex('Updates','noun','govintranet')?>:</label><br>
         
           <input id="<?php echo $this->get_field_id('lastupdated'); ?>" name="<?php echo $this->get_field_name('lastupdated'); ?>" type="checkbox" <?php checked((bool) $instance['lastupdated'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('lastupdated'); ?>"><?php _e('Show again when updated'); ?></label> 
+          <label for="<?php echo $this->get_field_id('lastupdated'); ?>"><?php _e('Show again when updated','govintranet'); ?></label> 
 
         </p>
 

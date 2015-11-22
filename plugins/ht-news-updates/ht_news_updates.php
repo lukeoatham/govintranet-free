@@ -10,18 +10,18 @@ Author URI: http://www.helpfultechnology.com
 
 class htNewsUpdates extends WP_Widget {
     function htNewsUpdates() {
-        parent::WP_Widget(false, 'HT News Updates', array('description' => 'News Updates widget'));
+        parent::WP_Widget(false, __('HT News Updates','govintranet'), array('description' => __('News Updates widget','govintranet')));
 
 		acf_add_local_field_group(array (
 			'key' => 'group_558c858e438b9',
-			'title' => 'Update types',
+			'title' => _x('Update types','Categories of news updates','govintranet'),
 			'fields' => array (
 				array (
 					'key' => 'field_558c85a4c1c4b',
-					'label' => 'News update type',
+					'label' => _x('News update type','Categories of news updates','govintranet'),
 					'name' => 'news_update_widget_include_type',
 					'type' => 'taxonomy',
-					'instructions' => 'Choose "None" to include all alerts.',
+					'instructions' => __('Choose "None" to include all alerts.','govintranet'),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array (
@@ -40,7 +40,7 @@ class htNewsUpdates extends WP_Widget {
 				),
 				array (
 					'key' => 'field_558c96d235d45',
-					'label' => 'Update background colour',
+					'label' => _x('Update background colour','The background colour of the news update','govintranet'),
 					'name' => 'news_update_background_colour',
 					'type' => 'color_picker',
 					'instructions' => '',
@@ -55,7 +55,7 @@ class htNewsUpdates extends WP_Widget {
 				),
 				array (
 					'key' => 'field_558c96e035d46',
-					'label' => 'Update text colour',
+					'label' => _x('Update text colour','The colour of the news update text','govintranet'),
 					'name' => 'news_update_text_colour',
 					'type' => 'color_picker',
 					'instructions' => '',
@@ -70,7 +70,7 @@ class htNewsUpdates extends WP_Widget {
 				),
 				array (
 					'key' => 'field_558c9cb48c113',
-					'label' => 'Border colour',
+					'label' => __('Border colour','govintranet'),
 					'name' => 'news_update_border_colour',
 					'type' => 'color_picker',
 					'instructions' => '',
@@ -292,14 +292,14 @@ class htNewsUpdates extends WP_Widget {
         $moretitle = esc_attr($instance['moretitle']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:'); ?></label> 
-          <input class="widefat" id="<?php echo $this->get_field_id('mroetitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br>Leave blank for the default title<br>
+          <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:','govintranet'); ?></label> 
+          <input class="widefat" id="<?php echo $this->get_field_id('mroetitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br><?php echo __('Leave blank for the default title','govintranet') . '<br>' ; ?>
           
         </p>
 

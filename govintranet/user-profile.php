@@ -8,6 +8,7 @@
  */
 
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+$staffdirectory = get_option('options_module_staff_directory');
 global $wpdb;
 $user_id = bbp_get_displayed_user_field( 'id' ); 
 $poduser = get_userdata($user_id);		
@@ -21,6 +22,7 @@ do_action( 'bbp_template_before_user_profile' );
 
 	<div class="col-lg-6 col-md-6 col-sm-12">
 		<?php
+		if ( $staffdirectory ):
 	  	$teams = get_user_meta($user_id,'user_team',true);
 		if ($teams) {
 			echo '<h3 class="contacthead">' . __('Team' , 'govintranet') . '</h3>';
@@ -50,9 +52,11 @@ do_action( 'bbp_template_before_user_profile' );
 			$jt = get_term($jt, 'grade', ARRAY_A);
 			if ($jt['name']) echo "<p><strong>" . __('Grade' , 'govintranet') . ": </strong>".$jt['name']."</p>";
 		}
+		endif;
 		?>
 		<h3 class="contacthead"><?php echo _x('Contact' , 'Address book details' , 'govintranet'); ?></h3>
 		<?php 
+		if ( $staffdirectory ):
 		if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
 			<p class="bbp-user-description"><i class="dashicons dashicons-phone"></i> <a href="tel:<?php echo str_replace(" ", "",  get_user_meta($user_id, 'user_telephone',true ) ); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
 		<?php 
@@ -62,11 +66,13 @@ do_action( 'bbp_template_before_user_profile' );
 			<p class="bbp-user-description"><i class="dashicons dashicons-smartphone"></i> <a href="tel:<?php echo str_replace(" ", "", get_user_meta($user_id, 'user_mobile',true ) ); ?>"><?php bbp_displayed_user_field( 'user_mobile' ); ?></a></p>
 		<?php 
 		endif;
+		endif;
 		if ( bbp_get_displayed_user_field( 'user_email' ) ) : 
 		?>
 			<p class="bbp-user-description"><a href="mailto:<?php bbp_displayed_user_field( 'user_email' ); ?>"><?php echo _x('Email' , 'verb' , 'govintranet'); ?> <?php bbp_displayed_user_field( 'first_name' ); echo " "; bbp_displayed_user_field( 'last_name' ); ?></a></p>
 			<?php 
 		endif; 
+		if ( $staffdirectory ):
 		if ( bbp_get_displayed_user_field( 'user_twitter_handle' ) ) : 
 		?>
 			<p class="bbp-user-description"><i class="dashicons dashicons-twitter"></i> <a href="https://twitter.com/<?php bbp_displayed_user_field( 'user_twitter_handle' ); ?>"><?php bbp_displayed_user_field( 'user_twitter_handle' ); ?></a></p>
@@ -99,6 +105,7 @@ do_action( 'bbp_template_before_user_profile' );
 		  echo wpautop($skills);
 		}
 		$poduser = get_user_meta($user_id,'user_team',true);
+		endif;
 
 		?>
 	</div>

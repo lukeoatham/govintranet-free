@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GovIntranet v1.0.0\n"
 "Report-Msgid-Bugs-To: Luke Oatham <lukeoatham@gmail.com>\n"
-"POT-Creation-Date: 2015-11-10 19:28+0000\n"
+"POT-Creation-Date: 2015-11-16 23:41+0000\n"
 "\"PO-Revision-Date: \n"
 "Last-Translator: Luke Oatham <lukeoatham@gmail.com>\n"
 "Language-Team: Helpful Technology <luke@helpfultechnology.com>\n"
@@ -18,1327 +18,3260 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
 "_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
-"X-Poedit-Basepath: ..\n"
+"X-Poedit-Basepath: ../..\n"
 "X-Generator: Poedit 1.8.6\n"
 "PO-Revision-Date: \n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-0: govintranet\n"
+"X-Poedit-SearchPath-1: plugins2015/ht-feature-blogposts/ht_feature_blogposts."
+"php\n"
+"X-Poedit-SearchPath-2: plugins2015/ht-feature-news/ht_feature_news.php\n"
+"X-Poedit-SearchPath-3: plugins2015/ht-news-updates/ht_news_updates.php\n"
+"X-Poedit-SearchPath-4: plugins2015/ht-profile-nudge-ajax/"
+"ht_profile_nudge_ajax.php\n"
+"X-Poedit-SearchPath-5: plugins2015/ht-profile-nudge-ajax/update_profile.php\n"
+"X-Poedit-SearchPath-6: plugins2015/ht-about-this-page/ht_about_this_page."
+"php\n"
+"X-Poedit-SearchPath-7: plugins2015/ht-about-this-page/"
+"ht_about_this_page_ajax.php\n"
+"X-Poedit-SearchPath-8: plugins2015/ht-recent-comments/ht_recent_comments."
+"php\n"
+"X-Poedit-SearchPath-9: plugins2015/ht-vacancy-listing/ht_vacancy_listing."
+"php\n"
+"X-Poedit-SearchPath-10: plugins2015/ht-events-listing/ht_events_listing.php\n"
+"X-Poedit-SearchPath-11: plugins2015/ht-need-to-know-ajax/"
+"ht_need_to_know_ajax.php\n"
+"X-Poedit-SearchPath-12: plugins2015/ht-most-recent/ht_most_recent.php\n"
+"X-Poedit-SearchPath-13: plugins2015/ht-news-updates/ht_news_updates.php\n"
+"X-Poedit-SearchPath-14: plugins2015/ht-feature-blogposts/"
+"ht_feature_blogposts.php\n"
+"X-Poedit-SearchPath-15: plugins2015/ht-feature-news/ht_feature_news.php\n"
 
-#: 404.php:10 404.php:11 loop.php:27 taxonomy-a-to-z.php:82
+#: govintranet/404.php:10 govintranet/404.php:11 govintranet/loop.php:27
+#: govintranet/taxonomy-a-to-z.php:82
 msgid "Not found"
 msgstr ""
 
-#: 404.php:15
+#: govintranet/404.php:15
 msgid ""
 "The page that you are trying to reach doesn't exist. <br><br>Please go back "
 "or try searching."
 msgstr ""
 
-#: 404.php:20 category.php:60 category.php:66 category.php:72
-#: page-how-do-i-alt-classic.php:30 page-how-do-i-alt-classic.php:34
-#: page-how-do-i-alt-classic.php:40 page-how-do-i-alt.php:22
-#: page-how-do-i-alt.php:27 page-how-do-i-alt.php:31 page-how-do-i-alt.php:37
-#: page-how-do-i.php:45 page-how-do-i.php:50 page-how-do-i.php:56
-#: page-projects.php:29 page-projects.php:34
-#: page-staff-directory-masonry.php:46 page-vacancies.php:57
-#: search-staff.php:59 searchform.php:17 searchform.php:23 searchform.php:26
-#: searchform.php:30 searchform.php:36 single-team.php:71
+#: govintranet/404.php:20 govintranet/category.php:60
+#: govintranet/category.php:66 govintranet/category.php:72
+#: govintranet/functions.php:2715 govintranet/functions.php:2835
+#: govintranet/page-how-do-i-alt-classic.php:30
+#: govintranet/page-how-do-i-alt-classic.php:34
+#: govintranet/page-how-do-i-alt-classic.php:40
+#: govintranet/page-how-do-i-alt.php:22 govintranet/page-how-do-i-alt.php:27
+#: govintranet/page-how-do-i-alt.php:31 govintranet/page-how-do-i-alt.php:37
+#: govintranet/page-how-do-i.php:45 govintranet/page-how-do-i.php:50
+#: govintranet/page-how-do-i.php:56 govintranet/page-projects.php:29
+#: govintranet/page-projects.php:34
+#: govintranet/page-staff-directory-masonry.php:46
+#: govintranet/page-vacancies.php:57 govintranet/search-staff.php:59
+#: govintranet/searchform.php:17 govintranet/searchform.php:23
+#: govintranet/searchform.php:26 govintranet/searchform.php:30
+#: govintranet/searchform.php:36 govintranet/single-team.php:71
 msgid "Search"
 msgstr ""
 
-#: archive.php:27
+#: govintranet/archive.php:27
 #, php-format
 msgid "Daily archives: %s"
 msgstr ""
 
-#: archive.php:29
+#: govintranet/archive.php:29
 #, php-format
 msgid "Monthly archives: %s"
 msgstr ""
 
-#: archive.php:31
+#: govintranet/archive.php:31
 #, php-format
 msgid "Yearly archives: %s"
 msgstr ""
 
-#: archive.php:71
+#: govintranet/archive.php:71
 msgctxt "A title for the news update category"
 msgid "Update categories"
 msgstr ""
 
-#: attachment.php:50 loop.php:294
+#: govintranet/attachment.php:50 govintranet/loop.php:299
 msgid "Continue reading &rarr;"
 msgstr ""
 
-#: author.php:36
+#: govintranet/author.php:36
 msgctxt "The homepage link"
 msgid "Home"
 msgstr ""
 
-#: author.php:39 search.php:227
+#: govintranet/author.php:39 govintranet/search.php:229
 msgid "Forums"
 msgstr ""
 
-#: author.php:51
+#: govintranet/author.php:51
 #, php-format
 msgid "Forum posts by %s"
 msgstr ""
 
-#: author.php:53
+#: govintranet/author.php:53
 #, php-format
 msgid "Blog posts by %s"
 msgstr ""
 
-#: author.php:61
+#: govintranet/author.php:61
 msgid "Staff profile"
 msgstr ""
 
-#: category.php:102 page-event-past.php:281 page-event.php:177
-#: page-how-do-i-alt.php:108 page-how-do-i.php:125 page-projects.php:97
-#: page-vacancies.php:213 taxonomy-news-type.php:55
+#: govintranet/category.php:102 govintranet/page-event-past.php:281
+#: govintranet/page-event.php:177 govintranet/page-how-do-i-alt.php:108
+#: govintranet/page-how-do-i.php:125 govintranet/page-projects.php:97
+#: govintranet/page-vacancies.php:213 govintranet/taxonomy-news-type.php:55
 msgid "Browse by tag"
 msgstr ""
 
-#: category.php:138 page-doc-finder.php:251 page-event-past.php:224
-#: page-event.php:123 page-vacancies.php:169 taxonomy-news-type.php:89
+#: govintranet/category.php:138 govintranet/page-doc-finder.php:251
+#: govintranet/page-event-past.php:224 govintranet/page-event.php:123
+#: govintranet/page-projects.php:61 govintranet/page-vacancies.php:169
+#: govintranet/taxonomy-news-type.php:89
 msgid "Nothing to show"
 msgstr ""
 
-#: category.php:148 category.php:151
+#: govintranet/category.php:148 govintranet/category.php:151
 msgid "Guide"
 msgstr ""
 
-#: category.php:155
+#: govintranet/category.php:155 govintranet/functions.php:1899
 msgid "Task"
 msgstr ""
 
-#: category.php:186 loop.php:312 page-blog.php:43 page-doc-finder.php:283
-#: page-event-past.php:253 page-event.php:149 page-news-multi.php:75
-#: page-news-updates.php:68 page-news.php:46 page-projects.php:84
-#: page-vacancies.php:176 search.php:176 tag.php:300 taxonomy-news-type.php:112
+#: govintranet/category.php:186 govintranet/page-blog.php:43
+#: govintranet/page-doc-finder.php:283 govintranet/page-event-past.php:253
+#: govintranet/page-event.php:149 govintranet/page-news-multi.php:75
+#: govintranet/page-news-updates.php:68 govintranet/page-news.php:46
+#: govintranet/page-projects.php:84 govintranet/page-vacancies.php:176
+#: govintranet/search.php:178 govintranet/tag.php:300
+#: govintranet/taxonomy-news-type.php:116
 msgid "&larr; Older items"
 msgstr ""
 
-#: category.php:187 loop.php:313 page-blog.php:44 page-doc-finder.php:284
-#: page-event-past.php:254 page-event.php:150 page-news-multi.php:76
-#: page-news-updates.php:69 page-news.php:47 page-projects.php:85
-#: page-vacancies.php:177 search.php:177 tag.php:301 taxonomy-news-type.php:113
+#: govintranet/category.php:187 govintranet/page-blog.php:44
+#: govintranet/page-doc-finder.php:284 govintranet/page-event-past.php:254
+#: govintranet/page-event.php:150 govintranet/page-news-multi.php:76
+#: govintranet/page-news-updates.php:69 govintranet/page-news.php:47
+#: govintranet/page-projects.php:85 govintranet/page-vacancies.php:177
+#: govintranet/search.php:179 govintranet/tag.php:301
+#: govintranet/taxonomy-news-type.php:117
 msgid "Newer items &rarr;"
 msgstr ""
 
-#: category.php:202 taxonomy-news-type.php:128
+#: govintranet/category.php:202 govintranet/taxonomy-news-type.php:132
 msgid "Sub-categories"
 msgstr ""
 
-#: category.php:228 page-event-past.php:268 page-event.php:162 page-news.php:64
-#: single-event.php:167 single-news.php:106 single-task.php:251
-#: single-vacancy.php:115
+#: govintranet/category.php:228 govintranet/page-event-past.php:268
+#: govintranet/page-event.php:162 govintranet/page-news.php:64
+#: govintranet/single-event.php:167 govintranet/single-news.php:106
+#: govintranet/single-task.php:251 govintranet/single-vacancy.php:115
 msgid "Categories"
 msgstr ""
 
-#: comments.php:14
+#: govintranet/comments.php:14
 msgid ""
 "This post is password protected. Enter the password to view any comments."
 msgstr ""
 
-#: comments.php:28
+#: govintranet/comments.php:28
 #, php-format
 msgid "One response to %2$s"
 msgid_plural "%1$s responses to %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:34 comments.php:52
+#: govintranet/comments.php:34 govintranet/comments.php:52
 msgid "&larr; Older comments"
 msgstr ""
 
-#: comments.php:35 comments.php:53
+#: govintranet/comments.php:35 govintranet/comments.php:53
 msgid "Newer comments &rarr;"
 msgstr ""
 
-#: comments.php:66
+#: govintranet/comments.php:66
 msgid "Leave a comment"
 msgstr ""
 
-#: form-user-edit.php:14 form-user-edit.php:19
+#: govintranet/form-user-edit.php:14 govintranet/form-user-edit.php:19
 msgid "Name"
 msgstr ""
 
-#: form-user-edit.php:24 page-staff-directory-masonry.php:222
-#: page-staff-directory-masonry.php:224
+#: govintranet/form-user-edit.php:24
+#: govintranet/page-staff-directory-masonry.php:222
+#: govintranet/page-staff-directory-masonry.php:224
 msgid "First name"
 msgstr ""
 
-#: form-user-edit.php:29 page-staff-directory-masonry.php:228
-#: page-staff-directory-masonry.php:230
+#: govintranet/form-user-edit.php:29
+#: govintranet/page-staff-directory-masonry.php:228
+#: govintranet/page-staff-directory-masonry.php:230
 msgid "Last name"
 msgstr ""
 
-#: form-user-edit.php:34
+#: govintranet/form-user-edit.php:34
 msgid "Nickname"
 msgstr ""
 
-#: form-user-edit.php:39
+#: govintranet/form-user-edit.php:39
 msgid "Display name"
 msgstr ""
 
-#: form-user-edit.php:50 form-user-edit.php:53
+#: govintranet/form-user-edit.php:50 govintranet/form-user-edit.php:53
 msgid "Contact info"
 msgstr ""
 
-#: form-user-edit.php:58
+#: govintranet/form-user-edit.php:58
 msgid "Website"
 msgstr ""
 
-#: form-user-edit.php:76 form-user-edit.php:79
+#: govintranet/form-user-edit.php:76 govintranet/form-user-edit.php:79
 msgid "About yourself"
 msgstr ""
 
-#: form-user-edit.php:76 form-user-edit.php:79
+#: govintranet/form-user-edit.php:76 govintranet/form-user-edit.php:79
 msgid "About the user"
 msgstr ""
 
-#: form-user-edit.php:84 user-profile.php:91
+#: govintranet/form-user-edit.php:84 govintranet/user-profile.php:91
 msgid "About me"
 msgstr ""
 
-#: form-user-edit.php:94 form-user-edit.php:97
+#: govintranet/form-user-edit.php:94 govintranet/form-user-edit.php:97
 msgid "Account"
 msgstr ""
 
-#: form-user-edit.php:102
+#: govintranet/form-user-edit.php:102
 msgid "Username"
 msgstr ""
 
-#: form-user-edit.php:107 search-staff.php:147 single-team.php:268
+#: govintranet/form-user-edit.php:107 govintranet/functions.php:9184
+#: govintranet/search-staff.php:147 govintranet/single-team.php:268
 msgid "Email"
 msgstr ""
 
-#: form-user-edit.php:119
+#: govintranet/form-user-edit.php:119
 #, php-format
 msgid ""
 "There is a pending email address change to <code>%1$s</code>. <a href=\"%2$s"
 "\">Cancel</a>"
 msgstr ""
 
-#: form-user-edit.php:129
+#: govintranet/form-user-edit.php:129
 msgid "New password"
 msgstr ""
 
-#: form-user-edit.php:132
+#: govintranet/form-user-edit.php:132
 msgid ""
 "If you would like to change the password type a new one. Otherwise leave "
 "this blank."
 msgstr ""
 
-#: form-user-edit.php:135
+#: govintranet/form-user-edit.php:135
 msgid "Type your new password again."
 msgstr ""
 
-#: form-user-edit.php:138
+#: govintranet/form-user-edit.php:138
 msgid ""
 "Your password should be at least ten characters long. Phrases with numbers "
 "and symbols are easier to remember, e.g. \"Her Imperial Highness has 30 "
 "handbags!\""
 msgstr ""
 
-#: form-user-edit.php:151 form-user-edit.php:154
+#: govintranet/form-user-edit.php:151 govintranet/form-user-edit.php:154
 msgid "User role"
 msgstr ""
 
-#: form-user-edit.php:161
+#: govintranet/form-user-edit.php:161
 msgid "Network role"
 msgstr ""
 
-#: form-user-edit.php:164
+#: govintranet/form-user-edit.php:164
 msgid "Grant this user super admin privileges for the Network."
 msgstr ""
 
-#: form-user-edit.php:179 forum.php:17
+#: govintranet/form-user-edit.php:179 govintranet/forum.php:17
+#: govintranet/functions.php:3715
 msgid "Staff directory"
 msgstr ""
 
-#: form-user-edit.php:187
+#: govintranet/form-user-edit.php:187
 msgid "Save changes"
 msgstr ""
 
-#: form-user-edit.php:192 form-user-edit.php:193
+#: govintranet/form-user-edit.php:192 govintranet/form-user-edit.php:193
 msgid "Update profile"
 msgstr ""
 
-#: form-user-edit.php:192 form-user-edit.php:193
+#: govintranet/form-user-edit.php:192 govintranet/form-user-edit.php:193
 msgid "Update user"
 msgstr ""
 
-#: forum.php:16 forum.php:21
+#: govintranet/forum.php:16 govintranet/forum.php:21
 msgctxt "The site homepage"
 msgid "Home"
 msgstr ""
 
-#: functions.php:98
+#: govintranet/functions.php:98
 msgid "Primary Navigation"
 msgstr ""
 
-#: functions.php:99
+#: govintranet/functions.php:99
 msgid "Secondary Navigation"
 msgstr ""
 
-#: functions.php:143
+#: govintranet/functions.php:143
 #, php-format
 msgid "Search results for %s"
 msgstr ""
 
-#: functions.php:146 functions.php:214
+#: govintranet/functions.php:146 govintranet/functions.php:223
 #, php-format
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:169
+#: govintranet/functions.php:161 govintranet/functions.php:2110
+msgctxt "alphabet"
+msgid "Letter"
+msgstr ""
+
+#: govintranet/functions.php:164
+msgid "tasks and guides category"
+msgstr ""
+
+#: govintranet/functions.php:179
 msgid "tasks and guides"
 msgstr ""
 
-#: functions.php:172 loop.php:97 tag.php:159
+#: govintranet/functions.php:182 govintranet/tag.php:159
 msgid "project"
 msgstr ""
 
-#: functions.php:175
+#: govintranet/functions.php:185
 msgid "job vacancies"
 msgstr ""
 
-#: functions.php:180
-msgid "staff profile"
-msgstr ""
-
-#: functions.php:183 search.php:71
+#: govintranet/functions.php:188 govintranet/search.php:71
 msgid "events"
 msgstr ""
 
-#: functions.php:186 loop.php:123 tag.php:190
+#: govintranet/functions.php:191 govintranet/tag.php:190
 msgid "jargon buster"
 msgstr ""
 
-#: functions.php:189 taxonomy-a-to-z.php:40
-msgid "A to Z"
-msgstr ""
-
-#: functions.php:192
+#: govintranet/functions.php:194
 msgid "forums"
 msgstr ""
 
-#: functions.php:195
+#: govintranet/functions.php:197
 msgid "forum topics"
 msgstr ""
 
-#: functions.php:198
+#: govintranet/functions.php:200
 msgid "forum replies"
 msgstr ""
 
-#: functions.php:201 loop.php:107 search.php:83 tag.php:170
+#: govintranet/functions.php:203 govintranet/search.php:83
+#: govintranet/tag.php:170
 msgid "news"
 msgstr ""
 
-#: functions.php:204 loop.php:115 tag.php:180
+#: govintranet/functions.php:206
+msgid "news update"
+msgstr ""
+
+#: govintranet/functions.php:209 govintranet/tag.php:180
 msgid "blog"
 msgstr ""
 
-#: functions.php:257
+#: govintranet/functions.php:214
+msgid "staff profile"
+msgstr ""
+
+#: govintranet/functions.php:266
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:339
+#: govintranet/functions.php:348
 #, php-format
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: functions.php:342
+#: govintranet/functions.php:351
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:349
+#: govintranet/functions.php:358
 #, php-format
 msgid "<small>%1$s at %2$s</small>"
 msgstr ""
 
-#: functions.php:349 functions.php:366
+#: govintranet/functions.php:358 govintranet/functions.php:375
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:366
+#: govintranet/functions.php:375
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:387
+#: govintranet/functions.php:396
 msgid "Homepage first column"
 msgstr ""
 
-#: functions.php:389
+#: govintranet/functions.php:398
 msgid "Homepage 1st column"
 msgstr ""
 
-#: functions.php:397 functions.php:399
+#: govintranet/functions.php:406 govintranet/functions.php:408
 msgid "Homepage hero area"
 msgstr ""
 
-#: functions.php:406 functions.php:408
+#: govintranet/functions.php:415 govintranet/functions.php:417
 msgid "Homepage second column"
 msgstr ""
 
-#: functions.php:415 functions.php:417
+#: govintranet/functions.php:424 govintranet/functions.php:426
 msgid "Homepage third column top"
 msgstr ""
 
-#: functions.php:424 functions.php:426
+#: govintranet/functions.php:433 govintranet/functions.php:435
 msgid "Homepage third column bottom"
 msgstr ""
 
-#: functions.php:433
+#: govintranet/functions.php:442
 msgid "Utility widget box"
 msgstr ""
 
-#: functions.php:435
+#: govintranet/functions.php:444
 msgid "Utility widget area appears beneath the search box"
 msgstr ""
 
-#: functions.php:441
+#: govintranet/functions.php:450
 msgid "Left footer"
 msgstr ""
 
-#: functions.php:443
+#: govintranet/functions.php:452
 msgid "Left footer widget area"
 msgstr ""
 
-#: functions.php:451
+#: govintranet/functions.php:460
 msgid "Right footer 1"
 msgstr ""
 
-#: functions.php:453
+#: govintranet/functions.php:462
 msgid "The 1st right footer widget area"
 msgstr ""
 
-#: functions.php:461
+#: govintranet/functions.php:470
 msgid "Right footer 2"
 msgstr ""
 
-#: functions.php:463
+#: govintranet/functions.php:472
 msgid "The 2nd right footer widget area"
 msgstr ""
 
-#: functions.php:470
+#: govintranet/functions.php:479
 msgid "Tasks sidebar"
 msgstr ""
 
-#: functions.php:472
+#: govintranet/functions.php:481
 msgid "Tasks widget area, appears on individual tasks"
 msgstr ""
 
-#: functions.php:479
+#: govintranet/functions.php:488
 msgid "News landing page"
 msgstr ""
 
-#: functions.php:481
+#: govintranet/functions.php:490
 msgid "The right-hand col on the news page"
 msgstr ""
 
-#: functions.php:488
+#: govintranet/functions.php:497
 msgid "News sidebar"
 msgstr ""
 
-#: functions.php:490
+#: govintranet/functions.php:499
 msgid "News widget area, appears on individual news and news updtes"
 msgstr ""
 
-#: functions.php:497
+#: govintranet/functions.php:506
 msgid "Blog landing page"
 msgstr ""
 
-#: functions.php:499
+#: govintranet/functions.php:508
 msgid "Blog landing page widget area"
 msgstr ""
 
-#: functions.php:506
+#: govintranet/functions.php:515
 msgid "Blog sidebar"
 msgstr ""
 
-#: functions.php:508
+#: govintranet/functions.php:517
 msgid "Blog posts widget area, appears on individual blog posts"
 msgstr ""
 
-#: functions.php:515
+#: govintranet/functions.php:524
 msgid "Events landing page"
 msgstr ""
 
-#: functions.php:517
+#: govintranet/functions.php:526
 msgid "Events landing page widget area"
 msgstr ""
 
-#: functions.php:524
+#: govintranet/functions.php:533
 msgid "Events sidebar"
 msgstr ""
 
-#: functions.php:526
+#: govintranet/functions.php:535
 msgid "Events posts widget area, appears on individual events"
 msgstr ""
 
-#: functions.php:533
+#: govintranet/functions.php:542
 msgid "Search results page"
 msgstr ""
 
-#: functions.php:535
+#: govintranet/functions.php:544
 msgid "Search results page widget area"
 msgstr ""
 
-#: functions.php:542
+#: govintranet/functions.php:551
 msgid "Login area"
 msgstr ""
 
-#: functions.php:544
+#: govintranet/functions.php:553
 msgid "Login widget area"
 msgstr ""
 
-#: functions.php:1427
+#: govintranet/functions.php:1435
 #, php-format
 msgid "%s min"
 msgid_plural "%s mins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions.php:1433
+#: govintranet/functions.php:1441
 #, php-format
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions.php:1439
+#: govintranet/functions.php:1447
 #, php-format
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions.php:1445
+#: govintranet/functions.php:1453
 #, php-format
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions.php:1451
+#: govintranet/functions.php:1459
 #, php-format
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions.php:1503
-msgctxt "post type name plural"
-msgid "Blog posts"
-msgstr ""
-
-#: functions.php:1504
-msgctxt "post type name singular"
-msgid "Blog post"
-msgstr ""
-
-#: functions.php:1505
+#: govintranet/functions.php:1495 govintranet/functions.php:1513
 msgctxt "post type name"
 msgid "Blog posts"
 msgstr ""
 
-#: functions.php:1506
+#: govintranet/functions.php:1511
+msgctxt "post type name plural"
+msgid "Blog posts"
+msgstr ""
+
+#: govintranet/functions.php:1512
+msgctxt "post type name singular"
+msgid "Blog post"
+msgstr ""
+
+#: govintranet/functions.php:1514
 msgid "Add Blog post"
 msgstr ""
 
-#: functions.php:1507
+#: govintranet/functions.php:1515
 msgid "Add New Blog post"
 msgstr ""
 
-#: functions.php:1508
+#: govintranet/functions.php:1516 govintranet/functions.php:1553
+#: govintranet/functions.php:1588 govintranet/functions.php:1624
+#: govintranet/functions.php:1644 govintranet/functions.php:1867
+#: govintranet/functions.php:1903 govintranet/functions.php:1939
+#: govintranet/functions.php:1975
 msgid "Edit"
 msgstr ""
 
-#: functions.php:1509
+#: govintranet/functions.php:1517
 msgid "Edit Blog post"
 msgstr ""
 
-#: functions.php:1510
+#: govintranet/functions.php:1518
 msgid "New Blog post"
 msgstr ""
 
-#: functions.php:1511 functions.php:1512
+#: govintranet/functions.php:1519 govintranet/functions.php:1520
 msgid "View Blog post"
 msgstr ""
 
-#: functions.php:1513
+#: govintranet/functions.php:1521
 msgid "Search Blog posts"
 msgstr ""
 
-#: functions.php:1514
+#: govintranet/functions.php:1522
 msgid "No Blog posts found"
 msgstr ""
 
-#: functions.php:1515
+#: govintranet/functions.php:1523
 msgid "No Blog posts found in trash"
 msgstr ""
 
-#: functions.php:1516
+#: govintranet/functions.php:1524
 msgid "Parent Blog post"
 msgstr ""
 
-#: functions.php:1712
+#: govintranet/functions.php:1532 govintranet/functions.php:1548
+#: govintranet/functions.php:1550 govintranet/functions.php:2282
+#: govintranet/functions.php:3457
+#: plugins2015/ht-most-recent/ht_most_recent.php:266
+msgid "Events"
+msgstr ""
+
+#: govintranet/functions.php:1549
+msgid "Event"
+msgstr ""
+
+#: govintranet/functions.php:1551
+msgid "Add Event"
+msgstr ""
+
+#: govintranet/functions.php:1552
+msgid "Add New Event"
+msgstr ""
+
+#: govintranet/functions.php:1554
+msgid "Edit Event"
+msgstr ""
+
+#: govintranet/functions.php:1555
+msgid "New Event"
+msgstr ""
+
+#: govintranet/functions.php:1556 govintranet/functions.php:1557
+msgid "View Event"
+msgstr ""
+
+#: govintranet/functions.php:1558
+msgid "Search Events"
+msgstr ""
+
+#: govintranet/functions.php:1559
+msgid "No Events Found"
+msgstr ""
+
+#: govintranet/functions.php:1560
+msgid "No Events found in trash"
+msgstr ""
+
+#: govintranet/functions.php:1561
+msgid "Parent Event"
+msgstr ""
+
+#: govintranet/functions.php:1568 govintranet/functions.php:1583
+#: govintranet/functions.php:1585
+msgid "Jargon busters"
+msgstr ""
+
+#: govintranet/functions.php:1584 govintranet/functions.php:3509
+msgid "Jargon buster"
+msgstr ""
+
+#: govintranet/functions.php:1586
+msgid "Add Jargon buster"
+msgstr ""
+
+#: govintranet/functions.php:1587
+msgid "Add New Jargon buster"
+msgstr ""
+
+#: govintranet/functions.php:1589
+msgid "Edit Jargon buster"
+msgstr ""
+
+#: govintranet/functions.php:1590
+msgid "New Jargon buster"
+msgstr ""
+
+#: govintranet/functions.php:1591 govintranet/functions.php:1592
+msgid "View Jargon buster"
+msgstr ""
+
+#: govintranet/functions.php:1593
+msgid "Search Jargon busters"
+msgstr ""
+
+#: govintranet/functions.php:1594
+msgid "No Jargon busters found"
+msgstr ""
+
+#: govintranet/functions.php:1595
+msgid "No Jargon busters found in trash"
+msgstr ""
+
+#: govintranet/functions.php:1596
+msgid "Parent Jargon buster"
+msgstr ""
+
+#: govintranet/functions.php:1603 govintranet/functions.php:1621
+#: govintranet/functions.php:3071 govintranet/page-news-multi.php:27
+#: govintranet/page-news-updates.php:27
+#: plugins2015/ht-most-recent/ht_most_recent.php:260
+msgid "News"
+msgstr ""
+
+#: govintranet/functions.php:1619
+msgctxt "post type plural"
+msgid "News"
+msgstr ""
+
+#: govintranet/functions.php:1620
+msgctxt "post type singular"
+msgid "News"
+msgstr ""
+
+#: govintranet/functions.php:1622
+msgid "Add News"
+msgstr ""
+
+#: govintranet/functions.php:1623
+msgid "Add New News"
+msgstr ""
+
+#: govintranet/functions.php:1625
+msgid "Edit News"
+msgstr ""
+
+#: govintranet/functions.php:1626
+msgid "New News"
+msgstr ""
+
+#: govintranet/functions.php:1627 govintranet/functions.php:1628
+msgid "View News"
+msgstr ""
+
+#: govintranet/functions.php:1629
+msgid "Search News"
+msgstr ""
+
+#: govintranet/functions.php:1630
+msgid "No News found"
+msgstr ""
+
+#: govintranet/functions.php:1631
+msgid "No News found in trash"
+msgstr ""
+
+#: govintranet/functions.php:1632
+msgid "Parent News"
+msgstr ""
+
+#: govintranet/functions.php:1639 govintranet/functions.php:1641
+#: govintranet/functions.php:3123
+msgid "News updates"
+msgstr ""
+
+#: govintranet/functions.php:1640
+msgid "News update"
+msgstr ""
+
+#: govintranet/functions.php:1642 govintranet/functions.php:1643
+msgid "Add News update"
+msgstr ""
+
+#: govintranet/functions.php:1645
+msgid "Edit news update"
+msgstr ""
+
+#: govintranet/functions.php:1646
+msgid "New news update"
+msgstr ""
+
+#: govintranet/functions.php:1647
+msgid "No news updates found"
+msgstr ""
+
+#: govintranet/functions.php:1648
+msgid "No news updates found in trash"
+msgstr ""
+
+#: govintranet/functions.php:1649
+msgid "Parent news update"
+msgstr ""
+
+#: govintranet/functions.php:1673 govintranet/functions.php:5854
+#: govintranet/functions.php:6809 govintranet/functions.php:7731
+#: govintranet/functions.php:8653
+msgid "Options"
+msgstr ""
+
+#: govintranet/functions.php:1677
+msgid "Icon"
+msgstr ""
+
+#: govintranet/functions.php:1680 govintranet/functions.php:2977
+msgid "See http://getbootstrap.com/components/#glyphicons"
+msgstr ""
+
+#: govintranet/functions.php:1716
+msgid "News update auto expiry"
+msgstr ""
+
+#: govintranet/functions.php:1720
 msgid "Enable auto-expiry"
 msgstr ""
 
-#: functions.php:1728
+#: govintranet/functions.php:1736 govintranet/functions.php:4551
 msgid "Expiry date"
 msgstr ""
 
-#: functions.php:1753
+#: govintranet/functions.php:1761 govintranet/functions.php:4572
 msgid "Expiry time"
 msgstr ""
 
-#: functions.php:1782
+#: govintranet/functions.php:1790 govintranet/functions.php:4597
 msgid "Expiry action"
 msgstr ""
 
-#: functions.php:4088 user-profile.php:47
-msgid "Job title"
+#: govintranet/functions.php:1846 govintranet/functions.php:1862
+#: govintranet/functions.php:1863 govintranet/functions.php:1864
+#: govintranet/functions.php:3301 govintranet/functions.php:3997
+msgctxt "noun"
+msgid "Projects"
 msgstr ""
 
-#: functions.php:4110 search-staff.php:180 single-vacancy.php:56
-#: user-profile.php:26 user-profile.php:41
+#: govintranet/functions.php:1865
+msgid "Add Project"
+msgstr ""
+
+#: govintranet/functions.php:1866
+msgid "Add New Project"
+msgstr ""
+
+#: govintranet/functions.php:1868
+msgid "Edit Project"
+msgstr ""
+
+#: govintranet/functions.php:1869
+msgid "New Project"
+msgstr ""
+
+#: govintranet/functions.php:1870 govintranet/functions.php:1871
+msgid "View Project"
+msgstr ""
+
+#: govintranet/functions.php:1872
+msgid "Search Projects"
+msgstr ""
+
+#: govintranet/functions.php:1873
+msgid "No Projects found"
+msgstr ""
+
+#: govintranet/functions.php:1874
+msgid "No Projects found in trash"
+msgstr ""
+
+#: govintranet/functions.php:1875
+msgid "Parent Project"
+msgstr ""
+
+#: govintranet/functions.php:1882 govintranet/functions.php:1898
+#: govintranet/functions.php:1900
+msgid "Tasks"
+msgstr ""
+
+#: govintranet/functions.php:1901
+msgid "Add Task"
+msgstr ""
+
+#: govintranet/functions.php:1902
+msgid "Add New Task"
+msgstr ""
+
+#: govintranet/functions.php:1904
+msgid "Edit Task"
+msgstr ""
+
+#: govintranet/functions.php:1905
+msgid "New Task"
+msgstr ""
+
+#: govintranet/functions.php:1906 govintranet/functions.php:1907
+msgid "View Task"
+msgstr ""
+
+#: govintranet/functions.php:1908
+msgid "Search Tasks"
+msgstr ""
+
+#: govintranet/functions.php:1909
+msgid "No Tasks found"
+msgstr ""
+
+#: govintranet/functions.php:1910
+msgid "No Tasks found in trash"
+msgstr ""
+
+#: govintranet/functions.php:1911
+msgid "Parent Task"
+msgstr ""
+
+#: govintranet/functions.php:1918 govintranet/functions.php:1934
+#: govintranet/functions.php:1936 govintranet/functions.php:2247
+#: govintranet/functions.php:3635
+msgid "Teams"
+msgstr ""
+
+#: govintranet/functions.php:1935 govintranet/functions.php:4118
+#: govintranet/functions.php:4428 govintranet/functions.php:5073
+#: govintranet/functions.php:5089 govintranet/functions.php:5286
+#: govintranet/functions.php:5375 govintranet/functions.php:5391
+#: govintranet/functions.php:5554 govintranet/functions.php:5805
+#: govintranet/functions.php:6028 govintranet/functions.php:6044
+#: govintranet/functions.php:6241 govintranet/functions.php:6330
+#: govintranet/functions.php:6346 govintranet/functions.php:6509
+#: govintranet/functions.php:6760 govintranet/functions.php:6983
+#: govintranet/functions.php:6999 govintranet/functions.php:7219
+#: govintranet/functions.php:7308 govintranet/functions.php:7324
+#: govintranet/functions.php:7487 govintranet/functions.php:7682
+#: govintranet/functions.php:7905 govintranet/functions.php:7921
+#: govintranet/functions.php:8141 govintranet/functions.php:8230
+#: govintranet/functions.php:8246 govintranet/functions.php:8409
+#: govintranet/functions.php:8604 govintranet/functions.php:8706
+#: govintranet/search-staff.php:180 govintranet/single-vacancy.php:56
+#: govintranet/user-profile.php:26 govintranet/user-profile.php:41
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:92
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:267
 msgid "Team"
 msgstr ""
 
-#: functions.php:4113
+#: govintranet/functions.php:1937
+msgid "Add Team"
+msgstr ""
+
+#: govintranet/functions.php:1938
+msgid "Add New Team"
+msgstr ""
+
+#: govintranet/functions.php:1940
+msgid "Edit Team"
+msgstr ""
+
+#: govintranet/functions.php:1941
+msgid "New Team"
+msgstr ""
+
+#: govintranet/functions.php:1942 govintranet/functions.php:1943
+msgid "View Team"
+msgstr ""
+
+#: govintranet/functions.php:1944
+msgid "Search Teams"
+msgstr ""
+
+#: govintranet/functions.php:1945
+msgid "No Teams found"
+msgstr ""
+
+#: govintranet/functions.php:1946
+msgid "No Teams found in trash"
+msgstr ""
+
+#: govintranet/functions.php:1947
+msgid "Parent Team"
+msgstr ""
+
+#: govintranet/functions.php:1954 govintranet/functions.php:1970
+#: govintranet/functions.php:1972 govintranet/functions.php:3353
+#: govintranet/functions.php:4376
+#: plugins2015/ht-most-recent/ht_most_recent.php:257
+msgid "Vacancies"
+msgstr ""
+
+#: govintranet/functions.php:1971
+msgid "Vacancy"
+msgstr ""
+
+#: govintranet/functions.php:1973
+msgid "Add Vacancy"
+msgstr ""
+
+#: govintranet/functions.php:1974
+msgid "Add New Vacancy"
+msgstr ""
+
+#: govintranet/functions.php:1976
+msgid "Edit Vacancy"
+msgstr ""
+
+#: govintranet/functions.php:1977
+msgid "New Vacancy"
+msgstr ""
+
+#: govintranet/functions.php:1978 govintranet/functions.php:1979
+msgid "View Vacancy"
+msgstr ""
+
+#: govintranet/functions.php:1980
+msgid "Search Vacancies"
+msgstr ""
+
+#: govintranet/functions.php:1981
+msgid "No Vacancies found"
+msgstr ""
+
+#: govintranet/functions.php:1982
+msgid "No Vacancies found in trash"
+msgstr ""
+
+#: govintranet/functions.php:1983
+msgid "Parent Vacancy"
+msgstr ""
+
+#: govintranet/functions.php:1993
+msgid "News types"
+msgstr ""
+
+#: govintranet/functions.php:1998 govintranet/functions.php:5115
+#: govintranet/functions.php:5131 govintranet/functions.php:6070
+#: govintranet/functions.php:6086 govintranet/functions.php:7025
+#: govintranet/functions.php:7041 govintranet/functions.php:7947
+#: govintranet/functions.php:7963
+msgid "News type"
+msgstr ""
+
+#: govintranet/functions.php:1999 govintranet/functions.php:2072
+#: govintranet/functions.php:2131
+msgid "Popular types"
+msgstr ""
+
+#: govintranet/functions.php:2000 govintranet/functions.php:2073
+#: govintranet/functions.php:2132
+msgid "All types"
+msgstr ""
+
+#: govintranet/functions.php:2001
+msgid "Parent type"
+msgstr ""
+
+#: govintranet/functions.php:2003
+msgid "Edit news type"
+msgstr ""
+
+#: govintranet/functions.php:2004
+msgid "Update news type"
+msgstr ""
+
+#: govintranet/functions.php:2005
+msgid "Add news type"
+msgstr ""
+
+#: govintranet/functions.php:2006
+msgid "New type"
+msgstr ""
+
+#: govintranet/functions.php:2008
+msgid "Add or remove a type"
+msgstr ""
+
+#: govintranet/functions.php:2009 govintranet/functions.php:2055
+#: govintranet/functions.php:2082 govintranet/functions.php:2113
+#: govintranet/functions.php:2141
+msgid "Most used"
+msgstr ""
+
+#: govintranet/functions.php:2017
+msgid "News update type"
+msgstr ""
+
+#: govintranet/functions.php:2023
+msgid "News update types"
+msgstr ""
+
+#: govintranet/functions.php:2039 govintranet/functions.php:2208
+#: govintranet/page-vacancies.php:68
+msgid "Grades"
+msgstr ""
+
+#: govintranet/functions.php:2044 govintranet/functions.php:4276
+#: govintranet/single-vacancy.php:57 govintranet/user-profile.php:51
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:89
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:230
+msgid "Grade"
+msgstr ""
+
+#: govintranet/functions.php:2045
+msgid "Popular grades"
+msgstr ""
+
+#: govintranet/functions.php:2046 govintranet/page-vacancies.php:70
+#: govintranet/page-vacancies.php:72
+msgid "All grades"
+msgstr ""
+
+#: govintranet/functions.php:2047
+msgid "Parent grade"
+msgstr ""
+
+#: govintranet/functions.php:2049
+msgid "Edit grade"
+msgstr ""
+
+#: govintranet/functions.php:2050
+msgid "Update grade"
+msgstr ""
+
+#: govintranet/functions.php:2051
+msgid "Add new grade"
+msgstr ""
+
+#: govintranet/functions.php:2052
+msgid "New grade"
+msgstr ""
+
+#: govintranet/functions.php:2054
+msgid "Add or remove a grade"
+msgstr ""
+
+#: govintranet/functions.php:2066
+#: plugins2015/ht-events-listing/ht_events_listing.php:306
+msgid "Event types"
+msgstr ""
+
+#: govintranet/functions.php:2071
+msgid "Event type"
+msgstr ""
+
+#: govintranet/functions.php:2074
+msgid "Parent event type"
+msgstr ""
+
+#: govintranet/functions.php:2076
+msgid "Edit event type"
+msgstr ""
+
+#: govintranet/functions.php:2077
+msgid "Update event type"
+msgstr ""
+
+#: govintranet/functions.php:2078
+msgid "Add event type"
+msgstr ""
+
+#: govintranet/functions.php:2079
+msgid "New event type"
+msgstr ""
+
+#: govintranet/functions.php:2081
+msgid "Add or remove event types"
+msgstr ""
+
+#: govintranet/functions.php:2097
+msgid "A to Z letters"
+msgstr ""
+
+#: govintranet/functions.php:2102
+msgid "A to Z letter"
+msgstr ""
+
+#: govintranet/functions.php:2103
+msgid "Popular letters"
+msgstr ""
+
+#: govintranet/functions.php:2104
+msgid "All letters"
+msgstr ""
+
+#: govintranet/functions.php:2105
+msgid "Parent letter"
+msgstr ""
+
+#: govintranet/functions.php:2107
+msgid "Edit letter"
+msgstr ""
+
+#: govintranet/functions.php:2108
+msgid "Update letter"
+msgstr ""
+
+#: govintranet/functions.php:2109
+msgid "Add new letter"
+msgstr ""
+
+#: govintranet/functions.php:2112
+msgid "Add or remove letters"
+msgstr ""
+
+#: govintranet/functions.php:2125
+msgid "Document types"
+msgstr ""
+
+#: govintranet/functions.php:2130 govintranet/functions.php:3963
+#: govintranet/page-doc-finder.php:105
+msgid "Document type"
+msgstr ""
+
+#: govintranet/functions.php:2133
+msgid "Parent document type"
+msgstr ""
+
+#: govintranet/functions.php:2135
+msgid "Edit document type"
+msgstr ""
+
+#: govintranet/functions.php:2136
+msgid "Update document type"
+msgstr ""
+
+#: govintranet/functions.php:2137
+msgid "Add document type"
+msgstr ""
+
+#: govintranet/functions.php:2138
+msgid "New document type"
+msgstr ""
+
+#: govintranet/functions.php:2140
+msgid "Add or remove a document type"
+msgstr ""
+
+#: govintranet/functions.php:2150 govintranet/functions.php:5417
+#: govintranet/functions.php:5433 govintranet/functions.php:5611
+#: govintranet/functions.php:6372 govintranet/functions.php:6388
+#: govintranet/functions.php:6566 govintranet/functions.php:7350
+#: govintranet/functions.php:7366 govintranet/functions.php:7544
+#: govintranet/functions.php:8272 govintranet/functions.php:8288
+#: govintranet/functions.php:8466 govintranet/page-doc-finder.php:60
+#: govintranet/page-news-multi.php:34
+msgid "Category"
+msgstr ""
+
+#: govintranet/functions.php:2154
+msgid "Text colour"
+msgstr ""
+
+#: govintranet/functions.php:2165
+msgid "Background colour"
+msgstr ""
+
+#: govintranet/functions.php:2176
+msgid "Long description"
+msgstr ""
+
+#: govintranet/functions.php:2212
+msgid "Grade code"
+msgstr ""
+
+#: govintranet/functions.php:2251
+msgid "Team lead"
+msgstr ""
+
+#: govintranet/functions.php:2286
+msgid "Start date"
+msgstr ""
+
+#: govintranet/functions.php:2299
+msgid "End date"
+msgstr ""
+
+#: govintranet/functions.php:2312
+msgid "Start time"
+msgstr ""
+
+#: govintranet/functions.php:2320
+msgid "Use 24 hour format 14:32"
+msgstr ""
+
+#: govintranet/functions.php:2329
+msgid "End time"
+msgstr ""
+
+#: govintranet/functions.php:2365
+msgid "Eventbrite ticket #"
+msgstr ""
+
+#: govintranet/functions.php:2383
+msgid "Event location name"
+msgstr ""
+
+#: govintranet/functions.php:2400
+msgid "Event map location"
+msgstr ""
+
+#: govintranet/functions.php:2432 govintranet/functions.php:2436
+msgid "External link"
+msgstr ""
+
+#: govintranet/functions.php:2477
+msgid "Homepage"
+msgstr ""
+
+#: govintranet/functions.php:2481
+msgid "Emergency message style"
+msgstr ""
+
+#: govintranet/functions.php:2507
+msgid "Emergency message"
+msgstr ""
+
+#: govintranet/functions.php:2528
+msgid "Campaign message"
+msgstr ""
+
+#: govintranet/functions.php:2564
+msgid "Intranet configuration"
+msgstr ""
+
+#: govintranet/functions.php:2568
+msgid "Style"
+msgstr ""
+
+#: govintranet/functions.php:2584
+msgid "Header logo"
+msgstr ""
+
+#: govintranet/functions.php:2587
+msgid "Appears top-left in the header before your site title."
+msgstr ""
+
+#: govintranet/functions.php:2608
+msgid "Login logo"
+msgstr ""
+
+#: govintranet/functions.php:2611
+msgid "Appears above the login form. Ideal size: 320 x 84px"
+msgstr ""
+
+#: govintranet/functions.php:2632
+msgid "Widget border height"
+msgstr ""
+
+#: govintranet/functions.php:2635
+msgid "Height in pixels of the border that appears above widget titles."
+msgstr ""
+
+#: govintranet/functions.php:2655
+msgid "Enable automatic complementary colour"
+msgstr ""
+
+#: govintranet/functions.php:2658
+msgid ""
+"Works in conjunction with the header background colour. Enabling this "
+"setting will provide a complementary colour for borders above widget titles. "
+"Disable to choose your own colour."
+msgstr ""
+
+#: govintranet/functions.php:2671
+msgid "Complementary colour"
+msgstr ""
+
+#: govintranet/functions.php:2674
+msgid "Colour of the border above widget titles."
+msgstr ""
+
+#: govintranet/functions.php:2694
+msgid "Custom CSS code"
+msgstr ""
+
+#: govintranet/functions.php:2697
+msgid "Advanced users only! Customise theme styles with your own CSS."
+msgstr ""
+
+#: govintranet/functions.php:2731
+msgid "Enable helpful search"
+msgstr ""
+
+#: govintranet/functions.php:2734
+msgid ""
+"If search finds a perfect match result, go directly to the page instead of "
+"showing search results."
+msgstr ""
+
+#: govintranet/functions.php:2747
+msgid "Enable search stemmer"
+msgstr ""
+
+#: govintranet/functions.php:2750
+msgid ""
+"Enrich search queries by also searching for derivatives. E.g. searching for "
+"\"speak\" will also search for speakers and speaking etc."
+msgstr ""
+
+#: govintranet/functions.php:2763
+msgid "Search placeholder"
+msgstr ""
+
+#: govintranet/functions.php:2766
+msgid ""
+"Enter phrases separated by a comma to use as a nudge in the search box."
+"\tPhrases will appear at random with the first phrase appearing most "
+"frequently."
+msgstr ""
+
+#: govintranet/functions.php:2775
+msgid ""
+"Search the intranet, Search the intranet e.g. book a meeting room, Search "
+"for anything"
+msgstr ""
+
+#: govintranet/functions.php:2784
+msgid "Jumbo searchbox"
+msgstr ""
+
+#: govintranet/functions.php:2787
+msgid ""
+"Displays are full-width search box and removes the regular search box on the "
+"homepage only."
+msgstr ""
+
+#: govintranet/functions.php:2800
+msgid "Override search button icon"
+msgstr ""
+
+#: govintranet/functions.php:2803
+msgid "Override the default magnifying glass icon search boxes."
+msgstr ""
+
+#: govintranet/functions.php:2816
+msgid "Search button text"
+msgstr ""
+
+#: govintranet/functions.php:2819
+msgid "Text to replace the default magnifying glass icon search boxes."
+msgstr ""
+
+#: govintranet/functions.php:2845
+msgid "Analytics"
+msgstr ""
+
+#: govintranet/functions.php:2861
+msgid "Track homepage"
+msgstr ""
+
+#: govintranet/functions.php:2864
+msgid ""
+"Track the intranet homepage in Google Analytics. If your intranet loads "
+"automatically in the browser then you may want to turn off tracking on the "
+"homepage."
+msgstr ""
+
+#: govintranet/functions.php:2877
+msgid "Google tracking code"
+msgstr ""
+
+#: govintranet/functions.php:2880
+msgid "You can also enter custom Javascript here. Advanced users only."
+msgstr ""
+
+#: govintranet/functions.php:2898
+msgid "General"
+msgstr ""
+
+#: govintranet/functions.php:2914
+msgid "Search not found"
+msgstr ""
+
+#: govintranet/functions.php:2936
+msgid "Hide reciprocal related links"
+msgstr ""
+
+#: govintranet/functions.php:2939
+msgid ""
+"By default, if you create a related link on one page it will be also be "
+"displayed as a related link on the destination page. Enable this option to "
+"make related links one-way."
+msgstr ""
+
+#: govintranet/functions.php:2952
+msgid "404 page not found"
+msgstr ""
+
+#: govintranet/functions.php:2974
+msgid "Need to know icon"
+msgstr ""
+
+#: govintranet/functions.php:2996
+msgid "Comment instructions (logged in)"
+msgstr ""
+
+#: govintranet/functions.php:3014
+msgid "Comment instructions (logged out)"
+msgstr ""
+
+#: govintranet/functions.php:3032
+msgid "Homepage auto refresh"
+msgstr ""
+
+#: govintranet/functions.php:3035
+msgid ""
+"Number of minutes to wait before refreshing the homepage. Enter 0 for no "
+"refresh."
+msgstr ""
+
+#: govintranet/functions.php:3055
+msgid "Modules"
+msgstr ""
+
+#: govintranet/functions.php:3087
+msgid "News page"
+msgstr ""
+
+#: govintranet/functions.php:3139
+#: plugins2015/ht-most-recent/ht_most_recent.php:251
+msgid "Tasks and guides"
+msgstr ""
+
+#: govintranet/functions.php:3155
+msgid "How do I? page"
+msgstr ""
+
+#: govintranet/functions.php:3191
+msgid "Only show tags applicable to tasks and guides"
+msgstr ""
+
+#: govintranet/functions.php:3194
+msgid ""
+"If checked, will display a plain tag cloud showing only tags found in tasks "
+"and guides. If unchecked, will display tags from the whole intranet in "
+"variable font sizes, indicating volume of content."
+msgstr ""
+
+#: govintranet/functions.php:3215
+msgid "Icon for tasks"
+msgstr ""
+
+#: govintranet/functions.php:3218 govintranet/functions.php:3249
+msgid ""
+"Supports glyphicons and dashicons. Use the full CSS class e.g. glyphicon "
+"glyphicon-file\n"
+"http://getbootstrap.com/components/#glyphicons\n"
+"https://developer.wordpress.org/resource/dashicons/"
+msgstr ""
+
+#: govintranet/functions.php:3246
+msgid "Icon for guides"
+msgstr ""
+
+#: govintranet/functions.php:3277
+msgid "Start with tags open"
+msgstr ""
+
+#: govintranet/functions.php:3280
+msgid ""
+"If checked, will automatically open the \"Browse tags\" button on individual "
+"task category pages."
+msgstr ""
+
+#: govintranet/functions.php:3317
+msgid "Projects page"
+msgstr ""
+
+#: govintranet/functions.php:3369
+msgid "Vacancies page"
+msgstr ""
+
+#: govintranet/functions.php:3405 govintranet/user-details.php:51
+#: plugins2015/ht-most-recent/ht_most_recent.php:263
+msgid "Blog posts"
+msgstr ""
+
+#: govintranet/functions.php:3421
+msgid "Blog page"
+msgstr ""
+
+#: govintranet/functions.php:3473
+msgid "Events page"
+msgstr ""
+
+#: govintranet/functions.php:3525
+msgid "Jargon buster page"
+msgstr ""
+
+#: govintranet/functions.php:3561 govintranet/taxonomy-a-to-z.php:40
+msgid "A to Z"
+msgstr ""
+
+#: govintranet/functions.php:3577
+msgid "A to Z blacklist"
+msgstr ""
+
+#: govintranet/functions.php:3580
+msgid "Words longer than 2 letter to ignore.\tSeparate with commas."
+msgstr ""
+
+#: govintranet/functions.php:3606
+msgid "A to Z whitelist"
+msgstr ""
+
+#: govintranet/functions.php:3609
+msgid "Words shorter than 3 letters to include. Separate with commas."
+msgstr ""
+
+#: govintranet/functions.php:3651
+msgid "Enable user account support"
+msgstr ""
+
+#: govintranet/functions.php:3654
+msgid "Provides support for forums (bbPress)"
+msgstr ""
+
+#: govintranet/functions.php:3667
+msgid "Show My Profile link"
+msgstr ""
+
+#: govintranet/functions.php:3670
+msgid "Add a \"My Profile\" link to the secondary menu if user is logged in."
+msgstr ""
+
+#: govintranet/functions.php:3691
+msgid "Show login/logout link"
+msgstr ""
+
+#: govintranet/functions.php:3718
+msgid ""
+"Provides support for staff directory and staff profiles. Integrates with "
+"teams, forums and blog posts."
+msgstr ""
+
+#: govintranet/functions.php:3739
+msgid "Staff directory page"
+msgstr ""
+
+#: govintranet/functions.php:3778
+msgid "Team dropdown name"
+msgstr ""
+
+#: govintranet/functions.php:3817
+msgid "Show hyperlinks on staff cards"
+msgstr ""
+
+#: govintranet/functions.php:3820
+msgid ""
+"Enabling this option allows you to click on individual links such as email "
+"address and name on staff tiles. With this option disabled, the whole staff "
+"tile is clickable and links to the staff profile."
+msgstr ""
+
+#: govintranet/functions.php:3846
+msgid "Show circular avatars"
+msgstr ""
+
+#: govintranet/functions.php:3875
+msgid "Show grade on staff cards"
+msgstr ""
+
+#: govintranet/functions.php:3878
+msgid "Requires setting a grade code for each term in the Grades taxonomy."
+msgstr ""
+
+#: govintranet/functions.php:3904
+msgid "Show mobile on staff cards"
+msgstr ""
+
+#: govintranet/functions.php:3907
+msgid ""
+"Display mobile phone number on staff cards in the staff directory listings."
+msgstr ""
+
+#: govintranet/functions.php:3959
+msgid "Media"
+msgstr ""
+
+#: govintranet/functions.php:4001
+msgid "Project overview"
+msgstr ""
+
+#: govintranet/functions.php:4014
+msgid "Project start date"
+msgstr ""
+
+#: govintranet/functions.php:4027
+msgid "Project end date"
+msgstr ""
+
+#: govintranet/functions.php:4040
+msgid "Policy link"
+msgstr ""
+
+#: govintranet/functions.php:4058
+msgid "Team members"
+msgstr ""
+
+#: govintranet/functions.php:4092
+msgid "Users"
+msgstr ""
+
+#: govintranet/functions.php:4096 govintranet/user-profile.php:47
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:86
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:204
+msgid "Job title"
+msgstr ""
+
+#: govintranet/functions.php:4121
 msgid ""
 "Choose just your local team, e.g. if you work in Communications which is "
 "part of Business Services, you only need to choose Communications."
 msgstr ""
 
-#: functions.php:4136
+#: govintranet/functions.php:4144
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:101
 msgid "Line manager"
 msgstr ""
 
-#: functions.php:4153
+#: govintranet/functions.php:4161
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:80
 msgid "Telephone number"
 msgstr ""
 
-#: functions.php:4174
+#: govintranet/functions.php:4182
 msgid "Mobile number"
 msgstr ""
 
-#: functions.php:4195
+#: govintranet/functions.php:4203
 msgid "Twitter handle"
 msgstr ""
 
-#: functions.php:4198
+#: govintranet/functions.php:4206
 msgid "e.g. @Luke_Oatham"
 msgstr ""
 
-#: functions.php:4219
+#: govintranet/functions.php:4227
 msgid "Provide the full URL of your LinkedIn profile page."
 msgstr ""
 
-#: functions.php:4232 user-profile.php:85
+#: govintranet/functions.php:4240 govintranet/user-profile.php:85
 msgctxt "Hours of work"
 msgid "Working pattern"
 msgstr ""
 
-#: functions.php:4235
+#: govintranet/functions.php:4243
 msgid "Which days do you work? Where are you based?"
 msgstr ""
 
-#: functions.php:4250
+#: govintranet/functions.php:4258
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:95
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:303
 msgid "Skills and experience"
 msgstr ""
 
-#: functions.php:4253
+#: govintranet/functions.php:4261
 msgid "List your skills and experience so that others can find you."
 msgstr ""
 
-#: functions.php:4268 single-vacancy.php:57 user-profile.php:51
-msgid "Grade"
-msgstr ""
-
-#: functions.php:4314
+#: govintranet/functions.php:4322
 msgid "Staff directory order"
 msgstr ""
 
-#: functions.php:4318
+#: govintranet/functions.php:4326
 msgid "Order"
 msgstr ""
 
-#: functions.php:8883 page-doc-finder.php:32 page-doc-finder.php:76
-#: page-doc-finder.php:79
+#: govintranet/functions.php:4380
+msgid "Vacancy reference"
+msgstr ""
+
+#: govintranet/functions.php:4398 govintranet/single-vacancy.php:58
+msgid "Closing date"
+msgstr ""
+
+#: govintranet/functions.php:4411
+msgid "Closing time"
+msgstr ""
+
+#: govintranet/functions.php:4451 govintranet/single-project.php:69
+#: govintranet/single-project.php:195 govintranet/single-vacancy.php:74
+msgctxt "noun"
+msgid "Project"
+msgstr ""
+
+#: govintranet/functions.php:4497
+msgid "Video"
+msgstr ""
+
+#: govintranet/functions.php:4501
+msgid "Video URL"
+msgstr ""
+
+#: govintranet/functions.php:4535
+msgid "News expiry"
+msgstr ""
+
+#: govintranet/functions.php:4539
+msgid "Auto expiry"
+msgstr ""
+
+#: govintranet/functions.php:4648
+msgid "Attachments"
+msgstr ""
+
+#: govintranet/functions.php:4652
+msgid "Document attachments"
+msgstr ""
+
+#: govintranet/functions.php:4662
+msgid "Add document"
+msgstr ""
+
+#: govintranet/functions.php:4666
+msgid "Document"
+msgstr ""
+
+#: govintranet/functions.php:4744 govintranet/functions.php:4748
+#: govintranet/part-related.php:49
+msgid "Related"
+msgstr ""
+
+#: govintranet/functions.php:4833 govintranet/functions.php:4837
+msgid "Keywords"
+msgstr ""
+
+#: govintranet/functions.php:4924
+msgid "Column placeholders"
+msgstr ""
+
+#: govintranet/functions.php:4928
+msgid "Column 1"
+msgstr ""
+
+#: govintranet/functions.php:4939 govintranet/functions.php:5894
+msgid "Add to column 1"
+msgstr ""
+
+#: govintranet/functions.php:4946 govintranet/functions.php:5901
+#: govintranet/functions.php:6856 govintranet/functions.php:7778
+msgid "News listing"
+msgstr ""
+
+#: govintranet/functions.php:4951 govintranet/functions.php:5203
+#: govintranet/functions.php:5322 govintranet/functions.php:5533
+#: govintranet/functions.php:5590 govintranet/functions.php:5667
+#: govintranet/functions.php:5728 govintranet/functions.php:5784
+#: govintranet/functions.php:5906 govintranet/functions.php:6158
+#: govintranet/functions.php:6277 govintranet/functions.php:6488
+#: govintranet/functions.php:6545 govintranet/functions.php:6622
+#: govintranet/functions.php:6683 govintranet/functions.php:6739
+#: govintranet/functions.php:6861 govintranet/functions.php:7113
+#: govintranet/functions.php:7255 govintranet/functions.php:7466
+#: govintranet/functions.php:7523 govintranet/functions.php:7600
+#: govintranet/functions.php:7661 govintranet/functions.php:7783
+#: govintranet/functions.php:8035 govintranet/functions.php:8177
+#: govintranet/functions.php:8388 govintranet/functions.php:8445
+#: govintranet/functions.php:8522 govintranet/functions.php:8583
+msgid "Title"
+msgstr ""
+
+#: govintranet/functions.php:4972 govintranet/functions.php:5927
+#: govintranet/functions.php:6882 govintranet/functions.php:7134
+#: govintranet/functions.php:7804 govintranet/functions.php:8056
+#: govintranet/page-news-multi.php:28
+msgid "Need to know"
+msgstr ""
+
+#: govintranet/functions.php:4995 govintranet/functions.php:5224
+#: govintranet/functions.php:5950 govintranet/functions.php:6179
+#: govintranet/functions.php:6905 govintranet/functions.php:7157
+#: govintranet/functions.php:7827 govintranet/functions.php:8079
+#: govintranet/page-forum-simple.php:63
+msgid "Freshness"
+msgstr ""
+
+#: govintranet/functions.php:4998 govintranet/functions.php:5227
+#: govintranet/functions.php:5953 govintranet/functions.php:6182
+#: govintranet/functions.php:6908 govintranet/functions.php:7160
+#: govintranet/functions.php:7830 govintranet/functions.php:8082
+msgid "Don't show if older than this number of days. Leave blank to show all."
+msgstr ""
+
+#: govintranet/functions.php:5018 govintranet/functions.php:5247
+#: govintranet/functions.php:5831 govintranet/functions.php:5973
+#: govintranet/functions.php:6202 govintranet/functions.php:6786
+#: govintranet/functions.php:6928 govintranet/functions.php:7180
+#: govintranet/functions.php:7708 govintranet/functions.php:7850
+#: govintranet/functions.php:8102 govintranet/functions.php:8630
+msgid "Number to display"
+msgstr ""
+
+#: govintranet/functions.php:5041 govintranet/functions.php:5270
+#: govintranet/functions.php:5343 govintranet/functions.php:5996
+#: govintranet/functions.php:6225 govintranet/functions.php:6298
+#: govintranet/functions.php:6951 govintranet/functions.php:7203
+#: govintranet/functions.php:7276 govintranet/functions.php:7873
+#: govintranet/functions.php:8125 govintranet/functions.php:8198
+msgid "Compact list"
+msgstr ""
+
+#: govintranet/functions.php:5057 govintranet/functions.php:6012
+#: govintranet/functions.php:6967 govintranet/functions.php:7889
+msgid "News items to display"
+msgstr ""
+
+#: govintranet/functions.php:5068 govintranet/functions.php:6023
+#: govintranet/functions.php:6978 govintranet/functions.php:7900
+msgid ""
+"Display latest news items matching any of the chosen criteria in the tabs "
+"below."
+msgstr ""
+
+#: govintranet/functions.php:5154 govintranet/functions.php:5170
+#: govintranet/functions.php:5456 govintranet/functions.php:5472
+#: govintranet/functions.php:6109 govintranet/functions.php:6125
+#: govintranet/functions.php:6411 govintranet/functions.php:6427
+#: govintranet/functions.php:7064 govintranet/functions.php:7080
+#: govintranet/functions.php:7389 govintranet/functions.php:7405
+#: govintranet/functions.php:7986 govintranet/functions.php:8002
+#: govintranet/functions.php:8311 govintranet/functions.php:8327
+msgid "Tag"
+msgstr ""
+
+#: govintranet/functions.php:5173
+msgid "Match ANY of the tags (with teams/categories)"
+msgstr ""
+
+#: govintranet/functions.php:5198 govintranet/functions.php:6153
+#: govintranet/functions.php:7108 govintranet/functions.php:8030
+msgid "Blog listing"
+msgstr ""
+
+#: govintranet/functions.php:5317 govintranet/functions.php:6272
+#: govintranet/functions.php:7250 govintranet/functions.php:8172
+msgid "Task listing"
+msgstr ""
+
+#: govintranet/functions.php:5359 govintranet/functions.php:6314
+#: govintranet/functions.php:7292 govintranet/functions.php:8214
+msgid "Tasks to display"
+msgstr ""
+
+#: govintranet/functions.php:5370 govintranet/functions.php:6325
+#: govintranet/functions.php:7303 govintranet/functions.php:8225
+msgid ""
+"Display tasks and guides matching any of the chosen criteria in the tabs "
+"below."
+msgstr ""
+
+#: govintranet/functions.php:5500 govintranet/functions.php:6455
+#: govintranet/functions.php:7433 govintranet/functions.php:8355
+msgid "Free-format area"
+msgstr ""
+
+#: govintranet/functions.php:5505 govintranet/functions.php:6460
+msgctxt "Page content, data"
+msgid "Content"
+msgstr ""
+
+#: govintranet/functions.php:5528 govintranet/functions.php:6483
+#: govintranet/functions.php:7461 govintranet/functions.php:8383
+msgid "Team listing"
+msgstr ""
+
+#: govintranet/functions.php:5585 govintranet/functions.php:6540
+#: govintranet/functions.php:7518 govintranet/functions.php:8440
+msgid "Document listing"
+msgstr ""
+
+#: govintranet/functions.php:5634 govintranet/functions.php:6589
+#: govintranet/functions.php:7567 govintranet/functions.php:8489
+msgid "Type"
+msgstr ""
+
+#: govintranet/functions.php:5662 govintranet/functions.php:6617
+#: govintranet/functions.php:7595 govintranet/functions.php:8517
+msgid "Link listing"
+msgstr ""
+
+#: govintranet/functions.php:5688 govintranet/functions.php:6643
+#: govintranet/functions.php:7621 govintranet/functions.php:8543
+msgid "Link"
+msgstr ""
+
+#: govintranet/functions.php:5723 govintranet/functions.php:6678
+msgid "Gallery"
+msgstr ""
+
+#: govintranet/functions.php:5749 govintranet/functions.php:6704
+msgid "Images"
+msgstr ""
+
+#: govintranet/functions.php:5779 govintranet/functions.php:6734
+#: govintranet/functions.php:7656 govintranet/functions.php:8578
+msgid "Event listing"
+msgstr ""
+
+#: govintranet/functions.php:5883
+msgid "Hero column"
+msgstr ""
+
+#: govintranet/functions.php:6838
+msgid "Column 2"
+msgstr ""
+
+#: govintranet/functions.php:6849
+msgid "Add to column 2"
+msgstr ""
+
+#: govintranet/functions.php:7438 govintranet/functions.php:8360
+msgid "Content"
+msgstr ""
+
+#: govintranet/functions.php:7760
+msgid "Column 3"
+msgstr ""
+
+#: govintranet/functions.php:7771
+msgid "Add to column 3"
+msgstr ""
+
+#: govintranet/functions.php:8702
+msgid "Related teams"
+msgstr ""
+
+#: govintranet/functions.php:8771
+msgid "Sidebar"
+msgstr ""
+
+#: govintranet/functions.php:8775
+msgid "Sidebar content"
+msgstr ""
+
+#: govintranet/functions.php:8891 govintranet/page-doc-finder.php:32
+#: govintranet/page-doc-finder.php:76 govintranet/page-doc-finder.php:79
 msgid "All categories"
 msgstr ""
 
-#: functions.php:8891 page-doc-finder.php:40 page-doc-finder.php:114
-#: page-doc-finder.php:116
+#: govintranet/functions.php:8899 govintranet/page-doc-finder.php:40
+#: govintranet/page-doc-finder.php:114 govintranet/page-doc-finder.php:116
 msgid "All document types"
 msgstr ""
 
-#: functions.php:9237 functions.php:9244
+#: govintranet/functions.php:9245 govintranet/functions.php:9252
 msgctxt "all tags"
 msgid "All"
 msgstr ""
 
-#: functions.php:9467
+#: govintranet/functions.php:9475
 msgid "My profile"
 msgstr ""
 
-#: functions.php:9468 page-forum-simple.php:28
+#: govintranet/functions.php:9476 govintranet/page-forum-simple.php:28
 msgid "Logout"
 msgstr ""
 
-#: functions.php:9471 page-forum-simple.php:30 page-home.php:63
+#: govintranet/functions.php:9479 govintranet/page-forum-simple.php:30
+#: govintranet/page-home.php:63
 msgid "Login"
 msgstr ""
 
-#: functions.php:9490
+#: govintranet/functions.php:9498
 msgid "Anonymous"
 msgstr ""
 
-#: functions.php:9503
+#: govintranet/functions.php:9511
 #, php-format
 msgid "Reply to %s"
 msgstr ""
 
-#: header.php:371
+#: govintranet/header.php:371
 msgid "Toggle navigation"
 msgstr ""
 
-#: header.php:376
+#: govintranet/header.php:376
 msgid "Home"
 msgstr ""
 
-#: header.php:385 header.php:410
+#: govintranet/header.php:385 govintranet/header.php:410
 msgid "Skip to content"
 msgstr ""
 
-#: loop-blogtwitter.php:74 loop-newsblogs.php:53 loop-newsblogs.php:87
-#: loop-newstwitter.php:47 loop-newstwitter.php:81 loop.php:203
-#: page-news-multi.php:102 page-news-updates.php:90 taxonomy-news-type.php:101
+#: govintranet/loop-blogtwitter.php:76 govintranet/loop-newsblogs.php:55
+#: govintranet/loop-newsblogs.php:93 govintranet/loop-newstwitter.php:49
+#: govintranet/loop-newstwitter.php:87 govintranet/loop.php:206
+#: govintranet/page-news-multi.php:105 govintranet/page-news-updates.php:93
+#: govintranet/taxonomy-news-type.php:104
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:141
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:199
+#: plugins2015/ht-feature-news/ht_feature_news.php:306
+#: plugins2015/ht-feature-news/ht_feature_news.php:318
+#: plugins2015/ht-feature-news/ht_feature_news.php:331
+#: plugins2015/ht-feature-news/ht_feature_news.php:444
+#: plugins2015/ht-feature-news/ht_feature_news.php:455
+#: plugins2015/ht-feature-news/ht_feature_news.php:467
+#: plugins2015/ht-need-to-know-ajax/ht_need_to_know_ajax.php:161
+#: plugins2015/ht-news-updates/ht_news_updates.php:255
 #, php-format
 msgid "<span class=\"badge\">1 comment</span>"
 msgid_plural "<span class=\"badge\">%d comments</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: loop.php:30 taxonomy-a-to-z.php:85
-msgid "There's nothing to show"
+#: govintranet/loop-newstwitter.php:78
+#, php-format
+msgid "%s %s"
 msgstr ""
 
-#: loop.php:80 loop.php:89 tag.php:149
-msgid "guide"
+#: govintranet/loop.php:30
+msgid "There's nothing to show."
 msgstr ""
 
-#: loop.php:92 tag.php:145
-msgid "task"
+#: govintranet/loop.php:158 govintranet/loop.php:170 govintranet/loop.php:262
+#, php-format
+msgid "%s"
 msgstr ""
 
-#: loop.php:111 tag.php:175
-msgid "job vacancy"
-msgstr ""
-
-#: loop.php:119 tag.php:185
-msgid "event"
-msgstr ""
-
-#: loop.php:128 tag.php:195
-msgid "staff"
-msgstr ""
-
-#: loop.php:132
-msgid "team"
-msgstr ""
-
-#: loop.php:137
-msgid "page"
-msgstr ""
-
-#: loop.php:142
-msgid "forum"
-msgstr ""
-
-#: loop.php:147
-msgid "document download"
-msgstr ""
-
-#: loop.php:252
+#: govintranet/loop.php:257
 #, php-format
 msgctxt "represents the tag name"
 msgid "All intranet pages tagged with %s"
 msgstr ""
 
-#: loop.php:257
+#: govintranet/loop.php:262
 msgid "Tasks and guides category"
 msgstr ""
 
-#: loop.php:275 user-profile.php:67
-msgctxt "verb"
+#: govintranet/loop.php:280
+msgctxt "noun"
 msgid "Email"
 msgstr ""
 
-#: loop.php:295
+#: govintranet/loop.php:300
 msgid "Pages:"
 msgstr ""
 
-#: page-doc-finder.php:60 page-news-multi.php:34
-msgid "Category"
-msgstr ""
-
-#: page-doc-finder.php:105
-msgid "Document type"
-msgstr ""
-
-#: page-doc-finder.php:249
+#: govintranet/page-doc-finder.php:249
 msgid "No results"
 msgstr ""
 
-#: page-doc-finder.php:254
+#: govintranet/page-doc-finder.php:254
 msgid "Results"
 msgstr ""
 
-#: page-doc-finder.php:257
+#: govintranet/page-doc-finder.php:257
 msgid "item"
 msgid_plural "items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: page-doc-finder.php:263
+#: govintranet/page-doc-finder.php:263
 msgid "Please wait"
 msgstr ""
 
-#: page-event-past.php:34 page-event-past.php:45 page-event-past.php:51
+#: govintranet/page-event-past.php:34 govintranet/page-event-past.php:45
+#: govintranet/page-event-past.php:51
 #, php-format
 msgid "Past %s"
 msgstr ""
 
-#: page-event-past.php:43 page-event-past.php:49
+#: govintranet/page-event-past.php:43 govintranet/page-event-past.php:49
 #, php-format
 msgid "Future %s"
 msgstr ""
 
-#: page-event-past.php:270 page-event.php:164
+#: govintranet/page-event-past.php:270 govintranet/page-event.php:164
 msgid "All"
 msgstr ""
 
-#: page-forum-simple.php:27
+#: govintranet/page-forum-simple.php:27
 #, php-format
 msgid "Logged in as %s"
 msgstr ""
 
-#: page-forum-simple.php:30
+#: govintranet/page-forum-simple.php:30
 msgctxt "verb"
 msgid "Register"
 msgstr ""
 
-#: page-forum-simple.php:61
+#: govintranet/page-forum-simple.php:61
 msgid "Topics"
 msgstr ""
 
-#: page-forum-simple.php:62
+#: govintranet/page-forum-simple.php:62
 msgid "Posts"
 msgstr ""
 
-#: page-forum-simple.php:63
-msgid "Freshness"
-msgstr ""
-
-#: page-forum-simple.php:124
+#: govintranet/page-forum-simple.php:124
 msgid "No activity"
 msgstr ""
 
-#: page-how-do-i-alt-classic.php:26 page-how-do-i.php:41
+#: govintranet/page-how-do-i-alt-classic.php:26
+#: govintranet/page-how-do-i.php:41
 msgid "Search for"
 msgstr ""
 
-#: page-how-do-i-alt-classic.php:123 page-news.php:81
+#: govintranet/page-how-do-i-alt-classic.php:123 govintranet/page-news.php:81
 msgid "Search by tag"
 msgstr ""
 
-#: page-how-do-i-alt.php:58 page-how-do-i.php:79
+#: govintranet/page-how-do-i-alt.php:58 govintranet/page-how-do-i.php:79
 msgid "Browse by category"
 msgstr ""
 
-#: page-how-do-i.php:26
+#: govintranet/page-how-do-i.php:26
 msgid "Search in"
 msgstr ""
 
-#: page-how-do-i.php:29
+#: govintranet/page-how-do-i.php:29
 msgid "All tasks and guides"
 msgstr ""
 
-#: page-jargon-buster.php:72
+#: govintranet/page-jargon-buster.php:72
 #, php-format
 msgid "1 term"
 msgid_plural "%d terms"
 msgstr[0] ""
 msgstr[1] ""
 
-#: page-news-multi.php:27 page-news-updates.php:27
-msgid "News"
-msgstr ""
-
-#: page-news-multi.php:28
-msgid "Need to know"
-msgstr ""
-
-#: page-news-updates.php:94
+#: govintranet/page-news-updates.php:99
 msgid "All updates"
 msgstr ""
 
-#: page-projects.php:61
-msgid "Nothing to showgovintranet"
-msgstr ""
-
-#: page-staff-directory-masonry.php:26
+#: govintranet/page-staff-directory-masonry.php:26
 msgctxt "Screen reader text"
 msgid "Skip to staff"
 msgstr ""
 
-#: page-staff-directory-masonry.php:41 single-team.php:66
+#: govintranet/page-staff-directory-masonry.php:41
+#: govintranet/single-team.php:66
 msgid "Search staff"
 msgstr ""
 
-#: page-staff-directory-masonry.php:42 single-team.php:67
+#: govintranet/page-staff-directory-masonry.php:42
+#: govintranet/single-team.php:67
 msgid "Name, job title, skills, team, number..."
 msgstr ""
 
-#: page-staff-directory-masonry.php:61 single-team.php:88
+#: govintranet/page-staff-directory-masonry.php:61
+#: govintranet/single-team.php:88
 msgid "Browse teams"
 msgstr ""
 
-#: page-staff-directory-masonry.php:220
+#: govintranet/page-staff-directory-masonry.php:220
 msgid "Sort by"
 msgstr ""
 
-#: page-vacancies.php:52
+#: govintranet/page-vacancies.php:52
 #, php-format
 msgid "In %s"
 msgstr ""
 
-#: page-vacancies.php:68
-msgid "Grades"
-msgstr ""
-
-#: page-vacancies.php:70 page-vacancies.php:72
-msgid "All grades"
-msgstr ""
-
-#: page-vacancies.php:193
+#: govintranet/page-vacancies.php:193
 msgid "Closing"
 msgstr ""
 
-#: page-vacancies.php:202 single-blog.php:131 single-news-update.php:173
-#: single-news.php:272
+#: govintranet/page-vacancies.php:202 govintranet/single-blog.php:131
+#: govintranet/single-news-update.php:173 govintranet/single-news.php:272
 msgid "Read more"
 msgstr ""
 
-#: part-related.php:49
-msgid "Related"
-msgstr ""
-
-#: search-staff.php:53 search.php:149
+#: govintranet/search-staff.php:53 govintranet/search.php:149
 #, php-format
 msgid "Search results for: %s"
 msgstr ""
 
-#: search-staff.php:58
+#: govintranet/search-staff.php:58
 msgid "Search for a name, job title, skills, phone number..."
 msgstr ""
 
-#: search-staff.php:83
+#: govintranet/search-staff.php:83
 #, php-format
 msgid "Found 1 result"
 msgid_plural "Found %d results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: search-staff.php:202
+#: govintranet/search-staff.php:202
 msgid "Not on the directory"
 msgstr ""
 
-#: search-staff.php:204
+#: govintranet/search-staff.php:204
 #, php-format
 msgctxt "param 1 is the URL, param 2 is the title of the staff directory page"
 msgid "Try searching again or go back to the <a href=\"%1$s\">%2$s</a>"
 msgstr ""
 
-#: search.php:53
+#: govintranet/search.php:53
 msgctxt "search not found"
 msgid "Nope"
 msgstr ""
 
-#: search.php:67
+#: govintranet/search.php:67
 msgid "blog posts"
 msgstr ""
 
-#: search.php:75
+#: govintranet/search.php:75
 msgid "the forums"
 msgstr ""
 
-#: search.php:79
+#: govintranet/search.php:79
 msgid "jargon busters"
 msgstr ""
 
-#: search.php:87
+#: govintranet/search.php:87
 msgid "projects"
 msgstr ""
 
-#: search.php:91
+#: govintranet/search.php:91
 msgid "the staff directory"
 msgstr ""
 
-#: search.php:95
+#: govintranet/search.php:95
 msgid "tasks"
 msgstr ""
 
-#: search.php:99
+#: govintranet/search.php:99
 msgid "teams"
 msgstr ""
 
-#: search.php:103
+#: govintranet/search.php:103
+#: plugins2015/ht-vacancy-listing/ht_vacancy_listing.php:142
 msgid "vacancies"
 msgstr ""
 
-#: search.php:109
+#: govintranet/search.php:109
 #, php-format
 msgid "Couldn't find anything in %s. Try searching the whole intranet."
 msgstr ""
 
-#: search.php:111
+#: govintranet/search.php:111
 msgid ""
 "Couldn't find anything on the intranet like that. Sometimes using fewer "
 "words can help."
 msgstr ""
 
-#: search.php:116
+#: govintranet/search.php:116
 msgid "Did you mean?"
 msgstr ""
 
-#: search.php:123 search.php:127
+#: govintranet/search.php:123 govintranet/search.php:127
 msgid "Search again"
 msgstr ""
 
-#: search.php:152
+#: govintranet/search.php:152
 msgid "Showing results from forums"
 msgstr ""
 
-#: search.php:154
+#: govintranet/search.php:154
 msgid "Search the intranet"
 msgstr ""
 
-#: search.php:193
+#: govintranet/search.php:159
+#, php-format
+msgid "Found %d results"
+msgstr ""
+
+#: govintranet/search.php:195
 msgctxt "action"
 msgid "Filter results"
 msgstr ""
 
-#: search.php:219
+#: govintranet/search.php:221
 msgid "Staff profiles"
 msgstr ""
 
-#: search.php:232 user-details.php:62
+#: govintranet/search.php:234 govintranet/user-details.php:62
 msgid "Forum topics"
 msgstr ""
 
-#: search.php:237 user-details.php:70
+#: govintranet/search.php:239 govintranet/user-details.php:70
 msgid "Forum replies"
 msgstr ""
 
-#: search.php:251
+#: govintranet/search.php:253
 msgid "Recently published first"
 msgstr ""
 
-#: search.php:255
+#: govintranet/search.php:257
 msgid "Refine search"
 msgstr ""
 
-#: single-blog.php:56
+#: govintranet/single-blog.php:56
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:166
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:159
 msgid "Author"
 msgstr ""
 
-#: single-blog.php:106 single-event.php:180 single-news.php:119
-#: single-project.php:237 single-task.php:266 single-vacancy.php:134
+#: govintranet/single-blog.php:106 govintranet/single-event.php:180
+#: govintranet/single-news.php:119 govintranet/single-project.php:237
+#: govintranet/single-task.php:266 govintranet/single-vacancy.php:134
 msgid "Tags"
 msgstr ""
 
-#: single-blog.php:117
+#: govintranet/single-blog.php:117
 msgid "Recent posts"
 msgstr ""
 
-#: single-blog.php:119
+#: govintranet/single-blog.php:119
 msgid "Nothing to show yet"
 msgstr ""
 
-#: single-event.php:36
+#: govintranet/single-event.php:36
 msgid "Date"
 msgstr ""
 
-#: single-event.php:56 single-event.php:127
+#: govintranet/single-event.php:56 govintranet/single-event.php:127
 msgid "Location"
 msgstr ""
 
-#: single-event.php:66
+#: govintranet/single-event.php:66
 msgid "Event booking"
 msgstr ""
 
-#: single-event.php:72
+#: govintranet/single-event.php:72
 msgid "You have made a booking for this event"
 msgstr ""
 
-#: single-event.php:73
+#: govintranet/single-event.php:73
 msgid "Details"
 msgstr ""
 
-#: single-event.php:86
+#: govintranet/single-event.php:86
 msgid "Tickets and registration"
 msgstr ""
 
-#: single-event.php:96 single-news-update.php:65 single-news.php:72
-#: single-project.php:202 single-task.php:171 single-task.php:214
-#: single-vacancy.php:87
+#: govintranet/single-event.php:96 govintranet/single-news-update.php:65
+#: govintranet/single-news.php:72 govintranet/single-project.php:202
+#: govintranet/single-task.php:171 govintranet/single-task.php:214
+#: govintranet/single-vacancy.php:87
 msgctxt "Documents to download"
 msgid "Downloads"
 msgstr ""
 
-#: single-news-update.php:97
+#: govintranet/single-news-update.php:97
 msgctxt "Taxonomy name for News Update Types"
 msgid "Update types"
 msgstr ""
 
-#: single-news-update.php:131 single-news.php:165
+#: govintranet/single-news-update.php:131 govintranet/single-news.php:165
 msgid "Other updates"
 msgstr ""
 
-#: single-news-update.php:135
+#: govintranet/single-news-update.php:135
 msgid "Related updates"
 msgstr ""
 
-#: single-news-update.php:152
+#: govintranet/single-news-update.php:152
 msgid "Recent updates"
 msgstr ""
 
-#: single-news.php:182 single-news.php:209
+#: govintranet/single-news.php:182 govintranet/single-news.php:209
 msgid "Similar news"
 msgstr ""
 
-#: single-news.php:228
+#: govintranet/single-news.php:228
 msgid "Other related news"
 msgstr ""
 
-#: single-news.php:245
+#: govintranet/single-news.php:245
 msgid "Recent news"
 msgstr ""
 
-#: single-project.php:69 single-project.php:195 single-vacancy.php:74
-msgctxt "noun"
-msgid "Project"
-msgstr ""
-
-#: single-project.php:150 single-project.php:177 single-task.php:164
-#: single-task.php:190
+#: govintranet/single-project.php:150 govintranet/single-project.php:177
+#: govintranet/single-task.php:164 govintranet/single-task.php:190
 msgid "Overview"
 msgstr ""
 
-#: single-project.php:173 single-project.php:179 single-project.php:188
+#: govintranet/single-project.php:173 govintranet/single-project.php:179
+#: govintranet/single-project.php:188
 msgid "Navigate to next part"
 msgstr ""
 
-#: single-project.php:177 single-project.php:185 single-task.php:190
-#: single-task.php:198
+#: govintranet/single-project.php:177 govintranet/single-project.php:185
+#: govintranet/single-task.php:190 govintranet/single-task.php:198
 msgid "Navigate to previous part"
 msgstr ""
 
-#: single-team.php:20
+#: govintranet/single-team.php:20
 msgid "Skip to staff"
 msgstr ""
 
-#: single-team.php:128
+#: govintranet/single-team.php:128
 msgid "Sub-teams"
 msgstr ""
 
-#: single-vacancy.php:30
+#: govintranet/single-vacancy.php:30
 msgid "Job details"
 msgstr ""
 
-#: single-vacancy.php:55
+#: govintranet/single-vacancy.php:55
 msgid "Job reference"
 msgstr ""
 
-#: single-vacancy.php:58
-msgid "Closing date"
-msgstr ""
-
-#: single-vacancy.php:67
+#: govintranet/single-vacancy.php:67
 msgid "That's today!"
 msgstr ""
 
-#: tag.php:21
+#: govintranet/tag.php:21
 #, php-format
 msgid "Tasks/guides tagged: %s"
 msgstr ""
 
-#: tag.php:24
+#: govintranet/tag.php:24
 #, php-format
 msgid "Projects tagged: %s"
 msgstr ""
 
-#: tag.php:27
+#: govintranet/tag.php:27
 #, php-format
 msgid "Job vacancies tagged: %s"
 msgstr ""
 
-#: tag.php:30
+#: govintranet/tag.php:30
 #, php-format
 msgid "News tagged: %s"
 msgstr ""
 
-#: tag.php:33
+#: govintranet/tag.php:33
 #, php-format
 msgid "Blog posts tagged: %s"
 msgstr ""
 
-#: tag.php:36
+#: govintranet/tag.php:36
 #, php-format
 msgid "Events tagged: %s"
 msgstr ""
 
-#: tag.php:40
+#: govintranet/tag.php:40
 #, php-format
 msgid "Everything tagged: %s"
 msgstr ""
 
-#: tag.php:94
+#: govintranet/tag.php:94
 msgid "Nothing on the intranet with this tag"
 msgstr ""
 
-#: tag.php:200
+#: govintranet/tag.php:145
+msgid "task"
+msgstr ""
+
+#: govintranet/tag.php:149
+msgid "guide"
+msgstr ""
+
+#: govintranet/tag.php:175
+msgid "job vacancy"
+msgstr ""
+
+#: govintranet/tag.php:185
+msgid "event"
+msgstr ""
+
+#: govintranet/tag.php:195
+msgid "staff"
+msgstr ""
+
+#: govintranet/tag.php:200
 msgid "download"
 msgstr ""
 
-#: tag.php:388
+#: govintranet/tag.php:388
 #, php-format
 msgid "Go to %s"
 msgstr ""
 
-#: tag.php:393
+#: govintranet/tag.php:393
 #, php-format
 msgid "<strong>Everything</strong> tagged: %s"
 msgstr ""
 
-#: tag.php:409
+#: govintranet/tag.php:409
 #, php-format
 msgid "<strong>Tasks and guides</strong> tagged: %s"
 msgstr ""
 
-#: tag.php:426
+#: govintranet/tag.php:426
 #, php-format
 msgid "<strong>Projects</strong> tagged: %s"
 msgstr ""
 
-#: tag.php:442
+#: govintranet/tag.php:442
 #, php-format
 msgid "<strong>Job vacancies</strong> tagged: %s"
 msgstr ""
 
-#: tag.php:459
+#: govintranet/tag.php:459
 #, php-format
 msgid "<strong>News</strong> tagged: %s"
 msgstr ""
 
-#: tag.php:476
+#: govintranet/tag.php:476
 #, php-format
 msgid "<strong>Blog posts</strong> tagged: %s"
 msgstr ""
 
-#: tag.php:493
+#: govintranet/tag.php:493
 #, php-format
 msgid "<strong>Events</strong> tagged: %s"
 msgstr ""
 
-#: taxonomy-news-type.php:147
+#: govintranet/taxonomy-a-to-z.php:85
+msgid "There's nothing to show"
+msgstr ""
+
+#: govintranet/taxonomy-news-type.php:151
 msgid "Other categories"
 msgstr ""
 
-#: theme-options.php:33
+#: govintranet/theme-options.php:33
 msgid "Header background colour"
 msgstr ""
 
-#: theme-options.php:39
+#: govintranet/theme-options.php:39
 msgid "Link colour"
 msgstr ""
 
-#: theme-options.php:45
+#: govintranet/theme-options.php:45
 msgid "Visited colour"
 msgstr ""
 
-#: user-details.php:38
+#: govintranet/user-details.php:38
 #, php-format
 msgid "%s's Profile"
 msgstr ""
 
-#: user-details.php:38
+#: govintranet/user-details.php:38
 msgid "Profile"
 msgstr ""
 
-#: user-details.php:51
+#: govintranet/user-details.php:51
 #, php-format
 msgid "%s's blog posts"
 msgstr ""
 
-#: user-details.php:51
-msgid "Blog posts"
-msgstr ""
-
-#: user-details.php:62
+#: govintranet/user-details.php:62
 #, php-format
 msgid "%s's forum topics"
 msgstr ""
 
-#: user-details.php:70
+#: govintranet/user-details.php:70
 #, php-format
 msgid "%s's forum replies"
 msgstr ""
 
-#: user-details.php:80
+#: govintranet/user-details.php:80
 #, php-format
 msgid "%s's forum favourites"
 msgstr ""
 
-#: user-details.php:80
+#: govintranet/user-details.php:80
 msgid "Favourites"
 msgstr ""
 
-#: user-details.php:92
+#: govintranet/user-details.php:92
 #, php-format
 msgid "%s's forum subscriptions"
 msgstr ""
 
-#: user-details.php:92
+#: govintranet/user-details.php:92
 msgid "Subscriptions"
 msgstr ""
 
-#: user-details.php:99
+#: govintranet/user-details.php:99
 #, php-format
 msgid "Edit %s's profile"
 msgstr ""
 
-#: user-details.php:99
+#: govintranet/user-details.php:99
 msgid "Edit profile"
 msgstr ""
 
-#: user-profile.php:45
+#: govintranet/user-profile.php:45
 msgid "Role"
 msgstr ""
 
-#: user-profile.php:54
+#: govintranet/user-profile.php:54
 msgctxt "Address book details"
 msgid "Contact"
 msgstr ""
 
-#: user-profile.php:98
+#: govintranet/user-profile.php:67
+msgctxt "verb"
+msgid "Email"
+msgstr ""
+
+#: govintranet/user-profile.php:98
 msgctxt "Job skills"
 msgid "Key skills and experience"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:13
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:13
+msgid "HT About this page AJAX"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:13
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:13
+msgid "Display page metadata"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:19
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:19
+msgid "About this page widget"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:23
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:23
+msgid "Display also on children of:"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:105
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:117
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:199
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:209
+msgid "just now"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:107
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:119
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:201
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:211
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:110
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:204
+msgid "Updated"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:121
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:213
+msgid "Published"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:154
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:147
+#: plugins2015/ht-events-listing/ht_events_listing.php:270
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:243
+#: plugins2015/ht-feature-news/ht_feature_news.php:531
+#: plugins2015/ht-most-recent/ht_most_recent.php:242
+#: plugins2015/ht-need-to-know-ajax/ht_need_to_know_ajax.php:58
+#: plugins2015/ht-news-updates/ht_news_updates.php:295
+#: plugins2015/ht-recent-comments/ht_recent_comments.php:175
+#: plugins2015/ht-vacancy-listing/ht_vacancy_listing.php:175
+msgid "Title:"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:157
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:150
+msgid "Include"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:160
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:153
+msgid "Modified date"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page.php:163
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:156
+msgid "Published date"
+msgstr ""
+
+#: plugins2015/ht-about-this-page/ht_about_this_page_ajax.php:240
+msgid "Error - no data"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:14
+msgid "HT Events listing"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:14
+msgid "Events listing widget"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:174
+msgid "Nothing coming up. Here's the most recent:"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:273
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:245
+#: plugins2015/ht-most-recent/ht_most_recent.php:245
+#: plugins2015/ht-need-to-know-ajax/ht_need_to_know_ajax.php:60
+#: plugins2015/ht-news-updates/ht_news_updates.php:298
+#: plugins2015/ht-vacancy-listing/ht_vacancy_listing.php:178
+msgid "Number of items:"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:277
+msgid "Show calendar"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:280
+msgid "Show letterbox image"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:283
+msgid "Show location"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:286
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:250
+#: plugins2015/ht-feature-news/ht_feature_news.php:547
+msgid "Show excerpt"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:289
+msgid "Show recent"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:290
+#: plugins2015/ht-vacancy-listing/ht_vacancy_listing.php:184
+msgid "Cache (minutes):"
+msgstr ""
+
+#: plugins2015/ht-events-listing/ht_events_listing.php:302
+msgid "Limit event types"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:17
+msgid "HT Feature blogposts"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:17
+msgid "Blogpost listing widget"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:22
+msgid "Feature blog widget"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:26
+msgctxt "Make stories sticky and appear at the top"
+msgid "Pin posts"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:138
+#: plugins2015/ht-feature-news/ht_feature_news.php:315
+#: plugins2015/ht-feature-news/ht_feature_news.php:328
+msgid "Featured"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:247
+msgid "Freshness (days)"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:252
+msgid "Show thumbnails"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:253
+msgid "Displays the featured image if present, otherwise the author avatar"
+msgstr ""
+
+#: plugins2015/ht-feature-blogposts/ht_feature_blogposts.php:256
+msgid "Show link to more"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:13
+msgid "HT Feature news"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:13
+msgid "Display feature news stories"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:18
+msgid "Feature news widget"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:22
+msgctxt "Categories for news"
+msgid "News type"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:44
+msgctxt "Make news stories sticky and appear at the top"
+msgid "Pin stories"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:73
+msgid "Exclude stories"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:309
+#: plugins2015/ht-feature-news/ht_feature_news.php:323
+#: plugins2015/ht-feature-news/ht_feature_news.php:334
+#: plugins2015/ht-feature-news/ht_feature_news.php:460
+#: plugins2015/ht-feature-news/ht_feature_news.php:470
+msgid "Full story"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:493
+msgid "More"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:533
+msgid "Number of stories"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:534
+msgid "Large"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:537
+msgid "Medium"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:540
+msgid "Thumbnail"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:543
+msgid "List format (no photos)"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:549
+#: plugins2015/ht-news-updates/ht_news_updates.php:301
+msgid "Title for more:"
+msgstr ""
+
+#: plugins2015/ht-feature-news/ht_feature_news.php:550
+#: plugins2015/ht-news-updates/ht_news_updates.php:302
+msgid "Leave blank for the default title"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:13
+msgid "HT MostRecent"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:13
+msgid "Display most recent posts"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:19
+msgctxt "Widget that lists the most recent posts"
+msgid "Most recent widget"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:23
+msgid "Exclude"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:169
+msgid "NEW"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:254
+msgid "Projects"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:269
+msgid "Pages"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:272
+msgctxt "noun"
+msgid "Updates"
+msgstr ""
+
+#: plugins2015/ht-most-recent/ht_most_recent.php:275
+msgid "Show again when updated"
+msgstr ""
+
+#: plugins2015/ht-need-to-know-ajax/ht_need_to_know_ajax.php:13
+msgid "HT Need to know AJAX"
+msgstr ""
+
+#: plugins2015/ht-need-to-know-ajax/ht_need_to_know_ajax.php:13
+msgid "Need to know AJAX news widget"
+msgstr ""
+
+#: plugins2015/ht-need-to-know-ajax/ht_need_to_know_ajax.php:63
+msgid "Hide if already read"
+msgstr ""
+
+#: plugins2015/ht-news-updates/ht_news_updates.php:13
+msgid "HT News Updates"
+msgstr ""
+
+#: plugins2015/ht-news-updates/ht_news_updates.php:13
+msgid "News Updates widget"
+msgstr ""
+
+#: plugins2015/ht-news-updates/ht_news_updates.php:17
+msgctxt "Categories of news updates"
+msgid "Update types"
+msgstr ""
+
+#: plugins2015/ht-news-updates/ht_news_updates.php:21
+msgctxt "Categories of news updates"
+msgid "News update type"
+msgstr ""
+
+#: plugins2015/ht-news-updates/ht_news_updates.php:24
+msgid "Choose \"None\" to include all alerts."
+msgstr ""
+
+#: plugins2015/ht-news-updates/ht_news_updates.php:43
+msgctxt "The background colour of the news update"
+msgid "Update background colour"
+msgstr ""
+
+#: plugins2015/ht-news-updates/ht_news_updates.php:58
+msgctxt "The colour of the news update text"
+msgid "Update text colour"
+msgstr ""
+
+#: plugins2015/ht-news-updates/ht_news_updates.php:73
+msgid "Border colour"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:13
+msgid "HT Profile Nudge AJAX"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:13
+msgid "Display reminders to complete missing staff profile entries using AJAX."
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:83
+msgid "Mobile phone"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:98
+msgid "Biography"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:104
+msgid "Profile photo"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:146
+#, php-format
+msgid "%s, your number is not listed"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:149
+msgid ""
+"We noticed that your telephone number is missing from your staff profile. "
+"You can add it now if you like?"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:152
+msgid "Telephone"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:153
+msgid "e.g. 0203 459 8765"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:154
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:180
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:206
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:243
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:279
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:305
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:331
+msgid "Update now"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:154
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:180
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:206
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:243
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:279
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:305
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:331
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:361
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:385
+msgid "I'll do it later"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:172
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:198
+#, php-format
+msgid "%s, did you know?"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:175
+msgid "Your mobile number is missing. You can add it now if you like?"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:178
+msgid "Mobile"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:179
+msgid "e.g. 07771 999 888"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:201
+msgid ""
+"Your job title is missing from your staff profile. You can add it now if you "
+"like?"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:205
+msgid "e.g. Data entry clerk"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:224
+#, php-format
+msgid "Pssst, %s"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:227
+msgid "Please enter your grade so that you appear correctly in team listings."
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:232
+msgid "Choose your grade"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:261
+#, php-format
+msgid "%s, join a team!"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:264
+msgid "To be listed correctly in the staff directory, please choose your team:"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:269
+msgid "Choose your team"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:297
+#, php-format
+msgid "%s, get listed!"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:300
+msgid ""
+"Make sure you appear in staff directory search results by adding your skills "
+"and experience."
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:304
+msgid "e.g. I can help with budget codes, procurement and invoices."
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:323
+#, php-format
+msgid "About %s"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:326
+msgid ""
+"Your staff bio is empty. Do you want to tell us a little about yourself now?"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:329
+msgid "Short bio"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:330
+msgctxt "Example biography"
+msgid "I have worked in the Civil Service for 3 years..."
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:359
+msgid ""
+"Please set your line manager in your staff profile so that you appear "
+"correctly in the staff directory."
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:361
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:385
+msgid "Edit my profile"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:384
+msgid ""
+"There is no photo of you on your staff profile. Do you want to add one now?"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:425
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:476
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:529
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:581
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:633
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:685
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:737
+#: plugins2015/ht-profile-nudge-ajax/update_profile.php:16
+msgid "Security check - there is something wrong"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:436
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:488
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:541
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:593
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:645
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:697
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:749
+msgid "Security check - can\\'t check your identity"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:440
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:492
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:545
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:597
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:649
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:701
+#: plugins2015/ht-profile-nudge-ajax/ht_profile_nudge_ajax.php:753
+msgid "<strong>Updated.</strong> Thank you"
+msgstr ""
+
+#: plugins2015/ht-profile-nudge-ajax/update_profile.php:31
+#: plugins2015/ht-profile-nudge-ajax/update_profile.php:48
+#: plugins2015/ht-profile-nudge-ajax/update_profile.php:66
+#: plugins2015/ht-profile-nudge-ajax/update_profile.php:84
+#: plugins2015/ht-profile-nudge-ajax/update_profile.php:103
+#: plugins2015/ht-profile-nudge-ajax/update_profile.php:121
+#: plugins2015/ht-profile-nudge-ajax/update_profile.php:139
+msgid "Security check - can\\'t check your identity."
+msgstr ""
+
+#: plugins2015/ht-recent-comments/ht_recent_comments.php:14
+msgid "Your site&#8217;s most recent comments."
+msgstr ""
+
+#: plugins2015/ht-recent-comments/ht_recent_comments.php:15
+msgid "HT Recent Comments"
+msgstr ""
+
+#: plugins2015/ht-recent-comments/ht_recent_comments.php:81
+msgid "Recent Comments"
+msgstr ""
+
+#: plugins2015/ht-recent-comments/ht_recent_comments.php:132
+#, php-format
+msgctxt "widgets"
+msgid "%1$s on %2$s"
+msgstr ""
+
+#: plugins2015/ht-recent-comments/ht_recent_comments.php:178
+msgid "Number of comments to show:"
+msgstr ""
+
+#: plugins2015/ht-vacancy-listing/ht_vacancy_listing.php:13
+msgid "HT Vacancy listing"
+msgstr ""
+
+#: plugins2015/ht-vacancy-listing/ht_vacancy_listing.php:13
+msgid "Vacancy listing widget"
+msgstr ""
+
+#: plugins2015/ht-vacancy-listing/ht_vacancy_listing.php:181
+msgid "Days to look forward:"
 msgstr ""

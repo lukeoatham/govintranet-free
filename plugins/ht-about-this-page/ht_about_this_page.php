@@ -10,17 +10,17 @@ Author URI: http://www.helpfultechnology.com
 
 class htAboutThisPage extends WP_Widget {
     function htAboutThisPage() {
-        parent::WP_Widget(false, 'HT About this page', array('description' => 'Display page metadata'));
+        parent::WP_Widget(false, __('HT About this page','govintranet'), array('description' => __('Display page metadata','govintranet')));
 
 		if( function_exists('register_field_group') ):
 		
 		register_field_group(array (
 			'key' => 'group_54c8168128e72',
-			'title' => 'About this page widget',
+			'title' => __('About this page widget','govintranet'),
 			'fields' => array (
 				array (
 					'key' => 'field_54c816872d1e0',
-					'label' => 'Display also on children of:',
+					'label' => __('Display also on children of:','govintranet'),
 					'name' => 'about_this_page_children',
 					'prefix' => '',
 					'type' => 'relationship',
@@ -57,7 +57,8 @@ class htAboutThisPage extends WP_Widget {
 		));
 		
 		endif;
-    }
+
+	}
 
     function widget($args, $instance) {
         extract( $args );
@@ -93,31 +94,31 @@ class htAboutThisPage extends WP_Widget {
 
 			echo $before_widget; 
 			echo "<div id='about-this-widget'>";
-			if ( $title )
-				echo $before_title . $title . $after_title; 
-				$tzone = get_option('timezone_string');
-				date_default_timezone_set($tzone);
+			if ( $title ) echo $before_title . $title . $after_title; 
+			
+			$tzone = get_option('timezone_string');
+			date_default_timezone_set($tzone);
 
 			if ($show_modified_date=='on'){
 				$sdate = human_time_diff_plus(get_the_modified_time('U'));
 				if ($sdate=="0 mins") {
-					$sdate=" just now";
+					$sdate=" " . __("just now","govintranet");
 				} else {
-					$sdate = $sdate." ago";
+					$sdate = sprintf( __('%s ago','govintranet'), $sdate );
 				}
 
-				echo "Updated <time datetime='".$sdate."'>".$sdate."</time><br>";
+				echo __('Updated','govintranet') . " <time datetime='".$sdate."'>".$sdate."</time><br>";
 			}
 
 			if ($show_published_date=='on'){
 				$sdate= date( "j M Y",strtotime(get_the_date() )); 
 				$sdate = human_time_diff_plus(get_the_time('U'));
 				if ($sdate=="0 mins") {
-					$sdate=" just now";
+					$sdate=" " . __("just now","govintranet");
 				} else {
-					$sdate = $sdate." ago";
+					$sdate = sprintf( __('%s ago','govintranet'), $sdate );
 				}
-				echo "Published <time datetime='".$sdate."'>".$sdate."</time><br>";
+				echo __('Published','govintranet') . " <time datetime='".$sdate."'>".$sdate."</time><br>";
 			}
 
 			if ($show_author=='on'){
@@ -150,20 +151,19 @@ class htAboutThisPage extends WP_Widget {
         $show_author = esc_attr($instance['show_author']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
-
           
-          <label>Include:</label><br>
+          <label><?php _e('Include','govintranet');?>:</label><br>
 
           <input id="<?php echo $this->get_field_id('show_modified_date'); ?>" name="<?php echo $this->get_field_name('show_modified_date'); ?>" type="checkbox" <?php checked((bool) $instance['show_modified_date'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('show_modified_date'); ?>"><?php _e('Modified date'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('show_modified_date'); ?>"><?php _e('Modified date','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('show_published_date'); ?>" name="<?php echo $this->get_field_name('show_published_date'); ?>" type="checkbox" <?php checked((bool) $instance['show_published_date'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('show_published_date'); ?>"><?php _e('Published date'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('show_published_date'); ?>"><?php _e('Published date','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('show_author'); ?>" name="<?php echo $this->get_field_name('show_author'); ?>" type="checkbox" <?php checked((bool) $instance['show_author'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('show_author'); ?>"><?php _e('Author'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('show_author'); ?>"><?php _e('Author','govintranet'); ?></label> <br>
 
         </p>
 

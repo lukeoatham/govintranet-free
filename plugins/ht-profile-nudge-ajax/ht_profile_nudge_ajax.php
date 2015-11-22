@@ -10,7 +10,7 @@ Author URI: http://www.helpfultechnology.com
 
 class htProfileNudgeajax extends WP_Widget {
     function htProfileNudgeajax() {
-        parent::WP_Widget(false, 'HT Profile Nudge AJAX', array('description' => 'Display reminders to complete missing staff profile entries using AJAX.'));
+        parent::WP_Widget(false, __('HT Profile Nudge AJAX','govintranet'), array('description' => __('Display reminders to complete missing staff profile entries using AJAX.','govintranet')));
     }
 
     function widget($args, $instance) {
@@ -77,31 +77,31 @@ class htProfileNudgeajax extends WP_Widget {
          <p>
 
           <input id="<?php echo $this->get_field_id('telephone'); ?>" name="<?php echo $this->get_field_name('telephone'); ?>" type="checkbox" <?php checked((bool) $instance['telephone'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('telephone'); ?>"><?php _e('Telephone number'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('telephone'); ?>"><?php _e('Telephone number','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('mobile'); ?>" name="<?php echo $this->get_field_name('mobile'); ?>" type="checkbox" <?php checked((bool) $instance['mobile'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('mobile'); ?>"><?php _e('Mobile phone'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('mobile'); ?>"><?php _e('Mobile phone','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('job_title'); ?>" name="<?php echo $this->get_field_name('job_title'); ?>" type="checkbox" <?php checked((bool) $instance['job_title'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('job_title'); ?>"><?php _e('Job title'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('job_title'); ?>"><?php _e('Job title','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('grade'); ?>" name="<?php echo $this->get_field_name('grade'); ?>" type="checkbox" <?php checked((bool) $instance['grade'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('grade'); ?>"><?php _e('Grade'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('grade'); ?>"><?php _e('Grade','govintranet'); ?></label> <br>
           
           <input id="<?php echo $this->get_field_id('team'); ?>" name="<?php echo $this->get_field_name('team'); ?>" type="checkbox" <?php checked((bool) $instance['team'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('team'); ?>"><?php _e('Team'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('team'); ?>"><?php _e('Team','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('key_skills'); ?>" name="<?php echo $this->get_field_name('key_skills'); ?>" type="checkbox" <?php checked((bool) $instance['key_skills'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('key_skills'); ?>"><?php _e('Skills and experience'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('key_skills'); ?>"><?php _e('Skills and experience','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('bio'); ?>" name="<?php echo $this->get_field_name('bio'); ?>" type="checkbox" <?php checked((bool) $instance['bio'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('bio'); ?>"><?php _e('Biography'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('bio'); ?>"><?php _e('Biography','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('linemanager'); ?>" name="<?php echo $this->get_field_name('linemanager'); ?>" type="checkbox" <?php checked((bool) $instance['linemanager'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('linemanager'); ?>"><?php _e('Line manager'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('linemanager'); ?>"><?php _e('Line manager','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('photo'); ?>" name="<?php echo $this->get_field_name('photo'); ?>" type="checkbox" <?php checked((bool) $instance['photo'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('photo'); ?>"><?php _e('Profile photo'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('photo'); ?>"><?php _e('Profile photo','govintranet'); ?></label> <br>
 
         </p>
 
@@ -142,12 +142,16 @@ function ht_profile_nudge_ajax_show() {
 			$nonce = wp_create_nonce ('update_profile_add_phone_'.$widget_id);
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
-			<h3>" . $current_user->user_firstname . ", your number is not listed</h3>
-			<p>We noticed that your telephone number is missing from your staff profile. You can add it now if you like?</p>
+			<h3>";
+			$html.= sprintf( __('%s, your number is not listed' , 'govintranet' ) , $current_user->user_firstname );
+			$html.="</h3>
+			<p>";
+			$html.= __('We noticed that your telephone number is missing from your staff profile. You can add it now if you like?','govintranet');
+			$html.="</p>
 			<form id='update-profile-form' class='form-horizontal' role='form' name='update-profile' method='post'>
-			<label for='phone'>Telephone</label>
-			<input class='form-control' name='phone' id='phone_".$widget_id."' placeholder='e.g. 0203 459 8765' /><br>
-			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_phone();' class='profilebutton btn btn-primary'>Update now</a> <a class='linkpointer' onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_telephone\");'><small>I'll do it later</small></a><br>
+			<label for='phone'>" . __('Telephone','govintranet') . "</label>
+			<input class='form-control' name='phone' id='phone_".$widget_id."' placeholder='" . __('e.g. 0203 459 8765','govintranet') . "' /><br>
+			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_phone();' class='profilebutton btn btn-primary'>" . __('Update now','govintranet') . "</a> <a class='linkpointer' onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_telephone\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			<input type='hidden' name='_wpnonce_add_phone_".$widget_id."' value='" . $nonce ."' />
 			</form>	
 			<div id='ht_profilenudge_errmsg_".$widget_id."'></div>
@@ -164,12 +168,16 @@ function ht_profile_nudge_ajax_show() {
 			$nonce = wp_create_nonce ('update_profile_add_mobile_'.$widget_id);
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
-			<h3>" . $current_user->user_firstname . ", did you know?</h3>
-			<p>Your mobile number is missing. You can add it now if you like?</p>
+			<h3>";
+			$html.= sprintf( __('%s, did you know?' , 'govintranet' ) , $current_user->user_firstname );
+			$html.="</h3>
+			<p>";
+			$html.= __('Your mobile number is missing. You can add it now if you like?','govintranet');
+			$html.="</p>
 			<form id='update-profile-form' class='form-horizontal' role='form' name='update-profile' method='post'>
-			<label for='mobile'>Mobile</label>
-			<input class='form-control' name='mobile' id='mobile_".$widget_id."' placeholder='e.g. 07771 999 888' /><br>
-			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_mobile();' class='profilebutton btn btn-primary'>Update now</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_mobile\");'><small>I'll do it later</small></a><br>
+			<label for='mobile'>" . __('Mobile','govintranet') . "</label>
+			<input class='form-control' name='mobile' id='mobile_".$widget_id."' placeholder='" . __('e.g. 07771 999 888' , 'govintranet') . "' /><br>
+			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_mobile();' class='profilebutton btn btn-primary'>" . __('Update now','govintranet') . "</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_mobile\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			<input type='hidden' name='_wpnonce_add_mobile_".$widget_id."' value='" . $nonce ."' />
 			</form>	
 			<div id='ht_profilenudge_errmsg_".$widget_id."'></div>
@@ -186,12 +194,16 @@ function ht_profile_nudge_ajax_show() {
 			$nonce = wp_create_nonce ('update_profile_add_job_title_'.$widget_id);
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
-			<h3>" . $current_user->user_firstname . ", did you know?</h3>
-			<p>Your job title is missing from your staff profile. You can add it now if you like?</p>
+			<h3>";
+			$html.= sprintf( __('%s, did you know?' , 'govintranet' ) , $current_user->user_firstname );
+			$html.="</h3>
+			<p>";
+			$html.= __('Your job title is missing from your staff profile. You can add it now if you like?','govintranet');
+			$html.="</p>
 			<form id='update-profile-form' class='form-horizontal' role='form' name='update-profile' method='post'>
-			<label for='job_title'>Job title</label>
-			<input class='form-control' name='job_title' id='job_title_".$widget_id."' placeholder='e.g. Data entry clerk' /><br>
-			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_job_title();' class='profilebutton btn btn-primary'>Update now</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_job_title\");'><small>I'll do it later</small></a><br>
+			<label for='job_title'>" . __('Job title','govintranet') . "</label>
+			<input class='form-control' name='job_title' id='job_title_".$widget_id."' placeholder='" . __('e.g. Data entry clerk' , 'govintranet') . "' /><br>
+			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_job_title();' class='profilebutton btn btn-primary'>" . __('Update now','govintranet') . "</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_job_title\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			<input type='hidden' name='_wpnonce_add_job_title_".$widget_id."' value='" . $nonce ."' />
 			</form>	
 			<div id='ht_profilenudge_errmsg_".$widget_id."'></div>
@@ -208,12 +220,16 @@ function ht_profile_nudge_ajax_show() {
 			$nonce = wp_create_nonce ('update_profile_add_grade_'.$widget_id);
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
-			<h3>Pssst, " . $current_user->user_firstname . "</h3>
-			<p>Please enter your grade so that you appear correctly in team listings.</p>
+			<h3>";
+			$html.= sprintf( __('Pssst, %s' , 'govintranet' ) , $current_user->user_firstname );
+			$html.="</h3>
+			<p>";
+			$html.= __('Please enter your grade so that you appear correctly in team listings.','govintranet');
+			$html.="</p>
 			<form id='update-profile-form' class='form-horizontal' role='form' name='update-profile' method='post'>
-			<label for='grade'>Grade</label>
+			<label for='grade'>" . __('Grade','govintranet') . "</label>
 			<select class='form-control' name='grade' id='grade_".$widget_id."'>
-			<option value='0'>Choose your grade</option>";
+			<option value='0'>" . __('Choose your grade','govintranet') . "</option>";
 			$terms = get_terms('grade',array('hide_empty'=>false,'orderby'=>'slug','order'=>'ASC',"parent"=>0));
 			if ($terms) {
 		  		foreach ((array)$terms as $taxonomy ) {
@@ -224,7 +240,7 @@ function ht_profile_nudge_ajax_show() {
 			}
 			$html.="
 			</select><br>
-			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_grade();' class='profilebutton btn btn-primary'>Update now</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_grade\");'><small>I'll do it later</small></a><br>
+			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_grade();' class='profilebutton btn btn-primary'>" . __('Update now' , 'govintranet') . "</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_grade\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			<input type='hidden' name='_wpnonce_add_grade_".$widget_id."' value='" . $nonce ."' />
 			</form>	
 			<div id='ht_profilenudge_errmsg_".$widget_id."'></div>
@@ -241,12 +257,16 @@ function ht_profile_nudge_ajax_show() {
 			$nonce = wp_create_nonce ('update_profile_add_team_'.$widget_id);
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
-			<h3>" . $current_user->user_firstname . ", join a team!</h3>
-			<p>To be listed correctly in the staff directory, please choose your team:</p>
+			<h3>";
+			$html.= sprintf( __('%s, join a team!' , 'govintranet' ) , $current_user->user_firstname );
+			$html.="</h3>
+			<p>";
+			$html.= __('To be listed correctly in the staff directory, please choose your team:','govintranet');
+			$html.="</p>
 			<form id='update-profile-form' class='form-horizontal' role='form' name='update-profile' method='post'>
-			<label for='team'>Team</label>
+			<label for='team'>" . __('Team','govintranet') . "</label>
 			<select class='form-control' name='team' id='team_".$widget_id."'>
-			<option value='0'>Choose your team</option>";
+			<option value='0'>" . __('Choose your team','govintranet') . "</option>";
 			$terms = get_posts('post_type=team&orderby=title&order=ASC&posts_per_page=-1');
 			if ($terms) {
 		  		foreach ((array)$terms as $taxonomy ) {
@@ -256,7 +276,7 @@ function ht_profile_nudge_ajax_show() {
 			}
 			$html.="
 			</select><br>
-			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_team();' class='profilebutton btn btn-primary'>Update now</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_team\");'><small>I'll do it later</small></a><br>
+			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_team();' class='profilebutton btn btn-primary'>" . __('Update now','govintranet') . "</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_team\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			<input type='hidden' name='_wpnonce_add_team_".$widget_id."' value='" . $nonce ."' />
 			</form>	
 			<div id='ht_profilenudge_errmsg_".$widget_id."'></div>
@@ -273,12 +293,16 @@ function ht_profile_nudge_ajax_show() {
 			$nonce = wp_create_nonce ('update_profile_add_skills_'.$widget_id);
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
-			<h3>" . $current_user->user_firstname . ", get listed!</h3>
-			<p>Make sure you appear in staff directory search results by adding your skills and experience.</p>
+			<h3>";
+			$html.= sprintf( __('%s, get listed!' , 'govintranet' ) , $current_user->user_firstname );
+			$html.="</h3>
+			<p>";
+			$html.= __('Make sure you appear in staff directory search results by adding your skills and experience.','govintranet');
+			$html.="</p>
 			<form id='update-profile-form' class='form-horizontal' role='form' name='update-profile' method='post'>
-			<label for='skills'>Skills and experience</label>
-			<textarea rows='3'  class='form-control' name='skills' id='skills_".$widget_id."' placeholder='e.g. I can help with budget codes, procurement and invoices.' /></textarea><br>
-			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_skills();' class='profilebutton btn btn-primary'>Update now</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_skills\");'><small>I'll do it later</small></a><br>
+			<label for='skills'>" . __('Skills and experience','govintranet') . "</label>
+			<textarea rows='3'  class='form-control' name='skills' id='skills_".$widget_id."' placeholder='" . __('e.g. I can help with budget codes, procurement and invoices.','govintranet') . "' /></textarea><br>
+			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_skills();' class='profilebutton btn btn-primary'>" . __('Update now','govintranet') . "</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_skills\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			<input type='hidden' name='_wpnonce_add_skills_".$widget_id."' value='" . $nonce ."' />
 			</form>	
 			<div id='ht_profilenudge_errmsg_".$widget_id."'></div>
@@ -295,12 +319,16 @@ function ht_profile_nudge_ajax_show() {
 			$nonce = wp_create_nonce ('update_profile_add_bio_'.$widget_id);
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
-			<h3>About " . $current_user->user_firstname . "</h3>
-			<p>Your staff bio is empty. Do you want to tell us a little about yourself now?</p>
+			<h3>";
+			$html.= sprintf( __('About %s' , 'govintranet' ) , $current_user->user_firstname );
+			$html.="</h3>
+			<p>";
+			$html.= __('Your staff bio is empty. Do you want to tell us a little about yourself now?','govintranet');
+			$html.="</p>
 			<form id='update-profile-form' class='form-horizontal' role='form' name='update-profile' method='post'>
-			<label for='bio'>Short bio</label>
-			<textarea rows='3' class='form-control' name='bio' id='bio_".$widget_id."' placeholder='I have worked in the Civil Service for 3 years...' /></textarea><br>
-			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_bio();' class='profilebutton btn btn-primary'>Update now</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_bio\");'><small>I'll do it later</small></a><br>
+			<label for='bio'>" . __('Short bio' , 'govintranet') . "</label>
+			<textarea rows='3' class='form-control' name='bio' id='bio_".$widget_id."' placeholder='" . _x('I have worked in the Civil Service for 3 years...' , 'Example biography' , 'govintranet' ) . "' /></textarea><br>
+			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_bio();' class='profilebutton btn btn-primary'>" . __('Update now','govintranet') . "</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_bio\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			<input type='hidden' name='_wpnonce_add_bio_".$widget_id."' value='" . $nonce ."' />
 			</form>	
 			<div id='ht_profilenudge_errmsg_".$widget_id."'></div>
@@ -327,8 +355,10 @@ function ht_profile_nudge_ajax_show() {
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
 			<h3>" . $current_user->user_firstname . "</h3>
-			<p>Please set your line manager in your staff profile so that you appear correctly in the staff directory.</p>
-			<a  id='profilebutton' href='".$userurl."' class='profilebutton btn btn-primary'>Edit my profile</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_linemanager\");'><small>I'll do it later</small></a><br>
+			<p>";
+			$html.= __('Please set your line manager in your staff profile so that you appear correctly in the staff directory.','govintranet');
+			$html.="</p>
+			<a  id='profilebutton' href='".$userurl."' class='profilebutton btn btn-primary'>" . __('Edit my profile','govintranet') . "</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_linemanager\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			</div>
 			";	
 			$html.= $after_widget; 	
@@ -351,8 +381,8 @@ function ht_profile_nudge_ajax_show() {
 			$html.= "
 			<div id='ht_profilenudge_success_".$widget_id."'>
 			<h3>" . $current_user->user_firstname . "</h3>
-			<p>There is no photo of you on your staff profile. Do you want to add one now?</p>
-			<a  id='profilebutton' href='".$userurl."' class='profilebutton btn btn-primary'>Edit my profile</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_photo\");'><small>I'll do it later</small></a><br>
+			<p>" . __('There is no photo of you on your staff profile. Do you want to add one now?','govintranet') . "</p>
+			<a  id='profilebutton' href='".$userurl."' class='profilebutton btn btn-primary'>" . __('Edit my profile' , 'govintrnaet') . "</a> <a class='linkpointer'  onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_photo\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
 			</div>
 			";	
 			$html.= $after_widget; 	
@@ -392,7 +422,7 @@ function ht_profile_nudge_ajax_action_add_phone() {
 	if ($current_user->ID) $userid = $current_user->ID;
 	if ( ! wp_verify_nonce( $nonce,  'update_profile_add_phone_'.$widget_id ) ) {
 	    // This nonce is not valid.
-	    $html =  'Security check - there is something wrong' ; 
+	    $html =  __("Security check - there is something wrong","govintranet") ; 
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
@@ -401,13 +431,13 @@ function ht_profile_nudge_ajax_action_add_phone() {
 			$current_userid = $current_user->ID; 
 			//
 			if ($itext==''){
-				$html = 'Enter your telephone number';
+				$html = __('Enter your telephone number','govintranet');
 			} elseif ($userid!=$current_userid){
-			    $html =  'Security check - can\'t check your identity' ; 	
+			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 			} else {
 				$itext = sanitize_text_field($itext);
 			    update_user_meta($current_userid,'user_telephone',$itext, ''); 
-				$html = '<strong>Updated.</strong> Thank you' . ' <span class="dashicons dashicons-smiley"></span>';
+				$html = __('<strong>Updated.</strong> Thank you','govintranet') . ' <span class="dashicons dashicons-smiley"></span>';
 				$success = true;
 			}
 	}
@@ -443,7 +473,7 @@ function ht_profile_nudge_ajax_action_add_mobile() {
 	if ($current_user->ID) $userid = $current_user->ID;
 	if ( ! wp_verify_nonce( $nonce,  'update_profile_add_mobile_'.$widget_id ) ) {
 	    // This nonce is not valid.
-	    $html =  'Security check - there is something wrong' ; 
+	    $html =  __("Security check - there is something wrong","govintranet") ; 
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
@@ -453,13 +483,13 @@ function ht_profile_nudge_ajax_action_add_mobile() {
 			$current_userid = $current_user->ID; 
 			//
 			if ($itext==''){
-				$html = 'Enter your mobile number';
+				$html = __('Enter your mobile number','govintranet');
 			} elseif ($userid!=$current_userid){
-			    $html =  'Security check - can\'t check your identity' ; 	
+			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 			} else {
 				$itext = sanitize_text_field($itext);
 			    update_user_meta($current_userid,'user_mobile',$itext, ''); 
-				$html = '<strong>Updated.</strong> Thank you' . ' <span class="dashicons dashicons-smiley"></span>';
+				$html = __('<strong>Updated.</strong> Thank you','govintranet') . ' <span class="dashicons dashicons-smiley"></span>';
 				$success = true;
 			}
 	}
@@ -496,7 +526,7 @@ function ht_profile_nudge_ajax_action_add_job_title() {
 	if ($current_user->ID) $userid = $current_user->ID;
 	if ( ! wp_verify_nonce( $nonce,  'update_profile_add_job_title_'.$widget_id ) ) {
 	    // This nonce is not valid.
-	    $html =  'Security check - there is something wrong' ; 
+	    $html =  __("Security check - there is something wrong","govintranet") ; 
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
@@ -506,13 +536,13 @@ function ht_profile_nudge_ajax_action_add_job_title() {
 			$current_userid = $current_user->ID; 
 			//
 			if ($itext==''){
-				$html = 'Enter your job title';
+				$html = __('Enter your job title','govintranet');
 			} elseif ($userid!=$current_userid){
-			    $html =  'Security check - can\'t check your identity' ; 	
+			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 			} else {
 				$itext = sanitize_text_field($itext);
 			    update_user_meta($current_userid,'user_job_title',$itext, ''); 
-				$html = '<strong>Updated.</strong> Thank you' . ' <span class="dashicons dashicons-smiley"></span>';
+				$html = __('<strong>Updated.</strong> Thank you','govintranet')  . ' <span class="dashicons dashicons-smiley"></span>';
 				$success = true;
 			}
 	}
@@ -548,7 +578,7 @@ function ht_profile_nudge_ajax_action_add_grade() {
 	if ($current_user->ID) $userid = $current_user->ID;
 	if ( ! wp_verify_nonce( $nonce,  'update_profile_add_grade_'.$widget_id ) ) {
 	    // This nonce is not valid.
-	    $html =  'Security check - there is something wrong' ; 
+	    $html =  __("Security check - there is something wrong","govintranet") ; 
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
@@ -558,13 +588,13 @@ function ht_profile_nudge_ajax_action_add_grade() {
 			$current_userid = $current_user->ID; 
 			//
 			if ($itext==0){
-				$html = 'Enter your grade';
+				$html = __('Enter your grade','govintranet');
 			} elseif ($userid!=$current_userid){
-			    $html =  'Security check - can\'t check your identity' ; 	
+			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 			} else {
 				$itext = sanitize_text_field($itext);
 			    update_user_meta($current_userid,'user_grade',$itext, ''); 
-				$html = '<strong>Updated.</strong> Thank you' . ' <span class="dashicons dashicons-smiley"></span>';
+				$html = __('<strong>Updated.</strong> Thank you','govintranet')  . ' <span class="dashicons dashicons-smiley"></span>';
 				$success = true;
 			}
 	}
@@ -600,7 +630,7 @@ function ht_profile_nudge_ajax_action_add_team() {
 	if ($current_user->ID) $userid = $current_user->ID;
 	if ( ! wp_verify_nonce( $nonce,  'update_profile_add_team_'.$widget_id ) ) {
 	    // This nonce is not valid.
-	    $html =  'Security check - there is something wrong' ; 
+	    $html =  __("Security check - there is something wrong","govintranet") ; 
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
@@ -610,13 +640,13 @@ function ht_profile_nudge_ajax_action_add_team() {
 			$current_userid = $current_user->ID; 
 			//
 			if ($itext==0){
-				$html = 'Enter your team';
+				$html = __('Enter your team','govintranet');
 			} elseif ($userid!=$current_userid){
-			    $html =  'Security check - can\'t check your identity' ; 	
+			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 			} else {
 				delete_user_meta($current_userid,'user_team'); 
 			    update_user_meta($current_userid,'user_team',array($itext), ''); 
-				$html = '<strong>Updated.</strong> Thank you' . ' <span class="dashicons dashicons-smiley"></span>';
+				$html = __('<strong>Updated.</strong> Thank you','govintranet')  . ' <span class="dashicons dashicons-smiley"></span>';
 				$success = true;
 			}
 	}
@@ -652,7 +682,7 @@ function ht_profile_nudge_ajax_action_add_skills() {
 	if ($current_user->ID) $userid = $current_user->ID;
 	if ( ! wp_verify_nonce( $nonce,  'update_profile_add_skills_'.$widget_id ) ) {
 	    // This nonce is not valid.
-	    $html =  'Security check - there is something wrong' ; 
+	    $html =  __("Security check - there is something wrong","govintranet") ; 
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
@@ -662,13 +692,13 @@ function ht_profile_nudge_ajax_action_add_skills() {
 			$current_userid = $current_user->ID; 
 			//
 			if ($itext==''){
-				$html = 'Enter your skills and experience';
+				$html = __('Enter your skills and experience','govintranet');
 			} elseif ($userid!=$current_userid){
-			    $html =  'Security check - can\'t check your identity' ; 	
+			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 			} else {
 				$itext = sanitize_text_field($itext);
 			    update_user_meta($current_userid,'user_key_skills',$itext, ''); 
-				$html = '<strong>Updated.</strong> Thank you' . ' <span class="dashicons dashicons-smiley"></span>';
+				$html = __('<strong>Updated.</strong> Thank you','govintranet')  . ' <span class="dashicons dashicons-smiley"></span>';
 				$success = true;
 			}
 	}
@@ -704,7 +734,7 @@ function ht_profile_nudge_ajax_action_add_bio() {
 	if ($current_user->ID) $userid = $current_user->ID;
 	if ( ! wp_verify_nonce( $nonce,  'update_profile_add_bio_'.$widget_id ) ) {
 	    // This nonce is not valid.
-	    $html =  'Security check - there is something wrong' ; 
+	    $html =  __("Security check - there is something wrong","govintranet") ; 
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
@@ -714,13 +744,13 @@ function ht_profile_nudge_ajax_action_add_bio() {
 			$current_userid = $current_user->ID; 
 			//
 			if ($itext==''){
-				$html = 'Tell us a little more';
+				$html = __('Tell us a little more','govintranet');
 			} elseif ($userid!=$current_userid){
-			    $html =  'Security check - can\'t check your identity' ; 	
+			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 			} else {
 				$itext = sanitize_text_field($itext);
 			    update_user_meta($current_userid,'description',$itext, ''); 
-				$html = '<strong>Updated.</strong> Thank you' . ' <span class="dashicons dashicons-smiley"></span>';
+				$html = __('<strong>Updated.</strong> Thank you','govintranet')  . ' <span class="dashicons dashicons-smiley"></span>';
 				$success = true;
 			}
 	}

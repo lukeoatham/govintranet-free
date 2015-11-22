@@ -3,16 +3,15 @@
 /* Template name: Aggregator page */
 /* Allows 3 columns of custom placeholder areas for displaying categorised listings and free-format content */
 
-get_header(); ?>
+get_header(); 
 
-<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
+if ( have_posts() ) while ( have_posts() ) : the_post(); 
 
-<?php $maincontent = get_the_content($id); ?>
+$maincontent = get_the_content($id); 
+global $id;
 
-
-<?php
-		wp_register_style( 'ht-events-listing', plugin_dir_url("/") ."ht-events-listing/ht_events_listing.css" );
-		wp_enqueue_style( 'ht-events-listing' );
+wp_register_style( 'ht-events-listing', plugin_dir_url("/") ."ht-events-listing/ht_events_listing.css" );
+wp_enqueue_style( 'ht-events-listing' );
 
 remove_filter('pre_get_posts', 'filter_search');
 
@@ -61,6 +60,7 @@ if( have_rows('aggregator_column_1') ):
 		global $freshness;
 		global $num;
 		global $compact;
+		global $colid;
 		$title = '';
 		$link = '';
 		$gallery = '';
@@ -74,6 +74,8 @@ if( have_rows('aggregator_column_1') ):
 		$tax = '';
 		$compact = '';
 		$aoptions='';
+		$colid = 1;
+		
 
 		// NEWS LISTING
 		
@@ -186,6 +188,7 @@ if( have_rows('aggregator_column_1') ):
 			global $showthumbnail;
 			global $showcalendar;
 			global $showlocation;
+			global $title;
 			$aoptions = get_sub_field('aggregator_listing_options'); 
 			if ( in_array( "Calendar" , $aoptions )) $showcalendar = "on";
 			if ( in_array( "Thumbnail" , $aoptions )) $showthumbnail = "on";
@@ -332,6 +335,7 @@ if( have_rows('aggregator_column_hero') ):
 		
         elseif ( get_row_layout() == 'aggregator_event_listing' ) :
 			$title = get_sub_field('aggregator_listing_title');
+			$colid = "hero";
 			$team = get_sub_field('aggregator_listing_team');
 			$checkteam = $team[0]; 
 			$num = intval(get_sub_field('aggregator_listing_number')); 
@@ -477,6 +481,7 @@ if( have_rows('aggregator_column_2') ):
 			$title = get_sub_field('aggregator_listing_title');
 			$team = get_sub_field('aggregator_listing_team');
 			$checkteam = $team[0]; 
+			$colid = 2;
 			$num = intval(get_sub_field('aggregator_listing_number')); 
 			if ( !$num ) $num = -1; 
 			global $showthumbnail;
@@ -618,6 +623,7 @@ if( have_rows('aggregator_column_3') ):
 			$title = get_sub_field('aggregator_listing_title');
 			$team = get_sub_field('aggregator_listing_team');
 			$checkteam = $team[0]; 
+			$colid = 3;
 			$num = intval(get_sub_field('aggregator_listing_number')); 
 			if ( !$num ) $num = -1; 
 			global $showthumbnail;

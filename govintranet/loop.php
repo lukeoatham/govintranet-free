@@ -27,8 +27,8 @@
 			_e( 'Not found', 'govintranet' );
 			echo "</h1>";
 			echo "<p>";
-			_e( 'There\'s nothing to show', 'govintranet' );
-			echo ".</p>";
+			_e( 'There\'s nothing to show.', 'govintranet' );
+			echo "</p>";
 			get_search_form(); 
 	};
 
@@ -63,9 +63,10 @@
 		$userurl = get_author_posts_url( $post->user_id); 
 		$gis = "options_forum_support";
 		$forumsupport = get_option($gis);
+		$staffdirectory = get_option('options_module_staff_directory');
 		if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
 			$userurl=str_replace('/author', '/members', $userurl); }
-		elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
+		elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
 			$userurl=str_replace('/author', '/staff', $userurl);
 		}
 	} else {
@@ -77,7 +78,7 @@
 	}	
 	if ($post_type=='Task'){
 		if ($post->post_parent){ // child chapter
-			$context = __("guide","govintranet");
+			$context = "guide";
 			$icon = "book";
 			$taskparent=get_post($post->post_parent);
 			$title_context='';
@@ -86,15 +87,15 @@
 				$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")"; 
 			}
 		} elseif ( get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$post->ID."&orderby=menu_order&order=ASC") ){
-			$context = __("guide","govintranet");
+			$context = "guide";
 			$icon = "book";
 		} else {
-			$context = __("task","govintranet");
+			$context = "task";
 			$icon = "question-sign";
 		}			
 	}
 	if ($post_type=='Project'){
-		$context = __("project","govintranet");
+		$context = "project";
 		$icon = "road";
 		$taskpod = get_post ($post->ID); 
 		$projparent=get_post($post->post_parent);
@@ -104,57 +105,57 @@
 		}			
 	}
 	if ($post_type=='News'){
-			$context = __("news","govintranet");
+			$context = "news";
 			$icon = "star-empty";			
 	}
 	if ($post_type=='Vacancies'){
-			$context = __("job vacancy","govintranet");
+			$context = "job vacancy";
 			$icon = "random";			
 	}
 	if ($post_type=='Blog'){
-			$context = __("blog","govintranet");
+			$context = "blog";
 			$icon = "comment";			
 	}
 	if ($post_type=='Event'){
-			$context = __("event","govintranet");
+			$context = "event";
 			$icon = "calendar";			
 	}
 	if ($post_type=='jargon-buster'){
-			$context = __("jargon buster","govintranet");
+			$context = "jargon buster";
 			$icon = "th-list";			
 	}
 	if ($post_type=='User'){
 			$context = get_user_meta($post->user_id,'user_job_title',true); 
-			if ($context=='') $context= __("staff","govintranet");
+			if ($context=='') $context="staff";
 			$icon = "user";			
 	}
 	if ($post_type=='Team'){
-			$context = __("team","govintranet");
+			$context = "team";
 			$icon = "list-alt";			
 	}
 
 	if ($post_type=='Page'){
-			$context = __("page","govintranet");
+			$context = "page";
 			$icon = "file";
 	}
 
 	if ($post_type=='Forum'||$post_type=='Reply'||$post_type=='Topic'){
-			$context = __("forum","govintranet");
+			$context = "forum";
 			$icon = "comment";
 	}
 
 	if ($post_type=='Attachment'): 
-		$context= __('document download',"govintranet");
+		$context='document download';
 		$icon = "download";			
 		?>
 		<h3 class='postlist'>				
-		<a href="<?php echo wp_get_attachment_url( $post->ID ); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
+		<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
 		<?php 
 	elseif ($post_type=='User'): 
 		?>			
 		<div class="media"><div>
 		<h3 class='postlist'>				
-		<a href="<?php echo $userurl; ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
+		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
 		<?php 
 	elseif ($post_type != 'Category'): 
 		echo "<div class='media'>" ;
@@ -166,7 +167,7 @@
 		endif;
 		?>
 		<h3 class='postlist'>				
-		<a href="<?php echo get_the_permalink(get_the_id()); ?>" <?php echo $ext; ?> title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
+		<a href="<?php echo get_the_permalink(get_the_id()); ?>" <?php echo $ext; ?> title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' )); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
 		<?php
 	endif;
 	
@@ -192,7 +193,7 @@
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->term_id != 1 ){
-				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->term_id,$cat->taxonomy)."'>".$cat->name;
+				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 				echo "</a></span>&nbsp;";
 			}
 		}
@@ -201,10 +202,10 @@
 			echo '<span class="listglyph">'.get_the_date("j M Y"); 
 			echo '</span> ';
 			if ( get_comments_number() ){
-						echo "<a href='".get_permalink($post->ID)."#comments'>";
-						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-						echo "</a>";
-					}
+				echo " <a href='".get_permalink($post->ID)."#comments'>";
+				printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+				echo "</a>";
+			}
 		}
 		if ($post_type=="Blog" && !is_author() ){
 			$user_info = get_userdata($post->post_author);
@@ -258,7 +259,7 @@
 			echo "<div class='media'>" ;
 			?>
 			<h3 class='postlist'>				
-			<a href="<?php echo $post->link; ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> "; ?></h3><span class='listglyph'><?php _e('Tasks and guides category' , 'govintranet'); ?></span>
+			<a href="<?php echo $post->link; ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> "; ?></h3><span class='listglyph'><?php _e('Tasks and guides category' , 'govintranet'); ?></span>
 			
 
 			<?php
@@ -276,7 +277,7 @@
 			<?php if ( get_user_meta($post->user_id ,'user_mobile',true ) ) : ?>
 				<p><i class="dashicons dashicons-smartphone"></i> <a href="tel:<?php echo str_replace(" ", "", get_user_meta($post->user_id ,'user_mobile',true )) ; ?>"><?php echo get_user_meta($post->user_id ,'user_mobile',true ); ?></a></p>
 			<?php endif; ?>
-				<p><a href="mailto:<?php echo $user_info->user_email; ?>"><?php echo _x('Email' ,'verb' , 'govintranet'); echo " " . $user_info->user_email; ?></a></p>
+				<p><a href="mailto:<?php echo $user_info->user_email; ?>"><?php echo _x('Email' ,'noun' , 'govintranet'); echo " " . $user_info->user_email; ?></a></p>
 			</div>
 			<br class="clearfix">
 			<?php
@@ -313,7 +314,7 @@
 	<?php if (function_exists('wp_pagenavi')) : ?>
 		<?php wp_pagenavi(); ?>
 	<?php else : ?>
-		<?php next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); ?>
-		<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages);
+		<?php next_posts_link('&larr; Older items', $wp_query->max_num_pages); ?>
+		<?php previous_posts_link('Newer items &rarr;', $wp_query->max_num_pages);
 			 endif; 
 		 endif; ?>

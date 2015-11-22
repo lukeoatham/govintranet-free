@@ -451,7 +451,7 @@ function widget($args, $instance) {
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
 					echo '</span> ';
 					if ( get_comments_number() ){
-						echo "<a href='".$thisURL."#comments'>";
+						echo " <a href='".$thisURL."#comments'>";
 						 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 						 echo "</a>";
 					}
@@ -463,7 +463,7 @@ function widget($args, $instance) {
 					echo '<span class="listglyph">'.get_the_date("j M Y"); 
 					echo '</span> ';
 				if ( get_comments_number() ){
-					echo "<a href='".$thisURL."#comments'>";
+					echo " <a href='".$thisURL."#comments'>";
 					 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 					 echo "</a>";
 				}

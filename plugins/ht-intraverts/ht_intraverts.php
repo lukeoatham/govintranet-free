@@ -45,17 +45,17 @@ class htIntraverts extends WP_Widget {
 		  'name' => 'Intraverts',
 		  'singular_name' => 'Intravert',
 		  'menu_name' => 'Intraverts',
-		  'add_new' => 'Add Intravert',
-		  'add_new_item' => 'Add New Intravert',
-		  'edit' => 'Edit',
-		  'edit_item' => 'Edit Intravert',
-		  'new_item' => 'New Intravert',
-		  'view' => 'View Intravert',
-		  'view_item' => 'View Intravert',
-		  'search_items' => 'Search Intraverts',
-		  'not_found' => 'No Intraverts Found',
-		  'not_found_in_trash' => 'No Intraverts Found in Trash',
-		  'parent' => 'Parent Intravert',
+		  'add_new' => __('Add Intravert','govintranet'),
+		  'add_new_item' => __('Add New Intravert','govintranet'),
+		  'edit' => __('Edit','govintranet'),
+		  'edit_item' => __('Edit Intravert','govintranet'),
+		  'new_item' => __('New Intravert','govintranet'),
+		  'view' => __('View Intravert','govintranet'),
+		  'view_item' => __('View Intravert','govintranet'),
+		  'search_items' => __('Search Intraverts','govintranet'),
+		  'not_found' => __('No Intraverts Found','govintranet'),
+		  'not_found_in_trash' => __('No Intraverts Found in Trash','govintranet'),
+		  'parent' => __('Parent Intravert','govintranet'),
 		)
 		) ); }
 		
@@ -72,7 +72,7 @@ class htIntraverts extends WP_Widget {
 				'fields' => array (
 					array (
 						'key' => 'field_5494c635e6e0e',
-						'label' => 'Link text',
+						'label' => __('Link text','govintranet'),
 						'name' => 'intravert_link_text',
 						'prefix' => '',
 						'type' => 'text',
@@ -89,7 +89,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494c648e6e0f',
-						'label' => 'Intranet destination page',
+						'label' => __('Intranet destination page','govintranet'),
 						'name' => 'intravert_destination_page',
 						'prefix' => '',
 						'type' => 'relationship',
@@ -130,7 +130,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494c1c796832',
-						'label' => 'Date range',
+						'label' => __('Date range','govintranet'),
 						'name' => 'intravert_date_range',
 						'prefix' => '',
 						'type' => 'true_false',
@@ -142,7 +142,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494c21a96833',
-						'label' => 'Start date',
+						'label' => __('Start date','govintranet'),
 						'name' => 'intravert_start_date',
 						'prefix' => '',
 						'type' => 'date_picker',
@@ -163,7 +163,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494c25596834',
-						'label' => 'End date',
+						'label' => __('End date','govintranet'),
 						'name' => 'intravert_end_date',
 						'prefix' => '',
 						'type' => 'date_picker',
@@ -184,7 +184,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494c18696831',
-						'label' => 'Target logged in users',
+						'label' => __('Target logged in users','govintranet'),
 						'name' => 'intravert_logged_in_only',
 						'prefix' => '',
 						'type' => 'true_false',
@@ -196,7 +196,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494d7fd784af',
-						'label' => 'Contributors and above',
+						'label' => __('Contributors and above','govintranet'),
 						'name' => 'intravert_contributors',
 						'prefix' => '',
 						'type' => 'true_false',
@@ -216,7 +216,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494c2af96836',
-						'label' => 'Teams',
+						'label' => __('Teams','govintranet'),
 						'name' => 'intravert_teams',
 						'prefix' => '',
 						'type' => 'relationship',
@@ -244,7 +244,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494c30696837',
-						'label' => 'Grades',
+						'label' => __('Grades','govintranet'),
 						'name' => 'intravert_grades',
 						'prefix' => '',
 						'type' => 'taxonomy',
@@ -268,7 +268,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494c29196835',
-						'label' => 'Target content',
+						'label' => __('Target content','govintranet'),
 						'name' => 'intravert_target_content',
 						'prefix' => '',
 						'type' => 'select',
@@ -292,7 +292,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494d3330049d',
-						'label' => 'Task category',
+						'label' => __('Task category','govintranet'),
 						'name' => 'intravert_category',
 						'prefix' => '',
 						'type' => 'taxonomy',
@@ -316,7 +316,7 @@ class htIntraverts extends WP_Widget {
 					),
 					array (
 						'key' => 'field_5494d775784ae',
-						'label' => 'News type',
+						'label' => __('News type','govintranet'),
 						'name' => 'intravert_news_type',
 						'prefix' => '',
 						'type' => 'taxonomy',
@@ -363,15 +363,15 @@ class htIntraverts extends WP_Widget {
 			
 			register_field_group(array (
 				'key' => 'group_54c2f059881dc',
-				'title' => 'Intraverts widget',
+				'title' => __('Intraverts widget','govintranet'),
 				'fields' => array (
 					array (
 						'key' => 'field_54c2f09fa63e3',
-						'label' => 'Eligible intraverts',
+						'label' => __('Eligible intraverts','govintranet'),
 						'name' => 'eligible_intraverts',
 						'prefix' => '',
 						'type' => 'relationship',
-						'instructions' => 'Choose which intraverts are eligible to appear in this widget area. ',
+						'instructions' => __('Choose which intraverts are eligible to appear in this widget area.','govintranet'),
 						'required' => 0,
 						'conditional_logic' => 0,
 						'post_type' => array (
@@ -552,14 +552,8 @@ class htIntraverts extends WP_Widget {
 		if ($k){
 			echo "</div>";
 			echo "<div class='clearfix'></div>";
-			if ( get_option( 'options_track_homepage' ) ):
-			?>
-			
-			<?php
-			endif;
 			echo $after_widget;
 		}
-		
 
 		wp_reset_postdata();						
 

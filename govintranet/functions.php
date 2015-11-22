@@ -318,6 +318,7 @@ function govintranet_comment( $comment, $args, $depth ) {
 		<div class="comment-author vcard">
 			<?php 
 			$directory = 	get_option('options_forum_support');
+			$staffdirectory = get_option('options_module_staff_directory');
 			if ( $directory ):
 				$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 				$avstyle="";
@@ -328,8 +329,10 @@ function govintranet_comment( $comment, $args, $depth ) {
 				if ( $userurl == site_url("author/") ) $userurl = "";
 				if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
 					$userurl=str_replace('/author', '/members', $userurl); }
-				elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
-					$userurl=str_replace('/author', '/staff', $userurl);
+				elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+					$userurl=str_replace('/author', '/staff', $userurl); }
+				elseif (function_exists('bbp_get_displayed_user_field')  ){ // if using bbPress - link to the staff page
+					$userurl=str_replace('/author', '/users', $userurl);
 				} 
 				$userdisplay = "";
 				$user_object = get_userdata( $comment->user_id );
@@ -9467,10 +9470,13 @@ function add_loginout_link( $items, $args ) {
     if (is_user_logged_in() && $args->theme_location == 'secondary') {
 	    $current_user = wp_get_current_user();
 		$userurl = get_author_posts_url( $current_user->ID); 
+		$staffdirectory = get_option('options_module_staff_directory');
 		if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
 			$userurl=str_replace('/author', '/members', $userurl); }
-		elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
-			$userurl=str_replace('/author', '/staff', $userurl);
+		elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+			$userurl=str_replace('/author', '/staff', $userurl); }
+		elseif (function_exists('bbp_get_displayed_user_field')  ){ // if using bbPress - link to the staff page
+			$userurl=str_replace('/author', '/users', $userurl);
 		}	    
 	    if ( get_option("options_show_my_profile", false) ) $items .= '<li><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>';
         if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. wp_logout_url() .'">'.__("Logout","govintranet").'</a></li>';

@@ -10,7 +10,7 @@ Author URI: http://www.helpfultechnology.com
 
 class htHowDoI extends WP_Widget {
     function htHowDoI() {
-        parent::WP_Widget(false, 'HT How Do I', array('description' => 'How do I search box'));
+        parent::WP_Widget(false, __('HT How Do I','govintranet'), array('description' => __('How do I search box','govintranet')));
 
     } 
 
@@ -26,15 +26,15 @@ class htHowDoI extends WP_Widget {
 						<div class="form-group input-md">
 							<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="How do I..." />
 						</div>
-						<label for="cat">Search in: </label>
+						<label for="cat"><?php _e('Search in','govintranet');?>: </label>
 						<div class="form-group input-md">
 							<select name='cat' id='cat' class='form-control input-md'>
-								<option value='0' selected='selected'>All tasks and guides</option>
+								<option value='0' selected='selected'><?php _e('All tasks and guides','govintranet');?></option>
 									<?php
 									$terms = get_terms('category');
 										if ($terms) {
 									  		foreach ((array)$terms as $taxonomy ) {
-									  			if ($taxonomy->name == 'Uncategorized'){
+									  			if ($taxonomy->term_id < 2 ){
 										  			continue;
 									  			}
 										  		echo "<option class='level-0' value='".$taxonomy->term_id."'>".$taxonomy->name."</option>";
@@ -44,7 +44,7 @@ class htHowDoI extends WP_Widget {
 							</select>
 						</div>
 						<div class="form-group input-md">
-							<button type="submit" class="btn btn-primary input-md">Search</button>
+							<button type="submit" class="btn btn-primary input-md"><?php _e('Search','govintranet');?></button>
 						</div>
 						<input type="hidden" name="post_type[]" value="task" />
 					</form>
@@ -74,7 +74,7 @@ class htHowDoI extends WP_Widget {
         $title = esc_attr($instance['title']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br>
 
         </p>

@@ -47,9 +47,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 				}
 				?>
 					
-				<?php if ( $directory ): ?>
 					<h2><?php echo govintranetpress_custom_title($teamname); ?></h2>
-				<?php endif; ?>
 		
 				<?php 
 				wp_reset_postdata();
@@ -143,15 +141,21 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 					if ($context=='') $context="staff";
 					$icon = "user";			
 					$user_info = get_userdata($userid);
-					$userurl = site_url().'/staff/'.$user_info->user_nicename;
+					$userurl = site_url().'/users/'.$user_info->user_nicename;
 					$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
+					$staffdirectory = get_option('options_module_staff_directory');
+					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+						$userurl=str_replace('/author', '/members', $userurl); }
+					elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+						$userurl=str_replace('/author', '/staff', $userurl);
+					}
 					$avstyle="";
 					if ( $directorystyle==1 ) $avstyle = " img-circle";
 					$avatarhtml = get_avatar($userid ,66);
 					$avatarhtml = str_replace("photo", "photo alignleft".$avstyle, $avatarhtml);
 					if ($fulldetails){
 							
-						echo "<div class='col-lg-4 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong></a><br>";
+						echo "<div class='col-lg-4 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".$userurl."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."'><strong>".$displayname."</strong></a><br>";
 
 						if ( get_user_meta($userid ,'user_job_title',true )) : 
 							$meta = get_user_meta($userid ,'user_job_title',true );
@@ -169,7 +173,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 
 					} else { 
 
-						echo "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+						echo "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 							
 						if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
@@ -236,7 +240,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						if ($context=='') $context="staff";
 						$icon = "user";			
 						$user_info = get_userdata($userid);
-						$userurl = site_url().'/staff/'.$user_info->user_nicename;
+						$userurl = site_url().'/users/'.$user_info->user_nicename;
 						$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
 						$avstyle="";
 						if ( $directorystyle==1 ) $avstyle = " img-circle";
@@ -244,7 +248,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						$avatarhtml = str_replace(" photo", " photo alignleft".$avstyle, $avatarhtml);
 						if ($fulldetails) {
 								
-							echo "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
+							echo "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".$userurl."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
 							// display team name(s)
 							$team = get_user_meta($userid ,'user_team',true );
@@ -273,7 +277,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						 //end full details
 						} else { 
 
-							echo "<div class='col-lg-4 col-md-4 col-sm-6 pgrid-item'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+							echo "<div class='col-lg-4 col-md-4 col-sm-6 pgrid-item'><div class='indexcard'><a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 
 							// display team name(s)
 							$team = get_user_meta($userid ,'user_team',true );

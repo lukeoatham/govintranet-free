@@ -10,7 +10,7 @@ Author URI: http://www.helpfultechnology.com
 
 class htAtoZ extends WP_Widget {
     function htAtoZ() {
-        parent::WP_Widget(false, 'HT A to Z', array('description' => 'A to Z box'));
+        parent::WP_Widget(false, __('HT A to Z','govintranet'), array('description' => __('A to Z box','govintranet')));
 
     } 
 
@@ -42,7 +42,7 @@ class htAtoZ extends WP_Widget {
 				
 							$letterlink[$taxonomy->slug] = "<li";
 							if (strtolower($slug)==strtolower($taxonomy->slug)) $letterlink[$taxonomy->slug] .=  " class='active'";
-								$letterlink[$taxonomy->slug] .=  "><a href='".site_url()."/a-to-z/".$taxonomy->slug."/'>".strtoupper($taxonomy->name)."</a></li>";
+								$letterlink[$taxonomy->slug] .=  "><a href='".get_term_link($taxonomy->slug,"a-to-z")."'>".strtoupper($taxonomy->name)."</a></li>";
 							}
 						}
 			
@@ -64,7 +64,7 @@ class htAtoZ extends WP_Widget {
         $title = esc_attr($instance['title']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br>
 
         </p>

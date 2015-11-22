@@ -10,7 +10,7 @@ Author URI: http://www.helpfultechnology.com
 
 class htNeedToKnow extends WP_Widget {
     function htNeedToKnow() {
-        parent::WP_Widget(false, 'HT Need to know', array('description' => 'Need to know news widget'));
+        parent::WP_Widget(false, __('HT Need to know','govintranet'), array('description' => __('Need to know news widget','govintranet')));
     }
 
     function widget($args, $instance) {
@@ -63,8 +63,11 @@ class htNeedToKnow extends WP_Widget {
 			$icon = get_option('options_need_to_know_icon');
 			if ($icon=='') $icon = "flag";
 			echo "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnow(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
-			comments_number( '', ' <span class="badge"> 1 comment</span>', ' <span class="badge"> % comments</span>' );
-
+			if ( get_comments_number() ){
+				echo " <a href='".$thisURL."#comments'>";
+				 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+				 echo "</a>";
+			}
 			echo "</li>";
 		}
 		if ($news->post_count!=0 && $news->post_count <> $read && $show){
@@ -90,12 +93,12 @@ class htNeedToKnow extends WP_Widget {
         $hide = esc_attr($instance['hide']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
-          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
           <input id="<?php echo $this->get_field_id('hide'); ?>" name="<?php echo $this->get_field_name('hide'); ?>" type="checkbox" <?php checked((bool) $instance['hide'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('hide'); ?>"><?php _e('Hide if already read'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('hide'); ?>"><?php _e('Hide if already read','govintranet'); ?></label> <br>
         </p>
 
         <?php 

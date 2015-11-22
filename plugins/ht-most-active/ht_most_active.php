@@ -10,21 +10,21 @@ Author URI: http://www.helpfultechnology.com
 
 class htMostActive extends WP_Widget {
     function htMostActive() {
-        parent::WP_Widget(false, 'HT Most active', array('description' => 'Display pages with most pageviews'));
+        parent::WP_Widget(false, __('HT Most active','govintranet'), array('description' => __('Display pages with most pageviews','govintranet')));
 
 		if( function_exists('register_field_group') ):
 
 			register_field_group(array (
 				'key' => 'group_54c3150a2b558',
-				'title' => 'Most active widget',
+				'title' => __('Most active widget','govintranet'),
 				'fields' => array (
 					array (
 						'key' => 'field_55327bd9f4f3d',
-						'label' => 'Show guide chapters',
+						'label' => __('Show guide chapters','govintranet'),
 						'name' => 'show_guide_chapters',
 						'prefix' => '',
 						'type' => 'true_false',
-						'instructions' => 'If enabled, this option will show individual guide chapters. If disabled, only main guide pages will appear.',
+						'instructions' => __('If enabled, this option will show individual guide chapters. If disabled, only main guide pages will appear.','govintranet'),
 						'required' => 0,
 						'conditional_logic' => 0,
 						'wrapper' => array (
@@ -37,7 +37,7 @@ class htMostActive extends WP_Widget {
 					),
 					array (
 						'key' => 'field_54c31510b4670',
-						'label' => 'Exclude',
+						'label' => __('Exclude','govintranet'),
 						'name' => 'exclude_posts',
 						'prefix' => '',
 						'type' => 'relationship',
@@ -157,11 +157,11 @@ class htMostActive extends WP_Widget {
 		    if ($gatoken==''){ // if no token stored
 		    	if( !isset($_GET['code']) ) { // if we arn't submitting GET code to the db
 					$url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
-					<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>">Authorise Google Analytics access</a>
+					<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Authorise Google Analytics access','govintranet');?></a>
 					<form id="" class="">
-						<label for="code">Enter your code from Google</label></span>
+						<label for="code"><?php _e('Enter your code from Google','govintranet');?></label></span>
 						<input id="code" name="code" />
-						<button class="submit" type="submit">Save</button>
+						<button class="submit" type="submit"><?php _e('Save','govintranet');?></button>
 					</form>
 				<?php
 				} else { // we are submitting GET code to the db
@@ -180,12 +180,12 @@ class htMostActive extends WP_Widget {
 			            update_option('ga_token_created', $tokenCreated );
 			        } else {
 			            $url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
-			            <em>Sorry, something went wrong accessing Google Analytics :<?php echo $auth['error_description']; ?></em>
-						<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>">Authorise Google Analytics access</a>
+			            <em><?php _e('Sorry, something went wrong accessing Google Analytics','govintranet');?>:<?php echo $auth['error_description']; ?></em>
+						<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Authorise Google Analytics access','govintranet');?></a>
 						<form id="" class="">
-							<label for="code">Enter your code from Google</label></span>
+							<label for="code"><?php _e('Enter your code from Google','govintranet');?></label></span>
 							<input id="code" name="code" type="text"/>
-							<button class="submit" type="submit">Save</button>
+							<button class="submit" type="submit"><?php _e('Save','govintranet');?></button>
 						</form>
 			        <?php
 			        }
@@ -535,45 +535,45 @@ class htMostActive extends WP_Widget {
         $cache = esc_attr($instance['cache']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label>
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label>
+          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label>
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('trail'); ?>"><?php _e('Days to trail:'); ?></label>
+          <label for="<?php echo $this->get_field_id('trail'); ?>"><?php _e('Days to trail:','govintranet'); ?></label>
           <input class="widefat" id="<?php echo $this->get_field_id('trail'); ?>" name="<?php echo $this->get_field_name('trail'); ?>" type="text" value="<?php echo $trail; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('ga_viewid'); ?>"><?php _e('GA View ID:'); ?></label>
+          <label for="<?php echo $this->get_field_id('ga_viewid'); ?>"><?php _e('GA View ID:','govintranet'); ?></label>
           <input class="widefat" id="<?php echo $this->get_field_id('ga_viewid'); ?>" name="<?php echo $this->get_field_name('ga_viewid'); ?>" type="text" value="<?php echo $ga_viewid; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('cache'); ?>"><?php _e('Hours to cache:'); ?></label>
+          <label for="<?php echo $this->get_field_id('cache'); ?>"><?php _e('Hours to cache:','govintranet'); ?></label>
           <input class="widefat" id="<?php echo $this->get_field_id('cache'); ?>" name="<?php echo $this->get_field_name('cache'); ?>" type="text" value="<?php echo $cache; ?>" /><br><br>
           <label>Include:</label><br>
 
           <input id="<?php echo $this->get_field_id('tasks'); ?>" name="<?php echo $this->get_field_name('tasks'); ?>" type="checkbox" <?php checked((bool) $instance['tasks'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('tasks'); ?>"><?php _e('Tasks and guides'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('tasks'); ?>"><?php _e('Tasks and guides','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('projects'); ?>" name="<?php echo $this->get_field_name('projects'); ?>" type="checkbox" <?php checked((bool) $instance['projects'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('projects'); ?>"><?php _e('Projects'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('projects'); ?>"><?php _e('Projects','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('vacancies'); ?>" name="<?php echo $this->get_field_name('vacancies'); ?>" type="checkbox" <?php checked((bool) $instance['vacancies'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('vacancies'); ?>"><?php _e('Vacancies'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('vacancies'); ?>"><?php _e('Vacancies','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('news'); ?>" name="<?php echo $this->get_field_name('news'); ?>" type="checkbox" <?php checked((bool) $instance['news'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('news'); ?>"><?php _e('News'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('news'); ?>"><?php _e('News','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('blog'); ?>" name="<?php echo $this->get_field_name('blog'); ?>" type="checkbox" <?php checked((bool) $instance['blog'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('blog'); ?>"><?php _e('Blog posts','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('events'); ?>" name="<?php echo $this->get_field_name('events'); ?>" type="checkbox" <?php checked((bool) $instance['events'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('events'); ?>"><?php _e('Events'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('events'); ?>"><?php _e('Events','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('pages'); ?>" name="<?php echo $this->get_field_name('pages'); ?>" type="checkbox" <?php checked((bool) $instance['pages'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('pages'); ?>"><?php _e('Pages'); ?></label>  <br>
+          <label for="<?php echo $this->get_field_id('pages'); ?>"><?php _e('Pages','govintranet'); ?></label>  <br>
 
           <input id="<?php echo $this->get_field_id('reset'); ?>" name="<?php echo $this->get_field_name('reset'); ?>" type="checkbox"  />
-          <label for="<?php echo $this->get_field_id('reset'); ?>"><?php _e('Reset authentification'); ?></label>  <br>
+          <label for="<?php echo $this->get_field_id('reset'); ?>"><?php _e('Reset authentification','govintranet'); ?></label>  <br>
 
         </p>
 

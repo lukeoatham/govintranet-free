@@ -10,7 +10,7 @@ Author URI: http://www.helpfultechnology.com
 
 class htNeedToknowAJAX extends WP_Widget {
     function htNeedToknowAJAX() {
-        parent::WP_Widget(false, 'HT Need to know AJAX', array('description' => 'Need to know AJAX news widget'));
+        parent::WP_Widget(false, __('HT Need to know AJAX','govintranet'), array('description' => __('Need to know AJAX news widget','govintranet')));
     }
     
     function widget($args, $instance) {
@@ -55,12 +55,12 @@ class htNeedToknowAJAX extends WP_Widget {
         $hide = esc_attr($instance['hide']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
-          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
           <input id="<?php echo $this->get_field_id('hide'); ?>" name="<?php echo $this->get_field_name('hide'); ?>" type="checkbox" <?php checked((bool) $instance['hide'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('hide'); ?>"><?php _e('Hide if already read'); ?></label> <br>
+          <label for="<?php echo $this->get_field_id('hide'); ?>"><?php _e('Hide if already read','govintranet'); ?></label> <br>
         </p>
 
         <?php 
@@ -156,11 +156,11 @@ function ht_need_to_know_ajax_show() {
 			$icon = get_option('options_need_to_know_icon');
 			if ($icon=='') $icon = "flag";
 			$html.= "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnowAJAX(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
-			$comments = get_comments_number();
-			if ( $comments && $comments > 1 ) $html.=  ' <span class="badge"> ' . $comments . ' comments</span>';
-			if ( $comments && $comments < 2 ) $html.=  ' <span class="badge"> 1 comment</span>';
-			
-	
+			if ( get_comments_number() ){
+				$html.=  " <a href='".$thisURL."#comments'>";
+				$html.=  sprintf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+				 $html.=  "</a>";
+			}
 			$html.= "</li>";
 		}
 		if ($k){

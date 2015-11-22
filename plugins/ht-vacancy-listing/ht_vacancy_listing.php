@@ -10,7 +10,7 @@ Author URI: http://www.helpfultechnology.com
 
 class htVacancyListing extends WP_Widget {
     function htVacancyListing() {
-        parent::WP_Widget(false, 'HT Vacancy listing', array('description' => 'Vacancy listing widget'));
+        parent::WP_Widget(false, __('HT Vacancy listing','govintranet'), array('description' => __('Vacancy listing widget','govintranet')));
     }
 
     function widget($args, $instance) {
@@ -95,7 +95,6 @@ class htVacancyListing extends WP_Widget {
 	
 				echo $before_widget; 
 	
-	
 				if ( $title ) {
 					echo $before_title . $title . $after_title;
 				}
@@ -116,7 +115,6 @@ class htVacancyListing extends WP_Widget {
 				$edate = get_post_meta($post->ID,'vacancy_closing_date',true);
 				$etime = date('H:i',strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
 				$edate = date('D j M',strtotime($edate));
-	
 				$thisURL=get_permalink($ID); 
 				if ($thumbnails=='on'){
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'thumbnail' ); 
@@ -141,7 +139,7 @@ class htVacancyListing extends WP_Widget {
 	
 				$landingpage = get_option('options_module_vacancies_page'); 
 				if ( !$landingpage ):
-					$landingpage_link_text = 'vacancies';
+					$landingpage_link_text = __('vacancies','govintranet');
 					$landingpage = site_url().'/vacancies/';
 				else:
 					$landingpage_link_text = get_the_title( $landingpage[0] );
@@ -155,8 +153,6 @@ class htVacancyListing extends WP_Widget {
 
 		endif;
 		echo $output;
-		
-		
 		wp_reset_query();								
     }
 
@@ -176,24 +172,23 @@ class htVacancyListing extends WP_Widget {
         $cacheperiod = esc_attr($instance['cacheperiod']);
         ?>
          <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('days'); ?>"><?php _e('Days to look forward:'); ?></label> 
+          <label for="<?php echo $this->get_field_id('days'); ?>"><?php _e('Days to look forward:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('days'); ?>" name="<?php echo $this->get_field_name('days'); ?>" type="text" value="<?php echo $days; ?>" /><br><br>
-          <label for="<?php echo $this->get_field_id('cacheperiod'); ?>"><?php _e('Cache (minutes):'); ?></label> 
+
+          <label for="<?php echo $this->get_field_id('cacheperiod'); ?>"><?php _e('Cache (minutes):','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('cacheperiod'); ?>" name="<?php echo $this->get_field_name('cacheperiod'); ?>" type="text" value="<?php echo $cacheperiod; ?>" /><br>
 
         </p>
-
         <?php 
     }
 
 }
-
 
 add_action('widgets_init', create_function('', 'return register_widget("htVacancyListing");'));
 

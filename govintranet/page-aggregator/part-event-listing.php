@@ -1,15 +1,16 @@
 <?php
-
-$output = get_transient('aggregator_events_'.$id); 
+global $colid;
+global $title;
+$output = get_transient('aggregator_events_'.$colid.'_'.sanitize_title_for_query($title)); 
 if ( $output == '' ):
 
-	global $title;
 	global $team;
 	global $checkteam;
 	global $num;
 	global $showthumbnail;
 	global $showcalendar;
 	global $showlocation;
+
 	$items = $num;
 		
 	//display forthcoming events
@@ -138,7 +139,7 @@ if ( $output == '' ):
 	$output.= "</div>";
 	$output.= "</div>";
 
- 	set_transient('aggregator_events_'.$id,$output,5*60); // set cache period 5 minutes 
+ 	set_transient('aggregator_events_'.$colid.'_'.sanitize_title_for_query($title),$output,5*60); // set cache period 5 minutes 
 
 endif;
 
