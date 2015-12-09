@@ -57,12 +57,7 @@ $current_vac = $id;
 			if ( $grade ) echo "<strong>" . __('Grade' , 'govintranet') . ": </strong>".$grade."<br>";			
 			if ( $closing_date ) echo "<strong>" . __('Closing date' , 'govintranet') . ": </strong>".$closing_date;
 
-			$tdate= getdate();
-			$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
-			$tday = date( 'd' , strtotime($tdate) );
-			$tmonth = date( 'm' , strtotime($tdate) );
-			$tyear= date( 'Y' , strtotime($tdate) );
-			$sdate=$tyear."-".$tmonth."-".$tday;
+			$sdate=date('Y-m-d');;
 			if ( date('l j F, Y', strtotime($closing_date)) == date('l j F, Y', strtotime($sdate ) ) ){
 				echo " (" . __("That's today!" , "govintranet") . ")";
 			}		

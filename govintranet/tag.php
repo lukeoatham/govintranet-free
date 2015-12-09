@@ -311,9 +311,9 @@ get_header();
 					<div class="widget-box list">
 						<h3 class="widget-title">
 						<?php if (!$posttype){
-							echo "Filter";
+							echo __("Filter","govintranet");
 						} else {
-							echo "More";
+							echo __("More","govintranet");
 						}
 						?>
 						</h3>
@@ -330,7 +330,7 @@ get_header();
 								$landingpage_link_text = get_the_title( $landingpage[0] );
 								$landingpage = get_permalink( $landingpage[0] );
 							endif;
-							echo "<li><a href='".$landingpage."'>Go to ".$landingpage_link_text."</a></li>";
+							echo "<li><a href='".$landingpage."'>" . sprintf ( __('Go to %s' , 'govintranet') , $landingpage_link_text ) ."</a></li>";
 						}
 						if ($posttype == 'project'){
 							$landingpage = get_option('options_module_projects_page'); 
@@ -341,7 +341,7 @@ get_header();
 								$landingpage_link_text = get_the_title( $landingpage[0] );
 								$landingpage = get_permalink( $landingpage[0] );
 							endif;
-							echo "<li><a href='".$landingpage."'>Go to ".$landingpage_link_text."</a></li>";
+							echo "<li><a href='".$landingpage."'>" . sprintf ( __('Go to %s' , 'govintranet') , $landingpage_link_text ) ."</a></li>";
 						}
 						if ($posttype == 'event'){
 							$landingpage = get_option('options_module_events_page'); 
@@ -352,7 +352,7 @@ get_header();
 								$landingpage_link_text = get_the_title( $landingpage[0] );
 								$landingpage = get_permalink( $landingpage[0] );
 							endif;
-							echo "<li><a href='".$landingpage."'>Go to ".$landingpage_link_text."</a></li>";
+							echo "<li><a href='".$landingpage."'>" . sprintf ( __('Go to %s' , 'govintranet') , $landingpage_link_text ) ."</a></li>";
 						}
 						if ($posttype == 'blog'){
 							$landingpage = get_option('options_module_blog_page'); 
@@ -363,7 +363,7 @@ get_header();
 								$landingpage_link_text = get_the_title( $landingpage[0] );
 								$landingpage = get_permalink( $landingpage[0] );
 							endif;
-							echo "<li><a href='".$landingpage."'>Go to ".$landingpage_link_text."</a></li>";
+							echo "<li><a href='".$landingpage."'>" . sprintf ( __('Go to %s' , 'govintranet') , $landingpage_link_text ) ."</a></li>";
 						}
 						if ($posttype == 'news'){
 							$landingpage = get_option('options_module_news_page'); 
@@ -374,7 +374,7 @@ get_header();
 								$landingpage_link_text = get_the_title( $landingpage[0] );
 								$landingpage = get_permalink( $landingpage[0] );
 							endif;
-							echo "<li><a href='".$landingpage."'>Go to ".$landingpage_link_text."</a></li>";
+							echo "<li><a href='".$landingpage."'>" . sprintf ( __('Go to %s' , 'govintranet') , $landingpage_link_text ) ."</a></li>";
 						}
 						if ($posttype == 'vacancy'){
 							$landingpage = get_option('options_module_vacancies_page'); 

@@ -1096,11 +1096,16 @@ WHERE				$wpdb->posts.post_type = 'task' AND
 
 
 function add_pagination_to_author_page_query_string($query_string){
-    if (isset($query_string['author_name']) && !is_admin()) $query_string['post_type'] = array('topic','reply','blog');
+    if (isset($query_string['author_name']) && !is_admin()):
+		if ( $_GET['show'] == "forum" ):
+	    	$query_string['post_type'] = array('topic','reply');
+	    else:
+	    	$query_string['post_type'] = array('blog');
+	    endif;
+    endif;
     return $query_string;
 }
 add_filter('request', 'add_pagination_to_author_page_query_string');
-
 
 function get_terms_by_post_type( $taxonomies, $post_types ) {
 	if (!$taxonomies || !$post_types) {
@@ -4089,6 +4094,18 @@ register_field_group(array (
 
 if ( get_option( 'options_forum_support' )  ):
 
+	if ( get_option( 'options_forum_visual_editor' )  ):
+		function bbp_enable_visual_editor( $args = array() ) {
+		    $args['tinymce'] = true;
+		    return $args;
+		}
+		add_filter( 'bbp_after_get_the_content_parse_args', 'bbp_enable_visual_editor' );
+		function bbp_tinymce_paste_plain_text( $plugins = array() ) {
+		    $plugins[] = 'paste';
+		    return $plugins;
+		}
+		add_filter( 'bbp_get_tiny_mce_plugins', 'bbp_tinymce_paste_plain_text' );
+	endif;
 
 acf_add_local_field_group(array (
 	'key' => 'group_53bd5ee0ea856',
@@ -9532,3 +9549,28 @@ function ht_add_comment_form_top($comment){
 	return;
 }
 add_filter('comment_form_top', 'ht_add_comment_form_top', 10, 3);
+
+
+/*****************************
+	
+ADD FIRST NAME AND LAST 
+NAME IN REGISTRATION FORM
+	
+*****************************/
+add_action( 'register_form', 'ac_extra_reg_fields', 1 );
+
+function ac_extra_reg_fields() { ?>
+
+	<p>
+	<label>First Name<br/>
+	<input type="text" name="first_name" id="first_name" class="input" value="<?php echo esc_attr( $_POST['first_name'] ); ?>" size="25" tabindex="30" />
+	</label>
+	</p>
+	
+	<p>
+	<label>Last Name<br/>
+	<input type="text" name="last_name" id="last_name" class="input" value="<?php echo esc_attr( $_POST['last_name'] ); ?>" size="25" tabindex="40" />
+	</label>
+	</p>
+
+<?php }

@@ -82,12 +82,7 @@ class htFeatureBlogposts extends WP_Widget {
         $freshness = $instance['freshness'];
         $more = $instance['more'];
         $excerpt = $instance['excerpt'];
-		$tdate= getdate();
-		$tdate = $tdate['year']."-".$tdate['mon']."-".$tdate['mday'];
-		$tday = date( 'd' , strtotime($tdate) );
-		$tmonth = date( 'm' , strtotime($tdate) );
-		$tyear= date( 'Y' , strtotime($tdate) );
-		$tdate=$tyear."-".$tmonth."-".$tday." 00:00";
+		$tdate=date('Y-m-d')." 00:00";
 		$freshness = "-".$freshness." day";
         $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );  
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_pin_posts" ;  

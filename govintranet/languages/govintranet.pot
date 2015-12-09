@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GovIntranet v1.0.0\n"
 "Report-Msgid-Bugs-To: Luke Oatham <lukeoatham@gmail.com>\n"
-"POT-Creation-Date: 2015-11-22 16:51+0000\n"
+"POT-Creation-Date: 2015-11-22 20:48+0000\n"
 "\"PO-Revision-Date: \n"
 "Last-Translator: Luke Oatham <lukeoatham@gmail.com>\n"
 "Language-Team: Helpful Technology <luke@helpfultechnology.com>\n"
@@ -152,7 +152,7 @@ msgstr ""
 #: govintranet/category.php:228 govintranet/page-event-past.php:268
 #: govintranet/page-event.php:162 govintranet/page-news.php:64
 #: govintranet/single-event.php:167 govintranet/single-news.php:106
-#: govintranet/single-task.php:251 govintranet/single-vacancy.php:115
+#: govintranet/single-task.php:251 govintranet/single-vacancy.php:110
 msgid "Categories"
 msgstr ""
 
@@ -1813,7 +1813,7 @@ msgid "Closing time"
 msgstr ""
 
 #: govintranet/functions.php:4454 govintranet/single-project.php:69
-#: govintranet/single-project.php:195 govintranet/single-vacancy.php:74
+#: govintranet/single-project.php:195 govintranet/single-vacancy.php:69
 msgctxt "noun"
 msgid "Project"
 msgstr ""
@@ -2425,7 +2425,7 @@ msgstr ""
 
 #: govintranet/single-blog.php:106 govintranet/single-event.php:180
 #: govintranet/single-news.php:119 govintranet/single-project.php:237
-#: govintranet/single-task.php:266 govintranet/single-vacancy.php:134
+#: govintranet/single-task.php:266 govintranet/single-vacancy.php:129
 msgid "Tags"
 msgstr ""
 
@@ -2464,7 +2464,7 @@ msgstr ""
 #: govintranet/single-event.php:96 govintranet/single-news-update.php:65
 #: govintranet/single-news.php:72 govintranet/single-project.php:202
 #: govintranet/single-task.php:171 govintranet/single-task.php:214
-#: govintranet/single-vacancy.php:87
+#: govintranet/single-vacancy.php:82
 msgctxt "Documents to download"
 msgid "Downloads"
 msgstr ""
@@ -2529,7 +2529,7 @@ msgstr ""
 msgid "Job reference"
 msgstr ""
 
-#: govintranet/single-vacancy.php:67
+#: govintranet/single-vacancy.php:62
 msgid "That's today!"
 msgstr ""
 
@@ -2612,7 +2612,16 @@ msgstr ""
 msgid "All intranet pages categorised as \"%s\""
 msgstr ""
 
-#: govintranet/tag.php:389
+#: govintranet/tag.php:314
+msgid "Filter"
+msgstr ""
+
+#: govintranet/tag.php:316 plugins2015/ht-feature-news/ht_feature_news.php:493
+msgid "More"
+msgstr ""
+
+#: govintranet/tag.php:333 govintranet/tag.php:344 govintranet/tag.php:355
+#: govintranet/tag.php:366 govintranet/tag.php:377 govintranet/tag.php:389
 #, php-format
 msgid "Go to %s"
 msgstr ""
@@ -2964,10 +2973,6 @@ msgstr ""
 #: plugins2015/ht-feature-news/ht_feature_news.php:460
 #: plugins2015/ht-feature-news/ht_feature_news.php:470
 msgid "Full story"
-msgstr ""
-
-#: plugins2015/ht-feature-news/ht_feature_news.php:493
-msgid "More"
 msgstr ""
 
 #: plugins2015/ht-feature-news/ht_feature_news.php:533

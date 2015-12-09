@@ -54,7 +54,7 @@ get_header(); ?>
 			
 			</script>
 
-			<div class="widget-box">
+			<div class="widget-box browsecats">
 				<h3 class="widget-title"><?php _e('Browse by category','govintranet'); ?></h3>
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-6">
@@ -104,7 +104,7 @@ get_header(); ?>
 						set_transient("ht_how_do_i_tags", $taghtml, 60*60);
 					endif;
 					if ($taghtml): ?>
-					<div style="text-align:middle;"  class="widget-box">
+					<div style="text-align:middle;"  class="widget-box browsetags">
 					<h3 class="widget-title"><?php _e('Browse by tag','govintranet'); ?></h3>
 					<div class="tagcloud">
 					 <?php	echo $taghtml; ?>

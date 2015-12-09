@@ -120,9 +120,9 @@ $terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"s
 		set_transient("ht_how_do_i_tags", $taghtml, 60*60);
 	endif;
 	if ($taghtml):
-		echo "<h3>" . __('Search by tag' , 'govintranet') . "</h3>";
+		echo "<div class='browsetags'><h3>" . __('Search by tag' , 'govintranet') . "</h3>";
 		echo $taghtml;
-		echo "<br><br></div><br>";
+		echo "</div><br><br></div><br>";
 	endif;
 	?>
 </div>

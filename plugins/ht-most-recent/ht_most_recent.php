@@ -79,10 +79,6 @@ class htMostRecent extends WP_Widget {
 		if ($excludeposts) foreach ($excludeposts as $sp){
 			$exclude[] = $sp;
 		}
-
-       echo $before_widget;
-	        if ( $title )
-	             echo $before_title . $title . $after_title; 
 	             
 		$donefilter=false;
 		$filter='';
@@ -160,55 +156,59 @@ class htMostRecent extends WP_Widget {
 		"; 
 		$rpublished = $wpdb->get_results( $q );
 																
-		echo "<ul>";
 		$k = 0;
 		$alreadydone=array();
-		foreach ($rpublished as $r ) {
-			if (in_array($r->ID, $alreadydone)) continue;
-			$alert='';
-			if ( $lastupdated=='on' && $r->post_date == $r->post_modified ) $alert = " <span class='badge'>" . __('NEW','govintranet') . "</span>";
-			if ($r->post_type=='page'){
-				$k++; 
-				echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title(get_the_title($r->ID))."</a>".$alert."</li>";
-				$alreadydone[]=$r->ID;
-			} elseif ($r->post_type=='task'){
-				$title_context='';
-				if ($r->post_parent){ // child chapter
-					$icon = "book";
-					$taskparent=get_post($r->post_parent);
+		if ( $rpublished ):
+			echo $before_widget;
+			if ( $title ) echo $before_title . $title . $after_title; 
+			echo "<ul>";
+			foreach ($rpublished as $r ) {
+				if (in_array($r->ID, $alreadydone)) continue;
+				$alert='';
+				if ( $lastupdated=='on' && $r->post_date == $r->post_modified ) $alert = " <span class='badge'>" . __('NEW','govintranet') . "</span>";
+				if ($r->post_type=='page'){
+					$k++; 
+					echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title(get_the_title($r->ID))."</a>".$alert."</li>";
+					$alreadydone[]=$r->ID;
+				} elseif ($r->post_type=='task'){
 					$title_context='';
-					if ($taskparent){
-						$parent_guide_id = $taskparent->ID; 		
-						$title_context=" <small>(".govintranetpress_custom_title($taskparent->post_title).")</small>"; 
+					if ($r->post_parent){ // child chapter
+						$icon = "book";
+						$taskparent=get_post($r->post_parent);
+						$title_context='';
+						if ($taskparent){
+							$parent_guide_id = $taskparent->ID; 		
+							$title_context=" <small>(".govintranetpress_custom_title($taskparent->post_title).")</small>"; 
+						}
+					} elseif ( get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$r->ID."&orderby=menu_order&order=ASC") ){
+						$icon = "book";
+					} else {
+						$icon = "question-sign";
+					}			
+		
+					$k++;
+					echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$title_context.$alert."</li>";
+					$alreadydone[]=$r->ID;
+				} elseif ($r->post_type=='project'){
+					if (!$r->post_parent){
+						$k++;
+						echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
+						$alreadydone[]=$r->ID;
 					}
-				} elseif ( get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$r->ID."&orderby=menu_order&order=ASC") ){
-					$icon = "book";
 				} else {
-					$icon = "question-sign";
-				}			
-	
-				$k++;
-				echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$title_context.$alert."</li>";
-				$alreadydone[]=$r->ID;
-			} elseif ($r->post_type=='project'){
-				if (!$r->post_parent){
 					$k++;
 					echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
 					$alreadydone[]=$r->ID;
 				}
-			} else {
-				$k++;
-				echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
-				$alreadydone[]=$r->ID;
+				
+				if ($k == $items) {
+					break;
+				}			
 			}
-			
-			if ($k == $items) {
-				break;
-			}			
-		}
-		echo "</ul>";
-		wp_reset_query();								
-		echo $after_widget; 
+			echo "</ul>";
+			wp_reset_query();								
+			echo $after_widget; 
+		endif;
     }
 
     function update($new_instance, $old_instance) {

@@ -75,7 +75,7 @@ get_header();
 		</script>
 
 		<div class="col-lg-7 col-md-7 col-sm-12">
-			<div class="widget-box">
+			<div class="widget-box browsecats">
 				<h3 class="widget-title"><?php _e('Browse by category' , 'govintranet'); ?></h3>
 				<div class="col-lg-6 col-md-6 col-sm-6">
 					<div class="row">
@@ -108,26 +108,28 @@ get_header();
 					</div>
 				</div>
 			</div>
-			<?php 
-			$taghtml = "";
-			$taghtml = get_transient("ht_how_do_i_tags");
-			if ( !$taghtml ):
-				$taskcloud = get_option('options_module_tasks_showtags');
-				if ( $taskcloud ):
-					$taghtml = gi_howto_tag_cloud('task');
-				else:
-					$taghtml =  my_colorful_tag_cloud('','category','task'); 
+				<?php 
+				$taghtml = "";
+				$taghtml = get_transient("ht_how_do_i_tags");
+				if ( !$taghtml ):
+					$taskcloud = get_option('options_module_tasks_showtags');
+					if ( $taskcloud ):
+						$taghtml = gi_howto_tag_cloud('task');
+					else:
+						$taghtml =  my_colorful_tag_cloud('','category','task'); 
+					endif;
+					set_transient("ht_how_do_i_tags", $taghtml, 60*60);
 				endif;
-				set_transient("ht_how_do_i_tags", $taghtml, 60*60);
-			endif;
-			if ($taghtml):?>
-				<div style="text-align:middle; clear:both;"  class="widget-box">
-					<h3 class="widget-title"><?php _e('Browse by tag' , 'govintranet'); ?></h3>
-					<div class="tagcloud">
-						<?php echo $taghtml; ?>
-					</div>
+				if ($taghtml): ?>
+				<div style="text-align:middle; clear:both;"  class="widget-box browsetags">
+				<h3 class="widget-title"><?php _e('Browse by tag','govintranet'); ?></h3>
+				<div class="tagcloud">
+				 <?php	echo $taghtml; ?>
 				</div>
-			<?php endif; ?>
+				</div>
+				<?php
+				endif;
+				?>
 		</div>
 	</div>
 <?php endwhile; ?>

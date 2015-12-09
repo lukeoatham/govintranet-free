@@ -24,14 +24,14 @@ get_header();
 				
 				 <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
 				    <ul id="myTab" class="nav nav-tabs" role="tablist">
-				      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><?php __('News' , 'govintranet'); ?></a></li>
-				      <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Updates</a></li>
+				      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><?php _e('News' , 'govintranet'); ?></a></li>
+				      <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"><?php _e('Updates','govintranet');?></a></li>
 					        <?php
 						    $newsTypes = get_terms( 'news-type', array('hide_empty'=>true) );
 						    if ( $newsTypes ):
 					        	?>
 								<li role="presentation" class="dropdown">
-						        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents">Category <span class="caret"></span></a>					        
+						        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents"><?php _e('Category','govintranet');?> <span class="caret"></span></a>					        
 						        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents"><?php
 							     foreach ( $newsTypes as $n){ 
 								    $term_link = get_term_link($n->slug, 'news-type');

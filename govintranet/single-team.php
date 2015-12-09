@@ -145,9 +145,9 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 					$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
 					$staffdirectory = get_option('options_module_staff_directory');
 					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-						$userurl=str_replace('/author', '/members', $userurl); }
+						$userurl=str_replace('/users', '/members', $userurl); }
 					elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-						$userurl=str_replace('/author', '/staff', $userurl);
+						$userurl=str_replace('/users', '/staff', $userurl);
 					}
 					$avstyle="";
 					if ( $directorystyle==1 ) $avstyle = " img-circle";
@@ -241,6 +241,12 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						$icon = "user";			
 						$user_info = get_userdata($userid);
 						$userurl = site_url().'/users/'.$user_info->user_nicename;
+						$staffdirectory = get_option('options_module_staff_directory');
+						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+							$userurl=str_replace('/users', '/members', $userurl); }
+						elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+							$userurl=str_replace('/users', '/staff', $userurl);
+						}
 						$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
 						$avstyle="";
 						if ( $directorystyle==1 ) $avstyle = " img-circle";
