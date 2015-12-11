@@ -4,7 +4,7 @@ Plugin Name: HT Zero Hits Monitor
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display least active pages
 Author: Luke Oatham
-Version: 1.0 beta
+Version: 1.0
 Author URI: http://www.helpfultechnology.com
 */
 

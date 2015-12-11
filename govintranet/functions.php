@@ -3671,6 +3671,30 @@ https://developer.wordpress.org/resource/dashicons/','govintranet'),
 			'default_value' => 0,
 		),
 		array (
+			'key' => 'field_566995ce908a1',
+			'label' => __('Enable WYSIWYG in forums','govintranet'),
+			'name' => 'forum_visual_editor',
+			'type' => 'true_false',
+			'instructions' => __('Enables the visual editor in forums (bbPress)','govintranet'),
+			'required' => 0,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_536f764ea21c4',
+						'operator' => '==',
+						'value' => '1',
+					),
+				),
+			),
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '',
+			'default_value' => 0,
+		),		
+		array (
 			'key' => 'field_55d628c205b5b',
 			'label' => __('Show My Profile link','govintranet'),
 			'name' => 'show_my_profile',

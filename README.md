@@ -37,6 +37,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.8 - 11 Dec 2015 ###
+* WYSIWYG option for forums 
+* Snow plugin 
+* Favourites plugin 
+* Zero Hits plugin 
+
 ### 4.7.4 - 9 Dec 2015 ###
 * Translation updates 
 * Staff profile links 

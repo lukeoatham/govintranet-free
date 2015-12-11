@@ -216,7 +216,7 @@ header('X-Frame-Options: SAMEORIGIN');
 		
 		echo "
 		#content .widget-box {
-		padding: .1em .4em .7em 0;
+		padding: .1em .1em .7em 0;
 		font-size: .9em;
 		background: #fff;";
 		echo "border-top: ".$gisheight."px solid ".$giscc.";";
