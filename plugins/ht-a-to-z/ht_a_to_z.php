@@ -40,9 +40,7 @@ class htAtoZ extends WP_Widget {
 						if ($terms) {
 							foreach ((array)$terms as $taxonomy ) {
 				
-							$letterlink[$taxonomy->slug] = "<li";
-							if (strtolower($slug)==strtolower($taxonomy->slug)) $letterlink[$taxonomy->slug] .=  " class='active'";
-								$letterlink[$taxonomy->slug] .=  "><a href='".get_term_link($taxonomy->slug,"a-to-z")."'>".strtoupper($taxonomy->name)."</a></li>";
+								$letterlink[$taxonomy->slug] = "<li><a href='".get_term_link($taxonomy->slug,"a-to-z")."'>".strtoupper($taxonomy->name)."</a></li>";
 							}
 						}
 			

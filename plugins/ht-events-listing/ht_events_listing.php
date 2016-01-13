@@ -170,7 +170,7 @@ class htEventsListing extends WP_Widget {
 			$alreadydone= array();
 	
 			while ($news->have_posts()) {
-	
+				global $post;//required for access within widget	
 				if ( 'recent' == $wtitle ) $output.= "<small><strong>" . __("Nothing coming up. Here's the most recent:","govintranet") . "</strong></small><br>";
 				$wtitle = '';
 				$news->the_post();
@@ -181,13 +181,13 @@ class htEventsListing extends WP_Widget {
 				if ($k > $items){
 					break;
 				}
-				global $post;//required for access within widget
+
 				$thistitle = get_the_title($post->ID);
 				$edate = get_post_meta($post->ID,'event_start_date',true);
 				$etime = get_post_meta($post->ID,'event_start_time',true);
 				$edate = date(get_option('date_format'),strtotime($edate));
 				$edate .= " ".date(get_option('time_format'),strtotime($etime));
-				$thisURL=get_permalink($ID); 
+				$thisURL=get_permalink($id); 
 				
 				$output.= "<div class='row'><div class='col-sm-12'>";
 				

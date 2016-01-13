@@ -70,7 +70,7 @@ class htMostRecent extends WP_Widget {
         $vacancies = ($instance['vacancies']);
         $news = ($instance['news']);
         $blog = ($instance['blog']);
-        $events = ($instance['event']);
+        $events = ($instance['events']);
         $lastupdated = ($instance['lastupdated']);
 
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_exclude_posts" ;  

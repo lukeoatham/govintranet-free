@@ -194,7 +194,7 @@ class hteventslistingec extends WP_Widget {
 				global $post;//required for access within widget
 				$thistitle = get_the_title($post->ID);
 				$edate = get_post_meta($post->ID,'_EventStartDate',true);
-				$edate = date('D j M',strtotime($edate));
+				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink($ID); 
 				
 				$output.= "<div class='row'><div class='col-sm-12'>";
