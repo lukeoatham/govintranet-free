@@ -152,7 +152,8 @@ wp_reset_query();
 				<?php endif; ?>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-5 col-sx-12">
-				<?php
+				<?php 
+				dynamic_sidebar('eventslanding-widget-area'); 
 				$taxonomies=array();
 				$post_type = array();
 				$taxonomies[] = 'event-type';
@@ -181,8 +182,6 @@ wp_reset_query();
 				<?php	
 				endif;
 				?>
-
-				<?php dynamic_sidebar('eventslanding-widget-area'); ?> 
 			
 			</div>
 		</div>

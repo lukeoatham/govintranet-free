@@ -166,6 +166,12 @@ get_header(); ?>
 
 			the_content(); 		
 
+			if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ):
+
+			show_manual();
+
+			endif;
+
 			if( have_rows('document_attachments') ) : 
 				echo "<div class='alert alert-info'>";
 				echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
@@ -207,6 +213,11 @@ get_header(); ?>
 				<h1><?php echo $guidetitle; ?> <small><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 				<?php
 				the_content(); 
+				if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ):
+	
+				show_manual();
+	
+				endif;
 
 				$current_attachments = get_field('document_attachments');
 				if ($current_attachments){
@@ -234,6 +245,8 @@ get_header(); ?>
 
 				get_template_part("part", "sidebar");
 
+				dynamic_sidebar('task-widget-area'); 
+				
 				$post_categories = wp_get_post_categories( $post->ID ); 
 				$cats = array();
 				$catsfound = false;	
@@ -258,7 +271,7 @@ get_header(); ?>
 				  	foreach($posttags as $tag) {
 				  		if (substr($tag->name,0,9)!="carousel:"){
 				  			$foundtags=true;
-				  			$tagurl = $tag->slug;
+				  			$tagurl = $tag->term_id;
 					    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=task'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				    	}
 				  	}
@@ -269,10 +282,55 @@ get_header(); ?>
 				  	}
 				}
 
-		 	dynamic_sidebar('task-widget-area'); 
+
 		 	?>			
 		</div> 
 			
 <?php endwhile; // end of the loop. ?>
+<?php
+	function show_manual(){
+		if( have_rows('manual_chapters') ):
+			$i = 0; 
+			$output = '<div class="panel-group" id="manualaccordion" role="tablist" aria-multiselectable="true">';
 
+			while ( have_rows('manual_chapters') ) : the_row(); 
+				$i++;
+				$title = get_sub_field('manual_chapter_title'); 
+				$content = get_sub_field('manual_chapter_content'); 
+				$output.='
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab" id="chapter'.$i.'">
+			      <h4 class="panel-title">
+			        <a role="button" data-toggle="collapse" data-parent="#manualaccordion" href="'.get_permalink($post->ID).'#chaptercollapse'.$i.'" aria-expanded="true" aria-controls="chaptercollapse'.$i.'">'.$title.'</a>
+			      </h4>
+			    </div>
+			    <div id="chaptercollapse'.$i.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="chapter'.$i.'">
+			      <div class="panel-body">
+			        '.$content.'
+			      </div>
+			    </div>
+			  </div>
+				';
+			endwhile;
+			echo $output;
+			echo "</div>";
+		endif;
+	}
+	?>
+<?php if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ): ?>
+<script>	
+jQuery(document).ready(function() {
+	    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    jQuery( hash ).addClass('in');
+    hash = hash.replace('collapse', '');
+    // Append URL with tab's ID #
+	jQuery('#manualaccordion .panel .panel-title a').click(function (e) {
+		var scrollmem = jQuery(hash).scrollTop();
+		window.location.hash = this.hash;
+		jQuery(hash).scrollTop(scrollmem);
+	});
+});		
+</script>
+<?php endif; ?>
 <?php get_footer(); ?>

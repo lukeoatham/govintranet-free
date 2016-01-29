@@ -9,8 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htaboutthispageajax extends WP_Widget {
-    function htaboutthispageajax() {
-        parent::WP_Widget(false, __('HT About this page AJAX','govintranet'), array('description' => __('Display page metadata','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htaboutthispageajax',
+			__( 'HT About this page AJAX' , 'govintranet'),
+			array( 'description' => __( 'Display page metadata' , 'govintranet') )
+		);
 
 		if( function_exists('register_field_group') ):
 		

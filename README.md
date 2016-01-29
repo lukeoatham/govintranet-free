@@ -37,6 +37,15 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9 - 29 Jan 2016 ###
+* Fix for Breadcrumb NavXT forcing post_type on category URLs 
+* Newsboard template - create your own tabs for the news page 
+* About template has a new column option 
+* Blog category introduced 
+* New option for Manuals in tasks and guides - create your own accordions 
+* Updated plugins 
+* Various bugfixes and style changes 
+
 ### 4.8 - 11 Dec 2015 ###
 * WYSIWYG option for forums 
 * Snow plugin 

@@ -9,8 +9,15 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htFeatureNews extends WP_Widget {
-    function htFeatureNews() {
-        parent::WP_Widget(false, __('HT Feature news','govintranet'), array('description' => __('Display feature news stories','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htFeatureNews',
+			__( 'HT Feature news' , 'govintranet'),
+			array( 'description' => __( 'Display feature news stories' , 'govintranet') )
+		);        
+		
 		if( function_exists('acf_add_local_field_group') ):
 		
 		acf_add_local_field_group(array (

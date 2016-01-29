@@ -9,9 +9,15 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htNewsUpdates extends WP_Widget {
-    function htNewsUpdates() {
-        parent::WP_Widget(false, __('HT News Updates','govintranet'), array('description' => __('News Updates widget','govintranet')));
 
+	function __construct() {
+		
+		parent::__construct(
+			'htNewsUpdates',
+			__( 'HT News Updates' , 'govintranet'),
+			array( 'description' => __( 'News Updates widget' , 'govintranet') )
+		);   
+		
 		acf_add_local_field_group(array (
 			'key' => 'group_558c858e438b9',
 			'title' => _x('Update types','Categories of news updates','govintranet'),

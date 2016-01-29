@@ -50,8 +50,25 @@ get_header();
 	</div>
 	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
 		
-			<?php dynamic_sidebar('bloglanding-widget-area'); ?>
-
+		<?php dynamic_sidebar('bloglanding-widget-area'); ?>
+		<?php
+		$taxonomies=array();
+		$post_type = array();
+		$taxonomies[] = 'blog-category';
+		$post_type[] = 'blog';
+		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
+		if ($post_cat){
+			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Categories' , 'govintranet') . "</h3>";
+			echo "<p class='taglisting " . $post->post_type . "'>";
+			foreach($post_cat as $cat){
+				if ($cat->name){
+					$newname = str_replace(" ", "&nbsp;", $cat->name );
+					echo "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug,'blog-category')."'>".$newname."</a></span> ";
+				}
+			}
+			echo "</p></div>";
+		}
+		?>
 	</div>
 
 <?php endwhile; 

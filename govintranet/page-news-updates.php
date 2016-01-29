@@ -22,17 +22,17 @@ get_header();
 					</div>
 				</div>
 				
-				 <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
-				    <ul id="myTab" class="nav nav-tabs" role="tablist">
+				 <div role="tabpanel" data-example-id="togglable-news-tabs">
+				    <ul id="newsTabs" class="nav nav-tabs" role="tablist">
 				      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><?php _e('News' , 'govintranet'); ?></a></li>
-				      <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"><?php _e('Updates','govintranet');?></a></li>
+				      <li role="presentation"><a href="#updates" role="tab" id="udpates-tab" data-toggle="tab" aria-controls="updates"><?php _e('Updates','govintranet');?></a></li>
 					        <?php
 						    $newsTypes = get_terms( 'news-type', array('hide_empty'=>true) );
 						    if ( $newsTypes ):
 					        	?>
 								<li role="presentation" class="dropdown">
-						        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents"><?php _e('Category','govintranet');?> <span class="caret"></span></a>					        
-						        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents"><?php
+						        <a href="#" id="newsTabsDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="newsTabsDrop1-contents"><?php _e('Category','govintranet');?> <span class="caret"></span></a>					        
+						        <ul class="dropdown-menu" role="menu" aria-labelledby="newsTabsDrop1" id="newsTabsDrop1-contents"><?php
 							     foreach ( $newsTypes as $n){ 
 								    $term_link = get_term_link($n->slug, 'news-type');
 								  	echo '<li><a href="'.$term_link.'" tabindex="-1">'.$n->name.'</a></li>';   
@@ -41,7 +41,7 @@ get_header();
 							endif;
 							?>
 					</ul>
-				    <div id="myTabContent" class="tab-content">
+				    <div id="newsTabsContent" class="tab-content">
 				      	<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
 				
 							<?php
@@ -72,7 +72,7 @@ get_header();
 							?>							
 			      
 						</div>
-						<div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledBy="profile-tab">
+						<div role="tabpanel" class="tab-pane fade" id="updates" aria-labelledBy="udpates-tab">
 				        <?php
 							$cquery = array(
 							'orderby' => 'post_date',

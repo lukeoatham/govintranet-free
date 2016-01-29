@@ -9,9 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htHowDoI extends WP_Widget {
-    function htHowDoI() {
-        parent::WP_Widget(false, __('HT How Do I','govintranet'), array('description' => __('How do I search box','govintranet')));
 
+	function __construct() {
+		
+		parent::__construct(
+			'htHowDoI',
+			__( 'HT How Do I' , 'govintranet'),
+			array( 'description' => __( 'How do I search box' , 'govintranet') )
+		);   
     } 
 
     function widget($args, $instance) {

@@ -26,7 +26,7 @@ get_header(); ?>
 			<h1><?php the_title(); ?></h1>
 			<?php the_content(); ?>
 			<?php
-			if ('open' == $post->comment_status && $_GET['action']=='discussion') {
+			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
 			?>

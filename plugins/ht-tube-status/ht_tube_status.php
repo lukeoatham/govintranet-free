@@ -9,9 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htTubeStatus extends WP_Widget {
-    function htTubeStatus() {
-        parent::WP_Widget(false, 'HT Tube status', array('description' => 'Tube status updates'));
 
+	function __construct() {
+		
+		parent::__construct(
+			'htTubeStatus',
+			__( 'HT Tube status' , 'govintranet'),
+			array( 'description' => __( 'Tube status updates' , 'govintranet') )
+		);   
     } 
 
     function widget($args, $instance) {

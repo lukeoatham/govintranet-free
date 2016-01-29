@@ -155,6 +155,8 @@ $mainid=$post->ID;
 
 	get_template_part("part", "sidebar");
 
+ 	dynamic_sidebar('events-widget-area'); 
+ 	
 	$post_cat = get_the_terms($post->ID, 'event-type' ); 
 	if ($post_cat){
 		$html='';
@@ -183,7 +185,7 @@ $mainid=$post->ID;
 	  	}
 	}
 
- 	dynamic_sidebar('events-widget-area'); 
+
  	
  	wp_reset_postdata();
 	?>

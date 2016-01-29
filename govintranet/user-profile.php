@@ -14,7 +14,7 @@ $user_id = bbp_get_displayed_user_field( 'id' );
 $poduser = get_userdata($user_id);		
 $avstyle="";
 if ( $directorystyle==1 ) $avstyle = " img-circle";
-$imgsrc = get_avatar($userid , 150);
+$imgsrc = get_avatar($user_id , 150);
 $imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
 
 do_action( 'bbp_template_before_user_profile' ); 
@@ -22,6 +22,18 @@ do_action( 'bbp_template_before_user_profile' );
 
 	<div class="col-lg-6 col-md-6 col-sm-12">
 		<?php
+		if ( is_user_logged_in() && $user_id == get_current_user_id() ):
+			$userid = get_current_user_id();
+			$favs = get_user_meta($userid, 'user_favourites', true );
+			$favli = "";
+			if ( $favs ):
+				foreach ( $favs as $f ){
+					$favli.= "<li><a href='".get_permalink($f)."'>".get_the_title($f)."</a></li>";
+				}
+				echo '<h3 class="contacthead">' . __('Intranet favourites' , 'govintranet') . '</h3><ul class="bullets">'.$favli.'</ul>';
+			endif;
+		endif;
+			
 		if ( $staffdirectory ):
 	  	$teams = get_user_meta($user_id,'user_team',true);
 		if ($teams) {
@@ -44,13 +56,13 @@ do_action( 'bbp_template_before_user_profile' );
 		  			$teamlist=array();
 				}
 		}  
-		if (!$teams) echo '<h3 class="contacthead">' . __("Role" , "govintranet") . '</h3>';
 		$jt = get_user_meta($user_id, 'user_job_title',true );
+		$ug = get_user_meta( $user_id, 'user_grade',true ); 
+		if (!$teams && ($jt || $ug)) echo '<h3 class="contacthead">' . __("Role" , "govintranet") . '</h3>';
 		if ($jt) echo "<p><strong>" . __('Job title' , 'govintranet' ) . ": </strong>".$jt."</p>";
-		$jt = get_user_meta( $user_id, 'user_grade',true ); 
-		if ($jt) {
-			$jt = get_term($jt, 'grade', ARRAY_A);
-			if ($jt['name']) echo "<p><strong>" . __('Grade' , 'govintranet') . ": </strong>".$jt['name']."</p>";
+		if ($ug) {
+			$ug = get_term($ug, 'grade', ARRAY_A);
+			if ($ug['name']) echo "<p><strong>" . __('Grade' , 'govintranet') . ": </strong>".$ug['name']."</p>";
 		}
 		endif;
 		?>

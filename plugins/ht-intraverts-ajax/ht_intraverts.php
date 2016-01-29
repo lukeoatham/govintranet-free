@@ -9,8 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htIntraverts extends WP_Widget {
-    function htIntraverts() {
-        parent::WP_Widget(false, __('HT Intraverts','govintranet'), array('description' => __('Displays an individual spot from a selection of spots and hides from user if already viewed','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htIntraverts',
+			__( 'HT Intraverts' , 'govintranet'),
+			array( 'description' => __( 'Displays an individual intravert from a bank of intraverts and hides from user if already viewed' , 'govintranet') )
+		);   
 
 		/*
 		Load css

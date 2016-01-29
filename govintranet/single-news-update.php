@@ -80,6 +80,7 @@ remove_filter('pre_get_posts', 'filter_search');
 			<?php
 
 			get_template_part("part", "sidebar");
+		 	dynamic_sidebar('news-widget-area'); 
 
 			$post_cat = get_the_terms($post->ID,'news-update-type');
 			if ($post_cat){
@@ -90,15 +91,13 @@ remove_filter('pre_get_posts', 'filter_search');
 					if ( !$catTitlePrinted ){
 						$catTitlePrinted = true;
 					}
-					$html.= "<span class='wptag'><a href='".get_term_link($cat->slug,'news-update-type')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+					$html.= "<span><a  class='wptag' href='".get_term_link($cat->slug,'news-update-type')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 					}
 				}	
 				if ( $html ){
 					echo "<div class='widget-box'><h3>" . _x('Update types' , 'Taxonomy name for News Update Types' , 'govintranet') . "</h3>".$html."</div>";
 				}
 			}
-
-		 	dynamic_sidebar('news-widget-area'); 
 
 		 	wp_reset_postdata();
 			wp_reset_query();

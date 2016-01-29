@@ -9,8 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htNeedToknowAJAX extends WP_Widget {
-    function htNeedToknowAJAX() {
-        parent::WP_Widget(false, __('HT Need to know AJAX','govintranet'), array('description' => __('Need to know AJAX news widget','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htNeedToknowAJAX',
+			__( 'HT Need to know AJAX' , 'govintranet'),
+			array( 'description' => __( 'Need to know AJAX news widget' , 'govintranet') )
+		);   
     }
     
     function widget($args, $instance) {

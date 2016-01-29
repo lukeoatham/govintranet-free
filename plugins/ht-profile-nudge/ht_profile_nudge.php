@@ -9,8 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htProfileNudge extends WP_Widget {
-    function htProfileNudge() {
-        parent::WP_Widget(false, __('HT Profile Nudge','govintranet'), array('description' => __('Display reminders to complete missing staff profile entries.','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htProfileNudge',
+			__( 'HT Profile Nudge' , 'govintranet'),
+			array( 'description' => __( 'Display reminders to complete missing staff profile entries.' , 'govintranet') )
+		);   
     }
 
     function widget($args, $instance) {

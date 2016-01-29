@@ -91,6 +91,8 @@ get_header(); ?>
 
 			get_template_part("part", "sidebar");
 
+		 	dynamic_sidebar('blog-widget-area'); 
+		 	
 			$posttags = get_the_tags();
 			if ($posttags) {
 				$foundtags=false;	
@@ -108,8 +110,6 @@ get_header(); ?>
 				  	echo "</p></div>";
 			  	}
 			}
-
-		 	dynamic_sidebar('blog-widget-area'); 
 		 	
 		//if we're looking at a blog post, show recently published 
 			echo "<div class='widget-box nobottom'>";
@@ -127,8 +127,44 @@ get_header(); ?>
 					echo "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
 					$thisdate= $post->post_date;
 					$thisdate=date(get_option('date_format'),strtotime($thisdate));
-					echo "<span class='news_date'>".$thisdate;
-					echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
+					echo "<span class='news_date'>".$thisdate."</span>";
+					
+					$user = get_userdata($post->post_author);
+					$gis = "options_forum_support";
+					$staffdirectory = get_option('options_module_staff_directory');
+					$user_info = get_userdata($post->post_author);
+					$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
+
+				   $forumsupport = get_option($gis);
+				   if ($forumsupport){	
+					   		$authorlink = "<a href='".site_url()."/author/" . $user->user_nicename . "/'>";
+							if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+								$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
+								} 
+							elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+								$authorlink = "<a href='".site_url()."/staff/" . $user->user_nicename . "/'>";
+								}
+							echo $authorlink;
+							$user_info = get_userdata($post->post_author);
+							$userurl = site_url().'/staff/'.$user_info->user_nicename;
+							$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
+							$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+							$avstyle="";
+							if ( $directorystyle==1 ) $avstyle = " img-circle";
+							$image_url = get_avatar($post->post_author , 32);
+							$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
+							echo $image_url;
+							echo "</a>&nbsp;";
+							echo $authorlink;
+							$auth = get_the_author();
+							echo "<span class='listglyph'>".$auth."</span>";
+							echo "</a> ";
+		           } else {
+		                echo " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
+				   }
+		
+					
+					echo "<br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 				}
 			endwhile; 
 			echo "</div>";

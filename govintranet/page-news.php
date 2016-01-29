@@ -32,19 +32,19 @@ get_header();
 				    'paged' => $paged												
 					);
 						
-				$projectspost = new WP_Query($cquery);
+				$newspost = new WP_Query($cquery);
 				global $k; 
 				$k = 0;
-				while ($projectspost->have_posts()) : $projectspost->the_post();
+				while ($newspost->have_posts()) : $newspost->the_post();
 					get_template_part( 'loop', 'newstwitter' );
 				endwhile;
 
-					if (  $projectspost->max_num_pages > 1 ) : ?>
+					if (  $newspost->max_num_pages > 1 ) : ?>
 			<?php if (function_exists('wp_pagenavi')) : ?>
-				<?php wp_pagenavi(array('query' => $projectspost)); ?>
+				<?php wp_pagenavi(array('query' => $newspost)); ?>
 				<?php else : ?>
-				<?php next_posts_link(__('&larr; Older items','govintranet'), $projectspost->max_num_pages); ?>
-				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $projectspost->max_num_pages); ?>						
+				<?php next_posts_link(__('&larr; Older items','govintranet'), $newspost->max_num_pages); ?>
+				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $newspost->max_num_pages); ?>						
 			<?php endif; 
 			wp_reset_query();								
 							

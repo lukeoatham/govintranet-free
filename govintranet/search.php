@@ -36,7 +36,7 @@ if ($gishelpfulsearch == 1){
 
 get_header(); ?>
 
-	<div class="col-lg-7 col-md-8 col-sm-12 white">
+	<div class="col-lg-8 col-md-8 col-sm-12 white">
 		<div class="row">
 			<div class='breadcrumbs'>
 				<?php if(function_exists('bcn_display') && !is_front_page()) {
@@ -154,7 +154,7 @@ get_header(); ?>
 			echo "'>" . __('Search the intranet' , 'govintranet') . "</a></p>";
 		}
 
-		if ($wp_query->found_posts > 1 && $_GET['include'] != 'user' ){
+		if ($wp_query->found_posts > 1 && isset($_GET['include']) && $_GET['include'] != 'user' ){
 			echo "<p class='news_date'>";
 			printf( __('Found %d results' , 'govintranet' ) , $wp_query->found_posts );
 			echo "</p>";
@@ -187,7 +187,7 @@ get_header(); ?>
 
 </div>
 
-<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
+<div class="col-lg-4 col-md-4 col-sm-12">
 	<div id="search_filter">
 		<div id="accordion">
 	      <h3>

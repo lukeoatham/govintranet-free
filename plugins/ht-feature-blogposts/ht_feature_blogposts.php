@@ -13,8 +13,15 @@ Pin posts added
 */
 
 class htFeatureBlogposts extends WP_Widget {
-    function htFeatureBlogposts() {
-        parent::WP_Widget(false, __('HT Feature blogposts','govintranet'), array('description' => __('Blogpost listing widget','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htFeatureBlogposts',
+			__( 'HT Feature blogposts' , 'govintranet'),
+			array( 'description' => __( 'Blogpost listing widget' , 'govintranet') )
+		);        
+		
 		if( function_exists('acf_add_local_field_group') ):
 
 		acf_add_local_field_group(array (

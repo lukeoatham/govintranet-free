@@ -46,13 +46,8 @@ function ht_zero_hits_options() {
 	if (!$viewid)  {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
-	// CLIENTS
-    $client_id = '660382727637-9a6j2f87ba86mross0rvi9jr37vb28h4.apps.googleusercontent.com';
-    $client_secret = 'BuRLl-SduOLag_6BQGB38WNi';
-
-	// PUBLIC
-	//	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	//	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	
 
 	$baseurl = site_url();
@@ -358,6 +353,9 @@ function ht_zero_hits_options() {
 }
 
 function delete_zh_meta($postid){
+	if (!current_user_can('manage_options'))  {
+		wp_die( __('You do not have sufficient permissions to access this page.','govintranet') );
+	}
 	global $wpdb;
 	if ( !$postid > 0 ):
 		$wpdb->query("DELETE from $wpdb->postmeta WHERE meta_key = 'zh_last_processed';");
@@ -393,6 +391,7 @@ function delete_zh_meta($postid){
 		$wpdb->query("DELETE from $wpdb->postmeta WHERE meta_key = 'zh_total_6m' and post_id = ".$postid);	 
 	endif;
 }
+
 function zero_hits_monitor(){
 	update_option('zh_patrol_start', date('H:i:s') );
 	
@@ -565,6 +564,10 @@ function zh_dashboard() {
 }
 
 function zh_show_dashboard() {
+	if (!current_user_can('manage_options'))  {
+		wp_die( __('You do not have sufficient permissions to access this page.','govintranet') );
+	}
+
 	$posttypes = get_option('options_zh_post_types');
 	$inq = 0;
 	echo "<table class='table table-striped'>

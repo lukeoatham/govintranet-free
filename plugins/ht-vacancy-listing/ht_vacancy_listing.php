@@ -9,8 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htVacancyListing extends WP_Widget {
-    function htVacancyListing() {
-        parent::WP_Widget(false, __('HT Vacancy listing','govintranet'), array('description' => __('Vacancy listing widget','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htVacancyListing',
+			__( 'HT Vacancy listing' , 'govintranet'),
+			array( 'description' => __( 'Vacancy listing widget' , 'govintranet') )
+		);   
     }
 
     function widget($args, $instance) {

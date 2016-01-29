@@ -9,8 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htNeedToKnow extends WP_Widget {
-    function htNeedToKnow() {
-        parent::WP_Widget(false, __('HT Need to know','govintranet'), array('description' => __('Need to know news widget','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htNeedToKnow',
+			__( 'HT Need to know' , 'govintranet'),
+			array( 'description' => __( 'Need to know news widget' , 'govintranet') )
+		);   
     }
 
     function widget($args, $instance) {

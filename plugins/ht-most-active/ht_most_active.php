@@ -9,9 +9,15 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htMostActive extends WP_Widget {
-    function htMostActive() {
-        parent::WP_Widget(false, __('HT Most active','govintranet'), array('description' => __('Display pages with most pageviews','govintranet')));
 
+	function __construct() {
+		
+		parent::__construct(
+			'htMostActive',
+			__( 'HT Most active' , 'govintranet'),
+			array( 'description' => __( 'Display pages with most pageviews' , 'govintranet') )
+		);   
+		
 		if( function_exists('register_field_group') ):
 
 			register_field_group(array (
@@ -107,13 +113,8 @@ class htMostActive extends WP_Widget {
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_show_guide_chapters" ;
 		$showchapters = get_option($acf_key);
 
-		// CLIENTS
-	    $client_id = '660382727637-9a6j2f87ba86mross0rvi9jr37vb28h4.apps.googleusercontent.com';
-	    $client_secret = 'BuRLl-SduOLag_6BQGB38WNi';
-
-		// PUBLIC
-//	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-//	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 		
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; 

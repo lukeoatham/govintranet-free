@@ -10,12 +10,15 @@
  * @package WordPress
  */
 
+if ( is_category() ) wp_redirect( home_url( '/category/'. get_queried_object()->slug ) . "/" );
+
 get_header();
+
 $catid = get_queried_object()->term_id;	
 
 	if ( have_posts() )
 		the_post();
-?>
+		?>
 		<div class="col-lg-8 col-md-8 white">
 			<div class="row">
 				<div class='breadcrumbs'>
@@ -68,18 +71,40 @@ $catid = get_queried_object()->term_id;
 					$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 					if ( $post_cat && count($post_cat) > 1 ){
 						echo "<div class='widget-box'><h3 class='widget-title'>";
-						_ex('Update categories','A title for the news update category');
+						_ex('Update categories','A title for the news update category','govintranet');
 						echo "</h3>";
 						echo "<p class='taglisting news'>";
 						foreach($post_cat as $cat){
 							if ( $cat->name && ( $cat->term_id != $catid ) ){
 								$newname = str_replace(" ", "&nbsp;", $cat->name );
-								echo "<span class='wptag t".$cat->term_id."'><a href='".get_term_link($cat->slug, 'news-update-type')."'>".$newname."</a></span> ";
+								echo "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug, 'news-update-type')."'>".$newname."</a></span> ";
 							}
 						}
 						echo "</p></div>";
 					}
-				 dynamic_sidebar('news-widget-area');  
+				 dynamic_sidebar('news-landing-widget-area');  
+				 endif;
+				 ?>
+				 <?php if (is_tax(array('blog-category')) || is_post_type_archive('blog')):
+					$taxonomies=array();
+					$post_type = array();
+					$taxonomies[] = 'blog-category';
+					$post_type[] = 'blog';
+					$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
+					if ( $post_cat && count($post_cat) > 1 ){
+						echo "<div class='widget-box'><h3 class='widget-title'>";
+						_ex('Categories','A title for the blog category','govintranet');
+						echo "</h3>";
+						echo "<p class='taglisting news'>";
+						foreach($post_cat as $cat){
+							if ( $cat->name && ( $cat->term_id != $catid ) ){
+								$newname = str_replace(" ", "&nbsp;", $cat->name );
+								echo "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug, 'blog-category')."'>".$newname."</a></span> ";
+							}
+						}
+						echo "</p></div>";
+					}
+				 dynamic_sidebar('blog-landing-widget-area');  
 				 endif;
 				 ?>
 		</div>

@@ -21,7 +21,6 @@ get_header(); ?>
 		$id = (!isset($opts['id'])) ? $wp_query->post->ID : $opts['id'];
 			
 		$children = get_pages("child_of=".$id."&parent=".$id."&hierarchical=0&posts_per_page=-1&post_type=page&sort_column=menu_order&sort_order=ASC");
-		$catcount = 0;
 
 		echo "<div class='row white'>";
 
@@ -39,14 +38,12 @@ get_header(); ?>
 				}
 			}
 			$excerpt = str_replace('[bbp-forum-index]', '', $excerpt);
-		    $themeid = $c->id;
-		    $themeURL= $c->post_name;
-		    $catcount++;
-		    if ($catcount==3)
-		    {
-			    $catcount=1;
-		    }
-			echo "<div class='col-lg-3 col-md-6 col-sm-6 white'>
+			if ( get_post_meta($id, 'ht_about_restrict', true)):
+				echo "<div class='col-lg-4 col-md-6 col-sm-6 white'>";
+			else:
+				echo "<div class='col-lg-3 col-md-6 col-sm-6 white'>";
+			endif;
+			echo "
 				<div class='category-block'>
 					<h2><a href='".get_permalink($c->ID)."'>".govintranetpress_custom_title($c->post_title)."</a></h2>
 					<p>".$excerpt."</p>

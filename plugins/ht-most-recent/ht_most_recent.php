@@ -9,9 +9,15 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htMostRecent extends WP_Widget {
-    function htMostRecent() {
-        parent::WP_Widget(false, __('HT MostRecent','govintranet'), array('description' => __('Display most recent posts','govintranet')));
 
+	function __construct() {
+		
+		parent::__construct(
+			'htMostRecent',
+			__( 'HT Most Recent' , 'govintranet'),
+			array( 'description' => __( 'Display most recent posts' , 'govintranet') )
+		);   
+		
 		if( function_exists('register_field_group') ):
 		
 		register_field_group(array (

@@ -9,8 +9,14 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htFeedback extends WP_Widget {
-    function htFeedback() {
-        parent::WP_Widget(false, __('HT Feedback','govintranet'), array('description' => __('Display feedback form. Requires Gravity Forms plugin.','govintranet')));
+
+	function __construct() {
+		
+		parent::__construct(
+			'htFeedback',
+			__( 'HT Feedback' , 'govintranet'),
+			array( 'description' => __( 'Display feedback form. Requires Gravity Forms plugin' , 'govintranet') )
+		);      
     }
 
     function widget($args, $instance) {

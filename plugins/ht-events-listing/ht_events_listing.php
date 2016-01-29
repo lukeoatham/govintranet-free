@@ -9,12 +9,19 @@ Author URI: http://www.helpfultechnology.com
 */
 
 
+
 class htEventsListing extends WP_Widget {
-    function htEventsListing() {
-        parent::WP_Widget(false, __('HT Events listing','govintranet'), array('description' => __('Events listing widget','govintranet')));
-    }
 
-
+	function __construct() {
+		
+		parent::__construct(
+			'htEventsListing',
+			__( 'HT Events listing' , 'govintranet'),
+			array( 'description' => __( 'Events listing widget' , 'govintranet') )
+		);
+		
+	}
+		
     function widget($args, $instance) {
 	    extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
@@ -93,13 +100,37 @@ class htEventsListing extends WP_Widget {
 				$wtitle = "upcoming";
 				$output.= "
 			    <style>
-				.upcoming-events .date-stamp {
-					border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-				}
-				.upcoming-events .date-stamp em {
+				.calbox .cal-dow {
 					background: ".get_theme_mod('header_background', '0b2d49').";
 					color: #".get_header_textcolor().";
 				}
+				.calbox { 
+					width: 3.5em; 
+					border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+					text-align: center;
+					border-radius: 3px;
+					background: #fff;
+					box-shadow: 0 2px 3px rgba(0,0,0,.2);
+					
+				}
+				.calbox .caldate {
+					font-size: 2em;
+					padding: 0;
+					margin: 5px 0;
+					font-weight: 800;
+				}
+				.calbox .calmonth {
+					color: ".get_theme_mod('header_background', '0b2d49').";
+					text-transform: uppercase;
+					font-weight: 800;
+				}
+				a.calendarlink:hover { text-decoration: none; }
+				a.calendarlink:hover .calbox .caldate { background: #eee; }
+				a.calendarlink:hover .calbox .calmonth { background: #eee; }
+				a.calendarlink:hover .calbox  { background: #eee; }
+				.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+				.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
+				.eventslisting p { margin-bottom: 0 !important; }
 			    </style>
 			    ";
 	
@@ -150,13 +181,37 @@ class htEventsListing extends WP_Widget {
 					if ($news->post_count!=0){
 						$output.= "
 						    <style>
-							.upcoming-events .date-stamp {
-								border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-							}
-							.upcoming-events .date-stamp em {
+							.calbox .cal-dow {
 								background: ".get_theme_mod('header_background', '0b2d49').";
 								color: #".get_header_textcolor().";
 							}
+							.calbox { 
+								width: 3.5em; 
+								border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+								text-align: center;
+								border-radius: 3px;
+								background: #fff;
+								box-shadow: 0 2px 3px rgba(0,0,0,.2);
+								
+							}
+							.calbox .caldate {
+								font-size: 2em;
+								padding: 0;
+								margin: 5px 0;
+								font-weight: 800;
+							}
+							.calbox .calmonth {
+								color: ".get_theme_mod('header_background', '0b2d49').";
+								text-transform: uppercase;
+								font-weight: 800;
+							}
+							a.calendarlink:hover { text-decoration: none; }
+							a.calendarlink:hover .calbox .caldate { background: #eee; }
+							a.calendarlink:hover .calbox .calmonth { background: #eee; }
+							a.calendarlink:hover .calbox  { background: #eee; }
+							.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+							.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }							
+							.eventslisting p { margin-bottom: 0 !important; }
 						    </style>
 					    ";
 						$output.= $before_widget; 
@@ -185,28 +240,48 @@ class htEventsListing extends WP_Widget {
 				$thistitle = get_the_title($post->ID);
 				$edate = get_post_meta($post->ID,'event_start_date',true);
 				$etime = get_post_meta($post->ID,'event_start_time',true);
-				$edate = date(get_option('date_format'),strtotime($edate));
-				$edate .= " ".date(get_option('time_format'),strtotime($etime));
-				$thisURL=get_permalink($id); 
+				$edate = date("D",strtotime($edate))." ".date(get_option('date_format'),strtotime($edate));
+				$edate.= " ".date(get_option('time_format'),strtotime($etime));
+				$thisURL = get_permalink($post->ID); 
 				
 				$output.= "<div class='row'><div class='col-sm-12'>";
 				
 				if ($thumbnails=='on'){
-					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'newsmedium' ); 
+					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newsmedium' ); 
 					if ($image_uri != "" ){
 						$output.= "<a href='".$thisURL."'><img class='img img-responsive' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
 					}
 				} 
 	
 				if ( 'on' == $calendar ) {
-					$output.= "<a class='calendarlink' href='".$thisURL."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</span><span class='event-title'>".$thistitle."</span></a>";
+
+					$output.= "<div class='media eventslisting'>";
+					$output.= "<div class='media-left alignleft'>";
+					$output.= "<a class='calendarlink' href='".$thisURL."'>";
+					$output.= "<div class='calbox'>";
+					$output.= "<div class='cal-dow'>".date('D',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</div>";
+					$output.= "<div class='caldate'>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</div>";
+					$output.= "<div class='calmonth'>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</div>";
+					$output.= "</div>";
+					$output.= "</a>";
+					$output.= "</div>";
+				
+					$output.= "<div class='media-body'>";
+					$output.= "<p class='media-heading'>";
+					$output.= "<a href='".$thisURL."'>";
+					$output.= $thistitle;
+					$output.= "</a>";
+					$output.= "</p>";
+					$output.= "<small><strong>".$edate."</strong></small>";
+					if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) ) $output.= "<br><span><small>".get_post_meta($post->ID,'event_location',true)."</small></span>";
+					$output.= "</div></div>";
+					
+
 				} else {
-					$output.= "<a href='{$thisURL}'> ".$thistitle."</a>";
+					$output.= "<p><a href='{$thisURL}'> ".$thistitle."</a></p>";
+					$output.= "<small><strong>".$edate."</strong></small>";
+					if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) ) $output.= "<br><span><small>".get_post_meta($post->ID,'event_location',true)."</small></span>";
 				} 
-	
-				if (!$calendar == 'on') $output.= "<br><small><strong>".$edate."</strong></small>";
-	
-				if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) ) $output.= "<span><small><strong>".get_post_meta($post->ID,'event_location',true)."</strong></small></span>";
 	
 				if ( $excerpt == 'on' && get_the_excerpt() ){
 						$output.= "<p class='eventclear'><span>".get_the_excerpt()."</span></p>";

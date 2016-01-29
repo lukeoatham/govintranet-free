@@ -26,7 +26,7 @@ get_header();
 					<label for="cat"><?php _e('Search in' , 'govintranet'); ?>: </label>
 					<div class="form-group input-md">
 						<select name='cat' id='cat' class='form-control input-md'>
-							<option value='0' selected='selected'><?php _e('All tasks and guides' , 'govintranet'); ?></option>
+							<option value='0' selected='selected'><?php _e('All categories' , 'govintranet'); ?></option>
 								<?php
 								$terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"slug"));
 								if ($terms) {

@@ -50,7 +50,7 @@ get_header(); ?>
 				$letterlink[$l] = "<li class='disabled'><a href='#'>".strtoupper($l)."</a></li>";
 			}				
 
-			$terms = get_terms('a-to-z'); 
+			$terms = get_terms('a-to-z',array("hide_empty"=>true,"parent"=>0,"orderby"=>"slug"));
 			if ($terms) {
 				foreach ((array)$terms as $taxonomy ) {
 					$letterlink[$taxonomy->slug] = "<li";
@@ -66,6 +66,7 @@ get_header(); ?>
 			<?php
 			$args = array(
 				'posts_per_page' => -1,
+				'post_status' => array('publish'),
 				'tax_query' => array(
 					array(
 						'taxonomy' => 'a-to-z',
@@ -78,6 +79,7 @@ get_header(); ?>
 			$sortedlist = array();
 			
 			if ( ! $postslist->have_posts() ) { 
+				echo "<div class='well'>";
 				echo "<h1>";
 				_e( 'Not found', 'govintranet' );
 				echo "</h1>";
@@ -85,6 +87,7 @@ get_header(); ?>
 				_e( 'There\'s nothing to show', 'govintranet' );
 				echo ".</p>";
 				get_search_form(); 
+				echo "</div>";
 			};
 			
 			while ( $postslist->have_posts() ) : $postslist->the_post(); 

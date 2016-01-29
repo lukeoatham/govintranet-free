@@ -18,7 +18,7 @@ if ($placeholder!=''){
 }	
 ?>
 	<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo site_url( '/' ); ?>">
-	  <div class="row">
+	  <div class="notfound">
 		  <div class="input-group">
 			 <label for="s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
 	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" value="<?php echo the_search_query();?>">

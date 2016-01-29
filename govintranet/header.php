@@ -33,10 +33,11 @@ header('X-Frame-Options: SAMEORIGIN');
 	<!--[if (IE)&(gt IE 8) ]>
 	        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 	<![endif]-->
-	<?php if ( (is_home() || is_front_page()) && !is_search() ): 
+	<?php 
+		if ( (is_home() || is_front_page()) && !is_search() ): 
 			if (intval(get_option('options_homepage_auto_refresh')) > 0):
 			?>
-			<meta http-equiv="refresh" content="<?php echo intval(get_option('options_homepage_auto_refresh'))*60;?>">
+				<meta http-equiv="refresh" content="<?php echo intval(get_option('options_homepage_auto_refresh'))*60;?>">
 			<?php 
 			endif;
 		endif; ?>
@@ -56,7 +57,6 @@ header('X-Frame-Options: SAMEORIGIN');
 	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/html5-shiv.min.js"></script>
 	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/respond.min.js"></script>
 	<![endif]-->
-
 
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_stylesheet_directory_uri(); ?>/print.css" />
@@ -85,16 +85,8 @@ header('X-Frame-Options: SAMEORIGIN');
 	<style type='text/css'>
 	/* Custom CSS rules below: */
 	<?php
-	
 		
 		// write custom css for background header colour
-
-		$bg = get_option('options_page_background');
-		echo "
-		.custom-background  {
-		background-color: ".$bg.";
-		}
-		";
 
 		$bg = get_theme_mod('link_color', '#428bca');
 		echo "
@@ -114,6 +106,11 @@ header('X-Frame-Options: SAMEORIGIN');
 		$gis = "options_header_background";
 		$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
 		if ( $gishex == "#") $gishex = "#0b2d49";
+		echo "
+		.custom-background  {
+		background-color: ".$gishex.";
+		}
+		";
 		$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
 		if ( $headtext == "#") $headtext = "#ffffff";
 		$headimage = get_theme_mod('header_image', '');
@@ -216,7 +213,7 @@ header('X-Frame-Options: SAMEORIGIN');
 		
 		echo "
 		#content .widget-box {
-		padding: .1em .1em .7em 0;
+		padding: .1em 0 .7em 0;
 		font-size: .9em;
 		background: #fff;";
 		echo "border-top: ".$gisheight."px solid ".$giscc.";";

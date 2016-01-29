@@ -258,7 +258,8 @@ get_header(); ?>
 	</div>
 	
 	<div class="col-md-4 last">
-	<?php
+		<?php 
+		dynamic_sidebar('eventslanding-widget-area'); 
 		$taxonomies=array();
 		$post_type = array();
 		$taxonomies[] = 'event_type';
@@ -285,7 +286,7 @@ get_header(); ?>
 		endif;
 		?>
 	
-	 	<?php dynamic_sidebar('eventslanding-widget-area'); ?> 
+	 	
 	
 	</div>
 

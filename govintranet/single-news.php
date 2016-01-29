@@ -84,12 +84,14 @@ remove_filter('pre_get_posts', 'filter_search');
 
 		</div> <!--end of first column-->
 		<div class="col-lg-4  col-md-4 col-sm-4 col-lg-offset-1">	
-			<?php
+				<?php
 
 				get_template_part("part", "related");
 
 				get_template_part("part", "sidebar");
 
+				dynamic_sidebar('news-widget-area'); 
+		 	
 				$post_cat = get_the_terms($post->ID,'news-type');
 				if ($post_cat){
 					$html='';
@@ -121,7 +123,7 @@ remove_filter('pre_get_posts', 'filter_search');
 					  	echo "</p></div>";
 				  	}
 				}
-		 	dynamic_sidebar('news-widget-area'); 
+
 		 	wp_reset_postdata();
 
 			/*****************
@@ -149,10 +151,11 @@ remove_filter('pre_get_posts', 'filter_search');
 				}
 			endif;
 			
+			$ntags = array();
+			$nidtags = array();
 			$newstags = get_the_tags( $post->ID); 
 			if ($newstags):
-				$ntags = array();
-				$nidtags = array();
+				
 				foreach ( $newstags as $n ){
 					$ntags[] = $n->slug; 
 					$nidtags[] = $n->term_id;
@@ -176,7 +179,7 @@ remove_filter('pre_get_posts', 'filter_search');
 					 ) );			
 			}
 			
-			if ( $recentitems->found_posts == 0 && $terms && $ntags ):
+			if ( $recentitems->found_posts == 0 && isset($terms) && isset($ntags) && $terms && $ntags ):
 			// no need to know stories so we'll look for others with the same tags AND category
 				add_filter('pre_get_posts', 'filter_news');
 				$subhead = __('Similar news','govintranet');
@@ -203,7 +206,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				remove_filter('pre_get_posts', 'filter_news');
 			endif;			
 			
-			if ( $recentitems->found_posts == 0 && $ntags || true): 
+			if ( $recentitems->found_posts == 0 && isset($ntags) && $ntags || true): 
 			// no stories with same tags and cats so we'll look for others with just the same tags
 				add_filter('pre_get_posts', 'filter_news');
 				$subhead = __('Similar news' , 'govintranet');
@@ -223,7 +226,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				remove_filter('pre_get_posts', 'filter_news');
 			endif;			
 			
-			if ( $recentitems->found_posts == 0 && $terms): 
+			if ( $recentitems->found_posts == 0 && isset($terms) && $terms ): 
 			// still nothing found, we'll look for other stories in the same news categories as this story
 				$subhead = __('Other related news','govintranet');
 				if ($newstype):
