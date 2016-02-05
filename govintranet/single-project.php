@@ -229,8 +229,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			  	foreach($posttags as $tag) {
 			  		if (substr($tag->name,0,9)!="carousel:"){
 			  			$foundtags=true;
-			  			$tagurl = $tag->slug;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tag->slug)."?type=project'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+			  			$tagurl = $tag->term_id;
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=project'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 			    	}
 			  	}
 			  	if ($foundtags){

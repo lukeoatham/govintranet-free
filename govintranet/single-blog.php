@@ -100,8 +100,8 @@ get_header(); ?>
 			  	foreach($posttags as $tag) {
 			  		if (substr($tag->name,0,9)!="carousel:"){
 			  			$foundtags=true;
-			  			$tagurl = $tag->slug;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl) . "?post_type=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+			  			$tagurl = $tag->term_id;
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 			    	}
 			  	}
 			  	if ($foundtags){
