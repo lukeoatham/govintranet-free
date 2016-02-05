@@ -114,8 +114,8 @@ remove_filter('pre_get_posts', 'filter_search');
 					$tagstr="";
 				  	foreach( $posttags as $tag ) {
 			  			$foundtags=true;
-			  			$tagurl = $tag->slug;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".site_url()."/tag/{$tagurl}/?type=news'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+			  			$tagurl = $tag->term_id;
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=news'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				  	}
 				  	if ( $foundtags ){
 					  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
