@@ -67,7 +67,7 @@ get_header(); ?>
 				$cquery = array(
 			    'tax_query' => array(
 			        array(
-			            'taxonomy' => 'event_type',
+			            'taxonomy' => 'event-type',
 			            'field' => 'slug',
 			            'terms' => $cat_id,
 				       ),
@@ -108,7 +108,7 @@ get_header(); ?>
 				$cquery = array(
 			    'tax_query' => array(
 			        array(
-			            'taxonomy' => 'event_type',
+			            'taxonomy' => 'event-type',
 			            'field' => 'slug',
 			            'terms' => $cat_id,
 				       ),
@@ -262,7 +262,7 @@ get_header(); ?>
 		dynamic_sidebar('eventslanding-widget-area'); 
 		$taxonomies=array();
 		$post_type = array();
-		$taxonomies[] = 'event_type';
+		$taxonomies[] = 'event-type';
 		$post_type[] = 'event';
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 		if ($post_cat){

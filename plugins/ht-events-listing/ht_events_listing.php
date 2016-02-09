@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.0.1.5
+Version: 4.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -103,6 +103,7 @@ class htEventsListing extends WP_Widget {
 				.calbox .cal-dow {
 					background: ".get_theme_mod('header_background', '0b2d49').";
 					color: #".get_header_textcolor().";
+					font-size: 16px;
 				}
 				.calbox { 
 					width: 3.5em; 
@@ -114,15 +115,17 @@ class htEventsListing extends WP_Widget {
 					
 				}
 				.calbox .caldate {
-					font-size: 2em;
+					font-size: 25px;
 					padding: 0;
-					margin: 5px 0;
+					margin: 0;
 					font-weight: 800;
 				}
 				.calbox .calmonth {
 					color: ".get_theme_mod('header_background', '0b2d49').";
 					text-transform: uppercase;
 					font-weight: 800;
+					font-size: 18px;
+					line-height: 20px;
 				}
 				a.calendarlink:hover { text-decoration: none; }
 				a.calendarlink:hover .calbox .caldate { background: #eee; }

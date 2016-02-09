@@ -865,122 +865,31 @@ function my_colorful_tag_cloud( $cat_id, $tc_tax, $tc_post_type ) {
 
 	}
 
-					
-		if ($tc_post_type=='project'){
-			$tquery="
-			SELECT DISTINCT
-			$wpdb->terms.term_id,
-			$wpdb->terms.name,
-			$wpdb->terms.slug,
-			$wpdb->term_taxonomy.count,
-			$wpdb->term_taxonomy.term_taxonomy_id,
-			0 as term_group,
-			'post_tag' as taxonomy
-FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
-WHERE				$wpdb->posts.post_type = 'project' AND
-		$wpdb->posts.post_status = 'publish' AND
-		$wpdb->posts.id = $wpdb->term_relationships.object_id AND
-		$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
-		$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
-		$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
-		$wpdb->term_taxonomy.count > 0
-		limit 45
-		
-			";
-		}
+	$tquery = "";
 
-		if ($tc_post_type=='vacancy'){
-			$tquery="
-			SELECT DISTINCT
-			$wpdb->terms.term_id,
-			$wpdb->terms.name,
-			$wpdb->terms.slug,
-			$wpdb->term_taxonomy.count,
-			$wpdb->term_taxonomy.term_taxonomy_id,
-			0 as term_group,
-			'post_tag' as taxonomy
+	if (post_type_exists( $tc_post_type ) ){
+		$tquery="
+		SELECT DISTINCT
+		$wpdb->terms.term_id,
+		$wpdb->terms.name,
+		$wpdb->terms.slug,
+		$wpdb->term_taxonomy.count,
+		$wpdb->term_taxonomy.term_taxonomy_id,
+		0 as term_group,
+		'post_tag' as taxonomy
 FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
-WHERE				$wpdb->posts.post_type = 'vacancy' AND
-		$wpdb->posts.post_status = 'publish' AND
-		$wpdb->posts.id = $wpdb->term_relationships.object_id AND
-		$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
-		$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
-		$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
-		$wpdb->term_taxonomy.count > 0
-		limit 45
-		
-			";
-		}
-
-		if ($tc_post_type=='event'){
-			$tquery="
-			SELECT DISTINCT
-			$wpdb->terms.term_id,
-			$wpdb->terms.name,
-			$wpdb->terms.slug,
-			$wpdb->term_taxonomy.count,
-			$wpdb->term_taxonomy.term_taxonomy_id,
-			0 as term_group,
-			'post_tag' as taxonomy
-FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
-WHERE				$wpdb->posts.post_type = 'event' AND
-		$wpdb->posts.post_status = 'publish' AND
-		$wpdb->posts.id = $wpdb->term_relationships.object_id AND
-		$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
-		$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
-		$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
-		$wpdb->term_taxonomy.count > 0
-		limit 45
-		
-			";
-		}
-		
-		if ($tc_post_type=='news'){
-			$tquery="
-			SELECT DISTINCT
-			$wpdb->terms.term_id,
-			$wpdb->terms.name,
-			$wpdb->terms.slug,
-			$wpdb->term_taxonomy.count,
-			$wpdb->term_taxonomy.term_taxonomy_id,
-			0 as term_group,
-			'post_tag' as taxonomy
-FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
-WHERE				$wpdb->posts.post_type = 'news' AND
-		$wpdb->posts.post_status = 'publish' AND
-		$wpdb->posts.id = $wpdb->term_relationships.object_id AND
-		$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
-		$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
-		$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
-		$wpdb->term_taxonomy.count > 0
-		limit 45
-		
-			";
-		}
-
-		if ($tc_post_type=='task'){
-			$tquery="
-			SELECT DISTINCT
-			$wpdb->terms.term_id,
-			$wpdb->terms.name,
-			$wpdb->terms.slug,
-			$wpdb->term_taxonomy.count,
-			$wpdb->term_taxonomy.term_taxonomy_id,
-			0 as term_group,
-			'post_tag' as taxonomy
-FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
-WHERE				$wpdb->posts.post_type = 'task' AND
-		$wpdb->posts.post_status = 'publish' AND
-		$wpdb->posts.id = $wpdb->term_relationships.object_id AND
-		$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
-		$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
-		$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
-		$wpdb->term_taxonomy.count > 0
-		limit 45
-		
-			";
-		}
-		$tags = $wpdb->get_results($tquery);			
+WHERE				$wpdb->posts.post_type = $tc_post_type AND
+	$wpdb->posts.post_status = 'publish' AND
+	$wpdb->posts.id = $wpdb->term_relationships.object_id AND
+	$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
+	$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
+	$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
+	$wpdb->term_taxonomy.count > 0
+	limit 45
+	
+		";
+	}
+	if ( $tquery ) $tags = $wpdb->get_results($tquery);			
 
     if ( empty( $tags ) || is_wp_error( $tags ) )
         return;
@@ -1702,6 +1611,7 @@ function cptui_register_my_cpt_news_update() {
 		"menu_position" => '35',		
 		"menu_icon" => "dashicons-flag",		
 		"supports" => array( "title", "editor", "excerpt", "comments", "revisions", "thumbnail", "author" ),			
+		"taxonomies" => array( "post_tag" ),
 	);
 	register_post_type( "news-update", $args );
 		

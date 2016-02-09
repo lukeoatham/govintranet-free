@@ -4,7 +4,7 @@
  * Plugin URI: http://www.helpfultechnology.com
  * Description: Adds jQuery Autocomplete functionality to the default WordPress search box.
  * Version: 2.1.2
- * Author: Gabe Shackle, modified by Luke Oatham
+ * Author: Gabe Shackle, modified by Luke Oatham, Tom Marshall
  * Author URI: http://hereswhatidid.com
  * License: GPLv2 or later
  */

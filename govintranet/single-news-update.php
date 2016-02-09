@@ -99,6 +99,22 @@ remove_filter('pre_get_posts', 'filter_search');
 				}
 			}
 
+			$posttags = get_the_tags();
+			if ( $posttags ) {
+				$foundtags=false;	
+				$tagstr="";
+			  	foreach( $posttags as $tag ) {
+		  			$foundtags=true;
+		  			$tagurl = $tag->term_id;
+			    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=news-update'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+			  	}
+			  	if ( $foundtags ){
+				  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
+				  	echo $tagstr;
+				  	echo "</p></div>";
+			  	}
+			}
+
 		 	wp_reset_postdata();
 			wp_reset_query();
 			/*****************

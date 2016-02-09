@@ -92,6 +92,23 @@ get_header(); ?>
 			get_template_part("part", "sidebar");
 
 		 	dynamic_sidebar('blog-widget-area'); 
+
+			$post_cat = get_the_terms($post->ID,'blog-category');
+			if ($post_cat){
+				$html='';
+				$catTitlePrinted=false;
+				foreach($post_cat as $cat){
+				if ( $cat->term_id > 0 ){
+					if ( !$catTitlePrinted ){
+						$catTitlePrinted = true;
+					}
+					$html.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug , 'blog-category') . "'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+					}
+				}	
+				if ( $html ){
+					echo "<div class='widget-box'><h3>" . __('Categories' , 'govintranet') . "</h3>".$html."</div>";
+				}
+			}
 		 	
 			$posttags = get_the_tags();
 			if ($posttags) {
@@ -100,8 +117,8 @@ get_header(); ?>
 			  	foreach($posttags as $tag) {
 			  		if (substr($tag->name,0,9)!="carousel:"){
 			  			$foundtags=true;
-			  			$tagurl = $tag->slug;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl) . "?post_type=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+			  			$tagurl = $tag->term_id;
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl) . "?type=blog'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 			    	}
 			  	}
 			  	if ($foundtags){
@@ -113,9 +130,41 @@ get_header(); ?>
 		 	
 		//if we're looking at a blog post, show recently published 
 			echo "<div class='widget-box nobottom'>";
-			$recentitems = new WP_Query('post_type=blog&posts_per_page=5');			
-			echo "<h3>" . __('Recent posts' , 'govintranet') . "</h3>";
-			if ($recentitems->post_count==0 || ($recentitems->post_count==1 && $mainid==$post->ID)){
+			if ( $post_cat ):
+				$blog_categories = array();
+				foreach ( $post_cat as $cat){
+					$blog_categories[] = $cat->term_id;
+				}
+				$recentitems = new WP_Query(array(
+					'post_type'=>'blog',
+					'posts_per_page'=>5,
+					'post__not_in' => array($mainid),
+					'tax_query' => array(array(
+				    'taxonomy' => 'blog-category',
+				    'field' => 'id',
+				    'terms' => (array)$blog_categories,
+				    'compare' => "IN",
+					))
+					));			
+				$recent_title = __('Recent in this category' , 'govintranet');
+				if ( !$recentitems->have_posts()):
+					$recentitems = new WP_Query(array(
+					'post_type'=>'blog',
+					'posts_per_page'=>5,
+					'post__not_in' => array($mainid),
+					));	
+					$recent_title = __('Recent in other categories' , 'govintranet');
+				endif;
+			else:
+				$recentitems = new WP_Query(array(
+				'post_type'=>'blog',
+				'posts_per_page'=>5,
+				'post__not_in' => array($mainid),
+				));	
+				$recent_title = __('Recent posts' , 'govintranet');
+			endif;
+			echo "<h3>" . $recent_title . "</h3>";
+			if (!$recentitems->have_posts()){
 				echo "<p>" . __('Nothing to show yet' , 'govintranet') . ".</p>";
 			}
 			if ( $recentitems->have_posts() ) while ( $recentitems->have_posts() ) : $recentitems->the_post(); 
@@ -127,7 +176,7 @@ get_header(); ?>
 					echo "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
 					$thisdate= $post->post_date;
 					$thisdate=date(get_option('date_format'),strtotime($thisdate));
-					echo "<span class='news_date'>".$thisdate."</span>";
+					echo "<span class='news_date'>".$thisdate."</span>&nbsp;";
 					
 					$user = get_userdata($post->post_author);
 					$gis = "options_forum_support";

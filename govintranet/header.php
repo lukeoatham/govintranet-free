@@ -88,6 +88,13 @@ header('X-Frame-Options: SAMEORIGIN');
 		
 		// write custom css for background header colour
 
+		$bg = get_option('options_page_background');
+		echo "
+		.custom-background  {
+		background-color: ".$bg.";
+		}
+		";
+
 		$bg = get_theme_mod('link_color', '#428bca');
 		echo "
 		a, a .listglyph  {
@@ -106,11 +113,6 @@ header('X-Frame-Options: SAMEORIGIN');
 		$gis = "options_header_background";
 		$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
 		if ( $gishex == "#") $gishex = "#0b2d49";
-		echo "
-		.custom-background  {
-		background-color: ".$gishex.";
-		}
-		";
 		$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
 		if ( $headtext == "#") $headtext = "#ffffff";
 		$headimage = get_theme_mod('header_image', '');

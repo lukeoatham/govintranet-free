@@ -42,7 +42,7 @@ if ($k==1 && $paged<2){
 	} 
 	$ext_icon = '';
 	if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
-	echo "<h3".$headclass.">".$ext_icon."<a href='".site_url()."/news/".$post->post_name."'>".$needtoknow.$thistitle."</a></h3>";
+	echo "<h3".$headclass.">".$ext_icon."<a href='".get_permalink($post->ID)."'>".$needtoknow.$thistitle."</a></h3>";
 	echo "<div class='media-body'>";
 	echo "<div><p>";
 	$thisdate= $post->post_date;
