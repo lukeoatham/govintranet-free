@@ -264,12 +264,15 @@ function widget($args, $instance) {
 			endif;
 
 			if ($newsgrid[$k]=="L"){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'newshead' );
 				if ($video){
 					echo $video;
-				} elseif ($image_uri!="" ){
-					echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
+				} elseif (has_post_thumbnail($post->ID)){
+					$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+					$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+					echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive'));
+					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 				} 
+
 			} 
 
 			if ($newsgrid[$k]=="M"){
@@ -407,11 +410,13 @@ function widget($args, $instance) {
 			endif;
 		
 			if ($newsgrid[$k]=="L"){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $theid ), 'newshead' );
 				if ($video){
 					echo $video;
-				} elseif ($image_uri!="" ){
-					echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($post->post_title)."' /></a>";									
+				} elseif (has_post_thumbnail($post->ID)){
+					$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+					$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+					echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive'));
+					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 				} 
 			} 
 	

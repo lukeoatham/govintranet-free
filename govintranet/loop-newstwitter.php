@@ -30,16 +30,15 @@ if ($k==1 && $paged<2){
 	$headclass = "";
 	echo "<div class='row'>";
 	echo "<div class='col-lg-12'>";
-	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
-	$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), 'large' );
-	$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
 	if ($video){
 		echo $video;
-	} elseif ($image_uri!="" ){
-		echo "<a href='".get_permalink($post->ID)."/'>";
-		echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive','srcset'=>$img_srcset, 'sizes'=>$img_sizes));
-		echo "</a>";																		
+	} elseif (has_post_thumbnail($post->ID)){
+		$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+		$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+		echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive'));
+		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 	} 
+
 	$ext_icon = '';
 	if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
 	echo "<h3".$headclass.">".$ext_icon."<a href='".get_permalink($post->ID)."'>".$needtoknow.$thistitle."</a></h3>";
@@ -72,11 +71,16 @@ if ($k==1 && $paged<2){
 	if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
 	//regular listing *********************
 	echo "<div class='media'>" ;
-	$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
+	$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright img-responsive'));
 	echo "<a href='";
 	$userurl = get_permalink();
 	echo $userurl;
-	echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
+	echo "'><div class='hidden-xs'>";
+	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'thumbnail' );
+	if ($image_uri!="" ){
+		echo "<a href='{$thisURL}'><img class='img img-responsive alignright' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
+	} 	
+	echo "</div></a>" ;
 	echo "<div class='media-body'>";
 	?>
 	<h3 class='postlist'><?php echo $needtoknow;  ?>				

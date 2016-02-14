@@ -28,8 +28,6 @@ class htVacancyListing extends WP_Widget {
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
         if ( !intval($cacheperiod) ) $cacheperiod = 60 * 60;
         
-		wp_register_style( 'ht-vacancy-listing', plugin_dir_url("/") . "ht-vacancy-listing/ht_vacancy_listing.css" );
-		wp_enqueue_style( 'ht-vacancy-listing' );
 
 		$gatransient = substr( 'vacancy_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 		$output = get_transient( $gatransient );
@@ -85,33 +83,58 @@ class htVacancyListing extends WP_Widget {
 					'posts_per_page' => $items,
 			);
 	
-			$news =new WP_Query($cquery);
-			if ($news->post_count!=0){
-				echo "
+			$vacancies =new WP_Query($cquery);
+			if ($vacancies->post_count!=0){
+				$output= "
 			    <style>
-				.upcoming-vacancies .date-stamp {
-					border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-				}
-				.upcoming-vacancies .date-stamp em {
+				.vacancybox .vacancy-dow {
 					background: ".get_theme_mod('header_background', '0b2d49').";
 					color: #".get_header_textcolor().";
+					font-size: 16px;
 				}
+				.vacancybox { 
+					width: 3.5em; 
+					border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+					text-align: center;
+					border-radius: 3px;
+					background: #fff;
+					box-shadow: 0 2px 3px rgba(0,0,0,.2);
+					
+				}
+				.vacancybox .vacancy-date {
+					font-size: 25px;
+					padding: 0;
+					margin: 0;
+					font-weight: 800;
+				}
+				.vacancybox .vacancy-month {
+					color: ".get_theme_mod('header_background', '0b2d49').";
+					text-transform: uppercase;
+					font-weight: 800;
+					font-size: 18px;
+					line-height: 20px;
+				}
+				a.calendarlink:hover { text-decoration: none; }
+				a.calendarlink:hover .vacancybox .vacancy-date { background: #eee; }
+				a.calendarlink:hover .vacancybox .vacancy-month { background: #eee; }
+				a.calendarlink:hover .vacancybox  { background: #eee; }
+				.vacancylisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+				.vacancylisting .alignleft { margin: 0 0 0.5em 0 !important; }
+				.vacancylisting p { margin-bottom: 0 !important; }
 			    </style>
-			    ";
-	
-				echo $before_widget; 
+			    ";				
+				$output.= $before_widget; 
 	
 				if ( $title ) {
-					echo $before_title . $title . $after_title;
+					$output.= $before_title . $title . $after_title;
 				}
-				echo "<div class='widget-area widget-vacancies'>";
-				if ($thumbnails!='on') echo "<div class='upcoming-vacancies'><ul>";
+				$output.= "<div class='widget-area widget-vacancies'>";
 			}
 			$k=0;
 			$alreadydone= array();
 	
-			while ($news->have_posts()) {
-				$news->the_post();
+			while ($vacancies->have_posts()) {
+				$vacancies->the_post();
 				//don't show if already in stickies
 				if (in_array($post->ID, $alreadydone )) continue;
 				$k++;
@@ -122,26 +145,30 @@ class htVacancyListing extends WP_Widget {
 				$etime = date(get_option('time_format'),strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
 				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink($ID); 
-				if ($thumbnails=='on'){
-					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'thumbnail' ); 
-					if ($image_uri!="" ){
-						echo "<div class='media'>";
-						echo "<a class='pull-right' href='".get_permalink($post->ID)."'><img class='tinythumb' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
-						echo "<div class='media-body'><a href='{$thisURL}'> ".$thistitle."</a><br><small>".$edate."</small>";
-						echo "</div></div>";
-					} else {
-						echo "<div class='media'><a href='{$thisURL}'> ".$thistitle."</a><br><small>".$edate."</small></div>";
-					} 
-				} else {
-					echo "<li><a href='".get_permalink($post->ID)."'><span class='date-stamp'><em>".date('M',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</em>".date('d',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</span>".$thistitle;
-					echo "<span></span>";
-					if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) echo "<span class='alert-vacancy' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
-					echo "</a></li>";
-				}
+				$output.= "<div class='media vacancylisting'>";
+				$output.= "<div class='media-left alignleft'>";
+				$output.= "<a class='calendarlink' href='".$thisURL."'>";
+				$output.= "<div class='vacancybox'>";
+				$output.= "<div class='vacancy-dow'>".date('D',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
+				$output.= "<div class='vacancy-date'>".date('d',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
+				$output.= "<div class='vacancy-month'>".date('M',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
+				$output.= "</div>";
+				$output.= "</a>";
+				$output.= "</div>";
+			
+				$output.= "<div class='media-body'>";
+				$output.= "<p class='media-heading'>";
+				$output.= "<a href='".$thisURL."'>";
+				$output.= $thistitle;
+				$output.= "</a>";
+				$output.= "</p>";
+				//$output.= "<small><strong>".$edate."</strong></small>";
+				if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) $output.= "<span class='alert-vacancy' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
+				$output.= "</div></div>";
+
 			}
 	
-			if ($news->post_count!=0){
-				if ($thumbnails!='on') echo "</ul></div>";
+			if ($vacancies->post_count!=0){
 	
 				$landingpage = get_option('options_module_vacancies_page'); 
 				if ( !$landingpage ):
@@ -152,8 +179,8 @@ class htVacancyListing extends WP_Widget {
 					$landingpage = get_permalink( $landingpage[0] );
 				endif;
 				
-				echo '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p></div>';
-				echo $after_widget;
+				$output.= '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p></div>';
+				$output.= $after_widget;
 			}
 			set_transient($gatransient,$output,$cacheperiod); // set cache period 60 minutes default
 

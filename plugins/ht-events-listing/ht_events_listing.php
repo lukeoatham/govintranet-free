@@ -36,8 +36,6 @@ class htEventsListing extends WP_Widget {
         $recent = ($instance['recent']);
 		$widget_id = $id;
         $output = '';
-		wp_register_style( 'ht-events-listing', plugin_dir_url("/") ."ht-events-listing/ht_events_listing.css" );
-		wp_enqueue_style( 'ht-events-listing' );
 
 		$gatransient = substr( 'event_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 		$output = get_transient( $gatransient );
@@ -93,49 +91,49 @@ class htEventsListing extends WP_Widget {
 				));
 			
 	
-			$news =new WP_Query($cquery);
+			$events =new WP_Query($cquery);
 			$output.= "<div class='widget-area widget-events'><div class='upcoming-events'>";
-			
-			if ($news->post_count!=0){
+			$output.= "
+		    <style>
+			.calbox .cal-dow {
+				background: ".get_theme_mod('header_background', '0b2d49').";
+				color: #".get_header_textcolor().";
+				font-size: 16px;
+			}
+			.calbox { 
+				width: 3.5em; 
+				border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+				text-align: center;
+				border-radius: 3px;
+				background: #fff;
+				box-shadow: 0 2px 3px rgba(0,0,0,.2);
+				
+			}
+			.calbox .caldate {
+				font-size: 25px;
+				padding: 0;
+				margin: 0;
+				font-weight: 800;
+			}
+			.calbox .calmonth {
+				color: ".get_theme_mod('header_background', '0b2d49').";
+				text-transform: uppercase;
+				font-weight: 800;
+				font-size: 18px;
+				line-height: 20px;
+			}
+			a.calendarlink:hover { text-decoration: none; }
+			a.calendarlink:hover .calbox .caldate { background: #eee; }
+			a.calendarlink:hover .calbox .calmonth { background: #eee; }
+			a.calendarlink:hover .calbox  { background: #eee; }
+			.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+			.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
+			.eventslisting p { margin-bottom: 0 !important; }
+		    </style>
+		    ";			
+			if ($events->post_count!=0){
 				$wtitle = "upcoming";
-				$output.= "
-			    <style>
-				.calbox .cal-dow {
-					background: ".get_theme_mod('header_background', '0b2d49').";
-					color: #".get_header_textcolor().";
-					font-size: 16px;
-				}
-				.calbox { 
-					width: 3.5em; 
-					border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-					text-align: center;
-					border-radius: 3px;
-					background: #fff;
-					box-shadow: 0 2px 3px rgba(0,0,0,.2);
-					
-				}
-				.calbox .caldate {
-					font-size: 25px;
-					padding: 0;
-					margin: 0;
-					font-weight: 800;
-				}
-				.calbox .calmonth {
-					color: ".get_theme_mod('header_background', '0b2d49').";
-					text-transform: uppercase;
-					font-weight: 800;
-					font-size: 18px;
-					line-height: 20px;
-				}
-				a.calendarlink:hover { text-decoration: none; }
-				a.calendarlink:hover .calbox .caldate { background: #eee; }
-				a.calendarlink:hover .calbox .calmonth { background: #eee; }
-				a.calendarlink:hover .calbox  { background: #eee; }
-				.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
-				.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
-				.eventslisting p { margin-bottom: 0 !important; }
-			    </style>
-			    ";
+
 	
 				$output.= $before_widget; 
 	
@@ -180,8 +178,8 @@ class htEventsListing extends WP_Widget {
 					'field' => 'id',	
 				));
 				
-				$news =new WP_Query($cquery);
-					if ($news->post_count!=0){
+				$events =new WP_Query($cquery);
+					if ($events->post_count!=0){
 						$output.= "
 						    <style>
 							.calbox .cal-dow {
@@ -227,11 +225,11 @@ class htEventsListing extends WP_Widget {
 			$k=0;
 			$alreadydone= array();
 	
-			while ($news->have_posts()) {
+			while ($events->have_posts()) {
 				global $post;//required for access within widget	
 				if ( 'recent' == $wtitle ) $output.= "<small><strong>" . __("Nothing coming up. Here's the most recent:","govintranet") . "</strong></small><br>";
 				$wtitle = '';
-				$news->the_post();
+				$events->the_post();
 				if (in_array($post->ID, $alreadydone )) { //don't show if already in stickies
 					continue;
 				}
@@ -294,7 +292,7 @@ class htEventsListing extends WP_Widget {
 				$output.= "</div><hr>";
 			}
 	
-			if ($news->post_count!=0){
+			if ($events->post_count!=0){
 	
 				$landingpage = get_option('options_module_events_page'); 
 				if ( !$landingpage ):

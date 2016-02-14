@@ -43,13 +43,12 @@ remove_filter('pre_get_posts', 'filter_search');
 				}
 
 				if (!$video){
-					$ts = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
-					$tt = get_the_title();
-					$tn = "<img src='".$ts[0]."' width='".$ts[1]."' height='".$ts[2]."' class='img img-responsive' alt='".$tt."' />";
-					if ($ts){
-						echo $tn;
+					$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+					$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+					if (has_post_thumbnail($post->ID)){
+						echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive'));
 						echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
-					}
+					} 
 				}
 				?>
 

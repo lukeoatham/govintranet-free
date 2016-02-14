@@ -9992,14 +9992,13 @@ function save_keyword_meta( $post_id ) {
 }
 add_action( 'save_post', 'save_keyword_meta' );
 
-function filter_search($query) {
+function ht_filter_search($query) {
     if ($query->is_tag && !is_admin()) { 
-		$query->set('post_type', array('any'));
+		$query->set('type', array('any'));
     }
     return $query;
 }; 
-add_filter('pre_get_posts', 'filter_search');
-
+add_filter('pre_get_posts', 'ht_filter_search');
 
 // set login banner link to intranet homepage
 function ht_login_url(){
@@ -10160,3 +10159,53 @@ function ht_update_post_term_count( $terms, $taxonomy ) {
         do_action( 'edited_term_taxonomy', $term, $taxonomy->name );
     }
 }    
+
+/**
+* filter function to force wordpress to add our custom srcset values
+* @param array  $sources {
+*     One or more arrays of source data to include in the 'srcset'.
+*
+*     @type type array $width {
+*          @type type string $url        The URL of an image source.
+*          @type type string $descriptor The descriptor type used in the image candidate string,
+*                                        either 'w' or 'x'.
+*          @type type int    $value      The source width, if paired with a 'w' descriptor or a
+*                                        pixel density value if paired with an 'x' descriptor.
+*     }
+* }
+* @param array  $size_array    Array of width and height values in pixels (in that order).
+* @param string $image_src     The 'src' of the image.
+* @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
+* @param int    $attachment_id Image attachment ID.
+
+* @author: Aakash Dodiya
+* @website: http://www.developersq.com
+*/
+add_filter( 'wp_calculate_image_srcset', 'dq_add_custom_image_srcset', 10, 5 );
+function dq_add_custom_image_srcset( $sources, $size_array, $image_src, $image_meta, $attachment_id ){
+			
+	$image_basename = wp_basename( $image_meta['file'] );
+	$image_baseurl = _wp_upload_dir_baseurl();	
+	// Uploads are (or have been) in year/month sub-directories.
+	if ( $image_basename !== $image_meta['file'] ) {
+		$dirname = dirname( $image_meta['file'] );
+
+		if ( $dirname !== '.' ) {
+			$image_baseurl = trailingslashit( $image_baseurl ) . $dirname;
+		}
+	}
+        // get image baseurl 
+	$image_baseurl = trailingslashit( $image_baseurl );
+	// check whether our custom image size exists in image meta	
+	if( array_key_exists('large', $image_meta['sizes'] ) ){
+		// add source value to create srcset
+		$sources[ $image_meta['sizes']['large']['width'] ] = array(
+				 'url'        => $image_baseurl .  $image_meta['sizes']['newshead']['file'],
+				 'descriptor' => 'w',
+				 'value'      => $image_meta['sizes']['newshead']['width'],
+		);
+	}
+	
+        //return sources with new srcset value
+	return $sources;
+}

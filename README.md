@@ -37,6 +37,18 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9.2 - 14 Feb 2016 ###
+* Bug fix for admin bulk edits 
+* New format for vacancy and events widgets  
+* HT Notify widget - sends emails for updated pages to subscribed users 
+* HT Favourites widget - allows users to add favourite pages 
+
+### 4.9.1 - 9 Feb 2016 ###
+* Added tags to news updates 
+* Blog category integrated into templates 
+* Fixes for tags 
+* Fixes for events template 
+
 ### 4.9 - 29 Jan 2016 ###
 * Fix for Breadcrumb NavXT forcing post_type on category URLs 
 * Newsboard template - create your own tabs for the news page 
