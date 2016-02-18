@@ -37,6 +37,11 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9.3 - 18 Feb 2016 ###
+* Language updates 
+* Core theme tidy 
+* Search autocomplete fix 
+
 ### 4.9.2 - 14 Feb 2016 ###
 * Bug fix for admin bulk edits 
 * New format for vacancy and events widgets  
