@@ -18,6 +18,7 @@ Intranet theme inspired by GOV.UK. Custom post types: news, blog, events, tasks 
 
 * Tasks & Guides
 * Projects
+* Teams 
 * Vacancies
 * News
 * News updates 
@@ -36,6 +37,14 @@ Refer to [showcase site](https://govintranet.helpfulclients.com/) for example in
 Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for help and installation instructions.
 
 ## Changelog ##
+
+### 4.9.4 - 27 Feb 2016 ###
+* Removed direct support for WP User Avatar 
+* Improved inline CSS  
+* Aggregator template updates to events and news 
+* Feature news widget first large image now a link 
+* Intravert updates for responsive images 
+* Profile nudge updates to support Simple Local Avatar   
 
 ### 4.9.3 - 18 Feb 2016 ###
 * Language updates 

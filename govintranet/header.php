@@ -66,289 +66,33 @@ header('X-Frame-Options: SAMEORIGIN');
 	<![endif]-->
 
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-			
-		<?php
-		/* We add some JavaScript to pages with the comment form
-		 * to support sites with threaded comments (when in use).
-		 */
-		if ( is_singular() && get_option( 'thread_comments' ) )
-			wp_enqueue_script( 'comment-reply' );
-	
-		/* Always have wp_head() just before the closing </head>
-		 * tag of your theme, or you will break many plugins, which
-		 * generally use this hook to add elements to <head> such
-		 * as styles, scripts, and meta tags.
-		 */
-		wp_head();
-	?>
 
-	<style type='text/css'>
-	/* Custom CSS rules below: */
-	<?php
-		
-		// write custom css for background header colour
-
-		$bg = get_theme_mod('link_color', '#428bca');
-		echo "
-		a, a .listglyph  {
-		color: ".$bg.";
-		}
-		";
-
-		$bg = get_theme_mod('link_visited_color', '#7303aa');
-		echo "
-		a:visited, a:visited .listglyph {
-		color: ".$bg.";
-		}
-		";
-		$gisheight = get_option('options_widget_border_height');
-		if (!$gisheight) $gisheight = 7;
-		$gis = "options_header_background";
-		$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
-		if ( $gishex == "#") $gishex = "#0b2d49";
-		echo "
-		.custom-background  {
-		background-color: ".$gishex.";
-		}
-		";
-		$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
-		if ( $headtext == "#") $headtext = "#ffffff";
-		$headimage = get_theme_mod('header_image', '');
-		$basecol=HTMLToRGB(substr($gishex,1,6));
-		$topborder = ChangeLuminosity($basecol, 33);
-
-		// set bar colour
-		// if using automatic complementary colour then convert header color
-		// otherwise use specified colour
-
-		$giscc = get_option('options_enable_automatic_complementary_colour'); 
-		if ($giscc):
-			$giscc = RGBToHTML($topborder); 
-		elseif (get_option('options_complementary_colour')):
-			$giscc = get_option('options_complementary_colour');
-		else:
-			 $giscc = $gishex; 
-		endif;
-		
-		if ($headimage != 'remove-header' ):
-			echo "
-			#topstrip  {
-			background: ".$gishex." url(".get_header_image().");
-			color: ".$headtext.";
-			}
-			";
-		else:
-			echo "
-			#topstrip  {
-			background: ".$gishex.";
-			color: ".$headtext.";
-			}
-			";
-		endif;
-
-		echo "
-		@media only screen and (max-width: 767px)  {
-			#masthead  {
-			background: ".$gishex." !important;
-			color: ".$headtext.";
-			padding: 0 1em;
-			}
-			#primarynav ul li a {
-			background: ".$gishex.";
-			color: ".$headtext.";
-			}	
-			#primarynav ul li a:hover {
-			color: ".$gishex." !important;
-			background: ".$headtext.";
-			}	
-		}
-		";
-
-		echo "
-		.btn-primary, .btn-primary a  {
-		background: ".$giscc.";
-		border: 1px solid ".$giscc.";
-		color: ".$headtext.";
-		}
-		";
-		echo "
-		
-		.btn-primary a:hover  {
-		background: ".$gishex.";
-		}
-		";
-
-		echo "
-		#topstrip a {
-		color: ".$headtext.";
-		}
-		";
-		echo "
-		#utilitybar ul#menu-utilities li a, #menu-utilities {
-		color: ".$headtext.";
-		}
-		";
-
-		echo "
-		#footerwrapper  {";
-		echo "border-top: ".$gisheight."px solid ".$giscc.";";
-		echo "}";
-
-		echo "
-		.page-template-page-about-php .category-block h2 {";
-		echo "border-top: ".$gisheight."px solid ".$giscc.";";
-
-		echo "padding: 0.6em 0;
-		}
-		";
-
-		echo "
-		.home.page .category-block h3 {
-			border-bottom: 3px solid ".$gishex.";
-		}
-		.h3border {
-		border-bottom: 3px solid ".$gishex.";
-		}
-		";
-		
-		echo "
-		#content .widget-box {
-		padding: .1em 0 .7em 0;
-		font-size: .9em;
-		background: #fff;";
-		echo "border-top: ".$gisheight."px solid ".$giscc.";";
-		echo "margin-top: .7em;
-		}
-		";
-
-		echo "
-		.home.page .category-block h3 {";
-		echo "border-top: ".$gisheight."px solid ".$giscc.";";
-		echo "border-bottom: none;
-		padding-top: 16px;
-		margin-top: 16px;
-		}
-		";
-
-		$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-		if ( $directorystyle ):
-			echo "
-			.bbp-user-page.single #bbp-user-avatar img.avatar   {
-				border-radius: 50%;
-			}
-			";
-		endif;
-		
-		echo "
-		.bbp-user-page .panel-heading {";
-		echo "border-top: ".$gisheight."px solid ".$giscc.";";
-		echo "
-		}
-		";
-		
-		echo "
-		.page-template-page-news-php h1 {
-		border-bottom: ".$gisheight."px solid ".$giscc.";
-		} 
-		.tax-team h2 {
-		border-bottom: ".$gisheight."px solid ".$giscc.";
-		} 
-		";
-
-		//write custom css for logo
-		$gisid = get_option('options_header_logo'); 
-		$gislogow = wp_get_attachment_image_src( $gisid ); 
-		$gislogo = $gislogow[0] ;
-		$gisw = $gislogow[1] + 10;
-		echo "
-		#crownlink  {
-		background: url('".$gislogo."') no-repeat;	 
-		background-position:left 10px;
-		padding: 16px 0 0 ".$gisw."px;
-		height: auto;
-		min-height: 50px;
-		margin-bottom: 0.6em;
-		}
-		";
-		echo "
-		#primarynav ul li  {
-		border-bottom: 1px solid ".$gishex.";
-		border-top: 1px solid ".$gishex.";
-		border-right: 1px solid ".$gishex.";
-		}
-		#primarynav ul li:last-child,  #primarynav ul li.last-link  {
-		border-right: 1px solid ".$gishex.";
-		}
-
-		#primarynav ul li:first-child,  #primarynav ul li.first-link  {
-		border-left: 1px solid ".$gishex.";
-		}
-
-		#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }
-		";		
-
-
-		echo "a.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
-		echo "a.:visited.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
-
-
-
-		if ($headimage != 'remove-header' && $headimage) echo '#utilitybar ul#menu-utilities li a, #menu-utilities, #crownlink { text-shadow: 1px 1px #333; }'; 
-		
-		$terms = get_terms('category',array('hide_empty'=>false));
-		if ($terms) {
-	  		foreach ((array)$terms as $taxonomy ) {
-	  		    $themeid = $taxonomy->term_id;
-	  		    $themeURL= $taxonomy->slug;
-	  			$background=get_option('category_'.$themeid.'_cat_background_colour');
-	  			$foreground=get_option('category_'.$themeid.'_cat_foreground_colour');
-	  			echo "button.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background.";} \n";
-	  			echo ".cattagbutton a.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border-bottom: 3px solid #000; border-radius: 3px; } \n";
-	  			echo ".cattagbutton a:hover.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border-bottom: 3px solid #000; border-radius: 3px; } \n";
-	  			echo ".category-block .t" . $themeid . ", .category-block .t" . $themeid . " a  {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background."; width: 100%; padding: 0.5em; } \n";
-	  			echo "button:hover.btn.t" . $themeid . ", a:hover.btn.t" . $themeid . "{color: white; background: #333; border: 1px solid ".$background.";} \n";
-	  			echo "a.t" . $themeid . "{color: " . $foreground . "; background: " . $background . ";} \n";
-	  			echo "a.t" . $themeid . " a {color: " . $foreground . " !important;} \n";
-	  			echo ".brd" . $themeid . "{border-left: 1.2em solid " . $background . ";} \n";
-	  			echo ".hr" . $themeid . "{border-bottom: 1px solid " . $background . ";} \n";
-	  			echo ".h1_" . $themeid . "{border-bottom: ".$gisheight."px solid " . $background . "; margin-bottom: 0.4em; padding-bottom: 0.3em;} \n";
-	  			echo ".b" . $themeid . "{border-left: 20px solid " . $background . ";} \n";
-	  			echo ".dashicons.dashicons-category.gb" . $themeid . "{color: " . $background . ";} \n";
-	  			echo "a:visited.wptag.t". $themeid . "{color: " . $foreground . ";} \n";
-			}
-		}  
-		$giscss = get_option('options_custom_css_code');
-		echo $giscss;
-		$jumbo_searchbox = get_option("options_search_jumbo_searchbox", false);		
-		
-		if ( $jumbo_searchbox ) echo "		
-		#headsearch { padding-right: 0; }
-		#searchformdiv.altsearch { padding: 1.75em 6em 1.75em 6em; background: " . $giscc . ";   }
-		#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: white;}
-		#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black;}
-		";
-		
-		
-		if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ):
-			echo "#bbpress-forums img.avatar { border-radius: 50%; }";
-		endif;
-	?>
-	</style>
 	<!--Google Analytics-->
 	<?php	
-		//write script for google analytics (only do on homepage if homepage tracking is set)
-		$gistrackhome = get_option('options_track_homepage');
-		$gisgtc = get_option('options_google_tracking_code');
-		if ( is_front_page() || is_search() ){
-			if ($gistrackhome == 1 || is_search() ){
-				echo $gisgtc;
-			}
-		}
-		else {
+	//write script for google analytics (only do on homepage if homepage tracking is set)
+	$gistrackhome = get_option('options_track_homepage');
+	$gisgtc = get_option('options_google_tracking_code');
+	if ( is_front_page() || is_search() ){
+		if ($gistrackhome == 1 || is_search() ){
 			echo $gisgtc;
 		}
-		?>	
+	} else {
+		echo $gisgtc;
+	}
 
+	/* We add some JavaScript to pages with the comment form
+	 * to support sites with threaded comments (when in use).
+	 */
+	if ( is_singular() && get_option( 'thread_comments' ) )
+		wp_enqueue_script( 'comment-reply' );
+
+	/* Always have wp_head() just before the closing </head>
+	 * tag of your theme, or you will break many plugins, which
+	 * generally use this hook to add elements to <head> such
+	 * as styles, scripts, and meta tags.
+	 */
+	wp_head();
+	?>
 </head>
 
 <?php 

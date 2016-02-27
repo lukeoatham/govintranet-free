@@ -123,57 +123,58 @@ do_action( 'bbp_template_before_user_profile' );
 	</div>
 
 	<div class="clearfix col-lg-6 col-md-6 col-sm-12">
-		<?php if ( get_option('options_module_staff_directory') ):?>
-		<script>
-		jQuery('.tlink').tooltip();
-		</script>
-		<?php 
-		$poduserparent = get_user_meta( $user_id , 'user_line_manager', true); 
-		$poduserparent = get_userdata($poduserparent);
-		echo "<div class='panel panel-default'>
-		<div class='panel-heading oc'>Organisation tree</div>
-		<div class='panel-body'>
-		<div class='oc'>";
-		if ($poduserparent){
-			$avstyle="";
-			if ( $directorystyle==1 ) $avstyle = " img-circle";
-			$avatarhtml = get_avatar($poduserparent->ID , 150,'',$poduserparent->display_name);
-			$avatarhtml = str_replace(" photo", " photo ".$avstyle, $avatarhtml);
-			$avatarhtml = str_replace('"150"', '"96"', $avatarhtml);
-			$avatarhtml = str_replace("'150'", "'96'", $avatarhtml);
-			echo "<a title='".$poduserparent->display_name."' href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$avatarhtml."</a>";										
-			echo "<p><a href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$poduserparent->display_name."</a><br>";
-			echo get_user_meta($poduserparent->ID,'user_job_title',true);
-			echo "</p>";
-			echo "<p><i class='dashicons dashicons-arrow-up-alt2'></i></p>";
-		}
-		echo "<p><strong>";
-		bbp_displayed_user_field( 'display_name' );
-		echo "<br>".get_user_meta($user_id,'user_job_title',true);
-		echo "</strong></p>";
-		$q = "select meta_value as ID, user_id, display_name from $wpdb->users join $wpdb->usermeta on $wpdb->users.ID = $wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='user_line_manager' and $wpdb->usermeta.meta_value = ".$user_id;
-		$poduserreports = $wpdb->get_results($q,ARRAY_A);
-		if (count($poduserreports)>0){
-			echo "<p><i class='dashicons dashicons-arrow-down-alt2'></i></p>";
-			echo "<p id='directreports'>";
-			foreach ($poduserreports as $p){ 
-				$pid = $p['user_id'];
-                $u = get_userdata($pid);
-                $jobtitle = get_user_meta($pid, 'user_job_title', true);
-                if ($jobtitle) $jobtitle = " - ".$jobtitle;
-				$imgstyle='';
+		<?php if ( get_option('options_module_staff_directory') ){ ?>
+			<script>
+			jQuery('.tlink').tooltip();
+			</script>
+			<?php 
+			$poduserparent = get_user_meta( $user_id , 'user_line_manager', true); 
+			$poduserparent = get_userdata($poduserparent);
+			echo "<div class='panel panel-default'>
+			<div class='panel-heading oc'>Organisation tree</div>
+			<div class='panel-body'>
+			<div class='oc'>";
+			if ($poduserparent){
 				$avstyle="";
 				if ( $directorystyle==1 ) $avstyle = " img-circle";
-				$imgsrc = get_avatar($pid, 66,'',$u->display_name);				
-				$imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
-				echo "<a title='".$u->display_name."' href='".site_url()."/staff/".$u->user_nicename."'>".$imgsrc."</a>";
+				$avatarhtml = get_avatar($poduserparent->ID , 150,'',$poduserparent->display_name);
+				$avatarhtml = str_replace(" photo", " photo ".$avstyle, $avatarhtml);
+				$avatarhtml = str_replace('"150"', '"96"', $avatarhtml);
+				$avatarhtml = str_replace("'150'", "'96'", $avatarhtml);
+				echo "<a title='".$poduserparent->display_name."' href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$avatarhtml."</a>";										
+				echo "<p><a href='".site_url()."/staff/".$poduserparent->user_nicename."/'>".$poduserparent->display_name."</a><br>";
+				echo get_user_meta($poduserparent->ID,'user_job_title',true);
+				echo "</p>";
+				echo "<p><i class='dashicons dashicons-arrow-up-alt2'></i></p>";
 			}
-			echo "</p>";
-		}
-		echo "</div></div>";
-		?>
-		</div>
-	<?php endif; ?>
+			echo "<p><strong>";
+			bbp_displayed_user_field( 'display_name' );
+			echo "<br>".get_user_meta($user_id,'user_job_title',true);
+			echo "</strong></p>";
+			$q = "select meta_value as ID, user_id, display_name from $wpdb->users join $wpdb->usermeta on $wpdb->users.ID = $wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='user_line_manager' and $wpdb->usermeta.meta_value = ".$user_id;
+			$poduserreports = $wpdb->get_results($q,ARRAY_A);
+			if (count($poduserreports)>0){
+				echo "<p><i class='dashicons dashicons-arrow-down-alt2'></i></p>";
+				echo "<p id='directreports'>";
+				foreach ($poduserreports as $p){ 
+					$pid = $p['user_id'];
+	                $u = get_userdata($pid);
+	                $jobtitle = get_user_meta($pid, 'user_job_title', true);
+	                if ($jobtitle) $jobtitle = " - ".$jobtitle;
+					$imgstyle='';
+					$avstyle="";
+					if ( $directorystyle==1 ) $avstyle = " img-circle";
+					$imgsrc = get_avatar($pid, 66,'',$u->display_name);				
+					$imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
+					echo "<a title='".$u->display_name."' href='".site_url()."/staff/".$u->user_nicename."'>".$imgsrc."</a>";
+				}
+				echo "</p>";
+			}
+			echo "</div></div>";
+			?>
+			</div>
+
+	<?php } ?>
 	</div>
 	<?php do_action( 'bbp_template_after_user_profile' ); ?>
 </div>

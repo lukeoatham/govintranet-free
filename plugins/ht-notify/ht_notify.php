@@ -380,8 +380,6 @@ function ht_notify_ajax_show() {
 
 	$before_widget = stripcslashes($_POST['before_widget']);
 	$after_widget = stripcslashes($_POST['after_widget']);
-	$before_title = stripcslashes($_POST['before_title']);
-	$after_title = stripcslashes($_POST['after_title']);
 	$post_id = $_POST['post_id'];
 	$user_id = $_POST['user_id'];
 	$widget_id = $_POST['widget_id'];

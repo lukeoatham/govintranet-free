@@ -108,7 +108,7 @@
 			echo "</div>";
 			if ( has_post_thumbnail($post->ID)):
 				echo "<div class='col-sm-3 xs-hidden'>";
-				the_post_thumbnail("thumbnail", array('class'=>'img-responsive'));
+				the_post_thumbnail(array(150,150), array('class'=>'img-responsive'));
 				echo "</div>";
 			endif;
 			echo "</div>";

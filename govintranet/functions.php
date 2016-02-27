@@ -9692,17 +9692,12 @@ function ht_people_shortcode($atts){
 	$user_info = get_userdata($userid);
 	$userurl = site_url().'/staff/'.$user_info->user_nicename;
 	$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
-	if (function_exists('get_wp_user_avatar_src')){
-		$image_url_src = get_wp_user_avatar_src($userid, 'thumbnail'); 
-		$avatarhtml = "<img src=".$image_url_src." width='66' height='66' alt='".$user_info->display_name."' class='img";
-		if ($directorystyle==1){
-			$avatarhtml.= ' img-circle';
-		} 
-		$avatarhtml.=" alignleft' />";
-	} else {
-			$avatarhtml = get_avatar($post->user_id,66);
-			$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
-	}
+	$avatarhtml = get_avatar($userid,66);
+	if ($directorystyle==1):
+		$avatarhtml = str_replace("photo", "photo alignleft img-circle", $avatarhtml);
+	else:
+		$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
+	endif;
 	$html = '';
 	$counter = 0;
 	$tcounter = 0;
@@ -10209,3 +10204,261 @@ function dq_add_custom_image_srcset( $sources, $size_array, $image_src, $image_m
         //return sources with new srcset value
 	return $sources;
 }
+
+function govintranet_custom_styles() {
+		$custom_css = "";
+		
+		// write custom css for background header colour
+
+		$bg = get_theme_mod('link_color', '#428bca');
+		$custom_css.= "
+		a, a .listglyph  {
+		color: ".$bg.";
+		}
+		";
+
+		$bg = get_theme_mod('link_visited_color', '#7303aa');
+		$custom_css.= "
+		a:visited, a:visited .listglyph {
+		color: ".$bg.";
+		}
+		";
+		$gisheight = get_option('options_widget_border_height');
+		if (!$gisheight) $gisheight = 7;
+		$gis = "options_header_background";
+		$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
+		if ( $gishex == "#") $gishex = "#0b2d49";
+		$custom_css.= "
+		.custom-background  {
+		background-color: ".$gishex.";
+		}
+		";
+		$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
+		if ( $headtext == "#") $headtext = "#ffffff";
+		$headimage = get_theme_mod('header_image', '');
+		$basecol=HTMLToRGB(substr($gishex,1,6));
+		$topborder = ChangeLuminosity($basecol, 33);
+
+		// set bar colour
+		// if using automatic complementary colour then convert header color
+		// otherwise use specified colour
+
+		$giscc = get_option('options_enable_automatic_complementary_colour'); 
+		if ($giscc):
+			$giscc = RGBToHTML($topborder); 
+		elseif (get_option('options_complementary_colour')):
+			$giscc = get_option('options_complementary_colour');
+		else:
+			 $giscc = $gishex; 
+		endif;
+		
+		if ($headimage != 'remove-header' ):
+			$custom_css.= "
+			#topstrip  {
+			background: ".$gishex." url(".get_header_image().");
+			color: ".$headtext.";
+			}
+			";
+		else:
+			$custom_css.= "
+			#topstrip  {
+			background: ".$gishex.";
+			color: ".$headtext.";
+			}
+			";
+		endif;
+
+		$custom_css.= "
+		@media only screen and (max-width: 767px)  {
+			#masthead  {
+			background: ".$gishex." !important;
+			color: ".$headtext.";
+			padding: 0 1em;
+			}
+			#primarynav ul li a {
+			background: ".$gishex.";
+			color: ".$headtext.";
+			}	
+			#primarynav ul li a:hover {
+			color: ".$gishex." !important;
+			background: ".$headtext.";
+			}	
+		}
+		";
+
+		$custom_css.= "
+		.btn-primary, .btn-primary a  {
+		background: ".$giscc.";
+		border: 1px solid ".$giscc.";
+		color: ".$headtext.";
+		}
+		";
+
+		$custom_css.= "
+		.btn-primary a:hover  {
+		background: ".$gishex.";
+		}
+		";
+
+		$custom_css.= "
+		#topstrip a {
+		color: ".$headtext.";
+		}
+		";
+
+		$custom_css.= "
+		#utilitybar ul#menu-utilities li a, #menu-utilities {
+		color: ".$headtext.";
+		}
+		";
+
+		$custom_css.= "
+		#footerwrapper  {";
+		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
+		$custom_css.= "}";
+
+		$custom_css.= "
+		.page-template-page-about-php .category-block h2 {";
+		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
+
+		$custom_css.= "padding: 0.6em 0;
+		}
+		";
+
+		$custom_css.= "
+		.home.page .category-block h3 {
+			border-bottom: 3px solid ".$gishex.";
+		}
+		.h3border {
+		border-bottom: 3px solid ".$gishex.";
+		}
+		";
+		
+		$custom_css.= "
+		#content .widget-box {
+		padding: .1em 0 .7em 0;
+		font-size: .9em;
+		background: #fff;";
+		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
+		$custom_css.= "margin-top: .7em;
+		}
+		";
+
+		$custom_css.= "
+		.home.page .category-block h3 {";
+		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
+		$custom_css.= "border-bottom: none;
+		padding-top: 16px;
+		margin-top: 16px;
+		}
+		";
+
+		$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+		if ( $directorystyle ):
+			$custom_css.= "
+			.bbp-user-page.single #bbp-user-avatar img.avatar   {
+				border-radius: 50%;
+			}
+			";
+		endif;
+		
+		$custom_css.= "
+		.bbp-user-page .panel-heading {";
+		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
+		$custom_css.= "
+		}
+		";
+		
+		$custom_css.= "
+		.page-template-page-news-php h1 {
+		border-bottom: ".$gisheight."px solid ".$giscc.";
+		} 
+		.tax-team h2 {
+		border-bottom: ".$gisheight."px solid ".$giscc.";
+		} 
+		";
+
+		//write custom css for logo
+		$gisid = get_option('options_header_logo'); 
+		$gislogow = wp_get_attachment_image_src( $gisid ); 
+		$gislogo = $gislogow[0] ;
+		$gisw = $gislogow[1] + 10;
+		$custom_css.= "
+		#crownlink  {
+		background: url('".$gislogo."') no-repeat;	 
+		background-position:left 10px;
+		padding: 16px 0 0 ".$gisw."px;
+		height: auto;
+		min-height: 50px;
+		margin-bottom: 0.6em;
+		}
+		";
+		$custom_css.= "
+		#primarynav ul li  {
+		border-bottom: 1px solid ".$gishex.";
+		border-top: 1px solid ".$gishex.";
+		border-right: 1px solid ".$gishex.";
+		}
+		#primarynav ul li:last-child,  #primarynav ul li.last-link  {
+		border-right: 1px solid ".$gishex.";
+		}
+
+		#primarynav ul li:first-child,  #primarynav ul li.first-link  {
+		border-left: 1px solid ".$gishex.";
+		}
+
+		#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }
+		";		
+
+
+		$custom_css.= "a.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
+		$custom_css.= "a.:visited.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
+
+
+
+		if ($headimage != 'remove-header' && $headimage) $custom_css.= '#utilitybar ul#menu-utilities li a, #menu-utilities, #crownlink { text-shadow: 1px 1px #333; }'; 
+		
+		$terms = get_terms('category',array('hide_empty'=>false));
+		if ($terms) {
+	  		foreach ((array)$terms as $taxonomy ) {
+	  		    $themeid = $taxonomy->term_id;
+	  		    $themeURL= $taxonomy->slug;
+	  			$background=get_option('category_'.$themeid.'_cat_background_colour');
+	  			$foreground=get_option('category_'.$themeid.'_cat_foreground_colour');
+	  			$custom_css.= "button.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background.";} \n";
+	  			$custom_css.= ".cattagbutton a.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border-bottom: 3px solid #000; border-radius: 3px; } \n";
+	  			$custom_css.= ".cattagbutton a:hover.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border-bottom: 3px solid #000; border-radius: 3px; } \n";
+	  			$custom_css.= ".category-block .t" . $themeid . ", .category-block .t" . $themeid . " a  {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background."; width: 100%; padding: 0.5em; } \n";
+	  			$custom_css.= "button:hover.btn.t" . $themeid . ", a:hover.btn.t" . $themeid . "{color: white; background: #333; border: 1px solid ".$background.";} \n";
+	  			$custom_css.= "a.t" . $themeid . "{color: " . $foreground . "; background: " . $background . ";} \n";
+	  			$custom_css.= "a.t" . $themeid . " a {color: " . $foreground . " !important;} \n";
+	  			$custom_css.= ".brd" . $themeid . "{border-left: 1.2em solid " . $background . ";} \n";
+	  			$custom_css.= ".hr" . $themeid . "{border-bottom: 1px solid " . $background . ";} \n";
+	  			$custom_css.= ".h1_" . $themeid . "{border-bottom: ".$gisheight."px solid " . $background . "; margin-bottom: 0.4em; padding-bottom: 0.3em;} \n";
+	  			$custom_css.= ".b" . $themeid . "{border-left: 20px solid " . $background . ";} \n";
+	  			$custom_css.= ".dashicons.dashicons-category.gb" . $themeid . "{color: " . $background . ";} \n";
+	  			$custom_css.= "a:visited.wptag.t". $themeid . "{color: " . $foreground . ";} \n";
+			}
+		}  
+		$giscss = get_option('options_custom_css_code');
+		$custom_css.= $giscss;
+		$jumbo_searchbox = get_option("options_search_jumbo_searchbox", false);		
+		
+		if ( $jumbo_searchbox ) $custom_css.= "		
+		#headsearch { padding-right: 0; }
+		#searchformdiv.altsearch { padding: 1.75em 6em 1.75em 6em; background: " . $giscc . ";   }
+		#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: white;}
+		#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black;}
+		";
+		
+		if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ):
+			$custom_css.= "#bbpress-forums img.avatar { border-radius: 50%; }";
+		endif;
+
+		$styleurl = get_stylesheet_directory_uri() . '/css/custom.css';
+		wp_enqueue_style( 'govintranet_custom_styles', $styleurl );
+		wp_add_inline_style('govintranet_custom_styles' , $custom_css);	
+	}
+	add_action( 'wp_enqueue_scripts', 'govintranet_custom_styles' );
+		
+		

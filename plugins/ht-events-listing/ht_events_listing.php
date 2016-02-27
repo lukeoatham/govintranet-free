@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.1
+Version: 4.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -44,8 +44,11 @@ class htEventsListing extends WP_Widget {
 
 			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_event_listing_event_types" ;
 			$etypes = get_option($acf_key);
-			$eventtypes =$etypes;
+			$eventtypes = $etypes;
 
+			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_event_listing_text_date_format" ;
+			$textdate = get_option($acf_key);
+			if ( !$textdate ) $textdate = "g.ia D jS";
 
 			//display forthcoming events
 			$tzone = get_option('timezone_string');
@@ -131,10 +134,8 @@ class htEventsListing extends WP_Widget {
 			.eventslisting p { margin-bottom: 0 !important; }
 		    </style>
 		    ";			
-			if ($events->post_count!=0){
+			if ( $events->post_count != 0 ){
 				$wtitle = "upcoming";
-
-	
 				$output.= $before_widget; 
 	
 				if ( $title ) {
@@ -178,49 +179,46 @@ class htEventsListing extends WP_Widget {
 					'field' => 'id',	
 				));
 				
-				$events =new WP_Query($cquery);
-					if ($events->post_count!=0){
-						$output.= "
-						    <style>
-							.calbox .cal-dow {
-								background: ".get_theme_mod('header_background', '0b2d49').";
-								color: #".get_header_textcolor().";
-							}
-							.calbox { 
-								width: 3.5em; 
-								border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-								text-align: center;
-								border-radius: 3px;
-								background: #fff;
-								box-shadow: 0 2px 3px rgba(0,0,0,.2);
-								
-							}
-							.calbox .caldate {
-								font-size: 2em;
-								padding: 0;
-								margin: 5px 0;
-								font-weight: 800;
-							}
-							.calbox .calmonth {
-								color: ".get_theme_mod('header_background', '0b2d49').";
-								text-transform: uppercase;
-								font-weight: 800;
-							}
-							a.calendarlink:hover { text-decoration: none; }
-							a.calendarlink:hover .calbox .caldate { background: #eee; }
-							a.calendarlink:hover .calbox .calmonth { background: #eee; }
-							a.calendarlink:hover .calbox  { background: #eee; }
-							.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
-							.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }							
-							.eventslisting p { margin-bottom: 0 !important; }
-						    </style>
-					    ";
-						$output.= $before_widget; 
-			
-						if ( $title ) {
-							$output.= $before_title . $title . $after_title;
+				$events = new WP_Query($cquery);
+				if ( $events->post_count != 0 ){
+					$output.= "
+					    <style>
+						.calbox .cal-dow {
+							background: ".get_theme_mod('header_background', '0b2d49').";
+							color: #".get_header_textcolor().";
 						}
-					}
+						.calbox { 
+							width: 3.5em; 
+							border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+							text-align: center;
+							border-radius: 3px;
+							background: #fff;
+							box-shadow: 0 2px 3px rgba(0,0,0,.2);
+						}
+						.calbox .caldate {
+							font-size: 2em;
+							padding: 0;
+							margin: 5px 0;
+							font-weight: 800;
+						}
+						.calbox .calmonth {
+							color: ".get_theme_mod('header_background', '0b2d49').";
+							text-transform: uppercase;
+							font-weight: 800;
+						}
+						a.calendarlink:hover { text-decoration: none; }
+						a.calendarlink:hover .calbox .caldate { background: #eee; }
+						a.calendarlink:hover .calbox .calmonth { background: #eee; }
+						a.calendarlink:hover .calbox  { background: #eee; }
+						.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+						.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }							
+						.eventslisting p { margin-bottom: 0 !important; }
+					    </style>
+				    ";
+					$output.= $before_widget; 
+		
+					if ( $title ) $output.= $before_title . $title . $after_title;
+				}
 			}
 			$k=0;
 			$alreadydone= array();
@@ -241,8 +239,7 @@ class htEventsListing extends WP_Widget {
 				$thistitle = get_the_title($post->ID);
 				$edate = get_post_meta($post->ID,'event_start_date',true);
 				$etime = get_post_meta($post->ID,'event_start_time',true);
-				$edate = date("D",strtotime($edate))." ".date(get_option('date_format'),strtotime($edate));
-				$edate.= " ".date(get_option('time_format'),strtotime($etime));
+				$edate = date($textdate,strtotime($edate." ".$etime));
 				$thisURL = get_permalink($post->ID); 
 				
 				$output.= "<div class='row'><div class='col-sm-12'>";
@@ -377,6 +374,27 @@ acf_add_local_field_group(array (
 	'key' => 'group_55ee1a9ecbd0d',
 	'title' => __('Limit event types','govintranet'),
 	'fields' => array (
+		array (
+			'key' => 'field_56c7ba2023d97',
+			'label' => 'Text date format',
+			'name' => 'event_listing_text_date_format',
+			'type' => 'text',
+			'instructions' => 'See http://php.net/manual/en/function.date.php',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => 'g.ia D jS',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),
 		array (
 			'key' => 'field_55ee1ab48bb29',
 			'label' => __('Event types','govintranet'),

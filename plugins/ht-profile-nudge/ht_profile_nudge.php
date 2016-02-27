@@ -242,7 +242,7 @@ class htProfileNudge extends WP_Widget {
 	<?php
 			echo $after_widget; 
 
-		elseif (!get_user_meta($userid,'wp_user_avatar',true) &&  !isset($_COOKIE['ht_profile_nudge_photo']) && $photo=='on'):
+		elseif ( !get_user_meta($userid,'wp_user_avatar',true) && !get_user_meta($userid,'simple_local_avatar',true) && !isset($_COOKIE['ht_profile_nudge_photo']) && $photo=='on' ):
 			/******************************************
 			*
 			* UPDATE AVATAR
