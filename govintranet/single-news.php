@@ -75,12 +75,12 @@ remove_filter('pre_get_posts', 'filter_search');
 		<div class="col-lg-4  col-md-4 col-sm-4 col-lg-offset-1">	
 				<?php
 
+				get_template_part("part", "sidebar");
+	 	
+				dynamic_sidebar('news-widget-area'); 
+
 				get_template_part("part", "related");
 
-				get_template_part("part", "sidebar");
-
-				dynamic_sidebar('news-widget-area'); 
-		 	
 				$post_cat = get_the_terms($post->ID,'news-type');
 				if ($post_cat){
 					$html='';

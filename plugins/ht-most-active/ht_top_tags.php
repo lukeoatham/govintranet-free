@@ -37,8 +37,8 @@ class htTopTags extends WP_Widget {
         if ( !isset($cache) || $cache == 0) $cache = 1;
 		$widget_id = $id;
 		
-	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+		$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+		$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; // 95422553
 		
@@ -153,7 +153,8 @@ class htTopTags extends WP_Widget {
 				$days_to_trail = $trail;
 				if ($days_to_trail < 1) $days_to_trail = 1;
 
-				date_default_timezone_set('timezone_string');
+				$tzone = get_option('timezone_string');
+				date_default_timezone_set($tzone);
 				$start_date= date("Y-m-d",time()-(86400*$days_to_trail)); // last x days
 
 				$count = $topnumber;

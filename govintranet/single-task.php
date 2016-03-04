@@ -202,7 +202,7 @@ get_header(); ?>
 				$next_chapter = $current_chapter+1;
 
 				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="' . __("Navigate to previous part" , "govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
-	            if ($carray[$next_chapter]['slug']){
+	            if (isset($carray[$next_chapter]['slug'])){
 					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 				}
 			}
@@ -232,12 +232,12 @@ get_header(); ?>
 		<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-4">	
 
 				<?php 
-				get_template_part("part", "related");
-
 				get_template_part("part", "sidebar");
-
+				
 				dynamic_sidebar('task-widget-area'); 
 				
+				get_template_part("part", "related");
+
 				$post_categories = wp_get_post_categories( $post->ID ); 
 				$cats = array();
 				$catsfound = false;	

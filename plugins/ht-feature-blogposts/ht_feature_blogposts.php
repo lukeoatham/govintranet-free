@@ -212,10 +212,10 @@ class htFeatureBlogposts extends WP_Widget {
 			$thistitle = get_the_title($post->ID);
 			$edate = $post->post_date;
 			$edate = date(get_option('date_format'),strtotime($edate));
-			$thisURL=get_permalink($ID); 
+			$thisURL=get_permalink($id); 
 			echo "<div class='media'>";
 			if ($thumbnails=='on'){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $ID ), 'thumbnail' ); 
+				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'thumbnail' ); 
 				if (!$image_uri){
 					$image_uri = get_avatar($post->post_author,72);
 					$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);

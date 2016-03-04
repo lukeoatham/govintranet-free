@@ -142,11 +142,11 @@ $mainid=$post->ID;
 		</div>
 	<?php endif; 
 	
-	get_template_part("part", "related");
-
 	get_template_part("part", "sidebar");
 
  	dynamic_sidebar('events-widget-area'); 
+
+	get_template_part("part", "related");
  	
 	$post_cat = get_the_terms($post->ID, 'event-type' ); 
 	if ($post_cat){

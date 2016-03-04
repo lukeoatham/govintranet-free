@@ -1,4 +1,3 @@
-
 <?php
 	
 $user = get_userdata($post->post_author);
@@ -23,7 +22,7 @@ if ( $directorystyle==1 ) $avstyle.= " img-circle";
 	echo "<div class='media-body'>";
 	?>
 	<h3 class='postlist'>		
-	<a href="<?php the_permalink(); ?>" title="<?php  the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); echo $title_context; ?></a><?php echo $ext_icon; ?></h3>
+	<a href="<?php the_permalink(); ?>" title="<?php  the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 	<?php
 		echo "<p>";
 			$post_cat = get_the_category();		
@@ -79,6 +78,4 @@ if ( $directorystyle==1 ) $avstyle.= " img-circle";
 </div>
 
 <hr>
-<?php
-	wp_reset_postdata();
-	?>			
+<?php wp_reset_postdata();?>			

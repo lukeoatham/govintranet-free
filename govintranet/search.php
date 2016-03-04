@@ -208,6 +208,7 @@ get_header(); ?>
 					$checkbox = "";
 					ksort($postTypes); 
 					$sposttype = array();
+					$showusers = false; 
 					if ( isset( $_GET['post_type'] ) ) $sposttype = $_GET['post_type'];
 					if ( get_option('options_forum_support') ) $showforums = true;
 					if ( get_option('options_module_staff_directory') ) $showusers = true;

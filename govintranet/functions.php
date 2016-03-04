@@ -157,7 +157,7 @@ if ( is_front_page() ){
 	}
 	global $wp_query;
 	$view = $wp_query->get_queried_object();
-	if (isset($view) && $view->taxonomy == "a-to-z") {
+	if (isset($view) && isset($view->taxonomy) ) if ( $view->taxonomy == "a-to-z" ) {
 		$title = _x("Letter","alphabet","govintranet") .  " " . $title ;
 	}
 	else if (isset($view) && $view->taxonomy == "category") {

@@ -212,9 +212,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		
 			<?php 
 
-			get_template_part("part", "related");
-
 			get_template_part("part", "sidebar");
+
+			get_template_part("part", "related");
 
 			$posttags = get_the_tags($parent_guide_id);
 			if ($posttags) {

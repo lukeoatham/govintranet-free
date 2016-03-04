@@ -132,6 +132,7 @@ Template Name: Newsboard
 					wp_reset_postdata();
 				    while ( have_rows('newsboard_tabs') ) : the_row();
 
+						$output = "";
 						$rowcount++;
 						// get tab
 	
