@@ -368,7 +368,7 @@ function ht_profile_nudge_ajax_show() {
 			</div>
 			";	
 			$html.= $after_widget; 	
-		elseif ( !get_user_meta($userid,'wp_user_avatar',true) && !isset($_COOKIE['ht_profile_nudge_photo']) && $photo == 'on' ):
+		elseif ( !get_user_meta($userid,'wp_user_avatar',true) && !get_user_meta($userid,'simple_local_avatar',true) && !isset($_COOKIE['ht_profile_nudge_photo']) && $photo == 'on' ):
 			/******************************************
 			*
 			* UPDATE AVATAR

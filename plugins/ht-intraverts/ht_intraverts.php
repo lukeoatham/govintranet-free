@@ -541,13 +541,13 @@ class htIntraverts extends WP_Widget {
 			$destination = get_post_meta(get_the_id(),'intravert_destination_page',true);
 			if ($destination) { $destination = get_permalink($destination[0]); } else { $destination="#nowhere"; }
 			if (has_post_thumbnail($post->ID)):
-				echo "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$post->post_title."\",\"".$originaltitle."\");'> ";
-				the_post_thumbnail('large',array('class'=>'img-responsive'));
+				echo "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
+				the_post_thumbnail('full',array('class'=>'img-responsive'));
 				echo "</a>";
 			endif;
 			the_content();
 			if (get_post_meta(get_the_id(),'intravert_link_text',true)):
-				echo "<a id='intravert_hook' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$post->post_title."\",\"".$originaltitle."\");'> ";
+				echo "<a id='intravert_hook' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
 				echo get_post_meta(get_the_id(),'intravert_link_text',true);
 				if ( $destination != '#nowhere' ) echo " <span class='dashicons dashicons-arrow-right-alt2'></span>";
 				echo "</a> ";

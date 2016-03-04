@@ -21,12 +21,28 @@ get_header();
 					?>
 					</div>
 				</div>
-				
+				<?php
+				$cquery = array(
+				'orderby' => 'post_date',
+			    'order' => 'DESC',
+			    'post_type' => 'news',
+			    'posts_per_page' => -1,
+			    'tax_query' => array(array(
+			    'taxonomy'=>'post_format',
+			    'field'=>'slug',
+			    'terms'=>array('post-format-status')
+			    ))
+				);	        
+	
+				$need_news_query = new WP_Query($cquery);	
+				?>
 				 <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
 				    <ul id="myTab" class="nav nav-tabs" role="tablist">
 				      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><?php _e('News' , 'govintranet'); ?></a></li>
+				      <?php if ( $need_news_query->have_posts()): ?>
 				      <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"><?php _e('Need to know' , 'govintranet'); ?></a></li>
 					        <?php
+						    endif;
 						    $newsTypes = get_terms( 'news-type', array('hide_empty'=>true) );
 						    if ( $newsTypes ):
 					        	?>
@@ -62,18 +78,18 @@ get_header();
 							    )),
 							    'paged' => $paged												
 								);
-							$projectspost = new WP_Query($cquery);
+							$news_query = new WP_Query($cquery);
 							global $k; 
 							$k = 0;
-							while ($projectspost->have_posts()) : $projectspost->the_post();
+							while ($news_query->have_posts()) : $news_query->the_post();
 								get_template_part( 'loop', 'newstwitter' );
 							endwhile;
-							if (  $projectspost->max_num_pages > 1 ) : ?>
+							if (  $news_query->max_num_pages > 1 ) : ?>
 							<?php if (function_exists('wp_pagenavi')) : ?>
-								<?php wp_pagenavi(array('query' => $projectspost)); ?>
+								<?php wp_pagenavi(array('query' => $news_query)); ?>
 								<?php else : ?>
-								<?php next_posts_link(__('&larr; Older items','govintranet'), $projectspost->max_num_pages); ?>
-								<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $projectspost->max_num_pages); ?>						
+								<?php next_posts_link(__('&larr; Older items','govintranet'), $news_query->max_num_pages); ?>
+								<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $news_query->max_num_pages); ?>						
 							<?php endif; 
 								endif;
 							?>							
@@ -93,10 +109,10 @@ get_header();
 						    ))
 							);	        
 				
-							$projectspost = new WP_Query($cquery);
+							$need_news_query = new WP_Query($cquery);
 							global $k; 
 							$k = 0;
-							while ($projectspost->have_posts()) : $projectspost->the_post();
+							while ($need_news_query->have_posts()) : $need_news_query->the_post();
 								echo "<h4><a href='".get_permalink($post->ID)."'>".get_the_title()."</a></h4>";
 								echo '<span class="listglyph">'.get_the_date(); 
 								echo '</span> ';
@@ -123,10 +139,10 @@ get_header();
 				    'post_type' => 'blog',
 				    'posts_per_page' => 5,
 					);					
-			       $projectspost = new WP_Query($cquery);
+			       $news_query = new WP_Query($cquery);
 				   global $k; 
 				   $k = 0;
-			       while ($projectspost->have_posts()) : $projectspost->the_post();
+			       while ($news_query->have_posts()) : $news_query->the_post();
 				   		$thistitle = get_the_title($post->ID);
 						$edate = $post->post_date;
 						$edate = date(get_option('date_format'),strtotime($edate));
@@ -145,13 +161,16 @@ get_header();
 						echo "<div class='media-body'><a href='{$thisURL}'><strong>".$thistitle."</strong></a>";
 						echo "<br><span class='news_date'>".$edate." by ";
 						echo get_the_author();
-						comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
 						echo "</span>";
-						
-						if (true) the_excerpt();
+						if ( get_comments_number() ){
+							echo "<a href='".get_permalink($post->ID)."#comments'>";
+							comments_number( '', ' <span class="badge">1 comment</span>', ' <span class="badge">% comments</span>' );
+							echo "</a>";
+						}
+						the_excerpt();
 						echo "</div></div>";
 			       endwhile;
-					if ($projectspost->have_posts()){
+					if ($news_query->have_posts()){
 								$landingpage = get_option('options_module_blog_page'); 
 								if ( !$landingpage ):
 									$landingpage_link_text = 'blogposts';

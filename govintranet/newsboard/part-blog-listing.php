@@ -67,7 +67,7 @@ if ( $directorystyle==1 ) $avstyle.= " img-circle";
 	                echo " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
 			   }
 				if ( get_comments_number() ){
-					echo " <a href='".$thisURL."#comments'>";
+					echo " <a href='".get_permalink($post->ID)."#comments'>";
 					printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 					echo "</a>";
 				}

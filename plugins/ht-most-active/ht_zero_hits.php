@@ -14,18 +14,6 @@ function ht_zero_hits_menu() {
   add_submenu_page('tools.php', __('Zero Hits Monitor','govintranet'), __('Zero Hits Monitor','govintranet'), 'manage_options', 'zero_hits', 'ht_zero_hits_options');
 }
 
-/*
-function diffInMonths( $date1,  $date2)
-{
-	$date1 = new DateTime($date1);
-	$date2 = new DateTime($date2);
-    $diff =  $date1->diff($date2);
-    $months = $diff->y * 12 + $diff->m + $diff->d / 30;
-    return (int) round($months);
-}
-*/
-
-
 function ht_zero_hits_options() {
 	wp_register_style( 'zero-hits-style2',  plugin_dir_url("/") . "ht-most-active/ht_zero_hits.css" );
 	wp_enqueue_style( 'zero-hits-style2' );
@@ -46,6 +34,7 @@ function ht_zero_hits_options() {
 	if (!$viewid)  {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
+	
 	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
 	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	
@@ -353,9 +342,6 @@ function ht_zero_hits_options() {
 }
 
 function delete_zh_meta($postid){
-	if (!current_user_can('manage_options'))  {
-		wp_die( __('You do not have sufficient permissions to access this page.','govintranet') );
-	}
 	global $wpdb;
 	if ( !$postid > 0 ):
 		$wpdb->query("DELETE from $wpdb->postmeta WHERE meta_key = 'zh_last_processed';");
@@ -393,7 +379,7 @@ function delete_zh_meta($postid){
 }
 
 function zero_hits_monitor(){
-	update_option('zh_patrol_start', date('H:i:s') );
+	update_option('zh_patrol_start', date('H:i:s j M Y') );
 	
 	$viewid = get_option('options_zh_viewid'); 
 	$ptype = get_option('options_zh_post_types'); 
@@ -461,6 +447,7 @@ function zero_hits_monitor(){
 					),
 					array(
 					'key' => 'zh_last_processed',
+					'value' => '',
 					'compare' => "NOT EXISTS",
 					),
 				),
@@ -491,7 +478,6 @@ function zero_hits_monitor(){
 			        'filters' 	 => $filter,
 			    ); print_r($defaults);
 			    $ga->setDefaultQueryParams($defaults);
-
 			    $visits = $ga->query($params); 
 			
 				if ( $visits ) foreach($visits as $r=>$result) {
@@ -500,7 +486,6 @@ function zero_hits_monitor(){
 							$input_month = $res[1];
 							$output_box = $curmonth - $input_month;
 							if ( $output_box <= 0 ) $output_box = $output_box + 12;
-							echo $outputbox;
 							$t = $finalset[get_the_id()][$output_box];
 							$finalset[get_the_id()][$output_box] = $t + $res[2];
 						}			
@@ -515,7 +500,7 @@ function zero_hits_monitor(){
 					if ( !$finalset[get_the_id()][$i] ) $finalset[get_the_id()][$i] = 0;
 				}
 				$end_date = date ( 'Y-m-d', strtotime ( '-1 day' . $start_date ) );
-				$month_slot ++;
+				$month_slot++;
 				$finalset[get_the_id()][13] = $u;
 	
 				//tot up figures for the past 6 months
@@ -523,26 +508,28 @@ function zero_hits_monitor(){
 
 				//tot up figures for the past 12 months
 				$finalset[get_the_id()][0] = $finalset[get_the_id()][14]+$finalset[get_the_id()][7]+$finalset[get_the_id()][8]+$finalset[get_the_id()][9]+$finalset[get_the_id()][10]+$finalset[get_the_id()][11]+$finalset[get_the_id()][12];
+				$postid = get_the_id();
 
-				delete_zh_meta(get_the_id());
-				update_post_meta(get_the_id() , 'zh_last_processed', date('Ymd') );
-				update_post_meta(get_the_id() , 'zh_month_1', $finalset[get_the_id()][1] );
-				update_post_meta(get_the_id() , 'zh_month_2', $finalset[get_the_id()][2] );
-				update_post_meta(get_the_id() , 'zh_month_3', $finalset[get_the_id()][3] );
-				update_post_meta(get_the_id() , 'zh_month_4', $finalset[get_the_id()][4] );
-				update_post_meta(get_the_id() , 'zh_month_5', $finalset[get_the_id()][5] );
-				update_post_meta(get_the_id() , 'zh_month_6', $finalset[get_the_id()][6] );
-				update_post_meta(get_the_id() , 'zh_month_7', $finalset[get_the_id()][7] );
-				update_post_meta(get_the_id() , 'zh_month_8', $finalset[get_the_id()][8] );
-				update_post_meta(get_the_id() , 'zh_month_9', $finalset[get_the_id()][9] );
-				update_post_meta(get_the_id() , 'zh_month_10', $finalset[get_the_id()][10] );
-				update_post_meta(get_the_id() , 'zh_month_11', $finalset[get_the_id()][11] );
-				update_post_meta(get_the_id() , 'zh_month_12', $finalset[get_the_id()][12] );
-				update_post_meta(get_the_id() , 'zh_total_1y', $finalset[get_the_id()][0] );
-				update_post_meta(get_the_id() , 'zh_total_6m', $finalset[get_the_id()][14] );
+				delete_zh_meta($postid);
+				update_post_meta($postid , 'zh_last_processed', date('Ymd') );
+				update_post_meta($postid , 'zh_month_1', $finalset[$postid][1] );
+				update_post_meta($postid , 'zh_month_2', $finalset[$postid][2] );
+				update_post_meta($postid , 'zh_month_3', $finalset[$postid][3] );
+				update_post_meta($postid , 'zh_month_4', $finalset[$postid][4] );
+				update_post_meta($postid , 'zh_month_5', $finalset[$postid][5] );
+				update_post_meta($postid , 'zh_month_6', $finalset[$postid][6] );
+				update_post_meta($postid , 'zh_month_7', $finalset[$postid][7] );
+				update_post_meta($postid , 'zh_month_8', $finalset[$postid][8] );
+				update_post_meta($postid , 'zh_month_9', $finalset[$postid][9] );
+				update_post_meta($postid , 'zh_month_10', $finalset[$postid][10] );
+				update_post_meta($postid , 'zh_month_11', $finalset[$postid][11] );
+				update_post_meta($postid , 'zh_month_12', $finalset[$postid][12] );
+				update_post_meta($postid , 'zh_total_1y', $finalset[$postid][0] );
+				update_post_meta($postid , 'zh_total_6m', $finalset[$postid][14] );
+				
 			}
 		}
-		update_option('zh_patrol_end', date('H:i') );
+		update_option('zh_patrol_end', date('H:i j M Y') );
 	} else {
 		update_option('zh_patrol_end', 'an error. Google Analytics authentication needs updating!');
 	}

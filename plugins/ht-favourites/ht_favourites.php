@@ -9,9 +9,15 @@ Author URI: http://www.helpfultechnology.com
 */
 
 class htfavourites_add extends WP_Widget {
-    function htfavourites_add() {
-        parent::WP_Widget(false, __('HT Add to favourites','govintranet'), array('description' => __('Displays a button to add to favourites','govintranet')));
 
+	function __construct() {
+		
+		parent::__construct(
+			'htfavourites_add',
+			__( 'HT Add to favourites' , 'govintranet'),
+			array( 'description' => __( 'Displays a button to add to favourites' , 'govintranet') )
+		);
+		
 		/*
 		Load css
 		*/
@@ -33,7 +39,7 @@ class htfavourites_add extends WP_Widget {
 	        
 	        $path = plugin_dir_url( __FILE__ );
 	
-	        wp_enqueue_script( 'ht_favourites', $path.'js/ht_favourites.js' );
+	        wp_enqueue_script( 'ht_favourites_add', $path.'js/ht_favourites_btn.js' );
 	        $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
 	        $params = array(
 	        'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
@@ -45,15 +51,10 @@ class htfavourites_add extends WP_Widget {
 	        'nonce' => $nonce,
 	        'spinner' => $path.'images/small-squares.gif',
 	        );
-	        wp_localize_script( 'ht_favourites', 'ht_favourites', $params );
+	        wp_localize_script( 'ht_favourites_add', 'ht_favourites_add', $params );
 	
-			echo "<div id='ht_favourites_".$widget_id."' class='ht_favourites'>";
-			if ( !in_array($post->ID, $faves) ):
-				$html = "<a onclick='javascript:addtofav();' class='ht_addtofav btn btn-default'>".__('Add to favourites','govintranet')."</a>";
-			else:
-				$html = "<a onclick='javascript:delfav();' class='ht_addtofav btn btn-default'>".__('Remove from favourites','govintranet')."</a>";
-			endif;
-			echo $html;
+			echo "<div id='ht_favourites_add_".$widget_id."' class='ht_favourites'>";
+			
 			echo "</div>";
 	
 			wp_reset_postdata();		
@@ -88,27 +89,29 @@ class htfavourites_display extends WP_Widget {
 		if ( is_user_logged_in() ): 
 		    $user_id = get_current_user_id();
 		    $user_info = get_userdata($user_id);
+			$result = get_user_meta($user_id, 'user_favourites_widget', true ); 
 	        extract( $args ); 
 			$title = apply_filters('widget_title', $instance['title']);	        
 	        $widget_id = $id. "-" . $this->number;
-			$path = plugin_dir_url( __FILE__ );
-
-	        wp_enqueue_script( 'ht_favourites', $path.'js/ht_favourites.js' );
-	        $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
-	        $params = array(
-	        'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
-			'before_widget' => stripcslashes($before_widget),
-			'after_widget' => stripcslashes($after_widget),
-			'before_title' => stripcslashes($before_title),
-			'after_title' => stripcslashes($after_title),
-	        'user_id' => $user_id,
-	        'widget_id' => $widget_id,
-	        'title' => $title,
-	        );
-	        wp_localize_script( 'ht_favourites', 'ht_favourites', $params );
-
-	        
-			echo "<div id='ht_favourites_display_".$widget_id."' class='ht_favourites'></div>";
+			if ( false === $result || !$result) :
+				$path = plugin_dir_url( __FILE__ );
+		        wp_enqueue_script( 'ht_favourites', $path.'js/ht_favourites.js' );
+		        $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+		        $params = array(
+		        'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+				'before_widget' => stripcslashes($before_widget),
+				'after_widget' => stripcslashes($after_widget),
+				'before_title' => stripcslashes($before_title),
+				'after_title' => stripcslashes($after_title),
+		        'user_id' => $user_id,
+		        'widget_id' => $widget_id,
+		        'title' => $title,
+		        );
+		        wp_localize_script( 'ht_favourites', 'ht_favourites', $params );
+				echo "<div id='ht_favourites_display_".$widget_id."' class='ht_favourites'></div>";
+			else:
+				echo "<div id='ht_favourites_display_".$widget_id."' class='ht_favourites'>".$result."</div>";
+			endif;
 				        
 		endif;
     }
@@ -167,7 +170,7 @@ function ht_favourites_ajax_add() {
         $response->add( array(
             'data' => 'error',
             'supplemental' => array(
-                'message' => 'an error occurred'
+                'message' => __('Error. Not added.','govintranet')
             ),
         ) );
     }
@@ -189,11 +192,11 @@ function ht_favourites_register() {
 		
 		acf_add_local_field_group(array (
 			'key' => 'group_5669acf63093d',
-			'title' => 'Favourites',
+			'title' => __('Favourites','govintranet'),
 			'fields' => array (
 				array (
 					'key' => 'field_5669ad29841d0',
-					'label' => 'My favourites',
+					'label' => __('My favourites','govintranet'),
 					'name' => 'user_favourites',
 					'type' => 'relationship',
 					'instructions' => '',
@@ -270,14 +273,15 @@ function ht_favourites_ajax_action_add() {
 			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 			} else {
 				$faves = get_user_meta($user_id, 'user_favourites', true);
-				if ( !in_array($post_id, $faves ) ) $faves[] = $post_id;
+				if ( isset($faves) && !in_array($post_id, (array)$faves ) ) $faves[] = $post_id;
 			    update_user_meta($current_user_id,'user_favourites', $faves); 
-				$html = '<div class="ht_addtofav btn btn-default">' . __('Added','govintranet') . '</div>';
+				$html = '<div class="ht_addtofav btn btn-sm btn-primary">' . __('Added','govintranet') . '</div>';
 				$success = true;
 			}
 	}
    if( $success  ) {
         // Request successful
+   		delete_user_meta( $user_id, 'user_favourites_widget' );
         $response->add( array(
             'data' => 'success',
             'supplemental' => array(
@@ -329,12 +333,13 @@ function ht_favourites_ajax_action_del() {
 					$newfaves[] = $f;
 				}
 			    update_user_meta($current_user_id,'user_favourites', $newfaves); 
-				$html = '<div class="ht_addtofav btn btn-default">' . __('Removed','govintranet') . '</div>';
+				$html = '<div class="ht_addtofav btn btn-sm btn-default">' . __('Removed','govintranet') . '</div>';
 				$success = true;
 			}
 	}
    if( $success  ) {
         // Request successful
+   		delete_user_meta( $user_id, 'user_favourites_widget' );
         $response->add( array(
             'data' => 'success',
             'supplemental' => array(
@@ -368,8 +373,8 @@ function ht_favourites_ajax_show() {
     $response = new WP_Ajax_Response;
 
 	$html = "";
+	$temp = "";
 	if ( count($faves) > 0 && is_array($faves) ):			
-		$html.= $before_widget; 
 		$userurl = site_url().'/staff/'.$user_info->user_nicename;
 		$userurl = get_author_posts_url( $user_id ); 
 		$gis = "options_forum_support";
@@ -381,9 +386,6 @@ function ht_favourites_ajax_show() {
 			$userurl=str_replace('/author', '/staff', $userurl);
 		}
 		$userurl.="edit/#acf-field_5669ad29841d0";
-		$html.= "<a href='".$userurl."' class='btn btn-sm btn-default pull-right editfav'>Edit</a>";
-		if ( $title ) $html.= $before_title . $title . $after_title; 
-		$html.="<ul>";
 		foreach ( $faves as $r ){
 			$title_context="";
 			$rlink = get_post($r);
@@ -399,18 +401,22 @@ function ht_favourites_ajax_show() {
 					$ext_icon = " <span class='dashicons dashicons-migrate'></span> ";
 					$ext="class='external-link' ";
 				endif;
-				$html.= "<li><a href='".get_permalink($rlink->ID)."'".$ext.">".govintranetpress_custom_title($rlink->post_title).$title_context."</a>".$ext_icon."</li>";
+				$temp.= "<li><a href='".get_permalink($rlink->ID)."'".$ext.">".govintranetpress_custom_title($rlink->post_title).$title_context."</a>".$ext_icon."</li>";
 				$alreadydone[] = $r;
 			}
 		}
-		$html.= "</ul>";
-		$html.= $after_widget; 	
 		wp_reset_postdata();		
 	endif;
 	
-
+	if ( $temp ):
+		$html = $before_widget . "<a href='".$userurl."' class='btn btn-sm btn-sm btn-default pull-right editfav'>Edit</a>" . $before_title . $title . $after_title . "<ul class='first-link widget-list'>" . $temp . "</ul>" . $after_widget ;
+	else:
+		$html = "";
+	endif;
+	
 	if( $html ) {
-        // Request successful
+        // Request successful, set transient for  mins
+		update_user_meta( $user_id, 'user_favourites_widget', $html );
         $response->add( array(
             'data' => 'success',
             'supplemental' => array(
@@ -433,5 +439,57 @@ function ht_favourites_ajax_show() {
 
 add_action( 'wp_ajax_ht_favourites_ajax_show', 'ht_favourites_ajax_show' );
 add_action( 'wp_ajax_nopriv_ht_favourites_ajax_show', 'ht_favourites_ajax_show' );
+
+function ht_favourites_btn_ajax_show() {
+
+	$before_widget = stripcslashes($_POST['before_widget']);
+	$after_widget = stripcslashes($_POST['after_widget']);
+	$post_id = $_POST['post_id'];
+	$user_id = $_POST['user_id'];
+	$widget_id = $_POST['widget_id'];
+	$nonce = $_POST['nonce'];
+	$spinner = $_POST['spinner'];
+	$faves = get_user_meta($user_id, 'user_favourites', true); 
+    $response = new WP_Ajax_Response;
+	$html= ""; 	
+	if ( isset($faves) && !in_array($post_id, (array)$faves) ):
+		$html.= "<a onclick='javascript:addtofav();' class='ht_addtofav btn btn-sm btn-primary'>".__('Add to favourites','govintranet')."</a>";
+	else:
+		$html.= "<a onclick='javascript:delfav();' class='ht_addtofav btn btn-sm btn-default'>".__('Remove from favourites','govintranet')."</a>";
+	endif;
+//	$html.= $after_widget; 	
+	wp_reset_postdata();		
+	
+	if( $html ) {
+        // Request successful
+        $response->add( array(
+            'data' => 'success',
+            'supplemental' => array(
+                'message' => $html 
+            ),
+        ) );
+    } else {
+        // Request failed
+        $response->add( array(
+            'data' => 'error',
+            'supplemental' => array(
+                'message' => 'an error occurred'
+            ),
+        ) );
+    }
+    $response->send();
+    exit();
+
+}
+
+add_action( 'wp_ajax_ht_favourites_btn_ajax_show', 'ht_favourites_btn_ajax_show' );
+add_action( 'wp_ajax_nopriv_ht_favourites_btn_ajax_show', 'ht_favourites_btn_ajax_show' );
+
+add_action( 'profile_update', 'my_profile_fav_update', 10, 2 );
+add_action('personal_options_update', 'my_profile_fav_update', 10, 2);
+function my_profile_fav_update( $user_id ) {
+	delete_user_meta( $user_id, 'user_favourites_widget' );
+}
+
 
 ?>

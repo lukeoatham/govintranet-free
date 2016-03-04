@@ -3,8 +3,6 @@
 Template Name: Newsboard
 */
 
-	wp_register_style( 'newsboard', get_template_directory_uri() . '/newsboard/style-newsboard.css' );
-	wp_enqueue_style( 'newsboard' );
 	wp_enqueue_script( 'jquery');
 	wp_register_script( 'newsboard-js', get_template_directory_uri() . '/newsboard/newsboard.js' );
 	wp_enqueue_script( 'newsboard-js' );
@@ -48,6 +46,17 @@ Template Name: Newsboard
 						$title = get_sub_field('newsboard_tab_title'); 
 						$active = "";
 						if ($rowcount === 1) $active="active";
+						
+						/*
+							CONTENT TYPES
+							1 : News
+							2 : News updates
+							3 : Blog posts
+							4 : Events
+							5 : News type dropdown
+							6 : News update type dropdown
+							7 : Blog category dropdown
+							*/
 						
 				        if ( get_sub_field('newsboard_tab_content_type') < 5 ) :	
 					      	echo '<li role="presentation" class="'.$active.'">
@@ -184,7 +193,6 @@ Template Name: Newsboard
 							$qposts = new WP_Query($cquery);
 							global $k; 
 							$k = 1;
-							if ( $feature_first ) $k = 0;
 							while ($qposts->have_posts()) : $qposts->the_post();
 								get_template_part( 'loop', 'newstwitter' );
 							endwhile;
@@ -240,6 +248,48 @@ Template Name: Newsboard
 							echo "</div>";
 						endif;
 				        if ( get_sub_field('newsboard_tab_content_type') == 4 ) :
+							$output.= "
+						    <style>
+							.calbox .cal-dow {
+								background: ".get_theme_mod('header_background', '0b2d49').";
+								color: #".get_header_textcolor().";
+								font-size: 16px;
+							}
+							.calbox { 
+								width: 4.4em;
+								border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+								text-align: center;
+								border-radius: 3px;
+								background: #fff;
+								box-shadow: 0 2px 3px rgba(0,0,0,.2);
+								
+							}
+							.calbox .caldate {
+								font-size: 32px;
+								padding: 7px 17px;
+								margin: 0;
+								font-weight: 800;
+							}
+							.calbox .calmonth {
+								color: ".get_theme_mod('header_background', '0b2d49').";
+								text-transform: uppercase;
+								font-weight: 800;
+								font-size: 22px;
+								line-height: 24px;
+								padding-bottom: 5px;
+							}
+							a.calendarlink:hover { text-decoration: none; }
+							a.calendarlink:hover .calbox .caldate { background: #eee; }
+							a.calendarlink:hover .calbox .calmonth { background: #eee; }
+							a.calendarlink:hover .calbox  { background: #eee; }
+							.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+							.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
+							.eventslisting p { margin-bottom: 0 !important; }
+							
+							.media.newsboard-events h3.media-heading { padding-bottom: 0; }
+						    </style>
+						    ";
+							echo $output;
 							$tax_terms = get_sub_field('newsboard_event_types');
 							echo '<div role="tabpanel" class="tab-pane fade'.$active.'" id="ntab-'.$rowcount.'" aria-labelledBy="newsboard-tab-'.$rowcount.'">';
 							$tzone = get_option('timezone_string');
@@ -248,27 +298,27 @@ Template Name: Newsboard
 							$stime = date('H:i');
 							$counter = 0;	
 							$cquery = array(
-							    	'meta_query' => array(
-									'relation' => 'OR',
+						    	'meta_query' => array(
+								'relation' => 'OR',
+							       array(
+							           'key' => 'event_end_date',
+							           'value' => $sdate,
+							           'compare' => '>',
+							       ),
+							       array(
+								       'relation' => 'AND',
 								       array(
 								           'key' => 'event_end_date',
 								           'value' => $sdate,
-								           'compare' => '>',
+								           'compare' => '=',
 								       ),
 								       array(
-									       'relation' => 'AND',
-									       array(
-									           'key' => 'event_end_date',
-									           'value' => $sdate,
-									           'compare' => '=',
-									       ),
-									       array(
-									           'key' => 'event_end_time',
-									           'value' => $stime,
-									           'compare' => '>',
-								           ),
-								       ),
-									),
+								           'key' => 'event_end_time',
+								           'value' => $stime,
+								           'compare' => '>',
+							           ),
+							       ),
+								),
 							    'orderby' => 'meta_value',
 							    'meta_key' => 'event_start_date',
 							    'order' => 'ASC',

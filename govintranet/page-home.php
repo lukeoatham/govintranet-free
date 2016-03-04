@@ -55,9 +55,7 @@ get_header(); ?>
 				    <a class="accordion-toggle" data-toggle="collapse" data-parent="#loginaccordion" href="#logincollapselogin">
 					<?php if (is_user_logged_in()):?>
 						      <?php 
-						      if (function_exists('get_wp_user_avatar')){
-							      echo get_wp_user_avatar(intval($current_user->id),32); 
-						      }
+						      echo get_avatar(intval($current_user->id),32); 
 						      echo " ".$current_user->display_name; ?>
 					<?php else :?>
 						       <?php _e('Login' , 'govintranet'); ?> <i class="glyphicon glyphicon-chevron-down"></i>

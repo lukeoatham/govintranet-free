@@ -43,13 +43,12 @@ remove_filter('pre_get_posts', 'filter_search');
 				}
 
 				if (!$video){
-					$ts = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
-					$tt = get_the_title();
-					$tn = "<img src='".$ts[0]."' width='".$ts[1]."' height='".$ts[2]."' class='img img-responsive' alt='".$tt."' />";
-					if ($ts){
-						echo $tn;
+					$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+					$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+					if (has_post_thumbnail($post->ID)){
+						echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive'));
 						echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
-					}
+					} 
 				}
 				?>
 
@@ -65,18 +64,8 @@ remove_filter('pre_get_posts', 'filter_search');
 					endif;
 					?>
 				<?php the_content(); ?>
+				<?php get_template_part("part", "downloads"); ?>			
 				<?php
-				$current_attachments = get_field('document_attachments');
-				if ($current_attachments){
-					echo "<div class='alert alert-info'>";
-					echo "<h3>" . _x('Downloads' , 'Documents to download', 'govintranet') . " <i class='glyphicon glyphicon-download'></i></h3>";
-					foreach ($current_attachments as $ca){
-						$c = $ca['document_attachment'];
-						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
-					}
-					echo "</div>";
-				}				
-				
 				if ('open' == $post->comment_status) {
 					 comments_template( '', true ); 
 				}
@@ -115,7 +104,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				  	foreach( $posttags as $tag ) {
 			  			$foundtags=true;
 			  			$tagurl = $tag->term_id;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=news'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl) . "?type=news'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 				  	}
 				  	if ( $foundtags ){
 					  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 

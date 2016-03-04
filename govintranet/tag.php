@@ -13,9 +13,9 @@ get_header();
 				</div>
 				<h1><?php
 				$posttype = '';
-				if ( isset( $_GET['type'] ) ) $posttype = $_GET['type'];
+				if ( isset( $_GET['type'] ) ) $posttype = $_GET['type']; 
 				$thistagid = get_queried_object()->term_id;
-				$thistagslug = get_queried_object()->slug; //echo $thistagslug;
+				$thistagslug = get_queried_object()->slug; 
 				$thistag = get_queried_object()->name;
 				if ($posttype == 'task'){
 					printf( __( 'Tasks/guides tagged: %s', 'govintranet' ), '' . $thistag. '' );
@@ -28,6 +28,9 @@ get_header();
 				}
 				elseif ($posttype == 'news'){
 					printf( __( 'News tagged: %s', 'govintranet' ), '' . $thistag . '' );
+				}
+				elseif ($posttype == 'news-update'){
+					printf( __( 'News updates tagged: %s', 'govintranet' ), '' . $thistag . '' );
 				}
 				elseif ($posttype == 'blog'){
 					printf( __( 'Blog posts tagged: %s', 'govintranet' ), '' . $thistag . '' );
@@ -81,7 +84,7 @@ get_header();
 	$wpdb->terms.term_id = ".$thistagid." and
 	$wpdb->term_relationships.object_id = $wpdb->posts.id and
 	$wpdb->posts.post_status = 'publish' and
-	$wpdb->posts.post_type='" . $pt . " '";
+	$wpdb->posts.post_type='" . $pt . "'"; 
 				}
 				$testtag = $wpdb->get_results($tagquery);
 				if (count($testtag) > 0){
@@ -127,7 +130,7 @@ get_header();
 	
 	 			while ($tagged->have_posts() && $postsfound ) {
 					$tagged->the_post();
-					$post_type = ucwords($post->post_type);
+					$post_type = ucwords($post->post_type); 
 					$post_cat = get_the_category();
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 
@@ -169,6 +172,11 @@ get_header();
 					if ($post_type=='News'){
 							$context = __("news","govintranet");
 							$contexturl = "/news/";
+							$icon = "star-empty";			
+					}
+					if ($post_type=='News-update'){
+							$context = __("news update","govintranet");
+							$contexturl = "/news-updates/";
 							$icon = "star-empty";			
 					}
 					if ($post_type=='Vacancy'){
@@ -233,7 +241,7 @@ get_header();
 								echo "</a></span>&nbsp;";							}
 							}
 						echo "</p>";
-					} elseif (($post_type=="News" || $post_type=="Blog")){
+					} elseif (($post_type=="News" || $post_type=="Blog" || $post_type=="News-update" )){
 						echo "<div><p>";
 						echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
 						foreach($post_cat as $cat){
@@ -376,6 +384,17 @@ get_header();
 							endif;
 							echo "<li><a href='".$landingpage."'>" . sprintf ( __('Go to %s' , 'govintranet') , $landingpage_link_text ) ."</a></li>";
 						}
+						if ($posttype == 'news-update'){
+							$landingpage = get_option('options_module_news_update_page'); 
+							if ( !$landingpage ):
+								$landingpage_link_text = 'news updates';
+								$landingpage = site_url().'/news-updates/';
+							else:
+								$landingpage_link_text = get_the_title( $landingpage[0] );
+								$landingpage = get_permalink( $landingpage[0] );
+							endif;
+							echo "<li><a href='".$landingpage."'>" . sprintf ( __('Go to %s' , 'govintranet') , $landingpage_link_text ) ."</a></li>";
+						}
 						if ($posttype == 'vacancy'){
 							$landingpage = get_option('options_module_vacancies_page'); 
 							if ( !$landingpage ):
@@ -458,6 +477,23 @@ get_header();
 							if ($testtag[0]->numtags > 0){
 								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=news'>";
 								printf( __( '<strong>News</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
+								echo "</a></li>";		
+							}
+						}
+						if ($posttype != 'news-update'){
+							$tagquery=
+							"select count(distinct $wpdb->posts.id) as numtags from $wpdb->posts
+							 join $wpdb->term_relationships on $wpdb->term_relationships.object_id = $wpdb->posts.id
+							 join $wpdb->term_taxonomy on $wpdb->term_taxonomy.term_taxonomy_id = $wpdb->term_relationships.term_taxonomy_id
+							 join $wpdb->terms on $wpdb->terms.term_id = $wpdb->term_taxonomy.term_id
+							where $wpdb->terms.slug='".$t."' AND
+							$wpdb->posts.post_type='news-update' AND
+							$wpdb->posts.post_status = 'publish'
+								";
+							$testtag = $wpdb->get_results($tagquery);
+							if ($testtag[0]->numtags > 0){
+								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=news-update'>";
+								printf( __( '<strong>News updates</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}
 						}
