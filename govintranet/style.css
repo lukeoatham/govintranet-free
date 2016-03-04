@@ -2,7 +2,7 @@
 Theme Name: GovIntranet 4
 Theme URI: https://govintranetters.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.9
+Version: 4.9.5
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -13,8 +13,6 @@ Text Domain: govintranet
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
-
-@import "css/custom.css";
 
 
 /* TYPOGRAPHY */
@@ -306,7 +304,7 @@ form#sbc-search .btn .dashicons {
 
 /* SEARCH */
 
-a.btn.filter_results { width: 100%; text-decoration: none; }
+a.btn.filter_results { width: 100%; text-decoration: none; overflow:hidden; }
 #staff-search .btn {
 	font-size: 16px;
 }
@@ -1149,7 +1147,7 @@ li p.howdesc  { margin-top: 10px; margin-bottom: 1.2em !important; }
 /* NEWS */
 
 .tinythumb { width: 72px; float: right; padding-left: 5px; padding-top: 10px; }
-.tinyblogthumb { width: 72px; margin-right: 0.5em !important; }
+.tinyblogthumb { width: 72px; margin-right: 0 !important; }
 #content h3.postlist>media-body>p {
 	margin-bottom: 0 !important;
 }
@@ -1270,3 +1268,4 @@ body { left: 5px; }
 	
 }
 
+@import "css/custom.css";

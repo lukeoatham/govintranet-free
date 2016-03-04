@@ -78,7 +78,7 @@
 	}	
 	if ($post_type=='Task'){
 		if ($post->post_parent){ // child chapter
-			$context = "guide";
+			$context = __("guide","govintranet");
 			$icon = "book";
 			$taskparent=get_post($post->post_parent);
 			$title_context='';
@@ -87,15 +87,15 @@
 				$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")"; 
 			}
 		} elseif ( get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$post->ID."&orderby=menu_order&order=ASC") ){
-			$context = "guide";
+			$context = __("guide","govintranet");
 			$icon = "book";
 		} else {
-			$context = "task";
+			$context = __("task","govintranet");
 			$icon = "question-sign";
 		}			
 	}
 	if ($post_type=='Project'){
-		$context = "project";
+		$context = __("project","govintranet");
 		$icon = "road";
 		$taskpod = get_post ($post->ID); 
 		$projparent=get_post($post->post_parent);
@@ -105,47 +105,47 @@
 		}			
 	}
 	if ($post_type=='News'){
-			$context = "news";
+			$context = __("news","govintranet");
 			$icon = "star-empty";			
 	}
 	if ($post_type=='Vacancies'){
-			$context = "job vacancy";
+			$context = __("job vacancy","govintranet");
 			$icon = "random";			
 	}
 	if ($post_type=='Blog'){
-			$context = "blog";
+			$context = __("blog","govintranet");
 			$icon = "comment";			
 	}
 	if ($post_type=='Event'){
-			$context = "event";
+			$context = __("event","govintranet");
 			$icon = "calendar";			
 	}
 	if ($post_type=='jargon-buster'){
-			$context = "jargon buster";
+			$context = __("jargon buster","govintranet");
 			$icon = "th-list";			
 	}
 	if ($post_type=='User'){
 			$context = get_user_meta($post->user_id,'user_job_title',true); 
-			if ($context=='') $context="staff";
+			if ($context=='') $context = __("staff","govintranet");
 			$icon = "user";			
 	}
 	if ($post_type=='Team'){
-			$context = "team";
+			$context = __("team","govintranet");
 			$icon = "list-alt";			
 	}
 
 	if ($post_type=='Page'){
-			$context = "page";
+			$context = __("page","govintranet");
 			$icon = "file";
 	}
 
 	if ($post_type=='Forum'||$post_type=='Reply'||$post_type=='Topic'){
-			$context = "forum";
+			$context = __("forum","govintranet");
 			$icon = "comment";
 	}
 
 	if ($post_type=='Attachment'): 
-		$context='document download';
+		$context = __('document download',"govintranet");
 		$icon = "download";			
 		?>
 		<h3 class='postlist'>				
