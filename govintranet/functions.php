@@ -9878,7 +9878,7 @@ function save_news_meta( $post_id ) {
 
     // - Update the post's metadata.
     if ( $prev = get_post_meta( $post_id, 'news_expiry_time',true ) ) {
-    	$newvalue = date(get_option('time_format'),strtotime($prev));
+    	$newvalue = date('H:i',strtotime($prev));
 		update_post_meta( $post_id, 'news_expiry_time', $newvalue, $prev );
 	}
 	return;
@@ -9905,7 +9905,7 @@ function save_news_update_meta( $post_id ) {
 
     // - Update the post's metadata.
     if ( $prev = get_post_meta( $post_id, 'news_update_expiry_time',true ) ) {
-    	$newvalue = date(get_option('time_format'),strtotime($prev));
+    	$newvalue = date('H:i',strtotime($prev));
 		update_post_meta( $post_id, 'news_update_expiry_time', $newvalue, $prev );
 	}
 	return;
@@ -9932,7 +9932,7 @@ function save_vacancy_meta( $post_id ) {
 
     // - Update the post's metadata.
     if ( $prev = get_post_meta( $post_id, 'vacancy_closing_time', true ) ) {
-    	$newvalue = date( get_option('time_format'), strtotime( $prev ));
+    	$newvalue = date( 'H:i', strtotime( $prev ));
 		update_post_meta( $post_id, 'vacancy_closing_time', $newvalue, $prev );
 	}
 	return;
@@ -9954,11 +9954,11 @@ function save_event_meta( $post_id ) {
 
     // - Update the post's metadata.
     if ( $prev = get_post_meta( $post_id, 'event_start_time',true ) ) {
-    	$newvalue = date(get_option('time_format'),strtotime($prev));
+    	$newvalue = date('H:i',strtotime($prev));
 		update_post_meta( $post_id, 'event_start_time', $newvalue, $prev );
 	}
     if ( $prev = get_post_meta( $post_id, 'event_end_time',true ) ) {
-    	$newvalue = date(get_option('time_format'),strtotime($prev));
+    	$newvalue = date('H:i',strtotime($prev));
 		update_post_meta( $post_id, 'event_end_time', $newvalue, $prev );
 	}
 	return;
@@ -9989,7 +9989,7 @@ add_action( 'save_post', 'save_keyword_meta' );
 
 function ht_filter_search($query) {
     if ($query->is_tag && !is_admin()) { 
-		$query->set('type', array('any'));
+		$query->set('post_type', array('any'));
     }
     return $query;
 }; 
@@ -10446,9 +10446,9 @@ function govintranet_custom_styles() {
 		
 		if ( $jumbo_searchbox ) $custom_css.= "		
 		#headsearch { padding-right: 0; }
-		#searchformdiv.altsearch { padding: 1.75em 6em 1.75em 6em; background: " . $giscc . ";   }
-		#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: white;}
-		#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black;}
+		#searchformdiv.altsearch { padding: 1.75em 6em 1.75em 6em; background: " . $giscc . "; }
+		#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: white; }
+		#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black; }
 		";
 		
 		if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ):

@@ -292,15 +292,11 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 									if ( $t == $post->ID ) continue;
 						  		    $theme = get_post($t);
 									echo govintranetpress_custom_title($theme->post_title)."<br>";
-		
 						  		}
 							}  
-								
 							if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
-	
 							if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
-											
 							echo "</div></div></div></div></a>";
 							$counter++;	
 						}	

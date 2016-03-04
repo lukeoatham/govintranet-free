@@ -209,26 +209,17 @@ get_header(); ?>
 			echo "</div>";
 			echo "</div>";
 
-			} else { ?>
-				<h1><?php echo $guidetitle; ?> <small><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
-				<?php
-				the_content(); 
-				if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ):
-	
-				show_manual();
-	
-				endif;
+		} else { ?>
+			<h1><?php echo $guidetitle; ?> <small><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
+			<?php
+			the_content(); 
+			if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ):
 
-				$current_attachments = get_field('document_attachments');
-				if ($current_attachments){
-					echo "<div class='alert alert-info'>";
-					echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
-					foreach ($current_attachments as $ca){
-						$c = $ca['document_attachment'];
-						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
-					}
-					echo "</div>";
-				}	
+			show_manual();
+
+			endif;
+
+			get_template_part("part", "downloads");	
 
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 

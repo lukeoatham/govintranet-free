@@ -144,68 +144,62 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 		echo "<div>";
 
 		echo "<div class='content-wrapper-notop'>";
-			if ($current_chapter>1){
-				echo "<h2>".$current_chapter.". ".get_the_title()."</h2>";
-			} else {
-				echo "<h2>" . __('Overview' , 'govintranet') . "</h2>";
-			}
+		if ($current_chapter>1){
+			echo "<h2>".$current_chapter.". ".get_the_title()."</h2>";
+		} else {
+			echo "<h2>" . __('Overview' , 'govintranet') . "</h2>";
+		}
 
-			the_content(); 		
+		the_content(); 		
+		?>
+		<?php get_template_part("part", "downloads"); ?>			
 
-			if( have_rows('document_attachments') ) : 
-				echo "<div class='alert alert-info'>";
-				echo "<h3>Downloads <span class='dashicons dashicons-download'></span></h3>";
-				    while ( have_rows('document_attachments') ) : the_row(); 
-						$doc = get_sub_field('document_attachment'); 
-						if ( isset($doc['title']) ) echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
-					endwhile;
-				echo "</div>";
-			endif;
-			if ('open' == $post->comment_status) {
-				 comments_template( '', true ); 
-			}
-			echo "</div>";
+		<?php
+		if ('open' == $post->comment_status) {
+			 comments_template( '', true ); 
+		}
+		echo "</div>";
+		
+        echo '<div class="row">';
+
+        if ($chapter_header){ // if on chapter 1
 			
-	        echo '<div class="row">';
-	
-	        if ($chapter_header){ // if on chapter 1
-				
-				echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'" title="'. __("Navigate to next part" , "govintranet") .'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
-				
-	        } elseif ($current_chapter==2) { // if on chapter 2
+			echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'" title="'. __("Navigate to next part" , "govintranet") .'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+			
+        } elseif ($current_chapter==2) { // if on chapter 2
 
-				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="' . __("Navigate to previous part" ,"govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;' . __("Overview" , "govintranet") . '</a></div>';
-	            if ($carray[3]['slug']){
-					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'" title="'. __("Navigate to next part" , "govintranet").'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
-		        }
-	        }   else { // we're deep in the middle somewhere
-	        	$previous_chapter = $current_chapter-1; 
-				$next_chapter = $current_chapter+1;
+			echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="' . __("Navigate to previous part" ,"govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;' . __("Overview" , "govintranet") . '</a></div>';
+            if ($carray[3]['slug']){
+				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'" title="'. __("Navigate to next part" , "govintranet").'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+	        }
+        }   else { // we're deep in the middle somewhere
+        	$previous_chapter = $current_chapter-1; 
+			$next_chapter = $current_chapter+1;
 
-				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="'. __("Navigate to previous part" , "govintranet") .'"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
+			echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="'. __("Navigate to previous part" , "govintranet") .'"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
 
-	            if ($carray[$next_chapter]['slug']){
-					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'" title="'. __("Navigate to next part" , "govintranet").'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
-				}
+            if ($carray[$next_chapter]['slug']){
+				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'" title="'. __("Navigate to next part" , "govintranet").'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 			}
-			echo "</div>";
-			echo "</div>";
+		}
+		echo "</div>";
+		echo "</div>";
 
-			} else { ?>
-				<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranet') ; ?></small></h1>
-				<?php
-				the_content(); 
+		} else { ?>
+			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranet') ; ?></small></h1>
+			<?php
+			the_content(); 
 
-				$current_attachments = get_field('document_attachments');
-				if ($current_attachments){
-					echo "<div class='alert alert-info'>";
-					echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
-					foreach ($current_attachments as $ca){
-						$c = $ca['document_attachment'];
-						if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
-					}
-					echo "</div>";
-				}	
+			$current_attachments = get_field('document_attachments');
+			if ($current_attachments){
+				echo "<div class='alert alert-info'>";
+				echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
+				foreach ($current_attachments as $ca){
+					$c = $ca['document_attachment'];
+					if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
+				}
+				echo "</div>";
+			}	
 
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 

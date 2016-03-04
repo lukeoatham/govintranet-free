@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9.5 - 4 Mar 2016 ###
+* Attachment downloads on page template 
+* Fix for tags showing empty pages  
+
 ### 4.9.4 - 27 Feb 2016 ###
 * Removed direct support for WP User Avatar 
 * Improved inline CSS  

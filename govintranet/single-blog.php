@@ -42,6 +42,7 @@ get_header(); ?>
 				$article_date = date(get_option('date_format'),strtotime($article_date));	?>
 				<?php echo the_date(get_option('date_format'), '<p class=news_date>', '</p>') ?>
 				<?php the_content(); ?>
+				<?php get_template_part("part", "downloads"); ?>			
 				<?php
 				if ('open' == $post->comment_status) {
 					 comments_template( '', true ); 

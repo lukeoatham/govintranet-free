@@ -2,71 +2,54 @@
 global $colid;
 global $title;
 $output = get_transient('aggregator_events_'.$colid.'_'.sanitize_title_for_query($title)); 
-if ( $output == '' ):
-
+if ( $output == '' ){
+	global $wpdb;
 	global $team;
 	global $checkteam;
 	global $num;
 	global $showthumbnail;
 	global $showcalendar;
 	global $showlocation;
-
-	$items = $num;
-		
-	//display forthcoming events
 	$tzone = get_option('timezone_string');
 	date_default_timezone_set($tzone);
 	$sdate = date('Ymd');
 	$stime = date('H:i');
 
-	$cquery = array(
-		'meta_query' => array(
-			'relation' => 'OR',
-			array(
-				"relation"=>"AND",
-		       array(
-		           'key' => 'event_end_date',
-		           'value' => $sdate,
-		           'compare' => '>',
-		       ),
-				array(
-				"key" => "related_team",
-				"value" => '"'.$checkteam.'"',
-				"compare" => "LIKE",
-				),
-		       ),
-		       array(
-			       'relation' => 'AND',
-			       array(
-			           'key' => 'event_end_date',
-			           'value' => $sdate,
-			           'compare' => '=',
-			       ),
-			       array(
-			           'key' => 'event_end_time',
-			           'value' => $stime,
-			           'compare' => '>',
-		           ),
-					array(
-					"key" => "related_team",
-					"value" => '"'.$checkteam.'"',
-					"compare" => "LIKE",
-					),
-		       ),
-			),
-	    'orderby' => 'meta_value',
-	    'meta_key' => 'event_start_date',
-	    'order' => 'ASC',
-	    'post_type' => 'event',
-		'posts_per_page' => $items,
-		'fields' => "id",
-		
-	);
-
-	$news =new WP_Query($cquery); 
-		$output.= "<div class='widget-area widget-events'><div class='upcoming-events'>";
+	//query forthcoming events
+	$cquery = $wpdb->prepare("
+	SELECT OI.ID, OI.post_name, OO1.meta_value AS event_start_date, OO2.meta_value AS event_start_time, OO3.meta_value AS event_end_date, OO4.meta_value AS event_end_time
 	
-	if ($news->post_count!=0){
+	FROM $wpdb->posts OI
+	    LEFT JOIN $wpdb->postmeta OO1 ON ( OO1.post_id = OI.ID AND OO1.meta_key='event_start_date' )
+	    LEFT JOIN $wpdb->postmeta OO2 ON ( OO2.post_id = OI.ID AND OO2.meta_key='event_start_time' )
+	    LEFT JOIN $wpdb->postmeta OO3 ON ( OO3.post_id = OI.ID AND OO3.meta_key='event_end_date' )
+	    LEFT JOIN $wpdb->postmeta OO4 ON ( OO4.post_id = OI.ID AND OO4.meta_key='event_end_time' )
+		WHERE OI.post_type = 'event' AND OI.post_status = 'publish' AND ( (OO3.meta_value > '%s') OR (OO3.meta_value = '%s' AND OO4.meta_value > '%s') ) 
+	
+	GROUP BY OI.ID, OI.post_name
+	ORDER BY event_start_date ASC, event_start_time ASC
+	",$sdate,$sdate,$stime);
+
+	$allevents = $wpdb->get_results($cquery); 
+
+	// restrict to chosen team if available
+	$events_to_show = array();
+	if ( count($allevents) ) foreach ($allevents as $a){ 
+		if ( $checkteam ){
+			$eventteam = get_post_meta($a->ID,'related_team',true);
+			if ( $eventteam && $eventteam[0] == $checkteam ) {
+				$events_to_show[] = array('ID'=>$a->ID);
+			}
+		} else {
+			$events_to_show[] = array('ID'=>$a->ID);
+		}
+	}
+
+	if ( count($events_to_show) == 0 ) return;
+
+	$output.= "<div class='widget-area widget-events'><div class='upcoming-events'>";
+	
+	if (count($events_to_show)!=0){
 		$wtitle = "upcoming";
 		$output.= "
 		    <style>
@@ -82,7 +65,6 @@ if ( $output == '' ):
 				border-radius: 3px;
 				background: #fff;
 				box-shadow: 0 2px 3px rgba(0,0,0,.2);
-				
 			}
 			.calbox .caldate {
 				font-size: 25px;
@@ -108,71 +90,66 @@ if ( $output == '' ):
 		    ";	
 
 	}
-	$k=0;
-	while ($news->have_posts()) {
 
-		$wtitle = '';
-		$news->the_post();
+	$k=0;
+	foreach ( $events_to_show as $event ){
 
 		$k++; 
-		if ($k > $items && $items != -1){
+		if ($k > $num && $num != -1){
 			break;
 		}
-				$thistitle = get_the_title($post->ID);
-				$edate = get_post_meta($post->ID,'event_start_date',true);
-				$etime = get_post_meta($post->ID,'event_start_time',true);
-				$edate = date($textdate,strtotime($edate." ".$etime));
-				$thisURL = get_permalink($post->ID); 
-				
-				$output.= "<div class='row'><div class='col-sm-12'>";
-				
-				if ($showthumbnail=='on'){
-					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newsmedium' ); 
-					if ($image_uri != "" ){
-						$output.= "<a href='".$thisURL."'><img class='img img-responsive' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
-					}
-				} 
-	
-				if ( 'on' == $showcalendar ) {
 
-					$output.= "<div class='media eventslisting'>";
-					$output.= "<div class='media-left alignleft'>";
-					$output.= "<a class='calendarlink' href='".$thisURL."'>";
-					$output.= "<div class='calbox'>";
-					$output.= "<div class='cal-dow'>".date('D',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</div>";
-					$output.= "<div class='caldate'>".date('d',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</div>";
-					$output.= "<div class='calmonth'>".date('M',strtotime(get_post_meta($post->ID,'event_start_date',true)))."</div>";
-					$output.= "</div>";
-					$output.= "</a>";
-					$output.= "</div>";
-				
-					$output.= "<div class='media-body'>";
-					$output.= "<p class='media-heading'>";
-					$output.= "<a href='".$thisURL."'>";
-					$output.= $thistitle;
-					$output.= "</a>";
-					$output.= "</p>";
-					$output.= "<small><strong>".$edate."</strong></small>";
-					if ( $location == 'on' && get_post_meta($post->ID,'event_location',true) ) $output.= "<br><span><small>".get_post_meta($post->ID,'event_location',true)."</small></span>";
-					$output.= "</div></div>";
-					
+		$thistitle = get_the_title($event['ID']);
+		$edate = get_post_meta($event['ID'],'event_start_date',true);
+		$etime = get_post_meta($event['ID'],'event_start_time',true);
+		$edate = date($textdate,strtotime($edate." ".$etime));
+		$thisURL = get_permalink($event['ID']); 
+		
+		$output.= "<div class='row'><div class='col-sm-12'>";
+		
+		if ($showthumbnail=='on'){
+			$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $event['ID'] ), 'newsmedium' ); 
+			if ($image_uri != "" ){
+				$output.= "<a href='".$thisURL."'><img class='img img-responsive' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
+			}
+		} 
 
-				} else {
-					$output.= "<p><a href='{$thisURL}'> ".$thistitle."</a></p>";
-					$output.= "<small><strong>".$edate."</strong></small>";
-					if ( $showlocation == 'on' && get_post_meta($post->ID,'event_location',true) ) $output.= "<br><span><small>".get_post_meta($post->ID,'event_location',true)."</small></span>";
-				} 
-	
-				if ( get_the_excerpt() ){
-						$output.= "<p class='eventclear'><span>".get_the_excerpt()."</span></p>";
-				}
-	
-				$output.= "</div>";
-				$output.= "</div><hr>";
+		if ( 'on' == $showcalendar ) {
+			$output.= "<div class='media eventslisting'>";
+			$output.= "<div class='media-left alignleft'>";
+			$output.= "<a class='calendarlink' href='".$thisURL."'>";
+			$output.= "<div class='calbox'>";
+			$output.= "<div class='cal-dow'>".date('D',strtotime(get_post_meta($event['ID'],'event_start_date',true)))."</div>";
+			$output.= "<div class='caldate'>".date('d',strtotime(get_post_meta($event['ID'],'event_start_date',true)))."</div>";
+			$output.= "<div class='calmonth'>".date('M',strtotime(get_post_meta($event['ID'],'event_start_date',true)))."</div>";
+			$output.= "</div>";
+			$output.= "</a>";
+			$output.= "</div>";
+			$output.= "<div class='media-body'>";
+			$output.= "<p class='media-heading'>";
+			$output.= "<a href='".$thisURL."'>";
+			$output.= $thistitle;
+			$output.= "</a>";
+			$output.= "</p>";
+			$output.= "<small><strong>".$edate."</strong></small>";
+			if ( $location == 'on' && get_post_meta($event['ID'],'event_location',true) ) $output.= "<br><span><small>".get_post_meta($event['ID'],'event_location',true)."</small></span>";
+			$output.= "</div></div>";
+		} else {
+			$output.= "<p><a href='{$thisURL}'> ".$thistitle."</a></p>";
+			$output.= "<small><strong>".$edate."</strong></small>";
+			if ( $showlocation == 'on' && get_post_meta($event['ID'],'event_location',true) ) $output.= "<br><span><small>".get_post_meta($event['ID'],'event_location',true)."</small></span>";
+		} 
+
+		if ( get_the_excerpt() ){
+				$output.= "<p class='eventclear'><span>".get_the_excerpt()."</span></p>";
+		}
+
+		$output.= "</div>";
+		$output.= "</div><hr>";
 				
 	}
 
-	if ($news->post_count!=0){
+	if (count($events_to_show)!=0){
 
 		$landingpage = get_option('options_module_events_page'); 
 		if ( !$landingpage ):
@@ -186,12 +163,13 @@ if ( $output == '' ):
 		$output.= '<p class="events-more"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 		$output.= $after_widget;
 	}
+
 	$output.= "</div>";
 	$output.= "</div>";
 
  	set_transient('aggregator_events_'.$colid.'_'.sanitize_title_for_query($title),$output,5*60); // set cache period 5 minutes 
 
-endif;
+}
 
 
 if ( $output ):
