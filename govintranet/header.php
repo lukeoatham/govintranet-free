@@ -133,7 +133,7 @@ $parentpageclass.=" custom-background";
 								</div>
 							</div>
 						
-						<?php  ?>
+						<?php  $jumbo_searchbox = get_option("options_search_jumbo_searchbox", false);	?>
 
 						<?php if ( $jumbo_searchbox != 1 || ( !is_home() && !is_front_page() ) ) : ?>
 

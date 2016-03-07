@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9.5.1 - 4 Mar 2016 ###
+* Timezone corrections 
+* Priority change to sidebar elements 
+* Jumbo search box correction 
+* Various code fixes 
+
 ### 4.9.5 - 4 Mar 2016 ###
 * Attachment downloads on page template 
 * Fix for tags showing empty pages  

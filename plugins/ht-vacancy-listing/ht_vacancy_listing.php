@@ -144,7 +144,7 @@ class htVacancyListing extends WP_Widget {
 				$edate = get_post_meta($post->ID,'vacancy_closing_date',true);
 				$etime = date(get_option('time_format'),strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
 				$edate = date(get_option('date_format'),strtotime($edate));
-				$thisURL=get_permalink($ID); 
+				$thisURL=get_permalink($id); 
 				$output.= "<div class='media vacancylisting'>";
 				$output.= "<div class='media-left alignleft'>";
 				$output.= "<a class='calendarlink' href='".$thisURL."'>";

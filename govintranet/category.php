@@ -180,7 +180,7 @@ if ( have_posts() )
 		 }
 		 ?>
 		 <?php 	if (  $taskitems->max_num_pages > 1 ) : ?>
-		 		<?php if (function_exists(wp_pagenavi)) : ?>
+		 		<?php if (function_exists('wp_pagenavi')) : ?>
 					<?php wp_pagenavi(array('query' => $taskitems)); ?>
 				<?php else : ?>
 			<?php next_posts_link(__('&larr; Older items','govintranet'), $taskitems->max_num_pages); ?>

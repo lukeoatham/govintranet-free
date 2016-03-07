@@ -84,6 +84,12 @@ function govintranet_setup() {
 	add_post_type_support( 'news', 'post-formats' );
 	add_post_type_support( 'task', 'post-formats' );
 	
+	// This remove this the issue of not being able to preview changes post types which support post-formats
+	function post_format_parameter($url) {
+		$url = remove_query_arg('post_format',$url);
+		return $url;
+	}
+	add_filter('preview_post_link', 'post_format_parameter');
 
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
@@ -157,7 +163,7 @@ if ( is_front_page() ){
 	}
 	global $wp_query;
 	$view = $wp_query->get_queried_object();
-	if (isset($view) && $view->taxonomy == "a-to-z") {
+	if (isset($view) && isset($view->taxonomy) ) if ( $view->taxonomy == "a-to-z" ) {
 		$title = _x("Letter","alphabet","govintranet") .  " " . $title ;
 	}
 	else if (isset($view) && $view->taxonomy == "category") {

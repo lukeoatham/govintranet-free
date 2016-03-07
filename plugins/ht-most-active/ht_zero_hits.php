@@ -34,10 +34,8 @@ function ht_zero_hits_options() {
 	if (!$viewid)  {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
-	
-	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
-	
+    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 
 	$baseurl = site_url();
 	$to_fill = $items;
@@ -121,7 +119,7 @@ function ht_zero_hits_options() {
 
 	if ($_REQUEST['action'] == "generate") {
 
-		$tzone = get_option('tim ezone_string');
+		$tzone = get_option('timezone_string');
 		date_default_timezone_set($tzone);
     
 		echo "<a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits')."'>".__('Dashboard','govintranet')."</a></td>";

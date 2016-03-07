@@ -88,11 +88,11 @@ get_header(); ?>
 			echo $user->user_nicename . "/' title='{$user->display_name}'>Blog posts</a><br class='blog-author-link'>";
 			echo "</div></div></div></div>";
 			
-			get_template_part("part", "related");
-
 			get_template_part("part", "sidebar");
 
 		 	dynamic_sidebar('blog-widget-area'); 
+
+			get_template_part("part", "related");
 
 			$post_cat = get_the_terms($post->ID,'blog-category');
 			if ($post_cat){

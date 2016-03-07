@@ -76,15 +76,15 @@ if ($k==1 && $paged<2){
 	$userurl = get_permalink();
 	echo $userurl;
 	echo "'><div class='hidden-xs'>";
-	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'thumbnail' );
+	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'thumbnail' );
 	if ($image_uri!="" ){
-		echo "<a href='{$thisURL}'><img class='img img-responsive alignright' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
+		echo "<a href='{$thisURL}'><img class='img img-responsive alignright' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($post->post_title)."' /></a>";									
 	} 	
 	echo "</div></a>" ;
 	echo "<div class='media-body'>";
 	?>
 	<h3 class='postlist'><?php echo $needtoknow;  ?>				
-	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s %s', 'govintranet' ), the_title_attribute( 'echo=0' ), " (" . $context . ")" ); ?>" rel="bookmark"><?php the_title(); ?></a><?php echo $ext_icon; ?></h3>
+	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a><?php echo $ext_icon; ?></h3>
 	<?php
 	echo "<div><p>";
 	$thisdate= $post->post_date;

@@ -89,10 +89,10 @@ $current_vac = $id;
 
 			<?php
 
-			get_template_part("part", "related");
-
 			get_template_part("part", "sidebar");
 						
+			get_template_part("part", "related");
+
 			$post_cat = get_the_category();
 			if ($post_cat){
 				echo "<div class='widget-box x'>
