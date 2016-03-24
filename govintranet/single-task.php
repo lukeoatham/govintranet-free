@@ -172,15 +172,8 @@ get_header(); ?>
 
 			endif;
 
-			if( have_rows('document_attachments') ) : 
-				echo "<div class='alert alert-info'>";
-				echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
-				    while ( have_rows('document_attachments') ) : the_row(); 
-						$doc = get_sub_field('document_attachment'); 
-						if ( isset($doc['title']) )  echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
-					endwhile;
-				echo "</div>";
-			endif;
+			get_template_part("part", "downloads");
+
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
