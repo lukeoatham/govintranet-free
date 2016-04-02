@@ -232,7 +232,7 @@ if ( have_posts() )
 					$newname = str_replace(" ", " ", $cat->name );
 					echo "<li><a ";
 					if ($cat->term_id == $catid) echo " class='active'";
-					echo "href='".site_url()."/category/".$cat->slug."'><span class='brd".$cat->term_id."'></span>&nbsp;";
+					echo "href='".get_term_link($cat->slug, 'category')."'><span class='brd".$cat->term_id."'></span>&nbsp;";
 					if ($cat->term_id == $catid) echo "<strong>";
 					echo $newname;
 					if ($cat->term_id == $catid) echo "</strong>";

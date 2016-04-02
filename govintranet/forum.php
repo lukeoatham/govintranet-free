@@ -12,19 +12,15 @@ get_header();
 		<?php 
 		$r = $_SERVER['REQUEST_URI']; 
 		$r = explode('/', $r);
-		if ($r[1] == 'staff'):?>
+		if ( in_array('staff',$r) ):?>
 				<a href="<?php echo site_url(); ?>"><?php _ex('Home','The site homepage','govintranet'); ?></a>
 				> <a href="<?php echo site_url(); ?>/staff-directory/"><?php _e('Staff directory','govintranet'); ?></a>
-				> <?php the_title(); ?>
-		<?php
-		 elseif ($r[1] == 'users'):?>
+				> <?php the_title(); 
+		elseif ( in_array('users',$r) ):?>
 				<a href="<?php echo site_url(); ?>"><?php _ex('Home','The site homepage','govintranet'); ?></a>
-				> <?php the_title(); ?>
-		<?php
-		else: 
-		 if (function_exists('bcn_display') && !is_front_page()) {
+				> <?php the_title(); 
+		elseif (function_exists('bcn_display') && !is_front_page()) :
 				bcn_display();
-				}
 		endif;
 		?>
 		</div>

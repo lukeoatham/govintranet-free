@@ -34,6 +34,7 @@ function ht_zero_hits_options() {
 	if (!$viewid)  {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
+
     $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
     $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 
@@ -382,12 +383,8 @@ function zero_hits_monitor(){
 	$viewid = get_option('options_zh_viewid'); 
 	$ptype = get_option('options_zh_post_types'); 
 
-    $client_id = '660382727637-9a6j2f87ba86mross0rvi9jr37vb28h4.apps.googleusercontent.com';
-    $client_secret = 'BuRLl-SduOLag_6BQGB38WNi';
-
-	// PUBLIC
-	//	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	//	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	
 	$viewid = get_option('options_zh_viewid');	
     $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';

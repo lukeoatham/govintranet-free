@@ -10,7 +10,7 @@
  * @package WordPress
  */
 
-if ( is_category() ) wp_redirect( home_url( '/category/'. get_queried_object()->slug ) . "/" );
+if ( is_category() ) wp_redirect( get_term_link( get_queried_object()->slug, "category" ) );
 
 get_header();
 

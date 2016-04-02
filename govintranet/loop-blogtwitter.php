@@ -46,30 +46,40 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 			   $forumsupport = get_option($gis);
 			   $staffdirectory = get_option('options_module_staff_directory');
 			   if ($forumsupport){	
-				   		$authorlink = "<a href='".site_url()."/author/" . $user->user_nicename . "/'>";
-						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-							$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
-							} 
-						elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-							$authorlink = "<a href='".site_url()."/staff/" . $user->user_nicename . "/'>";
-							}
-						echo $authorlink;
-						$user_info = get_userdata($post->post_author);
-						$userurl = site_url().'/staff/'.$user_info->user_nicename;
-						$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
-						$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-						$avstyle="";
-						if ( $directorystyle==1 ) $avstyle = " img-circle";
-						$image_url = get_avatar($post->post_author , 32);
-						$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
-						echo $image_url;
-						echo "</a>&nbsp;";
-						echo $authorlink;
-						$auth = get_the_author();
-						echo "<span class='listglyph'>".$auth."</span>";
-						echo "</a> ";
+			   		$authorlink = "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>";
+					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+						$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
+					} 
+					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
+						echo "<a href='";
+						bbp_user_profile_url( $post->post_author );
+						echo "'>";
+					} else {
+						echo $authorlink;	
+					}
+					
+					$user_info = get_userdata($post->post_author);
+					$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
+					$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+					$avstyle="";
+					if ( $directorystyle==1 ) $avstyle = " img-circle";
+					$image_url = get_avatar($post->post_author , 32);
+					$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
+					echo $image_url;
+					echo "</a>&nbsp;";
+					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
+						echo "<a href='";
+						bbp_user_profile_url( $post->post_author );
+						echo "'>";
+					} else {
+						echo $authorlink;	
+					}
+
+					$auth = get_the_author();
+					echo "<span class='listglyph'>".$auth."</span>";
+					echo "</a> ";
 	           } else {
-	                echo " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
+	                echo "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>" . $displayname . "</a>";  
 			   }
 				if ( get_comments_number() ){
 					echo " <a href='".$thisURL."#comments'>";

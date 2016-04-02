@@ -133,7 +133,7 @@ get_header();
 					$post_type = ucwords($post->post_type); 
 					$post_cat = get_the_category();
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
-
+					$ext_icon = '';
 					echo "<div class='media'>" ;
 					$contexturl=$post->guid;
 					$context='';

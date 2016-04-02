@@ -113,7 +113,7 @@ class htMostActive extends WP_Widget {
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_show_guide_chapters" ;
 		$showchapters = get_option($acf_key);
 
-		$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
 	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 		
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
@@ -180,7 +180,7 @@ class htMostActive extends WP_Widget {
 
 			            // Store the Tokens
 			            update_option('ga_token', $accessToken );
-			            	$gatoken = $accessToken; // make token available for use
+			            $gatoken = $accessToken; // make token available for use
 			            update_option('ga_refresh_token', $refreshToken );
 			            update_option('ga_token_expires', $tokenExpires );
 			            update_option('ga_token_created', $tokenCreated );
@@ -219,15 +219,12 @@ class htMostActive extends WP_Widget {
 
 				$days_to_trail = $trail;
 				if ($days_to_trail < 1) $days_to_trail = 1;
-
 				$tzone = get_option('timezone_string');
 				date_default_timezone_set($tzone);
 				$start_date= date("Y-m-d",time()-(86400*$days_to_trail)); // last x days
-
-				$donefilter=false;
-				$filter='';
-				$ext = '';
-
+				$donefilter = false;
+				$filter = '';
+				
 				if ($projects=='on'){
 					$filter.='ga:pagePath=~/project/';
 					$donefilter=true;
@@ -293,23 +290,22 @@ class htMostActive extends WP_Widget {
 							$tasktitle = '';
 							$tasktitlecontext = '';
 							$filtered_pagepath = $res[0];
+							$ext = '';
 
 							$path = "/task/";
 							$pathlen = strlen($path);
 
 							if ( substr( $filtered_pagepath,0,$pathlen ) == $path && $tasks == 'on' ){ 
 								$pathparts = explode("/", $res[0]);
-								if ( !$pathparts ) $pathparts = array();
-								if ( end($pathparts) == '' ) array_pop($pathparts);
-								$thistask = end($pathparts);								
-
-								if ( in_array( $thistask, $stoppages ) ) continue;
-								$tasktitle = false;
-								$check = array_shift($pathparts);
-								$check = array_shift($pathparts);
-								$path = implode("/",$pathparts); 
-								$taskpod = get_page_by_path( $path, OBJECT, 'task');
-								if ( $taskpod ) {
+								if ( is_array($pathparts)){
+									if ( end($pathparts) == '' ) array_pop($pathparts);
+									$thistask = end($pathparts);								
+									if ( in_array( $thistask, $stoppages ) ) continue;
+									$tasktitle = false;
+									$check = array_shift($pathparts);
+									$check = array_shift($pathparts);
+									$path = implode("/",$pathparts); 
+									$taskpod = get_page_by_path( $path, OBJECT, 'task');
 									if ("publish" != $taskpod->post_status) continue;
 									$tasktitle =  govintranetpress_custom_title($taskpod->post_title);
 									$taskid = $taskpod->ID;
@@ -324,162 +320,26 @@ class htMostActive extends WP_Widget {
 											$tasktitlecontext = " <small>(".govintranetpress_custom_title($taskpod2->post_title).")</small>";
 										endif;
 									}
+									if (!$tasktitle) continue;
+									if (in_array($taskid, $alreadydone )) continue;
+									if ( get_post_meta($taskid,'external_link',true) ) $ext="class='external-link' ";
+									$found = true;
+									$k++;
 								}
-								if (!$tasktitle) continue;
-								if (in_array($taskid, $alreadydone )) continue;
-								if ( get_post_meta($taskid,'external_link',true) ) $ext="class='external-link' ";
-
-								$found = true;
-								$k++;
-
 							}
 
 							$path = "/news/"; 
 							$pathlen = strlen($path); 
 									
 							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $news == 'on' ){ 
-								$pathparts = explode("/", $res[0]);
-								if ( !$pathparts ) $pathparts = array(); 
-								if ( !$pathparts ) $pathparts = array();
-								if ( end($pathparts) == '' ) array_pop($pathparts); 
-								$thistask = end($pathparts); 
-								if ( in_array( $thistask, $stoppages ) ) continue;
-								$tasktitle=false;
-								$path = 'news/'.$thistask;
-								$taskpod = get_page_by_path( $thistask, OBJECT, 'news'); 
-								if ("publish" != $taskpod->post_status) continue;
-								$tasktitle=  $taskpod->post_title;
-								$taskid = $taskpod->ID;
-								$taskslug = $taskpod->post_name;
-					
-								if (!$tasktitle) continue;
-								if (in_array($taskid, $alreadydone )) continue;
-								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
-								
-								$found = true;
-								$k++;
-							}	
-
-							$path = "/project/"; 
-							$pathlen = strlen($path); 
-								
-							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $projects == 'on' ){ 
-								$pathparts = explode("/", $res[0]);
-								if ( !$pathparts ) $pathparts = array(); 
-								if ( end($pathparts) == '' ) array_pop($pathparts); 
-								$thistask = end($pathparts); 
-								if ( in_array( $thistask, $stoppages ) ) continue;
-								$tasktitle=false;
-								$path = 'project/'.$thistask;
-								$taskpod = get_page_by_path( $thistask, OBJECT, 'project'); 
-								if ("publish" != $taskpod->post_status) continue;
-								$tasktitle=  $taskpod->post_title;
-								$taskid = $taskpod->ID;
-								$taskslug = $taskpod->post_name;
-								if ( $taskpod->post_parent ){
-									$taskpod = get_post($taskpod->post_parent);
-									$taskid = $taskpod->ID;
-									$taskslug = $taskpod->post_name;
-									$tasktitle=  $taskpod->post_title ;
-								}
-
-								if (!$tasktitle) continue;
-								if (in_array($taskid, $alreadydone )) continue;
-								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
-
-								$found = true;
-								$k++;
-							}			
-							
-							$path = "/vacancy/"; 
-							$pathlen = strlen($path); 
-								
-							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $vacancies == 'on' ){ 
-								$pathparts = explode("/", $res[0]);
-								if ( !$pathparts ) $pathparts = array(); 
-								if ( end($pathparts) == '' ) array_pop($pathparts); 
-								$thistask = end($pathparts); 
-								if ( in_array( $thistask, $stoppages ) ) continue;
-								$tasktitle=false;
-								$path = 'vacancy/'.$thistask;
-								$taskpod = get_page_by_path( $thistask, OBJECT, 'vacancy'); 
-								if ("publish" != $taskpod->post_status) continue;
-								$tasktitle=  $taskpod->post_title;
-								$taskid = $taskpod->ID;
-								$taskslug = $taskpod->post_name;
-
-								if (!$tasktitle) continue;
-								if (in_array($taskid, $alreadydone )) continue;
-								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
-
-								$found = true;
-								$k++;
-							}			
-					
-							$path = "/event/"; 
-							$pathlen = strlen($path); 
-							
-							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $events == 'on' ){ 
-								$pathparts = explode("/", $res[0]);
-								if ( !$pathparts ) $pathparts = array(); 
-								if ( end($pathparts) == '' ) array_pop($pathparts); 
-								$thistask = end($pathparts); 
-								if ( in_array( $thistask, $stoppages ) ) continue;
-								$tasktitle=false;
-								$path = 'event/'.$thistask;
-								$taskpod = get_page_by_path( $thistask, OBJECT, 'event'); 
-								if ("publish" != $taskpod->post_status) continue;
-								$tasktitle=  $taskpod->post_title;
-								$taskid = $taskpod->ID;
-								$taskslug = $taskpod->post_name;
-
-								if (!$tasktitle) continue;
-								if (in_array($taskid, $alreadydone )) continue;
-								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
-
-								$found = true;
-								$k++;
-							}	
-							
-							$path = "/blog/"; 
-							$pathlen = strlen($path); 
-							
-							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $blog == 'on' ){ 
-								$pathparts = explode("/", $res[0]);
-								if ( !$pathparts ) $pathparts = array(); 
-								if ( end($pathparts) == '' ) array_pop($pathparts); 
-								$thistask = end($pathparts); 
-								if ( in_array( $thistask, $stoppages ) ) continue;
-								$tasktitle=false;
-								$path = 'blog/'.$thistask;
-								$taskpod = get_page_by_path( $thistask, OBJECT, 'blog'); 
-								if ("publish" != $taskpod->post_status) continue;
-								$tasktitle=  $taskpod->post_title;
-								$taskid = $taskpod->ID;
-								$taskslug = $taskpod->post_name;
-
-								if (!$tasktitle) continue;
-								if (in_array($taskid, $alreadydone )) continue;
-								if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
-
-								$found = true;
-								$k++;
-							}	
-							
-
-							$path = "/"; 
-							$pathlen = strlen($path); 
-							
-							if ( $pages == 'on' && !$found ){ // show pages		
-								$pathparts = explode("/", $res[0]);
-								if ( !$pathparts ) $pathparts = array(); 
-								if ( end($pathparts) == '' ) array_pop($pathparts); 
-								$thistask = end($pathparts); 
-								if ( in_array( $thistask, $stoppages ) ) continue;
-
-								$path = $res[0];
-								$taskpod = get_page_by_path( $thistask, OBJECT, 'page'); 
-								if ( $taskpod ):
+								$pathparts = explode("/", $res[0]); 
+								if ( is_array($pathparts) ){
+									if ( end($pathparts) == '' ) array_pop($pathparts); 
+									$thistask = end($pathparts); 
+									if ( in_array( $thistask, $stoppages ) ) continue;
+									$tasktitle=false;
+									$path = 'news/'.$thistask;
+									$taskpod = get_page_by_path( $thistask, OBJECT, 'news'); 
 									if ("publish" != $taskpod->post_status) continue;
 									$tasktitle=  $taskpod->post_title;
 									$taskid = $taskpod->ID;
@@ -487,11 +347,136 @@ class htMostActive extends WP_Widget {
 									if (!$tasktitle) continue;
 									if (in_array($taskid, $alreadydone )) continue;
 									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
-
 									$found = true;
 									$k++;
-								endif;
+								}
+							}	
 
+							$path = "/project/"; 
+							$pathlen = strlen($path); 
+								
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $projects == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( is_array($pathparts) ){
+									if ( end($pathparts) == '' ) array_pop($pathparts); 
+									$thistask = end($pathparts); 
+									if ( in_array( $thistask, $stoppages ) ) continue;
+									$tasktitle=false;
+									$path = 'project/'.$thistask;
+									$taskpod = get_page_by_path( $thistask, OBJECT, 'project'); 
+									if ("publish" != $taskpod->post_status) continue;
+									$tasktitle=  $taskpod->post_title;
+									$taskid = $taskpod->ID;
+									$taskslug = $taskpod->post_name;
+									if ( $taskpod->post_parent ){
+										$taskpod = get_post($taskpod->post_parent);
+										$taskid = $taskpod->ID;
+										$taskslug = $taskpod->post_name;
+										$tasktitle=  $taskpod->post_title ;
+									}
+									if (!$tasktitle) continue;
+									if (in_array($taskid, $alreadydone )) continue;
+									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
+									$found = true;
+									$k++;
+								}
+							}			
+							
+							$path = "/vacancy/"; 
+							$pathlen = strlen($path); 
+								
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $vacancies == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( is_array($pathparts) ){
+									if ( end($pathparts) == '' ) array_pop($pathparts); 
+									$thistask = end($pathparts); 
+									if ( in_array( $thistask, $stoppages ) ) continue;
+									$tasktitle=false;
+									$path = 'vacancy/'.$thistask;
+									$taskpod = get_page_by_path( $thistask, OBJECT, 'vacancy'); 
+									if ("publish" != $taskpod->post_status) continue;
+									$tasktitle=  $taskpod->post_title;
+									$taskid = $taskpod->ID;
+									$taskslug = $taskpod->post_name;
+									if (!$tasktitle) continue;
+									if (in_array($taskid, $alreadydone )) continue;
+									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
+									$found = true;
+									$k++;
+								}
+							}			
+					
+							$path = "/event/"; 
+							$pathlen = strlen($path); 
+							
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $events == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( is_array($pathparts) ){
+									if ( end($pathparts) == '' ) array_pop($pathparts); 
+									$thistask = end($pathparts); 
+									if ( in_array( $thistask, $stoppages ) ) continue;
+									$tasktitle=false;
+									$path = 'event/'.$thistask;
+									$taskpod = get_page_by_path( $thistask, OBJECT, 'event'); 
+									if ("publish" != $taskpod->post_status) continue;
+									$tasktitle=  $taskpod->post_title;
+									$taskid = $taskpod->ID;
+									$taskslug = $taskpod->post_name;
+									if (!$tasktitle) continue;
+									if (in_array($taskid, $alreadydone )) continue;
+									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
+									$found = true;
+									$k++;
+								}
+							}	
+							
+							$path = "/blog/"; 
+							$pathlen = strlen($path); 
+							
+							if (substr( $filtered_pagepath,0,$pathlen ) == $path && $blog == 'on' ){ 
+								$pathparts = explode("/", $res[0]); 
+								if ( is_array($pathparts) ){
+									if ( end($pathparts) == '' ) array_pop($pathparts); 
+									$thistask = end($pathparts); 
+									if ( in_array( $thistask, $stoppages ) ) continue;
+									$tasktitle=false;
+									$path = 'blog/'.$thistask;
+									$taskpod = get_page_by_path( $thistask, OBJECT, 'blog'); 
+									if ("publish" != $taskpod->post_status) continue;
+									$tasktitle=  $taskpod->post_title;
+									$taskid = $taskpod->ID;
+									$taskslug = $taskpod->post_name;
+									if (!$tasktitle) continue;
+									if (in_array($taskid, $alreadydone )) continue;
+									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
+									$found = true;
+									$k++;
+								}
+							}	
+
+							$path = "/"; 
+							$pathlen = strlen($path); 
+							
+							if ( $pages == 'on' && !$found ){ // show pages		
+								$pathparts = explode("/", $res[0]); 
+								if ( is_array($pathparts) ){
+									if ( end($pathparts) == '' ) array_pop($pathparts); 
+									$thistask = end($pathparts); 
+									if ( in_array( $thistask, $stoppages ) ) continue;
+									$path = $res[0];
+									$taskpod = get_page_by_path( $thistask, OBJECT, 'page'); 
+									if ( $taskpod ):
+										if ("publish" != $taskpod->post_status) continue;
+										$tasktitle=  $taskpod->post_title;
+										$taskid = $taskpod->ID;
+										$taskslug = $taskpod->post_name;
+										if (!$tasktitle) continue;
+										if (in_array($taskid, $alreadydone )) continue;
+										if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
+										$found = true;
+										$k++;
+									endif;
+								}
 							}		
 							if ($tasktitle!='' ){
 								$html .= "<li><a ".$ext."href='" . get_permalink($taskid) . "'>" . $tasktitle . "</a>" . $tasktitlecontext . "</li>";

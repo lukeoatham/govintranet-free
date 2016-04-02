@@ -38,6 +38,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9.6 - 2 Apr 2016 ###
+* Use core functions on archive, author, category  
+* Option to disable Did you mean? on search results 
+* Improvements to user links 
+* Improvements to aggregator page event listing speed 
+* Various code fixes 
+
 ### 4.9.5.1 - 4 Mar 2016 ###
 * Timezone corrections 
 * Priority change to sidebar elements 

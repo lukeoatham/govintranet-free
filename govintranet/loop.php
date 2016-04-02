@@ -108,7 +108,7 @@
 			$context = __("news","govintranet");
 			$icon = "star-empty";			
 	}
-	if ($post_type=='Vacancies'){
+	if ($post_type=='Vacancy'){
 			$context = __("job vacancy","govintranet");
 			$icon = "random";			
 	}

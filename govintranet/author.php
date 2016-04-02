@@ -56,9 +56,9 @@ get_header();
 				<p>
 				<?php
 				$gis = "general_intranet_forum_support";
-				$forumsupport = get_option($gis);
-				if ($forumsupport) :?>
-					<a href='/staff/<?php echo $curauth->user_login ;?>'><?php _e('Staff profile','govintranet'); ?></a> | 
+				if ( $forumsupport && function_exists('bbp_user_profile_url')) :
+					?>
+					<a href='<?php bbp_user_profile_url( bbp_get_current_user_id() );?>'><?php _e('Staff profile','govintranet'); ?></a> | 
 				<?php endif; ?>
 				<a href="mailto:<?php echo $curauth->user_email ; ?>"><?php echo $curauth->display_name ; ?></a></p>
 				<?php

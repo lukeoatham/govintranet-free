@@ -5,7 +5,7 @@ $output = get_transient('aggregator_events_'.$colid.'_'.sanitize_title_for_query
 if ( $output == '' ){
 	global $wpdb;
 	global $team;
-	global $checkteam;
+	global $checkteam; 
 	global $num;
 	global $showthumbnail;
 	global $showcalendar;
@@ -30,14 +30,14 @@ if ( $output == '' ){
 	ORDER BY event_start_date ASC, event_start_time ASC
 	",$sdate,$sdate,$stime);
 
-	$allevents = $wpdb->get_results($cquery); 
+	$allevents = $wpdb->get_results($cquery,OBJECT); 
 
 	// restrict to chosen team if available
 	$events_to_show = array();
 	if ( count($allevents) ) foreach ($allevents as $a){ 
-		if ( $checkteam ){
-			$eventteam = get_post_meta($a->ID,'related_team',true);
-			if ( $eventteam && $eventteam[0] == $checkteam ) {
+		if ( $checkteam ){ 
+			$eventteam = get_post_meta($a->ID,'related_team',true); 
+			if ( $eventteam && $eventteam[0] == $checkteam ) { 
 				$events_to_show[] = array('ID'=>$a->ID);
 			}
 		} else {

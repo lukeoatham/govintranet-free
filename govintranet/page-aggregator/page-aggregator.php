@@ -34,9 +34,6 @@ global $showthumbnail;
 global $showcalendar;
 global $showlocation;
 
-wp_register_style( 'ht-events-listing', plugin_dir_url("/") ."ht-events-listing/ht_events_listing.css" );
-wp_enqueue_style( 'ht-events-listing' );
-
 remove_filter('pre_get_posts', 'filter_search');
 
 function filter_news($query) {

@@ -131,7 +131,7 @@ do_action( 'bbp_template_before_user_profile' );
 			$poduserparent = get_user_meta( $user_id , 'user_line_manager', true); 
 			$poduserparent = get_userdata($poduserparent);
 			echo "<div class='panel panel-default'>
-			<div class='panel-heading oc'>Organisation tree</div>
+			<div class='panel-heading oc'>" . __('Organisation tree' , 'govintranet') . "</div>
 			<div class='panel-body'>
 			<div class='oc'>";
 			if ($poduserparent){

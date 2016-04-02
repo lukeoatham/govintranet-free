@@ -37,14 +37,13 @@ class htTopTags extends WP_Widget {
         if ( !isset($cache) || $cache == 0) $cache = 1;
 		$widget_id = $id;
 		
-		$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-		$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
-	    $account_id = 'ga:'.$ga_viewid; // 95422553
+	    $account_id = 'ga:'.$ga_viewid; 
 		
 		wp_register_style( 'ht_top_tags', plugin_dir_url("/") . "ht-most-active/ht_top_tags.css");
 		wp_enqueue_style( 'ht_top_tags' );
-
 
 		global $post;
 		wp_reset_postdata();
@@ -55,7 +54,6 @@ class htTopTags extends WP_Widget {
 				
 		//display manual overrides first
 		
-		
 		$html = '';
 		$gatransient = substr( 'cached_ga_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 	
@@ -64,6 +62,7 @@ class htTopTags extends WP_Widget {
 		$cachedga = get_transient( $gatransient );
 
 		if ($cachedga) { // if we have a fresh cache just display immediately
+
 			foreach($cachedga as $result) { 
 				$k++;
 				$html.=$result;
@@ -113,7 +112,7 @@ class htTopTags extends WP_Widget {
 
 			            // Store the Tokens
 			            update_option('ga_token', $accessToken );
-			            	$gatoken = $accessToken; // make token available for use
+			            $gatoken = $accessToken; // make token available for use
 			            update_option('ga_refresh_token', $refreshToken );
 			            update_option('ga_token_expires', $tokenExpires );
 			            update_option('ga_token_created', $tokenCreated );
@@ -138,7 +137,7 @@ class htTopTags extends WP_Widget {
 			    $tokenExpires   = $auth['expires_in'];
 			    $tokenCreated   = time();
 		        update_option('ga_token', $accessToken );
-		        	$gatoken = $accessToken; // make new token available for use
+	        	$gatoken = $accessToken; // make new token available for use
 		        update_option('ga_token_expires', $tokenExpires );
 		        update_option('ga_token_created', $tokenCreated );
 			/*
@@ -215,22 +214,18 @@ class htTopTags extends WP_Widget {
 						foreach ($result as $res){ 
 							if (strpos($res[0], "show=") ) continue;
 							if (strpos($res[0], "code=") ) continue;
-
 							if ($k>($items-1)) break;
-
 							$tasktitle = '';
 							$tasktitlecontext = '';
 							$filtered_pagepath = $res[0];
-
 							$pathparts = explode("/", $filtered_pagepath);
-							if ( end($parthparts) == '' ) array_pop($pathparts);
+							if ( end($pathparts) == '' ) array_pop($pathparts);
 							$thistask = end($pathparts);
 							if ( in_array( $thistask, $stoppages ) ) continue;
 							$tasktitle = false;
 							$check = array_shift($pathparts);
 							$check = array_shift($pathparts);
 							$taskslug = implode("/",$pathparts);
-
 							if (strstr($filtered_pagepath,'/news/') && $news == 'on'  ){ 
 								$customquery = get_page_by_path( $taskslug, OBJECT, "news"); 
 								if (!$customquery || $customquery->post_status!="publish") continue;	
@@ -249,7 +244,6 @@ class htTopTags extends WP_Widget {
 								$alreadydone[] = $taskid;			
 								$k++;
 							}		
-			
 							if (strstr($filtered_pagepath,'/blog/') && $blog == 'on'  ){
 								$customquery = get_page_by_path( $taskslug, OBJECT, "blog"); 
 								if ($customquery->post_status!="publish") continue;	
@@ -264,7 +258,6 @@ class htTopTags extends WP_Widget {
 								$alreadydone[] = $taskid;			
 								$k++;
 							}	
-									
 							if (strstr($filtered_pagepath,'/task/') && $task == 'on'  ){
 								$customquery = get_page_by_path( $taskslug, OBJECT, "task"); 
 								if ($customquery->post_status!="publish") continue;	
@@ -279,7 +272,6 @@ class htTopTags extends WP_Widget {
 								$alreadydone[] = $taskid;			
 								$k++;
 							}		
-					
 							if (strstr($filtered_pagepath,'/event/') && $events == 'on'  ){
 								$customquery = get_page_by_path( $taskslug, OBJECT, "event"); 
 								if ($customquery->post_status!="publish") continue;	
@@ -294,7 +286,6 @@ class htTopTags extends WP_Widget {
 								$alreadydone[] = $taskid;			
 								$k++;
 							}		
-							
 							if (strstr($filtered_pagepath,'/project/') && $project == 'on'  ){
 								$customquery = get_page_by_path( $taskslug, OBJECT, "project"); 
 								if ($customquery->post_status!="publish") continue;		
@@ -317,7 +308,6 @@ class htTopTags extends WP_Widget {
 								$alreadydone[] = $taskid;			
 								$k++;
 							}				
-							
 							if (strstr($filtered_pagepath,'/vacancy/') && $vacancy == 'on'  ){
 								$customquery = get_page_by_path( $taskslug, OBJECT, "vacancy"); 
 								if ($customquery->post_status!="publish") continue;		
@@ -340,7 +330,6 @@ class htTopTags extends WP_Widget {
 								$alreadydone[] = $taskid;			
 								$k++;
 							}	
-
 						}
 					}
 				}
@@ -350,29 +339,28 @@ class htTopTags extends WP_Widget {
 				$grandtotal = 0;
 				$k=0;
 				$manual = 0;
+				$best = 0;
+
 				// work out the grand total
 				foreach ($toptagsslug as $tt){ 
 					$k++;
-					$grandtotal=$grandtotal + intval($toptagsviews[$tt]); 
-					if ($k>($items-$manual)){
-						break;
-					}		    
+					$grandtotal = $grandtotal + intval($toptagsviews[$tt]); 
+					if ($k>($items-$manual)) break;
+					if ( intval($toptagsviews[$tt]) > $best ) $best = intval($toptagsviews[$tt]);
 				} 
 		
-				//output each tag
 				$k = 0;		
+				$q1 = 25; 
+				$q2 = 50; 
+				$q3 = 75; 
 				
-				$q1 = 1/4*log($grandtotal); 
-				$q2 = 1/2*log($grandtotal);
-				$q3 = 3/4*log($grandtotal);
+				//output each tag
 				foreach ($toptagsslug as $tt){ 
 					$k++;
-					if ($k>$items-$manual){
-						break;
-					}		    
+					if ($k>$items-$manual) break;		    
 		
-					//work out the log of the page count so that we distribute evenly across the 4 hotness brackets			
-					$percent = log($toptagsviews[$tt]);
+					//work out the quartile of the page count so that we distribute evenly across the 4 hotness brackets			
+					$percent = 100 / $best * $toptagsviews[$tt];
 		
 					//place into 1 of 4 brackets
 					if ( $percent >= $q3 ) $percentile = "p4";
@@ -380,7 +368,6 @@ class htTopTags extends WP_Widget {
 					if ( $percent < $q2 && $percent >= $q1 ) $percentile = "p2";
 					if ( $percent < $q1 ) $percentile = "p1";
 		
-	
 					if ( "on" == $chart ): 
 						$temphtml='
 						<div class="progress">

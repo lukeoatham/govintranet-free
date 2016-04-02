@@ -112,7 +112,7 @@ get_header(); ?>
 		}
 		echo "</p>";
 
-		if (function_exists('relevanssi_didyoumean')) { 
+		if ( function_exists('relevanssi_didyoumean') && !get_option("options_disable_search_did_you_mean", false ) ) { 
 			relevanssi_didyoumean(get_search_query(), "<div class='did_you_mean'><h2>" . __('Did you mean?','govintranet') . "</h2><p> ", "</p></div>", 5);
 		}
 

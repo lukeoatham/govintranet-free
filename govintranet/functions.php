@@ -303,6 +303,28 @@ function govintranet_custom_excerpt_more( $output ) {
 }
 add_filter( 'get_the_excerpt', 'govintranet_custom_excerpt_more' );
 
+if ( ! function_exists( 'get_the_excerpt_by_id' ) ) :
+
+function get_the_excerpt_by_id($post_id){
+    $the_post = get_post($post_id); //Gets post ID
+    $the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
+    $excerpt_length = 35; //Sets excerpt length by word count
+    $the_excerpt = strip_tags(strip_shortcodes($the_excerpt)); //Strips tags and images
+    $words = explode(' ', $the_excerpt, $excerpt_length + 1);
+
+    if(count($words) > $excerpt_length) :
+        array_pop($words);
+        array_push($words, '…');
+        $the_excerpt = implode(' ', $words);
+    endif;
+
+    $the_excerpt = '<p>' . $the_excerpt . '</p>';
+
+    return $the_excerpt;
+}
+
+endif;
+
 if ( ! function_exists( 'govintranet_comment' ) ) :
 /**
  * Template for comments and pingbacks.
@@ -999,7 +1021,7 @@ WHERE				$wpdb->posts.post_type = $tc_post_type AND
         $class = 'color-' . ( round( ( $smallest + ( ( $count - $min_count ) * $font_step ) ) - ( $smallest - 1 ) ) );
         $tag_link = explode("/", $tag_link);
         $tag_link=$tag_link[4];
-        $a[] = "<a href='".site_url()."/tag/".$tag_link."/'  style='font-size: " .
+        $a[] = "<a href='".get_tag_link($tagid)."'  style='font-size: " .
             str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) )
             . "$unit; color: ".$scolor.";'>$tag_name</a>";
     }
@@ -2827,6 +2849,22 @@ if( function_exists('acf_add_local_field_group') ):
 				'name' => 'enable_search_stemmer',
 				'type' => 'true_false',
 				'instructions' => __('Enrich search queries by also searching for derivatives. E.g. searching for "speak" will also search for speakers and speaking etc.','govintranet'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'message' => '',
+				'default_value' => 0,
+			),
+			array (
+				'key' => 'field_56ff054a97ce6',
+				'label' => 'Disable "Did you mean?"',
+				'name' => 'disable_search_did_you_mean',
+				'type' => 'true_false',
+				'instructions' => 'The "Did you mean?" feature of the Relevanssi Premium plugin is enabled by default.',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -10217,28 +10255,16 @@ function govintranet_custom_styles() {
 		// write custom css for background header colour
 
 		$bg = get_theme_mod('link_color', '#428bca');
-		$custom_css.= "
-		a, a .listglyph  {
-		color: ".$bg.";
-		}
-		";
+		$custom_css.= "a, a .listglyph  {color: ".$bg.";}";
 
 		$bg = get_theme_mod('link_visited_color', '#7303aa');
-		$custom_css.= "
-		a:visited, a:visited .listglyph {
-		color: ".$bg.";
-		}
-		";
+		$custom_css.= "a:visited, a:visited .listglyph {color: ".$bg.";}";
 		$gisheight = get_option('options_widget_border_height');
 		if (!$gisheight) $gisheight = 7;
 		$gis = "options_header_background";
 		$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
 		if ( $gishex == "#") $gishex = "#0b2d49";
-		$custom_css.= "
-		.custom-background  {
-		background-color: ".$gishex.";
-		}
-		";
+		$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
 		$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
 		if ( $headtext == "#") $headtext = "#ffffff";
 		$headimage = get_theme_mod('header_image', '');
@@ -10259,168 +10285,46 @@ function govintranet_custom_styles() {
 		endif;
 		
 		if ($headimage != 'remove-header' ):
-			$custom_css.= "
-			#topstrip  {
-			background: ".$gishex." url(".get_header_image().");
-			color: ".$headtext.";
-			}
-			";
+			$custom_css.= "#topstrip  {	background: ".$gishex." url(".get_header_image()."); color: ".$headtext.";	}";
 		else:
-			$custom_css.= "
-			#topstrip  {
-			background: ".$gishex.";
-			color: ".$headtext.";
-			}
-			";
+			$custom_css.= "#topstrip  {	background: ".$gishex."; color: ".$headtext.";}";
 		endif;
 
 		$custom_css.= "
 		@media only screen and (max-width: 767px)  {
-			#masthead  {
-			background: ".$gishex." !important;
-			color: ".$headtext.";
-			padding: 0 1em;
-			}
-			#primarynav ul li a {
-			background: ".$gishex.";
-			color: ".$headtext.";
-			}	
-			#primarynav ul li a:hover {
-			color: ".$gishex." !important;
-			background: ".$headtext.";
-			}	
-		}
-		";
+			#masthead  { background: ".$gishex." !important; color: ".$headtext."; padding: 0 1em; }
+			#primarynav ul li a {background: ".$gishex."; color: ".$headtext."; }	
+			#primarynav ul li a:hover {color: ".$gishex." !important; background: ".$headtext."; }	
+		}";
 
-		$custom_css.= "
-		.btn-primary, .btn-primary a  {
-		background: ".$giscc.";
-		border: 1px solid ".$giscc.";
-		color: ".$headtext.";
-		}
-		";
-
-		$custom_css.= "
-		.btn-primary a:hover  {
-		background: ".$gishex.";
-		}
-		";
-
-		$custom_css.= "
-		#topstrip a {
-		color: ".$headtext.";
-		}
-		";
-
-		$custom_css.= "
-		#utilitybar ul#menu-utilities li a, #menu-utilities {
-		color: ".$headtext.";
-		}
-		";
-
-		$custom_css.= "
-		#footerwrapper  {";
-		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
-		$custom_css.= "}";
-
-		$custom_css.= "
-		.page-template-page-about-php .category-block h2 {";
-		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
-
-		$custom_css.= "padding: 0.6em 0;
-		}
-		";
-
-		$custom_css.= "
-		.home.page .category-block h3 {
-			border-bottom: 3px solid ".$gishex.";
-		}
-		.h3border {
-		border-bottom: 3px solid ".$gishex.";
-		}
-		";
-		
-		$custom_css.= "
-		#content .widget-box {
-		padding: .1em 0 .7em 0;
-		font-size: .9em;
-		background: #fff;";
-		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
-		$custom_css.= "margin-top: .7em;
-		}
-		";
-
-		$custom_css.= "
-		.home.page .category-block h3 {";
-		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
-		$custom_css.= "border-bottom: none;
-		padding-top: 16px;
-		margin-top: 16px;
-		}
-		";
-
+		$custom_css.= ".btn-primary, .btn-primary a  { background: ".$giscc."; border: 1px solid ".$giscc."; color: ".$headtext."; } ";
+		$custom_css.= ".btn-primary a:hover  { background: ".$gishex."; } ";
+		$custom_css.= "#topstrip a { color: ".$headtext."; }";
+		$custom_css.= "#utilitybar ul#menu-utilities li a, #menu-utilities { color: ".$headtext."; } ";
+		$custom_css.= "#footerwrapper  {border-top: ".$gisheight."px solid ".$giscc.";}";
+		$custom_css.= ".page-template-page-about-php .category-block h2 {border-top: ".$gisheight."px solid ".$giscc."; padding: 0.6em 0; }";
+		$custom_css.= ".home.page .category-block h3 {border-bottom: 3px solid ".$gishex.";	} .h3border { border-bottom: 3px solid ".$gishex.";	}";
+		$custom_css.= "#content .widget-box { padding: .1em 0 .7em 0; font-size: .9em; background: #fff; border-top: ".$gisheight."px solid ".$giscc."; margin-top: .7em; }	";
+		$custom_css.= ".home.page .category-block h3 {border-top: ".$gisheight."px solid ".$giscc."; border-bottom: none; padding-top: 16px; margin-top: 16px; }";
 		$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-		if ( $directorystyle ):
-			$custom_css.= "
-			.bbp-user-page.single #bbp-user-avatar img.avatar   {
-				border-radius: 50%;
-			}
-			";
-		endif;
-		
-		$custom_css.= "
-		.bbp-user-page .panel-heading {";
-		$custom_css.= "border-top: ".$gisheight."px solid ".$giscc.";";
-		$custom_css.= "
-		}
-		";
-		
-		$custom_css.= "
-		.page-template-page-news-php h1 {
-		border-bottom: ".$gisheight."px solid ".$giscc.";
-		} 
-		.tax-team h2 {
-		border-bottom: ".$gisheight."px solid ".$giscc.";
-		} 
-		";
+		if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;}";
+		$custom_css.= ".bbp-user-page .panel-heading {border-top: ".$gisheight."px solid ".$giscc."; }";
+		$custom_css.= ".page-template-page-news-php h1 {border-bottom: ".$gisheight."px solid ".$giscc.";} .tax-team h2 {border-bottom: ".$gisheight."px solid ".$giscc.";}";
 
 		//write custom css for logo
 		$gisid = get_option('options_header_logo'); 
-		$gislogow = wp_get_attachment_image_src( $gisid ); 
+		$gislogow = wp_get_attachment_image_src( $gisid , 'full'); 
 		$gislogo = $gislogow[0] ;
 		$gisw = $gislogow[1] + 10;
-		$custom_css.= "
-		#crownlink  {
-		background: url('".$gislogo."') no-repeat;	 
-		background-position:left 10px;
-		padding: 16px 0 0 ".$gisw."px;
-		height: auto;
-		min-height: 50px;
-		margin-bottom: 0.6em;
-		}
+		$gish = $gislogow[2] + 10;
+		$custom_css.= "#crownlink  {background: url('".$gislogo."') no-repeat; background-position:left 10px; padding: 16px 0 0 ".$gisw."px; height: auto; min-height: ".$gish."px; margin-bottom: 0.6em; }
 		";
-		$custom_css.= "
-		#primarynav ul li  {
-		border-bottom: 1px solid ".$gishex.";
-		border-top: 1px solid ".$gishex.";
-		border-right: 1px solid ".$gishex.";
-		}
-		#primarynav ul li:last-child,  #primarynav ul li.last-link  {
-		border-right: 1px solid ".$gishex.";
-		}
-
-		#primarynav ul li:first-child,  #primarynav ul li.first-link  {
-		border-left: 1px solid ".$gishex.";
-		}
-
-		#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }
-		";		
-
-
+		$custom_css.= "#primarynav ul li  { border-bottom: 1px solid ".$gishex."; border-top: 1px solid ".$gishex."; border-right: 1px solid ".$gishex."; }
+		#primarynav ul li:last-child,  #primarynav ul li.last-link  {border-right: 1px solid ".$gishex.";}
+		#primarynav ul li:first-child,  #primarynav ul li.first-link  {	border-left: 1px solid ".$gishex.";	}
+		#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }";		
 		$custom_css.= "a.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
 		$custom_css.= "a.:visited.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
-
-
 
 		if ($headimage != 'remove-header' && $headimage) $custom_css.= '#utilitybar ul#menu-utilities li a, #menu-utilities, #crownlink { text-shadow: 1px 1px #333; }'; 
 		
@@ -10457,14 +10361,10 @@ function govintranet_custom_styles() {
 		#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black; }
 		";
 		
-		if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ):
-			$custom_css.= "#bbpress-forums img.avatar { border-radius: 50%; }";
-		endif;
+		if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ) $custom_css.= "#bbpress-forums img.avatar { border-radius: 50%; }";
 
 		$styleurl = get_stylesheet_directory_uri() . '/css/custom.css';
 		wp_enqueue_style( 'govintranet_custom_styles', $styleurl );
 		wp_add_inline_style('govintranet_custom_styles' , $custom_css);	
 	}
 	add_action( 'wp_enqueue_scripts', 'govintranet_custom_styles' );
-		
-		

@@ -277,8 +277,8 @@ class htEventsListing extends WP_Widget {
 					if ( $location == 'on' && get_post_meta($event['ID'],'event_location',true) ) $output.= "<br><span><small>".get_post_meta($event['ID'],'event_location',true)."</small></span>";
 				} 
 	
-				if ( $excerpt == 'on' && get_the_excerpt($event['ID']) ){
-						$output.= "<p class='eventclear'><span>".get_the_excerpt($event['ID'])."</span></p>";
+				if ( $excerpt == 'on' && get_the_excerpt_by_id($event['ID']) ){
+						$output.= "<p class='eventclear'><span>".get_the_excerpt_by_id($event['ID'])."</span></p>";
 				}
 	
 				$output.= "</div>";
