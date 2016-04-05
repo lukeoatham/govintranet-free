@@ -38,6 +38,11 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9.6.1 - 5 Apr 2016 ###
+* Translation updates 
+* Improved GA tracking on search results if not tracking homepage 
+* News and blog widget updates  
+
 ### 4.9.6 - 2 Apr 2016 ###
 * Use core functions on archive, author, category  
 * Option to disable Did you mean? on search results 

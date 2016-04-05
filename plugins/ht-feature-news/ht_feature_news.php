@@ -267,8 +267,8 @@ function widget($args, $instance) {
 				if ($video){
 					echo $video;
 				} elseif (has_post_thumbnail($post->ID)){
-					$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
-					$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+					//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+					//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
 					echo "<a href='{$thisURL}'>" . get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
 					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 				} 
@@ -413,8 +413,8 @@ function widget($args, $instance) {
 				if ($video){
 					echo $video;
 				} elseif (has_post_thumbnail($post->ID)){
-					$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
-					$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+					//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+					//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
 					echo "<a href='{$thisURL}'>" . get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
 					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 				} 

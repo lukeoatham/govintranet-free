@@ -45,10 +45,10 @@ get_header(); ?>
 	
 	if (!$parent_guide && !$children_chapters){
 		$singletask=true;
-		$pagetype = "task";
+		$pagetype = __("task","govintranet");
 		$icon = $taskicon;
 	} else {
-		$pagetype = "guide";
+		$pagetype = __("guide","govintranet");
 		$icon = $guideicon;
 	};
 
@@ -80,7 +80,7 @@ get_header(); ?>
 
 		?>
 		<div>
-			<h1><?php echo $guidetitle; ?> <small><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
+			<h1><?php echo $guidetitle; ?> <small class="task-context"><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 			<?php 
 			$podchap = get_post($parent_guide_id); 
 			$alreadydone[]=$parent_guide_id;

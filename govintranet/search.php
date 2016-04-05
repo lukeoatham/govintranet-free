@@ -49,8 +49,10 @@ get_header(); ?>
 
 	if ( !have_posts() ) : 
 
-		$searchnotfound=get_option('options_search_not_found');
-		if (!$searchnotfound) $searchnotfound = _x("Nope","search not found","govintranet");
+		$searchnotfound = get_option('options_search_not_found');
+		$track_homepage = get_option('options_track_homepage');
+		if ( !$track_homepage ) echo get_option('options_google_tracking_code');
+		if ( !$searchnotfound ) $searchnotfound = _x("Nope","search not found","govintranet");
 		?>
 		<h1><?php echo $searchnotfound; ?></h1>
 		<?php 
@@ -112,7 +114,7 @@ get_header(); ?>
 		}
 		echo "</p>";
 
-		if ( function_exists('relevanssi_didyoumean') && !get_option("options_disable_search_did_you_mean", false ) ) { 
+		if ( function_exists('relevanssi_didyoumean') && !get_option("options_disable_search_did_you_mean", true ) ) { 
 			relevanssi_didyoumean(get_search_query(), "<div class='did_you_mean'><h2>" . __('Did you mean?','govintranet') . "</h2><p> ", "</p></div>", 5);
 		}
 
@@ -137,7 +139,12 @@ get_header(); ?>
 				        jQuery('#snf').focus();
 				    }
 				});	
-				_gaq.push(['_trackEvent', 'Search', 'Empty results', '<?php echo the_search_query();?>']);
+				if (typeof(_gaq) !== 'undefined') {
+					_gaq.push(['_trackEvent', 'Search', 'Empty results', '<?php echo the_search_query();?>']);
+				}
+				if (typeof(ga) !== 'undefined') { 
+					ga('send', 'event', 'Search', 'Empty results', '<?php echo the_search_query();?>');
+				}
 			});	
 		
 		</script>

@@ -58,7 +58,7 @@ if ( have_posts() )
 				<form class="form-horizontal" role="form" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
 					<div class="input-group input-md">
 						<label for="sbc-s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
-						<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="How do I..." />
+						<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="<?php _e('How do I...','govintranet'); ?>" />
 						 <span class="input-group-btn">
 				    	 <?php
 					    	 $icon_override = get_option('options_search_button_override', false); 
@@ -168,7 +168,7 @@ if ( have_posts() )
 			if ( $catchildren ) foreach((array)$catchildren as $cc){
 				if ($cc->term_id != 1 && has_term($cc->term_id, 'category', $id) ){
 					echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cc->term_id."'></span><a href='".get_term_link($cc->slug,$cc->taxonomy)."'>".$cc->name;
-				echo "</a></span>&nbsp;";
+					echo "</a></span>&nbsp;";
 				}
 			}
 			?>
@@ -204,8 +204,8 @@ if ( have_posts() )
 					<?php				
 			  			foreach ((array)$terms as $taxonomy ) {
 				  		    $themeid = $taxonomy->term_id;
-				  			$themeURL= $taxonomy->slug;
-				  			$desc='';
+				  			$themeURL = $taxonomy->slug;
+				  			$desc = '';
 					  		if ($themeid == 1) {
 				  		    	continue;
 				  			}
@@ -224,17 +224,16 @@ if ( have_posts() )
 		$taxonomies[] = 'category';
 		$post_type[] = 'task';
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
-		if ($post_cat){
+		if ( count($post_cat) > 0 ){
 			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Categories','govintranet') . "</h3>";
 			echo "<div class='catlisting {$post->post_type}'><ul class='nav nav-pills nav-stacked'>";
 			foreach($post_cat as $cat){
-				if ( $cat->term_id != 1 && $cat->name ){
-					$newname = str_replace(" ", " ", $cat->name );
+				if ( $cat->term_id > 1 && $cat->name ){
 					echo "<li><a ";
 					if ($cat->term_id == $catid) echo " class='active'";
-					echo "href='".get_term_link($cat->slug, 'category')."'><span class='brd".$cat->term_id."'></span>&nbsp;";
+					echo "href='" . get_term_link($cat->slug, 'category') . "'><span class='brd" . $cat->term_id . "'></span>&nbsp;";
 					if ($cat->term_id == $catid) echo "<strong>";
-					echo $newname;
+					echo $cat->name;
 					if ($cat->term_id == $catid) echo "</strong>";
 					echo "</a></li>";
 				}

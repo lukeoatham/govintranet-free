@@ -139,6 +139,7 @@ class htFeatureBlogposts extends WP_Widget {
 			$news =new WP_Query($cquery);
 			if ( $news->have_posts() ) while ( $news->have_posts() ):
 				$news->the_post(); 
+				global $post;
 				$k++;
 				$alreadydone[] = get_the_id();
 				$thistitle = get_the_title();
@@ -244,7 +245,7 @@ class htFeatureBlogposts extends WP_Widget {
 				$landingpage_link_text = get_the_title( $landingpage[0] );
 				$landingpage = get_permalink( $landingpage[0] );
 			endif;
-			echo '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
+			echo '<hr><p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 		} 
 		if ($news->have_posts() || $num_top_slots > 0 ){
 			echo '</div>';
