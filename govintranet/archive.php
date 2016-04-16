@@ -70,7 +70,7 @@ $catid = get_queried_object()->term_id;
 					$post_type[] = 'news-update';
 					$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 					if ( $post_cat && count($post_cat) > 1 ){
-						echo "<div class='widget-box'><h3 class='widget-title'>";
+						echo "<div class='widget-box news-update-type-terms'><h3 class='widget-title'>";
 						_ex('Update categories','A title for the news update category','govintranet');
 						echo "</h3>";
 						echo "<p class='taglisting news'>";
@@ -92,7 +92,7 @@ $catid = get_queried_object()->term_id;
 					$post_type[] = 'blog';
 					$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 					if ( $post_cat && count($post_cat) > 1 ){
-						echo "<div class='widget-box'><h3 class='widget-title'>";
+						echo "<div class='widget-box blog-category-terms'><h3 class='widget-title'>";
 						_ex('Categories','A title for the blog category','govintranet');
 						echo "</h3>";
 						echo "<p class='taglisting news'>";

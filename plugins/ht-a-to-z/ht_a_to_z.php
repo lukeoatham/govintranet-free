@@ -4,7 +4,7 @@ Plugin Name: HT A to Z
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display the A to Z 
 Author: Luke Oatham
-Version: 0.1
+Version: 4.0
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -38,14 +38,13 @@ class htAtoZ extends WP_Widget {
 		$hasentries = array();
 		
 		foreach($letters as $l) { 
-			$letterlink[$l] = "<li class='disabled'><a href='#'>".strtoupper($l)."</a></li>";
+			$letterlink[$l] = "<li class='disabled a-to-z-".$l."'><a href='#'>".strtoupper($l)."</a></li>";
 		}				
 
 		$terms = get_terms('a-to-z'); 
 		if ($terms) {
 			foreach ((array)$terms as $taxonomy ) {
-
-				$letterlink[$taxonomy->slug] = "<li><a href='".get_term_link($taxonomy->slug,"a-to-z")."'>".strtoupper($taxonomy->name)."</a></li>";
+				$letterlink[$taxonomy->slug] = "<li class='a-to-z-".$taxonomy->slug."'><a href='".get_term_link($taxonomy->slug,"a-to-z")."'>".strtoupper($taxonomy->name)."</a></li>";
 			}
 		}
 

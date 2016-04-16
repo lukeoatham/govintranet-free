@@ -225,8 +225,8 @@ if ( have_posts() )
 		$post_type[] = 'task';
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 		if ( count($post_cat) > 0 ){
-			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Categories','govintranet') . "</h3>";
-			echo "<div class='catlisting {$post->post_type}'><ul class='nav nav-pills nav-stacked'>";
+			echo "<div class='widget-box category-terms'><h3 class='widget-title'>" . __('Categories','govintranet') . "</h3>";
+			echo "<div class='catlisting ". $post->post_type . "'><ul class='nav nav-pills nav-stacked'>";
 			foreach($post_cat as $cat){
 				if ( $cat->term_id > 1 && $cat->name ){
 					echo "<li><a ";

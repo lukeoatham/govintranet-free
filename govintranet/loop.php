@@ -47,7 +47,7 @@
 	$title_context='';		
 	$context='';
 	$icon='';
-		$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
+	$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 	if ($post_type=='User'){
 		global $foundstaff;
 		$foundstaff++;
@@ -145,9 +145,10 @@
 	}
 
 	if ($post_type=='Attachment'): 
-		$context = __('document download',"govintranet");
+		$context = __('media / document',"govintranet");
 		$icon = "download";			
 		?>
+		<div class="media">
 		<h3 class='postlist'>				
 		<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
 		<?php 
@@ -265,10 +266,13 @@
 			<?php
 		}
 
-		if ($post_type!='User' ){
+		if ($post_type!='User' && $post_type != "Attachment"){
 			the_excerpt(); 
 		}
 		
+		if ( $post_type == "Attachment"){
+			echo $post->post_excerpt;
+		}
 		if ($post_type=='User'){
 			$user_info = get_userdata($post->user_id);?>
 			<?php if ( get_user_meta($post->user_id ,'user_telephone',true )) : ?>
@@ -282,6 +286,7 @@
 			<br class="clearfix">
 			<?php
 		}
+		
 		
 		//for rating stories
  		if (function_exists('wp_gdsr_render_article')){

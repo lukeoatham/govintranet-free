@@ -40,15 +40,17 @@ get_header(); ?>
 		}
 	} else {
 		$parent_guide_id = $post->ID;
-	}
+	} 
 	$children_chapters = get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order&order=ASC");
 	
 	if (!$parent_guide && !$children_chapters){
-		$singletask=true;
+		$singletask=true; 
 		$pagetype = __("task","govintranet");
+		$pagetypeorig = "task";
 		$icon = $taskicon;
 	} else {
 		$pagetype = __("guide","govintranet");
+		$pagetypeorig = "guide";
 		$icon = $guideicon;
 	};
 
@@ -76,7 +78,7 @@ get_header(); ?>
 		</div>						
 		<?php 
 
-		if ($pagetype=="guide"):
+		if ($pagetypeorig=="guide"):
 
 		?>
 		<div>
@@ -154,7 +156,7 @@ get_header(); ?>
 				
 	endif;
 	
-	if ($pagetype=="guide"){
+	if ($pagetypeorig=="guide"){
 		echo "<div>";
 
 		echo "<div class='content-wrapper-notop'>";

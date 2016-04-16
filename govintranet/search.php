@@ -31,6 +31,7 @@ if ($gishelpfulsearch == 1){
 		}
 	}
 }
+$include_attachments = get_option("options_enable_include_attachments");
 				
  //*****************************************************				
 
@@ -235,16 +236,27 @@ get_header(); ?>
 								$checkbox .= " checked=\"checked\"";
 							}
 							$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
+
 							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="topic"';
 							if(in_array('topic', $sposttype)){ 
 								$checkbox .= " checked=\"checked\"";
 							}
 							$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
+
 							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="reply"';
 							if(in_array('reply', $sposttype)){ 
 								$checkbox .= " checked=\"checked\"";
 							}
 							$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
+
+							if ( $include_attachments ){
+								$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="attachment"';
+								if(in_array('reply', $sposttype)){ 
+									$checkbox .= " checked=\"checked\"";
+								}
+								$checkbox .= '> <span class="labelForCheck">' . __("Media" , "govintranet") . '</span></label>';
+							}
+
 						}
 						if( $pt->rewrite["slug"] != "spot" ){
 							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="'. $pt->query_var .'"';

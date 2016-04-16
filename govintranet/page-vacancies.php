@@ -169,7 +169,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			echo __("Nothing to show","govintranet") . ".";
 		}
 
-		if (  $vacancies->max_num_pages > 1 ) : 
+		if (  $vacancies->max_num_pages > 1 && $paged > 1 ) : 
 			if (function_exists(wp_pagenavi)) : 
 				wp_pagenavi(array('query' => $vacancies)); 
 			else : 
@@ -202,7 +202,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Read more' , 'govintranet') . "</a></p>";
 			echo "</div><div class='clearfix'></div><hr class='light' />";
 		}
-		wp_reset_query();								
+		if (  $vacancies->max_num_pages > 1 ) : 
+			if (function_exists(wp_pagenavi)) : 
+				wp_pagenavi(array('query' => $vacancies)); 
+			else : 
+				next_posts_link(__('&larr; Older items','govintranet'), $vacancies->max_num_pages); 
+				previous_posts_link(__('Newer items &rarr;','govintranet'), $vacancies->max_num_pages); 
+			endif; 
+		endif; 		
+		wp_reset_query();					
 		?>
 	</div>
 

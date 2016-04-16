@@ -38,6 +38,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9.7 - 16 Apr 2016 ###
+* Updated classes for customisation 
+* Fixes for attachments in search results 
+* Translation updates 
+* Improvement to Most recent widget 
+* Improvement to News update widget  
+
 ### 4.9.6.1 - 5 Apr 2016 ###
 * Translation updates 
 * Improved GA tracking on search results if not tracking homepage 

@@ -2861,10 +2861,26 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array (
 				'key' => 'field_56ff054a97ce6',
-				'label' => 'Disable "Did you mean?"',
+				'label' => __('Disable "Did you mean?"','govintranet'),
 				'name' => 'disable_search_did_you_mean',
 				'type' => 'true_false',
 				'instructions' => 'The "Did you mean?" feature of the Relevanssi Premium plugin is enabled by default.',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'message' => '',
+				'default_value' => 0,
+			),
+			array (
+				'key' => 'field_56ff054a97ce6a',
+				'label' => __('Enable attachments filter','govintranet'),
+				'name' => 'enable_include_attachments',
+				'type' => 'true_false',
+				'instructions' => 'Enable option to filter attachments in search results.',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (

@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -178,6 +178,7 @@ class htNewsUpdates extends WP_Widget {
 
 		if ( !$news_update_types || count($news_update_types) < 1 ) :
 			$cquery = array(
+				'post_status' => 'publish',
 				'orderby' => 'post_date',
 			    'order' => 'DESC',
 			    'post_type' => 'news-update',
@@ -185,6 +186,7 @@ class htNewsUpdates extends WP_Widget {
 				);
 		else:
 			$cquery = array(
+				'post_status' => 'publish',
 				'orderby' => 'post_date',
 			    'order' => 'DESC',
 			    'post_type' => 'news-update',
@@ -199,6 +201,7 @@ class htNewsUpdates extends WP_Widget {
 
 
 		$news =new WP_Query($cquery);
+		
 		if ($news->post_count!=0){
 		echo "<style>";
 		if ( $border_colour ):
@@ -287,7 +290,7 @@ class htNewsUpdates extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['items'] = strip_tags($new_instance['items']);
 		$instance['moretitle'] = strip_tags($new_instance['moretitle']);
-       return $instance;
+        return $instance;
     }
 
     function form($instance) {
