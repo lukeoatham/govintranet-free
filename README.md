@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.9.8 - 18 Apr 2016 ###
+* New column for event start date in events admin 
+* Updates to new restricted news updates widget - allows staff to opt out of specific update types  
+
 ### 4.9.7 - 16 Apr 2016 ###
 * Updated classes for customisation 
 * Fixes for attachments in search results 

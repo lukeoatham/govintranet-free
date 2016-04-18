@@ -4,7 +4,7 @@ Plugin Name: HT News updates - restricted
 Plugin URI: http://www.helpfultechnology.com
 Description: Hide news updates from users
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -363,6 +363,7 @@ function load_news_updates(  ) {
 
 		
 			$cquery = array(
+				'post_status' => 'publish',
 				'orderby' => 'post_date',
 			    'order' => 'DESC',
 			    'post_type' => 'news-update',
@@ -376,7 +377,7 @@ function load_news_updates(  ) {
 				);
 
 
-		$news = new WP_Query($cquery);
+		$news = new WP_Query($cquery); 
 		if ($news->post_count!=0){
 			$html.= "<style>";
 			if ( $border_colour ):
@@ -404,7 +405,6 @@ function load_news_updates(  ) {
 
 			$html.= "</style>";	
 	
-	
 			if ( $title ) {
 				$html.= "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
 				$html.= $before_widget; 
@@ -417,7 +417,6 @@ function load_news_updates(  ) {
 		} 
 		$k=0;
 		$alreadydone= array();
-
 		while ($news->have_posts()) {
 			$news->the_post();
 			$k++;

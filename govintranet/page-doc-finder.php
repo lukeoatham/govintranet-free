@@ -251,11 +251,7 @@ get_header();
 			_e('Nothing to show' , 'govintranet'); echo ".";
 		} else {
 			?>
-			<h3 class="widget-title"><?php _e('Results', 'govintranet'); ?> <small>(
-			<?php 
-				echo $docs->found_posts;
-				echo _n( 'item' , 'items' , $docs->found_posts );
-			?>)</small></h3>
+			<h3 class="widget-title"><?php _e('Results', 'govintranet'); ?> <small>(<?php echo $docs->found_posts . ' ' . _n( 'item' , 'items' , $docs->found_posts );?>)</small></h3>
 			<?php
 		}
 		?>
