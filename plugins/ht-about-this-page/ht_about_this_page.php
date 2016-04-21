@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -72,6 +72,8 @@ class htAboutThisPage extends WP_Widget {
         $show_modified_date = ($instance['show_modified_date']);
         $show_published_date = ($instance['show_published_date']);
         $show_author = ($instance['show_author']);
+        $normal_date_format = ($instance['normal_date_format']);
+        	        
 	        
 		$showabout = false;
 		if ( is_single() ) $showabout = true; 		
@@ -82,7 +84,7 @@ class htAboutThisPage extends WP_Widget {
 			$aboutChildren = get_option($acf_key); 
 			global $post; 
 			$my_wp_query = new WP_Query();
-			$all_wp_pages = $my_wp_query->query(array('post_type' => 'page','posts_per_page'=>-1));
+			if ( ! $all_wp_pages = get_transient('ht_all_pages') ) { $all_wp_pages = $my_wp_query->query(array('post_type' => 'page','posts_per_page'=>-1)); set_transient('ht_all_pages', $all_wp_pages, 60 * 60 ); }
 
 			if ($aboutChildren) foreach ($aboutChildren as $a){ 
 								
@@ -97,34 +99,31 @@ class htAboutThisPage extends WP_Widget {
 		endif;
 
 		if ($showabout) {
+			$path = plugin_dir_url( __FILE__ );
+	
+			if (!wp_script_is('jquery', 'queue')){
+				wp_enqueue_script('jquery');
+			}
+	        wp_enqueue_script( 'ht_about_this_page', $path.'js/ht_about_this_page.js' );
+	        wp_enqueue_script( 'timeago', $path.'js/jquery.timeago.js' );
 
 			echo $before_widget; 
 			echo "<div id='about-this-widget'>";
 			if ( $title ) echo $before_title . $title . $after_title; 
 			
 			$tzone = get_option('timezone_string');
+			$date_format = get_option('date_format');
 			date_default_timezone_set($tzone);
+			
 
 			if ($show_modified_date=='on'){
-				$sdate = human_time_diff_plus(get_the_modified_time('U'));
-				if ($sdate=="0 mins") {
-					$sdate=" " . __("just now","govintranet");
-				} else {
-					$sdate = sprintf( __('%s ago','govintranet'), $sdate );
-				}
-
-				echo __('Updated','govintranet') . " <time datetime='".$sdate."'>".$sdate."</time><br>";
+				$mod = date('Y-m-d',(get_post_modified_time())) . "T" . date('H:i:s',(get_post_modified_time()));
+				echo __('Updated','govintranet') . ' <time class="timeago" datetime="'.$mod.'">'.date($date_format,(get_post_modified_time())).'</time><br>';
 			}
 
 			if ($show_published_date=='on'){
-				$sdate= date( get_option('date_format'),strtotime(get_the_date() )); 
-				$sdate = human_time_diff_plus(get_the_time('U'));
-				if ($sdate=="0 mins") {
-					$sdate=" " . __("just now","govintranet");
-				} else {
-					$sdate = sprintf( __('%s ago','govintranet'), $sdate );
-				}
-				echo __('Published','govintranet') . " <time datetime='".$sdate."'>".$sdate."</time><br>";
+				$pub = date('Y-m-d',strtotime(get_the_date())) . "T" . date('H:i:s',strtotime(get_the_time())) ;
+				echo __('Published','govintranet') . ' <time class="timeago" datetime="'.$pub.'">'.date($date_format,(get_the_date())).'</time><br>';
 			}
 
 			if ($show_author=='on'){
