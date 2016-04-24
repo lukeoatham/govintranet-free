@@ -51,7 +51,7 @@ class htHowDoI extends WP_Widget {
 						<div class="form-group input-md">
 							<button type="submit" class="btn btn-primary input-md"><?php _e('Search','govintranet');?></button>
 						</div>
-						<input type="hidden" name="post_type[]" value="task" />
+						<input type="hidden" name="post_types[]" value="task" />
 					</form>
 					</div>							
 					<script type='text/javascript'>

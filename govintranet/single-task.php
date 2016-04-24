@@ -144,7 +144,7 @@ get_header(); ?>
 								echo "</li>";
 								}
 							}
-?>
+							?>
 						</ol>
 					</nav>
 				</div>

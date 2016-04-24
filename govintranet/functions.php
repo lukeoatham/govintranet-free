@@ -1126,7 +1126,7 @@ function your_relevanssi_remove_punct($a) {
 */
 add_filter('relevanssi_hits_filter', 'ht_exclude_user_search');
 function ht_exclude_user_search($hits){
-	if ( ( !isset( $_GET['include'] ) || !$_GET['include']=='user' ) && isset( $_GET['post_type'] ) ): 
+	if ( ( !isset( $_GET['include'] ) || !$_GET['include']=='user' ) && isset( $_GET['post_types'] ) ): 
 		//  just search post types, no users
 		$hcount=-1;
 		$recs=array();
@@ -1138,7 +1138,7 @@ function ht_exclude_user_search($hits){
 			endif;	
 		}
 		return array($recs);
-	elseif ( isset( $_GET['include'] ) && $_GET['include']=='user' && !isset( $_GET['post_type'] ) ): 
+	elseif ( isset( $_GET['include'] ) && $_GET['include']=='user' && !isset( $_GET['post_types'] ) ): 
 		// just search users
 		$hcount=-1;
 		$recs=array();
@@ -10335,6 +10335,7 @@ function govintranet_custom_styles() {
 		$gish = $gislogow[2] + 10;
 		$custom_css.= "#crownlink  {background: url('".$gislogo."') no-repeat; background-position:left 10px; padding: 16px 0 0 ".$gisw."px; height: auto; min-height: ".$gish."px; margin-bottom: 0.6em; }
 		";
+		$custom_css.= "#crownlink a { padding-left: ".$gisw."px; margin-left: -".$gisw."px; }";
 		$custom_css.= "#primarynav ul li  { border-bottom: 1px solid ".$gishex."; border-top: 1px solid ".$gishex."; border-right: 1px solid ".$gishex."; }
 		#primarynav ul li:last-child,  #primarynav ul li.last-link  {border-right: 1px solid ".$gishex.";}
 		#primarynav ul li:first-child,  #primarynav ul li.first-link  {	border-left: 1px solid ".$gishex.";	}
@@ -10344,6 +10345,7 @@ function govintranet_custom_styles() {
 
 		if ($headimage != 'remove-header' && $headimage) $custom_css.= '#utilitybar ul#menu-utilities li a, #menu-utilities, #crownlink { text-shadow: 1px 1px #333; }'; 
 		
+		//write css for category colours
 		$terms = get_terms('category',array('hide_empty'=>false));
 		if ($terms) {
 	  		foreach ((array)$terms as $taxonomy ) {
@@ -10366,8 +10368,7 @@ function govintranet_custom_styles() {
 	  			$custom_css.= "a:visited.wptag.t". $themeid . "{color: " . $foreground . ";} \n";
 			}
 		}  
-		$giscss = get_option('options_custom_css_code');
-		$custom_css.= $giscss;
+		
 		$jumbo_searchbox = get_option("options_search_jumbo_searchbox", false);		
 		
 		if ( $jumbo_searchbox ) $custom_css.= "		
@@ -10378,6 +10379,9 @@ function govintranet_custom_styles() {
 		";
 		
 		if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ) $custom_css.= "#bbpress-forums img.avatar { border-radius: 50%; }";
+		
+		$giscss = get_option('options_custom_css_code');
+		if ( $giscss ) $custom_css.= $giscss;
 
 		$styleurl = get_stylesheet_directory_uri() . '/css/custom.css';
 		wp_enqueue_style( 'govintranet_custom_styles', $styleurl );
@@ -10481,7 +10485,7 @@ function govintranet_custom_styles() {
 		add_filter( 'request', 'my_sort_event' );
 	}
 	
-	/* Sorts the movies. */
+	/* Sorts the events. */
 	function my_sort_event( $vars ) {
 	
 		/* Check if we're viewing the 'movie' post type. */

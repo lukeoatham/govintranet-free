@@ -150,13 +150,13 @@
 		?>
 		<div class="media">
 		<h3 class='postlist'>				
-		<a href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
+		<a class='serps' href="<?php echo wp_get_attachment_url( $post->id ); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title();  ?></a></h3>
 		<?php 
 	elseif ($post_type=='User'): 
 		?>			
 		<div class="media"><div>
 		<h3 class='postlist'>				
-		<a href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
+		<a class='serps' data-user-id="<?php echo $post->ID; ?>" href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
 		<?php 
 	elseif ($post_type != 'Category'): 
 		echo "<div class='media'>" ;
@@ -168,12 +168,12 @@
 		endif;
 		?>
 		<h3 class='postlist'>				
-		<a href="<?php echo get_the_permalink(get_the_id()); ?>" <?php echo $ext; ?> title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' )); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
+		<a class='serps'  data-post-id="<?php echo $post->ID; ?>" href="<?php echo get_the_permalink(get_the_id()); ?>" <?php echo $ext; ?> title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' )); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
 		<?php
 	endif;
 	
 	if ( $image_url ):
-		echo "<a href='";
+		echo "<a class='serps' href='";
 		echo $userurl;
 		echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
 	endif;
@@ -185,7 +185,7 @@
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->term_id != 1 ){
-				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
+				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a class='serps'  data-category-id='{$cat->term_id}' href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 			echo "</a></span>&nbsp;";
 			}
 		}
@@ -194,7 +194,7 @@
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->term_id != 1 ){
-				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
+				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a class='serps' data-category-id='{$cat->term_id} href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 				echo "</a></span>&nbsp;";
 			}
 		}
@@ -203,7 +203,7 @@
 			echo '<span class="listglyph">'.get_the_date(); 
 			echo '</span> ';
 			if ( get_comments_number() ){
-				echo " <a href='".get_permalink($post->ID)."#comments'>";
+				echo " <a class='serps' data-post-id='" . $post->ID. "' href='".get_permalink($post->ID)."#comments'>";
 				printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
 				echo "</a>";
 			}
@@ -260,7 +260,7 @@
 			echo "<div class='media'>" ;
 			?>
 			<h3 class='postlist'>				
-			<a href="<?php echo $post->link; ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> "; ?></h3><span class='listglyph'><?php _e('Tasks and guides category' , 'govintranet'); ?></span>
+			<a class='serps' data-category-id="<?php echo $post->ID; ?>" href="<?php echo $post->link; ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> "; ?></h3><span class='listglyph'><?php _e('Tasks and guides category' , 'govintranet'); ?></span>
 			
 
 			<?php

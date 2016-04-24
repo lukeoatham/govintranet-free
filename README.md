@@ -38,6 +38,11 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.10 - 24 Apr 2016 ###
+* Overhaul of search results and search filter 
+* Header logo now clickable  
+* Speed improvements to About this page plugin, removed AJAX version, now uses timeago jQuery 
+
 ### 4.9.8 - 18 Apr 2016 ###
 * New column for event start date in events admin 
 * Updates to new restricted news updates widget - allows staff to opt out of specific update types  

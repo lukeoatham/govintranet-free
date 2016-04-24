@@ -47,6 +47,71 @@ get_header(); ?>
 		</div>
 	<?php 
 	$s=get_search_query();
+	$ptargs = array( '_builtin' => false, 'public' => true, 'exclude_from_search' => false );
+	$postTypes = get_post_types($ptargs, 'objects');
+	$checkbox = "";
+	ksort($postTypes); 
+	$sposttype = array();
+	$showusers = false; 
+	if ( isset( $_GET['post_types'] ) ) $sposttype = $_GET['post_types'];
+	if ( get_option('options_forum_support') ) $showforums = true;
+	if ( get_option('options_module_staff_directory') ) $showusers = true;
+	foreach($postTypes as $pt){
+		if( $pt->labels->name > "Staff profiles" && $showusers){
+			$showusers = false;
+			$checkbox .= '<label class="checkbox"><input type="checkbox" name="include" value="user" id="filter-check-include"';
+			if( isset( $_GET['include'] ) && $_GET['include'] == 'user'){ 
+				$checkbox .= " checked=\"checked\"";
+			}
+			$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
+			$hidden.='<input type="hidden" name="include" id="search-filter-include">';
+		}
+		if( $pt->labels->name > "Forums" && $showforums){
+			$showforums = false;
+			$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="forum" id="filter-check-forum"';
+			if(in_array('forum', $sposttype)){ 
+				$checkbox .= " checked=\"checked\"";
+			}
+			$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
+			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-forum">';
+			
+			$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="topic" id="filter-check-topic"';
+			if(in_array('topic', $sposttype)){ 
+				$checkbox .= " checked=\"checked\"";
+			}
+			$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
+			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-topic">';
+			
+			$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="reply" id="filter-check-reply"';
+			if(in_array('reply', $sposttype)){ 
+				$checkbox .= " checked=\"checked\"";
+			}
+			$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
+			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-reply">';
+		}
+	}
+	if ( $include_attachments ){
+		$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="attachment" id="filter-check-attachment"';
+		if(in_array('attachment', $sposttype)){ 
+			$checkbox .= " checked=\"checked\"";
+		}
+		$checkbox .= '> <span class="labelForCheck">' . __("Media" , "govintranet") . '</span></label>';
+		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-attachment">';
+	}
+	if( $pt->rewrite["slug"] != "spot" ){
+		$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="'. $pt->query_var .'" id="filter-check-'. $pt->query_var .'"';
+		if(in_array($pt->query_var, $sposttype)){ 
+			$checkbox .= " checked=\"checked\"";
+		}
+		$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';
+		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-'. $pt->query_var .'">';
+	}
+	$checkbox .= '<label class="checkbox"><input type="checkbox" name="orderby" value="date" id="filter-check-orderby"';
+	if( isset( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] ){ 
+		$checkbox .= " checked=\"checked\"";
+	}
+	$checkbox .= '><span class="labelForCheck">' . __("Recently published first","govintranet") . '</span></label>';
+	$hidden.='<input type="hidden" name="orderby" id="search-filter-orderby">';
 
 	if ( !have_posts() ) : 
 
@@ -57,14 +122,15 @@ get_header(); ?>
 		?>
 		<h1><?php echo $searchnotfound; ?></h1>
 		<?php 
-		if ( isset( $_GET['post_type'] ) ):
-			$pt = $_GET['post_type']; 
-			$ct = $_GET['cat'];
-			$ct = get_category($ct);
-			$ct = $ct->name;
-			if ($ct){
-				$searchcon=$ct;
-			}
+		$pt="";
+		$ct = $_GET['cat'];
+		$ct = get_category($ct);
+		$ct = $ct->name;
+		$searchcon = "";
+		if ($ct) $searchcon=$ct;
+		
+		if ( isset( $_GET['post_types'] ) ):
+			$pt = $_GET['post_types']; 
 			if (in_array('blog', $pt)){
 				if ($searchcon) $searchcon.=" or";
 				$searchcon.= " " . __('blog posts','govintranet');
@@ -89,10 +155,6 @@ get_header(); ?>
 				if ($searchcon) $searchcon.=" or";
 				$searchcon.=" " . __('projects','govintranet');
 			}
-			if ($_GET['include']=='user'){
-				if ($searchcon) $searchcon.=" or";
-				$searchcon.=" " . __('the staff directory','govintranet');
-			}					 
 			if (in_array('task', $pt)){
 				if ($searchcon) $searchcon.=" or";
 				$searchcon.=" " . __('tasks','govintranet');
@@ -105,7 +167,15 @@ get_header(); ?>
 				if ($searchcon) $searchcon.=" or";
 				$searchcon.=" " . __('vacancies','govintranet');
 			}
+			if (in_array('attachment', $pt)){
+				if ($searchcon) $searchcon.=" or";
+				$searchcon.=" " . __('media','govintranet');
+			}
 		endif; 
+		if ($_GET['include']=='user'){
+			if ($searchcon) $searchcon.=" or";
+			$searchcon.=" " . __('the staff directory','govintranet');
+		}					 
 		
 		echo "<p>";
 		if ($pt){
@@ -120,26 +190,24 @@ get_header(); ?>
 		}
 
 		?>
-		<div class="well">
+		<div class="well well-sm search-again-wrapper-not-found">
 		<form class="form" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
 			<div class="form-group">
-		    <label for="snf"><?php _e('Search again','govintranet'); ?></label>
-			<input type="text" class="form-control" placeholder="Search again" name="s" id="snf" value="<?php echo the_search_query();?>">
+		    <label for="nameSearch"><?php _e('Search again','govintranet'); ?></label>
+			<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">
 			</div>
 			<div class="form-group">
-			<button type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
+			<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
 			</div>
+			<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="search-filter-cat">
+			<?php
+			echo $hidden;
+			?>
 		</form>
 		</div>
 
 		<script type='text/javascript'>
 		    jQuery(document).ready(function(){
-				jQuery('#serps_search').submit(function(e) {
-				    if (jQuery.trim(jQuery("#snf").val()) === "") {
-				        e.preventDefault();
-				        jQuery('#snf').focus();
-				    }
-				});	
 				if (typeof(_gaq) !== 'undefined') {
 					_gaq.push(['_trackEvent', 'Search', 'Empty results', '<?php echo the_search_query();?>']);
 				}
@@ -166,8 +234,28 @@ get_header(); ?>
 			echo "<p class='news_date'>";
 			printf( __('Found %d results' , 'govintranet' ) , $wp_query->found_posts );
 			echo "</p>";
+		} elseif ($wp_query->found_posts > 1 ){
+			echo "<p class='news_date'>";
+			printf( __('Found %d results' , 'govintranet' ) , $wp_query->found_posts );
+			echo "</p>";
 		}
-
+		?>
+		<div class="well well-sm search-again-wrapper">
+		<form class="form" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
+			<div class="form-group">
+		    <label for="nameSearch"><?php _e('Search again','govintranet'); ?></label>
+			<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">
+			</div>
+			<div class="form-group">
+			<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
+			</div>
+			<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="search-filter-cat">
+			<?php
+			echo $hidden;
+			?>
+		</form>
+		</div>
+		<?php
 	
 		/* Run the loop for the search to output the results.
 		 * If you want to overload this in a child theme then include a file
@@ -207,70 +295,11 @@ get_header(); ?>
 	    <div id="collapseFilter" class="xpanel-collapse out in">
 	      	<div class="xpanel-body">
 				<form role="search" method="get" id="searchfilter" action="<?php echo home_url('/'); ?>">
-					<input type="hidden" name="s" value="<?php echo get_search_query(); ?>">
+					<input type="hidden" name="s" value="<?php echo get_search_query(); ?>" id = "search-filter-s">
 					<input type="hidden" name="paged" value="1">
-					<input type="hidden" name="cat" value="any">
+					<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="filter-check-cat">
 					<?php
-					$ptargs = array( '_builtin' => false, 'public' => true, 'exclude_from_search' => false );
-					$postTypes = get_post_types($ptargs, 'objects');
-					$checkbox = "";
-					ksort($postTypes); 
-					$sposttype = array();
-					$showusers = false; 
-					if ( isset( $_GET['post_type'] ) ) $sposttype = $_GET['post_type'];
-					if ( get_option('options_forum_support') ) $showforums = true;
-					if ( get_option('options_module_staff_directory') ) $showusers = true;
-					foreach($postTypes as $pt){
-						if( $pt->labels->name > "Staff profiles" && $showusers){
-							$showusers = false;
-							$checkbox .= '<label class="checkbox"><input type="checkbox" name="include" value="user"';
-							if( isset( $_GET['include'] ) && $_GET['include'] == 'user'){ 
-								$checkbox .= " checked=\"checked\"";
-							}
-							$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
-						}
-						if( $pt->labels->name > "Forums" && $showforums){
-							$showforums = false;
-							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="forum"';
-							if(in_array('forum', $sposttype)){ 
-								$checkbox .= " checked=\"checked\"";
-							}
-							$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
 
-							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="topic"';
-							if(in_array('topic', $sposttype)){ 
-								$checkbox .= " checked=\"checked\"";
-							}
-							$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
-
-							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="reply"';
-							if(in_array('reply', $sposttype)){ 
-								$checkbox .= " checked=\"checked\"";
-							}
-							$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
-
-							if ( $include_attachments ){
-								$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="attachment"';
-								if(in_array('reply', $sposttype)){ 
-									$checkbox .= " checked=\"checked\"";
-								}
-								$checkbox .= '> <span class="labelForCheck">' . __("Media" , "govintranet") . '</span></label>';
-							}
-
-						}
-						if( $pt->rewrite["slug"] != "spot" ){
-							$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_type[]" value="'. $pt->query_var .'"';
-							if(in_array($pt->query_var, $sposttype)){ 
-								$checkbox .= " checked=\"checked\"";
-							}
-							$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';
-						}
-					}
-					$checkbox .= '<label class="checkbox"><input type="checkbox" name="orderby" value="date"';
-					if( isset( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] ){ 
-						$checkbox .= " checked=\"checked\"";
-					}
-					$checkbox .= '<span class="labelForCheck">' . __("Recently published first","govintranet") . '</span></label>';
 					echo $checkbox;
 					?>
 					<br>
@@ -282,5 +311,143 @@ get_header(); ?>
 	<?php wp_reset_postdata(); ?>
 	<?php dynamic_sidebar('serp-widget-area'); ?>	
 </div>
+<script type='text/javascript'>
+    jQuery(document).ready(function(){
 
+		/* pull filter checkboxes on requery form load */
+
+		<?php
+		foreach($postTypes as $pt){
+			echo '
+			if ( jQuery( "#filter-check-'.$pt->rewrite["slug"].'" ).attr("checked")){
+				jQuery("#search-filter-'.$pt->rewrite["slug"].'").val("'.$pt->rewrite["slug"].'");	
+			} else {
+				jQuery("#search-filter-'.$pt->rewrite["slug"].'").val("");
+			}
+			';
+		}
+		?>				
+		if ( jQuery( "#filter-check-include" ).attr("checked")){
+			jQuery("#search-filter-include").val("user");	
+		} else {
+			jQuery("#search-filter-include").val("");
+		}
+		if ( jQuery( "#filter-check-page" ).attr("checked")){
+			jQuery("#search-filter-page").val("page");	
+		} else {
+			jQuery("#search-filter-page").val("");
+		}
+		if ( jQuery( "#filter-check-orderby" ).attr("checked")){
+			jQuery("#search-filter-orderby").val("date");	
+		} else {
+			jQuery("#search-filter-orderby").val("");
+		}
+
+		/* push filter checkboxes to search requery form when clicked */
+		<?php
+		foreach($postTypes as $pt){
+			echo '
+			jQuery( "#filter-check-' . $pt->rewrite['slug'] . '" ).click(function() {
+				if ( jQuery( "#filter-check-' . $pt->rewrite['slug'] . '" ).attr("checked")){
+					jQuery("#search-filter-' . $pt->rewrite['slug'] . '").val("' . $pt->rewrite['slug'] . '");	
+				} else {
+					jQuery("#search-filter-' . $pt->rewrite['slug'] . '").val("");
+				}';
+			if ( $pt->rewrite['slug'] == "task" ){
+				echo 'if ( jQuery( "#filter-check-task" ).attr("checked") ){
+					return; }
+					else {
+				jQuery("#search-filter-cat").remove();
+				jQuery("#filter-check-cat").remove();
+				}';
+			}
+			echo '
+			});
+			';
+		}
+		?>
+		jQuery( "#filter-check-include" ).click(function() {
+			if ( jQuery( "#filter-check-include" ).attr("checked")){
+				jQuery("#search-filter-include").val("user");	
+			} else {
+				jQuery("#search-filter-include").val("");
+			}
+		});
+		jQuery( "#filter-check-page" ).click(function() {
+			if ( jQuery( "#filter-check-page" ).attr("checked")){
+				jQuery("#search-filter-page").val("page");	
+			} else {
+				jQuery("#search-filter-page").val("");
+			}
+		});
+		jQuery( "#filter-check-orderby" ).click(function() {
+			if ( jQuery( "#filter-check-orderby" ).attr("checked")){
+				jQuery("#search-filter-orderby").val("date");	
+			} else {
+				jQuery("#search-filter-orderby").val("");
+			}
+		});
+		jQuery( "#filter-check-forum" ).click(function() {
+			if ( jQuery( "#filter-check-forum" ).attr("checked")){
+				jQuery("#search-filter-forum").val("forum");	
+			} else {
+				jQuery("#search-filter-forum").val("");
+			}
+		});
+		jQuery( "#filter-check-topic" ).click(function() {
+			if ( jQuery( "#filter-check-topic" ).attr("checked")){
+				jQuery("#search-filter-topic").val("topic");	
+			} else {
+				jQuery("#search-filter-topic").val("");
+			}
+		});
+		jQuery( "#filter-check-reply" ).click(function() {
+			if ( jQuery( "#filter-check-reply" ).attr("checked")){
+				jQuery("#search-filter-reply").val("reply");	
+			} else {
+				jQuery("#search-filter-reply").val("");
+			}
+		});
+		jQuery( "#filter-check-attachment" ).click(function() {
+			if ( jQuery( "#filter-check-attachment" ).attr("checked")){
+				jQuery("#search-filter-attachment").val("attachment");	
+			} else {
+				jQuery("#search-filter-attachment").val("");
+			}
+		});
+
+		/* push search query back to filter box */
+		jQuery( "#nameSearch" ).change(function() {
+			sq = jQuery( "#nameSearch" ).val();
+			jQuery("#search-filter-s").val(sq);
+		});
+		
+		/* remove fields if all blank */
+		jQuery( "#search-again-button" ).click(function() {
+			<?php
+			foreach($postTypes as $pt){
+				echo '
+				if ( jQuery( "#filter-check-'.$pt->rewrite["slug"].'" ).attr("checked") != "checked" ){ jQuery( "#search-filter-'.$pt->rewrite["slug"].'" ).remove();	}
+				';
+			}	
+			?>		
+			if ( jQuery( "#filter-check-page" ).attr("checked") != "checked"){jQuery( "#search-filter-page" ).remove();	}
+			if ( jQuery( "#filter-check-forum" ).attr("checked") != "checked"){ jQuery( "#search-filter-forum" ).remove();}
+			if ( jQuery( "#filter-check-topic" ).attr("checked") != "checked"){ jQuery( "#search-filter-topic" ).remove();}
+			if ( jQuery( "#filter-check-reply" ).attr("checked") != "checked"){ jQuery( "#search-filter-reply" ).remove();}
+			if ( jQuery( "#filter-check-include" ).attr("checked") != "checked"){ jQuery("#search-filter-include").remove(); }
+			if ( jQuery( "#filter-check-media" ).attr("checked") != "checked"){ jQuery("#search-filter-media").remove(); }
+			if ( jQuery( "#filter-check-attachment" ).attr("checked") != "checked"){ jQuery("#search-filter-attachment").remove(); }
+			if ( jQuery( "#filter-check-orderby" ).attr("checked") != "checked"){ jQuery("#search-filter-orderby").remove(); }
+		});
+
+		/* stop a blank search */
+		jQuery('#serps_search').submit(function(e) {
+		    if (jQuery.trim(jQuery("#nameSearch").val()) === "") {
+		        e.preventDefault();
+		        jQuery('#nameSearch').focus();
+		    }
+		});	
+	});
+</script>
 <?php get_footer(); ?>

@@ -58,7 +58,7 @@ get_header();
 						 endif;
 						 ?>
 					</div>
-					<input type="hidden" name="post_type[]" value="task" />
+					<input type="hidden" name="post_types[]" value="task" />
 				</form>
 			</div>
 		</div>

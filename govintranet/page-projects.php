@@ -32,14 +32,26 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					</div>
 					<div class="form-group input-md">
 						<button type="submit" class="btn btn-primary input-md"><?php _e('Search' , 'govintranet'); ?></button>
-					<input type="hidden" value="project" name = "post_type[]" />
+					<input type="hidden" value="project" name = "post_types[]" />
 					</div>
 				</form>
 			</div>
-
+			<script type='text/javascript'>
+			    jQuery(document).ready(function(){
+					jQuery('#sbc-search').submit(function(e) {
+					    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
+					        e.preventDefault();
+					        jQuery('#sbc-s').focus();
+					    }
+					});	
+				});	
+			
+			</script>
 			<?php
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				$counter = 0;	
+				$tzone = get_option('timezone_string');
+				date_default_timezone_set($tzone);
 				$sdate = date('Ymd');
 				$news =new WP_Query( array ( 
 							'post_type' => 'project',
@@ -61,7 +73,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					echo __("Nothing to show","govintranet") . ".";
 				}
 				while ($news->have_posts()) {
-						$news->the_post();
+					$news->the_post();
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 					echo "<div class='newsitem'>".$image_url ;
 					echo "<hr>";
