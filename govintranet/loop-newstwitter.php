@@ -84,7 +84,7 @@ if ($k==1 && $paged<2){
 	echo "<div class='media-body'>";
 	?>
 	<h3 class='postlist'><?php echo $needtoknow;  ?>				
-	<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a><?php echo $ext_icon; ?></h3>
+	<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a><?php echo $ext_icon; ?></h3>
 	<?php
 	echo "<div><p>";
 	$thisdate= $post->post_date;

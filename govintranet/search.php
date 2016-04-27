@@ -4,6 +4,7 @@
  *
  * @package WordPress
  * @subpackage Bootstrap 3
+ *
  */
  
  //****************************************************
@@ -53,6 +54,7 @@ get_header(); ?>
 	ksort($postTypes); 
 	$sposttype = array();
 	$showusers = false; 
+	$is_filtered = false;
 	if ( isset( $_GET['post_types'] ) ) $sposttype = $_GET['post_types'];
 	if ( get_option('options_forum_support') ) $showforums = true;
 	if ( get_option('options_module_staff_directory') ) $showusers = true;
@@ -62,15 +64,17 @@ get_header(); ?>
 			$checkbox .= '<label class="checkbox"><input type="checkbox" name="include" value="user" id="filter-check-include"';
 			if( isset( $_GET['include'] ) && $_GET['include'] == 'user'){ 
 				$checkbox .= " checked=\"checked\"";
+				$is_filtered = true;
 			}
 			$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
 			$hidden.='<input type="hidden" name="include" id="search-filter-include">';
 		}
-		if( $pt->labels->name > "Forums" && $showforums){
+		elseif( $pt->labels->name > "Forums" && $showforums){
 			$showforums = false;
 			$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="forum" id="filter-check-forum"';
 			if(in_array('forum', $sposttype)){ 
 				$checkbox .= " checked=\"checked\"";
+				$is_filtered = true;
 			}
 			$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
 			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-forum">';
@@ -78,6 +82,7 @@ get_header(); ?>
 			$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="topic" id="filter-check-topic"';
 			if(in_array('topic', $sposttype)){ 
 				$checkbox .= " checked=\"checked\"";
+				$is_filtered = true;
 			}
 			$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
 			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-topic">';
@@ -85,30 +90,34 @@ get_header(); ?>
 			$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="reply" id="filter-check-reply"';
 			if(in_array('reply', $sposttype)){ 
 				$checkbox .= " checked=\"checked\"";
+				$is_filtered = true;
 			}
 			$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
 			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-reply">';
+		}
+		elseif( $pt->rewrite["slug"] != "spot" ){
+			$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="'. $pt->query_var .'" id="filter-check-'. $pt->query_var .'"';
+			if(in_array($pt->query_var, $sposttype)){ 
+				$checkbox .= " checked=\"checked\"";
+				$is_filtered = true;
+			}
+			$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';
+			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-'. $pt->query_var .'">';
 		}
 	}
 	if ( $include_attachments ){
 		$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="attachment" id="filter-check-attachment"';
 		if(in_array('attachment', $sposttype)){ 
 			$checkbox .= " checked=\"checked\"";
+			$is_filtered = true;
 		}
 		$checkbox .= '> <span class="labelForCheck">' . __("Media" , "govintranet") . '</span></label>';
 		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-attachment">';
 	}
-	if( $pt->rewrite["slug"] != "spot" ){
-		$checkbox .= '<label class="checkbox"><input type="checkbox" name="post_types[]" value="'. $pt->query_var .'" id="filter-check-'. $pt->query_var .'"';
-		if(in_array($pt->query_var, $sposttype)){ 
-			$checkbox .= " checked=\"checked\"";
-		}
-		$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';
-		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-'. $pt->query_var .'">';
-	}
 	$checkbox .= '<label class="checkbox"><input type="checkbox" name="orderby" value="date" id="filter-check-orderby"';
 	if( isset( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] ){ 
 		$checkbox .= " checked=\"checked\"";
+		$is_filtered = true;
 	}
 	$checkbox .= '><span class="labelForCheck">' . __("Recently published first","govintranet") . '</span></label>';
 	$hidden.='<input type="hidden" name="orderby" id="search-filter-orderby">';
@@ -200,9 +209,7 @@ get_header(); ?>
 			<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
 			</div>
 			<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="search-filter-cat">
-			<?php
-			echo $hidden;
-			?>
+			<?php echo $hidden; ?>
 		</form>
 		</div>
 
@@ -221,6 +228,20 @@ get_header(); ?>
 				
 	else:
 
+		if ( $is_filtered ): ?>
+			<div class="well well-sm search-again-wrapper-filtered">
+			<form class="form-inline" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
+				<div class="form-group">
+			    <label class="sr-only" for="nameSearch"><?php _e('Search again','govintranet'); ?></label>
+				<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">
+				</div>
+				<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
+				<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="search-filter-cat">
+				<?php echo $hidden; ?>
+			</form>
+			</div>
+			<?php		
+		endif;
 		?>
 		<h1><?php printf( __( 'Search results for: %s', 'govintranet' ), '' . $s . '' ); ?></h1>
 		<?php
@@ -229,7 +250,7 @@ get_header(); ?>
 			echo the_search_query();
 			echo "'>" . __('Search the intranet' , 'govintranet') . "</a></p>";
 		}
-
+		
 		if ($wp_query->found_posts > 1 && isset($_GET['include']) && $_GET['include'] != 'user' ){
 			echo "<p class='news_date'>";
 			printf( __('Found %d results' , 'govintranet' ) , $wp_query->found_posts );
@@ -239,30 +260,33 @@ get_header(); ?>
 			printf( __('Found %d results' , 'govintranet' ) , $wp_query->found_posts );
 			echo "</p>";
 		}
-		?>
-		<div class="well well-sm search-again-wrapper">
-		<form class="form" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
-			<div class="form-group">
-		    <label for="nameSearch"><?php _e('Search again','govintranet'); ?></label>
-			<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">
-			</div>
-			<div class="form-group">
-			<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
-			</div>
-			<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="search-filter-cat">
-			<?php
-			echo $hidden;
+				
+		if ( $paged > 1 ):
 			?>
-		</form>
-		</div>
-		<?php
-	
+			<div class="wp_pagenavi">
+			<?php if (  $wp_query->max_num_pages > 1  ) : ?>
+				<?php if (function_exists('wp_pagenavi')) : ?>
+					<?php wp_pagenavi(array('query' => $wp_query)); ?>
+					<?php else : ?>
+					<?php next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); ?>
+					<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages); ?>						
+				<?php endif; ?>
+			<?php endif; ?>
+			<?php 
+			//wp_reset_postdata(); 
+			    wp_reset_query();
+			?>
+			</div>
+			
+			<?php
+		endif;
+			
 		/* Run the loop for the search to output the results.
 		 * If you want to overload this in a child theme then include a file
 		 * called loop-search.php and that will be used instead.
 		 */
 		 get_template_part( 'loop', 'search' );
-	
+
 	endif;
 	
 	?>
@@ -298,10 +322,7 @@ get_header(); ?>
 					<input type="hidden" name="s" value="<?php echo get_search_query(); ?>" id = "search-filter-s">
 					<input type="hidden" name="paged" value="1">
 					<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="filter-check-cat">
-					<?php
-
-					echo $checkbox;
-					?>
+					<?php echo $checkbox; ?>
 					<br>
 					<button  class="btn btn-primary"><?php _e('Refine search','govintranet');?> <i class="dashicons dashicons-search"></i></button>
 				</form>

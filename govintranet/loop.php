@@ -156,7 +156,7 @@
 		?>			
 		<div class="media"><div>
 		<h3 class='postlist'>				
-		<a class='serps' data-user-id="<?php echo $post->ID; ?>" href="<?php echo $userurl; ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
+		<a class='serps' data-user-id="<?php echo $post->ID; ?>" href="<?php echo $userurl; ?>" title="<?php  the_title_attribute( 'echo=0' ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
 		<?php 
 	elseif ($post_type != 'Category'): 
 		echo "<div class='media'>" ;
@@ -168,7 +168,7 @@
 		endif;
 		?>
 		<h3 class='postlist'>				
-		<a class='serps'  data-post-id="<?php echo $post->ID; ?>" href="<?php echo get_the_permalink(get_the_id()); ?>" <?php echo $ext; ?> title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' )); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
+		<a class='serps'  data-post-id="<?php echo $post->ID; ?>" href="<?php echo get_the_permalink(get_the_id()); ?>" <?php echo $ext; ?> title="<?php  the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
 		<?php
 	endif;
 	
@@ -178,8 +178,6 @@
 		echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
 	endif;
 
-//	echo "<div class='media-body'>";
-	
 	if (($post_type=="Task" && $pageslug!="category")){
 		echo "<p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
@@ -260,7 +258,7 @@
 			echo "<div class='media'>" ;
 			?>
 			<h3 class='postlist'>				
-			<a class='serps' data-category-id="<?php echo $post->ID; ?>" href="<?php echo $post->link; ?>" title="<?php printf( esc_attr__( '%s', 'govintranet' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php echo $post->post_title; echo "</a> "; ?></h3><span class='listglyph'><?php _e('Tasks and guides category' , 'govintranet'); ?></span>
+			<a class='serps' data-category-id="<?php echo $post->ID; ?>" href="<?php echo $post->link; ?>" title="<?php the_title_attribute( 'echo=1' );  ?>" rel="bookmark"><?php echo esc_attr($post->post_title); echo "</a> "; ?></h3><span class='listglyph'><?php _e('Tasks and guides category' , 'govintranet'); ?></span>
 			
 
 			<?php

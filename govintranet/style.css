@@ -2,7 +2,7 @@
 Theme Name: GovIntranet 4
 Theme URI: https://govintranetters.helpfulclients.com
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.10
+Version: 4.10.1
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -20,7 +20,6 @@ Use it to make something cool, have fun, and share what you've learned with othe
 body  {
 	line-height: 146%;
 	background: #fff;
-	color: #0b0c0c;
 	color: #333;	
 	font-weight: 400;
 	font-family: 'Open Sans','Helvetica Neue',arial,sans-serif;
@@ -69,11 +68,9 @@ h4  {
 	line-height: 140%;
 	font-weight: normal;
 }
-
 h5  {
 	font-size: 1.1em;
 }
-
 blockquote  {
 	padding: 0.5em 1em;
 	font-size: 0.9em;
@@ -211,7 +208,6 @@ form#category-search button.btn {
 .page-template-page-how-do-i-alt .form-horizontal .form-group,
 .page-template-page-how-do-i-classic .form-horizontal .form-group,
 .page-template-page-how-do-i .form-horizontal .form-group { margin-right: 0; margin-left: 0; }
-
 .radio, .checkbox { padding-left: 20px; }
 
 @media only screen and (max-width: 420px)  {
@@ -265,7 +261,6 @@ form#category-search button.btn {
 	font-size: 0.8em;
 	padding: 1em 1em 1em 1em;
 }
-
 #headsearch { padding-right: 0;}
 
 /* DASHICONS */
@@ -359,16 +354,16 @@ a.btn.filter_results { width: 100%; text-decoration: none; overflow:hidden; }
 	padding-bottom: 0;
 }
 .search h3 a {
-		text-decoration: underline;
+	text-decoration: underline;
 }
 form#sbc-search {
 	clear: both; 
 	display: block;
-	}
+}
 form#sbc-search  {
 	margin: 0px; 
 	padding: 1em;
-	}
+}
 form#sbc-search input#s {
 	background: #ffffff; 
 	border: 1px solid #bbbbbb; 
@@ -378,7 +373,7 @@ form#sbc-search input#s {
 	margin: 0 1em 0 0;
 	float: left;	
 	font-size: 120%;
-	}
+}
 form#sbc-search input#s2 {
 	background: #ffffff; 
 	border: 1px solid #bbbbbb; 
@@ -388,7 +383,7 @@ form#sbc-search input#s2 {
 	margin: 0 1em 0 0;
 	float: left;	
 	font-size: 120%;
-	}
+}
 .page.page-id-7 form#sbc-search input#s {
 	background: #ffffff; 
 	border: 1px solid #bbbbbb; 
@@ -398,7 +393,7 @@ form#sbc-search input#s2 {
 	margin: 0 1em 0 0;
 	float: left;	
 	font-size: 120%;
-	}
+}
 .page form#sbc-search input#s2 {
 	background: #ffffff; 
 	border: 1px solid #bbbbbb; 
@@ -408,7 +403,7 @@ form#sbc-search input#s2 {
 	margin: 0 1em 0 0;
 	float: left;	
 	font-size: 120%;
-	}
+}
 .page form#sbc-search input#s {
 	background: #ffffff; 
 	border: 1px solid #bbbbbb; 
@@ -418,7 +413,7 @@ form#sbc-search input#s2 {
 	margin: 0 1em 0 0;
 	float: left;	
 	font-size: 120%;
-	}
+}
 .category form#sbc-search input#s {
 	background: #ffffff; 
 	border: 1px solid #bbbbbb; 
@@ -428,7 +423,7 @@ form#sbc-search input#s2 {
 	margin-right: 2em;
 	float: left;	
 	font-size: 120%;
-	}
+}
 form#sbc-search input.multi-cat {width: 100%;}
 form#sbc-search input.single-cat {width: 100%; }
 .did_you_mean p {  padding: 1em 1em 1em 0;  }
@@ -652,6 +647,7 @@ ul#menu-footer-right li { list-style: square; margin-left: 0; }
 .hiddentext,  .printonlyheadline  { position: absolute; left: -9999em; }
 
 /* BUTTONS */
+
 .btn{ border-radius: 0; }
 .btn.btn-default { background-color: #999; color: white; }
 
@@ -711,7 +707,6 @@ p.tagcloud {
 	margin-bottom: 0 !important;
 	border: none !important;
 }
-
 .search .avatar {
 	float: left;
 	margin-left: 0 !important;
@@ -769,7 +764,7 @@ p.tagcloud {
 	list-style: square !important;
 }
 .bbp-atticon {
-background:  none !important;
+	background:  none !important;
 }
 .forumtitle {
 	background-color: #ffffc5;
@@ -857,7 +852,6 @@ background:  none !important;
 .page-template-search-staff .indexcard  a {
 	margin-bottom: 0;
 }
-
 #container .well  {
 	min-height: 130px;
 }
@@ -889,9 +883,7 @@ h3.contacthead {
 #sortfilter {
 	min-height: 60px;
 }
-
 .bbp-user-edit table td.acf-label label { padding: 0 10px 10px 10px; font-size: 16px !important; }
-
 .bbp-user-edit table td.acf-input { width: 100%; }
 .bbp-user-edit table td.acf-input p.description { font-size: 14px !important; margin-top: 5px; }
 .bbp-user-edit table, .bbp-user-edit table tr, .bbp-user-edit table td  { border: 1px solid #eee; }
@@ -927,7 +919,6 @@ dl.dl-atoz dt.blank-atoz {  font-weight: bold; }
 /* GALLERY */
 
 .gallery-item { float: left; padding-right: 0.5em; }
-
 
 /* ALERTS */
 
@@ -975,7 +966,6 @@ ul.listing.li  {
 .archive.author #content img {
 	margin-top: 5px;
 }
-
 .linkpointer { cursor: pointer; }
 
 /* A TO Z LISTINGS */
@@ -1033,7 +1023,6 @@ ul.listing.li  {
 	text-decoration: underline;
 }
 
-
 /* COMMENTS */
 
 #comments  { padding-top: 2em; }
@@ -1044,7 +1033,6 @@ li.comment  { list-style: none; padding-top: 1em; }
 textarea#comment  { width: 100%; }
 li.comment .comment-body  { clear: both; padding-top: 0.5em; }
 .required  { position: absolute; left: -9999em; }
-
 #comments ol { padding-left: 0; }
 #comments ul.children { padding-top: 1em; }
 
@@ -1137,13 +1125,12 @@ li p.howdesc  { margin-top: 10px; margin-bottom: 1.2em !important; }
 	padding-top: 0;
 	margin-top: .9em;
 	padding-left: 1em;
-	}
+}
 .zign2n ul li { margin-left: 1em !important; }
 .zign2n h3 { padding-bottom: 0.6em; }
 .home .zign2n h3 { border-top: 0 !important; margin-top: 0 !important; }
 #need-to-know ul li { border-bottom: none !important; padding: 0; padding-bottom: 0.3em; border-top: none; }
 #need-to-know ul li a:visited { color: #bbbbbb; }
-
 
 /* NEWS */
 

@@ -42,7 +42,13 @@ $current_vac = $id;
 			}
 
 			$grade = wp_get_post_terms( $post->ID, 'grade' );
-			if ( $grade ) $grade = $grade[0]->name;
+			if ( count($grade) > 0 ):
+				$gradearray = array();
+				foreach( $grade as $g ){
+					$gradearray[] =  $g->name;
+				}
+				$grade = implode(", ", $gradearray);
+			endif; 
 
 			$closing_date = get_post_meta($current_vac, 'vacancy_closing_date', true);
 			$closing_time = get_post_meta($current_vac, 'vacancy_closing_time', true);
@@ -92,7 +98,7 @@ $current_vac = $id;
 			get_template_part("part", "sidebar");
 						
 			get_template_part("part", "related");
-
+			wp_reset_postdata();
 			$post_cat = get_the_category();
 			if ($post_cat){
 				echo "<div class='widget-box x'>

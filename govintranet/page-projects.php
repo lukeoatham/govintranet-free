@@ -82,7 +82,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					$icon = "road";
 					?>
 					<h3>				
-					<a href="<?php the_permalink(); ?>" title="<?php echo get_the_title(); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
+					<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 
 					<?php
 					the_excerpt(); 

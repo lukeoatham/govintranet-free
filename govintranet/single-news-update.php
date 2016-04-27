@@ -168,6 +168,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				while ( $recentitems->have_posts() ) : $recentitems->the_post(); 
 					if ($mainid!=$post->ID) {
 						$thistitle = get_the_title($id);
+						$thistitleatt = the_title_attribute('echo=0');
 						$thisURL=get_permalink($id);
 						echo "<div class='widgetnewsitem'>";
 						$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
@@ -175,7 +176,7 @@ remove_filter('pre_get_posts', 'filter_search');
 						$thisdate= $post->post_date;
 						$thisdate=date(get_option('date_format'),strtotime($thisdate));
 						echo "<span class='news_date'>".$thisdate;
-						echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}' >" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
+						echo "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitleatt}' >" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 					}
 				endwhile; 
 				echo "</div>";

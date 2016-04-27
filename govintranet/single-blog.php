@@ -171,6 +171,7 @@ get_header(); ?>
 			if ( $recentitems->have_posts() ) while ( $recentitems->have_posts() ) : $recentitems->the_post(); 
 				if ($mainid!=$post->ID) {
 					$thistitle = get_the_title($id);
+					$thistitleatt = the_title_attribute('echo=0');
 					$thisURL=get_permalink($id);
 					echo "<div class='widgetnewsitem'>";
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
@@ -214,7 +215,7 @@ get_header(); ?>
 				   }
 		
 					
-					echo "<br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
+					echo "<br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitleatt}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 				}
 			endwhile; 
 			echo "</div>";

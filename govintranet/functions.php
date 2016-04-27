@@ -9707,16 +9707,17 @@ function ht_listtags_shortcode($atts,$content){
 	foreach ($query as $list){		
 		$thisexcerpt='';
 		$thistitle = get_the_title($list->ID);
-		$thisURL=get_permalink($list->ID);
-		$thisexcerpt= $list->post_excerpt;
-		$thisdate= $list->post_date;
-		$thisdate=date(get_option('date_format'),strtotime($thisdate));
+		$titleatt = the_title_attribute( 'echo=0', 'post='.$list->ID ); 
+		$thisURL = get_permalink($list->ID);
+		$thisexcerpt = get_the_excerpt_by_id($list->ID);
+		$thisdate = $list->post_date;
+		$thisdate = date(get_option('date_format'),strtotime($thisdate));
 		$image_url = get_the_post_thumbnail($list->ID, 'medium', array("class"=>"img img-responsive","width"=>175,"height"=>175));	
 		
 		$output.="
 		<div class='grid-item well well-sm'>
-			<div class='itemimage'><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$image_url."</a></div>
-				<p><a href=\"".$thisURL."\" title=\"".$thistitle." ".$title_context."\">".$thistitle."</a></p>";
+			<div class='itemimage'><a href=\"".$thisURL."\" title=\"".$titleatt." ".$title_context."\">".$image_url."</a></div>
+				<p><a href=\"".$thisURL."\" title=\"".$titleatt." ".$title_context."\">".$thistitle."</a></p>";
 				if ($format=="full"){
 					$output.="<p><span class='listglyph'><i class='glyphicon glyphicon-calendar'></i> ".$thisdate."</span> </p>".wpautop($thisexcerpt);
 				}
