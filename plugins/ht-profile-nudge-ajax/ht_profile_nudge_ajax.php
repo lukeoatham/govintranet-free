@@ -4,7 +4,7 @@ Plugin Name: HT Profile Nudge AJAX
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display reminders to complete the staff profile using AJAX
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -25,6 +25,7 @@ class htProfileNudgeajax extends WP_Widget {
         $current_user = wp_get_current_user();
         $user_id = $current_user->ID;
         $widget_id = $id. "-" . $this->number;
+        $first_last_name = ($instance['first_last_name']);
         $telephone = ($instance['telephone']);
         $mobile = ($instance['mobile']);
         $job_title = apply_filters('widget_title', $instance['job_title']);
@@ -45,6 +46,7 @@ class htProfileNudgeajax extends WP_Widget {
 		'after_widget' => stripcslashes($after_widget),
         'user_id' => $user_id,
         'widget_id' => $widget_id,
+        'first_last_name' => $first_last_name,
         'telephone' => $telephone,
         'mobile' => $mobile,
         'job_title' => $job_title,
@@ -64,6 +66,7 @@ class htProfileNudgeajax extends WP_Widget {
 
     function update($new_instance, $old_instance) {
 		$instance = $old_instance;
+		$instance['first_last_name'] = strip_tags($new_instance['first_last_name']);
 		$instance['telephone'] = strip_tags($new_instance['telephone']);
 		$instance['mobile'] = strip_tags($new_instance['mobile']);
 		$instance['job_title'] = strip_tags($new_instance['job_title']);
@@ -81,6 +84,9 @@ class htProfileNudgeajax extends WP_Widget {
         $title = esc_attr($instance['title']);
         ?>
          <p>
+
+          <input id="<?php echo $this->get_field_id('first_last_name'); ?>" name="<?php echo $this->get_field_name('first_last_name'); ?>" type="checkbox" <?php checked((bool) $instance['first_last_name'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('first_last_name'); ?>"><?php _e('First and last name','govintranet'); ?></label> <br>
 
           <input id="<?php echo $this->get_field_id('telephone'); ?>" name="<?php echo $this->get_field_name('telephone'); ?>" type="checkbox" <?php checked((bool) $instance['telephone'], true ); ?> />
           <label for="<?php echo $this->get_field_id('telephone'); ?>"><?php _e('Telephone number','govintranet'); ?></label> <br>
@@ -123,6 +129,7 @@ function ht_profile_nudge_ajax_show() {
 	$after_widget = stripcslashes($_POST['after_widget']);
 	$user_id = $_POST['user_id'];
 	$widget_id = $_POST['widget_id'];
+	$first_last_name = $_POST['first_last_name'];
 	$telephone = $_POST['telephone'];
 	$mobile = $_POST['mobile'];
 	$job_title = $_POST['job_title'];
@@ -137,8 +144,36 @@ function ht_profile_nudge_ajax_show() {
 	global $current_user;
 	$current_user = wp_get_current_user();
 	if ($current_user->ID):
-		$userid = $current_user->ID;
-		if (!get_user_meta($userid,'user_telephone',true) &&  !isset($_COOKIE['ht_profile_nudge_telephone']) && $telephone=='on'):
+		$userid = $current_user->ID; 
+		if ( ( trim( $current_user->user_firstname ) == "" || trim( $current_user->user_lastname ) == "" ) &&  !isset($_COOKIE['ht_profile_nudge_first_last_name']) && $first_last_name=='on'):
+			/******************************************
+			*
+			* UPDATE FIRST AND LAST NAMES
+			*
+			*******************************************/
+			$html.= $before_widget; 
+			$nonce = wp_create_nonce ('update_profile_add_first_last_name_'.$widget_id);
+			$html.= "
+			<div id='ht_profilenudge_success_".$widget_id."'>
+			<h3>";
+			$html.= __('Please introduce yourself' , 'govintranet' );
+			$html.="</h3>
+			<p>";
+			$html.= __('We noticed that your name is missing from your staff profile. You can add it now if you like?','govintranet');
+			$html.="</p>
+			<form id='update-profile-form' class='form-horizontal' role='form' name='update-profile' method='post'>
+			<label for='first_name'>" . __('First name','govintranet') . "</label>
+			<input class='form-control' name='first_name' id='first_name_".$widget_id."' value='".trim( $current_user->user_firstname ) ."' /><br>
+			<label for='last_name'>" . __('Last name','govintranet') . "</label>
+			<input class='form-control' name='last_name' id='last_name_".$widget_id."' value='".trim( $current_user->user_lastname ) ."' /><br>
+			<a  id='profilebutton'  onclick='javascript:update_profile_action_add_first_last_name();' class='profilebutton btn btn-primary'>" . __('Update now','govintranet') . "</a> <a class='linkpointer' onclick='javascript:pauseProfileNudgeAJAX(\"ht_profile_nudge_first_last_name\");'><small>" . __('I\'ll do it later','govintranet') . "</small></a><br>
+			<input type='hidden' name='_wpnonce_add_first_last_name_".$widget_id."' value='" . $nonce ."' />
+			</form>	
+			<div id='ht_profilenudge_errmsg_".$widget_id."'></div>
+			</div>
+			";	
+			$html.= $after_widget; 	
+		elseif (!get_user_meta($userid,'user_telephone',true) &&  !isset($_COOKIE['ht_profile_nudge_telephone']) && $telephone=='on'):
 			/******************************************
 			*
 			* UPDATE TELEPHONE NUMBER
@@ -415,6 +450,60 @@ function ht_profile_nudge_ajax_show() {
     exit();
 }
 
+add_action( 'wp_ajax_ht_profile_nudge_ajax_action_add_first_last_name', 'ht_profile_nudge_ajax_action_add_first_last_name' );
+function ht_profile_nudge_ajax_action_add_first_last_name() {
+	$nonce = $_POST['nonce']; 	
+	$itext = $_POST['itext']; 
+	$itext2 = $_POST['itext2']; 
+	$widget_id = $_POST['widget_id'];
+	global $current_user;
+	$success = false;
+	$current_user = wp_get_current_user();
+	if ($current_user->ID) $userid = $current_user->ID;
+	if ( ! wp_verify_nonce( $nonce,  'update_profile_add_first_last_name_'.$widget_id ) ) {
+	    // This nonce is not valid.
+	    $html =  __("Security check - there is something wrong","govintranet") ; 
+	} else {
+	    // The nonce was valid.
+	    // Do stuff here.
+			$response = new WP_Ajax_Response;
+			$userid = $_POST['userid'];
+			$current_user = wp_get_current_user();
+			$current_userid = $current_user->ID; 
+			//
+			if ($itext=='' || $itext2==''){
+				$html = __('Enter your first and last name','govintranet');
+			} elseif ($userid!=$current_userid){
+			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
+			} else {
+				$itext = sanitize_text_field($itext);
+			    update_user_meta($current_userid,'first_name',$itext, ''); 
+				$itext2 = sanitize_text_field($itext2);
+			    update_user_meta($current_userid,'last_name',$itext2, ''); 
+				$html = __('<strong>Updated.</strong> Thank you','govintranet')  . ' <span class="dashicons dashicons-smiley"></span>';
+				$success = true;
+			}
+	}
+   if( $success  ) {
+        // Request successful
+        $response->add( array(
+            'data' => 'success',
+            'supplemental' => array(
+                'message' => '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>' . $html . '</div>',
+            ),
+        ) );
+    } else {
+        // Request failed
+        $response->add( array(
+            'data' => 'error',
+            'supplemental' => array(
+                'message' => '<div class="alert alert-danger">' . $html . '</div>',
+            ),
+        ) );
+    }
+    $response->send();
+    exit();
+}
 
 add_action( 'wp_ajax_ht_profile_nudge_ajax_action_add_phone', 'ht_profile_nudge_ajax_action_add_phone' );
 function ht_profile_nudge_ajax_action_add_phone() {

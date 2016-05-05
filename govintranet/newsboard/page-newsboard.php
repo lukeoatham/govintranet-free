@@ -144,9 +144,34 @@ Template Name: Newsboard
 							$tax_terms = get_sub_field('newsboard_news_type'); 
 							echo '<div role="tabpanel" class="tab-pane fade'.$active.'" id="ntab-'.$rowcount.'" aria-labelledBy="newsboard-tab-'.$rowcount.'">';
 							$counter = 0;	
+							
+							$offset = get_post_meta($post->ID,'news_offset',true);
+			    
+						    //Next, determine how many posts per page you want (we'll use WordPress's settings)
+						    $ppp = get_option('posts_per_page');
+						
+						    //Next, detect and handle pagination...
+						    if ( $paged > 1 ) {
+						
+						        //Manually determine page query offset (offset + current page (minus one) x posts per page)
+						        $page_offset = $offset + ( ($paged-1) * $ppp );
+						
+						    }
+						    else {
+						
+						        //This is the first page. Just use the offset...
+						        $page_offset = $offset;
+						
+						    }
+			
 							$cquery = array(
+								'orderby' => 'post_date',
+							    'order' => 'DESC',
 							    'post_type' => 'news',
-								);
+							    'posts_per_page' => $ppp,
+							    'paged' => $paged,
+							    'offset' => $page_offset												
+								);							
 							if ($tax_terms):
 								$cquery['tax_query'] = array(array(
 								'taxonomy' => 'news-type',

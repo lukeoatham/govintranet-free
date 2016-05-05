@@ -164,7 +164,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						
 						if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 						if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span><br>";
-						echo '<span class="small"><a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></small></p></div></div></div>';
+						echo '<span class="small"><a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></span></div></div></div>';
 						
 						$counter++;	
 						$tcounter++;	
@@ -275,7 +275,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 							if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo'<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span><br>";
 				
-							echo '<span class="small"><a href="mailto:'.$user_info->user_email.'">' . __('Email' , 'govintranet') . ' ' . $user_info->first_name. '</a></small></p></div></div></div>';
+							echo '<span class="small"><a href="mailto:'.$user_info->user_email.'">' . __('Email' , 'govintranet') . ' ' . $user_info->first_name. '</a></span></p></div></div></div>';
 
 							$counter++;	
 							$tcounter++;	

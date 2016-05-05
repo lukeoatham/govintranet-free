@@ -24,6 +24,7 @@ jQuery(document).ready(function($) {
 		after_title: pauseNudgeajax.after_title,
 		user_id: pauseNudgeajax.user_id,
 		widget_id: pauseNudgeajax.widget_id,
+		first_last_name: pauseNudgeajax.first_last_name,
 		telephone: pauseNudgeajax.telephone,
 		mobile: pauseNudgeajax.mobile,
 		job_title: pauseNudgeajax.job_title,
@@ -46,6 +47,43 @@ jQuery(document).ready(function($) {
     return false;
 });
 
+
+/******************************************
+*
+* UPDATE FIRST NAME AND LAST NAME 
+*
+*******************************************/
+	
+function update_profile_action_add_first_last_name(){
+	var itext = jQuery('#first_name_' + pauseNudgeajax.widget_id).val();
+	var itext2 = jQuery('#last_name_' + pauseNudgeajax.widget_id).val();
+	var ipanel = '#ht_profilenudge_' + pauseNudgeajax.widget_id;
+	var ipanelerr = '#ht_profilenudge_errmsg_' + pauseNudgeajax.widget_id;
+	var userid = pauseNudgeajax.user_id;
+	var nonce = jQuery("[name='_wpnonce_add_first_last_name_"+ pauseNudgeajax.widget_id+"']").val();
+	var data = {
+		action: 'ht_profile_nudge_ajax_action_add_first_last_name',
+		userid: userid,
+		itext: itext,
+		itext2: itext2,
+		nonce: nonce,
+		widget_id: pauseNudgeajax.widget_id,
+	};
+	jQuery.post(pauseNudgeajax.ajaxurl, data, function(data){
+		var status = jQuery(data).find('response_data').text();
+		var message = jQuery(data).find('supplemental message').text();
+
+        if( status == 'success' ) {
+			jQuery(ipanel).addClass("hidden");
+			jQuery(ipanel).html(message);
+			jQuery(ipanel).removeClass("hidden");
+			jQuery(ipanel).slideDown();
+		} else {
+			jQuery(ipanelerr).html(message);			
+		}
+	});
+	return false;
+}
 
 /******************************************
 *

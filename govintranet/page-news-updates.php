@@ -50,11 +50,35 @@ get_header();
 							$showitems = 10;
 							if ( $paged > 1) $showitems = 10;
 							$counter = 0;	
+							
+							$offset = get_post_meta($post->ID,'news_offset',true);
+			    
+						    //Next, determine how many posts per page you want (we'll use WordPress's settings)
+						    $ppp = get_option('posts_per_page');
+						
+						    //Next, detect and handle pagination...
+						    if ( $paged > 1 ) {
+						
+						        //Manually determine page query offset (offset + current page (minus one) x posts per page)
+						        $page_offset = $offset + ( ($paged-1) * $ppp );
+						
+						    }
+						    else {
+						
+						        //This is the first page. Just use the offset...
+						        $page_offset = $offset;
+						
+						    }
+			
 							$cquery = array(
+								'orderby' => 'post_date',
+							    'order' => 'DESC',
 							    'post_type' => 'news',
-							    'posts_per_page' => $showitems,
+							    'posts_per_page' => $ppp,
 							    'paged' => $paged,
-								);
+							    'offset' => $page_offset												
+								);							
+
 							$qposts = new WP_Query($cquery);
 							global $k; 
 							$k = 0;

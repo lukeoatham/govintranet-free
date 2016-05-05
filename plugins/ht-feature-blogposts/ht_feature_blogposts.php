@@ -105,12 +105,12 @@ class htFeatureBlogposts extends WP_Widget {
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
         $thumbnails = $instance['thumbnails'];
-        $freshness = $instance['freshness'];
+        $freshness = intval($instance['freshness']);
         if ( !$freshness ) $freshness = 14;
         $more = $instance['more'];
         $excerpt = $instance['excerpt'];
-		$tdate=date('Y-m-d')." 00:00";
-		$freshness = "-".$freshness." day";
+		$tdate=date('Y-m-d')." 00:00:00";
+		$freshness = "-".$freshness." day ";
         $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );  
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_pin_posts" ;  
 		$top_slot = get_option($acf_key); 
@@ -118,7 +118,7 @@ class htFeatureBlogposts extends WP_Widget {
 		$blog_categories = get_option($acf_key); 
 		$num_top_slots = 0;
 		if ( is_array($top_slot) ) $num_top_slots = count($top_slot); 
-		$to_fill = $items - $num_top_slots;
+		$to_fill = $items - $num_top_slots; 
 		$k = -1;
 		$alreadydone = array();
 		$titledone = 0;
@@ -131,7 +131,7 @@ class htFeatureBlogposts extends WP_Widget {
 			echo "<div class='widget-area widget-blogposts'>";
 			$titledone = 1;
 			$cquery = array(
-		    'post_type' => 'blog',
+		    'post_type' => array('blog','news','event'),
 			'posts_per_page' => -1,
 			'post__in' => $top_slot,
 			);
@@ -139,16 +139,15 @@ class htFeatureBlogposts extends WP_Widget {
 			$news =new WP_Query($cquery);
 			if ( $news->have_posts() ) while ( $news->have_posts() ):
 				$news->the_post(); 
-				global $post;
 				$k++;
 				$alreadydone[] = get_the_id();
 				$thistitle = get_the_title();
-				$edate = get_the_date($post->ID);
+				$edate = get_the_date();
 				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink();
 				echo "<div class='media'>";
 				if ($thumbnails=='on'){
-					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' ); 
+					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
 					if (!$image_uri){
 						$image_uri = get_avatar(get_the_author_id(),72);
 						$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
@@ -179,14 +178,14 @@ class htFeatureBlogposts extends WP_Widget {
 			'post__not_in' => $alreadydone,
 			'date_query' => array(
 					array(
-						'after'     => $tdate,
+						'after'     => date('Ymd',strtotime($tdate)),
 						'inclusive' => true,
 					)
 				)
 		);
 		
 		//restrict to chosen categories, if any
-		if ( $blog_categories )
+		if ( is_array($blog_categories) )
 				$cquery['tax_query'] = array(array(
 				    'taxonomy' => 'blog-category',
 				    'field' => 'id',
@@ -210,19 +209,19 @@ class htFeatureBlogposts extends WP_Widget {
 				break;
 			}
 			global $post;//required for access within widget
-			$thistitle = get_the_title($post->ID);
-			$edate = $post->post_date;
+			$thistitle = get_the_title();
+			$edate = get_the_date();
 			$edate = date(get_option('date_format'),strtotime($edate));
 			$thisURL=get_permalink(); 
 			echo "<div class='media'>";
 			if ($thumbnails=='on'){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' ); 
+				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
 				if (!$image_uri){
-					$image_uri = get_avatar($post->post_author,72);
+					$image_uri = get_avatar(get_the_author_id(),72);
 					$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
-					echo "<a class='pull-left' href='".get_permalink($post->ID)."'>{$image_uri}</a>";		
+					echo "<a class='pull-left' href='".get_permalink()."'>{$image_uri}</a>";		
 				} else {
-					echo "<a class='pull-left' href='".get_permalink($post->ID)."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";				}
+					echo "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";				}
 			}
 			echo "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 			echo "<br><span class='news_date'>".$edate." by ";

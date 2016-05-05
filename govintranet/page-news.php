@@ -21,15 +21,35 @@ get_header();
 				$thistitle = get_the_title();
 				echo "<h1>".$thistitle."</h1>";
 				the_content();
-
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				$counter = 0;	
+			    
+			    $offset = get_post_meta($post->ID,'news_offset',true);
+			    
+			    //Next, determine how many posts per page you want (we'll use WordPress's settings)
+			    $ppp = get_option('posts_per_page');
+			
+			    //Next, detect and handle pagination...
+			    if ( $paged > 1 ) {
+			
+			        //Manually determine page query offset (offset + current page (minus one) x posts per page)
+			        $page_offset = $offset + ( ($paged-1) * $ppp );
+			
+			    }
+			    else {
+			
+			        //This is the first page. Just use the offset...
+			        $page_offset = $offset;
+			
+			    }
+
 				$cquery = array(
 					'orderby' => 'post_date',
 				    'order' => 'DESC',
 				    'post_type' => 'news',
-				    'posts_per_page' => 10,
-				    'paged' => $paged												
+				    'posts_per_page' => $ppp,
+				    'paged' => $paged,
+				    'offset' => $page_offset												
 					);
 						
 				$newspost = new WP_Query($cquery);
@@ -61,7 +81,7 @@ get_header();
 		$post_type[] = 'news';
 		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
 		if ($post_cat){
-			echo "<div class='widget-box'><h3 class='widget-title'>" . __('Categories' , 'govintranet') . "</h3>";
+			echo "<div class='widget-box news-type-wrapper'><h3 class='widget-title'>" . __('Categories' , 'govintranet') . "</h3>";
 			echo "<p class='taglisting " . $post->post_type . "'>";
 			foreach($post_cat as $cat){
 				if ($cat->name){
@@ -72,12 +92,11 @@ get_header();
 			echo "</p></div>";
 		}
 		
-		//$tagcloud = my_colorful_tag_cloud('', 'news-type' , 'news');
 		$tagcloud = gi_howto_tag_cloud('news');
 
 		if ( $tagcloud != '' ) :   
 	
-			echo "<div class='widget-box'>";
+			echo "<div class='widget-box tagcloud-wrapper'>";
 			echo "<h3 class='widget-title'>".__('Search by tag','govintranet')."</h3>";
 			echo "<div class='tagcloud'>";
 			echo $tagcloud; 
@@ -86,7 +105,6 @@ get_header();
 			echo "</div>";					
 
 		endif;
-
 		
 		if (is_active_sidebar('newslanding-widget-area')) dynamic_sidebar('newslanding-widget-area'); 
 	?>

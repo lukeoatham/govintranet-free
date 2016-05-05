@@ -2106,6 +2106,77 @@ function cptui_register_my_taxes_news_type() {
  		'update_count_callback' => 'ht_update_post_term_count' 
 	) 
 	); 
+	if( function_exists('acf_add_local_field_group') ):
+
+		acf_add_local_field_group(array (
+			'key' => 'group_572b7ab61d0ab',
+			'title' => 'Offset',
+			'fields' => array (
+				array (
+					'key' => 'field_572b7af1ae3a6',
+					'label' => 'Number of stories',
+					'name' => 'news_offset',
+					'type' => 'number',
+					'instructions' => 'Number of stories to offset the start of the listing by. Leave blank for full listing.',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => '',
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => '',
+					'min' => '',
+					'max' => '',
+					'step' => '',
+					'readonly' => 0,
+					'disabled' => 0,
+				),
+			),
+			'location' => array (
+				array (
+					array (
+						'param' => 'page_template',
+						'operator' => '==',
+						'value' => 'page-news.php',
+					),
+				),
+				array (
+					array (
+						'param' => 'page_template',
+						'operator' => '==',
+						'value' => 'newsboard/page-newsboard.php',
+					),
+				),
+				array (
+					array (
+						'param' => 'page_template',
+						'operator' => '==',
+						'value' => 'page-news-updates.php',
+					),
+				),
+				array (
+					array (
+						'param' => 'page_template',
+						'operator' => '==',
+						'value' => 'page-news-multi.php',
+					),
+				),
+			),
+			'menu_order' => 0,
+			'position' => 'side',
+			'style' => 'default',
+			'label_placement' => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen' => '',
+			'active' => 1,
+			'description' => '',
+		));
+	
+	endif;
 }
 
 if ( get_option( 'options_module_news_updates' ) ) add_action('init', 'cptui_register_my_taxes_news_update_type');

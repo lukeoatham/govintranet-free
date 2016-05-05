@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.11 - 5 May 2016 ###
+* New offset option for news templates 
+* Bug fix for aggregator page templates - teams not showing avatars 
+* Bug fix for feature blog posts widget - incorrect date on pinned posts 
+* Profile nudge update to include check for first and last name (ajax version only) 
+
 ### 4.10.1 - 27 Apr 2016 ###
 * Further usability updates to search results 
 * Fixes for search filters 

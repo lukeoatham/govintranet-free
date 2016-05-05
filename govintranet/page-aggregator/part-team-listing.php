@@ -1,4 +1,5 @@
 <?php
+	global $post;
 	global $title;
 	global $alreadyshown;
 	global $directorystyle;
@@ -10,7 +11,7 @@
 	$counter=0;
 	$tcounter=0;
 	if ( $teamleaderid ):
-		foreach ($teamleaderid as $userid){
+		foreach ((array)$teamleaderid as $userid){
 			$alreadyshown[$userid] = true;	
 			$context = get_user_meta($userid,'user_job_title',true);
 			if ($context=='') $context="staff";
@@ -18,12 +19,12 @@
 			$user_info = get_userdata($userid);
 			$userurl = site_url().'/staff/'.$user_info->user_nicename;
 			$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
-			$avatarhtml = get_avatar($post->user_id,66);
+			$avatarhtml = get_avatar($userid,66); 
 			if ($directorystyle==1){
-				$avatarhtml = str_replace("photo", "photo alignleft img-circle", $avatarhtml);
-			else:
-				$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
-			endif;
+				$avatarhtml = str_replace(" photo", " photo alignleft img-circle", $avatarhtml);
+			} else {
+				$avatarhtml = str_replace(" photo", " photo alignleft", $avatarhtml);
+			}
 			echo "<a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 			if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 			if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
@@ -34,7 +35,6 @@
 	else:
 		$teamleaderid = array();
 	endif;
-	
 	//***********************************************************************************************
 	$iteams = array();
 	$iteams[] = $teamid;
@@ -72,11 +72,11 @@
 		$user_info = get_userdata($userid);
 		$userurl = site_url().'/staff/'.$user_info->user_nicename;
 		$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
-		$avatarhtml = get_avatar($post->user_id,66);
-		if ($directorystyle==1){
-			$avatarhtml = str_replace("photo", "photo alignleft img-circle", $avatarhtml);
+		$avatarhtml = get_avatar($userid,66);
+		if ($directorystyle==1):
+			$avatarhtml = str_replace(" photo", " photo alignleft img-circle", $avatarhtml);
 		else:
-			$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
+			$avatarhtml = str_replace(" photo", " photo alignleft", $avatarhtml);
 		endif;
 		echo "<a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 		if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
