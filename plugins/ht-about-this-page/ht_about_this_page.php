@@ -122,8 +122,8 @@ class htAboutThisPage extends WP_Widget {
 			}
 
 			if ($show_published_date=='on'){
-				$pub = date('Y-m-d',strtotime(get_the_date())) . "T" . date('H:i:s',strtotime(get_the_time())) ;
-				echo __('Published','govintranet') . ' <time class="timeago" datetime="'.$pub.'">'.date($date_format,(get_the_date())).'</time><br>';
+				$pub = get_the_date('Y-m-d',$post->ID) . "T" . date('H:i:s',strtotime(get_the_time())) ;
+				echo __('Published','govintranet') . ' <time class="timeago" datetime="'.$pub.'">'.get_the_date($date_format,$post->ID).'</time><br>';
 			}
 
 			if ($show_author=='on'){

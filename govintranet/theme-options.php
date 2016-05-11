@@ -3,31 +3,23 @@
 function govintranet_customize_register ( $wp_customize ){
 
 	$wp_customize->add_setting( 'header_background', array (
-		'default' => '0b2d49',
+		'default' => '#0b2d49',
 		'type' => 'theme_mod',
 		'transport' => 'postMessage',
 		'sanitize_callback' => 'sanitize_hex_color',
 	));
 
 	$wp_customize->add_setting( 'link_color', array (
-		'default' => '428bca',
+		'default' => '#428bca',
 		'transport' => 'postMessage',
 		'sanitize_callback' => 'sanitize_hex_color',
 	));
 
 	$wp_customize->add_setting( 'link_visited_color', array (
-		'default' => '7303aa',
+		'default' => '#7303aa',
 		'transport' => 'postMessage',
 		'sanitize_callback' => 'sanitize_hex_color',
 	));
-	
-/*
-	$wp_customize->add_section( 'colors', array (
-		'title' => __('Intranet colors', 'govintranet'),
-		'description' => __('Change link colours', 'govintranet'),
-		'priority' => 30,
-	));
-*/
 	
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_color_control', array (
 		'label' => __('Header background colour', 'govintranet'),

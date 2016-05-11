@@ -532,6 +532,15 @@ class htIntraverts extends WP_Widget {
 			/*
 			Display intravert
 			*/
+			
+			//write script for google analytics if on homepage and not set
+			$gistrackhome = get_option('options_track_homepage');
+			$gisgtc = get_option('options_google_tracking_code');
+			if ( is_front_page() || is_search() ){
+				if ( !$gistrackhome || is_search() ){
+					echo $gisgtc;
+				}
+			}
 			echo $before_widget; 
 			echo "<div id='intraverts'>";
 			
@@ -540,14 +549,16 @@ class htIntraverts extends WP_Widget {
 			$thisURL = get_permalink($post->ID);
 			$destination = get_post_meta(get_the_id(),'intravert_destination_page',true);
 			if ($destination) { $destination = get_permalink($destination[0]); } else { $destination="#nowhere"; }
+			$ititle = esc_attr($post->post_title);
+			if ( !$ititle ) $ititle = $widget_id;
 			if (has_post_thumbnail($post->ID)):
-				echo "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
+				echo "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$ititle."\",\"".esc_attr($originaltitle)."\");'> ";
 				the_post_thumbnail('full',array('class'=>'img-responsive'));
 				echo "</a>";
 			endif;
 			the_content();
 			if (get_post_meta(get_the_id(),'intravert_link_text',true)):
-				echo "<a id='intravert_hook' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
+				echo "<a id='intravert_hook' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$ititle."\",\"".esc_attr($originaltitle)."\");'> ";
 				echo get_post_meta(get_the_id(),'intravert_link_text',true);
 				if ( $destination != '#nowhere' ) echo " <span class='dashicons dashicons-arrow-right-alt2'></span>";
 				echo "</a> ";

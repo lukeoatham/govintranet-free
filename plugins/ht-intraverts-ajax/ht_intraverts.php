@@ -433,6 +433,14 @@ class htIntraverts extends WP_Widget {
         'post_id' => $post_id,
         );
         wp_localize_script( 'ht_intraverts', 'ht_intraverts', $params );
+		//write script for google analytics if on homepage and not set
+		$gistrackhome = get_option('options_track_homepage');
+		$gisgtc = get_option('options_google_tracking_code');
+		if ( is_front_page() || is_search() ){
+			if ( !$gistrackhome || is_search() ){
+				echo $gisgtc;
+			}
+		}		
 
 		echo "<div id='intraverts_".$widget_id."' class='ht_intraverts'></div>";
 
@@ -579,20 +587,21 @@ function ht_intraverts_ajax_show() {
 		/*
 		Display intravert
 		*/
-		
 		$k++;
 		$thistitle = get_the_title($post->ID);
 		$thisURL = get_permalink($post->ID);
 		$destination = get_post_meta(get_the_id(),'intravert_destination_page',true);
 		if ($destination) { $destination = get_permalink($destination[0]); } else { $destination="#nowhere"; }
+		$ititle = esc_attr($post->post_title);
+		if ( !$ititle ) $ititle = $widget_id;
 		if (has_post_thumbnail($post->ID)):
-			$html.= "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
+			$html.= "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$ititle."\",\"".esc_attr($originaltitle)."\");'> ";
 			$html.= get_the_post_thumbnail(get_the_id(),'full',array('class'=>'img-responsive'));
 			$html.= "</a>";
 		endif;
 		$html.= apply_filters("the_content",get_the_content());
 		if (get_post_meta(get_the_id(),'intravert_link_text',true)):
-			$html.= "<a id='intravert_hook_".$widget_id."' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
+			$html.= "<a id='intravert_hook_".$widget_id."' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$ititle."\",\"".esc_attr($originaltitle)."\");'> ";
 			$html.= get_post_meta(get_the_id(),'intravert_link_text',true);
 			if ( $destination != '#nowhere' ) $html.= " <span class='dashicons dashicons-arrow-right-alt2'></span>";
 			$html.= "</a> ";

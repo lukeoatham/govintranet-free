@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.12 - 11 May 2016 ###
+* Timediff removed from functions.php 
+* Portuguese language translations 
+* About this page widget fix for publication date  
+* Updates to intraverts widgets to allow tracking on homepage and search results 
+
 ### 4.11 - 5 May 2016 ###
 * New offset option for news templates 
 * Bug fix for aggregator page templates - teams not showing avatars 
