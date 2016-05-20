@@ -34,7 +34,7 @@ global $showthumbnail;
 global $showcalendar;
 global $showlocation;
 
-remove_filter('pre_get_posts', 'filter_search');
+remove_filter('pre_get_posts', 'ht_filter_search');
 
 function filter_news($query) {
     if ($query->is_tag && !is_admin()) {
@@ -604,6 +604,6 @@ if( have_rows('aggregator_column_3') ):
 endif;
 ?>
 </div>
-<?php remove_filter('pre_get_posts', 'filter_search'); ?>
+<?php add_filter('pre_get_posts', 'ht_filter_search'); ?>
 <?php endwhile; ?>
 <?php get_footer(); ?>

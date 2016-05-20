@@ -15,7 +15,7 @@ function filter_news($query) {
 
 get_header(); 
 
-remove_filter('pre_get_posts', 'filter_search');
+remove_filter('pre_get_posts', 'ht_filter_search');
 ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
@@ -181,7 +181,7 @@ remove_filter('pre_get_posts', 'filter_search');
 				endwhile; 
 				echo "</div>";
 			endif;
-			add_filter('pre_get_posts', 'filter_search');
+			add_filter('pre_get_posts', 'ht_filter_search');
 			wp_reset_query();
 			?>
 		</div> <!--end of second column-->
