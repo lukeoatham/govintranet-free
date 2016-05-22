@@ -156,25 +156,32 @@ $parentpageclass.=" custom-background";
 						<!--utility menu-->
 							<div class="row">
 								<div id="utilities" class="pull-right">
-								<?php
-								if ( has_nav_menu( 'secondary' ) ) :?>
-									<div id='utilitybar'>
-										<?php										
-										wp_nav_menu( array( 
-										'container_class' => 'utilities', 
-										'theme_location' => 'secondary' , 
-										'depth' 		=> 2,
-										'walker' => new wp_bootstrap_navwalker(),
-										) ); ?>
-									</div>
-								<?php
-								elseif ( is_active_sidebar( 'utility-widget-area' ) ) : ?>
-									<div id='utilitybar'>	
-										<ul class="menu">
-										<?php dynamic_sidebar( 'utility-widget-area' ); ?>
-										</ul>
-									</div>
-								<?php endif; ?>
+									<?php
+										
+										if ( has_nav_menu( 'secondary' ) ) :?>
+											<div id='utilitybar'>
+												<?php										
+												wp_nav_menu( array( 
+												'container_class' => 'utilities', 
+												'theme_location' => 'secondary' , 
+												'depth' 		=> 2,
+												'walker' => new wp_bootstrap_navwalker(),
+												) ); ?>
+											</div>
+										<?php
+										else:
+										?>
+										<?php if ( is_active_sidebar( 'utility-widget-area' ) ) : ?>
+												<div id='utilitybar'>	
+													<ul class="menu">
+													<?php dynamic_sidebar( 'utility-widget-area' ); ?>
+													</ul>
+												</div>
+										<?php endif; ?>
+										<?php
+										endif;
+										?>
+
 								</div>
 
 								<div  id="mainnav" class="pull-left">		

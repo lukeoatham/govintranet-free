@@ -18,7 +18,7 @@ class htNewsUpdates extends WP_Widget {
 			array( 'description' => __( 'News Updates widget' , 'govintranet') )
 		);   
 		
-		acf_add_local_field_group(array (
+	if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
 			'key' => 'group_558c858e438b9',
 			'title' => _x('Update types','Categories of news updates','govintranet'),
 			'fields' => array (

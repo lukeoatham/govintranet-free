@@ -133,6 +133,22 @@ class htIntraverts extends WP_Widget {
 						'disabled' => 0,
 					),
 					array (
+						'key' => 'field_57410def271d3',
+						'label' => __('Allow skip','govintranet'),
+						'name' => 'intravert_allow_skip',
+						'type' => 'true_false',
+						'instructions' => __('Displays a skip button at top-right of the intravert. Allows user to hide the intravert without performing any redirect.','govintranet'),
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'message' => '',
+						'default_value' => 0,
+					),
+					array (
 						'key' => 'field_5494c1c796832',
 						'label' => __('Date range','govintranet'),
 						'name' => 'intravert_date_range',
@@ -507,7 +523,7 @@ function ht_intraverts_ajax_show() {
 			);
 			$eligibles =new WP_Query($cquery);
 	else:
-		$eligibles =new WP_Query();
+		$eligibles = new WP_Query();
 	endif;
 	$read = 0;
 	$alreadydone= array();
@@ -592,20 +608,21 @@ function ht_intraverts_ajax_show() {
 		$thisURL = get_permalink($post->ID);
 		$destination = get_post_meta(get_the_id(),'intravert_destination_page',true);
 		if ($destination) { $destination = get_permalink($destination[0]); } else { $destination="#nowhere"; }
-		$ititle = esc_attr($post->post_title);
-		if ( !$ititle ) $ititle = $widget_id;
 		if (has_post_thumbnail($post->ID)):
-			$html.= "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$ititle."\",\"".esc_attr($originaltitle)."\");'> ";
+			$html.= "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
 			$html.= get_the_post_thumbnail(get_the_id(),'full',array('class'=>'img-responsive'));
 			$html.= "</a>";
 		endif;
 		$html.= apply_filters("the_content",get_the_content());
+		if ( get_post_meta($post->ID,'intravert_allow_skip',true) ) $html.= "<a class='btn btn-sm btn-danger filter_results filter_results_skip' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'>Skip <span class='dashicons dashicons-no'></span></a>";
+		$html.= "<div class='btn-group btn-group-justified'>";
 		if (get_post_meta(get_the_id(),'intravert_link_text',true)):
-			$html.= "<a id='intravert_hook_".$widget_id."' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$ititle."\",\"".esc_attr($originaltitle)."\");'> ";
+			$html.= "<a id='intravert_hook_".$widget_id."' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
 			$html.= get_post_meta(get_the_id(),'intravert_link_text',true);
 			if ( $destination != '#nowhere' ) $html.= " <span class='dashicons dashicons-arrow-right-alt2'></span>";
-			$html.= "</a> ";
+			$html.= "</a>";
 		endif;
+		$html.= "</div>";
 		break;
 	}
 

@@ -1834,7 +1834,7 @@ function cptui_register_my_cpt_task() {
 	) 
 	); 
 	if ( get_option( 'options_module_tasks_manuals' ) ):
-		acf_add_local_field_group(array (
+		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
 			'key' => 'group_56a40dcab6d85',
 			'title' => 'Manual',
 			'fields' => array (
@@ -2048,7 +2048,6 @@ function cptui_register_my_taxes_news_type() {
 	) 
 	); 
 	if( function_exists('acf_add_local_field_group') ):
-
 		acf_add_local_field_group(array (
 			'key' => 'group_572b7ab61d0ab',
 			'title' => 'Offset',
@@ -2260,7 +2259,6 @@ function cptui_register_my_taxes_document_type() {
 }
 
 if( function_exists('acf_add_local_field_group') ):
-
 	acf_add_local_field_group(array (
 		'key' => 'group_53bd5ee04bd4d',
 		'title' => __('Category','govintranet'),
@@ -2588,7 +2586,7 @@ if( function_exists('acf_add_local_field_group') ):
 	$homepage = get_page_by_title( 'Home', OBJECT, 'page' );
 	if (!$homepage) $homepage = get_page_by_title( 'Homepage', OBJECT, 'page' ); 
 	if ($homepageid = $homepage->ID):
-		acf_add_local_field_group(array (
+		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
 			'key' => 'group_53bd5ee06e039',
 			'title' => __('Homepage','govintranet'),
 			'fields' => array (
@@ -4289,7 +4287,8 @@ if( function_exists('acf_add_local_field_group') ):
 			add_filter( 'bbp_get_tiny_mce_plugins', 'bbp_tinymce_paste_plain_text' );
 		endif;
 	
-		acf_add_local_field_group(array (
+		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
+
 			'key' => 'group_53bd5ee0ea856',
 			'title' => __('Users','govintranet'),
 			'fields' => array (
@@ -4519,7 +4518,8 @@ if( function_exists('acf_add_local_field_group') ):
 	
 	if ( get_option( 'options_module_staff_directory' )  ):
 	
-		acf_add_local_field_group(array (
+		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
+
 			'key' => 'group_55dd043b43161',
 			'title' => __('Staff directory order','govintranet'),
 			'fields' => array (
@@ -4574,7 +4574,7 @@ if( function_exists('acf_add_local_field_group') ):
 
 	if ( get_option( 'options_module_vacancies' )  ):
 	
-		acf_add_local_field_group(array (
+		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
 			'key' => 'group_53bd5ee10ecdd',
 			'title' => __('Vacancies','govintranet'),
 			'fields' => array (
@@ -8896,7 +8896,7 @@ if( function_exists('acf_add_local_field_group') ):
 	));
 
 	if ( get_option( 'options_module_teams' ) ):
-		acf_add_local_field_group(array (
+		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
 			'key' => 'group_5522eeebca049',
 			'title' => __('Related teams','govintranet'),
 			'fields' => array (
@@ -10070,33 +10070,77 @@ add_filter('pre_get_posts', 'ht_filter_search');
 
 // set login banner link to intranet homepage
 function ht_login_url(){
-return site_url("/"); 
+	return site_url("/"); 
 }
 
 add_filter('login_headerurl', 'ht_login_url');
 
-add_filter( 'wp_nav_menu_items', 'add_loginout_link', 10, 2 );
+add_action( 'init', 'add_loginout_link', 14 );
 function add_loginout_link( $items, $args ) {
-    if (is_user_logged_in() && $args->theme_location == 'secondary') {
-	    $current_user = wp_get_current_user();
-		$userurl = get_author_posts_url( $current_user->ID); 
-		$staffdirectory = get_option('options_module_staff_directory');
-		if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-			$userurl=str_replace('/author', '/members', $userurl); }
-		elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-			$userurl=str_replace('/author', '/staff', $userurl); }
-		elseif (function_exists('bbp_get_displayed_user_field')  ){ // if using bbPress - link to the staff page
-			$userurl=str_replace('/author', '/users', $userurl);
-		}	    
-	    if ( get_option("options_show_my_profile", false) ) $items .= '<li><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>';
-        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. wp_logout_url() .'">'.__("Logout","govintranet").'</a></li>';
-    }
-    elseif (!is_user_logged_in() && $args->theme_location == 'secondary') {
-        if ( get_option("options_show_login_logout", false) ) $items .= '<li><a href="'. site_url('wp-login.php') .'">'.__("Login","govintranet").'</a></li>';
-    }
-    return $items;
+	if ( get_option("options_show_my_profile", false) || get_option("options_show_login_logout", false) ){
+		wp_register_script( 'ht_account_links', get_stylesheet_directory_uri() . "/js/secondary-nav.js");
+		wp_enqueue_script( 'ht_account_links' );
+	    $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
+		$items = "";
+	    if ( is_user_logged_in() ) {
+		    $current_user = wp_get_current_user();
+			$userurl = get_author_posts_url( $current_user->ID ); 
+			$staffdirectory = get_option('options_module_staff_directory');
+			if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+				$userurl=str_replace('/author', '/members', $userurl); }
+			elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+				$userurl=str_replace('/author', '/staff', $userurl); }
+			elseif (function_exists('bbp_get_displayed_user_field')  ){ // if using bbPress - link to the staff page
+				$userurl=str_replace('/author', '/users', $userurl);
+			}	    
+		    if ( get_option("options_show_my_profile", false) ) $items .= '<li id="ht_my_profile" class=menu-item><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>';
+	        if ( get_option("options_show_login_logout", false) ) $items .= '<li class="menu-item"><a href="'. wp_logout_url() .'">'.__("Logout","govintranet").'</a></li>';
+	    }
+	    elseif (!is_user_logged_in() ) {
+	        if ( get_option("options_show_login_logout", false) ) $items .= "<li id=menu-item-login class=menu-item><a href=". esc_url(site_url('wp-login.php')) .">".__("Login","govintranet")."</a></li>";
+	    }
+	
+	    $params = array(
+	      'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
+		  'items' => $items,
+	    );
+	    wp_localize_script( 'ht_account_links', 'ht_account_links', $params );
+	
+		add_action( 'wp_ajax_ht_account_links', 'ht_account_links' );
+		add_action( 'wp_ajax_nopriv_ht_account_links', 'ht_account_links' );
+	}
 }
 
+function ht_account_links(){
+ 	$items = $_POST['items'];
+    $response = new WP_Ajax_Response;
+	global $post;
+	
+	    if(
+	        $items
+	    ) {
+	        // Request successful
+	        $response->add( array(
+	            'data' => 'success',
+	            'supplemental' => array(
+	                'message' => $items
+	            ),
+	        ) );
+	    } else {
+	        // Request failed
+	        $response->add( array(
+	            'data' => 'error',
+	            'supplemental' => array(
+	                'message' => 'an error occured'
+	            ),
+	        ) );
+	    }
+	
+	    $response->send();
+	    
+	    exit();	    
+
+}
 
 /*
  * Change the comment reply link to use 'Reply to &lt;Author First Name>'
