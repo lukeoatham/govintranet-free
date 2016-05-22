@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.13 - 22 May 2016 ###
+* Updates to login/logout links in utility menu - now uses AJAX to load profile menu links  
+* New option for intraverts to allow a skip button 
+
 ### 4.12.1 - 20 May 2016 ###
 * Bug fix for news single templates 
 * Bug fix for HT Profile nudge widget 
