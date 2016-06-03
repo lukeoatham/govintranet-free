@@ -718,7 +718,7 @@ function renderLeftNav($outputcontent="TRUE") {
 		foreach ($navarray as $nav){ //loop through nav array outputting menu options as appropriate (parent, current or child)
 			$currentpost = get_post($nav);
 			$subnavString .= "<li class='page_item menu-item-ancestor'>"; //parent page
-			$subnavString .=  "<a href='".$currentpost->guid."'>".$currentpost->post_title."</a></li>";
+			$subnavString .=  "<a href='".get_permalink($currentpost->ID)."'>".get_the_title($currentpost->ID)."</a></li>";
 		}
 										
 		if (!is_search() ) {

@@ -38,6 +38,11 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.13.1 - 4 Jun 2016 ###
+* Fixes for left-hand menu templates   
+* Video format for blog posts 
+* Fix for HT Feature news pinned posts 
+
 ### 4.13 - 22 May 2016 ###
 * Updates to login/logout links in utility menu - now uses AJAX to load profile menu links  
 * New option for intraverts to allow a skip button 

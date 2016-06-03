@@ -41,6 +41,11 @@ get_header(); ?>
 				$mainid=$post->ID;
 				$article_date = date(get_option('date_format'),strtotime($article_date));	?>
 				<?php echo the_date(get_option('date_format'), '<p class=news_date>', '</p>') ?>
+				<?php 
+				if ( has_post_format('video', $post->ID) ):
+					echo apply_filters('the_content', get_post_meta( $post->ID, 'news_video_url', true));
+				endif;
+				?>
 				<?php the_content(); ?>
 				<?php get_template_part("part", "downloads"); ?>			
 				<?php
