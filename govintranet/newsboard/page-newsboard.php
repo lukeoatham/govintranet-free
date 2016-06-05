@@ -3,7 +3,9 @@
 Template Name: Newsboard
 */
 
-	wp_enqueue_script( 'jquery');
+	if (!wp_script_is('jquery', 'queue')){
+     	wp_enqueue_script('jquery');
+	}
 	wp_register_script( 'newsboard-js', get_template_directory_uri() . '/newsboard/newsboard.js' );
 	wp_enqueue_script( 'newsboard-js' );
 

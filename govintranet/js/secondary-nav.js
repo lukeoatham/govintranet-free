@@ -10,7 +10,7 @@ jQuery(document).ready(function($) {
             var message = $(data).find('supplemental message').text();
             if( status == 'success' ) {
 	            jQuery('#utilitybar ul.menu li.last-link').removeClass('last-link');
-                jQuery('#utilitybar ul.menu').append( decodeURI( message ) ).html();
+                jQuery('#utilitybar ul.menu').prepend( decodeURI( message ) ).html();
             }
         });
 

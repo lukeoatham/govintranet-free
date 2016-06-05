@@ -34,9 +34,8 @@ function ht_zero_hits_options() {
 	if (!$viewid)  {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
-
-    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 
 	$baseurl = site_url();
 	$to_fill = $items;
@@ -139,8 +138,8 @@ function ht_zero_hits_options() {
 	
 			echo "<h2>".ucfirst( implode(", ", $englishtypes) );
 			if ( $show == "all" ) echo " " . __("full report","govintranet");
-			if ( $show == "6m" ) echo " " . __("not viewed in last 6 months","govintranet");
-			if ( $show == "1y" ) echo " " . __("not viewed in last year","govintranet");
+			if ( $show == "6m" ) echo " " . __("inactive in last 6 months","govintranet");
+			if ( $show == "1y" ) echo " " . __("inactive in last year","govintranet");
 			echo "</h2>"; 		
 	
 			echo "
@@ -325,6 +324,7 @@ function ht_zero_hits_options() {
 		if ($reset == "reset"):
 			delete_zh_meta('0');
 			echo "<p>" . __('The Zero Hits report has been reset','govintranet') . "</p>";
+			zero_hits_monitor();
 		endif;
 				
 	} 
@@ -383,8 +383,8 @@ function zero_hits_monitor(){
 	$viewid = get_option('options_zh_viewid'); 
 	$ptype = get_option('options_zh_post_types'); 
 
-    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	
 	$viewid = get_option('options_zh_viewid');	
     $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
@@ -471,7 +471,7 @@ function zero_hits_monitor(){
 			        'start-date' => $start_date,
 			        'end-date'   => $end_date,
 			        'filters' 	 => $filter,
-			    ); print_r($defaults);
+			    ); 
 			    $ga->setDefaultQueryParams($defaults);
 			    $visits = $ga->query($params); 
 			
@@ -569,7 +569,9 @@ function zh_show_dashboard() {
 			$obj = get_post_type_object( $pt );
 			$pt_singular = $obj->labels->singular_name;
 			$pt_plural = $obj->labels->name;
-			echo "<td><a href='".admin_url('/tools.php?page=zero_hits&action=generate&ptype[]='.$pt.'&show=all')."'>".$pt_plural."</a></td>";
+			$tot = new WP_Query('post_type='.$pt.'&posts_per_page=-1&fields=ids');
+			$totnum = $tot->found_posts;
+			echo "<td><a href='".admin_url('/tools.php?page=zero_hits&action=generate&ptype[]='.$pt.'&show=all')."'>".$pt_plural." (".$totnum.")</a></td>";
 
 			$allposts = new WP_Query(array(
 				'post_type' => $pt,
@@ -594,7 +596,7 @@ function zh_show_dashboard() {
 			if ( $allposts->found_posts > 0 ):
 					echo " class='text-warning'>";
 					echo "<a href='".admin_url('/tools.php?page=zero_hits&action=generate&ptype[]='.$pt.'&show=6m')."'>";
-					echo sprintf(__('%d not viewed','govintranet') , $allposts->found_posts );
+					echo sprintf(__('%d inactive','govintranet') , $allposts->found_posts );
 					echo "</a>";
 
 			else:
@@ -625,7 +627,7 @@ function zh_show_dashboard() {
 			if ( $allposts->found_posts > 0 ):
 					echo " class='text-danger'>";
 					echo "<a href='".admin_url('/tools.php?page=zero_hits&action=generate&ptype[]='.$pt.'&show=1y')."'>";
-					echo sprintf(__('%d not viewed','govintranet') , $allposts->found_posts );
+					echo sprintf(__('%d inactive','govintranet') , $allposts->found_posts );
 					echo "</a>";
 			else:
 				echo " class='text-success'>".__("Active","govintranet");

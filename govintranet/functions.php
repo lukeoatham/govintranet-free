@@ -9463,7 +9463,7 @@ if( function_exists('acf_add_local_field_group') ):
 				),
 			),
 		),
-		'menu_order' => 0,
+		'menu_order' => 3,
 		'position' => 'normal',
 		'style' => 'default',
 		'label_placement' => 'top',
@@ -10076,8 +10076,11 @@ function ht_login_url(){
 add_filter('login_headerurl', 'ht_login_url');
 
 add_action( 'init', 'add_loginout_link', 14 );
-function add_loginout_link( $items, $args ) {
-	if ( get_option("options_show_my_profile", false) || get_option("options_show_login_logout", false) ){
+function add_loginout_link(  ) {
+	if ( (get_option("options_show_my_profile", false) || get_option("options_show_login_logout", false) ) ){
+		if (!wp_script_is('jquery', 'queue')){
+			wp_enqueue_script('jquery');
+		}
 		wp_register_script( 'ht_account_links', get_stylesheet_directory_uri() . "/js/secondary-nav.js");
 		wp_enqueue_script( 'ht_account_links' );
 	    $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';

@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.13.2 - 6 Jun 2016 ###
+* Updates for utility login/logout links - now displayed at front of utility items to prevent moving links 
+* Updates to Zero Hits Monitor - immediate patrol after patrol reset - wait while page loads 
+
 ### 4.13.1 - 4 Jun 2016 ###
 * Fixes for left-hand menu templates   
 * Video format for blog posts 
