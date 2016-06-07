@@ -54,7 +54,7 @@ header('X-Frame-Options: SAMEORIGIN');
 	<link href="<?php echo get_stylesheet_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
 
 	<!--[if lt IE 9]>
-	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/html5-shiv.min.js"></script>
+	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/html5-shiv.js"></script>
 	 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/respond.min.js"></script>
 	<![endif]-->
 
@@ -129,7 +129,8 @@ $parentpageclass.=" custom-background";
 						<div class="row">							
 						<!--logo and name-->
 							<div class="col-lg-8 col-md-7 col-sm-6 hidden-xs" id="crownlogo">
-								<div id="crownlink"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></a>
+								<div id="crownlink">
+									<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><?php if ( !get_option('options_hide_sitename') ) echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></a>
 								</div>
 							</div>
 						

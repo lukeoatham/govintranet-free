@@ -2715,6 +2715,22 @@ if( function_exists('acf_add_local_field_group') ):
 				'mime_types' => '',
 			),
 			array (
+				'key' => 'field_5755996acff5b',
+				'label' => 'Hide site name in header',
+				'name' => 'hide_sitename',
+				'type' => 'true_false',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'message' => '',
+				'default_value' => 0,
+			),
+			array (
 				'key' => 'field_536f75f2a21c2',
 				'label' => __('Login logo','govintranet'),
 				'name' => 'login_logo',
@@ -10076,7 +10092,7 @@ function ht_login_url(){
 add_filter('login_headerurl', 'ht_login_url');
 
 add_action( 'init', 'add_loginout_link', 14 );
-function add_loginout_link(  ) {
+function add_loginout_link( ) {
 	if ( (get_option("options_show_my_profile", false) || get_option("options_show_login_logout", false) ) ){
 		if (!wp_script_is('jquery', 'queue')){
 			wp_enqueue_script('jquery');
