@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.15 - 13 Jun 2016 ###
+* Access keys added 1=home, 2=main menu, 3=utility menu, 4=search, s=skip to content  
+
+### 4.14 - 7 Jun 2016 ###
+* Option to hide site name in header bar
+
 ### 4.13.2 - 6 Jun 2016 ###
 * Updates for utility login/logout links - now displayed at front of utility items to prevent moving links 
 * Updates to Zero Hits Monitor - immediate patrol after patrol reset - wait while page loads 

@@ -21,7 +21,7 @@ if ($placeholder!=''){
 	  <div class="notfound">
 		  <div class="input-group">
 			 <label for="s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
-	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" value="<?php echo the_search_query();?>">
+	    	 <input type="text" class="form-control" placeholder="<?php echo $randex ;?>" name="s" id="s" accesskey="4" value="<?php echo the_search_query();?>">
 			 <span class="input-group-btn">
 			<label for="searchbutton" class="sr-only"><?php _e('Search','govintranet'); ?></label>	 
 	    	 <?php

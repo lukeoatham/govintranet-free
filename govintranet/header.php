@@ -103,8 +103,13 @@ $parentpageclass.=" custom-background";
 ?>
 
 <body <?php body_class($parentpageclass); ?>>
+	<div class="sr-only" id="access">	
+	  <?php /*  Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff */ ?>
+		<a href="#content" class='hiddentext' accesskey='s' title="<?php esc_attr_e( 'Skip to content', 'govintranet' ); ?>"><?php _e( 'Skip to content', 'govintranet' ); ?></a>
+		<a href="#primarynav" class='hiddentext' accesskey='2' title="<?php esc_attr_e( 'Main menu', 'govintranet' ); ?>"><?php _e( 'Skip to main menu', 'govintranet' ); ?></a>
+		<a href="#utilitybar" class='hiddentext' accesskey='3' title="<?php esc_attr_e( 'Utility menu', 'govintranet' ); ?>"><?php _e( 'Skip to utility menu', 'govintranet' ); ?></a>
+	</div>
 
-<?php // include(get_stylesheet_directory() . "/sidebar-cookiebar.php"); ?>
 	<div id='topstrip'>
 				
 		<nav class="navbar navbar-inverse" role="navigation">
@@ -130,7 +135,7 @@ $parentpageclass.=" custom-background";
 						<!--logo and name-->
 							<div class="col-lg-8 col-md-7 col-sm-6 hidden-xs" id="crownlogo">
 								<div id="crownlink">
-									<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><?php if ( !get_option('options_hide_sitename') ) echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></a>
+									<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home" accesskey="1"><?php if ( !get_option('options_hide_sitename') ) echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></a>
 								</div>
 							</div>
 						
@@ -148,11 +153,6 @@ $parentpageclass.=" custom-background";
 						<?php endif; ?>
 
 						</div>
-
-							<div class="sr-only" id="access">	
-							  <?php /*  Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff */ ?>
-								<a href="#content" class='hiddentext' accesskey='s' title="<?php esc_attr_e( 'Skip to content', 'govintranet' ); ?>"><?php _e( 'Skip to content', 'govintranet' ); ?></a>
-							</div>
 
 						<!--utility menu-->
 							<div class="row">
