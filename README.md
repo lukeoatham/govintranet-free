@@ -38,6 +38,11 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.16 - 14 Jun 2016 ###
+* Event type dropdown added to newsboard template 
+* Newsboard template bug fixes 
+* Style updates for search buttons 
+
 ### 4.15 - 13 Jun 2016 ###
 * Access keys added 1=home, 2=main menu, 3=utility menu, 4=search, s=skip to content  
 

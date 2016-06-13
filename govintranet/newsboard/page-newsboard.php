@@ -58,6 +58,7 @@ Template Name: Newsboard
 							5 : News type dropdown
 							6 : News update type dropdown
 							7 : Blog category dropdown
+							8 : Event type dropdown
 							*/
 						
 				        if ( get_sub_field('newsboard_tab_content_type') < 5 ) :	
@@ -93,7 +94,7 @@ Template Name: Newsboard
 							    <ul class="dropdown-menu" role="menu" aria-labelledby="newsboard-droptab-'.$rowcount.'" id="newsboard-droptab-contents-'.$rowcount.'">';
 							    
 							     foreach ( $tax_terms as $n){ 
-								    $term_link = get_term_link($n, 'news-type');
+								    $term_link = get_term_link($n, 'news-update-type');
 								  	echo '<li><a href="'.$term_link.'" tabindex="-1">'.$n->name.'</a></li>';   
 							     }
 							    echo '</ul></li>';
@@ -111,7 +112,25 @@ Template Name: Newsboard
 							    <ul class="dropdown-menu" role="menu" aria-labelledby="newsboard-droptab-'.$rowcount.'" id="newsboard-droptab-contents-'.$rowcount.'">';
 							    
 							     foreach ( $tax_terms as $n){ 
-								    $term_link = get_term_link($n, 'news-type');
+								    $term_link = get_term_link($n, 'blog-category');
+								  	echo '<li><a href="'.$term_link.'" tabindex="-1">'.$n->name.'</a></li>';   
+							     }
+							    echo '</ul></li>';
+							endif;
+
+						endif;
+						
+						if ( get_sub_field('newsboard_tab_content_type') == 8 ) :	
+
+							$tax_terms = get_terms( 'event-type', array('hide_empty'=>true) );
+							if ( $tax_terms ):
+								echo'
+								<li role="presentation" class="dropdown">
+							    <a href="#" id="newsboard-droptab-'.$rowcount.'" class="dropdown-toggle" data-toggle="dropdown" aria-controls="newsboard-droptab-contents-'.$rowcount.'">'.$title.' <span class="caret"></span></a>					        
+							    <ul class="dropdown-menu" role="menu" aria-labelledby="newsboard-droptab-'.$rowcount.'" id="newsboard-droptab-contents-'.$rowcount.'">';
+							    
+							     foreach ( $tax_terms as $n){ 
+								    $term_link = get_term_link($n, 'event-type');
 								  	echo '<li><a href="'.$term_link.'" tabindex="-1">'.$n->name.'</a></li>';   
 							     }
 							    echo '</ul></li>';

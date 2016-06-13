@@ -9175,6 +9175,7 @@ if( function_exists('acf_add_local_field_group') ):
 							5 => 'News type dropdown',
 							6 => 'News update type dropdown',
 							7 => 'Blog category dropdown',
+							8 => 'Event type dropdown',
 						),
 						'default_value' => array (
 						),
@@ -9410,6 +9411,11 @@ if( function_exists('acf_add_local_field_group') ):
 									'field' => 'field_5697ffdc299cf',
 									'operator' => '!=',
 									'value' => '7',
+								),
+								array (
+									'field' => 'field_5697ffdc299cf',
+									'operator' => '!=',
+									'value' => '8',
 								),
 							),
 						),
