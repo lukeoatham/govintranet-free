@@ -1,0 +1,3 @@
+.document-finder-filter-box h3.widget-title { text-align: center; }
+.matoz-results h3.widget-title { padding-left: 1em; }
+.imgdocument::before { content: "\e060";  font-family: 'Glyphicons Halflings'; padding-right: 7px; }
