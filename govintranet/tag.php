@@ -135,7 +135,7 @@ get_header();
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 					$ext_icon = '';
 					echo "<div class='media'>" ;
-					$contexturl=$post->guid;
+					$contexturl=get_permalink($post->ID);
 					$context='';
 					$titlecontext='';
 					if ($post_type=='Post_tag') { 
