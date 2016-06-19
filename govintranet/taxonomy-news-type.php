@@ -92,10 +92,9 @@ if ( have_posts() )
 			$taskitems->the_post();
 			$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 			echo "<hr>";			
-			echo "<div class='newsitem'>".$image_url ;
+			echo "<div class='newsitem'><a href='".get_the_permalink()."' title='". the_title_attribute( 'echo=0' ) . "' rel='bookmark'>".$image_url."</a>";
 			?>
 			<h3><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
-
 			<?php
 			echo '<span class="listglyph">'.get_the_date(); 
 			echo '</span> ';				

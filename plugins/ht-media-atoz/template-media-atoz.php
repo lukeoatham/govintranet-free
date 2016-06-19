@@ -81,9 +81,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	} else {
 		$dtname = __("All","govintranet") . " <span class='caret'></span>";
 	}	
+
+	$search = $_GET['q'];
 	
 	$is_filtered = true;
-	if ( $cat_slug == "any" && $doctyp == "any" && $matoz == "any" ) $is_filtered = false;
+	if ( $cat_slug == "any" && $doctyp == "any" && $matoz == "any" && $search == "" ) $is_filtered = false;
 	
 	// get all document types for the left hand menu
 	$args = array(
@@ -97,10 +99,43 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	?>
 
 	<div class="row">
+
 		<div class="col-md-5">
-			<div class="document-finder-filter-box">
+			<div class="document-finder-filter-box doc_search">
+				<h3 class="widget-title"><?php _e('Search','govintranet'); ?></h3>
+				<div class="col-sm-12">
+					<form class="form-horizontal" role="form" id="docsearchform" name="docsearchform" method="get">
+		  
+					  	<div class="input-group">
+						 <label for="sdoc" class="sr-only"><?php _e('Search','govintranet'); ?></label>
+				    	 <input type="text" class="form-control" name="q" id="q" value="<?php echo esc_attr($search);?>">
+						 <span class="input-group-btn">
+						<label for="docsearchbutton" class="sr-only"><?php _e('Search','govintranet'); ?></label>	 <div class="matoz">
+				    	 <?php
+					    	 $icon_override = get_option('options_search_button_override', false); 
+					    	 if ( isset($icon_override) && $icon_override ):
+						    	 $override_text = esc_attr(get_option('options_search_button_text', __('Search', 'govintranet') ));
+								 ?>
+						 		<button class="btn btn-primary" id="docsearchbutton" type="submit"><?php echo $override_text; ?></button>
+							 	<?php 
+					    	 else:
+						    	 ?>
+						 		<button class="btn btn-primary" id="docsearchbutton" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only"><?php _e('Search','govintranet'); ?></span></button>
+							 	<?php 
+							 endif;
+							 ?></div>
+					 	</span>
+						</div><!-- /input-group -->
+						<input type="hidden" name="doctyp" value="<?php echo $doctyp; ?>" />
+						<input type="hidden" name="cat" value="<?php echo $cat_slug; ?>" />
+						<input type="hidden" name="matoz" value="<?php echo $matoz; ?>" />
+					</form>
+			  	</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="document-finder-filter-box doc_atoz">
 				<h3 class="widget-title"><?php _e('A to Z','govintranet'); ?></h3>
-				<div id="document_category_dropdown" >
+				<div id="document_atoz">
 					<div class="matoz">
 						<ul id='matozbutton' class="pager">
 						<?php 
@@ -118,48 +153,77 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 							foreach ((array)$terms as $taxonomy ) {
 								$letterlink[$taxonomy->slug] = "<li";
 								if (strtolower($matoz)==strtolower($taxonomy->slug)) $letterlink[$taxonomy->slug] .=  " class='active'";
-								$letterlink[$taxonomy->slug] .=  "><a href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz=".$taxonomy->slug."'>".strtoupper($taxonomy->name)."</a></li>";
+								$letterlink[$taxonomy->slug] .=  "><a href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz=".$taxonomy->slug."&q={$search}'>".strtoupper($taxonomy->name)."</a></li>";
 							}
 						}
 						$active = "";
 						if ( $matoz == "any" ) $active = " class='active'";
 
-						echo "<li".$active."><a href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz=any'>All</a></li>";
+						echo "<li".$active."><a href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz=any&q={$search}'>All</a></li>";
 						echo @implode("",$letterlink); 
 						?>
 						</ul>
 					</div>
 				</div>
 			</div>
+
+	 		<div class="document-finder-filter-box doc_types">
+				<h3 class="widget-title"><?php _e('Document type','govintranet'); ?></h3>
+				<ul class='pager matoz' role="menu">
+				<?php
+				$active = "";
+				if ( !$doctyp || $doctyp == "any" ) $active = " class='active'";
+				if ($cat_slug){    
+					echo "<li".$active."><a class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp=any&cat={$cat_slug}&matoz=".$matoz."&q={$search}'>" . __('All' , 'govintranet') . "</a></li>";
+				} else {
+			       echo "<li".$active."><a  class='doctypespinner".$active."' href='".get_permalink(get_the_id())."?doctyp=any&matoz=".$matoz."&q={$search}'>" . __('All' , 'govintranet') . "</a></li>";
+				}
+				foreach ($subcat as $sc) { 
+					if ($doctyp == $sc->slug) {
+				       echo "<li class='active'><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}&cat={$cat_slug}&matoz=".$matoz."&q={$search}'>";
+				       echo "{$sc->name}</a></li>";
+				    } else {
+					    if ($cat_slug){   
+					       echo "<li><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}&cat={$cat_slug}&matoz=".$matoz."&q={$search}'>";
+					       echo "{$sc->name}</a></li>";
+					    } else {
+					       echo "<li><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}&matoz=".$matoz."&q={$search}'>{$sc->name}</a></li>";
+						}
+					}
+				}
+				?>
+				</ul>
+			</div>
 			<?php
 			$taxonomies[]='category';
 			$post_type[]='attachment';
 			$post_cat = get_terms_by_media_type( $taxonomies, $post_type);
 			if ($post_cat){ ?>
-			<div class="document-finder-filter-box">
+			<div class="document-finder-filter-box doc_cats">
 				<h3 class="widget-title"><?php _e('Category','govintranet'); ?></h3>
-				<ul class='pager matoz' role="menu">
+				
+				<ul class='nav nav-pills nav-stacked matoz white' role="menu">
 				<?php
 				$active = "";
 				if ( !$cat_slug || $cat_slug == "any" ) $active = " class='active'";
 				if ($doctyp !='any' ) {
-					echo "<li".$active."><a class='doccatspinner' href='".get_permalink(get_the_id())."?doctyp=".$doctyp."&matoz=".$matoz."'>" . __('All','govintranet') . "</a></li>";
+					echo "<li".$active."><a class='doccatspinner' href='".get_permalink(get_the_id())."?doctyp=".$doctyp."&matoz=".$matoz."&q={$search}'>" . __('All','govintranet') . "</a></li>";
 				} else {
-					echo "<li".$active."><a class='doccatspinner' href='".get_permalink(get_the_id())."?matoz=".$matoz."'>" . __('All','govintranet') . "</a></li>";
+					echo "<li".$active."><a class='doccatspinner' href='".get_permalink(get_the_id())."?matoz=".$matoz."&q={$search}'>" . __('All','govintranet') . "</a></li>";
 				}
 				foreach($post_cat as $cat){ 
 					if ($cat->term_id > 1 && $cat->name){
 						$newname = str_replace(" ", "&nbsp;", $cat->name );
 						if ($doctyp) { // show chosen doc type as selected
 							if ($cat->slug == $cat_slug) {
-								echo "<li class='active'><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&doctyp=".$doctyp."&matoz=".$matoz."'>";
+								echo "<li class='active'><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&doctyp=".$doctyp."&matoz=".$matoz."&q={$search}'><span class='brd" . $cat->term_id . "'></span>&nbsp;";
 								echo $newname."</a></li>";
 							} else {
-								echo "<li><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&doctyp=".$doctyp."&matoz=".$matoz."'>";
+								echo "<li><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&doctyp=".$doctyp."&matoz=".$matoz."&q={$search}'><span class='brd" . $cat->term_id . "'></span>&nbsp;";
 								echo $newname."</a></li>";
 							}
 						} else {
-							echo "<li><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&matoz=".$matoz."'>";
+							echo "<li><a class='doccatspinner' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&matoz=".$matoz."&q={$search}'><span class='brd" . $cat->term_id . "'></span>&nbsp;";
 							echo $newname."</a></li>";
 						}
 					}
@@ -168,34 +232,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				</ul>
 			</div><?php
 			}
-			?> 
-	 		<div class="document-finder-filter-box">
-				<h3 class="widget-title"><?php _e('Document type','govintranet'); ?></h3>
-				<ul class='pager matoz' role="menu">
-				<?php
-				$active = "";
-				if ( !$doctyp || $doctyp == "any" ) $active = " class='active'";
-				if ($cat_slug){    
-					echo "<li".$active."><a class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp=any&cat={$cat_slug}&matoz=".$matoz."'>" . __('All' , 'govintranet') . "</a></li>";
-				} else {
-			       echo "<li".$active."><a  class='doctypespinner".$active."' href='".get_permalink(get_the_id())."?doctyp=any&matoz=".$matoz."'>" . __('All' , 'govintranet') . "</a></li>";
-				}
-				foreach ($subcat as $sc) { 
-					if ($doctyp == $sc->slug) {
-				       echo "<li class='active'><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}&cat={$cat_slug}&matoz=".$matoz."'>";
-				       echo "{$sc->name}</a></li>";
-				    } else {
-					    if ($cat_slug){   
-					       echo "<li><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}&cat={$cat_slug}&matoz=".$matoz."'>";
-					       echo "{$sc->name}</a></li>";
-					    } else {
-					       echo "<li><a  class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp={$sc->slug}&matoz=".$matoz."'>{$sc->name}</a></li>";
-						}
-					}
-				}
-				?>
-				</ul>
-			</div>
+			?> 			
 		</div>
 		<div class="col-md-7">
 			<div class='matoz-results'>
@@ -314,7 +351,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 							));
 					}
 				}
-		
+
+				if ( $search ){
+					$docfinder['s'] = $search;
+				}		
+				
 				$docs = get_posts($docfinder);
 				
 				$postsarray = array();
@@ -341,22 +382,22 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				$docs = new wp_query(array('orderby'=>'title','order'=>'ASC','post_status'=>'inherit','posts_per_page'=>$max_posts,'paged'=>$paged,'post_type'=>'attachment','post__in'=>$postsarray));
 				if ($docs->found_posts == 0 ) {
 					?>
-					<h3 class="widget-title"><?php _e('No results' , 'govintranet'); ?><a class="btn btn-primary btn-sm pull-right matoz" href="<?php echo get_permalink();?>">Reset <span class="badge">X</span></a></h3>
+					<h3 class="widget-title">
+						<a class="btn btn-primary btn-sm pull-right matoz" href="<?php echo get_permalink();?>"><?php _e('Reset filters','govintranet'); ?></a>
+						<?php _e('No results' , 'govintranet'); ?>
+					</h3>
 					<?php
-					echo '<p id="docresults">';
-					_e('Nothing to show' , 'govintranet'); 
-					echo ".</p>";
-					
+				
 				} else {
 					?>
 					<h3 class="widget-title">
-						<?php ?>
+
 						<?php
 						if ( $is_filtered  ):
 							printf( esc_html( _n( '%d result', '%d results', $docs->found_posts, 'govintranet'  ) ), $docs->found_posts );
 							?>
-							<a class="btn btn-primary btn-sm pull-right matoz" href="<?php echo get_permalink();?>">Reset <span class="badge">X</span></a>
-						<?php
+							<a class="btn btn-primary btn-sm pull-right matoz" href="<?php echo get_permalink();?>"><?php _e('Reset filters','govintranet'); ?></a>
+						<?php						
 						else:
 							_e('All results','govintranet');
 						endif;
@@ -364,7 +405,18 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						</h3>
 					<?php
 				}
-				?>
+				if ( $cat_slug!="any" ):
+					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat=&matoz={$matoz}'>".strtoupper($catname)." <span class='badge small'>X</span></a>";
+				endif;
+				if ( $doctyp!="any" ):
+					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp=&cat={$cat_slug}&matoz={$matoz}'>".strtoupper($dtname)." <span class='badge small'>X</span></a>";
+				endif;
+				if ( $matoz!="any" ):
+					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}'>".strtoupper($matoz)." <span class='badge small'>X</span></a>";
+				endif;
+				?>						
+				<div class="clearfix"></div>
+				<?php if ($docs->found_posts == 0 ) echo '<p id="docresults">' . __('Nothing to show' , 'govintranet') . ".</p>"; ?>
 				<div id="docspinner" class="col-sm-12 hidden">
 					<img src="<?php echo includes_url('/images/spinner-2x.gif'); ?>" alt="<?php _e('Please wait' , 'govintranet') ;?>" />
 				</div>

@@ -1,3 +1,7 @@
+.document-finder-filter-box { display: block; }
 .document-finder-filter-box h3.widget-title { text-align: center; }
+.document-finder-filter-box form.form-horizontal { margin: 7px 0 10px 0; }
+.document-finder-filter-box.doc_cats { background: #fff; }
 .matoz-results h3.widget-title { padding-left: 1em; }
 .imgdocument::before { content: "\e060";  font-family: 'Glyphicons Halflings'; padding-right: 7px; }
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover { color: inherit; background: #eee; }

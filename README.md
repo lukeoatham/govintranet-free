@@ -38,6 +38,14 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.16.1 - 19 Jun 2016 ###
+* Updates to news listing loop, featured image now clickable  
+* Updates to news type taxonomy archive, featured image now clickable  
+* Content Report plugin enhancements 
+* Fix for long text on intravert buttons 
+* Media A to Z plugin enhancements 
+* Translation updates 
+
 ### 4.16 - 14 Jun 2016 ###
 * Event type dropdown added to newsboard template 
 * Newsboard template bug fixes 

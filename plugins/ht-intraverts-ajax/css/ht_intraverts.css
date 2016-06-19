@@ -4,3 +4,4 @@
 a.btn.filter_results_skip { width: auto; text-decoration: none; overflow:hidden; position: absolute;top: 0;right: 0; padding: 3px 2px 1px 10px; }
 .ht_intraverts .category-block { position: relative; }
 #content .widget-box { position: relative; }
+.ht_intraverts .btn { white-space: normal; }

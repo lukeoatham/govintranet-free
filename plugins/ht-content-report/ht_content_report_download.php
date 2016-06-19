@@ -25,11 +25,11 @@
  * @version    ##VERSION##, ##DATE##
  */
 
-/** Error reporting */
+/** include WordPress defaults */
 include($_SERVER['DOCUMENT_ROOT']."/wp-config.php");
 
 $nonce = $_POST['nonce'];
-// redirect if coming to this directly, not via the authenticated download page
+// redirect if coming to this directly or not via the authenticated download page
 
 if (!current_user_can('manage_options'))  {
 	wp_die( __('You do not have sufficient permissions to access this page.','govintranet') );
@@ -67,26 +67,28 @@ if ( !$ps ) $ps = array('publish','draft','future','pending');
 $xquery = new WP_Query(array(
 	'post_type' => $pt,
 	'posts_per_page' => -1,
-	'paged' => $paged,
 	'post_status' => $ps,
 	'order' => 'ASC',
 	'orderby' => 'ID menu_order',
 ));
 
 $objPHPExcel->setActiveSheetIndex(0)
-	->setCellValue('A1', 'Title')
-	->setCellValue('B1', 'URL')
-	->setCellValue('C1', 'Author')
-	->setCellValue('D1', 'Last modified')
-	->setCellValue('E1', 'Status')
-	->setCellValue('F1', 'Taxonomy terms')
-	->setCellValue('G1', 'Tags')
-	->setCellValue('H1', 'A to Z')
-	->setCellValue('I1', 'Search keywords')
-	->setCellValue('J1', 'Relevanssi pin')
-	->setCellValue('K1', 'ID')
-	->setCellValue('L1', 'Order')
-	->setCellValue('M1', 'Parent')
+	->setCellValue('A1', __('Title','govintranet'))
+	->setCellValue('B1', __('URL','govintranet'))
+	->setCellValue('C1', __('Author','govintranet'))
+	->setCellValue('D1', __('Last modified','govintranet'))
+	->setCellValue('E1', __('Status','govintranet'))
+	->setCellValue('F1', __('Category/type','govintranet'))
+	->setCellValue('G1', __('Tags','govintranet'))
+	->setCellValue('H1', __('A to Z','govintranet'))
+	->setCellValue('I1', __('Search keywords','govintranet'))
+	->setCellValue('J1', __('Relevanssi pin','govintranet'))
+	->setCellValue('K1', __('Hide in search','govintranet'))	
+	->setCellValue('L1', __('ID','govintranet'))
+	->setCellValue('M1', __('Order','govintranet'))
+	->setCellValue('N1', __('Parent','govintranet'))
+	->setCellValue('O1', __('Post type','govintranet'))
+	->setCellValue('P1', __('Attachments','govintranet'))	
 	;
 
 $X = 2;		
@@ -127,7 +129,23 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 	if ( !$keywords ) $keywords = '';
 	$skeywords = get_post_meta(get_the_id(),'_relevanssi_pin',true);
 	if ( !$skeywords ) $skeywords = '';
+	$hide = get_post_meta(get_the_id(),'_relevanssi_hide_post',true);
+	if ( !$hide ) $hide = '';
 
+	$doc_attachments = array();
+	$media = get_attached_media( 'application' );
+	if ( $media ){
+		foreach ( $media as $m ){
+			$doc_attachments[] = get_permalink($m->ID);
+		}
+	}
+	$media = get_field('document_attachments');
+	if ( $media ) {
+		foreach ($media as $ca){
+			$c = $ca['document_attachment'];
+			if ( isset($c['ID']) ) $doc_attachments[] = get_permalink($c['ID']);
+		}
+	}
 
     $objPHPExcel->setActiveSheetIndex(0)
 	    ->setCellValue('A'.$X, get_the_title())
@@ -140,9 +158,12 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 		->setCellValue('H'.$X, implode(', ', $atoz))
 		->setCellValue('I'.$X, $keywords)
 		->setCellValue('J'.$X, $skeywords)
-		->setCellValue('K'.$X, get_the_id())
-		->setCellValue('L'.$X, $post->menu_order)
-		->setCellValue('M'.$X, $post->post_parent)
+		->setCellValue('K'.$X, $hide)
+		->setCellValue('L'.$X, get_the_id())
+		->setCellValue('M'.$X, $post->menu_order)
+		->setCellValue('N'.$X, $post->post_parent)
+		->setCellValue('O'.$X, $post->post_type)
+		->setCellValue('P'.$X, implode(', ', $doc_attachments))		
 		;
   
       $X++;        
@@ -152,16 +173,16 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 // Set document properties
 echo date('H:i:s') , " Set document properties" , EOL;
 $objPHPExcel->getProperties()->setCreator("GovIntranet")
-                            ->setTitle("Content Report");
+                            ->setTitle(__("Content Report","govintranet"));
 							 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Content Report');
+$objPHPExcel->getActiveSheet()->setTitle(__('Content Report','govintranet'));
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);
 
 ob_clean();
-// Redirect output to a client’s web browser (Excel5)
+// Redirect output to a client's web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel');
 header('Content-Disposition: attachment;filename="content-report-'.date('YmdHis').'.xls"');
 header('Cache-Control: max-age=0');
@@ -177,4 +198,3 @@ header ('Pragma: public'); // HTTP/1.0
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 $objWriter->save('php://output');
 exit;
-

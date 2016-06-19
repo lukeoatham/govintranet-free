@@ -11,4 +11,12 @@ jQuery(document).ready(function($) {
 	jQuery('.docresult a[href*=".gif"]').addClass('imgdocument').append(' (GIF)');
 	jQuery('.docresult a[href*=".bmp"]').addClass('imgdocument').append(' (BMP)');
 	jQuery('.docresult a[href*=".tiff"]').addClass('imgdocument').append(' (TIFF)');
+	jQuery('#docsearchform').submit(function(e) {
+			    if (jQuery.trim(jQuery("#q").val()) === "") {
+			        e.preventDefault();
+			        jQuery('#docspinner').addClass('hidden');
+			        jQuery('#docresults').slideDown();
+			        jQuery('#q').focus();
+			    }
+	});	
 });

@@ -1,0 +1,943 @@
+# GovIntranet
+# Copyright (C) 2015 Luke Oatham
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: GovIntranet v1.0.0\n"
+"Report-Msgid-Bugs-To: Luke Oatham <lukeoatham@gmail.com>\n"
+"POT-Creation-Date: 2015-11-01 23:27+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Helpful Technology <luke@helpfultechnology.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"\"PO-Revision-Date: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Textdomain-Support: yesX-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: 404.php:15
+msgid ""
+"The page that you are trying to reach doesn't exist. <br><br>Please go back "
+"or try searching."
+msgstr "Il faut rechercher."
+
+#: archive.php:27
+#, php-format
+msgid "Daily archives: %s"
+msgstr ""
+
+#: archive.php:29
+#, php-format
+msgid "Monthly archives: %s"
+msgstr ""
+
+#: archive.php:31
+#, php-format
+msgid "Yearly archives: %s"
+msgstr ""
+
+#: archive.php:71
+msgctxt "A title for the news update category"
+msgid "Update categories"
+msgstr "Types de nouvelles"
+
+#: attachment.php:50 loop.php:294
+msgid "Continue reading &rarr;"
+msgstr ""
+
+#: author.php:36
+msgctxt "The homepage link"
+msgid "Home"
+msgstr "Accueil"
+
+#: author.php:39
+msgid "Forums"
+msgstr "Forums"
+
+#: author.php:49
+msgid "Forum"
+msgstr "Forum"
+
+#: author.php:49
+msgid "Blog"
+msgstr "Blog"
+
+#: author.php:49
+msgid "posts by"
+msgstr ""
+
+#: author.php:55
+msgid "Staff profile"
+msgstr "Profil personnel"
+
+#: category.php:60 category.php:72 page-how-do-i-alt.php:22
+#: page-how-do-i-alt.php:27 page-how-do-i-alt.php:37 searchform.php:17
+#: searchform.php:23 searchform.php:26 searchform.php:36
+msgid "Search"
+msgstr "Recherche"
+
+#: category.php:102 page-how-do-i-alt.php:108
+msgid "Browse by tag"
+msgstr "Mots-clef"
+
+#: category.php:138
+msgid "Nothing to show"
+msgstr "Rien à montrer"
+
+#: category.php:148 category.php:151
+msgid "Guide"
+msgstr "Guide"
+
+#: category.php:155
+msgid "Task"
+msgstr "Tâche"
+
+#: category.php:166 loop-blogtwitter.php:19 loop-newsblogs.php:80
+#: loop-newstwitter.php:74 loop.php:151 loop.php:157 loop.php:169 loop.php:257
+#: page-projects.php:73 tag.php:204 tag.php:209 tag.php:214
+#, php-format
+msgid "%s %s"
+msgstr ""
+
+#: category.php:202
+msgid "Sub-categories"
+msgstr "Sous-Catégories"
+
+#: category.php:228
+msgid "Categories"
+msgstr "Catégories"
+
+#: comments.php:14
+msgid ""
+"This post is password protected. Enter the password to view any comments."
+msgstr ""
+
+#: comments.php:28
+#, php-format
+msgid "One response to %2$s"
+msgid_plural "%1$s responses to %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:34 comments.php:52
+msgid "&larr; Older comments"
+msgstr ""
+
+#: comments.php:35 comments.php:53
+msgid "Newer comments &rarr;"
+msgstr ""
+
+#: comments.php:66
+msgid "Leave a comment"
+msgstr "Laissez un commentaire"
+
+#: form-user-edit.php:14 form-user-edit.php:19
+msgid "Name"
+msgstr "Nom"
+
+#: form-user-edit.php:24
+msgid "First name"
+msgstr "Prénom"
+
+#: form-user-edit.php:29
+msgid "Last name"
+msgstr "Nom de famille"
+
+#: form-user-edit.php:34
+msgid "Nickname"
+msgstr ""
+
+#: form-user-edit.php:39
+msgid "Display name"
+msgstr ""
+
+#: form-user-edit.php:50 form-user-edit.php:53
+msgid "Contact info"
+msgstr ""
+
+#: form-user-edit.php:58
+msgid "Website"
+msgstr ""
+
+#: form-user-edit.php:76 form-user-edit.php:79
+msgid "About yourself"
+msgstr ""
+
+#: form-user-edit.php:76 form-user-edit.php:79
+msgid "About the user"
+msgstr ""
+
+#: form-user-edit.php:84
+msgid "About me"
+msgstr ""
+
+#: form-user-edit.php:94 form-user-edit.php:97
+msgid "Account"
+msgstr ""
+
+#: form-user-edit.php:102
+msgid "Username"
+msgstr ""
+
+#: form-user-edit.php:107
+msgid "Email"
+msgstr ""
+
+#: form-user-edit.php:119
+#, php-format
+msgid ""
+"There is a pending email address change to <code>%1$s</code>. <a href=\"%2$s"
+"\">Cancel</a>"
+msgstr ""
+
+#: form-user-edit.php:129
+msgid "New password"
+msgstr ""
+
+#: form-user-edit.php:132
+msgid ""
+"If you would like to change the password type a new one. Otherwise leave "
+"this blank."
+msgstr ""
+
+#: form-user-edit.php:135
+msgid "Type your new password again."
+msgstr ""
+
+#: form-user-edit.php:138
+msgid ""
+"Your password should be at least ten characters long. Phrases with numbers "
+"and symbols are easier to remember, e.g. \"Her Imperial Highness has 30 "
+"handbags!\""
+msgstr ""
+
+#: form-user-edit.php:150 form-user-edit.php:153
+msgid "User role"
+msgstr "Rôle"
+
+#: form-user-edit.php:160
+msgid "Network role"
+msgstr ""
+
+#: form-user-edit.php:163
+msgid "Grant this user super admin privileges for the Network."
+msgstr ""
+
+#: form-user-edit.php:178 forum.php:17
+msgid "Staff directory"
+msgstr ""
+
+#: form-user-edit.php:187
+msgid "Save changes"
+msgstr ""
+
+#: form-user-edit.php:192 form-user-edit.php:193
+msgid "Update profile"
+msgstr "Mettre à jour mon profil"
+
+#: form-user-edit.php:192 form-user-edit.php:193
+msgid "Update user"
+msgstr ""
+
+#: forum.php:16 forum.php:21
+msgctxt "The site homepage"
+msgid "Home"
+msgstr "Accueil"
+
+#: functions.php:98
+msgid "Primary Navigation"
+msgstr "Modifier votre menu de navigation primaire"
+
+#: functions.php:99
+msgid "Secondary Navigation"
+msgstr "Modifier votre menu de navigation secondaire"
+
+#: functions.php:143
+#, php-format
+msgid "Search results for %s"
+msgstr ""
+
+#: functions.php:146 functions.php:214
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: functions.php:169
+msgid "tasks and guides"
+msgstr ""
+
+#: functions.php:172
+msgid "project"
+msgstr ""
+
+#: functions.php:175
+msgid "job vacancies"
+msgstr ""
+
+#: functions.php:180
+msgid "staff profile"
+msgstr "profil personnel"
+
+#: functions.php:183
+msgid "events"
+msgstr ""
+
+#: functions.php:186
+msgid "jargon buster"
+msgstr ""
+
+#: functions.php:189
+msgid "A to Z"
+msgstr ""
+
+#: functions.php:192
+msgid "forums"
+msgstr ""
+
+#: functions.php:195
+msgid "forum topics"
+msgstr ""
+
+#: functions.php:198
+msgid "forum replies"
+msgstr ""
+
+#: functions.php:201
+msgid "news"
+msgstr "nouvelles"
+
+#: functions.php:204
+msgid "blog"
+msgstr ""
+
+#: functions.php:257
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: functions.php:339
+#, php-format
+msgid "%s <span class=\"says\">says:</span>"
+msgstr ""
+
+#: functions.php:342
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: functions.php:349
+#, php-format
+msgid "<small>%1$s at %2$s</small>"
+msgstr ""
+
+#: functions.php:349 functions.php:366
+msgid "(Edit)"
+msgstr ""
+
+#: functions.php:366
+msgid "Pingback:"
+msgstr ""
+
+#: functions.php:387
+msgid "Homepage first column"
+msgstr ""
+
+#: functions.php:389
+msgid "Homepage 1st column"
+msgstr ""
+
+#: functions.php:397 functions.php:399
+msgid "Homepage hero area"
+msgstr ""
+
+#: functions.php:406 functions.php:408
+msgid "Homepage second column"
+msgstr ""
+
+#: functions.php:415 functions.php:417
+msgid "Homepage third column top"
+msgstr ""
+
+#: functions.php:424 functions.php:426
+msgid "Homepage third column bottom"
+msgstr ""
+
+#: functions.php:433
+msgid "Utility widget box"
+msgstr ""
+
+#: functions.php:435
+msgid "Utility widget area appears beneath the search box"
+msgstr ""
+
+#: functions.php:441
+msgid "Left footer"
+msgstr ""
+
+#: functions.php:443
+msgid "Left footer widget area"
+msgstr ""
+
+#: functions.php:451
+msgid "Right footer 1"
+msgstr ""
+
+#: functions.php:453
+msgid "The 1st right footer widget area"
+msgstr ""
+
+#: functions.php:461
+msgid "Right footer 2"
+msgstr ""
+
+#: functions.php:463
+msgid "The 2nd right footer widget area"
+msgstr ""
+
+#: functions.php:470
+msgid "Tasks sidebar"
+msgstr ""
+
+#: functions.php:472
+msgid "Tasks widget area, appears on individual tasks"
+msgstr ""
+
+#: functions.php:479
+msgid "News landing page"
+msgstr ""
+
+#: functions.php:481
+msgid "The right-hand col on the news page"
+msgstr ""
+
+#: functions.php:488
+msgid "News sidebar"
+msgstr ""
+
+#: functions.php:490
+msgid "News widget area, appears on individual news and news updtes"
+msgstr ""
+
+#: functions.php:497
+msgid "Blog landing page"
+msgstr ""
+
+#: functions.php:499
+msgid "Blog landing page widget area"
+msgstr ""
+
+#: functions.php:506
+msgid "Blog sidebar"
+msgstr ""
+
+#: functions.php:508
+msgid "Blog posts widget area, appears on individual blog posts"
+msgstr ""
+
+#: functions.php:515
+msgid "Events landing page"
+msgstr ""
+
+#: functions.php:517
+msgid "Events landing page widget area"
+msgstr ""
+
+#: functions.php:524
+msgid "Events sidebar"
+msgstr ""
+
+#: functions.php:526
+msgid "Events posts widget area, appears on individual events"
+msgstr ""
+
+#: functions.php:533
+msgid "Search results page"
+msgstr ""
+
+#: functions.php:535
+msgid "Search results page widget area"
+msgstr ""
+
+#: functions.php:542
+msgid "Login area"
+msgstr ""
+
+#: functions.php:544
+msgid "Login widget area"
+msgstr ""
+
+#: functions.php:1427
+#, php-format
+msgid "%s min"
+msgid_plural "%s mins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1433
+#, php-format
+msgid "%s hour"
+msgid_plural "%s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1439
+#, php-format
+msgid "%s year"
+msgid_plural "%s years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1445
+#, php-format
+msgid "%s month"
+msgid_plural "%s months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1451
+#, php-format
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:1503
+msgctxt "post type name plural"
+msgid "Blog posts"
+msgstr ""
+
+#: functions.php:1504
+msgctxt "post type name singular"
+msgid "Blog post"
+msgstr ""
+
+#: functions.php:1505
+msgctxt "post type name"
+msgid "Blog posts"
+msgstr "Blogs"
+
+#: functions.php:1506
+msgid "Add Blog post"
+msgstr "Ajouter un blog"
+
+#: functions.php:1507
+msgid "Add New Blog post"
+msgstr "Ajouter un blog"
+
+#: functions.php:1508
+msgid "Edit"
+msgstr ""
+
+#: functions.php:1509
+msgid "Edit Blog post"
+msgstr ""
+
+#: functions.php:1510
+msgid "New Blog post"
+msgstr ""
+
+#: functions.php:1511 functions.php:1512
+msgid "View Blog post"
+msgstr ""
+
+#: functions.php:1513
+msgid "Search Blog posts"
+msgstr ""
+
+#: functions.php:1514
+msgid "No Blog posts found"
+msgstr ""
+
+#: functions.php:1515
+msgid "No Blog posts found in trash"
+msgstr ""
+
+#: functions.php:1516
+msgid "Parent Blog post"
+msgstr ""
+
+#: functions.php:1712
+msgid "Enable auto-expiry"
+msgstr ""
+
+#: functions.php:1728
+msgid "Expiry date"
+msgstr "Date d’expiration"
+
+#: functions.php:1753
+msgid "Expiry time"
+msgstr "Heure d’expiration"
+
+#: functions.php:1782
+msgid "Expiry action"
+msgstr "Action"
+
+#: functions.php:8883 page-doc-finder.php:32 page-doc-finder.php:78
+#: page-doc-finder.php:81
+msgid "All categories"
+msgstr "Toutes catégories"
+
+#: functions.php:8891 page-doc-finder.php:40
+msgid "All document types"
+msgstr "Toutes types de dossiers"
+
+#: functions.php:9237 functions.php:9244
+msgctxt "all tags"
+msgid "All"
+msgstr ""
+
+#: functions.php:9467
+msgid "My profile"
+msgstr "Profil personnel"
+
+#: functions.php:9468
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: functions.php:9471
+msgid "Login"
+msgstr ""
+
+#: functions.php:9490
+msgid "Anonymous"
+msgstr ""
+
+#: functions.php:9503
+msgid "Reply to"
+msgstr "Répondez a "
+
+#: header.php:410
+msgid "Skip to content"
+msgstr ""
+
+#: inc/theme-options.php:55 inc/theme-options.php:474
+msgid "Color Scheme"
+msgstr ""
+
+#: inc/theme-options.php:61 inc/theme-options.php:491
+msgid "Link Color"
+msgstr ""
+
+#: inc/theme-options.php:62
+msgid "Default Layout"
+msgstr ""
+
+#: inc/theme-options.php:94 inc/theme-options.php:95
+msgid "Theme Options"
+msgstr ""
+
+#: inc/theme-options.php:110
+msgid ""
+"Some themes provide customization options that are grouped together on a "
+"Theme Options screen. If you change themes, options may change or disappear, "
+"as they are theme-specific. Your current theme, Twenty Eleven, provides the "
+"following Theme Options:"
+msgstr ""
+
+#: inc/theme-options.php:112
+msgid ""
+"<strong>Color Scheme</strong>: You can choose a color palette of \"Light"
+"\" (light background with dark text) or \"Dark\" (dark background with light "
+"text) for your site."
+msgstr ""
+
+#: inc/theme-options.php:113
+msgid ""
+"<strong>Link Color</strong>: You can choose the color used for text links on "
+"your site. You can enter the HTML color or hex code, or you can choose "
+"visually by clicking the \"Select a Color\" button to pick from a color "
+"wheel."
+msgstr ""
+
+#: inc/theme-options.php:114
+msgid ""
+"<strong>Default Layout</strong>: You can choose if you want your site&#8217;"
+"s default layout to have a sidebar on the left, the right, or not at all."
+msgstr ""
+
+#: inc/theme-options.php:116
+msgid ""
+"Remember to click \"Save Changes\" to save any changes you have made to the "
+"theme options."
+msgstr ""
+
+#: inc/theme-options.php:118
+msgid "For more information:"
+msgstr ""
+
+#: inc/theme-options.php:119
+msgid ""
+"<a href=\"http://codex.wordpress.org/Appearance_Theme_Options_Screen\" "
+"target=\"_blank\">Documentation on Theme Options</a>"
+msgstr ""
+
+#: inc/theme-options.php:120
+msgid ""
+"<a href=\"http://wordpress.org/support/\" target=\"_blank\">Support Forums</"
+"a>"
+msgstr ""
+
+#: inc/theme-options.php:127
+msgid "Overview"
+msgstr ""
+
+#: inc/theme-options.php:149
+msgid "Light"
+msgstr ""
+
+#: inc/theme-options.php:155
+msgid "Dark"
+msgstr ""
+
+#: inc/theme-options.php:173
+msgid "Content on left"
+msgstr ""
+
+#: inc/theme-options.php:178
+msgid "Content on right"
+msgstr ""
+
+#: inc/theme-options.php:183
+msgid "One-column, no sidebar"
+msgstr ""
+
+#: inc/theme-options.php:273
+msgid "Select a Color"
+msgstr ""
+
+#: inc/theme-options.php:276
+#, php-format
+msgid "Default color: %s"
+msgstr ""
+
+#: inc/theme-options.php:312
+#, php-format
+msgid "%s Theme Options"
+msgstr ""
+
+#: inc/theme-options.php:498
+msgid "Layout"
+msgstr ""
+
+#: inc/widgets.php:19
+msgid ""
+"Use this widget to list your recent Aside, Status, Quote, and Link posts"
+msgstr ""
+
+#: inc/widgets.php:20
+msgid "Twenty Eleven Ephemera"
+msgstr ""
+
+#: inc/widgets.php:52
+msgid "Ephemera"
+msgstr ""
+
+#: inc/widgets.php:89
+#, php-format
+msgid "Permalink to %s"
+msgstr ""
+
+#: inc/widgets.php:91 inc/widgets.php:107
+msgid "0 <span class=\"reply\">comments &rarr;</span>"
+msgstr "Pas de <span class=\"reply\">commentaires &rarr;</span>"
+
+#: inc/widgets.php:91 inc/widgets.php:107
+msgid "1 <span class=\"reply\">comment &rarr;</span>"
+msgstr "1 <span class=\"reply\">commentaire &rarr;</span>"
+
+#: inc/widgets.php:91 inc/widgets.php:107
+msgid "% <span class=\"reply\">comments &rarr;</span>"
+msgstr "% <span class=\"reply\">commentaires &rarr;</span>"
+
+#: inc/widgets.php:105
+#, php-format
+msgid "Link to %s"
+msgstr ""
+
+#: inc/widgets.php:157
+msgid "Title:"
+msgstr "Titre de la page"
+
+#: inc/widgets.php:160
+msgid "Number of posts to show:"
+msgstr ""
+
+#: loop-blogtwitter.php:74 loop-newsblogs.php:53 loop-newsblogs.php:87
+#: loop-newstwitter.php:47 loop-newstwitter.php:81 loop.php:203
+#, php-format
+msgid "<span class=\"badge\">1 comment</span>"
+msgid_plural "<span class=\"badge\">%d comments</span>"
+msgstr[0] "<span class=\"badge\">1 commentaire</span>"
+msgstr[1] "<span class=\"badge\">%d commentaires</span>"
+
+#: loop.php:27 taxonomy-a-to-z.php:83
+msgid "Not found"
+msgstr "Pas trouvé"
+
+#: loop.php:30 taxonomy-a-to-z.php:86
+msgid "There's nothing to show."
+msgstr "Rien à montrer"
+
+#: loop.php:295
+msgid "Pages:"
+msgstr ""
+
+#: page-doc-finder.php:60
+msgid "Category"
+msgstr ""
+
+#: page-how-do-i-alt.php:58
+msgid "Browse by category"
+msgstr "Catégorie"
+
+#: page-news.php:81
+msgid "Search by tag"
+msgstr ""
+
+#: search-staff.php:55 search.php:149
+#, php-format
+msgid "Search results for: %s"
+msgstr ""
+
+#: search.php:109
+msgid "Couldn't find anything in "
+msgstr ""
+
+#: search.php:111
+msgid ""
+"Couldn't find anything on the intranet like that. Sometimes using fewer "
+"words can help."
+msgstr ""
+
+#: tag.php:21
+#, php-format
+msgid "Tasks/guides tagged: %s"
+msgstr ""
+
+#: tag.php:24
+#, php-format
+msgid "Projects tagged: %s"
+msgstr ""
+
+#: tag.php:27
+#, php-format
+msgid "Job vacancies tagged: %s"
+msgstr ""
+
+#: tag.php:30
+#, php-format
+msgid "News tagged: %s"
+msgstr ""
+
+#: tag.php:33
+#, php-format
+msgid "Blog posts tagged: %s"
+msgstr ""
+
+#: tag.php:36
+#, php-format
+msgid "Events tagged: %s"
+msgstr ""
+
+#: tag.php:40
+#, php-format
+msgid "Everything tagged: %s"
+msgstr ""
+
+#: tag.php:391
+#, php-format
+msgid "<strong>Everything</strong> tagged: %s"
+msgstr ""
+
+#: taxonomy-news-type.php:98
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: theme-options.php:33
+msgid "Header background colour"
+msgstr ""
+
+#: theme-options.php:39
+msgid "Link colour"
+msgstr ""
+
+#: theme-options.php:45
+msgid "Visited colour"
+msgstr ""
+
+#: user-details.php:38
+#, php-format
+msgid "%s's Profile"
+msgstr ""
+
+#: user-details.php:38
+msgid "Profile"
+msgstr ""
+
+#: user-details.php:51
+#, php-format
+msgid "%s's blog posts"
+msgstr ""
+
+#: user-details.php:51
+msgid "Blog posts"
+msgstr ""
+
+#: user-details.php:61
+#, php-format
+msgid "%s's forum topics"
+msgstr ""
+
+#: user-details.php:61
+msgid "Forum topics"
+msgstr ""
+
+#: user-details.php:67
+#, php-format
+msgid "%s's forum replies"
+msgstr ""
+
+#: user-details.php:67
+msgid "Forum replies"
+msgstr ""
+
+#: user-details.php:74
+#, php-format
+msgid "%s's forum favourites"
+msgstr ""
+
+#: user-details.php:74
+msgid "Favourites"
+msgstr ""
+
+#: user-details.php:86
+#, php-format
+msgid "%s's forum subscriptions"
+msgstr ""
+
+#: user-details.php:86
+msgid "Subscriptions"
+msgstr ""
+
+#: user-details.php:93
+#, php-format
+msgid "Edit %s's profile"
+msgstr ""
+
+#: user-details.php:93
+msgid "Edit profile"
+msgstr ""
+
+#~ msgid "Revert to draft status"
+#~ msgstr "Brouillon"
+
+#~ msgctxt "post type name for blog posts"
+#~ msgid "Blog posts"
+#~ msgstr "Blogs"

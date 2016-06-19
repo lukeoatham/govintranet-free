@@ -5,11 +5,11 @@
 global $k;
 $k++;
 $thistitle = get_the_title($id);
-$thisURL=get_permalink($id);
+$thisURL = get_permalink($id);
 $videoimg = get_the_post_thumbnail($post->ID, 'thumbnail', array('class' => 'alignright'));
-$thisexcerpt= get_the_excerpt();
-$thisdate= $post->post_date;
-$thisdate=date(get_option('date_format'),strtotime($thisdate));
+$thisexcerpt = get_the_excerpt();
+$thisdate = $post->post_date;
+$thisdate = date(get_option('date_format'),strtotime($thisdate));
 $needtoknow = '';
 
 //determine news type
@@ -33,15 +33,15 @@ if ($k==1 && $paged<2){
 	if ($video){
 		echo $video;
 	} elseif (has_post_thumbnail($post->ID)){
-		//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
-		//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+		echo "<a href='$thisURL' title='$thistitle'>";
 		echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive'));
+		echo "</a>";
 		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 	} 
 
 	$ext_icon = '';
 	if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
-	echo "<h3".$headclass.">".$ext_icon."<a href='".get_permalink($post->ID)."'>".$needtoknow.$thistitle."</a></h3>";
+	echo "<h3".$headclass.">".$ext_icon."<a href='$thisURL'>".$needtoknow.$thistitle."</a></h3>";
 	echo "<div class='media-body'>";
 	echo "<div><p>";
 	$thisdate= $post->post_date;
@@ -72,19 +72,16 @@ if ($k==1 && $paged<2){
 	//regular listing *********************
 	echo "<div class='media'>" ;
 	$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright img-responsive'));
-	echo "<a href='";
-	$userurl = get_permalink();
-	echo $userurl;
-	echo "'><div class='hidden-xs'>";
+	echo "<div class='hidden-xs'><a href='$thisURL'>";
 	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'thumbnail' );
 	if ($image_uri!="" ){
-		echo "<a href='{$thisURL}'><img class='img img-responsive alignright' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($post->post_title)."' /></a>";									
+		echo "<img class='img img-responsive alignright' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($post->post_title)."' />";									
 	} 	
-	echo "</div></a>" ;
+	echo "</a></div>" ;
 	echo "<div class='media-body'>";
 	?>
 	<h3 class='postlist'><?php echo $needtoknow;  ?>				
-	<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); ?></a><?php echo $ext_icon; ?></h3>
+	<a href="<?php echo $thisURL; ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php echo $thistitle; ?></a><?php echo $ext_icon; ?></h3>
 	<?php
 	echo "<div><p>";
 	$thisdate= $post->post_date;

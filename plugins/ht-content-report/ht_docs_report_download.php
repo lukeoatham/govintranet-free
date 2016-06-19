@@ -25,16 +25,18 @@
  * @version    ##VERSION##, ##DATE##
  */
 
-/** Error reporting */
-include($_SERVER['DOCUMENT_ROOT']."/wp-config.php");
+global $wpdb;
 
+if(!isset($wpdb)){
+	require('../../../wp-includes/wp-db.php');
+	include($_SERVER['DOCUMENT_ROOT']."/wp-config.php");
+}
 $nonce = $_POST['nonce'];
 // redirect if coming to this directly, not via the authenticated download page
 
 if (!current_user_can('manage_options'))  {
 	wp_die( __('You do not have sufficient permissions to access this page.','govintranet') );
 }
-
 if (!isset($_SERVER['HTTP_REFERER'])) { // direct request, not authenticated
 	header("Location: https://" . $_SERVER['HTTP_HOST']);	
 }
@@ -43,6 +45,8 @@ if ( !wp_verify_nonce($nonce, 'ht_document_report') ) { // not verified
 }
 
 ob_start();
+
+/** Error reporting */
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
@@ -66,22 +70,23 @@ $xquery = get_posts(array(
     'posts_per_page' => -1,
 	'post_status'=>'inherit',
 	'post_mime_type' => array( 'application' ),
+	));	
 	
-));	
 $objPHPExcel->setActiveSheetIndex(0)
-	->setCellValue('A1', 'Title')
-	->setCellValue('B1', 'URL')
-	->setCellValue('C1', 'Author')
-	->setCellValue('D1', 'Last modified')
-	->setCellValue('E1', 'Taxonomy terms')
-	->setCellValue('F1', 'Document type')
-	->setCellValue('G1', 'A to Z')
-	->setCellValue('H1', 'ID')
-	->setCellValue('I1', 'Parent')
+	->setCellValue('A1', __('Title','govintranet'))
+	->setCellValue('B1', __('URL','govintranet'))
+	->setCellValue('C1', __('Author','govintranet'))
+	->setCellValue('D1', __('Last modified','govintranet'))
+	->setCellValue('E1', __('Category','govintranet'))
+	->setCellValue('F1', __('Document type','govintranet'))
+	->setCellValue('G1', __('A to Z','govintranet'))
+	->setCellValue('H1', __('ID','govintranet'))
+	->setCellValue('I1', __('Parent','govintranet'))
 	;
 
 $X = 2;		
-		          
+	
+	          
 if ( count($xquery) > 0 ) foreach ( $xquery as $xq ){
 	
 	$tax = 'category';
@@ -91,12 +96,17 @@ if ( count($xquery) > 0 ) foreach ( $xquery as $xq ){
 
 	$tags = array();
 	$xtags = get_post_meta($xq->ID, 'document_type', true );
-	if ( isset($xtags) ) foreach ( $xtags as $c ) $dt = get_term($c, 'document-type', OBJECT); $tags[] = $dt->slug;
+	if ( isset($xtags) && count($xtags) > 0 ) foreach ( (array)$xtags as $c ) { 
+		$dt = get_term((int)$c, 'document-type', OBJECT); 
+		if (isset($dt->slug)) $tags[] = $dt->slug;
+		}
 	
 	$atoz = array();
 	if (is_taxonomy('media-a-to-z')) $xatoz = wp_get_object_terms($xq->ID, 'media-a-to-z');
-	if ( isset($xatoz) ) foreach ( $xatoz as $c ) $atoz[] = $c->slug;
-	if ( $xq->post_parent ) { $attachedto = get_permalink($xq->post_parent); } else { $attachedto = "Unattached"; }
+	if ( isset($xatoz) ) foreach ( $xatoz as $c ) { 
+		$atoz[] = $c->slug;
+		}
+		
 
 	$authormeta = get_author_name($xq->post_author);
 	$author = get_the_author_meta( 'user_email' , $xq->post_author);
@@ -110,7 +120,7 @@ if ( count($xquery) > 0 ) foreach ( $xquery as $xq ){
 		->setCellValue('F'.$X, implode(', ', $tags))
 		->setCellValue('G'.$X, implode(', ', $atoz))
 		->setCellValue('H'.$X, $xq->ID)
-		->setCellValue('I'.$X, $attachedto)
+		->setCellValue('I'.$X, $xq->post_parent)
 		;
   
       $X++;        
@@ -129,7 +139,7 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 $objPHPExcel->setActiveSheetIndex(0);
 
 ob_clean();
-// Redirect output to a client’s web browser (Excel5)
+// Redirect output to a client's web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel');
 header('Content-Disposition: attachment;filename="document-report-'.date('YmdHis').'.xls"');
 header('Cache-Control: max-age=0');

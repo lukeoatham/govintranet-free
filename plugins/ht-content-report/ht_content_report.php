@@ -31,17 +31,18 @@ function ht_content_report_options() {
 	$ptargs = array( '_builtin' => false, 'public' => true, 'exclude_from_search' => false );
 	$postTypes = get_post_types($ptargs, 'objects');
 	$posttypeoptions = array();
+	global $wpdb;
 	$nonce = wp_create_nonce('ht_content_report');
-	echo "<h2>Posts and pages</h2> ";
+	echo "<h2>".__('Posts and pages','govintranet')."</h2> ";
 	echo "
 		 <form name='content_report' method='post' action='" . plugin_dir_url("/") . "ht-content-report/ht_content_report_download.php'>
-		 	<p><label for='ptype'>Content types</label></p>
+		 	<p><label for='ptype'>".__('Content types','govintranet')."</label></p>
 		";			 	
 			echo'<p><label class="checkbox cr-check"><input type="checkbox" name="ptype[]" value="page"';
 			if(in_array('page', $posttypeoptions)){ 
 				echo" checked=\"checked\"";
 			}
-			echo'> <span class="labelForCheck">Pages</span></label></p>';		
+			echo'> <span class="labelForCheck">'.__("Pages","govintranet").'</span></label></p>';		
 		 	foreach($postTypes as $pt){
 		 		if( $pt->rewrite["slug"] != "spot" ){
 						echo'<p><label class="checkbox cr-check"><input type="checkbox" name="ptype[]" value="'. $pt->query_var .'"';
@@ -53,14 +54,14 @@ function ht_content_report_options() {
 		 	}
 			echo "	
 		 	<p class='clearfix'></p>
-		 	<p><label for='pstat'>Status</label></p>";
-		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="publish"> <span class="labelForCheck">Published</span></label></p>';
-		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="draft"> <span class="labelForCheck">Draft</span></label></p>';
-		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="pending"> <span class="labelForCheck">Pending</span></label></p>';
-		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="future"> <span class="labelForCheck">Scheduled</span></label></p>';
+		 	<p><label for='pstat'>".__('Status','govintranet')."</label></p>";
+		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="publish"> <span class="labelForCheck">'.__("Published","govintranet").'</span></label></p>';
+		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="draft"> <span class="labelForCheck">'.__("Draft","govintranet").'</span></label></p>';
+		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="pending"> <span class="labelForCheck">'.__("Pending","govintranet").'</span></label></p>';
+		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="future"> <span class="labelForCheck">'.__("Scheduled","govintranet").'</span></label></p>';
 		 	echo "
 			<p class='clearfix'></p>
-			<p><input  id='content_download_button' type='submit' value='Download' class='button-primary' /></p>
+			<p><input  id='content_download_button' type='submit' value='".__('Download','govintranet')."' class='button-primary' /></p>
 			<input type='hidden' name='page' value='content_report' />
 			<input type='hidden' name='nonce' value='".$nonce."' />
 		  </form><br />
@@ -72,7 +73,7 @@ function ht_content_report_options() {
 	echo "<p>" . __("Download a spreadsheet of all documents." , "govintranet" ). "</p>";
 	echo "
 		 <form name='docs_report' method='post' action='" . plugin_dir_url("/") . "ht-content-report/ht_docs_report_download.php'>
-			<p><input id='doc_download_button' type='submit' value='Download' class='button-primary' /></p>
+			<p><input id='doc_download_button' type='submit' value='".__('Download','govintranet')."' class='button-primary' /></p>
 			<input type='hidden' name='page' value='content_report' />
 			<input type='hidden' name='nonce' value='".$nonce."' />
 		  </form><br />
@@ -82,4 +83,5 @@ function ht_content_report_options() {
 	echo "</div>";  
 
 }
+
 
