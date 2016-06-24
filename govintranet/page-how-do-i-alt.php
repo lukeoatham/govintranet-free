@@ -21,7 +21,7 @@ get_header(); ?>
 				<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
 					<label for="sbc-s" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>
 					<div class="input-group">
-						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php _e('Search' , 'govintranet'); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 						 <span class="input-group-btn">
 						 <input type="hidden" name="post_types[]" value="task" />
 						 <label for="searchbutton2" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>

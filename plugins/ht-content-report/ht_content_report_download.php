@@ -61,34 +61,78 @@ $objPHPExcel = new PHPExcel();
 
 $pt = $_POST['ptype'];
 $ps = $_POST['pstat'];
+$ppp = $_POST['ppp'];
+$paged = $_POST['paged'];
+$startdate = $_POST['startdate'];
+$enddate = $_POST['enddate'];
+$datetype = $_POST['dates'];
+
+if ( $startdate ) $startdate = date('Y-m-d',strtotime($startdate));
+if ( $enddate ) $enddate = date('Y-m-d',strtotime($enddate));
+
 if ( !$pt ) $pt = array('page');
 if ( !$ps ) $ps = array('publish','draft','future','pending');
+if ( !$ppp ) $ppp = -1;
+if ( !$paged ) $paged = 1;
 
-$xquery = new WP_Query(array(
+$tempquery = array(
 	'post_type' => $pt,
-	'posts_per_page' => -1,
+	'posts_per_page' => $ppp,
 	'post_status' => $ps,
 	'order' => 'ASC',
 	'orderby' => 'ID menu_order',
-));
+	'paged' => $paged,
+);
 
+if ( $enddate != "" && $datetype == "published" ):
+	$tempquery['date_query'] = array(
+		array(
+			'column' => 'post_date',
+			'before' => $enddate,
+		),
+		array(
+			'column' => 'post_date',
+			'after'  => $startdate,
+		),
+		'inclusive' => true
+	);	
+endif;
+
+if ( $enddate != "" && $datetype == "modified" ):
+	$tempquery['date_query'] = array(
+		array(
+			'column' => 'post_modified',
+			'before' => $enddate,
+		),
+		array(
+			'column' => 'post_modified',
+			'after'  => $startdate,
+		),
+		'inclusive' => true
+	);	
+endif;
+
+$xquery = new WP_Query($tempquery);
+	
 $objPHPExcel->setActiveSheetIndex(0)
 	->setCellValue('A1', __('Title','govintranet'))
 	->setCellValue('B1', __('URL','govintranet'))
 	->setCellValue('C1', __('Author','govintranet'))
-	->setCellValue('D1', __('Last modified','govintranet'))
-	->setCellValue('E1', __('Status','govintranet'))
-	->setCellValue('F1', __('Category/type','govintranet'))
-	->setCellValue('G1', __('Tags','govintranet'))
-	->setCellValue('H1', __('A to Z','govintranet'))
-	->setCellValue('I1', __('Search keywords','govintranet'))
-	->setCellValue('J1', __('Relevanssi pin','govintranet'))
-	->setCellValue('K1', __('Hide in search','govintranet'))	
-	->setCellValue('L1', __('ID','govintranet'))
-	->setCellValue('M1', __('Order','govintranet'))
-	->setCellValue('N1', __('Parent','govintranet'))
-	->setCellValue('O1', __('Post type','govintranet'))
-	->setCellValue('P1', __('Attachments','govintranet'))	
+	->setCellValue('D1', __('Published','govintranet'))
+	->setCellValue('E1', __('Last modified','govintranet'))
+	->setCellValue('F1', __('Status','govintranet'))
+	->setCellValue('G1', __('Category/type','govintranet'))
+	->setCellValue('H1', __('Tags','govintranet'))
+	->setCellValue('I1', __('A to Z','govintranet'))
+	->setCellValue('J1', __('Search keywords','govintranet'))
+	->setCellValue('K1', __('Relevanssi pin','govintranet'))
+	->setCellValue('L1', __('Hide in search','govintranet'))	
+	->setCellValue('M1', __('ID','govintranet'))
+	->setCellValue('N1', __('Order','govintranet'))
+	->setCellValue('O1', __('Parent','govintranet'))
+	->setCellValue('P1', __('Post type','govintranet'))
+	->setCellValue('Q1', __('Attachments','govintranet'))	
+	->setCellValue('R1', __('Teams','govintranet'))	
 	;
 
 $X = 2;		
@@ -139,6 +183,7 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 			$doc_attachments[] = get_permalink($m->ID);
 		}
 	}
+
 	$media = get_field('document_attachments');
 	if ( $media ) {
 		foreach ($media as $ca){
@@ -147,23 +192,33 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 		}
 	}
 
+	$related_teams = array();
+	$teams = get_post_meta(get_the_id(), 'related_team', true);
+	if ( $teams ) {
+		foreach ($teams as $ca){
+			if ( $ca ) $related_teams[] = get_permalink($ca);
+		}
+	}
+
     $objPHPExcel->setActiveSheetIndex(0)
 	    ->setCellValue('A'.$X, get_the_title())
 	    ->setCellValue('B'.$X, get_permalink())
 	    ->setCellValue('C'.$X, get_the_author_meta( 'user_email' , $post->post_author))
-	    ->setCellValue('D'.$X, get_the_modified_date('Y-m-d'))
-		->setCellValue('E'.$X, get_post_status())
-		->setCellValue('F'.$X, implode(', ', $cats))
-		->setCellValue('G'.$X, implode(', ', $tags))
-		->setCellValue('H'.$X, implode(', ', $atoz))
-		->setCellValue('I'.$X, $keywords)
-		->setCellValue('J'.$X, $skeywords)
-		->setCellValue('K'.$X, $hide)
-		->setCellValue('L'.$X, get_the_id())
-		->setCellValue('M'.$X, $post->menu_order)
-		->setCellValue('N'.$X, $post->post_parent)
-		->setCellValue('O'.$X, $post->post_type)
-		->setCellValue('P'.$X, implode(', ', $doc_attachments))		
+	    ->setCellValue('D'.$X, get_the_date('Y-m-d'))
+	    ->setCellValue('E'.$X, get_the_modified_date('Y-m-d'))
+		->setCellValue('F'.$X, get_post_status())
+		->setCellValue('G'.$X, implode(', ', $cats))
+		->setCellValue('H'.$X, implode(', ', $tags))
+		->setCellValue('I'.$X, implode(', ', $atoz))
+		->setCellValue('J'.$X, $keywords)
+		->setCellValue('K'.$X, $skeywords)
+		->setCellValue('L'.$X, $hide)
+		->setCellValue('M'.$X, get_the_id())
+		->setCellValue('N'.$X, $post->menu_order)
+		->setCellValue('O'.$X, $post->post_parent)
+		->setCellValue('P'.$X, $post->post_type)
+		->setCellValue('Q'.$X, implode(', ', $doc_attachments))		
+		->setCellValue('R'.$X, implode(', ', $related_teams))		
 		;
   
       $X++;        

@@ -238,6 +238,12 @@
 			}
 		}
 		echo "</p></div>";
+	} elseif ($post_type=="Vacancy"){
+		echo "<div><p>";
+		$thisdate = get_post_meta($post->ID, 'vacancy_closing_date', true);
+		if ($thisdate) $thisdate = date(get_option('date_format'),strtotime($thisdate));
+		echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>';
+		echo "</p></div>";
 	} elseif ($post_type != 'Category' && $post_type != 'User') {
 		echo "<div><p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';

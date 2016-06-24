@@ -40,7 +40,7 @@ get_header();
 					</div>
 					<label for="sbc-s" class="sr-only"><?php _e('Search for' , 'govintranet'); ?></label>
 					<div class="form-group input-md">
-						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php echo get_the_title(); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
+						<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php _e('Search' , 'govintranet'); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 					</div>
 					<label for="searchbutton2" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>
 					<div class="form-group input-md">

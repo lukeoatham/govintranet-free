@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.16.2 - 24 Jun 2016 ###
+* Closing date added to vacancy search results 
+* Option for past projects added to projects template 
+* Placeholder for How do I? search box set to "Search" 
+* Date range added to Content Report plugin 
+
 ### 4.16.1 - 19 Jun 2016 ###
 * Updates to news listing loop, featured image now clickable  
 * Updates to news type taxonomy archive, featured image now clickable  
