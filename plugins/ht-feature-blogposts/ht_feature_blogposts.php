@@ -109,6 +109,7 @@ class htFeatureBlogposts extends WP_Widget {
         if ( !$freshness ) $freshness = 14;
         $more = $instance['more'];
         $excerpt = $instance['excerpt'];
+        $cache = intval($instance['cache']);
 		$tdate=date('Y-m-d')." 00:00:00";
 		$freshness = "-".$freshness." day ";
         $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );  
@@ -122,135 +123,148 @@ class htFeatureBlogposts extends WP_Widget {
 		$k = -1;
 		$alreadydone = array();
 		$titledone = 0;
+
+		$blogstransient = substr( 'cached_blogs_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+		$html = get_transient( $blogstransient );
+
+		if ( !$html ){
+
+			$html = "";
+		     
+		
+			if ( $num_top_slots > 0 ){ 
+				if ( $title ) {
+					$html.= $before_widget; 
+					$html.= $before_title . $title . $after_title;
+				}
+				$html.= "<div class='widget-area widget-blogposts'>";
+				$titledone = 1;
+				$cquery = array(
+			    'post_type' => array('blog','news','event'),
+				'posts_per_page' => -1,
+				'post__in' => $top_slot,
+				);
+				
+				$news =new WP_Query($cquery);
+				if ( $news->have_posts() ) while ( $news->have_posts() ):
+					$news->the_post(); 
+					$k++;
+					$alreadydone[] = get_the_id();
+					$thistitle = get_the_title();
+					$edate = get_the_date();
+					$edate = date(get_option('date_format'),strtotime($edate));
+					$thisURL=get_permalink();
+					$html.= "<div class='media'>";
+					if ($thumbnails=='on'){
+						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
+						if (!$image_uri){
+							$image_uri = get_avatar(get_the_author_id(),72);
+							$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
+							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'>{$image_uri}</a>";		
+						} else {
+							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";					}
+					}
+					$html.= "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
+					$html.= "<br><span class='news_date'>".$edate." by ";
+					$html.= get_the_author();
+					$html.= "</span>";
+					$html.= " <span class='badge badge-featured'>" . __('Featured','govintranet') . "</span>"; 
+					if ( get_comments_number() ){
+						$html.= " <a href='".$thisURL."#comments'>";
+						$html.= ' <span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+						$html.= "</a>";
+					}
+					if ($excerpt == 'on') $html.=get_the_excerpt();
+					$html.= "</div></div>";
+				endwhile;		
+			};
+			
+			//fetch fresh blogposts 
 	
-		if ( $num_top_slots > 0 ){ 
-			if ( $title ) {
-				echo $before_widget; 
-				echo $before_title . $title . $after_title;
-			}
-			echo "<div class='widget-area widget-blogposts'>";
-			$titledone = 1;
 			$cquery = array(
-		    'post_type' => array('blog','news','event'),
-			'posts_per_page' => -1,
-			'post__in' => $top_slot,
+			    'post_type' => 'blog',
+				'posts_per_page' => $to_fill,
+				'post__not_in' => $alreadydone,
+				'date_query' => array(
+						array(
+							'after'     => date('Ymd',strtotime($tdate)),
+							'inclusive' => true,
+						)
+					)
 			);
 			
+			//restrict to chosen categories, if any
+			if ( is_array($blog_categories) )
+					$cquery['tax_query'] = array(array(
+					    'taxonomy' => 'blog-category',
+					    'field' => 'id',
+					    'terms' => (array)$blog_categories,
+					    'compare' => "IN",
+				    ));
+	
 			$news =new WP_Query($cquery);
-			if ( $news->have_posts() ) while ( $news->have_posts() ):
-				$news->the_post(); 
+			if ($news->post_count!=0 && !$titledone ) {
+				if ( $title ) {
+					$html.= $before_widget; 
+					$html.= $before_title . $title . $after_title;
+				}
+				$html.= "<div class='widget-area widget-blogposts'>";
+			}
+			$k=0;
+			while ($news->have_posts()) {
+				$news->the_post();
 				$k++;
-				$alreadydone[] = get_the_id();
+				if ($k > $to_fill){
+					break;
+				}
+				global $post;//required for access within widget
 				$thistitle = get_the_title();
 				$edate = get_the_date();
 				$edate = date(get_option('date_format'),strtotime($edate));
-				$thisURL=get_permalink();
-				echo "<div class='media'>";
+				$thisURL=get_permalink(); 
+				$html.= "<div class='media'>";
 				if ($thumbnails=='on'){
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
 					if (!$image_uri){
 						$image_uri = get_avatar(get_the_author_id(),72);
 						$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
-						echo "<a class='pull-left' href='".get_permalink(get_the_id())."'>{$image_uri}</a>";		
+						$html.= "<a class='pull-left' href='".get_permalink()."'>{$image_uri}</a>";		
 					} else {
-						echo "<a class='pull-left' href='".get_permalink(get_the_id())."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";					}
+						$html.= "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";				}
 				}
-				echo "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
-				echo "<br><span class='news_date'>".$edate." by ";
-				echo get_the_author();
-				echo "</span>";
-				echo " <span class='badge'>" . __('Featured','govintranet') . "</span>"; 
+				$html.= "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
+				$html.= "<br><span class='news_date'>".$edate." by ";
+				$html.= get_the_author();
+				$html.= "</span>";
 				if ( get_comments_number() ){
-					echo " <a href='".$thisURL."#comments'>";
-					printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-					echo "</a>";
+					$html.= " <a href='".$thisURL."#comments'>";
+					$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+
+					$html.= "</a>";
 				}
-				if ($excerpt == 'on') the_excerpt();
-				echo "</div></div>";
-			endwhile;		
-		};
+				if ($excerpt == 'on') $html.=wpautop(get_the_excerpt());
+				$html.= "</div></div>";
+			}
+			if ($news->have_posts() && $more){
+				$landingpage = get_option('options_module_blog_page'); 
+				if ( !$landingpage ):
+					$landingpage_link_text = 'blogposts';
+					$landingpage = site_url().'/blogposts/';
+				else:
+					$landingpage_link_text = get_the_title( $landingpage[0] );
+					$landingpage = get_permalink( $landingpage[0] );
+				endif;
+				$html.= '<hr><p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
+			} 
+			if ($news->have_posts() || $num_top_slots > 0 ){
+				$html.= '</div>';
+				$html.= $after_widget;
+			}
+			wp_reset_query();								
+			if ( $cache > 0 ) set_transient($blogstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
+		}
 		
-		//fetch fresh blogposts 
-
-		$cquery = array(
-		    'post_type' => 'blog',
-			'posts_per_page' => $to_fill,
-			'post__not_in' => $alreadydone,
-			'date_query' => array(
-					array(
-						'after'     => date('Ymd',strtotime($tdate)),
-						'inclusive' => true,
-					)
-				)
-		);
-		
-		//restrict to chosen categories, if any
-		if ( is_array($blog_categories) )
-				$cquery['tax_query'] = array(array(
-				    'taxonomy' => 'blog-category',
-				    'field' => 'id',
-				    'terms' => (array)$blog_categories,
-				    'compare' => "IN",
-			    ));
-
-		$news =new WP_Query($cquery);
-		if ($news->post_count!=0 && !$titledone ) {
-			if ( $title ) {
-				echo $before_widget; 
-				echo $before_title . $title . $after_title;
-			}
-			echo "<div class='widget-area widget-blogposts'>";
-		}
-		$k=0;
-		while ($news->have_posts()) {
-			$news->the_post();
-			$k++;
-			if ($k > $to_fill){
-				break;
-			}
-			global $post;//required for access within widget
-			$thistitle = get_the_title();
-			$edate = get_the_date();
-			$edate = date(get_option('date_format'),strtotime($edate));
-			$thisURL=get_permalink(); 
-			echo "<div class='media'>";
-			if ($thumbnails=='on'){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
-				if (!$image_uri){
-					$image_uri = get_avatar(get_the_author_id(),72);
-					$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
-					echo "<a class='pull-left' href='".get_permalink()."'>{$image_uri}</a>";		
-				} else {
-					echo "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";				}
-			}
-			echo "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
-			echo "<br><span class='news_date'>".$edate." by ";
-			echo get_the_author();
-			echo "</span>";
-			if ( get_comments_number() ){
-				echo " <a href='".$thisURL."#comments'>";
-				printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-				echo "</a>";
-			}
-			if ($excerpt == 'on') the_excerpt();
-			echo "</div></div>";
-		}
-		if ($news->have_posts() && $more){
-			$landingpage = get_option('options_module_blog_page'); 
-			if ( !$landingpage ):
-				$landingpage_link_text = 'blogposts';
-				$landingpage = site_url().'/blogposts/';
-			else:
-				$landingpage_link_text = get_the_title( $landingpage[0] );
-				$landingpage = get_permalink( $landingpage[0] );
-			endif;
-			echo '<hr><p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
-		} 
-		if ($news->have_posts() || $num_top_slots > 0 ){
-			echo '</div>';
-			echo $after_widget;
-		}
-		wp_reset_query();								
+		echo $html;
     }
 
     function update($new_instance, $old_instance) {
@@ -261,6 +275,7 @@ class htFeatureBlogposts extends WP_Widget {
 		$instance['freshness'] = strip_tags($new_instance['freshness']);
 		$instance['more'] = strip_tags($new_instance['more']);
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
+		$instance['cache'] = strip_tags($new_instance['cache']);	
        return $instance;
     }
 
@@ -271,6 +286,7 @@ class htFeatureBlogposts extends WP_Widget {
 		$freshness = esc_attr($instance['freshness']);
 		$more = esc_attr($instance['more']);
 		$more = esc_attr($instance['excerpt']);
+		$cache = esc_attr($instance['cache']);
 		?>
 		<p>
 		<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
@@ -283,10 +299,15 @@ class htFeatureBlogposts extends WP_Widget {
 		<label for="<?php echo $this->get_field_id('excerpt'); ?>"><?php _e('Show excerpt','govintranet'); ?></label> <br><br>
 		<input id="<?php echo $this->get_field_id('thumbnails'); ?>" name="<?php echo $this->get_field_name('thumbnails'); ?>" type="checkbox" <?php checked((bool) $instance['thumbnails'], true ); ?> />
 		<label for="<?php echo $this->get_field_id('thumbnails'); ?>"><?php _e('Show thumbnails','govintranet'); ?></label> 
-		<p><?php _e('Displays the featured image if present, otherwise the author avatar','govintranet'); ?>.</p>
+		<br><?php _e('Displays the featured image if present, otherwise the author avatar','govintranet'); ?>.
 		<br><br>
 		<input id="<?php echo $this->get_field_id('more'); ?>" name="<?php echo $this->get_field_name('more'); ?>" type="checkbox" <?php checked((bool) $instance['more'], true ); ?> />
 		<label for="<?php echo $this->get_field_id('more'); ?>"><?php _e('Show link to more','govintranet'); ?></label> <br><br>
+		<label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more','govintranet'); ?></label> <br>
+          <input class="widefat" id="<?php echo $this->get_field_id('moretitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br><?php _e('Leave blank for the default title','govintranet');?><br><br>
+          <label for="<?php echo $this->get_field_id('cache'); ?>"><?php _e('Minutes to cache:','govintranet'); ?></label>
+          <input class="widefat" id="<?php echo $this->get_field_id('cache'); ?>" name="<?php echo $this->get_field_name('cache'); ?>" type="text" value="<?php echo $cache; ?>" /><br>
+
         </p>
         <?php 
     }

@@ -38,6 +38,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.17 - 28 Jun 2016 ###
+* Added badge-comment and badge-featured classes to the comment button in listings so that you can highlight with custom colours 
+* Newsboard fix to feature first post in blog tab 
+* Search results page handles third-party post types better 
+* Optional caching added to widgets 
+* Cached status comment added to HTML pages 
+
 ### 4.16.2 - 24 Jun 2016 ###
 * Closing date added to vacancy search results 
 * Option for past projects added to projects template 

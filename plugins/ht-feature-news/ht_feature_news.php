@@ -140,6 +140,7 @@ function widget($args, $instance) {
 	$newstypes = get_option($acf_key); 
     if ( !$title ) $title = "no_title_" . $id;
     $moretitle = $instance['moretitle'];
+    $cache = intval($instance['cache']);
 
     global $post;
 	$removenews = get_transient('cached_removenews'); 
@@ -204,318 +205,327 @@ function widget($args, $instance) {
 		wp_reset_query();
 	}
 	
-    echo $before_widget; 
+	$newstransient = substr( 'cached_news_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+	$html = get_transient( $newstransient );
 
-    if ( $title && $title != "no_title_" . $id) :
-	    echo $before_title;
-		echo $title;
-	    echo $after_title; 
-	endif;
 
-	echo '<div id="ht-feature-news">';
+	if ( !$html ){
+
+		$html = "";
+	    $html.= $before_widget; 
 	
-	//formulate grid of news stories and formats
-	$totalstories =  $largeitems + $mediumitems + $thumbnailitems + $listitems; 
-
-	$newsgrid = array();
+	    if ( $title && $title != "no_title_" . $id) :
+		    $html.= $before_title;
+			$html.= $title;
+		    $html.= $after_title; 
+		endif;
 	
-	for ($i = 1; $i <= $totalstories; $i++) {
-		if ($i <= $largeitems) {
-			$newsgrid[] = "L";
-		} 
-		elseif ($i <= $largeitems + $mediumitems) {
-			$newsgrid[] = "M";			
-		}
-		elseif ($i <= $largeitems + $mediumitems + $thumbnailitems) {
-			$newsgrid[] = "T";			
-		}
-		elseif ($i <= $largeitems + $mediumitems + $thumbnailitems + $listitems) {
-			$newsgrid[] = "Li";			
-		}
-	}	
-
-	$siteurl = site_url();
-
-	//manual override news stories
-	//display sticky top news stories
-
-	$num_top_slots = count($top_slot);
-	$to_fill = $totalstories - $num_top_slots;
-	$k = -1;
-	$alreadydone = array();
-
-	if ( $num_top_slots > 0 ){ 
-		foreach ((array)$top_slot as $thisslot){ 
-			if (!$thisslot) continue;
-			$slot = get_post($thisslot); 
-			if ($slot->post_status != 'publish') {
-				continue;
-			}
-			$k++;
-			$alreadydone[] = $slot->ID;
-			if (function_exists('get_video_thumbnail')){
-				$videostill = get_video_thumbnail( $slot->ID ); 
-			}
-			$thistitle = $slot->post_title;
-			$thisURL=get_permalink($slot->ID); 
-			$video = 0;
-			if ( has_post_format('video', $slot->ID) ):
-				$video = apply_filters('the_content', get_post_meta( $slot->ID, 'news_video_url', true));
-			endif;
-
-			if ($newsgrid[$k]=="L"){
-				if ($video){
-					echo $video;
-				} elseif (has_post_thumbnail($slot->ID)){
-					//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
-					//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
-					echo "<a href='{$thisURL}'>" . get_the_post_thumbnail($slot->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
-					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
-				} 
-
-			} 
-
-			if ($newsgrid[$k]=="M"){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'newsmedium' );
-				if ($image_uri!="" ){
-					echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
-				} 
-			} 
-				
-			if ($newsgrid[$k]=="T"){
-				$image_uri = "<a class='pull-right' href='".$thisURL."'>".get_the_post_thumbnail($slot->ID, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
-				if ($image_uri!="" ){
-					$image_url = $image_uri;
-				} 
-			} 
-	
-			$thisdate= $slot->post_date;
-			$post = get_post( $slot->ID );
-			setup_postdata( $post );
-			
-			$thisexcerpt= get_the_excerpt();
-			$thisdate=date(get_option('date_format'),strtotime($thisdate));
-			$ext_icon = '';
-			if ( get_post_format($slot->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
-	
-	
-			if ($newsgrid[$k]=="T"){
-				echo "<div class='media'>".$image_url;
-			}
-	
-			echo "<div class='media-body'>";
-			echo "<h3 class='noborder'>".$ext_icon."<a href='".$thisURL."'>".$thistitle."</a>".$ext_icon."</h3>";
-
-			if ($newsgrid[$k]=="Li"){
-				echo "<p>";
-				echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
-				echo '</span> ';
-				echo " <span class='badge'>Featured</span>";
-				if ( get_comments_number() ){
-					echo "<a href='".$thisURL."#comments'>";
-					 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-					 echo "</a>";
-				}
-				echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
-			} else {
-				if ($showexcerpt == 'on') {
-					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
-					echo '</span> ';
-					echo " <span class='badge'>" . __('Featured','govitranet') . "</span>";
-					if ( get_comments_number() ){
-						echo "<a href='".$thisURL."#comments'>";
-						 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-						 echo "</a>";
-					}
-					echo "</p>";									
-					echo $thisexcerpt;
-					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
-				} else {
-					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
-					echo '</span> ';
-					echo " <span class='badge'>" . __('Featured','govitranet') . "</span>";
-					if ( get_comments_number() ){
-						echo "<a href='".$thisURL."#comments'>";
-						 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-						 echo "</a>";
-					}
-					echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
-				}
-			}
-	
-			echo "</div>";
-	
-			if ($newsgrid[$k]=="T"){
-				echo "</div>";
-			}
-	
-			echo "<hr class='light' />\n";
-	
+		$html.= '<div id="ht-feature-news">';
 		
-			}
-		} //end of stickies
+		//formulate grid of news stories and formats
+		$totalstories =  $largeitems + $mediumitems + $thumbnailitems + $listitems; 
 	
-		//display remaining stories
-		$cquery = array(
-			    'post_type' => 'news',
-			    'posts_per_page' => $totalstories,
-			    'post__not_in'=>$exclude,
-			    'tax_query' => array(array(
-			    'taxonomy'=>'post_format',
-			    'field'=>'slug',
-			    'terms'=>array('post-format-status'),
-			    "operator"=>"NOT IN"
-			    ))
-				);
-			if ( $newstypes ) $cquery['tax_query'] = array(
-					"relation"=>"AND",
-					array(
-					'taxonomy' => 'news-type',
-					'terms' => $newstypes,
-					'field' => 'id',	
-					),
-					array(
-					'taxonomy'=>'post_format',
+		$newsgrid = array();
+		
+		for ($i = 1; $i <= $totalstories; $i++) {
+			if ($i <= $largeitems) {
+				$newsgrid[] = "L";
+			} 
+			elseif ($i <= $largeitems + $mediumitems) {
+				$newsgrid[] = "M";			
+			}
+			elseif ($i <= $largeitems + $mediumitems + $thumbnailitems) {
+				$newsgrid[] = "T";			
+			}
+			elseif ($i <= $largeitems + $mediumitems + $thumbnailitems + $listitems) {
+				$newsgrid[] = "Li";			
+			}
+		}	
+	
+		$siteurl = site_url();
+	
+		//manual override news stories
+		//display sticky top news stories
+	
+		$num_top_slots = count($top_slot);
+		$to_fill = $totalstories - $num_top_slots;
+		$k = -1;
+		$alreadydone = array();
+	
+		if ( $num_top_slots > 0 ){ 
+			foreach ((array)$top_slot as $thisslot){ 
+				if (!$thisslot) continue;
+				$slot = get_post($thisslot); 
+				if ($slot->post_status != 'publish') {
+					continue;
+				}
+				$k++;
+				$alreadydone[] = $slot->ID;
+				if (function_exists('get_video_thumbnail')){
+					$videostill = get_video_thumbnail( $slot->ID ); 
+				}
+				$thistitle = $slot->post_title;
+				$thisURL=get_permalink($slot->ID); 
+				$video = 0;
+				if ( has_post_format('video', $slot->ID) ):
+					$video = apply_filters('the_content', get_post_meta( $slot->ID, 'news_video_url', true));
+				endif;
+	
+				if ($newsgrid[$k]=="L"){
+					if ($video){
+						$html.= $video;
+					} elseif (has_post_thumbnail($slot->ID)){
+						//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+						//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+						$html.= "<a href='{$thisURL}'>" . get_the_post_thumbnail($slot->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
+						$html.= wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
+					} 
+	
+				} 
+	
+				if ($newsgrid[$k]=="M"){
+					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'newsmedium' );
+					if ($image_uri!="" ){
+						$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($slot->post_title)."' /></a>";									
+					} 
+				} 
+					
+				if ($newsgrid[$k]=="T"){
+					$image_uri = "<a class='pull-right' href='".$thisURL."'>".get_the_post_thumbnail($slot->ID, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+					if ($image_uri!="" ){
+						$image_url = $image_uri;
+					} 
+				} 
+		
+				$thisdate= $slot->post_date;
+				$post = get_post( $slot->ID );
+				setup_postdata( $post );
+				
+				$thisexcerpt= get_the_excerpt();
+				$thisdate=date(get_option('date_format'),strtotime($thisdate));
+				$ext_icon = '';
+				if ( get_post_format($slot->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
+		
+		
+				if ($newsgrid[$k]=="T"){
+					$html.= "<div class='media'>".$image_url;
+				}
+		
+				$html.= "<div class='media-body'>";
+				$html.= "<h3 class='noborder'>".$ext_icon."<a href='".$thisURL."'>".$thistitle."</a>".$ext_icon."</h3>";
+	
+				if ($newsgrid[$k]=="Li"){
+					$html.= "<p>";
+					$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+					$html.= '</span> ';
+					$html.= " <span class='badge badge-featured'>Featured</span>";
+					if ( get_comments_number() ){
+						$html.= "<a href='".$thisURL."#comments'>";
+						$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+						 $html.= "</a>";
+					}
+					$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+				} else {
+					if ($showexcerpt == 'on') {
+						$html.= "<p>";
+						$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+						$html.= '</span> ';
+						$html.= " <span class='badge badge-featured'>" . __('Featured','govintranet') . "</span>";
+						if ( get_comments_number() ){
+							$html.= "<a href='".$thisURL."#comments'>";
+							$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+							 $html.= "</a>";
+						}
+						$html.= "</p>";									
+						$html.= $thisexcerpt;
+						$html.= "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+					} else {
+						$html.= "<p>";
+						$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+						$html.= '</span> ';
+						$html.= " <span class='badge'>" . __('Featured','govintranet') . "</span>";
+						if ( get_comments_number() ){
+							$html.= "<a href='".$thisURL."#comments'>";
+							$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+							 $html.= "</a>";
+						}
+						$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+					}
+				}
+		
+				$html.= "</div>";
+		
+				if ($newsgrid[$k]=="T"){
+					$html.= "</div>";
+				}
+		
+				$html.= "<hr class='light' />\n";
+		
+			
+				}
+			} //end of stickies
+		
+			//display remaining stories
+			$cquery = array(
+				    'post_type' => 'news',
+				    'posts_per_page' => $totalstories,
+				    'post__not_in'=>$exclude,
+				    'tax_query' => array(array(
+				    'taxonomy'=>'post_format',
 				    'field'=>'slug',
 				    'terms'=>array('post-format-status'),
 				    "operator"=>"NOT IN"
-	
-					),
+				    ))
 					);
-			
-	
-		$news =new WP_Query($cquery);
-		if ($news->post_count==0){
-			echo "Nothing to show.";
-		} 
-		global $post;
-		while ($news->have_posts()) {
-				$news->the_post();
-				$theid = get_the_id();
-			if (in_array($theid, $alreadydone )) { //don't show if already in stickies
-				continue;
-			}
-			$k++;
-			if ($k >= $totalstories){
-				break;
-			}
-			$thistitle = get_the_title($theid);
-			$thisURL=get_permalink($theid); 
-	
-			$video = 0;
-			if ( has_post_format('video', $theid) ):
-				$video = apply_filters('the_content', get_post_meta( $theid, 'news_video_url', true));
-			endif;
+				if ( $newstypes ) $cquery['tax_query'] = array(
+						"relation"=>"AND",
+						array(
+						'taxonomy' => 'news-type',
+						'terms' => $newstypes,
+						'field' => 'id',	
+						),
+						array(
+						'taxonomy'=>'post_format',
+					    'field'=>'slug',
+					    'terms'=>array('post-format-status'),
+					    "operator"=>"NOT IN"
 		
-			if ($newsgrid[$k]=="L"){
-				if ($video){
-					echo $video;
-				} elseif (has_post_thumbnail($post->ID)){
-					//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
-					//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
-					echo "<a href='{$thisURL}'>" . get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
-					echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
-				} 
+						),
+						);
+				
+		
+			$news =new WP_Query($cquery);
+			if ($news->post_count==0){
+				$html.= "Nothing to show.";
 			} 
-	
-			if ($newsgrid[$k]=="M"){
-				$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $theid ), 'newsmedium' );
-				if ($image_uri!="" ){
-					echo "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($post->post_title)."' /></a>";									
-				} 
-			} 
-	
-			if ($newsgrid[$k]=="T"){
-				$image_uri = "<a class='pull-right' href='{$thisURL}'>".get_the_post_thumbnail($theid, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
-				if ($image_uri!="" ){
-					$image_url = $image_uri;
-				} 
-			} 
+			global $post;
+			while ($news->have_posts()) {
+					$news->the_post();
+					$theid = get_the_id();
+				if (in_array($theid, $alreadydone )) { //don't show if already in stickies
+					continue;
+				}
+				$k++;
+				if ($k >= $totalstories){
+					break;
+				}
+				$thistitle = get_the_title($theid);
+				$thisURL=get_permalink($theid); 
+		
+				$video = 0;
+				if ( has_post_format('video', $theid) ):
+					$video = apply_filters('the_content', get_post_meta( $theid, 'news_video_url', true));
+				endif;
 			
-			$thisdate= get_the_date(get_option('date_format')); 
-			$thisexcerpt= get_the_excerpt();
-			$ext_icon = '';
+				if ($newsgrid[$k]=="L"){
+					if ($video){
+						$html.= $video;
+					} elseif (has_post_thumbnail($post->ID)){
+						//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
+						//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
+						$html.= "<a href='{$thisURL}'>" . get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
+						$html.= wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
+					} 
+				} 
+		
+				if ($newsgrid[$k]=="M"){
+					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $theid ), 'newsmedium' );
+					if ($image_uri!="" ){
+						$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($post->post_title)."' /></a>";									
+					} 
+				} 
+		
+				if ($newsgrid[$k]=="T"){
+					$image_uri = "<a class='pull-right' href='{$thisURL}'>".get_the_post_thumbnail($theid, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+					if ($image_uri!="" ){
+						$image_url = $image_uri;
+					} 
+				} 
+				
+				$thisdate= get_the_date(get_option('date_format')); 
+				$thisexcerpt= get_the_excerpt();
+				$ext_icon = '';
+		
+		
+				if ($newsgrid[$k]=="T"){
+					$html.= "<div class='media'>".$image_url;
+				}
+		
+				$html.= "<div class='media-body feature-news-".strtolower($newsgrid[$k])."'>";
+				if ( get_post_format($theid) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
+				$html.= "<h3 class='noborder'><a href='".$thisURL."'>".$thistitle."</a> ".$ext_icon."</h3>";
 	
-	
-			if ($newsgrid[$k]=="T"){
-				echo "<div class='media'>".$image_url;
-			}
-	
-			echo "<div class='media-body feature-news-".strtolower($newsgrid[$k])."'>";
-			if ( get_post_format($theid) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
-			echo "<h3 class='noborder'><a href='".$thisURL."'>".$thistitle."</a> ".$ext_icon."</h3>";
-
-			if ($newsgrid[$k]=="Li"){
-					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
-					echo '</span> ';
-					if ( get_comments_number() ){
-						echo "<a href='".$thisURL."#comments'>";
-						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-						echo "</a>";
-					}
-					echo "</p>";									
-			} else {
-				if ($showexcerpt == 'on') {
-					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
-					echo '</span> ';
-					if ( get_comments_number() ){
-						echo " <a href='".$thisURL."#comments'>";
-						 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-						 echo "</a>";
-					}
-					echo "</p>";									
-					echo $thisexcerpt;
-					echo "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+				if ($newsgrid[$k]=="Li"){
+						$html.= "<p>";
+						$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+						$html.= '</span> ';
+						if ( get_comments_number() ){
+							$html.= "<a href='".$thisURL."#comments'>";
+							$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+							$html.= "</a>";
+						}
+						$html.= "</p>";									
 				} else {
-					echo "<p>";
-					echo '<span class="listglyph">'.get_the_date(get_option('date_format')); 
-					echo '</span> ';
-				if ( get_comments_number() ){
-					echo " <a href='".$thisURL."#comments'>";
-					 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-					 echo "</a>";
+					if ($showexcerpt == 'on') {
+						$html.= "<p>";
+						$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+						$html.= '</span> ';
+						if ( get_comments_number() ){
+							$html.= " <a href='".$thisURL."#comments'>";
+							$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+							 $html.= "</a>";
+						}
+						$html.= "</p>";									
+						$html.= $thisexcerpt;
+						$html.= "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+					} else {
+						$html.= "<p>";
+						$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+						$html.= '</span> ';
+					if ( get_comments_number() ){
+						$html.= " <a href='".$thisURL."#comments'>";
+						$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+						 $html.= "</a>";
+					}
+						$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+					}
 				}
-					echo " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+		
+				$html.= "</div>";
+		
+				if ($newsgrid[$k]=="T"){
+					$html.= "</div>";
 				}
-			}
 	
-			echo "</div>";
-	
-			if ($newsgrid[$k]=="T"){
-				echo "</div>";
+				$html.= "<hr class='light' />\n";
 			}
-
-			echo "<hr class='light' />\n";
+			wp_reset_query();								
+			$landingpage = get_option('options_module_news_page'); 
+			if ( !$landingpage ):
+				$landingpage_link_text = 'news';
+				$landingpage = site_url().'/newspage/';
+			else:
+				$landingpage_link_text = get_the_title( $landingpage[0] );
+				$landingpage = get_permalink( $landingpage[0] );
+			endif;
+	
+			if ( !$moretitle ) $moretitle = $title;
+			if ( $moretitle = "no_title_" . $id ) $moretitle = __("More","govintranet");
+			if ( is_array($newstypes) && count($newstypes) < 2 ): 
+				$term = intval($newstypes[0]); 
+				$landingpage = get_term_link($term, 'news-type'); 
+				$html.= '<p class="more-updates"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+			else: 
+				$landingpage_link_text = $moretitle;
+				$html.= '<p class="more-updates"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+			endif;
+	
+			$html.= "<div class='clearfix'></div>";
+			$html.= "</div>";
+			$html.= $after_widget; 
+			if ( $cache > 0 ) set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
 		}
-		wp_reset_query();								
-		$landingpage = get_option('options_module_news_page'); 
-		if ( !$landingpage ):
-			$landingpage_link_text = 'news';
-			$landingpage = site_url().'/newspage/';
-		else:
-			$landingpage_link_text = get_the_title( $landingpage[0] );
-			$landingpage = get_permalink( $landingpage[0] );
-		endif;
-
-		if ( !$moretitle ) $moretitle = $title;
-		if ( $moretitle = "no_title_" . $id ) $moretitle = __("More","govintranet");
-		if ( is_array($newstypes) && count($newstypes) < 2 ): 
-			$term = intval($newstypes[0]); 
-			$landingpage = get_term_link($term, 'news-type'); 
-			echo '<p class="more-updates"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
-		else: 
-			$landingpage_link_text = $moretitle;
-			echo '<p class="more-updates"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
-		endif;
-
-		echo "<div class='clearfix'></div>";
-		echo "</div>";
-		echo $after_widget; 
-    
+		echo $html;
     }	
 
     function update($new_instance, $old_instance) {
@@ -527,6 +537,7 @@ function widget($args, $instance) {
 		$instance['listitems'] = strip_tags($new_instance['listitems']);
 		$instance['showexcerpt'] = strip_tags($new_instance['showexcerpt']);
 		$instance['moretitle'] = strip_tags($new_instance['moretitle']);
+		$instance['cache'] = strip_tags($new_instance['cache']);		
        return $instance;
     }
 
@@ -538,6 +549,7 @@ function widget($args, $instance) {
         $listitems = esc_attr($instance['listitems']);
         $showexcerpt = esc_attr($instance['showexcerpt']);
         $moretitle = esc_attr($instance['moretitle']);
+        $cache = esc_attr($instance['cache']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
@@ -558,8 +570,10 @@ function widget($args, $instance) {
           <input id="<?php echo $this->get_field_id('showexcerpt'); ?>" name="<?php echo $this->get_field_name('showexcerpt'); ?>" type="checkbox" <?php checked((bool) $instance['showexcerpt'], true ); ?> />
           <label for="<?php echo $this->get_field_id('showexcerpt'); ?>"><?php _e('Show excerpt','govintranet'); ?></label> <br>
         </p>
-          <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:','govintranet'); ?></label> 
-          <input class="widefat" id="<?php echo $this->get_field_id('mroetitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br><?php _e('Leave blank for the default title','govintranet');?><br>
+          <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:','govintranet'); ?></label> <br>
+          <input class="widefat" id="<?php echo $this->get_field_id('moretitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br><?php _e('Leave blank for the default title','govintranet');?><br><br>
+          <label for="<?php echo $this->get_field_id('cache'); ?>"><?php _e('Minutes to cache:','govintranet'); ?></label>
+          <input class="widefat" id="<?php echo $this->get_field_id('cache'); ?>" name="<?php echo $this->get_field_name('cache'); ?>" type="text" value="<?php echo $cache; ?>" /><br><br>
 
         <?php 
     }

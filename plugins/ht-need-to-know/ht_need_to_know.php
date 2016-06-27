@@ -71,7 +71,7 @@ class htNeedToKnow extends WP_Widget {
 			echo "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnow(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
 			if ( get_comments_number() ){
 				echo " <a href='".$thisURL."#comments'>";
-				 printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+				echo '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
 				 echo "</a>";
 			}
 			echo "</li>";

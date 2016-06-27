@@ -160,6 +160,10 @@ get_header(); ?>
 				if ($searchcon) $searchcon.=" or";
 				$searchcon.=" " . __('news','govintranet');
 			}
+			if (in_array('news-update', $pt)){
+				if ($searchcon) $searchcon.=" or";
+				$searchcon.=" " . __('news updates','govintranet');
+			}
 			if (in_array('project', $pt)){
 				if ($searchcon) $searchcon.=" or";
 				$searchcon.=" " . __('projects','govintranet');
@@ -187,7 +191,9 @@ get_header(); ?>
 		}					 
 		
 		echo "<p>";
-		if ($pt){
+		if ($pt && !$searchcon){
+			 _e( 'Couldn\'t find anything like that. Try searching the whole intranet.', 'govintranet' ) ; 
+		} elseif ($pt) {
 			 printf(__( 'Couldn\'t find anything in %s. Try searching the whole intranet.', 'govintranet' ) , $searchcon) ; 
 		} else {
 			_e( 'Couldn\'t find anything on the intranet like that. Sometimes using fewer words can help.', 'govintranet' ); 				

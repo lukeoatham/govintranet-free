@@ -174,9 +174,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				$active = "";
 				if ( !$doctyp || $doctyp == "any" ) $active = " class='active'";
 				if ($cat_slug){    
-					echo "<li".$active."><a class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp=any&cat={$cat_slug}&matoz=".$matoz."&q={$search}'>" . __('All' , 'govintranet') . "</a></li>";
+					echo "<li".$active."><a class='doctypespinner' href='".get_permalink(get_the_id())."?doctyp=&cat={$cat_slug}&matoz=".$matoz."&q={$search}'>" . __('All' , 'govintranet') . "</a></li>";
 				} else {
-			       echo "<li".$active."><a  class='doctypespinner".$active."' href='".get_permalink(get_the_id())."?doctyp=any&matoz=".$matoz."&q={$search}'>" . __('All' , 'govintranet') . "</a></li>";
+			       echo "<li".$active."><a  class='doctypespinner".$active."' href='".get_permalink(get_the_id())."?doctyp=&matoz=".$matoz."&q={$search}'>" . __('All' , 'govintranet') . "</a></li>";
 				}
 				foreach ($subcat as $sc) { 
 					if ($doctyp == $sc->slug) {

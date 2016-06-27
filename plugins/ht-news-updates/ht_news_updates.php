@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -114,174 +114,190 @@ class htNewsUpdates extends WP_Widget {
         if ( !$title ) $title = "no_title_" . $id;
         $moretitle = $instance['moretitle'];
         $items = intval($instance['items']);
-
+		$cache = intval($instance['cache']);
+		
 		//process expired news
 		
 		$tzone = get_option('timezone_string'); 
 		date_default_timezone_set($tzone);
 		$tdate= date('Ymd');
+
+		$removenews = get_transient('cached_removenewsupdates'); 
+		if (!$removenews || !is_array($removenews)){
+			set_transient('cached_removenewsupdates',"wait",60*3); 		
+			$oldnews = query_posts(array(
+			'post_type'=>'news-update',
+			'meta_query'=>array(array(
+			'key'=>'news_update_expiry_date',
+			'value'=>$tdate,
+			'compare'=>'<='
+			))));
+			if ( count($oldnews) > 0 ){
+				foreach ($oldnews as $old) {
+					if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'news_update_expiry_date',true)) )): // if expiry today, check the time
+						if (date('H:i:s',strtotime(get_post_meta($old->ID,'news_update_expiry_time',true))) > date('H:i:s') ) continue;
+					endif;
+					
+					$expiryaction = get_post_meta($old->ID,'news_update_expiry_action',true);
+					if ($expiryaction=='Revert to draft status'){
+						  $my_post = array();
+						  $my_post['ID'] = $old->ID;
+						  $my_post['post_status'] = 'draft';
+						  wp_update_post( $my_post );
+						  delete_post_meta($old->ID, 'news_update_expiry_date');
+						  delete_post_meta($old->ID, 'news_update_expiry_time');
+						  delete_post_meta($old->ID, 'news_update_expiry_action');
+						  delete_post_meta($old->ID, 'news_auto_expiry');
+						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
+						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
+					}	
+					if ($expiryaction=='Move to trash'){
+						  $my_post = array();
+						  $my_post['ID'] = $old->ID;
+						  $my_post['post_status'] = 'trash';
+						  delete_post_meta($old->ID, 'news_update_expiry_date');
+						  delete_post_meta($old->ID, 'news_update_expiry_time');
+						  delete_post_meta($old->ID, 'news_update_expiry_action');
+						  delete_post_meta($old->ID, 'news_auto_expiry');
+						  wp_update_post( $my_post );
+						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
+						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
+					}	
+				}
+			wp_reset_query();
+			}
+		}
+
+		$newstransient = substr( 'nu_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+		$html = get_transient( $newstransient );
+
+		if ( !$html ){
+	
+			$html = "";
 		
-		$oldnews = query_posts(array(
-		'post_type'=>'news-update',
-		'meta_query'=>array(array(
-		'key'=>'news_update_expiry_date',
-		'value'=>$tdate,
-		'compare'=>'<='
-		))));
-		if ( count($oldnews) > 0 ){
-			foreach ($oldnews as $old) {
-				if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'news_update_expiry_date',true)) )): // if expiry today, check the time
-					if (date('H:i:s',strtotime(get_post_meta($old->ID,'news_update_expiry_time',true))) > date('H:i:s') ) continue;
-				endif;
-				
-				$expiryaction = get_post_meta($old->ID,'news_update_expiry_action',true);
-				if ($expiryaction=='Revert to draft status'){
-					  $my_post = array();
-					  $my_post['ID'] = $old->ID;
-					  $my_post['post_status'] = 'draft';
-					  wp_update_post( $my_post );
-					  delete_post_meta($old->ID, 'news_update_expiry_date');
-					  delete_post_meta($old->ID, 'news_update_expiry_time');
-					  delete_post_meta($old->ID, 'news_update_expiry_action');
-					  delete_post_meta($old->ID, 'news_auto_expiry');
-					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
-				}	
-				if ($expiryaction=='Move to trash'){
-					  $my_post = array();
-					  $my_post['ID'] = $old->ID;
-					  $my_post['post_status'] = 'trash';
-					  delete_post_meta($old->ID, 'news_update_expiry_date');
-					  delete_post_meta($old->ID, 'news_update_expiry_time');
-					  delete_post_meta($old->ID, 'news_update_expiry_action');
-					  delete_post_meta($old->ID, 'news_auto_expiry');
-					  wp_update_post( $my_post );
-					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
-				}	
-			}
-		wp_reset_query();
-		}
-
-		//display need to know stories
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_widget_include_type" ;  
-		$news_update_types = get_option($acf_key); ;
-
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_background_colour" ;  
-		$background_colour = get_option($acf_key); 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_text_colour" ;  
-		$text_colour = get_option($acf_key); 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_border_colour" ;  
-		$border_colour = get_option($acf_key); 
-		$border_height = get_option('options_widget_border_height','5');
-
-
-		if ( !$news_update_types || count($news_update_types) < 1 ) :
-			$cquery = array(
-				'post_status' => 'publish',
-				'orderby' => 'post_date',
-			    'order' => 'DESC',
-			    'post_type' => 'news-update',
-			    'posts_per_page' => $items,
-				);
-		else:
-			$cquery = array(
-				'post_status' => 'publish',
-				'orderby' => 'post_date',
-			    'order' => 'DESC',
-			    'post_type' => 'news-update',
-			    'posts_per_page' => $items,
-			    'tax_query' => array(array(
-				    'taxonomy' => 'news-update-type',
-				    'field' => 'id',
-				    'terms' => $news_update_types,
-			    ))
-				);
-		endif;
-
-
-		$news =new WP_Query($cquery);
-		
-		if ($news->post_count!=0){
-		echo "<style>";
-		if ( $border_colour ):
-			echo ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: ".$border_height."px solid ".$border_colour." ; }\n";
-		else:
-			echo ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
-		endif;
-		echo ".need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
-		echo "#content .need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
-		echo ".need-to-know-container.".sanitize_file_name($title)." a { color: ".$text_colour."; }\n";
-		echo ".need-to-know-container.".sanitize_file_name($title)." .category-block { background: ".$background_colour."; }\n";
-		echo ".need-to-know-container.".sanitize_file_name($title)." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
-		echo ".need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
-		echo "#content .need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
-		echo ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; margin-top: 10px; font-weight: bold; }\n";
-		echo "#content .need-to-know-container .widget-box { background-color: transparent;}";
-		echo "#content .need-to-know-container .widget-box { border-top: 0; margin-top: 0;}";
-		echo "</style>";	
-
-
-		if ( $title ) {
-			echo "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
-			echo $before_widget; 
-			if ( $title == "no_title_" . $id ) $title = "";
-			if ( $title ) echo $before_title . $title . $after_title;}
-			echo "
-			<div class='need-to-know'>
-			<ul class='need'>";
-		}
-		$k=0;
-		$alreadydone= array();
-
-		while ($news->have_posts()) {
-				$news->the_post();
-			if (in_array($news->ID, $alreadydone )) { //don't show if already in stickies
-				continue;
-			}
-			$k++;
-			if ($k > $items){
-				break;
-			}
-			$thistitle = get_the_title($news->ID);
-
-			$thisURL=get_permalink($news->ID);
-			$display_types = '';
-			$display_types = array();
-			$types_array = get_the_terms($news->ID, 'news-update-type'); 
-			if ( $types_array ) foreach ( $types_array as $t ){
-					$display_types[] = $t->name;
-					$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
-					if ($icon=='') $icon = get_option('options_need_to_know_icon');
-					if ($icon=='') $icon = "flag";
-			}
-			$display_types = implode(", ", $display_types); 
-			echo "<li><a href='{$thisURL}' title='".$display_types." update'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
-			if ( get_comments_number() ){
-				echo " <a href='".$thisURL."#comments'>";
-				printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-				echo "</a>";
-			}
-			echo "</li>";
-		}
-		if ($news->post_count!=0){ 
-			echo "</ul></div>"; 
-			if ( !$moretitle ) $moretitle = $title;
-			if ( is_array($news_update_types) && count($news_update_types) < 2 ): 
-				$term = intval($news_update_types[0]); 
-				$landingpage = get_term_link($term, 'news-update-type'); 
-				echo '<p class="more-updates"><a title="'.$moretitle.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
-			else: 
-				$landingpage_link_text = $moretitle;
-				$landingpage = site_url().'/news-update/';
-				echo '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+			//display need to know stories
+			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_widget_include_type" ;  
+			$news_update_types = get_option($acf_key); ;
+	
+			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_background_colour" ;  
+			$background_colour = get_option($acf_key); 
+			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_text_colour" ;  
+			$text_colour = get_option($acf_key); 
+			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_border_colour" ;  
+			$border_colour = get_option($acf_key); 
+			$border_height = get_option('options_widget_border_height','5');
+	
+	
+			if ( !$news_update_types || count($news_update_types) < 1 ) :
+				$cquery = array(
+					'post_status' => 'publish',
+					'orderby' => 'post_date',
+				    'order' => 'DESC',
+				    'post_type' => 'news-update',
+				    'posts_per_page' => $items,
+					);
+			else:
+				$cquery = array(
+					'post_status' => 'publish',
+					'orderby' => 'post_date',
+				    'order' => 'DESC',
+				    'post_type' => 'news-update',
+				    'posts_per_page' => $items,
+				    'tax_query' => array(array(
+					    'taxonomy' => 'news-update-type',
+					    'field' => 'id',
+					    'terms' => $news_update_types,
+				    ))
+					);
 			endif;
-			echo "<div class='clearfix'></div>";			
-			echo $after_widget;
-			echo "</div>";
+	
+	
+			$news =new WP_Query($cquery);
+			
+			if ($news->post_count!=0){
+			$html.= "<style>";
+			if ( $border_colour ):
+				$html.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: ".$border_height."px solid ".$border_colour." ; }\n";
+			else:
+				$html.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
+			endif;
+			$html.= ".need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+			$html.= "#content .need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+			$html.= ".need-to-know-container.".sanitize_file_name($title)." a { color: ".$text_colour."; }\n";
+			$html.= ".need-to-know-container.".sanitize_file_name($title)." .category-block { background: ".$background_colour."; }\n";
+			$html.= ".need-to-know-container.".sanitize_file_name($title)." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
+			$html.= ".need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+			$html.= "#content .need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+			$html.= ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; margin-top: 10px; font-weight: bold; }\n";
+			$html.= "#content .need-to-know-container .widget-box { background-color: transparent;}";
+			$html.= "#content .need-to-know-container .widget-box { border-top: 0; margin-top: 0;}";
+			$html.= "</style>";	
+	
+	
+			if ( $title ) {
+				$html.= "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
+				$html.= $before_widget; 
+				if ( $title == "no_title_" . $id ) $title = "";
+				if ( $title ) $html.= $before_title . $title . $after_title;}
+				$html.= "
+				<div class='need-to-know'>
+				<ul class='need'>";
+			}
+			$k=0;
+			$alreadydone= array();
+	
+			while ($news->have_posts()) {
+					$news->the_post();
+				if (in_array($news->ID, $alreadydone )) { //don't show if already in stickies
+					continue;
+				}
+				$k++;
+				if ($k > $items){
+					break;
+				}
+				$thistitle = get_the_title($news->ID);
+	
+				$thisURL=get_permalink($news->ID);
+				$display_types = '';
+				$display_types = array();
+				$types_array = get_the_terms($news->ID, 'news-update-type'); 
+				if ( $types_array ) foreach ( $types_array as $t ){
+						$display_types[] = $t->name;
+						$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
+						if ($icon=='') $icon = get_option('options_need_to_know_icon');
+						if ($icon=='') $icon = "flag";
+				}
+				$display_types = implode(", ", $display_types); 
+				$html.= "<li><a href='{$thisURL}' title='".$display_types." update'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
+				if ( get_comments_number() ){
+					$html.= " <a href='".$thisURL."#comments'>";
+					$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+					$html.= "</a>";
+				}
+				$html.= "</li>";
+			}
+			if ($news->post_count!=0){ 
+				$html.= "</ul></div>"; 
+				if ( !$moretitle ) $moretitle = $title;
+				if ( is_array($news_update_types) && count($news_update_types) < 2 ): 
+					$term = intval($news_update_types[0]); 
+					$landingpage = get_term_link($term, 'news-update-type'); 
+					$html.= '<p class="more-updates"><a title="'.$moretitle.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+				else: 
+					$landingpage_link_text = $moretitle;
+					$landingpage = site_url().'/news-update/';
+					$html.= '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+				endif;
+				$html.= "<div class='clearfix'></div>";			
+				$html.= $after_widget;
+				$html.= "</div>";
+			}
+			
+			wp_reset_query();		
+			if ( $cache > 0 ) set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period									
 		}
 		
-		wp_reset_query();								
+		echo $html;
 
     }
 
@@ -290,6 +306,7 @@ class htNewsUpdates extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['items'] = strip_tags($new_instance['items']);
 		$instance['moretitle'] = strip_tags($new_instance['moretitle']);
+		$instance['cache'] = strip_tags($new_instance['cache']);
         return $instance;
     }
 
@@ -297,6 +314,7 @@ class htNewsUpdates extends WP_Widget {
         $title = esc_attr($instance['title']);
         $items = esc_attr($instance['items']);
         $moretitle = esc_attr($instance['moretitle']);
+        $cache = esc_attr($instance['cache']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
@@ -307,7 +325,9 @@ class htNewsUpdates extends WP_Widget {
 
           <label for="<?php echo $this->get_field_id('moretitle'); ?>"><?php _e('Title for more:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('moretitle'); ?>" name="<?php echo $this->get_field_name('moretitle'); ?>" type="text" value="<?php echo $moretitle; ?>" /><br><?php echo __('Leave blank for the default title','govintranet') . '<br>' ; ?>
-          
+          <br>
+          <label for="<?php echo $this->get_field_id('cache'); ?>"><?php _e('Minutes to cache:','govintranet'); ?></label>
+          <input class="widefat" id="<?php echo $this->get_field_id('cache'); ?>" name="<?php echo $this->get_field_name('cache'); ?>" type="text" value="<?php echo $cache; ?>" /><br>
         </p>
 
         <?php 

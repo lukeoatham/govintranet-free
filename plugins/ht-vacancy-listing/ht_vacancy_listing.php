@@ -182,7 +182,7 @@ class htVacancyListing extends WP_Widget {
 				$output.= '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p></div>';
 				$output.= $after_widget;
 			}
-			set_transient($gatransient,$output,$cacheperiod); // set cache period 60 minutes default
+			set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
 
 		endif;
 		echo $output;

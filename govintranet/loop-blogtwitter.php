@@ -83,7 +83,7 @@ if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons 
 			   }
 				if ( get_comments_number() ){
 					echo " <a href='".$thisURL."#comments'>";
-					printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+					echo '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
 					echo "</a>";
 				}
 		echo "</p>";

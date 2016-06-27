@@ -164,7 +164,7 @@ function ht_need_to_know_ajax_show() {
 			$html.= "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnowAJAX(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
 			if ( get_comments_number() ){
 				$html.=  " <a href='".$thisURL."#comments'>";
-				$html.=  sprintf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+				$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
 				 $html.=  "</a>";
 			}
 			$html.= "</li>";

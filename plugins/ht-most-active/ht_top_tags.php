@@ -395,7 +395,7 @@ class htTopTags extends WP_Widget {
 			}
 
 			//cache new tags if we are using caching
-			set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * 60 * 60); // set cache period
+			set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 * 60); // set cache period
 
 		}
 

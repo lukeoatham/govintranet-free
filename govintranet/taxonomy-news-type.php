@@ -99,10 +99,10 @@ if ( have_posts() )
 			echo '<span class="listglyph">'.get_the_date(); 
 			echo '</span> ';				
 			if ( get_comments_number() ){
-						echo "<a href='".get_permalink($id)."#comments'>";
-						printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
-						echo "</a>";
-					}
+				echo "<a href='".get_permalink($id)."#comments'>";
+				echo '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+				echo "</a>";
+			}
 			the_excerpt(); 
 			echo "</div>";
 			echo '<div class="clearfix"></div>';

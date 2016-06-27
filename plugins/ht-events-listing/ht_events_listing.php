@@ -301,7 +301,7 @@ class htEventsListing extends WP_Widget {
 			}
 			$output.= "</div>";
 			$output.= "</div>";
-			set_transient($gatransient,$output,$cacheperiod); // set cache period 60 minutes default
+			set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
 		}
 
 		echo $output;

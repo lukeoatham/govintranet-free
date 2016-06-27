@@ -5,3 +5,4 @@
 .matoz-results h3.widget-title { padding-left: 1em; }
 .imgdocument::before { content: "\e060";  font-family: 'Glyphicons Halflings'; padding-right: 7px; }
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover { color: inherit; background: #eee; }
+#docresults { margin-top: 8px; }

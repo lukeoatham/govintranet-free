@@ -114,7 +114,7 @@ get_header();
 									echo '</span> ';
 									if ( get_comments_number() ){
 										echo "<a href='".get_permalink($qposts->ID)."#comments'>";
-										printf( _n( '<span class="badge">1 comment</span>', '<span class="badge">%d comments</span>', get_comments_number(), 'govintranet' ), get_comments_number() );
+										echo '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
 										echo "</a>";
 									}
 									
