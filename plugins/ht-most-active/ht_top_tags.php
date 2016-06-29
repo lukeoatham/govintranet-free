@@ -39,6 +39,7 @@ class htTopTags extends WP_Widget {
 		
 	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
 	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; 
 		
@@ -395,7 +396,8 @@ class htTopTags extends WP_Widget {
 			}
 
 			//cache new tags if we are using caching
-			set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 * 60); // set cache period
+			$transga[] = "<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->";
+			set_transient('cached_ga_tags_'.$widget_id.'_'.sanitize_file_name( $title ),$transga,$cache * 60 * 60); // set cache period
 
 		}
 

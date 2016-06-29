@@ -488,8 +488,10 @@ class htMostActive extends WP_Widget {
 				}
 			}
 
-			if ( count($transga) > 0 ) set_transient($gatransient,$transga."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 * 60); // set cache period
-
+			if ( count($transga) > 0 ) {
+				$transga[] ="<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->";
+				set_transient($gatransient,$transga,$cache * 60 * 60); // set cache period
+			}
 		}
 
 		if ($k){
