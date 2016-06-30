@@ -138,7 +138,7 @@ $mainid=$post->ID;
 				google.maps.event.addDomListener(window, 'load', initialize);
 			</script>
 			<div id="map-canvas" class="google_map"></div>
-			<div class="alert alert-info" id="map-location"><?php echo wpautop($text); ?></div>
+			<div class="well" id="map-location"><?php echo wpautop($text); ?></div>
 		</div>
 	<?php endif; 
 	
