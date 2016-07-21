@@ -38,6 +38,18 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.18 - 21 Jul 2016 ###
+* Open Sans font added to editor 
+* New options to restrict editors/authors from managing categories 
+* New option to add your Google API key (required for maps on events)
+* Correction to Google Analytics tracking on homepage 
+* Support for classic and universal Google Analytics tracking 
+* Improvements to staff directory jQuery 
+* New "hideicon" class to remove automated document icons 
+* Tag listings now include taxonomy terms 
+* Removed deprecated functions from Feature blog posts widget 
+* New plugin to restrict Gravity Forms from saving data in the WordPress database for selected forms 
+
 ### 4.17 - 28 Jun 2016 ###
 * Added badge-comment and badge-featured classes to the comment button in listings so that you can highlight with custom colours 
 * Newsboard fix to feature first post in blog tab 

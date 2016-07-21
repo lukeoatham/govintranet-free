@@ -17,6 +17,14 @@ header('X-Frame-Options: SAMEORIGIN');
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
+	<!--[if (IE)&(lt IE 9) ]>
+	        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+	<![endif]-->
+	<!--[if (IE)&(gt IE 8) ]>
+	        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="profile" href="https://gmpg.org/xfn/11" />
 	<title><?php
 		/*
 		 * Print the <title> tag based on what is being viewed.
@@ -24,25 +32,17 @@ header('X-Frame-Options: SAMEORIGIN');
 		 * govintranet_filter_wp_title() in functions.php.
 		 */
 		wp_title( '', true, 'right' );
-	
-		?></title>
-	
-	<!--[if (IE)&(lt IE 9) ]>
-	        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
-	<![endif]-->
-	<!--[if (IE)&(gt IE 8) ]>
-	        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-	<![endif]-->
-	<?php 
-		if ( (is_home() || is_front_page()) && !is_search() ): 
-			if (intval(get_option('options_homepage_auto_refresh')) > 0):
-			?>
-				<meta http-equiv="refresh" content="<?php echo intval(get_option('options_homepage_auto_refresh'))*60;?>">
-			<?php 
-			endif;
-		endif; ?>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="profile" href="https://gmpg.org/xfn/11" />
+		?>
+	</title>
+
+	<?php
+	if ( (is_home() || is_front_page()) && !is_search() ):
+		if (intval(get_option('options_homepage_auto_refresh')) > 0):
+		?>
+			<meta http-equiv="refresh" content="<?php echo intval(get_option('options_homepage_auto_refresh'))*60;?>">
+		<?php
+		endif;
+	endif; ?>
 
 	<!--[if lte IE 8]>
 		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie8.css" type="text/css" media="screen" />
@@ -69,17 +69,17 @@ header('X-Frame-Options: SAMEORIGIN');
 
 	<!--Google Analytics-->
 	<?php	
-	//write script for google analytics (only do on homepage if homepage tracking is set)
+	// write script for google analytics (only do on homepage if homepage tracking is set or on search page)
 	$gistrackhome = get_option('options_track_homepage');
 	$gisgtc = get_option('options_google_tracking_code');
-	if ( is_front_page() || is_search() ){
-		if ($gistrackhome == 1 || is_search() ){
+	if ( isset($gisgtc) ){
+		if ( ( is_front_page() && $gistrackhome == 1 ) || is_search() ){
+			echo $gisgtc;
+		} elseif ( !is_front_page() ){
 			echo $gisgtc;
 		}
-	} else {
-		echo $gisgtc;
 	}
-
+	
 	/* We add some JavaScript to pages with the comment form
 	 * to support sites with threaded comments (when in use).
 	 */

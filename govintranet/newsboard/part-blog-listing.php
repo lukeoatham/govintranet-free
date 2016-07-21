@@ -9,7 +9,7 @@ if ($k==1 && has_post_thumbnail($post->ID)){
 	if ($video){
 		echo $video;
 	} elseif (has_post_thumbnail($post->ID)){
-		echo "<a href='$thisURL' title='$thistitle'>";
+		echo "<a href='".get_permalink($post->ID)."' title='$thistitle'>";
 		echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive'));
 		echo "</a>";
 		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );

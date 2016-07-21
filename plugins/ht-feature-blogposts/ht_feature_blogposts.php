@@ -145,20 +145,21 @@ class htFeatureBlogposts extends WP_Widget {
 				'post__in' => $top_slot,
 				);
 				
-				$news =new WP_Query($cquery);
-				if ( $news->have_posts() ) while ( $news->have_posts() ):
-					$news->the_post(); 
+				$blogs = new WP_Query($cquery);
+				if ( $blogs->have_posts() ) while ( $blogs->have_posts() ):
+					$blogs->the_post(); 
 					$k++;
 					$alreadydone[] = get_the_id();
 					$thistitle = get_the_title();
-					$edate = get_the_date();
+					$edate = $post->post_date; 
+					if (!$edate) $edate = get_the_date();
 					$edate = date(get_option('date_format'),strtotime($edate));
-					$thisURL=get_permalink();
+					$thisURL = get_permalink();
 					$html.= "<div class='media'>";
 					if ($thumbnails=='on'){
 						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
 						if (!$image_uri){
-							$image_uri = get_avatar(get_the_author_id(),72);
+							$image_uri = get_avatar(get_the_author_meta('ID'),72);
 							$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
 							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'>{$image_uri}</a>";		
 						} else {
@@ -202,8 +203,8 @@ class htFeatureBlogposts extends WP_Widget {
 					    'compare' => "IN",
 				    ));
 	
-			$news =new WP_Query($cquery);
-			if ($news->post_count!=0 && !$titledone ) {
+			$blogs =new WP_Query($cquery);
+			if ($blogs->post_count!=0 && !$titledone ) {
 				if ( $title ) {
 					$html.= $before_widget; 
 					$html.= $before_title . $title . $after_title;
@@ -211,22 +212,23 @@ class htFeatureBlogposts extends WP_Widget {
 				$html.= "<div class='widget-area widget-blogposts'>";
 			}
 			$k=0;
-			while ($news->have_posts()) {
-				$news->the_post();
+			while ($blogs->have_posts()) {
+				$blogs->the_post();
 				$k++;
 				if ($k > $to_fill){
 					break;
 				}
 				global $post;//required for access within widget
 				$thistitle = get_the_title();
-				$edate = get_the_date();
+				$edate = $post->post_date;
+				if (!$edate) $edate = get_the_date();
 				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink(); 
 				$html.= "<div class='media'>";
 				if ($thumbnails=='on'){
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
 					if (!$image_uri){
-						$image_uri = get_avatar(get_the_author_id(),72);
+						$image_uri = get_avatar(get_the_author_meta('ID'),72);
 						$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
 						$html.= "<a class='pull-left' href='".get_permalink()."'>{$image_uri}</a>";		
 					} else {
@@ -245,7 +247,7 @@ class htFeatureBlogposts extends WP_Widget {
 				if ($excerpt == 'on') $html.=wpautop(get_the_excerpt());
 				$html.= "</div></div>";
 			}
-			if ($news->have_posts() && $more){
+			if ($blogs->have_posts() && $more){
 				$landingpage = get_option('options_module_blog_page'); 
 				if ( !$landingpage ):
 					$landingpage_link_text = 'blogposts';
@@ -256,7 +258,7 @@ class htFeatureBlogposts extends WP_Widget {
 				endif;
 				$html.= '<hr><p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 			} 
-			if ($news->have_posts() || $num_top_slots > 0 ){
+			if ($blogs->have_posts() || $num_top_slots > 0 ){
 				$html.= '</div>';
 				$html.= $after_widget;
 			}

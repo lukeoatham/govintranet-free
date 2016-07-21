@@ -131,7 +131,6 @@ get_header();
 	 			while ($tagged->have_posts() && $postsfound ) {
 					$tagged->the_post();
 					$post_type = ucwords($post->post_type); 
-					$post_cat = get_the_category();
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 					$ext_icon = '';
 					echo "<div class='media'>" ;
@@ -142,6 +141,7 @@ get_header();
 						$icon = "tag"; 
 					}	
 					if ($post_type=='Task'){
+						$post_cat = get_the_category();
 						$contexturl = "/tasks/";
 						$taskpod = $post->post_parent; 
 						if ( !$taskpod ){		
@@ -170,26 +170,31 @@ get_header();
 						}			
 					}
 					if ($post_type=='News'){
+							$post_cat = get_the_terms($post->ID, 'news-type');
 							$context = __("news","govintranet");
 							$contexturl = "/news/";
 							$icon = "star-empty";			
 					}
 					if ($post_type=='News-update'){
+							$post_cat = get_the_terms($post->ID, 'news-update-type');
 							$context = __("news update","govintranet");
 							$contexturl = "/news-updates/";
 							$icon = "star-empty";			
 					}
 					if ($post_type=='Vacancy'){
+							$post_cat = get_the_category();
 							$context = __("job vacancy","govintranet");
 							$contexturl = "/about/vacancies/";
 							$icon = "random";			
 					}
 					if ($post_type=='Blog'){
+							$post_cat = get_the_terms($post->ID, 'blog-category');
 							$context = __("blog","govintranet");
 							$contexturl = "/blog/";
 							$icon = "comment";			
 					}
 					if ($post_type=='Event'){
+							$post_cat = get_the_terms($post->ID, 'event-type');
 							$context = __("event","govintranet");
 							$contexturl = "/events/";
 							$icon = "calendar";			
@@ -258,6 +263,19 @@ get_header();
 						$thisdate= get_post_meta($post->ID, 'event_start_date', true);
 						$thisdate=date(get_option('date_format'),strtotime($thisdate));
 						echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
+						foreach($post_cat as $cat){
+							if ($cat->term_id != 1 ){
+								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
+							}
+						}
+						echo "</p></div>";
+					} elseif ($post_type=="Vacancy" ){ 
+						echo "<div><p>";
+						$thisdate = get_post_meta($post->ID, 'vacancy_closing_date', true);
+						$thisdate = date(get_option('date_format'),strtotime($thisdate));
+						$thistime = get_post_meta($post->ID, 'vacancy_closing_time', true);
+						$thistime = date(get_option('time_format'),strtotime($thistime));
+						echo '<span class="listglyph">'.ucfirst($context).'&nbsp;Closing: '.$thisdate.' '.$thistime.'</span>&nbsp;&nbsp;';
 						foreach($post_cat as $cat){
 							if ($cat->term_id != 1 ){
 								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;

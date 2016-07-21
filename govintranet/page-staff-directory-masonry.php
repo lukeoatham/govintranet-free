@@ -1,14 +1,13 @@
 <?php
 /* Template name: Staff directory flexible */
+
+wp_enqueue_script( 'masonry',1 );
 					
 get_header(); ?>
 
 <?php 
 
-wp_register_script( 'masonry.pkgd.min', get_stylesheet_directory_uri() . "/js/masonry.pkgd.min.js");
-wp_enqueue_script( 'masonry.pkgd.min',95 );
-wp_register_script( 'imagesloaded.pkgd.min', get_stylesheet_directory_uri() . "/js/imagesloaded.pkgd.min.js");
-wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
+
 
 $fulldetails=get_option('options_full_detail_staff_cards'); // 1 = show
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
@@ -243,11 +242,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 }
 ?>
 
-<script>
+<script lang="text/javascript">
 jQuery(document).ready(function($){
-var $container = jQuery('#gridcontainer');
-$container.imagesLoaded(function(){
-$container.masonry({
+var container = jQuery('#gridcontainer');
+container.imagesLoaded(function(){
+container.masonry({
 		itemSelector: '.pgrid-item',
 		gutter: 0,
 		isAnimated: true

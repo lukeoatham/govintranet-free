@@ -171,7 +171,7 @@ class htMostRecent extends WP_Widget {
 			foreach ($rpublished as $r ) {
 				if (in_array($r->ID, $alreadydone)) continue;
 				$alert='';
-				if ( $lastupdated=='on' && date("Ymd",strtotime($r->post_date)) == date("Ymd",strtotime($r->post_modified)) ) $alert = " <span class='badge'>" . __('NEW','govintranet') . "</span>";
+				if ( $lastupdated=='on' && date("Ymd",strtotime($r->post_date)) == date("Ymd",strtotime($r->post_modified)) ) $alert = " <span class='badge badge-new'>" . __('NEW','govintranet') . "</span>";
 				if ($r->post_type=='page'){
 					$k++; 
 					echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title(get_the_title($r->ID))."</a>".$alert."</li>";

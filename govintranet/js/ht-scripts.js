@@ -1,10 +1,10 @@
 function markDocumentLinks() {
-	jQuery('a[href*=".pdf"]').addClass('pdfdocument').append(' (PDF)');
-	jQuery('a[href*=".xls"]').addClass('xlsdocument').append(' (Excel)');
-	jQuery('a[href*=".doc"]').addClass('docdocument').append(' (Word)');
-	jQuery('a[href*=".ppt"]').addClass('pptdocument').append(' (Powerpoint)');
-	jQuery('a[href*=".txt"]').addClass('txtdocument').append(' (Text)');
-	jQuery('a[href*=".csv"]').addClass('xlsdocument').append(' (CSV)');
+	jQuery('a[href*=".pdf"]').addClass('pdfdocument').append(' <span class="doc_type_text">(PDF)</span>');
+	jQuery('a[href*=".xls"]').addClass('xlsdocument').append(' <span class="doc_type_text">(Excel)</span>');
+	jQuery('a[href*=".doc"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
+	jQuery('a[href*=".ppt"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
+	jQuery('a[href*=".txt"]').addClass('txtdocument').append(' <span class="doc_type_text">(Text)</span>');
+	jQuery('a[href*=".csv"]').addClass('xlsdocument').append(' <span class="doc_type_text">(CSV)</span>');
 	jQuery('a[href*="mailto"]').before("<span class='dashicons dashicons-email-alt'></span> ");
 	jQuery('.gallery br').remove();
 	jQuery('div.gallery').append('<div class="clearfix"></div>');
@@ -14,38 +14,64 @@ function markDocumentLinks() {
 
 function gaTrackDownloadableFiles() {
 
-     var links = jQuery('a');
+	var links = jQuery('a');
+	var xlinks = jQuery(".external-link");
+	
+	if (typeof _gaq == 'function')	{
+		for(var i = 0; i < links.length; i++) {
+			if (links[i].href.indexOf('.pdf') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.csv') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.doc') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.ppt') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.rtf') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.xls') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.jpg') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.gif') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.png') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			}           
+		}
+		for(var i = 0; i < xlinks.length; i++) {
+			jQuery(xlinks[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+xlinks[i].href+"']);");
+		}
+	}
 
-     for(var i = 0; i < links.length; i++) {
-          if (links[i].href.indexOf('.pdf') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          } else if (links[i].href.indexOf('.csv') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          } else if (links[i].href.indexOf('.doc') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          } else if (links[i].href.indexOf('.ppt') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          } else if (links[i].href.indexOf('.rtf') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          } else if (links[i].href.indexOf('.xls') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          } else if (links[i].href.indexOf('.jpg') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          } else if (links[i].href.indexOf('.gif') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          } else if (links[i].href.indexOf('.png') != "-1") {
-               jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-          }           
-
-     }
-
-
-
-var links = jQuery(".external-link");
-     for(var i = 0; i < links.length; i++) {
-          jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
-}
-     return true;    
+	if (typeof ga == 'function') {
+		for(var i = 0; i < links.length; i++) {
+			if (links[i].href.indexOf('.pdf') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.csv') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.doc') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.ppt') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.rtf') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.xls') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.jpg') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.gif') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.png') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			}           
+		}
+		for(var i = 0; i < xlinks.length; i++) {
+			jQuery(xlinks[i]).attr("onclick","javascript: ga('send', 'pageview', '"+xlinks[i].href+"');");
+		}
+	}
+    
+    return true;    
 }
 
 function getCookie(name) {

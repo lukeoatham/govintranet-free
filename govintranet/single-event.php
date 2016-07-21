@@ -107,7 +107,7 @@ $mainid=$post->ID;
 		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 	}
 	
-	$map= get_post_meta($post->ID,'event_map_location',true);
+	$map= get_field('event_map_location');
 	$text = esc_attr(get_post_meta($post->ID,'event_location',true));
 	
 	if (isset($map['lat'])):
@@ -116,7 +116,8 @@ $mainid=$post->ID;
 		?>	
 		<div class="widget-box">
 			<h3><?php _e('Location' , 'govintranet') ;?></h3>
-			<script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+			<div class="acf-map google_map" id="map-canvas">
+			<script src="//maps.googleapis.com/maps/api/js?key=<?php echo get_option('options_google_api_key', ''); ?>"></script>
 			<script>
 				var map;
 				function initialize() {
@@ -137,7 +138,7 @@ $mainid=$post->ID;
 	
 				google.maps.event.addDomListener(window, 'load', initialize);
 			</script>
-			<div id="map-canvas" class="google_map"></div>
+			</div>
 			<div class="alert alert-info" id="map-location"><?php echo wpautop($text); ?></div>
 		</div>
 	<?php endif; 
@@ -188,6 +189,7 @@ return preg_replace('/([\,\'\";])/','\\\$1', $string);
 }
 $ex = escapeString(get_the_excerpt());
 if ( !$ex ) $ex = substr( strip_tags( $post->post_content ), 0 ); 
+if ($sm_dates >= date('Ymd')):
 ?>
   <script>
       var myCalendar = createCalendar({
@@ -207,6 +209,8 @@ if ( !$ex ) $ex = substr( strip_tags( $post->post_content ), 0 );
       document.querySelector('.new-cal').appendChild(myCalendar);
 
   </script>
+			
+<?php endif; ?>
 			
 <?php endwhile; // end of the loop. ?>
 
