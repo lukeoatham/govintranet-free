@@ -38,6 +38,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.18.1 - 25 Jul 2016 ###
+* Fixes to the tag template  
+
 ### 4.18 - 21 Jul 2016 ###
 * Open Sans font added to editor 
 * New options to restrict editors/authors from managing categories 

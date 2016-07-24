@@ -137,9 +137,8 @@ get_header();
 					$contexturl=$post->guid;
 					$context='';
 					$titlecontext='';
-					if ($post_type=='Post_tag') { 
-						$icon = "tag"; 
-					}	
+					if ($post_type=='Post_tag') $icon = "tag"; 
+					$post_cat = array();
 					if ($post_type=='Task'){
 						$post_cat = get_the_category();
 						$contexturl = "/tasks/";
@@ -230,7 +229,13 @@ get_header();
 					<?php
 					endif;
 	
-
+					$terms = "";
+					foreach($post_cat as $cat){
+						if ($cat->term_id != 1 ){
+							$terms.= "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name."</a></span>&nbsp;";							
+						}
+					}
+					
 					echo "<a href='";
 					the_permalink();
 					echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
@@ -243,17 +248,14 @@ get_header();
 						foreach($post_cat as $cat){
 							if ($cat->term_id != 1 ){
 								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
-								echo "</a></span>&nbsp;";							}
+								echo "</a></span>&nbsp;";							
 							}
+						}
 						echo "</p>";
 					} elseif (($post_type=="News" || $post_type=="Blog" || $post_type=="News-update" )){
 						echo "<div><p>";
 						echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
-						foreach($post_cat as $cat){
-							if ($cat->term_id != 1 ){
-								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
-							}
-						}
+						echo $terms;
 					   $thisdate= $post->post_date;
 					   $thisdate=date(get_option('date_format'),strtotime($thisdate));
 					   echo "<span class='listglyph'>".$thisdate."</span> ";
@@ -263,11 +265,7 @@ get_header();
 						$thisdate= get_post_meta($post->ID, 'event_start_date', true);
 						$thisdate=date(get_option('date_format'),strtotime($thisdate));
 						echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
-						foreach($post_cat as $cat){
-							if ($cat->term_id != 1 ){
-								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
-							}
-						}
+						echo $terms;
 						echo "</p></div>";
 					} elseif ($post_type=="Vacancy" ){ 
 						echo "<div><p>";
@@ -276,11 +274,7 @@ get_header();
 						$thistime = get_post_meta($post->ID, 'vacancy_closing_time', true);
 						$thistime = date(get_option('time_format'),strtotime($thistime));
 						echo '<span class="listglyph">'.ucfirst($context).'&nbsp;Closing: '.$thisdate.' '.$thistime.'</span>&nbsp;&nbsp;';
-						foreach($post_cat as $cat){
-							if ($cat->term_id != 1 ){
-								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
-							}
-						}
+						echo $terms;
 						echo "</p></div>";
 					} else {
 						echo "<div><p>";
@@ -288,11 +282,7 @@ get_header();
 						$thisdate= $post->post_modified;
 						$thisdate=date(get_option('date_format'),strtotime($thisdate));
 						echo "<span class='listglyph'>" . __('Updated','govintranet') . " ".$thisdate."</span> ";
-						foreach($post_cat as $cat){
-							if ($cat->term_id != 1 ){
-								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
-							}
-						}
+						echo $terms;
 						echo "</p></div>";
 					}
 	
