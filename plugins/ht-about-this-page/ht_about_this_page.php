@@ -84,7 +84,7 @@ class htAboutThisPage extends WP_Widget {
 			$aboutChildren = get_option($acf_key); 
 			global $post; 
 			$my_wp_query = new WP_Query();
-			if ( ! $all_wp_pages = get_transient('ht_all_pages') ) { $all_wp_pages = $my_wp_query->query(array('post_type' => 'page','posts_per_page'=>-1)); set_transient('ht_all_pages', $all_wp_pages, 60 * 60 ); }
+			$all_wp_pages = $my_wp_query->query(array('post_type' => 'page','posts_per_page'=>-1)); 
 
 			if ($aboutChildren) foreach ($aboutChildren as $a){ 
 								
