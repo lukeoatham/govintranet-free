@@ -20,7 +20,7 @@ if ($gishelpfulsearch == 1){
 				$location=str_replace('/author', '/staff', $location);
 			} else {
 					if ($_GET['pt'] != 'user') {
-						$location=$post->guid; 
+						$location=get_permalink($post->ID);
 					}
 			}
 		endwhile;
