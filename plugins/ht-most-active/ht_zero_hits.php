@@ -35,8 +35,8 @@ function ht_zero_hits_options() {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
 
-    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 
 	$baseurl = site_url();
 	$to_fill = $items;
@@ -123,8 +123,7 @@ function ht_zero_hits_options() {
 		$tzone = get_option('timezone_string');
 		date_default_timezone_set($tzone);
     
-		echo "<a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits')."'>".__('Dashboard','govintranet')."</a></td>";
-		
+		echo "<a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits')."'>".__('Dashboard','govintranet')."</a> |  <a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits&action=options')."'>".__('Settings','govintranet')."</a></td>";
 		$ptypes = $_REQUEST['ptype'];
 		$show = $_REQUEST['show'];
 
@@ -260,8 +259,7 @@ function ht_zero_hits_options() {
 			}
 			echo "</table>";	
 	
-			echo "<a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits')."'>".__('Dashboard','govintranet')."</a></td>";
-			
+			echo "<a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits')."'>".__('Dashboard','govintranet')."</a> |  <a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits&action=options')."'>".__('Settings','govintranet')."</a></td>";
 	
 		endif;
 
@@ -293,8 +291,13 @@ function ht_zero_hits_options() {
 							echo'> <span class="labelForCheck">'. $pt->labels->name .'</span></label></p>';
 						}
 			 	}
-			 	echo'<p><label for="reset">Reset</label></p><p><label class="checkbox"><input type="checkbox" name="reset" value="reset"';
-				echo'> <span class="labelForCheck">Reset patrol</span></label></p>';		
+			 	echo'<p><label for="reset">Reset</label></p><p><label class="checkbox"><input type="checkbox" name="reset" value="reset"> <span class="labelForCheck">Reset patrol</span></label></p>';
+			 	global $wpdb;
+			 	$gaq = "select count(post_id) as gacount from $wpdb->postmeta where meta_key like 'zh_month_%' and meta_value = '-1'";
+			 	$ga_errors = $wpdb->get_var($gaq);
+			 	if ( $ga_errors ):
+				 	echo'<p><label for="catchup">Catchup</label></p><p><label class="checkbox"><input type="checkbox" name="catchup" value="catchup"> <span class="labelForCheck">Fill missing entries</span></label></p>';
+			 	endif;
 				echo "	
 			 	<p></p>
 				<p><input type='submit' value='Save' class='button-primary' /></p>
@@ -316,23 +319,28 @@ function ht_zero_hits_options() {
 		$posttypes = $_REQUEST['ptype'];
 		$zh_date_format = $_REQUEST['zh_date_format'];
 		$reset = $_REQUEST['reset'];
+		$catchup = $_REQUEST['catchup'];
 		update_option('options_zh_viewid', $viewid);
 		update_option('options_zh_post_types', $posttypes);
 		update_option('options_zh_date_format', $zh_date_format);
 		
 		echo "<p>Settings updated!</p>";
+		$tzone = get_option('timezone_string');
+		date_default_timezone_set($tzone);
 		
 		if ($reset == "reset"):
 			delete_zh_meta('0');
-			echo "<p>" . __('The Zero Hits report has been reset','govintranet') . "</p>";
-			zero_hits_monitor();
+			wp_schedule_single_event( time(), 'zh_zero_hits_reset' );
+			echo "<p>" . __('The Zero Hits patrol has been scheduled','govintranet') . "</p>";
+		elseif ($catchup == "catchup"):
+			wp_schedule_single_event( time(), 'zh_zero_hits_catchup' );
+			echo "<p>" . __('The Zero Hits catchup has been scheduled','govintranet') . "</p>";
 		endif;
 				
 	} 
 		
 	else {
 
-		echo "<a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits&action=options')."'>".__('Settings','govintranet')."</a></td>";
 		echo "<h2>Dashboard</h2> ";
 		zh_show_dashboard();
 	}
@@ -379,8 +387,20 @@ function delete_zh_meta($postid){
 }
 
 function zero_hits_monitor(){
+	$tzone = get_option('timezone_string');
+	date_default_timezone_set($tzone);
 	update_option('zh_patrol_start', date('H:i:s j M Y') );
 	
+	/* RESET ON MONTH CHANGE */
+	global $wpdb;
+	$latestrun = $wpdb->get_var("select max(meta_value) from $wpdb->postmeta where meta_key='zh_last_processed';");
+	$latestmonth = date('m',strtotime($latestrun));
+	$thismonth = date('m');
+	$latestyear = date('Y',strtotime($latestrun));
+	$thisyear = date('Y');
+	if ( ($thisyear == $latestyear && $latestmonth < $thismonth) || $latestyear < $thisyear ) delete_zh_meta();
+
+	/* SETUP API */
 	$viewid = get_option('options_zh_viewid'); 
 	$ptype = get_option('options_zh_post_types'); 
 
@@ -470,7 +490,7 @@ function zero_hits_monitor(){
 				$start_date = date('Y-m-01',strtotime ( $sdate ) ); 
 				$curmonth = date('m');
 				$filter='ga:pagePath=~'.$u.'$';
-					
+				if ( strlen($u) > 126 )	$filter='ga:pagePath=~'.substr($u, 0, 124).".*";
 			    // Set the default params. For example the start/end dates and max-results
 			    $defaults = array(
 			        'start-date' => $start_date,
@@ -480,20 +500,22 @@ function zero_hits_monitor(){
 			    $ga->setDefaultQueryParams($defaults);
 			    $visits = $ga->query($params); 
 			
-				if ( $visits ) foreach($visits as $r=>$result) {
-					if ( $r == "rows" ) {
-						foreach ($result as $res){ 
-							$input_month = $res[1];
-							$output_box = $curmonth - $input_month;
-							if ( $output_box <= 0 ) $output_box = $output_box + 12;
-							$t = $finalset[get_the_id()][$output_box];
-							$finalset[get_the_id()][$output_box] = $t + $res[2];
-						}			
-					} else {
-						$finalset[get_the_id()][$output_box] = 0;
+				if ( $visits && !$visits['error'] ) {
+					foreach($visits as $r=>$result) {
+						if ( $r == "rows" ) {
+							foreach ($result as $res){ 
+								$input_month = $res[1];
+								$output_box = $curmonth - $input_month;
+								if ( $output_box <= 0 ) $output_box = $output_box + 12;
+								$t = $finalset[get_the_id()][$output_box];
+								$finalset[get_the_id()][$output_box] = $t + $res[2];
+							}			
+						} else {
+							$finalset[get_the_id()][$output_box] = 0;
+						}
 					}
 				} else {
-					$finalset[get_the_id()][$output_box] = 0; // CHECK FOR GA ERROR - IF SO, DON'T SAVE
+					$finalset[get_the_id()][$output_box] = -1; 
 				}
 				// check for blank months
 				for ( $i=1; $i<=12; $i++){
@@ -526,7 +548,6 @@ function zero_hits_monitor(){
 				update_post_meta($postid , 'zh_month_12', $finalset[$postid][12] );
 				update_post_meta($postid , 'zh_total_1y', $finalset[$postid][0] );
 				update_post_meta($postid , 'zh_total_6m', $finalset[$postid][14] );
-				
 			}
 		}
 		update_option('zh_patrol_end', date('H:i j M Y') );
@@ -535,10 +556,125 @@ function zero_hits_monitor(){
 	}
 }
 
-register_deactivation_hook(__FILE__, 'my_deactivation');
+function zero_hits_catchup(){
+	$tzone = get_option('timezone_string');
+	date_default_timezone_set($tzone);
+	update_option('zh_patrol_start', date('H:i:s j M Y') );
+	
+	$viewid = get_option('options_zh_viewid'); 
 
-function my_deactivation() {
+    $client_id = '660382727637-9a6j2f87ba86mross0rvi9jr37vb28h4.apps.googleusercontent.com';
+    $client_secret = 'BuRLl-SduOLag_6BQGB38WNi';
+
+	// PUBLIC
+	//	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	//	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	
+	$viewid = get_option('options_zh_viewid');	
+    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
+    $account_id = 'ga:' . $viewid;
+
+	include_once( 'GoogleAnalyticsAPI.class.php' );
+	$ga = new GoogleAnalyticsAPI();
+	$ga->auth->setClientId($client_id); // From the APIs console
+	$ga->auth->setClientSecret($client_secret); // From the APIs console
+	$ga->auth->setRedirectUri($redirect_uri); // Url to your app, must match one in the APIs console
+	
+	// Get the Auth-Url
+	$url = $ga->auth->buildAuthUrl();
+
+	ini_set('error_reporting','0'); // disable all, for security
+
+	$gatoken 		= get_option('ga_token');
+	$refreshToken 	= get_option('ga_refresh_token');
+	$tokenExpires   = get_option('ga_token_expires');
+    $tokenCreated   = get_option('ga_token_created');
+	   		
+	if ($gatoken!='') {
+
+	    $ga->setAccessToken($gatoken);
+	    $ga->setAccountId($account_id);
+
+		date_default_timezone_set('timezone_string');
+	    $params = array(
+	        'metrics'    => 'ga:uniquePageviews',
+	        'dimensions' => 'ga:pagePath,ga:month',
+	        'sort'		 => '-ga:uniquePageviews',
+	    );
+
+		global $wpdb;
+		$gaq = "select post_id, meta_key from $wpdb->postmeta where meta_key like 'zh_month_%' and meta_value = '-1'";
+		$ga_errors = $wpdb->get_results($gaq);
+		
+		
+			foreach ($ga_errors as $g){
+				sleep(1); // allow for 10 calls per second limit
+				$finalset = "";
+						
+				$u = get_permalink($g->post_id);
+				$u = str_replace(site_url(), "", $u );
+				
+				$thismonth = str_replace("zh_month_", "", $g->meta_key);
+				$lastyear = date('Y');
+				if ($thismonth > date('m')) $lastyear--;
+
+				$sdate = $lastyear."-".$thismonth."-01";
+				$start_date = date('Y-m-01',strtotime ( $sdate ) ); 
+
+				$endyear = $thisyear;
+				$endmonth = $thismonth + 1;
+				if ( $thismonth == 12 ):
+					$endyear++;
+					$endmonth = 1;
+				endif;
+				$date = date ( 'Y-m-d 00:00:00',strtotime($endyear."-".$endmonth."-01") ); 
+				$end_date = date ( 'Y-m-d', strtotime ( '-1 day ' . $date ) );
+
+				$filter='ga:pagePath=~'.$u.'$';
+				if ( strlen($u) > 126 )	$filter='ga:pagePath=~'.substr($u, 0, 124).".*";
+			    // Set the default params. For example the start/end dates and max-results
+			    $defaults = array(
+			        'start-date' => $start_date,
+			        'end-date'   => $end_date,
+			        'filters' 	 => $filter,
+			    ); 
+			    $ga->setDefaultQueryParams($defaults);
+			    $visits = $ga->query($params); 
+			
+				if ( $visits && !$visits['error'] ) {
+					foreach($visits as $r=>$result) {
+						if ( $r == "rows" ) {
+							foreach ($result as $res){ 
+								$finalset = $res[2];
+							}			
+						} else {
+							$finalset = 0;
+						}
+					}
+				} else {
+					$finalset = -1; 
+				}
+	
+				$sixmonths = get_post_meta($g->post_id,'zh_month_1',true)+get_post_meta($g->post_id,'zh_month_2',true)+get_post_meta($g->post_id,'zh_month_3',true)+get_post_meta($g->post_id,'zh_month_4',true)+get_post_meta($g->post_id,'zh_month_5',true)+get_post_meta($g->post_id,'zh_month_6',true);
+				$twelvemonths = get_post_meta($g->post_id,'zh_month_7',true)+get_post_meta($g->post_id,'zh_month_8',true)+get_post_meta($g->post_id,'zh_month_9',true)+get_post_meta($g->post_id,'zh_month_10',true)+get_post_meta($g->post_id,'zh_month_11',true)+get_post_meta($g->post_id,'zh_month_12',true);
+
+				update_post_meta($g->post_id , $g->meta_key, $finalset );
+				update_post_meta($g->post_id , 'zh_total_6m', $sixmonths );
+				update_post_meta($g->post_id , 'zh_total_1y', $twelvemonths );
+			}
+		
+		update_option('zh_patrol_end', date('H:i j M Y') );
+	} else {
+		update_option('zh_patrol_end', 'an error. Google Analytics authentication needs updating!');
+	}
+}
+
+register_deactivation_hook(__FILE__, 'zh_deactivation');
+
+function zh_deactivation() {
 	wp_clear_scheduled_hook('zh_zero_hits_monitor');
+	wp_clear_scheduled_hook('zh_zero_hits_reset');
+	wp_clear_scheduled_hook('zh_zero_hits_catchup');
 }
 
 add_action('wp_dashboard_setup' , 'zh_dashboard');
@@ -555,6 +691,7 @@ function zh_show_dashboard() {
 		wp_die( __('You do not have sufficient permissions to access this page.','govintranet') );
 	}
 
+	global $wpdb;
 	$posttypes = get_option('options_zh_post_types');
 	$inq = 0;
 	echo "<table class='table table-striped'>
@@ -664,10 +801,15 @@ function zh_show_dashboard() {
 			$allposts = new WP_Query($args);
 
 			$inq.=$allposts->found_posts;			
+			$gaq = "select count(post_id) as gacount from $wpdb->postmeta join $wpdb->posts on $wpdb->posts.ID = $wpdb->postmeta.post_id where meta_key like 'zh_month_%' and meta_value = '-1' and post_type = '".$pt."'";
+			$ga_errors = $wpdb->get_var($gaq);
+			$missing = "";
 
 			echo "<td>";
 			if ( $allposts->found_posts > 0 ):
 				echo '<span class="dashicons dashicons-update"></span> ' . sprintf(__('%d queued','govintranet') , $allposts->found_posts );
+			elseif ($ga_errors > 0 ):
+				echo '<span class="dashicons dashicons-warning"></span> ' . sprintf( _n( '1 missing entry', '%d missing entries', $ga_errors, 'govintranet' ), $ga_errors );
 			else:
 				echo '<span class="dashicons dashicons-yes"></span> ' . __("Up to date","govintranet");
 			endif;
@@ -678,15 +820,21 @@ function zh_show_dashboard() {
 	
 	echo "</tbody></table>";
 	
-	if ( get_option('zh_patrol_end') != "" ) echo "<p>" . sprintf( __('Last patrol finished at %s', 'govintranet') , get_option('zh_patrol_end') ) . "</p>"; 		
+	if ( get_option('zh_patrol_end') != "" ):
+		echo "<p>" . sprintf( __('Last patrol finished at %s', 'govintranet') , get_option('zh_patrol_end') );
+		echo " <a class='btn btn-primary' href='".admin_url('/tools.php?page=zero_hits&action=options')."'>".__('Settings','govintranet')."</a>";
+		echo "</p>";
+	endif;
 
 }
 
-function my_activation(){
+function zh_activation(){
 	if ( ! wp_next_scheduled( 'zh_zero_hits_monitor' ) ) {
 	  wp_schedule_event( time(), 'hourly', 'zh_zero_hits_monitor' );
 	}
 }
 
-register_activation_hook(__FILE__, 'my_activation');
+register_activation_hook(__FILE__, 'zh_activation');
 add_action( 'zh_zero_hits_monitor', 'zero_hits_monitor' );
+add_action( 'zh_zero_hits_reset', 'zero_hits_monitor' );
+add_action( 'zh_zero_hits_catchup', 'zero_hits_catchup' );
