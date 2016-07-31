@@ -398,7 +398,7 @@ function zero_hits_monitor(){
 	$thismonth = date('m');
 	$latestyear = date('Y',strtotime($latestrun));
 	$thisyear = date('Y');
-	if ( ($thisyear == $latestyear && $latestmonth < $thismonth) || $latestyear < $thisyear ) delete_zh_meta();
+	if ( ($thisyear == $latestyear && $latestmonth < $thismonth) || $latestyear < $thisyear ) delete_zh_meta('0');
 
 	/* SETUP API */
 	$viewid = get_option('options_zh_viewid'); 
@@ -532,6 +532,7 @@ function zero_hits_monitor(){
 				$finalset[get_the_id()][0] = $finalset[get_the_id()][14]+$finalset[get_the_id()][7]+$finalset[get_the_id()][8]+$finalset[get_the_id()][9]+$finalset[get_the_id()][10]+$finalset[get_the_id()][11]+$finalset[get_the_id()][12];
 				$postid = get_the_id();
 
+				//if ( !$visits['error']):
 				delete_zh_meta($postid);
 				update_post_meta($postid , 'zh_last_processed', date('Ymd') );
 				update_post_meta($postid , 'zh_month_1', $finalset[$postid][1] );
@@ -548,6 +549,7 @@ function zero_hits_monitor(){
 				update_post_meta($postid , 'zh_month_12', $finalset[$postid][12] );
 				update_post_meta($postid , 'zh_total_1y', $finalset[$postid][0] );
 				update_post_meta($postid , 'zh_total_6m', $finalset[$postid][14] );
+				//endif;
 			}
 		}
 		update_option('zh_patrol_end', date('H:i j M Y') );
@@ -655,8 +657,8 @@ function zero_hits_catchup(){
 					$finalset = -1; 
 				}
 	
-				$sixmonths = get_post_meta($g->post_id,'zh_month_1',true)+get_post_meta($g->post_id,'zh_month_2',true)+get_post_meta($g->post_id,'zh_month_3',true)+get_post_meta($g->post_id,'zh_month_4',true)+get_post_meta($g->post_id,'zh_month_5',true)+get_post_meta($g->post_id,'zh_month_6',true);
-				$twelvemonths = get_post_meta($g->post_id,'zh_month_7',true)+get_post_meta($g->post_id,'zh_month_8',true)+get_post_meta($g->post_id,'zh_month_9',true)+get_post_meta($g->post_id,'zh_month_10',true)+get_post_meta($g->post_id,'zh_month_11',true)+get_post_meta($g->post_id,'zh_month_12',true);
+				$sixmonths = $finalset+get_post_meta($g->post_id,'zh_month_2',true)+get_post_meta($g->post_id,'zh_month_3',true)+get_post_meta($g->post_id,'zh_month_4',true)+get_post_meta($g->post_id,'zh_month_5',true)+get_post_meta($g->post_id,'zh_month_6',true);
+				$twelvemonths = $sixmonths+get_post_meta($g->post_id,'zh_month_7',true)+get_post_meta($g->post_id,'zh_month_8',true)+get_post_meta($g->post_id,'zh_month_9',true)+get_post_meta($g->post_id,'zh_month_10',true)+get_post_meta($g->post_id,'zh_month_11',true)+get_post_meta($g->post_id,'zh_month_12',true);
 
 				update_post_meta($g->post_id , $g->meta_key, $finalset );
 				update_post_meta($g->post_id , 'zh_total_6m', $sixmonths );
