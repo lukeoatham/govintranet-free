@@ -4,7 +4,7 @@ Plugin Name: HT Zero Hits Monitor
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display least active pages
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -404,12 +404,8 @@ function zero_hits_monitor(){
 	$viewid = get_option('options_zh_viewid'); 
 	$ptype = get_option('options_zh_post_types'); 
 
-    $client_id = '660382727637-9a6j2f87ba86mross0rvi9jr37vb28h4.apps.googleusercontent.com';
-    $client_secret = 'BuRLl-SduOLag_6BQGB38WNi';
-
-	// PUBLIC
-	//	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	//	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	
 	$viewid = get_option('options_zh_viewid');	
     $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
@@ -565,12 +561,8 @@ function zero_hits_catchup(){
 	
 	$viewid = get_option('options_zh_viewid'); 
 
-    $client_id = '660382727637-9a6j2f87ba86mross0rvi9jr37vb28h4.apps.googleusercontent.com';
-    $client_secret = 'BuRLl-SduOLag_6BQGB38WNi';
-
-	// PUBLIC
-	//	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	//	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	
 	$viewid = get_option('options_zh_viewid');	
     $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
@@ -607,63 +599,67 @@ function zero_hits_catchup(){
 		global $wpdb;
 		$gaq = "select post_id, meta_key from $wpdb->postmeta where meta_key like 'zh_month_%' and meta_value = '-1'";
 		$ga_errors = $wpdb->get_results($gaq);
-		
-		
-			foreach ($ga_errors as $g){
-				sleep(1); // allow for 10 calls per second limit
-				$finalset = "";
-						
-				$u = get_permalink($g->post_id);
-				$u = str_replace(site_url(), "", $u );
-				
-				$thismonth = str_replace("zh_month_", "", $g->meta_key);
-				$lastyear = date('Y');
-				if ($thismonth > date('m')) $lastyear--;
-
-				$sdate = $lastyear."-".$thismonth."-01";
-				$start_date = date('Y-m-01',strtotime ( $sdate ) ); 
-
-				$endyear = $thisyear;
-				$endmonth = $thismonth + 1;
-				if ( $thismonth == 12 ):
-					$endyear++;
-					$endmonth = 1;
-				endif;
-				$date = date ( 'Y-m-d 00:00:00',strtotime($endyear."-".$endmonth."-01") ); 
-				$end_date = date ( 'Y-m-d', strtotime ( '-1 day ' . $date ) );
-
-				$filter='ga:pagePath=~'.$u.'$';
-				if ( strlen($u) > 126 )	$filter='ga:pagePath=~'.substr($u, 0, 124).".*";
-			    // Set the default params. For example the start/end dates and max-results
-			    $defaults = array(
-			        'start-date' => $start_date,
-			        'end-date'   => $end_date,
-			        'filters' 	 => $filter,
-			    ); 
-			    $ga->setDefaultQueryParams($defaults);
-			    $visits = $ga->query($params); 
-			
-				if ( $visits && !$visits['error'] ) {
-					foreach($visits as $r=>$result) {
-						if ( $r == "rows" ) {
-							foreach ($result as $res){ 
-								$finalset = $res[2];
-							}			
-						} else {
-							$finalset = 0;
-						}
-					}
-				} else {
-					$finalset = -1; 
-				}
 	
-				$sixmonths = $finalset+get_post_meta($g->post_id,'zh_month_2',true)+get_post_meta($g->post_id,'zh_month_3',true)+get_post_meta($g->post_id,'zh_month_4',true)+get_post_meta($g->post_id,'zh_month_5',true)+get_post_meta($g->post_id,'zh_month_6',true);
-				$twelvemonths = $sixmonths+get_post_meta($g->post_id,'zh_month_7',true)+get_post_meta($g->post_id,'zh_month_8',true)+get_post_meta($g->post_id,'zh_month_9',true)+get_post_meta($g->post_id,'zh_month_10',true)+get_post_meta($g->post_id,'zh_month_11',true)+get_post_meta($g->post_id,'zh_month_12',true);
+	
+		foreach ($ga_errors as $g){
+			sleep(1); // allow for 10 calls per second limit
+			$finalset = "";
+					
+			$u = get_permalink($g->post_id);
+			if ( !$u ) continue;
+			$u = str_replace(site_url(), "", $u );
+			
+			$currentmonth = date('m');
+			$thisyear = date('Y');
+			$slotmonth = str_replace("zh_month_", "", $g->meta_key);
+			$thismonth = $currentmonth - $slotmonth;
+			if ( $thismonth < 0 ) $thismonth = $thismonth + 12;
+			if ($thismonth > $currentmonth ) $thisyear--;
+			$sdate = $thisyear."-".$thismonth."-01";
+			$start_date = date('Y-m-01',strtotime ( $sdate ) ); 
 
-				update_post_meta($g->post_id , $g->meta_key, $finalset );
-				update_post_meta($g->post_id , 'zh_total_6m', $sixmonths );
-				update_post_meta($g->post_id , 'zh_total_1y', $twelvemonths );
+			$endyear = $thisyear;
+			$endmonth = $thismonth + 1;
+			if ( $thismonth == 12 ):
+				$endyear++;
+				$endmonth = 1;
+			endif;
+			$date = date ( 'Y-m-d 00:00:00',strtotime($endyear."-".$endmonth."-01") ); 
+			$end_date = date ( 'Y-m-d', strtotime ( '-1 day ' . $date ) );
+
+			$filter='ga:pagePath=~'.$u.'$';
+			if ( strlen($u) > 126 )	$filter='ga:pagePath=~'.substr($u, 0, 124).".*";
+		    // Set the default params. For example the start/end dates and max-results
+		    $defaults = array(
+		        'start-date' => $start_date,
+		        'end-date'   => $end_date,
+		        'filters' 	 => $filter,
+		    ); 
+		    $ga->setDefaultQueryParams($defaults);
+		    $visits = $ga->query($params); 
+		
+			if ( $visits && !$visits['error'] ) {
+				foreach($visits as $r=>$result) {
+					if ( $r == "rows" ) {
+						foreach ($result as $res){ 
+							$finalset = $res[2];
+						}			
+					} else {
+						$finalset = 0;
+					}
+				}
+			} else {
+				$finalset = -1; 
 			}
+
+			update_post_meta($g->post_id , $g->meta_key, $finalset );
+
+			$sixmonths = get_post_meta($g->post_id,'zh_month_1',true)+get_post_meta($g->post_id,'zh_month_2',true)+get_post_meta($g->post_id,'zh_month_3',true)+get_post_meta($g->post_id,'zh_month_4',true)+get_post_meta($g->post_id,'zh_month_5',true)+get_post_meta($g->post_id,'zh_month_6',true);
+			$twelvemonths = $sixmonths+get_post_meta($g->post_id,'zh_month_7',true)+get_post_meta($g->post_id,'zh_month_8',true)+get_post_meta($g->post_id,'zh_month_9',true)+get_post_meta($g->post_id,'zh_month_10',true)+get_post_meta($g->post_id,'zh_month_11',true)+get_post_meta($g->post_id,'zh_month_12',true);
+
+			update_post_meta($g->post_id , 'zh_total_6m', $sixmonths );
+			update_post_meta($g->post_id , 'zh_total_1y', $twelvemonths );
+		}
 		
 		update_option('zh_patrol_end', date('H:i j M Y') );
 	} else {
