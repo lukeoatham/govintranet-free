@@ -221,7 +221,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 				 		$gradehead='';
 						$newteam = get_post( $tq ); 
 						$chevron=1;
-			 			$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_team','value'=>$tq,'compare'=>'LIKE'))));
+			 			$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_team','value'=>'.*\"'.$tq.'\".*','compare'=>'REGEXP'))));
 			 			if ( $user_query ) foreach ($user_query->results as $u){ 
 				 			$uid[] = $u->ID;
 				 			$ulastname[] = get_user_meta($u->ID,'last_name',true);

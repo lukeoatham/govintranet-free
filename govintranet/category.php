@@ -9,10 +9,11 @@ get_header();
 $taskicon = get_option("options_module_tasks_icon_tasks", "glyphicon glyphicon-file");
 $guideicon = get_option("options_module_tasks_icon_guides", "glyphicon glyphicon-duplicate");
 $tags_open = get_option("options_module_tasks_tags_open", false );
-$catname = get_queried_object()->name;					
+$catname = get_queried_object()->name;
+$subtitle = $catname;
 $catid = get_queried_object()->term_id;	
-$catslug = get_queried_object()->slug;	
-$catdesc = get_queried_object()->description;	
+$catslug = get_queried_object()->slug;
+$catdesc = get_queried_object()->description;
 $catlongdesc = get_option("category_".$catid."_cat_long_description", "");
 if ( $catlongdesc ) $catdesc = $catlongdesc;
 $childrenargs = array (
@@ -22,9 +23,11 @@ $childrenargs = array (
 );
 $catchildren = get_terms('category', $childrenargs ); 
 $catparentid = get_queried_object()->parent; 
+$catparent = "";
 if ( $catparentid ):
 	$catparent = get_term($catparentid, 'category');
 	$catparentlink = "<a href='".get_term_link($catparentid, 'category')."'>".$catparent->name."</a>";
+	$subtitle = $catparent->name;
 endif;
 $tasktagslug = '';
 $tasktag = '';
@@ -54,43 +57,44 @@ if ( have_posts() )
 
 		<h1 <?php echo "class='h1_" . $catid . "'>". single_tag_title( '', false ) ; ?></h1>
 	
-			<?php echo wpautop($catdesc); ?>
-				<form class="form-horizontal" role="form" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
-					<div class="input-group input-md">
-						<label for="sbc-s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
-						<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="<?php _e('How do I...','govintranet'); ?>" />
-						 <span class="input-group-btn">
-				    	 <?php
-					    	 $icon_override = get_option('options_search_button_override', false); 
-					    	 if ( isset($icon_override) && $icon_override ):
-						    	 $override_text = esc_attr(get_option('options_search_button_text', __('Search','govintranet')));
-								 ?>
-						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><?php echo $override_text; ?></button>
-							 	<?php 
-					    	 else:
-						    	 ?>
-						 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only"><?php _e('Search','govintranet'); ?></span></button>
-							 	<?php 
-							 endif;
-							 ?>
-							 
-						 </span>
-						<input type="hidden" value="<?php echo $catid; ?>" name = "cat" />
-						<input type="hidden" value="task" name = "post_type[]" />
-					</div>
-				</form>
+		<?php 
+		echo wpautop($catdesc); ?>
+		<form class="form-horizontal" role="form" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
+			<div class="input-group input-md">
+				<label for="sbc-s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
+				<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="<?php _e('How do I...','govintranet'); ?>" />
+				 <span class="input-group-btn">
+		    	 <?php
+			    	 $icon_override = get_option('options_search_button_override', false); 
+			    	 if ( isset($icon_override) && $icon_override ):
+				    	 $override_text = esc_attr(get_option('options_search_button_text', __('Search','govintranet')));
+						 ?>
+				 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><?php echo $override_text; ?></button>
+					 	<?php 
+			    	 else:
+				    	 ?>
+				 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><span class="dashicons dashicons-search"></span><span class="sr-only"><?php _e('Search','govintranet'); ?></span></button>
+					 	<?php 
+					 endif;
+					 ?>
+					 
+				 </span>
+				<input type="hidden" value="<?php echo $catid; ?>" name = "cat" />
+				<input type="hidden" value="task" name = "post_type[]" />
+			</div>
+		</form>
 
-				<script type='text/javascript'>
-				    jQuery(document).ready(function(){
-						jQuery('#category-search').submit(function(e) {
-						    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
-						        e.preventDefault();
-						        jQuery('#sbc-s').focus();
-						    }
-						});	
-					});	
-				
-				</script>
+		<script type='text/javascript'>
+		    jQuery(document).ready(function(){
+				jQuery('#category-search').submit(function(e) {
+				    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
+				        e.preventDefault();
+				        jQuery('#sbc-s').focus();
+				    }
+				});	
+			});	
+		
+		</script>
 							
 							
 		<?php 
@@ -163,12 +167,12 @@ if ( have_posts() )
 			endif;
 		
 				?>
-			<h3><a <?php echo $ext; ?> href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); echo $ext_icon; ?></a>&nbsp;<small><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $context.$tagcontext; ?>
+			<h3><a <?php echo $ext; ?> href="<?php the_permalink(); ?>" title="<?php the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); echo $ext_icon; ?></a>&nbsp;<small class="task-context"><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $context.$tagcontext; ?></small>
 			<?php
 			if ( $catchildren ) foreach((array)$catchildren as $cc){
 				if ($cc->term_id != 1 && has_term($cc->term_id, 'category', $id) ){
-					echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cc->term_id."'></span><a href='".get_term_link($cc->slug,$cc->taxonomy)."'>".$cc->name;
-					echo "</a></span>&nbsp;";
+					echo "<small class='cat-context'><span class='cat-context-color glyphicon glyphicon-folder-open gb".$cc->term_id."'></span>&nbsp;<a href='".get_term_link($cc->slug,$cc->taxonomy)."'>".$cc->name;
+					echo "</a></small>&nbsp;";
 				}
 			}
 			?>
@@ -196,24 +200,27 @@ if ( have_posts() )
 
 		<?php
 		$terms = get_terms('category',array("hide_empty"=>true,"parent"=>$catid));
-		if ($terms) {
+		if ( !$terms && $catparentid ) $terms = get_terms('category',array("hide_empty"=>true,"parent"=>$catparentid));
+		if ($terms ) {
 			?>
 			<div class="widget-box">
-				<h3 class='widget-title'><?php _e('Sub-categories','govintranet'); ?></h3>
-				<div class='catlisting task'><ul class="nav nav-pills nav-stacked">
+				<h3 class='widget-title'><?php echo $subtitle; ?></h3>
+				<div class='catlisting task'>
+					<ul class="nav nav-pills nav-stacked">
 					<?php				
 			  			foreach ((array)$terms as $taxonomy ) {
 				  		    $themeid = $taxonomy->term_id;
 				  			$themeURL = $taxonomy->slug;
 				  			$desc = '';
-					  		if ($themeid == 1) {
-				  		    	continue;
-				  			}
-							echo "
-							<li class=''><a href='".get_term_link($taxonomy->slug, 'category')."'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;".$taxonomy->name."</a>".$desc."</li>";
+					  		if ($themeid == 1) continue;
+					  		$active = "";
+					  		if ( $taxonomy->term_id == $catid ) $active = " class='active'";
+							echo "<li><a";
+							echo $active;
+							echo " href='".get_term_link($taxonomy->slug, 'category')."'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;".$taxonomy->name."</a>".$desc."</li>";
 						}
 						?>
-				</ul>
+					</ul>
 				</div>
 			</div>
 			<?php
@@ -223,14 +230,15 @@ if ( have_posts() )
 		$post_type = array();
 		$taxonomies[] = 'category';
 		$post_type[] = 'task';
-		$post_cat = get_terms_by_post_type( $taxonomies, $post_type);
+		$post_cat = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"slug"));
+		//$post_cat = get_terms_by_post_type( $taxonomies, $post_type );
 		if ( count($post_cat) > 0 ){
 			echo "<div class='widget-box category-terms'><h3 class='widget-title'>" . __('Categories','govintranet') . "</h3>";
 			echo "<div class='catlisting ". $post->post_type . "'><ul class='nav nav-pills nav-stacked'>";
 			foreach($post_cat as $cat){
 				if ( $cat->term_id > 1 && $cat->name ){
 					echo "<li><a ";
-					if ($cat->term_id == $catid) echo " class='active'";
+					if ($cat->term_id == $catid || $cat->term_id == $catparentid) echo " class='active'";
 					echo "href='" . get_term_link($cat->slug, 'category') . "'><span class='brd" . $cat->term_id . "'></span>&nbsp;";
 					if ($cat->term_id == $catid) echo "<strong>";
 					echo $cat->name;

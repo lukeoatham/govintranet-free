@@ -1844,7 +1844,7 @@ function cptui_register_my_cpt_task() {
 			'fields' => array (
 				array (
 					'key' => 'field_56a40dec54af7',
-					'label' => 'Treat as a manual',
+					'label' => __('Treat as a manual','govintranet'),
 					'name' => 'treat_as_a_manual',
 					'type' => 'true_false',
 					'instructions' => '',
@@ -1860,7 +1860,7 @@ function cptui_register_my_cpt_task() {
 				),
 				array (
 					'key' => 'field_56a40e2754af8',
-					'label' => 'Manual chapters',
+					'label' => __('Manual chapters','govintranet'),
 					'name' => 'manual_chapters',
 					'type' => 'repeater',
 					'instructions' => '',
@@ -1887,7 +1887,7 @@ function cptui_register_my_cpt_task() {
 					'sub_fields' => array (
 						array (
 							'key' => 'field_56a40e5854af9',
-							'label' => 'Chapter title',
+							'label' => __('Chapter title','govintranet'),
 							'name' => 'manual_chapter_title',
 							'type' => 'text',
 							'instructions' => '',
@@ -1908,7 +1908,7 @@ function cptui_register_my_cpt_task() {
 						),
 						array (
 							'key' => 'field_56a40e7354afa',
-							'label' => 'Content',
+							'label' => __('Content','govintranet'),
 							'name' => 'manual_chapter_content',
 							'type' => 'wysiwyg',
 							'instructions' => '',
@@ -2058,10 +2058,10 @@ function cptui_register_my_taxes_news_type() {
 			'fields' => array (
 				array (
 					'key' => 'field_572b7af1ae3a6',
-					'label' => 'Number of stories',
+					'label' => __('Number of stories','govintranet'),
 					'name' => 'news_offset',
 					'type' => 'number',
-					'instructions' => 'Number of stories to offset the start of the listing by. Leave blank for full listing.',
+					'instructions' => __('Number of stories to offset the start of the listing by. Leave blank for full listing.','govintranet'),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array (
@@ -2720,7 +2720,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array (
 				'key' => 'field_5755996acff5b',
-				'label' => 'Hide site name in header',
+				'label' => __('Hide site name in header','govintranet'),
 				'name' => 'hide_sitename',
 				'type' => 'true_false',
 				'instructions' => '',
@@ -2894,7 +2894,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Disable "Did you mean?"','govintranet'),
 				'name' => 'disable_search_did_you_mean',
 				'type' => 'true_false',
-				'instructions' => 'The "Did you mean?" feature of the Relevanssi Premium plugin is enabled by default.',
+				'instructions' => __('The "Did you mean?" feature of the Relevanssi Premium plugin is enabled by default.','govintranet'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -2910,7 +2910,23 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Enable attachments filter','govintranet'),
 				'name' => 'enable_include_attachments',
 				'type' => 'true_false',
-				'instructions' => 'Enable option to filter attachments in search results.',
+				'instructions' => __('Enable option to filter attachments in search results.','govintranet'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'message' => '',
+				'default_value' => 0,
+			),
+			array (
+				'key' => 'field_579d2d0363466',
+				'label' => __('Enable forums filter','govintranet'),
+				'name' => 'enable_include_forums',
+				'type' => 'true_false',
+				'instructions' => __('Enable option to filter forums in search results.','govintranet'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -3407,10 +3423,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array (
 				'key' => 'field_56a40f4efa805',
-				'label' => 'Manuals',
+				'label' => __('Manuals','govintranet'),
 				'name' => 'module_tasks_manuals',
 				'type' => 'true_false',
-				'instructions' => 'Add functionality for manuals within tasks.',
+				'instructions' => __('Add functionality for manuals within tasks.','govintranet'),
 				'required' => 0,
 				'conditional_logic' => array (
 					array (
@@ -9141,7 +9157,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'fields' => array (
 			array (
 				'key' => 'field_5696cdbde4305',
-				'label' => 'Restrict to 3 columns',
+				'label' => __('Restrict to 3 columns','govintranet'),
 				'name' => 'ht_about_restrict',
 				'type' => 'true_false',
 				'instructions' => '',
@@ -9181,7 +9197,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'fields' => array (
 			array (
 				'key' => 'field_5697ff7f299ce',
-				'label' => 'Tabs',
+				'label' => __('Tabs','govintranet'),
 				'name' => 'newsboard_tabs',
 				'type' => 'repeater',
 				'instructions' => '',
@@ -9200,7 +9216,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'sub_fields' => array (
 					array (
 						'key' => 'field_5699209316262',
-						'label' => 'Title',
+						'label' => __('Title','govintranet'),
 						'name' => 'newsboard_tab_title',
 						'type' => 'text',
 						'instructions' => '',
@@ -9221,7 +9237,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_5697ffdc299cf',
-						'label' => 'Content type',
+						'label' => __('Content type','govintranet'),
 						'name' => 'newsboard_tab_content_type',
 						'type' => 'select',
 						'instructions' => '',
@@ -9254,10 +9270,10 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_56997ea39edeb',
-						'label' => 'Feature first',
+						'label' => __('Feature first','govintranet'),
 						'name' => 'newsboard_feature_first',
 						'type' => 'true_false',
-						'instructions' => 'Highlight the first post with a large feature image.',
+						'instructions' => __('Highlight the first post with a large feature image.','govintranet'),
 						'required' => 0,
 						'conditional_logic' => array (
 							array (
@@ -9285,7 +9301,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_5698009c299d0',
-						'label' => 'News type',
+						'label' => __('News type','govintranet'),
 						'name' => 'newsboard_news_type',
 						'type' => 'taxonomy',
 						'instructions' => '',
@@ -9315,7 +9331,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_56980141299d1',
-						'label' => 'News update type',
+						'label' => __('News update type','govintranet'),
 						'name' => 'newsboard_news_update_type',
 						'type' => 'taxonomy',
 						'instructions' => '',
@@ -9345,7 +9361,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_569920b916263',
-						'label' => 'Blog category',
+						'label' => __('Blog category','govintranet'),
 						'name' => 'newsboard_blog_category',
 						'type' => 'taxonomy',
 						'instructions' => '',
@@ -9375,7 +9391,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_56980175299d2',
-						'label' => 'Event types',
+						'label' => __('Event types','govintranet'),
 						'name' => 'newsboard_event_types',
 						'type' => 'taxonomy',
 						'instructions' => '',
@@ -9405,7 +9421,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_569982c2c49b9',
-						'label' => 'Link to more',
+						'label' => __('Link to more','govintranet'),
 						'name' => 'newsboard_link_to_more',
 						'type' => 'true_false',
 						'instructions' => '',
@@ -9450,7 +9466,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_569982f9c49bd',
-						'label' => 'Link to',
+						'label' => __('Link to','govintranet'),
 						'name' => 'newsboard_link_to',
 						'type' => 'radio',
 						'instructions' => '',
@@ -9501,7 +9517,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 					array (
 						'key' => 'field_569983a9c49be',
-						'label' => 'Link',
+						'label' => __('Link','govintranet'),
 						'name' => 'newsboard_page_link',
 						'type' => 'relationship',
 						'instructions' => '',
@@ -10462,6 +10478,7 @@ function govintranet_custom_styles() {
   			$custom_css.= ".h1_" . $themeid . "{border-bottom: ".$gisheight."px solid " . $background . "; margin-bottom: 0.4em; padding-bottom: 0.3em;} \n";
   			$custom_css.= ".b" . $themeid . "{border-left: 20px solid " . $background . ";} \n";
   			$custom_css.= ".dashicons.dashicons-category.gb" . $themeid . "{color: " . $background . ";} \n";
+  			$custom_css.= ".gb" . $themeid . "{color: " . $background . ";} \n";
   			$custom_css.= "a:visited.wptag.t". $themeid . "{color: " . $foreground . ";} \n";
 		}
 	}  

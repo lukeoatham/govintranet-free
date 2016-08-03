@@ -24,12 +24,12 @@ if ( $freshness ):
 endif;
 
 $taxarray='';
-
+'key'=>'user_team','value'=>'.*\"'.$tq.'\".*','compare'=>'REGEXP'
 if ($team):
 	$teamarray = array(
 	"key" => "related_team",
-	"value" => '"'.$checkteam.'"',
-	"compare" => "LIKE",
+	"value" => '.*\"'.$checkteam.'\".*',
+	"compare" => "REGEXP",
 	);
 	$query['meta_query']=array($teamarray);
 endif;

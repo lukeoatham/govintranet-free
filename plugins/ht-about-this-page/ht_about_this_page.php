@@ -73,13 +73,12 @@ class htAboutThisPage extends WP_Widget {
         $show_published_date = ($instance['show_published_date']);
         $show_author = ($instance['show_author']);
         $normal_date_format = ($instance['normal_date_format']);
-        	        
 	        
 		$showabout = false;
 		if ( is_single() ) $showabout = true; 		
 		if ( is_singular(array('forum','topic','reply'))) $showabout = false;
 
-		if ( is_page() ):
+		if ( is_page() && get_option("widget_" . $this->id_base . "-" . $this->number . "_about_this_page_children") ):
 			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_about_this_page_children" ;  
 			$aboutChildren = get_option($acf_key); 
 			global $post; 
@@ -114,7 +113,6 @@ class htAboutThisPage extends WP_Widget {
 			$tzone = get_option('timezone_string');
 			$date_format = get_option('date_format');
 			date_default_timezone_set($tzone);
-			
 
 			if ($show_modified_date=='on'){
 				$mod = date('Y-m-d',(get_post_modified_time())) . "T" . date('H:i:s',(get_post_modified_time()));
@@ -133,8 +131,8 @@ class htAboutThisPage extends WP_Widget {
 				echo "</a>";
 			}
 
-		echo "</div>";
-		echo $after_widget; 
+			echo "</div>";
+			echo $after_widget; 
 		}						
 
     }
@@ -155,23 +153,22 @@ class htAboutThisPage extends WP_Widget {
         $show_published_date = esc_attr($instance['show_published_date']);
         $show_author = esc_attr($instance['show_author']);
         ?>
-         <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
-          <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
-          
-          <label><?php _e('Include','govintranet');?>:</label><br>
-
-          <input id="<?php echo $this->get_field_id('show_modified_date'); ?>" name="<?php echo $this->get_field_name('show_modified_date'); ?>" type="checkbox" <?php checked((bool) $instance['show_modified_date'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('show_modified_date'); ?>"><?php _e('Modified date','govintranet'); ?></label> <br>
-
-          <input id="<?php echo $this->get_field_id('show_published_date'); ?>" name="<?php echo $this->get_field_name('show_published_date'); ?>" type="checkbox" <?php checked((bool) $instance['show_published_date'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('show_published_date'); ?>"><?php _e('Published date','govintranet'); ?></label> <br>
-
-          <input id="<?php echo $this->get_field_id('show_author'); ?>" name="<?php echo $this->get_field_name('show_author'); ?>" type="checkbox" <?php checked((bool) $instance['show_author'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('show_author'); ?>"><?php _e('Author','govintranet'); ?></label> <br>
-
-        </p>
-
+		<p>
+		<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
+		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
+		
+		<label><?php _e('Include','govintranet');?>:</label><br>
+		
+		<input id="<?php echo $this->get_field_id('show_modified_date'); ?>" name="<?php echo $this->get_field_name('show_modified_date'); ?>" type="checkbox" <?php checked((bool) $instance['show_modified_date'], true ); ?> />
+		<label for="<?php echo $this->get_field_id('show_modified_date'); ?>"><?php _e('Modified date','govintranet'); ?></label> <br>
+		
+		<input id="<?php echo $this->get_field_id('show_published_date'); ?>" name="<?php echo $this->get_field_name('show_published_date'); ?>" type="checkbox" <?php checked((bool) $instance['show_published_date'], true ); ?> />
+		<label for="<?php echo $this->get_field_id('show_published_date'); ?>"><?php _e('Published date','govintranet'); ?></label> <br>
+		
+		<input id="<?php echo $this->get_field_id('show_author'); ?>" name="<?php echo $this->get_field_name('show_author'); ?>" type="checkbox" <?php checked((bool) $instance['show_author'], true ); ?> />
+		<label for="<?php echo $this->get_field_id('show_author'); ?>"><?php _e('Author','govintranet'); ?></label> <br>
+		
+		</p>
         <?php 
     }
 

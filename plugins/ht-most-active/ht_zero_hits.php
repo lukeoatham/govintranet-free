@@ -35,8 +35,8 @@ function ht_zero_hits_options() {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
 
-	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 
 	$baseurl = site_url();
 	$to_fill = $items;
@@ -65,7 +65,7 @@ function ht_zero_hits_options() {
     if ($gatoken==''){ // if no token stored
     	if( !isset($_GET['code']) ) { // if we aren't submitting GET code to the db
 			$url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
-			<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Authorise Google Analytics access','govintranet');?></a>
+			<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Click to get code','govintranet');?></a>
 			<form>
 				<label for="code"><?php _e('Enter your code from Google','govintranet');?></label></span>
 				<input id="code" name="code" />
@@ -90,7 +90,7 @@ function ht_zero_hits_options() {
 	        } else {
 	            $url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
 	            <em><?php _e('Sorry, something went wrong accessing Google Analytics','govintranet');?>:<?php echo $auth['error_description']; ?></em>
-				<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Authorise Google Analytics access','govintranet');?></a>
+				<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Click to get code','govintranet');?></a>
 				<form>
 					<label for="code"><?php _e('Enter your code from Google','govintranet');?></label></span>
 					<input id="code" name="code" type="text"/>
@@ -404,7 +404,7 @@ function zero_hits_monitor(){
 	$viewid = get_option('options_zh_viewid'); 
 	$ptype = get_option('options_zh_post_types'); 
 
-	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
 	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	
 	$viewid = get_option('options_zh_viewid');	
@@ -552,6 +552,13 @@ function zero_hits_monitor(){
 	} else {
 		update_option('zh_patrol_end', 'an error. Google Analytics authentication needs updating!');
 	}
+	
+	/* Check for missing entries and schedule one-off cron job */
+	global $wpdb;
+	$gaq = "select count(post_id) as gacount from $wpdb->postmeta join $wpdb->posts on $wpdb->posts.ID = $wpdb->postmeta.post_id where meta_key like 'zh_month_%' and meta_value = '-1';";
+	$ga_errors = $wpdb->get_var($gaq);
+	if ( $ga_errors ) wp_schedule_single_event( time(), 'zh_zero_hits_catchup' );
+
 }
 
 function zero_hits_catchup(){
@@ -602,8 +609,7 @@ function zero_hits_catchup(){
 	
 	
 		foreach ($ga_errors as $g){
-			sleep(1); // allow for 10 calls per second limit
-			$finalset = "";
+			$finalset = 0;
 					
 			$u = get_permalink($g->post_id);
 			if ( !$u ) continue;
@@ -653,6 +659,7 @@ function zero_hits_catchup(){
 			}
 
 			update_post_meta($g->post_id , $g->meta_key, $finalset );
+			sleep(1); // allow for 10 calls per second limit
 
 			$sixmonths = get_post_meta($g->post_id,'zh_month_1',true)+get_post_meta($g->post_id,'zh_month_2',true)+get_post_meta($g->post_id,'zh_month_3',true)+get_post_meta($g->post_id,'zh_month_4',true)+get_post_meta($g->post_id,'zh_month_5',true)+get_post_meta($g->post_id,'zh_month_6',true);
 			$twelvemonths = $sixmonths+get_post_meta($g->post_id,'zh_month_7',true)+get_post_meta($g->post_id,'zh_month_8',true)+get_post_meta($g->post_id,'zh_month_9',true)+get_post_meta($g->post_id,'zh_month_10',true)+get_post_meta($g->post_id,'zh_month_11',true)+get_post_meta($g->post_id,'zh_month_12',true);

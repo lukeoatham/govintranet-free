@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.18.2 - 3 Aug 2016 ###
+* Fixes to team templates 
+* Improved handling of sub-categories 
+* New option for forums in search results filter 
+* Theme and plugin translation updates 
+
 ### 4.18.1 - 25 Jul 2016 ###
 * Fixes to the tag template  
 

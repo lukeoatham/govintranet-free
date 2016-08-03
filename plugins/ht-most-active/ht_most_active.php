@@ -163,7 +163,7 @@ class htMostActive extends WP_Widget {
 		    if ($gatoken==''){ // if no token stored
 		    	if( !isset($_GET['code']) ) { // if we arn't submitting GET code to the db
 					$url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
-					<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Authorise Google Analytics access','govintranet');?></a>
+					<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Click to get code','govintranet');?></a>
 					<form id="" class="">
 						<label for="code"><?php _e('Enter your code from Google','govintranet');?></label></span>
 						<input id="code" name="code" />
@@ -187,7 +187,7 @@ class htMostActive extends WP_Widget {
 			        } else {
 			            $url = $ga->auth->buildAuthUrl(); // give users a form to generate code ?>
 			            <em><?php _e('Sorry, something went wrong accessing Google Analytics','govintranet');?>:<?php echo $auth['error_description']; ?></em>
-						<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Authorise Google Analytics access','govintranet');?></a>
+						<a class="btn btn-primary" target="_blank" href="<?php echo $url; ?>"><?php _e('Click to get code','govintranet');?></a>
 						<form id="" class="">
 							<label for="code"><?php _e('Enter your code from Google','govintranet');?></label></span>
 							<input id="code" name="code" type="text"/>
