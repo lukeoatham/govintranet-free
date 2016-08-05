@@ -38,6 +38,13 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.19 - 5 Aug 2016 ###
+* Events widget excerpt corrections 
+* Theme update notifications added 
+* User profile team database fixes  
+* New Timelines plugin 
+* Improved control of intravert order in widgets 
+
 ### 4.18.2 - 3 Aug 2016 ###
 * Fixes to team templates 
 * Improved handling of sub-categories 

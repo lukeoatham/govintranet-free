@@ -98,7 +98,6 @@ function govintranet_setup() {
 	// Translations can be filed in the /languages/ directory
 	load_theme_textdomain( 'govintranet');
 
-
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
 		'primary' => __( 'Primary Navigation', 'govintranet' ),
@@ -113,6 +112,90 @@ function govintranet_setup() {
 	add_theme_support('custom-header');
 }
 endif;
+
+/****************************************
+	VERSION AND DATABASE CHECK
+****************************************/	
+
+function govintranet_version_check() {
+	$my_theme = wp_get_theme();
+	$theme_version = $my_theme->get('Version');
+	$database_version = get_option("govintranet_db_version",0);
+	
+	if ( $database_version < $theme_version ):
+		$update_okay = 1;
+
+		// Process any database updates
+		if ( (string)$database_version < "4.19" ):
+			global $wpdb;
+			
+			// Tidy old Pods meta
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_children_chapters';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_children_chapters';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_document_attachments';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_expiry_action';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_page_related_tasks';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_page_type';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_parent_guide';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_related_tasks';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_video_still';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_project';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_project_vacancies';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_related_pages';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_related_stories';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_related_projects';");
+
+			//Tidy old Pods user meta
+			$wpdb->query("delete from $wpdb->usermeta where meta_key='_pods_user_line_manager';");
+			$wpdb->query("delete from $wpdb->usermeta where meta_key='_pods_user_grade';");
+			$wpdb->query("delete from $wpdb->usermeta where meta_key='_pods_user_team';");
+			
+			//Update user team meta
+			$team_meta = $wpdb->get_results("select user_id, meta_value from $wpdb->usermeta where meta_key='user_team';");
+			if ( count($team_meta) > 0 ) foreach ( $team_meta as $tm ){
+				if ( $tm->meta_value == "" ) continue;
+				$current_team = array();
+				if ( is_numeric( $tm->meta_value ) ):
+					$current_team[] = $tm->meta_value;
+				else:
+					$current_team = get_user_meta($tm->user_id,"user_team",true);
+				endif;
+				$new_team = array();
+				foreach ( $current_team as $ct ){
+					$new_team[] = (string)$ct;
+				}
+				if ( count($new_team) > 0 ) update_user_meta($tm->user_id, "user_team", $new_team, $tm->meta_value );
+			}
+			
+		endif;
+		
+		if ( $update_okay ):
+			// Update the database version
+			update_option("govintranet_db_version", $theme_version );
+			$class = 'notice notice-info is-dismissible';
+			$message = sprintf( __( 'Updated to GovIntranet version %1$s', 'govintranet' ), $theme_version );
+			$links = __("visit <a href='http://help.govintra.net/'>GovIntranetters</a> for latest features.","govintranet");
+			printf( '<div class="%1$s"><p><strong>%2$s</strong> &raquo; %3$s</p></div>', $class, $message, $links ); 
+		else:
+			$class = 'notice notice-error is-dismissible';
+			$message = sprintf( __( 'Error updating version %2$s database to GovIntranet version %1$s', 'govintranet' ), $theme_version, $database_version );
+			printf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', $class, $message ); 
+		
+		endif;
+		
+	endif;
+}
+add_action("admin_notices", "govintranet_version_check");
+
+add_action("init","govintranet_theme_check");
+function govintranet_theme_check(){
+	//Initialize the update checker.
+	require 'theme-updates/theme-update-checker.php';
+	$example_update_checker = new ThemeUpdateChecker(
+	    'govintranet',
+	    'http://demo.govintra.net/info.json'
+	);
+}
 
 /**
  * Makes some changes to the <title> tag, by filtering the output of wp_title().
@@ -157,7 +240,7 @@ function govintranet_filter_wp_title( $title, $separator ) {
 
 	// Otherwise, let's start by adding the site name to the end:
 	
-if ( is_front_page() ){
+	if ( is_front_page() ){
 		$title .= get_bloginfo( 'name', 'display' );
 	}
 	global $wp_query;
@@ -305,24 +388,28 @@ add_filter( 'get_the_excerpt', 'govintranet_custom_excerpt_more' );
 if ( ! function_exists( 'get_the_excerpt_by_id' ) ) :
 
 function get_the_excerpt_by_id($post_id){
+	
     $the_post = get_post($post_id); //Gets post ID
-    $the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
-    $excerpt_length = 35; //Sets excerpt length by word count
-    $the_excerpt = strip_tags(strip_shortcodes($the_excerpt)); //Strips tags and images
-    $words = explode(' ', $the_excerpt, $excerpt_length + 1);
-
-    if(count($words) > $excerpt_length) :
-        array_pop($words);
-        array_push($words, '…');
-        $the_excerpt = implode(' ', $words);
-    endif;
-
-    $the_excerpt = '<p>' . $the_excerpt . '</p>';
-
+    $the_excerpt = $the_post->post_excerpt;
+    if ( !$the_excerpt ):
+	    $the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
+	    $excerpt_length = 35; //Sets excerpt length by word count
+	    $the_excerpt = strip_tags(strip_shortcodes($the_excerpt)); //Strips tags and images
+	    $words = explode(' ', $the_excerpt, $excerpt_length + 1);
+	
+	    if(count($words) > $excerpt_length) :
+	        array_pop($words);
+	        array_push($words, '…');
+	        $the_excerpt = implode(' ', $words);
+	    endif;
+	
+	    $the_excerpt = '<p>' . $the_excerpt . '</p>';
+	endif;
     return $the_excerpt;
 }
 
 endif;
+
 
 if ( ! function_exists( 'govintranet_comment' ) ) :
 /**

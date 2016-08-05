@@ -4,7 +4,7 @@ Plugin Name: HT Intraverts
 Plugin URI: http://www.helpfultechnology.com
 Description: Displays promotional adverts using AJAX
 Author: Luke Oatham
-Version: 2.0
+Version: 2.1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -512,38 +512,35 @@ function ht_intraverts_ajax_show() {
 	/*
 	Get eligible intraverts to display and build intravertToShow array
 	*/
-
-	if ( count($intravertToShow) > 0 && $intravertToShow ):
-		$cquery = array(
-		    'post_type' => 'intravert',
-		    'posts_per_page' => -1,
-		    'post__in'=>$intravertToShow,
-		    'orderby'=>'menu_order',
-		    'order' => 'ASC',
-			);
-			$eligibles =new WP_Query($cquery);
-	else:
-		$eligibles = new WP_Query();
-	endif;
 	$read = 0;
 	$alreadydone= array();
-	if ($eligibles->have_posts()) while ($eligibles->have_posts()) {
-		$eligibles->the_post();  
-		if (isset($_COOKIE['ht_intravert_'.get_the_id()])) { $read++; $alreadydone[] = get_the_id(); }
-	}
-	$k = 0;
-	while ($eligibles->have_posts()) {
-		$eligibles->the_post();
-		if (in_array(get_the_id(), $alreadydone )) continue;
+	$eligibles = array();
+	
+	if ( count($intravertToShow) > 0 && $intravertToShow ):
+		foreach ( $intravertToShow as $i ){
+			if (isset($_COOKIE['ht_intravert_'.$i])) {
+				$read++; 
+				$alreadydone[] = $i; 
+			} else {
+				$eligibles[] = $i;
+			}
+		}
+	endif;
 
-		$icookie = get_post_meta(get_the_id(), 'intravert_cookie_period', true); 
+	$k = 0;
+	
+	if ( count($eligibles) > 0 ) foreach ( $eligibles as $e ) {
+
+		if ( !get_post_status($e) == "publish" ) continue;
+
+		$icookie = get_post_meta($e, 'intravert_cookie_period', true); 
 		if (!$icookie) $icookie = 14;
 
 		// check logged on?
-		if ( get_post_meta(get_the_id(), 'intravert_logged_in_only', true) ): 
+		if ( get_post_meta($e, 'intravert_logged_in_only', true) ): 
 			if ( !is_user_logged_in() ) continue;
 			// contributors or above?
-			if ( get_post_meta(get_the_id(), 'intravert_contributors', true) ):				
+			if ( get_post_meta($e, 'intravert_contributors', true) ):				
 				global $wp_roles;
 				$current_user = wp_get_current_user();
 				$roles = $current_user->roles;
@@ -553,7 +550,7 @@ function ht_intraverts_ajax_show() {
 			endif;
 			
 			// target a team?
-			if ( $teams = get_post_meta(get_the_id(), 'intravert_teams', true) ):			
+			if ( $teams = get_post_meta($e, 'intravert_teams', true) ):			
 				$teamcheck = false;
 				$userteams = get_user_meta(get_current_user_id(), 'user_team', true);
 				if ($userteams) foreach ((array)$userteams as $u){
@@ -563,7 +560,7 @@ function ht_intraverts_ajax_show() {
 			endif;
 
 			// target a grade?
-			if ( $grades = get_post_meta(get_the_id(), 'intravert_grades', true) ):			
+			if ( $grades = get_post_meta($e, 'intravert_grades', true) ):			
 				$gradecheck = false;
 				$usergrades = get_user_meta(get_current_user_id(), 'user_grade', true);
 				if ($usergrades) foreach ((array)$usergrades as $u){
@@ -576,13 +573,13 @@ function ht_intraverts_ajax_show() {
 		
 		// date range?
 		$sdate = date('Ymd');
-		if ( get_post_meta(get_the_id(), 'intravert_date_range', true) && ( $sdate < get_post_meta(get_the_id(), 'intravert_start_date', true) || $sdate > get_post_meta(get_the_id(), 'intravert_end_date', true) ) ) continue;
+		if ( get_post_meta($e, 'intravert_date_range', true) && ( $sdate < get_post_meta($e, 'intravert_start_date', true) || $sdate > get_post_meta($e, 'intravert_end_date', true) ) ) continue;
 		$catcheck = false;
 
 		// target content?
-		$targetcontent = get_post_meta(get_the_id(), 'intravert_target_content', true); 
+		$targetcontent = get_post_meta($e, 'intravert_target_content', true); 
 		if ( $targetcontent == "Task category" && $pt == "task"): 
-			if ( $icategory = get_post_meta(get_the_id(), 'intravert_category', true) ): 
+			if ( $icategory = get_post_meta($e, 'intravert_category', true) ): 
 				if ($icategory) foreach ((array)$icategory as $u){ 
 					if (in_array($u,$currentpostterms)) $catcheck = true; 
 				}
@@ -590,7 +587,7 @@ function ht_intraverts_ajax_show() {
 		endif;
 
 		if ( $targetcontent == "News type"  && $pt == "news" ): 
-			if ( $icategory = get_post_meta(get_the_id(), 'intravert_news_type', true) ): 
+			if ( $icategory = get_post_meta($e, 'intravert_news_type', true) ): 
 				if ($icategory) foreach ((array)$icategory as $u){
 					if (in_array($u,$currentnewsterms)) $catcheck = true; 
 				}
@@ -604,28 +601,29 @@ function ht_intraverts_ajax_show() {
 		Display intravert
 		*/
 		$k++;
-		$thistitle = get_the_title($post->ID);
-		$thisURL = get_permalink($post->ID);
-		$destination = get_post_meta(get_the_id(),'intravert_destination_page',true);
+		$thistitle = get_the_title($e);
+		$thisURL = get_permalink($e);
+		$destination = get_post_meta($e,'intravert_destination_page',true);
 		if ($destination) { $destination = get_permalink($destination[0]); } else { $destination="#nowhere"; }
-		if (has_post_thumbnail($post->ID)):
-			$html.= "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
-			$html.= get_the_post_thumbnail(get_the_id(),'full',array('class'=>'img-responsive'));
+		if (has_post_thumbnail($e)):
+			$html.= "<a href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".$e."\",".$icookie.",\"".esc_attr(get_the_title($e))."\",\"".esc_attr($originaltitle)."\");'> ";
+			$html.= get_the_post_thumbnail($e,'full',array('class'=>'img-responsive'));
 			$html.= "</a>";
 		endif;
-		$html.= apply_filters("the_content",get_the_content());
-		if ( get_post_meta($post->ID,'intravert_allow_skip',true) ) $html.= "<a class='btn btn-sm btn-danger filter_results filter_results_skip' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'>Skip <span class='dashicons dashicons-no'></span></a>";
+		$ipost = get_post($e);
+		$icontent = $ipost->post_content;
+		$html.= apply_filters("the_content",$icontent);
+		if ( get_post_meta($e,'intravert_allow_skip',true) ) $html.= "<a class='btn btn-sm btn-danger filter_results filter_results_skip' onclick='pauseIntravert(\"ht_intravert_".$e."\",".$icookie.",\"".esc_attr(get_the_title($e))."\",\"".esc_attr($originaltitle)."\");'>Skip <span class='dashicons dashicons-no'></span></a>";
 		$html.= "<div class='btn-group btn-group-justified'>";
-		if (get_post_meta(get_the_id(),'intravert_link_text',true)):
-			$html.= "<a id='intravert_hook_".$widget_id."' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".esc_attr($post->post_title)."\",\"".esc_attr($originaltitle)."\");'> ";
-			$html.= get_post_meta(get_the_id(),'intravert_link_text',true);
+		if (get_post_meta($e,'intravert_link_text',true)):
+			$html.= "<a id='intravert_hook_".$widget_id."' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".$e."\",".$icookie.",\"".esc_attr(get_the_title($e))."\",\"".esc_attr($originaltitle)."\");'> ";
+			$html.= get_post_meta($e,'intravert_link_text',true);
 			if ( $destination != '#nowhere' ) $html.= " <span class='dashicons dashicons-arrow-right-alt2'></span>";
 			$html.= "</a>";
 		endif;
 		$html.= "</div>";
 		break;
 	}
-
 
 	if ($k){
 		$finalhtml = $before_widget;
