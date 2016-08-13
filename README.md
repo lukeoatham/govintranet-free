@@ -38,6 +38,9 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.19.2 - 13 Aug 2016 ###
+* Fixes to database update functions  
+
 ### 4.19.1 - 13 Aug 2016 ###
 * Update to staff directory breadcrumbs 
 * Search placeholder now uses || instead of commas 

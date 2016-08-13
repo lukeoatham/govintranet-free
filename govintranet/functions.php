@@ -121,7 +121,11 @@ function govintranet_version_check() {
 	if ( get_transient("govintranet_update_check") ) return;
 	$my_theme = wp_get_theme();
 	$theme_version = $my_theme->get('Version');
-	$database_version = (string)get_option("govintranet_db_version","0.0");
+	$database_version = get_option("govintranet_db_version");
+	if ( !$database_version ):
+		add_option("govintranet_db_version", "1.0");
+		$database_version = "1.0";
+	endif;
 	$theme_version_array = explode(".", $theme_version);
 	$database_version_array = explode(".", $database_version);
 	$update_required = false;
@@ -184,7 +188,6 @@ function govintranet_version_check() {
 				}
 				if ( count($new_team) > 0 ){
 					$update_status = update_user_meta($tm->user_id, "user_team", $new_team, $tm->meta_value );
-					if ( !$update_status || !is_wp_error($update_status) ) $update_okay = 0;
 				}
 			}
 			
