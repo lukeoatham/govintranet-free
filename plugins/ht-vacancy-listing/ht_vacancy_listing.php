@@ -27,8 +27,30 @@ class htVacancyListing extends WP_Widget {
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
         if ( !intval($cacheperiod) ) $cacheperiod = 60 * 60;
-        
-
+		$custom_css = "
+		.vacancybox .vacancy-dow {
+			background: ".get_theme_mod('header_background', '0b2d49').";
+			color: #".get_header_textcolor().";
+			font-size: 16px;
+		}
+		.vacancybox { 
+			width: 3.5em; 
+			border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+			text-align: center;
+			border-radius: 3px;
+			background: #fff;
+			box-shadow: 0 2px 3px rgba(0,0,0,.2);
+		}
+		.vacancybox .vacancy-month {
+			color: ".get_theme_mod('header_background', '0b2d49').";
+			text-transform: uppercase;
+			font-weight: 800;
+			font-size: 18px;
+			line-height: 20px;
+		}
+	    ";	        
+		wp_enqueue_style( 'govintranet_vacancy_styles', plugins_url("/ht-vacancy-listing/ht_vacancy_listing.css"));
+		wp_add_inline_style('govintranet_vacancy_styles' , $custom_css);
 		$gatransient = substr( 'vacancy_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 		$output = get_transient( $gatransient );
 
@@ -43,7 +65,6 @@ class htVacancyListing extends WP_Widget {
 			$sdate = date('Ymd', date( strtotime( $numdays, strtotime( $checkdate ) ) ) ); 
 			$stime = date('H:i'); 
 			$cquery = array(
-	
 			   'meta_query' => array(
 				   'relation' => 'OR',
 			       array(
@@ -85,49 +106,8 @@ class htVacancyListing extends WP_Widget {
 	
 			$vacancies =new WP_Query($cquery);
 			if ($vacancies->post_count!=0){
-				$output= "
-			    <style>
-				.vacancybox .vacancy-dow {
-					background: ".get_theme_mod('header_background', '0b2d49').";
-					color: #".get_header_textcolor().";
-					font-size: 16px;
-				}
-				.vacancybox { 
-					width: 3.5em; 
-					border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-					text-align: center;
-					border-radius: 3px;
-					background: #fff;
-					box-shadow: 0 2px 3px rgba(0,0,0,.2);
-					
-				}
-				.vacancybox .vacancy-date {
-					font-size: 25px;
-					padding: 0;
-					margin: 0;
-					font-weight: 800;
-				}
-				.vacancybox .vacancy-month {
-					color: ".get_theme_mod('header_background', '0b2d49').";
-					text-transform: uppercase;
-					font-weight: 800;
-					font-size: 18px;
-					line-height: 20px;
-				}
-				a.calendarlink:hover { text-decoration: none; }
-				a.calendarlink:hover .vacancybox .vacancy-date { background: #eee; }
-				a.calendarlink:hover .vacancybox .vacancy-month { background: #eee; }
-				a.calendarlink:hover .vacancybox  { background: #eee; }
-				.vacancylisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
-				.vacancylisting .alignleft { margin: 0 0 0.5em 0 !important; }
-				.vacancylisting p { margin-bottom: 0 !important; }
-			    </style>
-			    ";				
 				$output.= $before_widget; 
-	
-				if ( $title ) {
-					$output.= $before_title . $title . $after_title;
-				}
+				if ( $title ) $output.= $before_title . $title . $after_title;
 				$output.= "<div class='widget-area widget-vacancies'>";
 			}
 			$k=0;
@@ -155,7 +135,6 @@ class htVacancyListing extends WP_Widget {
 				$output.= "</div>";
 				$output.= "</a>";
 				$output.= "</div>";
-			
 				$output.= "<div class='media-body'>";
 				$output.= "<p class='media-heading'>";
 				$output.= "<a href='".$thisURL."'>";
@@ -165,7 +144,6 @@ class htVacancyListing extends WP_Widget {
 				//$output.= "<small><strong>".$edate."</strong></small>";
 				if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) $output.= "<span class='alert-vacancy' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
 				$output.= "</div></div>";
-
 			}
 	
 			if ($vacancies->post_count!=0){

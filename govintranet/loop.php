@@ -60,14 +60,17 @@
 		if ( $directorystyle==1 ) $avstyle = " img-circle";
 		$image_url = get_avatar($post->user_id ,100);
 		$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
-		$userurl = get_author_posts_url( $post->user_id); 
+		$userurl = get_author_posts_url( $post->user_id ); 
 		$gis = "options_forum_support";
 		$forumsupport = get_option($gis);
+		$userid = $post->user_id;
 		$staffdirectory = get_option('options_module_staff_directory');
 		if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
 			$userurl=str_replace('/author', '/members', $userurl); }
 		elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-			$userurl=str_replace('/author', '/staff', $userurl);
+			$userurl=str_replace('/author', '/staff', $userurl); } 
+		elseif (function_exists('bbp_get_displayed_user_field') ){ // if using bbPress - link to the staff page
+			$userurl=str_replace('/author', '/users', $userurl);
 		}
 	} else {
 		$userurl = get_permalink();

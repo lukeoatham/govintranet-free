@@ -38,6 +38,15 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.19.1 - 13 Aug 2016 ###
+* Update to staff directory breadcrumbs 
+* Search placeholder now uses || instead of commas 
+* Updates to staff profiles links in search results 
+* Event listing widget styles moved inline 
+* Vacancy listing widget styles moved inline 
+* Fix to HT Recent comments widget missing user info 
+* Translation updates 
+
 ### 4.19 - 5 Aug 2016 ###
 * Events widget excerpt corrections 
 * Theme update notifications added 

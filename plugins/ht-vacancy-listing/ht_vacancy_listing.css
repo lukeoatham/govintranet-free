@@ -1,47 +1,16 @@
-.upcoming-vacancies .date-stamp {
-	width: 40px;
-	margin-right: 5%;
-	float: left;
-	text-align: center;
-	text-transform: uppercase;
-	font-weight: bold;
-	color: #555;
-	font-size: 1.4em;
+a.calendarlink:hover { text-decoration: none; }
+a.calendarlink:hover .vacancybox .vacancy-date { background: #eee; }
+a.calendarlink:hover .vacancybox .vacancy-month { background: #eee; }
+a.calendarlink:hover .vacancybox  { background: #eee; }
+.vacancylisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+.vacancylisting .alignleft { margin: 0 0 0.5em 0 !important; }
+.vacancylisting p { margin-bottom: 0 !important; }
+.vacancybox .vacancy-date {
+	font-size: 25px;
 	padding: 0;
-	border-radius: 3px;
-	background: #fff;
-	box-shadow: 0 2px 3px rgba(0,0,0,.2);
-	
+	margin: 0;
+	font-weight: 800;
 }
-.upcoming-vacancies ul {
-	list-style: none;
-}
-.upcoming-vacancies li span {
-	display: block;
-	color: #555;
-	font-size: 0.9em;
-}
-
-.upcoming-vacancies li strong {
-	display: block;
-}
-
-.upcoming-vacancies .date-stamp em {
-	display: block;
-	text-transform: uppercase;
-	font-style: normal;
-	font-size: .5em;
-	line-height: 1em;
-	padding-bottom: 2px;
-	margin-bottom: 5px;
-}
-
-.upcoming-vacancies li:after {
-	content: ' ';
-	display: block;
-	clear: both;
-}
-
-.upcoming-vacancies .alert-vacancy {
+.alert-vacancy {
 	color: red;
 }
