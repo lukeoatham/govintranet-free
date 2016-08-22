@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.19.3 - 22 Aug 2016 ###
+* Fixes to database update functions  
+* Theme file tidy 
+
 ### 4.19.2 - 13 Aug 2016 ###
 * Fixes to database update functions  
 * Forum template updates 

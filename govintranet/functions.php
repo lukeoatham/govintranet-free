@@ -119,6 +119,7 @@ endif;
 
 function govintranet_version_check() {
 	if ( get_transient("govintranet_update_check") ) return;
+	set_transient("govintranet_update_check", "nextdue", 60 * 60 * 12);
 	$my_theme = wp_get_theme();
 	$theme_version = $my_theme->get('Version');
 	$database_version = get_option("govintranet_db_version");
@@ -222,8 +223,6 @@ function govintranet_version_check() {
 
 	endif;
 
-	set_transient("govintranet_update_check", "nextdue", 60 * 60 * 12);
-
 }
 add_action("admin_notices", "govintranet_version_check");
 
@@ -232,7 +231,7 @@ function govintranet_theme_check(){
 	//Initialize the update checker.
 	require 'theme-updates/theme-update-checker.php';
 	$latest_feed = 'http://demo.govintra.net/auto-updates/info.json';
-	if ( is_ssl() ) $latest_feed = 'https://demo.govintra.net/auto-updates/info.json';
+//	if ( is_ssl() ) $latest_feed = 'https://demo.govintra.net/auto-updates/info.json';
 	$govintranet_update_checker = new ThemeUpdateChecker(
 	    'govintranet',
 	    $latest_feed
