@@ -13,23 +13,23 @@ add_action('admin_menu', 'notification_bubble_in_admin_menu');
 function notification_bubble_in_admin_menu() {
     global $menu; 
 
-    $pending = get_posts(array('post_type'=>'page','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'page','post_status'=>'pending','posts_per_page'=>-1));
     $pages = count($pending);
-    $pending = get_posts(array('post_type'=>'task','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'task','post_status'=>'pending','posts_per_page'=>-1));
     $tasks = count($pending);
-    $pending = get_posts(array('post_type'=>'news','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'news','post_status'=>'pending','posts_per_page'=>-1));
     $news = count($pending);
-    $pending = get_posts(array('post_type'=>'news-update','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'news-update','post_status'=>'pending','posts_per_page'=>-1));
     $newsupdates = count($pending);
-    $pending = get_posts(array('post_type'=>'blog','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'blog','post_status'=>'pending','posts_per_page'=>-1));
     $blogs = count($pending);
-    $pending = get_posts(array('post_type'=>'vacancy','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'vacancy','post_status'=>'pending','posts_per_page'=>-1));
     $vacancies = count($pending);
-    $pending = get_posts(array('post_type'=>'project','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'project','post_status'=>'pending','posts_per_page'=>-1));
     $projects = count($pending);
-    $pending = get_posts(array('post_type'=>'event','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'event','post_status'=>'pending','posts_per_page'=>-1));
     $events = count($pending);
-    $pending = get_posts(array('post_type'=>'jargon-buster','post_status'=>'pending'));
+    $pending = get_posts(array('post_type'=>'jargon-buster','post_status'=>'pending','posts_per_page'=>-1));
     $jargonbusters = count($pending);
 
     $count = 0;

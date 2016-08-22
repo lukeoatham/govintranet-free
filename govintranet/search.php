@@ -11,27 +11,34 @@
  // if only one result found, zoom straight to the page
 
 $gishelpfulsearch = get_option("options_enable_helpful_search");
-if ($gishelpfulsearch == 1){
-	if ($wp_query->found_posts==1){
+if ($gishelpfulsearch == 1):
+	if ($wp_query->found_posts==1):
 		$location='';
-		while ( have_posts() ) : the_post(); 
-			if ($post->post_type == 'user' ){
-				$location=$post->link;
-				$location=str_replace('/author', '/staff', $location);
-			} else {
-					if ($_GET['pt'] != 'user') {
-						$location=$post->guid; 
-					}
-			}
+		while ( have_posts() ) : 
+			the_post(); 
+			if ($post->post_type == 'user' ):
+				$userid = $post->user_id;
+				$location = get_author_posts_url( $post->user_id ); 
+				$staffdirectory = get_option('options_module_staff_directory');
+				if (function_exists('bp_activity_screen_index')): // if using BuddyPress - link to the members page
+					$location=str_replace('/author', '/members', $location); 
+				elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ): // if using bbPress - link to the staff page
+					$location=str_replace('/author', '/staff', $location); 
+				elseif (function_exists('bbp_get_displayed_user_field') ): // if using bbPress - link to the staff page
+					$location=str_replace('/author', '/users', $location);
+				endif;
+			elseif ($_GET['pt'] != 'user'):
+					$location=get_permalink($post->ID); 
+			endif;
 		endwhile;
-		if ($location){
+		if ($location):
 			$location = str_replace( "#038;", "&", $location);
 			$location = str_replace( "&amp;", "&", $location);
 			header('Location: '.$location);
 			exit;
-		}
-	}
-}
+		endif;
+	endif;
+endif;
 $include_attachments = get_option("options_enable_include_attachments");
 $include_forums = get_option("options_enable_include_forums");				
  //*****************************************************				

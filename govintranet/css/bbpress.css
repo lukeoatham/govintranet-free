@@ -127,7 +127,6 @@
 
 #bbpress-forums .bbp-forum-content p {
 	margin: 5px 0 0;
-	font-style: italic;
 }
 
 li.bbp-forum-info,
@@ -169,7 +168,7 @@ li.bbp-header div.bbp-reply-content span#favorite-toggle {
 #bbpress-forums div.bbp-topic-author,
 #bbpress-forums div.bbp-reply-author {
 	float: left;
-	text-align: center;
+	text-align: center !important;
 	width: 115px;
 }
 
@@ -191,7 +190,6 @@ li.bbp-header div.bbp-reply-content span#favorite-toggle {
 #bbpress-forums div.bbp-topic-author .bbp-author-role,
 #bbpress-forums div.bbp-reply-author .bbp-author-role {
 	font-size: 100%;
-	font-style: italic;
 }
 
 #bbpress-forums div.bbp-topic-content,
@@ -235,7 +233,6 @@ div.bbp-reply-header {
 }
 
 span.bbp-author-ip {
-	font-family: 'Helvetica Neue', Arial, Helvetica, 'Nimbus Sans L', sans-serif;
 	font-size: 100%;
 	font-weight: bold;
 	color: #aaa;
@@ -270,7 +267,6 @@ span.bbp-admin-links {
 	color: #ddd;
 }
 span.bbp-admin-links a {
-	color: #bbb;
 	font-weight: normal;
 	font-size: 100%;
 	text-transform: uppercase;
@@ -291,7 +287,6 @@ td.bbp-topic-counts {
 .bbp-reply-header a.bbp-reply-permalink {
 	float: right;
 	margin-left: 10px;
-	color: #ccc;
 }
 
 /* =Toggles
@@ -591,7 +586,6 @@ p.form-allowed-tags {
 	#bbpress-forums #bbp-your-profile fieldset span.description {
 		margin: 5px 0 0 20%;
 		font-size:  100%;
-		font-style: italic;
 		float: left;
 		clear: left;
 		width: 60%;
@@ -799,7 +793,7 @@ fieldset div.avatar {
 	width: 100%;
 }
 
-#bbpress-forums #bbp-user-wrapper h2.entry-title {
+.bbpress #bbpress-forums #bbp-user-wrapper h2.entry-title {
 	font-size: 140%;
 	margin: 0;
 	padding-bottom: 10px;
@@ -899,4 +893,134 @@ body.my-account #bbpress-forums {
 
 #bbpress-forums li:hover > div.row-actions {
 	visibility: visible;
+}
+
+
+
+/* Barry edits 2016 --------------- */
+
+.forum.bbpress #bbpress-forums .bbp-forum-title,.topic.bbpress #bbpress-forums .bbp-forum-title,.reply.bbpress #bbpress-forums .bbp-forum-title {
+	font-size: 120%!important;
+    padding-bottom: .5em;
+    display: block;
+    margin-bottom:.5em;
+}
+
+#bbpress-forums .bbp-forums-list{
+	font-size:80%!important;
+	margin-top: .5em;
+	margin-bottom:.5em;
+}
+
+/*
+#bbpress-forums a{
+	color:#004481;
+}
+*/
+
+#bbpress-forums ul li{
+	text-align:left;
+}
+
+#bbpress-forums div.wp-editor-container{
+	border:1px solid #cfcfcf;
+}
+
+#bbpress-forums div.mce-path {
+    padding: 10px 10px!important;
+}
+
+#bbpress-forums li.bbp-header{
+	padding:10px;
+	color:white;
+}
+
+#bbpress-forums .bbp-forum-freshness{
+	text-align:left!important;
+}
+
+#bbpress-forums li.bbp-body ul.forum{
+	padding:.8em;
+    padding-bottom: 2em;
+    border-top:2px solid #eee;
+}
+
+#bbpress-forums div.bbp-topic-content, #bbpress-forums div.bbp-reply-content{
+	padding:40px 20px 60px 0;
+}
+
+
+#bbpress-forums .bbp-author-role{
+	display:none;
+}
+
+#bbpress-forums .bbp-reply-header{
+	font-size:.7em!important;
+}
+
+#bbpress-forums .bbp-admin-links{
+	line-height:2.4;
+}
+
+#bbpress-forums .bbp-topic-header a.bbp-topic-permalink, .bbp-reply-header a.bbp-reply-permalink{
+	line-height:2.4;
+}
+
+#bbpress-forums a.bbpl_button.liked{
+	line-height:2;
+}
+
+#bbpress-forums span.bbpl_number{
+	padding:0;
+	padding-top:2px;
+}
+
+/*
+.bbp-reply-content a{
+	color:white;
+}
+*/
+
+#bbpress-forums span.bbp-admin-links{
+	color:#9c9c9c;	
+}
+
+#bbpress-forums div.bbp-topic-header, div.bbp-reply-header, li.bbp-body div.hentry{
+	padding-bottom:6px;
+}
+
+#bbpress-forums bbp-reply-author a.bbp-author-name{
+	padding:1em 0;
+	display:block;
+	font-size:.9em;
+}
+
+#bbpress-forums .bbp-reply-author{
+	text-align:left!important;
+}
+
+#bbpress-forums .bbp-reply-ip{
+	display:none;
+}
+
+#bbpress-forums .bbp-reply-author{
+	padding-top:40px;
+	padding-left:20px;
+}
+
+#bbpress-forums div.bbp-topic-author a.bbp-author-name, #bbpress-forums div.bbp-reply-author a.bbp-author-name { margin: 0; }
+
+
+
+#bbpress-forums .bbp-reply-content{
+	margin-right:10px;
+}
+
+#bbpress-forums .bbp-topic-revision-log-item{
+	font-size:.7em!important;
+}
+
+
+#bbpress-forums p.bbp-topic-meta{
+	margin-top:20px!important;
 }

@@ -102,44 +102,57 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 			'post_status' => 'publish'
 		) ) );
 
-		$output .= $args['before_widget'];
-		if ( $title ) {
-			$output .= $args['before_title'] . $title . $args['after_title'];
-		}
-
-		$output .= '<ul id="recentcomments">';
-		if ( is_array( $comments ) && $comments ) {
-			// Prime cache for associated posts. (Prime post term cache if we need it for permalinks.)
-			$post_ids = array_unique( wp_list_pluck( $comments, 'comment_post_ID' ) );
-			_prime_post_caches( $post_ids, strpos( get_option( 'permalink_structure' ), '%category%' ), false );
-
-			foreach ( (array) $comments as $comment) {
-				$output .= '<li class="recentcomments">';
-				/* translators: comments widget: 1: comment author, 2: post link */
-				$userid = $comment->user_id;
-				$user_info = get_userdata($userid);
-				$userurl = site_url().'/staff/'.$user_info->user_nicename;
-				$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
-				$gis = "options_forum_support";
-				$forumsupport = get_option($gis);
-				if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-					$userurl=str_replace('/author', '/members', $userurl); }
-				elseif (function_exists('bbp_get_displayed_user_field')){ // if using bbPress - link to the staff page
-					$userurl=str_replace('/author', '/staff', $userurl);
-				}
-				$userurl = "<a href='".$userurl."'>".$displayname."</a>";
-				
-				$output .= sprintf( _x( '%1$s on %2$s', 'widgets' ),
-					'<span class="comment-author-link">' . $userurl . '</span>',
-					'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '">' . get_the_title( $comment->comment_post_ID ) . '</a>'
-				);
-				$output .= '</li>';
+		if ( is_array( $comments ) && count($comments) > 0 ){
+			$output .= $args['before_widget'];
+			if ( $title ) {
+				$output .= $args['before_title'] . $title . $args['after_title'];
 			}
+	
+			$output .= '<ul id="recentcomments">';
+			if ( is_array( $comments ) && $comments ) {
+				// Prime cache for associated posts. (Prime post term cache if we need it for permalinks.)
+				$post_ids = array_unique( wp_list_pluck( $comments, 'comment_post_ID' ) );
+				_prime_post_caches( $post_ids, strpos( get_option( 'permalink_structure' ), '%category%' ), false );
+	
+				foreach ( (array) $comments as $comment) {
+					$output .= '<li class="recentcomments">';
+					/* translators: comments widget: 1: comment author, 2: post link */
+					$userid = $comment->user_id; 
+					$user = get_userdata( $userid );
+					if ( $user === false ) {
+					    //user id does not exist
+						$userurl = $comment->comment_author;
+						$displayname = $userurl;
+					}					
+					if ( $userid > 0 && $user ){
+						$userurl = get_author_posts_url( $userid ); 
+						$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
+						$gis = "options_forum_support";
+						$forumsupport = get_option($gis);
+						$staffdirectory = get_option('options_module_staff_directory');
+						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+							$userurl=str_replace('/author', '/members', $userurl); }
+						elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+							$userurl=str_replace('/author', '/staff', $userurl); } 
+						elseif (function_exists('bbp_get_displayed_user_field') ){ // if using bbPress - link to the staff page
+							$userurl=str_replace('/author', '/users', $userurl);
+						}
+						$userurl = "<a href='".$userurl."'>".$displayname."</a>";
+					} else {
+						$userurl = $comment->comment_author;
+						$displayname = $userurl;
+					}
+					$output .= sprintf( _x( '%1$s on %2$s', 'widgets' ),
+						'<span class="comment-author-link">' . $userurl . '</span>',
+						'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '">' . get_the_title( $comment->comment_post_ID ) . '</a>'
+					);
+					$output .= '</li>';
+				}
+			}
+			$output .= '</ul>';
+			$output .= $args['after_widget'];
+			echo $output;
 		}
-		$output .= '</ul>';
-		$output .= $args['after_widget'];
-
-		echo $output;
 
 		if ( ! $this->is_preview() ) {
 			$cache[ $args['widget_id'] ] = $output;
@@ -157,7 +170,6 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['number'] = absint( $new_instance['number'] );
 		$this->flush_widget_cache();
-
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
 		if ( isset($alloptions['widget_HT_Recent_Comments']) )
 			delete_option('widget_HT_Recent_Comments');

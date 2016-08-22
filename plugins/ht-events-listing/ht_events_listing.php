@@ -36,7 +36,30 @@ class htEventsListing extends WP_Widget {
         $recent = ($instance['recent']);
 		$widget_id = $id;
         $output = '';
-
+		$custom_css = "
+		.calbox .cal-dow {
+			background: ".get_theme_mod('header_background', '0b2d49').";
+			color: #".get_header_textcolor().";
+			font-size: 16px;
+		}
+		.calbox { 
+			width: 3.5em; 
+			border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+			text-align: center;
+			border-radius: 3px;
+			background: #fff;
+			box-shadow: 0 2px 3px rgba(0,0,0,.2);
+		}
+		.calbox .calmonth {
+			color: ".get_theme_mod('header_background', '0b2d49').";
+			text-transform: uppercase;
+			font-weight: 800;
+			font-size: 18px;
+			line-height: 20px;
+		}
+	    ";			
+		wp_enqueue_style( 'govintranet_event_styles', plugins_url("/ht-events-listing/ht_events_listing.css"));
+		wp_add_inline_style('govintranet_event_styles' , $custom_css);
 		$gatransient = substr( 'event_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 		$output = get_transient( $gatransient );
 		
@@ -90,44 +113,6 @@ class htEventsListing extends WP_Widget {
 			}
 		
 			$output.= "<div class='widget-area widget-events'><div class='upcoming-events'>";
-			$output.= "
-		    <style>
-			.calbox .cal-dow {
-				background: ".get_theme_mod('header_background', '0b2d49').";
-				color: #".get_header_textcolor().";
-				font-size: 16px;
-			}
-			.calbox { 
-				width: 3.5em; 
-				border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-				text-align: center;
-				border-radius: 3px;
-				background: #fff;
-				box-shadow: 0 2px 3px rgba(0,0,0,.2);
-				
-			}
-			.calbox .caldate {
-				font-size: 25px;
-				padding: 0;
-				margin: 0;
-				font-weight: 800;
-			}
-			.calbox .calmonth {
-				color: ".get_theme_mod('header_background', '0b2d49').";
-				text-transform: uppercase;
-				font-weight: 800;
-				font-size: 18px;
-				line-height: 20px;
-			}
-			a.calendarlink:hover { text-decoration: none; }
-			a.calendarlink:hover .calbox .caldate { background: #eee; }
-			a.calendarlink:hover .calbox .calmonth { background: #eee; }
-			a.calendarlink:hover .calbox  { background: #eee; }
-			.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
-			.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
-			.eventslisting p { margin-bottom: 0 !important; }
-		    </style>
-		    ";			
 			if ( count($events_to_show) != 0 ){
 				$wtitle = "upcoming";
 				$output.= $before_widget; 
@@ -136,7 +121,6 @@ class htEventsListing extends WP_Widget {
 				}
 			} elseif ( 'on' == $recent) {
 				$wtitle = "recent";
-
 				$cquery = $wpdb->prepare("
 				SELECT OI.ID, OI.post_name, OO1.meta_value AS event_start_date, OO2.meta_value AS event_start_time, OO3.meta_value AS event_end_date, OO4.meta_value AS event_end_time
 				
@@ -172,44 +156,8 @@ class htEventsListing extends WP_Widget {
 			
 				if ( count($events_to_show) == 0 ) return;
 					
-				
 				if ( count($events_to_show) != 0 ){
-					$output.= "
-					    <style>
-						.calbox .cal-dow {
-							background: ".get_theme_mod('header_background', '0b2d49').";
-							color: #".get_header_textcolor().";
-						}
-						.calbox { 
-							width: 3.5em; 
-							border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-							text-align: center;
-							border-radius: 3px;
-							background: #fff;
-							box-shadow: 0 2px 3px rgba(0,0,0,.2);
-						}
-						.calbox .caldate {
-							font-size: 2em;
-							padding: 0;
-							margin: 5px 0;
-							font-weight: 800;
-						}
-						.calbox .calmonth {
-							color: ".get_theme_mod('header_background', '0b2d49').";
-							text-transform: uppercase;
-							font-weight: 800;
-						}
-						a.calendarlink:hover { text-decoration: none; }
-						a.calendarlink:hover .calbox .caldate { background: #eee; }
-						a.calendarlink:hover .calbox .calmonth { background: #eee; }
-						a.calendarlink:hover .calbox  { background: #eee; }
-						.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
-						.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }							
-						.eventslisting p { margin-bottom: 0 !important; }
-					    </style>
-				    ";
 					$output.= $before_widget; 
-		
 					if ( $title ) $output.= $before_title . $title . $after_title;
 				}
 			}

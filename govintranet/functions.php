@@ -118,15 +118,37 @@ endif;
 ****************************************/	
 
 function govintranet_version_check() {
+	if ( get_transient("govintranet_update_check") ) return;
 	$my_theme = wp_get_theme();
 	$theme_version = $my_theme->get('Version');
-	$database_version = get_option("govintranet_db_version",0);
+	$database_version = get_option("govintranet_db_version");
+	if ( !$database_version ):
+		add_option("govintranet_db_version", "1.0");
+		$database_version = "1.0";
+	endif;
+	$theme_version_array = explode(".", $theme_version);
+	$database_version_array = explode(".", $database_version);
+	$update_required = false;
+	$ucount = 0;
+	foreach ( $theme_version_array as $vid ){
+		if ( ($theme_version_array[$ucount] > $database_version_array[$ucount]) || !isset($database_version_array[$ucount]) ) $update_required = true;
+		$ucount++;
+	}
 	
-	if ( $database_version < $theme_version ):
+	if ( $update_required ):
+		
 		$update_okay = 1;
-
-		// Process any database updates
-		if ( (string)$database_version < "4.19" ):
+		
+		/************************************************
+		
+		Process any version-specific database updates
+		
+		************************************************/
+		
+		// LESS THAN 4.19 - clean up old metadata
+		
+		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 19 || !isset($database_version_array[1]) ) ):
+			
 			global $wpdb;
 			
 			// Tidy old Pods meta
@@ -164,7 +186,22 @@ function govintranet_version_check() {
 				foreach ( $current_team as $ct ){
 					$new_team[] = (string)$ct;
 				}
-				if ( count($new_team) > 0 ) update_user_meta($tm->user_id, "user_team", $new_team, $tm->meta_value );
+				if ( count($new_team) > 0 ){
+					$update_status = update_user_meta($tm->user_id, "user_team", $new_team, $tm->meta_value );
+				}
+			}
+			
+		endif;
+
+		// LESS THAN 4.19.1 - update search placeholder to use a pipe instead of comma
+		
+		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 19 || !isset($database_version_array[1]) ) && ( $database_version_array[2] < 1 || !isset($database_version_array[2]) ) ):
+			
+			$placeholder = get_option('options_search_placeholder'); //get search placeholder text and variations
+			if ( $placeholder && strpos($placeholder, ",") ){
+				$placeholder = explode(",", $placeholder);
+				$placeholder = implode("||", $placeholder);
+				update_option('options_search_placeholder', $placeholder);
 			}
 			
 		endif;
@@ -182,8 +219,11 @@ function govintranet_version_check() {
 			printf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', $class, $message ); 
 		
 		endif;
-		
+
 	endif;
+
+	set_transient("govintranet_update_check", "nextdue", 60 * 60 * 12);
+
 }
 add_action("admin_notices", "govintranet_version_check");
 
@@ -191,9 +231,11 @@ add_action("init","govintranet_theme_check");
 function govintranet_theme_check(){
 	//Initialize the update checker.
 	require 'theme-updates/theme-update-checker.php';
-	$example_update_checker = new ThemeUpdateChecker(
+	$latest_feed = 'http://demo.govintra.net/auto-updates/info.json';
+	if ( is_ssl() ) $latest_feed = 'https://demo.govintra.net/auto-updates/info.json';
+	$govintranet_update_checker = new ThemeUpdateChecker(
 	    'govintranet',
-	    'http://demo.govintra.net/info.json'
+	    $latest_feed
 	);
 }
 
@@ -496,7 +538,7 @@ function govintranet_comment( $comment, $args, $depth ) {
 }
 endif;
 
-
+add_filter('comment_flood_filter', '__return_false');
 
 /**
  * Register widgetized areas, including two sidebars and four widget-ready columns in the footer.
@@ -3029,7 +3071,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Search placeholder','govintranet'),
 				'name' => 'search_placeholder',
 				'type' => 'text',
-				'instructions' => __('Enter phrases separated by a comma to use as a nudge in the search box.	Phrases will appear at random with the first phrase appearing most frequently.','govintranet'),
+				'instructions' => __('Enter phrases separated by || to use as a nudge in the search box. Phrases will appear at random with the first phrase appearing most frequently.','govintranet'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -10526,6 +10568,8 @@ function govintranet_custom_styles() {
 	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;}";
 	$custom_css.= ".bbp-user-page .panel-heading {border-top: ".$gisheight."px solid ".$giscc."; }";
 	$custom_css.= ".page-template-page-news-php h1 {border-bottom: ".$gisheight."px solid ".$giscc.";} .tax-team h2 {border-bottom: ".$gisheight."px solid ".$giscc.";}";
+	$custom_css.= "#bbpress-forums li.bbp-header, #bbpress-forums li.bbp-header a { background-color:".$gishex." !important; color: ".$headtext."; }";
+	$custom_css.= "#bbpress-forums li.bbp-header a { text-decoration: underline; }";
 
 	//write custom css for logo
 	$gisid = get_option('options_header_logo'); 
