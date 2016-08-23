@@ -115,9 +115,9 @@ $terms = get_terms('category',array("hide_empty"=>true,"parent"=>0,"orderby"=>"s
 		if ( $taskcloud ):
 			$taghtml = gi_howto_tag_cloud('task');
 		else:
-			$taghtml =  my_colorful_tag_cloud('','category','task'); 
+			$taghtml =  wp_tag_cloud(array('echo'=>false));
 		endif;
-		set_transient("ht_how_do_i_tags", $taghtml, 60*60);
+		set_transient("ht_how_do_i_tags", $taghtml, 60*15);
 	endif;
 	if ($taghtml):
 		echo "<div class='browsetags'><h3>" . __('Search by tag' , 'govintranet') . "</h3>";

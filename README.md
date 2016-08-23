@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.19.4 - 22 Aug 2016 ###
+* Switched to core tag cloud on How do I? template   
+* Database prep to remove complementary colour option 
+* Database prep to remove homepage col 3 bottom area widget  
+* Theme file tidy 
+
 ### 4.19.3 - 22 Aug 2016 ###
 * Fixes to database update functions  
 * Theme file tidy 

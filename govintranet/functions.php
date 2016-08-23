@@ -194,9 +194,9 @@ function govintranet_version_check() {
 			
 		endif;
 
-		// LESS THAN 4.19.1 - update search placeholder to use a pipe instead of comma
+		// LESS THAN 4.19.1 - update search placeholder to use pipes instead of comma
 		
-		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 19 || !isset($database_version_array[1]) ) && ( $database_version_array[2] < 1 || !isset($database_version_array[2]) ) ):
+		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 19 || !isset($database_version_array[1]) ) ):
 			
 			$placeholder = get_option('options_search_placeholder'); //get search placeholder text and variations
 			if ( $placeholder && strpos($placeholder, ",") ){
@@ -205,6 +205,42 @@ function govintranet_version_check() {
 				update_option('options_search_placeholder', $placeholder);
 			}
 			
+		endif;
+
+		/******************************************************************
+			
+		 LESS THAN 4.19.4 
+		 
+		 - store complementary colour in prep for removal in 4.20
+		 - move homepage col 3 bottom widget items to end of homepage col 3 top in prep for new widget area 4.20
+		 
+		 ******************************************************************/
+		
+		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] <= 19 || !isset($database_version_array[1]) ) && ( $database_version_array[2] < 4 || !isset($database_version_array[2]) ) ):
+			if ( function_exists("RGBToHTML") && get_option('options_enable_automatic_complementary_colour') ):
+				$headcol = get_theme_mod('header_background', '#0b2d49');
+				$basecol = HTMLToRGB(substr($headcol,1,6));
+				$basecol = ChangeLuminosity($basecol, 33);
+				$comp = RGBToHTML($basecol); 
+				update_option('options_complementary_colour', $comp);
+			else:
+				// missed an incremental update and the color functions are no longer available so default to header colour 
+				$comp = get_option('options_complementary_colour'); 
+				if ( !$comp ) $comp = get_theme_mod('header_background', '#0b2d49');
+				update_option('options_complementary_colour', $comp);
+			endif;
+			
+			$sidebar = get_option('sidebars_widgets');
+			$col3top = $sidebar['home-widget-area3t'];
+			$col3bot = $sidebar['home-widget-area3b'];
+			if ( $col3bot ):
+				foreach ( $col3bot as $c){
+					$col3top[] = $c;
+				}
+				$sidebar['home-widget-area3t'] = $col3top;
+				$sidebar['home-widget-area3b'] = array();
+				update_option('sidebars_widgets', $sidebar);
+			endif;
 		endif;
 		
 		if ( $update_okay ):
@@ -999,169 +1035,6 @@ if( !function_exists('base_custom_mce_format') ){
 	}
 	add_filter('tiny_mce_before_init', 'base_custom_mce_format' );
 }
-
-function my_colorful_tag_cloud( $cat_id, $tc_tax, $tc_post_type ) {
-    $defaults = array(
-        'smallest' => 12, 'largest' => 24, 'unit' => 'pt', 'number' => 45,
-        'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-        'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'echo' => true
-    );
-	if (($post->post_type=='task')){
-	    $defaults = array(
-	        'smallest' => 12, 'largest' => 28, 'unit' => 'pt', 'number' => 90,
-	        'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-	        'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'echo' => true
-	    );
-	}
-    $args = wp_parse_args( $args, $defaults );
-    global $wpdb;
-    if ( $cat_id != "" ){
-    	$tquery = $wpdb->prepare("SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, terms2.slug as link, t2.count as count, t2.term_taxonomy_id as term_taxonomy_id, 0 as term_group, 'post_tag' as taxonomy FROM $wpdb->posts as p1 LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id, $wpdb->posts as p2 LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id WHERE ( t1.taxonomy = '%s' AND p1.post_status = 'publish' AND p1.post_type = '%s' AND terms1.term_id = '%s' AND t2.taxonomy = 'post_tag' AND p2.post_status = 'publish' AND p1.ID = p2.ID  ) ORDER BY t2.count desc limit 90",$tc_tax,$tc_post_type,$cat_id);
-
-	} else {
-
-		$tquery = $wpdb->prepare("SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, terms2.slug as link, t2.count as count, t2.term_taxonomy_id as term_taxonomy_id, 0 as term_group, 'post_tag' as taxonomy FROM $wpdb->posts as p1 LEFT JOIN $wpdb->term_relationships as r1 ON p1.ID = r1.object_ID LEFT JOIN $wpdb->term_taxonomy as t1 ON r1.term_taxonomy_id = t1.term_taxonomy_id LEFT JOIN $wpdb->terms as terms1 ON t1.term_id = terms1.term_id, $wpdb->posts as p2 LEFT JOIN $wpdb->term_relationships as r2 ON p2.ID = r2.object_ID LEFT JOIN $wpdb->term_taxonomy as t2 ON r2.term_taxonomy_id = t2.term_taxonomy_id LEFT JOIN $wpdb->terms as terms2 ON t2.term_id = terms2.term_id WHERE ( t1.taxonomy = '%s' AND p1.post_status = 'publish' AND p1.post_type = '%s' AND t2.taxonomy = 'post_tag' AND p2.post_status = 'publish' AND p1.ID = p2.ID  ) ORDER BY t2.count desc limit 45",$tc_tax,$tc_post_type);
-
-	}
-
-	$tquery = "";
-
-	if (post_type_exists( $tc_post_type ) ){
-		$tquery="
-		SELECT DISTINCT
-		$wpdb->terms.term_id,
-		$wpdb->terms.name,
-		$wpdb->terms.slug,
-		$wpdb->term_taxonomy.count,
-		$wpdb->term_taxonomy.term_taxonomy_id,
-		0 as term_group,
-		'post_tag' as taxonomy
-FROM				$wpdb->posts, $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->terms
-WHERE				$wpdb->posts.post_type = $tc_post_type AND
-	$wpdb->posts.post_status = 'publish' AND
-	$wpdb->posts.id = $wpdb->term_relationships.object_id AND
-	$wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND
-	$wpdb->term_taxonomy.taxonomy = 'post_tag' AND
-	$wpdb->terms.term_id = $wpdb->term_taxonomy.term_id AND
-	$wpdb->term_taxonomy.count > 0
-	limit 45
-	
-		";
-	}
-	if ( $tquery ) $tags = $wpdb->get_results($tquery);			
-
-    if ( empty( $tags ) || is_wp_error( $tags ) )
-        return;
-
-    foreach ( $tags as $key => $tag ) {
-        $link = get_term_link( intval($tag->term_id), $tag->taxonomy );
-
-        if ( is_wp_error( $link ) )
-            return false;
-
-        $tags[ $key ]->link = $link;
-        $tags[ $key ]->id = $tag->term_id;
-    }
-    $defaults = array(
-        'smallest' => 12, 'largest' => 24, 'unit' => 'pt', 'number' => 0,
-        'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-        'topic_count_text_callback' => 'default_topic_count_text',
-        'topic_count_scale_callback' => 'default_topic_count_scale', 'filter' => 1,
-    );
-
-    if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
-        $body = 'return sprintf (
-            _n(' . var_export($args['single_text'], true) . ', ' . var_export($args['multiple_text'], true) . ', $count),
-            number_format_i18n( $count ));';
-        $args['topic_count_text_callback'] = create_function('$count', $body);
-    }
-
-    $args = wp_parse_args( $args, $defaults );
-    extract( $args );
-
-    if ( empty( $tags ) )
-        return;
-
-    $tags_sorted = apply_filters( 'tag_cloud_sort', $tags, $args );
-    if ( $tags_sorted != $tags  ) { // the tags have been sorted by a plugin
-        $tags = $tags_sorted;
-        unset($tags_sorted);
-    } else {
-        if ( 'RAND' == $order ) {
-            shuffle($tags);
-        } else {
-            // SQL cannot save you; this is a second (potentially different) sort on a subset of data.
-            if ( 'name' == $orderby )
-                uasort( $tags, '_wp_object_name_sort_cb' );
-            else
-                uasort( $tags, '_wp_object_count_sort_cb' );
-
-            if ( 'DESC' == $order )
-                $tags = array_reverse( $tags, true );
-        }
-    }
-
-    if ( $number > 0 )
-        $tags = array_slice($tags, 0, $number);
-
-    $counts = array();
-    $real_counts = array(); // For the alt tag
-    foreach ( (array) $tags as $key => $tag ) {
-        $real_counts[ $key ] = $tag->count;
-        $counts[ $key ] = $topic_count_scale_callback($tag->count);
-    }
-
-    $min_count = min( $counts );
-    $spread = max( $counts ) - $min_count;
-    if ( $spread <= 0 )
-        $spread = 1;
-    $font_spread = $largest - $smallest;
-    if ( $font_spread < 0 )
-        $font_spread = 1;
-    $font_step = $font_spread / $spread;
-
-    $a = array();
-    $colors = 6;
-
-    foreach ( $tags as $key => $tag ) {
-        $count = $counts[ $key ];
-        $real_count = $real_counts[ $key ];
-        $pstyp='';
-        if ($post->post_type == 'project'){
-        $pstyp='?posttype=project';
-        }
-        if ($post->post_type == 'vacancy'){
-        $pstyp='?posttype=vacancy';
-        }
-
-        if ($post->post_type == 'task'){
-        $pstyp='?posttype=task';
-        }
-
-        $tag_link = '#' != $tag->link ? esc_url( $tag->link ).$pstyp : '#';
-        $tag_id = isset($tags[ $key ]->id) ? $tags[ $key ]->id : $key;
-        $tag_name = $tags[ $key ]->name;
-        $min_color = "#5679b9";
-        $max_color ="#af1410";
-        
-        $color = round( ( $smallest + ( ( $count - $min_count ) * $font_step ) ) - ( $smallest - 1 ) ) ;
-		$basecol=HTMLToRGB('#3a6f9e');
-        
-        $scolor = ChangeLuminosity($basecol, 60-($color*3.3));
-        $scolor=RGBToHTML($scolor);
-        $class = 'color-' . ( round( ( $smallest + ( ( $count - $min_count ) * $font_step ) ) - ( $smallest - 1 ) ) );
-        $tag_link = explode("/", $tag_link);
-        $tag_link=$tag_link[4];
-        $a[] = "<a href='".get_tag_link($tagid)."'  style='font-size: " .
-            str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) )
-            . "$unit; color: ".$scolor.";'>$tag_name</a>";
-    }
-
-    $return = join( $separator, $a );
-
-    return apply_filters( 'wp_generate_tag_cloud', $return, $tags, $args );
-}
-
 
 function add_pagination_to_author_page_query_string($query_string){
     if (isset($query_string['author_name']) && !is_admin()):
@@ -10756,8 +10629,7 @@ function my_sort_event( $vars ) {
 REGISTER GOOGLE ANALYTICS API KEY
 **********************************/
 function govintranet_acf_init() {
-	if ( get_option('options_google_api_key', '') ) acf_update_setting('google_api_key', get_option('options_google_api_key', ''));
-	
+	if ( get_option('options_google_api_key', '') && function_exists('acf_update_setting' )) acf_update_setting('google_api_key', get_option('options_google_api_key', ''));
 }
 
 add_action('acf/init', 'govintranet_acf_init');

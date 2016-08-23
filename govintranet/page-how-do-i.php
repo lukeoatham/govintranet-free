@@ -116,9 +116,9 @@ get_header();
 					if ( $taskcloud ):
 						$taghtml = gi_howto_tag_cloud('task');
 					else:
-						$taghtml =  my_colorful_tag_cloud('','category','task'); 
+						$taghtml =  wp_tag_cloud(array('echo'=>false));
 					endif;
-					set_transient("ht_how_do_i_tags", $taghtml, 60*60);
+					set_transient("ht_how_do_i_tags", $taghtml, 60*15);
 				endif;
 				if ($taghtml): ?>
 				<div style="text-align:middle; clear:both;"  class="widget-box browsetags">
