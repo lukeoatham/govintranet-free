@@ -45,13 +45,12 @@ get_header(); ?>
 	
 	<div  id="home-col-3" class="col-lg-3 col-md-3 col-sm-5">
 	<?php
-
 	if (is_active_sidebar('login-widget-area') ) : 
 			$current_user = wp_get_current_user();
 			?>
 			<div id="loginrow" class="category-block">
 				<div id="loginaccordion">
-				<h3 class="widget-title">
+					<h3 class="widget-title">
 				    <a class="accordion-toggle" data-toggle="collapse" data-parent="#loginaccordion" href="#logincollapselogin">
 					<?php if (is_user_logged_in()):?>
 						      <?php 
@@ -61,36 +60,30 @@ get_header(); ?>
 						       <?php _e('Login' , 'govintranet'); ?> <i class="glyphicon glyphicon-chevron-down"></i>
 					<?php endif; ?>
 				        </a>
-				</h3>
-				    </div>
-				    <div id="logincollapselogin" class="xpanel-collapse collapse out">
-				      <div class="xpanel-body">
-						<?php if (is_active_sidebar('login-widget-area')) dynamic_sidebar('login-widget-area');	?> 
+					</h3>
+			    </div>
+			    <div id="logincollapselogin" class="xpanel-collapse collapse out">
+					<div class="xpanel-body">
+					<?php if (is_active_sidebar('login-widget-area')) dynamic_sidebar('login-widget-area');	?> 
 					</div>
-					<!--<h3 class="widget-title>">Personalisation</h3> -->
-					
 				</div>
 			</div>
 	<?php endif; ?>
 
 	<?php 
-		if (is_active_sidebar('home-widget-area3t')) dynamic_sidebar('home-widget-area3t'); 
-		if (is_active_sidebar('home-widget-area3b')) dynamic_sidebar('home-widget-area3b'); 	
-		echo "</div>";
-		if (is_active_sidebar('home-widget-area-hero')): 
-			echo "</div>";
-		endif; 
+	if (is_active_sidebar('home-widget-area3t')) dynamic_sidebar('home-widget-area3t'); 
+	echo "</div>";
+	if (is_active_sidebar('home-widget-area-hero')) echo "</div>";
 
-		if ($campaign_message) :  //Display campaign message ?>
-			<div class="clearfix"></div>
-			<div class="col-lg-12">
-				<?php 	echo apply_filters('the_content', $campaign_message, true);	 ?>
-				<br>
-			</div>
-	
-			<?php 
-		endif; 
-		?>
+	if ($campaign_message) :  //Display campaign message ?>
+		<div class="clearfix"></div>
+		<div class="col-lg-12">
+			<?php 	echo apply_filters('the_content', $campaign_message, true);	 ?>
+			<br>
+		</div>
+		<?php 
+	endif; 
+	?>
 
 <?php endwhile; ?>
 <?php get_footer(); ?>

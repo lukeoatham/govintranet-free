@@ -1,8 +1,8 @@
 /*
 Theme Name: GovIntranet 4
-Theme URI: https://govintranetters.helpfulclients.com
+Theme URI: https://help.govintra.net
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.19.4
+Version: 4.20
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -1096,9 +1096,9 @@ ul#atozlist.pagination { margin: 10px 0; }
 .home.page .category-block h3 { margin-bottom: 0 !important; }
 .home.page .category-block a h2 { border-bottom: none; }
 .home.page #content .category-block ul li a { font-size: 1em; }
-.home.page .category-block ul, .widget-list ul  { list-style-type: none; padding-left: 0; }
-.home.page .category-block ul li, .widget-list ul li { padding: 0.5em 0 0.5em 0; margin: 0; list-style: none; border-top: 1px solid #eee; }
-.home.page .category-block ul li:first-of-type, .widget-list ul li:first-of-type { border-top: none !important; }
+.home.page .category-block ul, .widget-list ul, .page-template-page-how-do-i .category-block ul, .page-template-page-how-do-i-alt-classic .category-block ul, .page-template-page-how-do-i-alt .category-block ul  { list-style-type: none; padding-left: 0; }
+.home.page .category-block ul li, .widget-list ul li, .page-template-page-how-do-i .category-block ul li, .page-template-page-how-do-i-alt-classic .category-block ul li, .page-template-page-how-do-i-alt .category-block ul li { padding: 0.5em 0 0.5em 0; margin: 0; list-style: none; border-top: 1px solid #eee; }
+.home.page .category-block ul li:first-of-type, .widget-list ul li:first-of-type, .page-template-page-how-do-i .category-block ul li:first-of-type, .page-template-page-how-do-i-alt-classic .category-block ul li:first-of-type, .page-template-page-how-do-i-alt .category-block ul li:first-of-type { border-top: none !important; }
 .home.page .category-block .widget-box { font-size: 1em; }
 .home.page img.size-full { width: 100%; }
 .h3 .border { margin-bottom: 0.35em !important; width: 100%; }

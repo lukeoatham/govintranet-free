@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for hel
 
 ## Changelog ##
 
+### 4.20 - 25 Aug 2016 ###
+* New widget area for How do I? templates 
+* Removed automatic complementary colour option, now manual colour picker 
+* Removed homepage col 3 bottom area widget 
+* Fixes to database update functions  
+
 ### 4.19.4 - 22 Aug 2016 ###
 * Switched to core tag cloud on How do I? template   
 * Database prep to remove complementary colour option 

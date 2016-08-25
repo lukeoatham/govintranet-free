@@ -196,7 +196,7 @@ function govintranet_version_check() {
 
 		// LESS THAN 4.19.1 - update search placeholder to use pipes instead of comma
 		
-		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 19 || !isset($database_version_array[1]) ) ):
+		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] <= 19 || !isset($database_version_array[1]) && ( $database_version_array[2] < 1 || !isset($database_version_array[2]) ) ) ):
 			
 			$placeholder = get_option('options_search_placeholder'); //get search placeholder text and variations
 			if ( $placeholder && strpos($placeholder, ",") ){
@@ -242,6 +242,12 @@ function govintranet_version_check() {
 				update_option('sidebars_widgets', $sidebar);
 			endif;
 		endif;
+
+		// LESS THAN 4.20 remove complementary colour option
+		
+		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 20 || !isset($database_version_array[1]) ) ):
+			delete_option('options_enable_automatic_complementary_colour');
+		endif;
 		
 		if ( $update_okay ):
 			// Update the database version
@@ -267,7 +273,7 @@ function govintranet_theme_check(){
 	//Initialize the update checker.
 	require 'theme-updates/theme-update-checker.php';
 	$latest_feed = 'http://demo.govintra.net/auto-updates/info.json';
-//	if ( is_ssl() ) $latest_feed = 'https://demo.govintra.net/auto-updates/info.json';
+	if ( is_ssl() ) $latest_feed = 'https://help.govintra.net/auto-updates/info.json';
 	$govintranet_update_checker = new ThemeUpdateChecker(
 	    'govintranet',
 	    $latest_feed
@@ -595,7 +601,6 @@ function govintranet_widgets_init() {
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-
 	register_sidebar( array(
 		'name' => __( 'Homepage hero area', 'govintranet' ),
 		'id' => 'home-widget-area-hero',
@@ -624,22 +629,12 @@ function govintranet_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 	register_sidebar( array(
-		'name' => __( 'Homepage third column bottom', 'govintranet' ),
-		'id' => 'home-widget-area3b',
-		'description' => __( 'Homepage third column bottom', 'govintranet' ),
-		'before_widget' => '<div class="category-block">',
-		'after_widget' => '</div>',
-		'before_title' => '<h3>',
-		'after_title' => '</h3>',
-	) );
-	register_sidebar( array(
 		'name' => __( 'Utility widget box', 'govintranet' ),
 		'id' => 'utility-widget-area',
 		'description' => __( 'Utility widget area appears beneath the search box', 'govintranet' ),
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-	
 	register_sidebar( array(
 		'name' => __( 'Left footer', 'govintranet' ),
 		'id' => 'first-footer-widget-area',
@@ -649,7 +644,6 @@ function govintranet_widgets_init() {
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
-
 	register_sidebar( array(
 		'name' => __( 'Right footer 1', 'govintranet' ),
 		'id' => 'right1-footer-widget-area',
@@ -659,12 +653,20 @@ function govintranet_widgets_init() {
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-
 	register_sidebar( array(
 		'name' => __( 'Right footer 2', 'govintranet' ),
 		'id' => 'right2-footer-widget-area',
 		'description' => __( 'The 2nd right footer widget area', 'govintranet' ),
 		'before_widget' => '<div class="widget-box">',
+		'after_widget' => '</div>',
+		'before_title' => '<h3>',
+		'after_title' => '</h3>',
+	) );
+	register_sidebar( array(
+		'name' => __( 'How do I page', 'govintranet' ),
+		'id' => 'tasklanding-widget-area',
+		'description' => __( 'How do I page', 'govintranet' ),
+		'before_widget' => '<div class="category-block">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
@@ -1197,156 +1199,7 @@ function custom_upload_mimes ( $existing_mimes=array() ) {
 //remove title functionality in bbPress which interferes with our custom page titles
 remove_action('wp_title', 'bbp_title');
 
- function HTMLToRGB($htmlCode)
-  {
-    if($htmlCode[0] == '#')
-      $htmlCode = substr($htmlCode, 1);
-
-    if (strlen($htmlCode) == 3)
-    {
-      $htmlCode = $htmlCode[0] . $htmlCode[0] . $htmlCode[1] . $htmlCode[1] . $htmlCode[2] . $htmlCode[2];
-    }
-    
-    $r = hexdec($htmlCode[0] . $htmlCode[1]);
-    $g = hexdec($htmlCode[2] . $htmlCode[3]);
-    $b = hexdec($htmlCode[4] . $htmlCode[5]);
-
-    return $b + ($g << 0x8) + ($r << 0x10);
-  }
-
-  function RGBToHTML($RGB)
-  {
-    $r = 0xFF & ($RGB >> 0x10);
-    $g = 0xFF & ($RGB >> 0x8);
-    $b = 0xFF & $RGB;
-
-    $r = dechex($r);
-    $g = dechex($g);
-    $b = dechex($b);
-    
-    return "#" . str_pad($r, 2, "0", STR_PAD_LEFT) . str_pad($g, 2, "0", STR_PAD_LEFT) . str_pad($b, 2, "0", STR_PAD_LEFT);
-  }
-  
-  function ChangeLuminosity($RGB, $LuminosityPercent)
-  {
-    $HSL = RGBToHSL($RGB);
-    $NewHSL = (int)(((float)$LuminosityPercent / 100) * 255) + (0xFFFF00 & $HSL);
-    return HSLToRGB($NewHSL);
-  }
-
-  function RGBToHSL($RGB)
-  {
-    $r = 0xFF & ($RGB >> 0x10);
-    $g = 0xFF & ($RGB >> 0x8);
-    $b = 0xFF & $RGB;
-
-    $r = ((float)$r) / 255.0;
-    $g = ((float)$g) / 255.0;
-    $b = ((float)$b) / 255.0;
-
-    $maxC = max($r, $g, $b);
-    $minC = min($r, $g, $b);
-
-    $l = ($maxC + $minC) / 2.0;
-
-    if($maxC == $minC)
-    {
-      $s = 0;
-      $h = 0;
-    }
-    else
-    {
-      if($l < .5)
-      {
-        $s = ($maxC - $minC) / ($maxC + $minC);
-      }
-      else
-      {
-        $s = ($maxC - $minC) / (2.0 - $maxC - $minC);
-      }
-      if($r == $maxC)
-        $h = ($g - $b) / ($maxC - $minC);
-      if($g == $maxC)
-        $h = 2.0 + ($b - $r) / ($maxC - $minC);
-      if($b == $maxC)
-        $h = 4.0 + ($r - $g) / ($maxC - $minC);
-
-      $h = $h / 6.0; 
-    }
-
-    $h = (int)round(255.0 * $h);
-    $s = (int)round(255.0 * $s);
-    $l = (int)round(255.0 * $l);
-
-    $HSL = $l + ($s << 0x8) + ($h << 0x10);
-    return $HSL;
-  }
-
-  function HSLToRGB($HSL)
-  {
-    $h = 0xFF & ($HSL >> 0x10);
-    $s = 0xFF & ($HSL >> 0x8);
-    $l = 0xFF & $HSL;
-
-    $h = ((float)$h) / 255.0;
-    $s = ((float)$s) / 255.0;
-    $l = ((float)$l) / 255.0;
-
-    if($s == 0)
-    {
-      $r = $l;
-      $g = $l;
-      $b = $l;
-    }
-    else
-    {
-      if($l < .5)
-      {
-        $t2 = $l * (1.0 + $s);
-      }
-      else
-      {
-        $t2 = ($l + $s) - ($l * $s);
-      }
-      $t1 = 2.0 * $l - $t2;
-
-      $rt3 = $h + 1.0/3.0;
-      $gt3 = $h;
-      $bt3 = $h - 1.0/3.0;
-
-      if($rt3 < 0) $rt3 += 1.0;
-      if($rt3 > 1) $rt3 -= 1.0;
-      if($gt3 < 0) $gt3 += 1.0;
-      if($gt3 > 1) $gt3 -= 1.0;
-      if($bt3 < 0) $bt3 += 1.0;
-      if($bt3 > 1) $bt3 -= 1.0;
-
-      if(6.0 * $rt3 < 1) $r = $t1 + ($t2 - $t1) * 6.0 * $rt3;
-      elseif(2.0 * $rt3 < 1) $r = $t2;
-      elseif(3.0 * $rt3 < 2) $r = $t1 + ($t2 - $t1) * ((2.0/3.0) - $rt3) * 6.0;
-      else $r = $t1;
-
-      if(6.0 * $gt3 < 1) $g = $t1 + ($t2 - $t1) * 6.0 * $gt3;
-      elseif(2.0 * $gt3 < 1) $g = $t2;
-      elseif(3.0 * $gt3 < 2) $g = $t1 + ($t2 - $t1) * ((2.0/3.0) - $gt3) * 6.0;
-      else $g = $t1;
-
-      if(6.0 * $bt3 < 1) $b = $t1 + ($t2 - $t1) * 6.0 * $bt3;
-      elseif(2.0 * $bt3 < 1) $b = $t2;
-      elseif(3.0 * $bt3 < 2) $b = $t1 + ($t2 - $t1) * ((2.0/3.0) - $bt3) * 6.0;
-      else $b = $t1;
-    }
-
-    $r = (int)round(255.0 * $r);
-    $g = (int)round(255.0 * $g);
-    $b = (int)round(255.0 * $b);
-
-    $RGB = $b + ($g << 0x8) + ($r << 0x10);
-    return $RGB;
-  }
-
 // listing page thumbnail sizes, e.g. home page
-;
 
 add_image_size( "newshead", get_option('large_size_w'), get_option('large_size_h'), true );
 add_image_size( "newsmedium", 650, 200, true );
@@ -10026,7 +9879,11 @@ function pippin_login_form_shortcode( $atts, $content = null ) {
 add_shortcode('loginform', 'pippin_login_form_shortcode');
 
 
-//allow attributing a post to a parent that is in draft status
+/**
+ *	Enable choice of posts with any status for parent 
+ *
+ */
+
 function my_attributes_dropdown_pages_args($dropdown_args) {
 
     $dropdown_args['post_status'] = array('publish','draft','private','pending','future');
@@ -10398,17 +10255,7 @@ function govintranet_custom_styles() {
 	$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
 	if ( $headtext == "#") $headtext = "#ffffff";
 	$headimage = get_theme_mod('header_image', '');
-	$basecol=HTMLToRGB(substr($gishex,1,6));
-	$topborder = ChangeLuminosity($basecol, 33);
-
-	// set bar colour
-	// if using automatic complementary colour then convert header color
-	// otherwise use specified colour
-
-	$giscc = get_option('options_enable_automatic_complementary_colour'); 
-	if ($giscc):
-		$giscc = RGBToHTML($topborder); 
-	elseif (get_option('options_complementary_colour')):
+	if (get_option('options_complementary_colour')):
 		$giscc = get_option('options_complementary_colour');
 	else:
 		 $giscc = $gishex; 
@@ -10433,9 +10280,9 @@ function govintranet_custom_styles() {
 	$custom_css.= "#utilitybar ul#menu-utilities li a, #menu-utilities { color: ".$headtext."; } ";
 	$custom_css.= "#footerwrapper  {border-top: ".$gisheight."px solid ".$giscc.";}";
 	$custom_css.= ".page-template-page-about-php .category-block h2 {border-top: ".$gisheight."px solid ".$giscc."; padding: 0.6em 0; }";
-	$custom_css.= ".home.page .category-block h3 {border-bottom: 3px solid ".$gishex.";	} .h3border { border-bottom: 3px solid ".$gishex.";	}";
+	$custom_css.= ".h3border { border-bottom: 3px solid ".$gishex.";	}";
 	$custom_css.= "#content .widget-box { padding: .1em 0 .7em 0; font-size: .9em; background: #fff; border-top: ".$gisheight."px solid ".$giscc."; margin-top: .7em; }	";
-	$custom_css.= ".home.page .category-block h3 {border-top: ".$gisheight."px solid ".$giscc."; border-bottom: none; padding-top: 16px; margin-top: 16px; }";
+	$custom_css.= ".home.page .category-block h3, .page-template-page-how-do-i .category-block h3, .page-template-page-how-do-i-alt-classic .category-block h3, .page-template-page-how-do-i-alt .category-block h3  { border-top: ".$gisheight."px solid ".$giscc."; border-bottom: none; padding-top: 16px; margin-top: 16px; }";
 	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;}";
 	$custom_css.= ".bbp-user-page .panel-heading {border-top: ".$gisheight."px solid ".$giscc."; }";

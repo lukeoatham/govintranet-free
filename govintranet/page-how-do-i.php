@@ -61,6 +61,7 @@ get_header();
 					<input type="hidden" name="post_types[]" value="task" />
 				</form>
 			</div>
+			<?php 	if (is_active_sidebar('tasklanding-widget-area')) dynamic_sidebar('tasklanding-widget-area'); ?>
 		</div>
 		<script type='text/javascript'>
 		    jQuery(document).ready(function(){
