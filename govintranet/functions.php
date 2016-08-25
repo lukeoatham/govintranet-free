@@ -414,85 +414,51 @@ function govintranet_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'govintranet_page_menu_args' );
 
 /**
- * Sets the post excerpt length to 40 characters.
+ * Set the post excerpt length to 30 characters and add custom ellipsis.
  *
- * To override this length in a child theme, remove the filter and add your own
- * function tied to the excerpt_length filter hook.
- *
- * @since Twenty Ten 1.0
- * @return int
  */
-function govintranet_excerpt_length( $length ) {
-	return 30;
-}
-add_filter( 'excerpt_length', 'govintranet_excerpt_length' );
-
-/**
- * Returns a "Continue Reading" link for excerpts
- *
- * @since Twenty Ten 1.0
- * @return string "Continue Reading" link
- */
-function govintranet_continue_reading_link() {
-	return ' <a href="'. get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'govintranet' ) . '</a>';
-}
-
-/**
- * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and govintranet_continue_reading_link().
- *
- * To override this in a child theme, remove the filter and add your own
- * function tied to the excerpt_more filter hook.
- *
- * @since Twenty Ten 1.0
- * @return string An ellipsis
- */
-function govintranet_auto_excerpt_more( $more ) {
-	return ' &hellip;' . govintranet_continue_reading_link();
-}
-add_filter( 'excerpt_more', 'govintranet_auto_excerpt_more' );
-
-/**
- * Adds a pretty "Continue Reading" link to custom post excerpts.
- *
- * To override this link in a child theme, remove the filter and add your own
- * function tied to the get_the_excerpt filter hook.
- *
- * @since Twenty Ten 1.0
- * @return string Excerpt with a pretty "Continue Reading" link
- */
-function govintranet_custom_excerpt_more( $output ) {
-	if ( has_excerpt() && ! is_attachment() ) {
-		$output .= govintranet_continue_reading_link();
+function govintranet_new_excerpt($text)
+{
+	if ($text == '')
+	{
+		$text = get_the_content('');
+		$text = strip_shortcodes( $text );
+		$text = apply_filters('the_content', $text);
+		$text = str_replace(']]>', ']]>', $text);
+		$text = strip_tags($text);
+		$text = nl2br($text);
+		$excerpt_length = apply_filters('excerpt_length', 30);
+		$words = explode(' ', $text, $excerpt_length + 1);
+		if (count($words) > $excerpt_length) {
+			array_pop($words);
+			$text = implode(' ', $words). ' &hellip;';
+		}
 	}
-	return $output;
+	return $text;
 }
-add_filter( 'get_the_excerpt', 'govintranet_custom_excerpt_more' );
+remove_filter('get_the_excerpt', 'wp_trim_excerpt');
+add_filter('get_the_excerpt', 'govintranet_new_excerpt');
 
 if ( ! function_exists( 'get_the_excerpt_by_id' ) ) :
 
 function get_the_excerpt_by_id($post_id){
-	
     $the_post = get_post($post_id); //Gets post ID
     $the_excerpt = $the_post->post_excerpt;
     if ( !$the_excerpt ):
 	    $the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
-	    $excerpt_length = 35; //Sets excerpt length by word count
+	    $excerpt_length = 30; //Sets excerpt length by word count
 	    $the_excerpt = strip_tags(strip_shortcodes($the_excerpt)); //Strips tags and images
 	    $words = explode(' ', $the_excerpt, $excerpt_length + 1);
-	
 	    if(count($words) > $excerpt_length) :
 	        array_pop($words);
-	        array_push($words, '…');
-	        $the_excerpt = implode(' ', $words);
+	        $the_excerpt = implode(' ', $words) . ' &hellip;';
 	    endif;
-	
 	    $the_excerpt = '<p>' . $the_excerpt . '</p>';
 	endif;
     return $the_excerpt;
 }
 
 endif;
-
 
 if ( ! function_exists( 'govintranet_comment' ) ) :
 /**

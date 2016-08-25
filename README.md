@@ -5,7 +5,7 @@ Contributors: lukeoatham
 Link: http://intranetdiary.co.uk 
 Tags: intranet, gov.uk, responsive  
 Requires at least: 3.4  
-Tested up to: 4.1
+Tested up to: 4.6
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -33,10 +33,15 @@ Intranet theme inspired by GOV.UK. Custom post types: news, blog, events, tasks 
 
 This theme requires the [Advanced Custom Fields Pro plugin](http://www.advancedcustomfields.com/pro) to manage custom post types.  
 Tested up to: 5
-Refer to [showcase site](https://govintranet.helpfulclients.com/) for example intranet.  
-Refer to [Setup instructions](http://govintranetters.helpfulclients.com) for help and installation instructions.
+Refer to [showcase site](http://demo.govintra.net/) for example intranet.  
+Refer to [Setup instructions](http://help.govintra.net/) for help and installation instructions.
 
 ## Changelog ##
+
+### 4.20.1 - 25 Aug 2016 ###
+* Removed continue reading link from excerpts 
+* Pages are now included in the tag template 
+* Translation updates   
 
 ### 4.20 - 25 Aug 2016 ###
 * New widget area for How do I? templates 
