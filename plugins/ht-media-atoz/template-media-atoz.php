@@ -11,17 +11,12 @@ if ( $gishex == "#") $gishex = "#0b2d49";
 $custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
 $headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
 if ( $headtext == "#") $headtext = "#ffffff";
-$basecol=HTMLToRGB(substr($gishex,1,6));
-$topborder = ChangeLuminosity($basecol, 33);
 
 // set bar colour
 // if using automatic complementary colour then convert header color
 // otherwise use specified colour
 
-$giscc = get_option('options_enable_automatic_complementary_colour'); 
-if ($giscc):
-	$giscc = RGBToHTML($topborder); 
-elseif (get_option('options_complementary_colour')):
+if (get_option('options_complementary_colour')):
 	$giscc = get_option('options_complementary_colour');
 else:
 	 $giscc = $gishex; 

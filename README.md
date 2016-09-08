@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.20.2 - 8 Sep 2016 ###
+* Remove complementary colour checkbox in options 
+* Improved WYSIWYG options for forums 
+* Fixes for Google Analytics intravert tracking 
+* Updates to Media A to Z templates 
+
 ### 4.20.1 - 25 Aug 2016 ###
 * Removed continue reading link from excerpts 
 * Pages are now included in the tag template 

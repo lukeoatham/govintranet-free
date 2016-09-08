@@ -2602,37 +2602,12 @@ if( function_exists('acf_add_local_field_group') ):
 				'disabled' => 0,
 			),
 			array (
-				'key' => 'field_536f7388a21b2',
-				'label' => __('Enable automatic complementary colour','govintranet'),
-				'name' => 'enable_automatic_complementary_colour',
-				'type' => 'true_false',
-				'instructions' => __('Works in conjunction with the header background colour. Enabling this setting will provide a complementary colour for borders above widget titles. Disable to choose your own colour.','govintranet'),
-				'required' => 0,
-				'conditional_logic' => 0,
-				'wrapper' => array (
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'message' => '',
-				'default_value' => 0,
-			),
-			array (
 				'key' => 'field_53827c0d41550',
 				'label' => __('Complementary colour','govintranet'),
 				'name' => 'complementary_colour',
 				'type' => 'color_picker',
-				'instructions' => __('Colour of the border above widget titles.','govintranet'),
+				'instructions' => __('Colour of widget border and buttons.','govintranet'),
 				'required' => 0,
-				'conditional_logic' => array (
-					array (
-						array (
-							'field' => 'field_536f7388a21b2',
-							'operator' => '!=',
-							'value' => '1',
-						),
-					),
-				),
 				'wrapper' => array (
 					'width' => '',
 					'class' => '',
@@ -4192,8 +4167,12 @@ if( function_exists('acf_add_local_field_group') ):
 	if ( get_option( 'options_forum_support' )  ):
 	
 		if ( get_option( 'options_forum_visual_editor' )  ):
+		
+			/* Strip unwanted tags from content */
+		
 			function bbp_enable_visual_editor( $args = array() ) {
 			    $args['tinymce'] = true;
+				$args['quicktags'] = false;
 			    return $args;
 			}
 			add_filter( 'bbp_after_get_the_content_parse_args', 'bbp_enable_visual_editor' );
@@ -4202,6 +4181,92 @@ if( function_exists('acf_add_local_field_group') ):
 			    return $plugins;
 			}
 			add_filter( 'bbp_get_tiny_mce_plugins', 'bbp_tinymce_paste_plain_text' );
+			add_filter( 'bbp_kses_allowed_tags', 'govintranet_bbpress_custom_kses_allowed_tags' );
+			function govintranet_bbpress_custom_kses_allowed_tags() {
+				return array(
+					// Links
+					'a'          => array(
+						'class'    => true,
+						'href'     => true,
+						'title'    => true,
+						'rel'      => true,
+						'class'    => true,
+						'target'    => true,
+					),
+					// Quotes
+					'blockquote' => array(
+						'cite'     => true,
+					),
+					
+					// Div
+					'div' => array(
+						'class'     => true,
+					),
+					
+					// Span
+					'span'             => array(
+						'class'     => true,
+					),
+					
+					// Code
+					'code'       => array(),
+					'pre'        => array(
+						'class'  => true,
+					),
+					// Formatting
+					'em'         => array(),
+					'strong'     => array(),
+					'del'        => array(
+						'datetime' => true,
+					),
+					// Lists
+					'ul'         => array(),
+					'ol'         => array(
+						'start'    => true,
+					),
+					'li'         => array(),
+					// Images
+					'img'        => array(
+						'class'    => true,
+						'src'      => true,
+						'border'   => true,
+						'alt'      => true,
+						'height'   => true,
+						'width'    => true,
+					),
+					// Tables
+					'table'      => array(
+						'align'    => true,
+						'bgcolor'  => true,
+						'border'   => true,
+					),
+					'tbody'      => array(
+						'align'    => true,
+						'valign'   => true,
+					),
+					'td'         => array(
+						'align'    => true,
+						'valign'   => true,
+					),
+					'tfoot'      => array(
+						'align'    => true,
+						'valign'   => true,
+					),
+					'th'         => array(
+						'align'    => true,
+						'valign'   => true,
+					),
+					'thead'      => array(
+						'align'    => true,
+						'valign'   => true,
+					),
+					'tr'         => array(
+						'align'    => true,
+						'valign'   => true,
+					)
+				);
+			}
+
 		endif;
 	
 		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (

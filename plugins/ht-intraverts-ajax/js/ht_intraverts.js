@@ -9,6 +9,9 @@ function pauseIntravert(name,expires,ititle,isource) { // set a short cookie if 
 	var ipanel = '#intraverts_' + ht_intraverts.widget_id;
 	jQuery(ipanel).slideUp();
 	if  (typeof _gaq != 'undefined') 	_gaq.push(['_trackEvent', 'Intraverts', ititle, isource]);
+	
+	if (typeof(ga) !== 'undefined') 	ga('send', 'event', 'Intraverts', ititle, isource);
+	
     if (jQuery('a[href="#nowhere"]')) { 
 		return false;
     }
