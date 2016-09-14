@@ -212,7 +212,7 @@ get_header(); ?>
 			echo "</div>";
 
 		} else { ?>
-			<h1><?php echo $guidetitle; ?> <small><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
+			<h1><?php echo $guidetitle; ?> <small class="task-context"><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 			<?php
 			the_content(); 
 			if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ):

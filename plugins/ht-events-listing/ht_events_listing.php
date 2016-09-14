@@ -268,9 +268,11 @@ class htEventsListing extends WP_Widget {
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
 		$instance['location'] = strip_tags($new_instance['location']);
 		$instance['recent'] = strip_tags($new_instance['recent']);
+/*
 		global $wpdb;
 		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_event_%".sanitize_file_name( $new_instance['title'] )."'");
 		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_timeout_event_%".sanitize_file_name( $new_instance['title'] )."'");
+*/
        return $instance;
     }
 

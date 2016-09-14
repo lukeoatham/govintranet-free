@@ -38,6 +38,11 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.20.3 - 14 Sep 2016 ###
+* Bootstrap updates 
+* Fixes to news auto-related links 
+* Updates to Most Active and Event listing widget cache  
+
 ### 4.20.2 - 8 Sep 2016 ###
 * Remove complementary colour checkbox in options 
 * Improved WYSIWYG options for forums 

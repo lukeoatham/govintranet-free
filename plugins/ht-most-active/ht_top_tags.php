@@ -436,9 +436,11 @@ class htTopTags extends WP_Widget {
 		$instance['ga_viewid'] = strip_tags($new_instance['ga_viewid']);
 		$instance['cache'] = strip_tags($new_instance['cache']);
 		if ( $new_instance['reset'] == "on" ) delete_option('ga_token');
+/*
 		global $wpdb;
 		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_cached_ga_tags_%".sanitize_file_name( $new_instance['title'] )."'");
 		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_timeout_cached_ga_tags_%".sanitize_file_name( $new_instance['title'] )."'");
+*/
        return $instance;
     }
 
