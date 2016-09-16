@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -168,6 +168,48 @@ class htNewsUpdates extends WP_Widget {
 			}
 		}
 
+		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_background_colour" ;  
+		$background_colour = get_option($acf_key); 
+		
+		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_text_colour" ;  
+		$text_colour = get_option($acf_key); 
+		
+		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_border_colour" ;  
+		$border_colour = get_option($acf_key); 
+		
+		$border_height = get_option('options_widget_border_height','5');
+
+		$custom_css = "";
+		if ( $border_colour ):
+			$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: ".$border_height."px solid ".$border_colour." ; }\n";
+		else:
+			$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
+		endif;
+
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+
+		$custom_css.= "#content .need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." a { color: ".$text_colour."; }\n";
+
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block { background: ".$background_colour."; }\n";
+
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+
+		$custom_css.= "#content .need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold; border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box h3 { padding: 0; margin: 0 0 10px 0; border: none ; color: ".$text_colour."; }\n";
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold; border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box ul.need li a:visited { color: ".$text_colour."; }\n";
+
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box ul.need li {  border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+
+		wp_enqueue_style( 'govintranet_news_update_styles', plugins_url("/ht-news-updates/ht_news_updates.css"));
+		wp_add_inline_style('govintranet_news_update_styles' , $custom_css);
+
 		$newstransient = substr( 'nu_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 		$html = get_transient( $newstransient );
 
@@ -178,15 +220,6 @@ class htNewsUpdates extends WP_Widget {
 			//display need to know stories
 			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_widget_include_type" ;  
 			$news_update_types = get_option($acf_key); ;
-	
-			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_background_colour" ;  
-			$background_colour = get_option($acf_key); 
-			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_text_colour" ;  
-			$text_colour = get_option($acf_key); 
-			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_border_colour" ;  
-			$border_colour = get_option($acf_key); 
-			$border_height = get_option('options_widget_border_height','5');
-	
 	
 			if ( !$news_update_types || count($news_update_types) < 1 ) :
 				$cquery = array(
@@ -211,33 +244,9 @@ class htNewsUpdates extends WP_Widget {
 					);
 			endif;
 	
-	
 			$news =new WP_Query($cquery);
 			
 			if ($news->post_count!=0){
-
-				$custom_css = "";
-				if ( $border_colour ):
-					$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: ".$border_height."px solid ".$border_colour." ; }\n";
-				else:
-					$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
-				endif;
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
-				$custom_css.= "#content .need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." a { color: ".$text_colour."; }\n";
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block { background: ".$background_colour."; }\n";
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
-				$custom_css.= "#content .need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; margin-top: 10px; font-weight: bold; }\n";
-
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box h3 { padding: 0; margin: 0 0 10px 0; border: none ; color: ".$text_colour."; }\n";
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box p.more-updates { margin-bottom: 0 !important; margin-top: 10px; font-weight: bold; }\n";
-
-				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." ul.need li a:visited { color: ".$text_colour."; }\n";
-				
-				wp_enqueue_style( 'govintranet_news_update_styles', plugins_url("/ht-news-updates/ht_news_updates.css"));
-				wp_add_inline_style('govintranet_news_update_styles' , $custom_css);
 				
 				if ( $title ) {
 					$html.= "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
