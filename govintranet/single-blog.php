@@ -104,11 +104,11 @@ get_header(); ?>
 				$html='';
 				$catTitlePrinted=false;
 				foreach($post_cat as $cat){
-				if ( $cat->term_id > 0 ){
-					if ( !$catTitlePrinted ){
-						$catTitlePrinted = true;
-					}
-					$html.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug , 'blog-category') . "'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+					if ( $cat->term_id > 0 ){
+						if ( !$catTitlePrinted ){
+							$catTitlePrinted = true;
+						}
+						$html.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug , 'blog-category') . "'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
 					}
 				}	
 				if ( $html ){
@@ -142,8 +142,8 @@ get_header(); ?>
 					$blog_categories[] = $cat->term_id;
 				}
 				$recentitems = new WP_Query(array(
-					'post_type'=>'blog',
-					'posts_per_page'=>5,
+					'post_type' => 'blog',
+					'posts_per_page' => 5,
 					'post__not_in' => array($mainid),
 					'tax_query' => array(array(
 				    'taxonomy' => 'blog-category',
@@ -156,15 +156,15 @@ get_header(); ?>
 				if ( !$recentitems->have_posts()):
 					$recentitems = new WP_Query(array(
 					'post_type'=>'blog',
-					'posts_per_page'=>5,
+					'posts_per_page' => 5,
 					'post__not_in' => array($mainid),
 					));	
 					$recent_title = __('Recent in other categories' , 'govintranet');
 				endif;
 			else:
 				$recentitems = new WP_Query(array(
-				'post_type'=>'blog',
-				'posts_per_page'=>5,
+				'post_type' => 'blog',
+				'posts_per_page' => 5,
 				'post__not_in' => array($mainid),
 				));	
 				$recent_title = __('Recent posts' , 'govintranet');
@@ -177,12 +177,12 @@ get_header(); ?>
 				if ($mainid!=$post->ID) {
 					$thistitle = get_the_title($id);
 					$thistitleatt = the_title_attribute('echo=0');
-					$thisURL=get_permalink($id);
+					$thisURL = get_permalink($id);
 					echo "<div class='widgetnewsitem'>";
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 					echo "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
-					$thisdate= $post->post_date;
-					$thisdate=date(get_option('date_format'),strtotime($thisdate));
+					$thisdate = $post->post_date;
+					$thisdate = date(get_option('date_format'),strtotime($thisdate));
 					echo "<span class='news_date'>".$thisdate."</span>&nbsp;";
 					
 					$user = get_userdata($post->post_author);
@@ -219,8 +219,7 @@ get_header(); ?>
 		                echo " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
 				   }
 		
-					
-					echo "<br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitleatt}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
+				   echo "<br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitleatt}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 				}
 			endwhile; 
 			echo "</div>";

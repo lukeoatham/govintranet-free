@@ -10284,7 +10284,7 @@ function govintranet_custom_styles() {
 	if ( $gishex == "#") $gishex = "#0b2d49";
 	$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
 	$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
-	if ( $headtext == "#") $headtext = "#ffffff";
+	if ( $headtext == "#" || $headtext == "#blank" ) $headtext = "#ffffff";
 	$headimage = get_theme_mod('header_image', '');
 	if (get_option('options_complementary_colour')):
 		$giscc = get_option('options_complementary_colour');
@@ -10327,12 +10327,11 @@ function govintranet_custom_styles() {
 	$gislogo = $gislogow[0] ;
 	$gisw = $gislogow[1] + 10;
 	$gish = $gislogow[2] + 10;
-	$custom_css.= "#crownlink  {background: url('".$gislogo."') no-repeat; background-position:left 10px; padding: 16px 0 0 ".$gisw."px; height: auto; min-height: ".$gish."px; margin-bottom: 0.6em; }
-	";
+	$custom_css.= "#crownlink  {background: url('".$gislogo."') no-repeat; background-position:left 10px; padding: 16px 0 0 ".$gisw."px; height: auto; min-height: ".$gish."px; margin-bottom: 0.6em; }";
 	$custom_css.= "#crownlink a { padding-left: ".$gisw."px; margin-left: -".$gisw."px; }";
 	$custom_css.= "#primarynav ul li  { border-bottom: 1px solid ".$gishex."; border-top: 1px solid ".$gishex."; border-right: 1px solid ".$gishex."; }
-	#primarynav ul li:last-child,  #primarynav ul li.last-link  {border-right: 1px solid ".$gishex.";}
-	#primarynav ul li:first-child,  #primarynav ul li.first-link  {	border-left: 1px solid ".$gishex.";	}
+	#primarynav ul li:last-child {border-right: 1px solid ".$gishex.";}
+	#primarynav ul li:first-child  {	border-left: 1px solid ".$gishex.";	}
 	#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }";		
 	$custom_css.= "a.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
 	$custom_css.= "a.:visited.wptag {color: ".$headtext."; background: ".$gishex.";} \n";

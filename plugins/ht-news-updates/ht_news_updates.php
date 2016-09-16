@@ -215,39 +215,46 @@ class htNewsUpdates extends WP_Widget {
 			$news =new WP_Query($cquery);
 			
 			if ($news->post_count!=0){
-			$html.= "<style>";
-			if ( $border_colour ):
-				$html.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: ".$border_height."px solid ".$border_colour." ; }\n";
-			else:
-				$html.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
-			endif;
-			$html.= ".need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
-			$html.= "#content .need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
-			$html.= ".need-to-know-container.".sanitize_file_name($title)." a { color: ".$text_colour."; }\n";
-			$html.= ".need-to-know-container.".sanitize_file_name($title)." .category-block { background: ".$background_colour."; }\n";
-			$html.= ".need-to-know-container.".sanitize_file_name($title)." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
-			$html.= ".need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
-			$html.= "#content .need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
-			$html.= ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; margin-top: 10px; font-weight: bold; }\n";
-			$html.= "#content .need-to-know-container .widget-box { background-color: transparent;}";
-			$html.= "#content .need-to-know-container .widget-box { border-top: 0; margin-top: 0;}";
-			$html.= "</style>";	
-	
-	
-			if ( $title ) {
-				$html.= "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
-				$html.= $before_widget; 
-				if ( $title == "no_title_" . $id ) $title = "";
-				if ( $title ) $html.= $before_title . $title . $after_title;}
+
+				$custom_css = "";
+				if ( $border_colour ):
+					$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: ".$border_height."px solid ".$border_colour." ; }\n";
+				else:
+					$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
+				endif;
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+				$custom_css.= "#content .need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." a { color: ".$text_colour."; }\n";
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block { background: ".$background_colour."; }\n";
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+				$custom_css.= "#content .need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; margin-top: 10px; font-weight: bold; }\n";
+
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box h3 { padding: 0; margin: 0 0 10px 0; border: none ; color: ".$text_colour."; }\n";
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box p.more-updates { margin-bottom: 0 !important; margin-top: 10px; font-weight: bold; }\n";
+
+				$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." ul.need li a:visited { color: ".$text_colour."; }\n";
+				
+				wp_enqueue_style( 'govintranet_news_update_styles', plugins_url("/ht-news-updates/ht_news_updates.css"));
+				wp_add_inline_style('govintranet_news_update_styles' , $custom_css);
+				
+				if ( $title ) {
+					$html.= "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
+					$html.= $before_widget; 
+					if ( $title == "no_title_" . $id ) $title = "";
+					if ( $title ) $html.= $before_title . $title . $after_title;
+				}
 				$html.= "
 				<div class='need-to-know'>
 				<ul class='need'>";
 			}
+			
 			$k=0;
 			$alreadydone= array();
 	
 			while ($news->have_posts()) {
-					$news->the_post();
+				$news->the_post();
 				if (in_array($news->ID, $alreadydone )) { //don't show if already in stickies
 					continue;
 				}

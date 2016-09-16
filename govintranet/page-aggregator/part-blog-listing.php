@@ -16,15 +16,14 @@ if ( $freshness ):
 	$freshness = "-".$freshness." day";
     $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );  
  	$query['date_query'] = array(
-				array(
-					'after'     => $tdate,
-					'inclusive' => true,
-				)
-			);
+		array(
+			'after'     => $tdate,
+			'inclusive' => true,
+		)
+	);
 endif;
 
 $taxarray='';
-'key'=>'user_team','value'=>'.*\"'.$tq.'\".*','compare'=>'REGEXP'
 if ($team):
 	$teamarray = array(
 	"key" => "related_team",
@@ -34,7 +33,6 @@ if ($team):
 	$query['meta_query']=array($teamarray);
 endif;
 		
-
 $fcount = 0;
 
 $listquery = new wp_query($query);

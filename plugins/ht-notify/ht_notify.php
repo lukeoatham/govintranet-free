@@ -422,3 +422,8 @@ function ht_notify_ajax_show() {
 add_action( 'wp_ajax_ht_notify_ajax_show', 'ht_notify_ajax_show' );
 add_action( 'wp_ajax_nopriv_ht_notify_ajax_show', 'ht_notify_ajax_show' );
 
+register_deactivation_hook(__FILE__, 'ht_notify_deactivation');
+
+function ht_notify_deactivation() {
+	wp_clear_scheduled_hook('ht_notify_monitor');
+}

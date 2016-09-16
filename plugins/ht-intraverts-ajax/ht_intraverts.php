@@ -18,11 +18,7 @@ class htIntraverts extends WP_Widget {
 			array( 'description' => __( 'Displays an individual intravert from a bank of intraverts and hides from user if already viewed' , 'govintranet') )
 		);   
 
-		/*
-		Load css
-		*/
-		wp_enqueue_style( 'intraverts', plugins_url("/ht-intraverts-ajax/css/ht_intraverts.css"));
-        
+       
 		/*
 		Register intravert custom post type
 		*/
@@ -449,6 +445,20 @@ class htIntraverts extends WP_Widget {
         'post_id' => $post_id,
         );
         wp_localize_script( 'ht_intraverts', 'ht_intraverts', $params );
+        
+		$border_height = get_option("options_widget_border_height", 5);
+		$border_heighta = $border_height + 2;
+		$custom_css = '
+		.ht_intraverts .widget-box a img { margin-top: -'.$border_heighta.'px; } /* border height + 2 */
+		.ht_intraverts .filter_results_skip { margin-top: -'.$border_height.'px; } /* border height */
+		';
+
+		/*
+		Load css
+		*/
+		wp_enqueue_style( 'intraverts', plugins_url("/ht-intraverts-ajax/css/ht_intraverts.css"));
+		wp_add_inline_style('intraverts' , $custom_css);
+
 		//write script for google analytics if on homepage and not set
 		$gistrackhome = get_option('options_track_homepage');
 		$gisgtc = get_option('options_google_tracking_code');

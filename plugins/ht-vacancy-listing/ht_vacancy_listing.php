@@ -52,6 +52,8 @@ class htVacancyListing extends WP_Widget {
 		wp_enqueue_style( 'govintranet_vacancy_styles', plugins_url("/ht-vacancy-listing/ht_vacancy_listing.css"));
 		wp_add_inline_style('govintranet_vacancy_styles' , $custom_css);
 		$gatransient = substr( 'vacancy_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+		$output = "";
+		if ( $cacheperiod > 0 ) $output = get_transient( $gatransient );
 		$output = get_transient( $gatransient );
 
 		if ( $output == '' ):
@@ -125,7 +127,7 @@ class htVacancyListing extends WP_Widget {
 				$etime = date(get_option('time_format'),strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
 				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink(); 
-				$output.= "<div class='media vacancylisting'>";
+				$output.= "<div class='media vacancylisting vacancy-".$post->ID."'>";
 				$output.= "<div class='media-left alignleft'>";
 				$output.= "<a class='calendarlink' href='".$thisURL."'>";
 				$output.= "<div class='vacancybox'>";

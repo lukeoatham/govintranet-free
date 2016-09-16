@@ -61,7 +61,8 @@ class htEventsListing extends WP_Widget {
 		wp_enqueue_style( 'govintranet_event_styles', plugins_url("/ht-events-listing/ht_events_listing.css"));
 		wp_add_inline_style('govintranet_event_styles' , $custom_css);
 		$gatransient = substr( 'event_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
-		$output = get_transient( $gatransient );
+		$output = "";
+		if ( $cacheperiod > 0 ) $output = get_transient( $gatransient );
 		
 		if ( empty( $output ) ){
 			global $wpdb;
@@ -197,7 +198,7 @@ class htEventsListing extends WP_Widget {
 	
 				if ( 'on' == $calendar ) {
 
-					$output.= "<div class='media eventslisting'>";
+					$output.= "<div class='media eventslisting event-".$event['ID']."'>";
 					$output.= "<div class='media-left alignleft'>";
 					$output.= "<a class='calendarlink' href='".$thisURL."'>";
 					$output.= "<div class='calbox'>";
@@ -216,8 +217,7 @@ class htEventsListing extends WP_Widget {
 					$output.= "</p>";
 					$output.= "<small><strong>".$edate."</strong></small>";
 					if ( $location == 'on' && get_post_meta($event['ID'],'event_location',true) ) $output.= "<br><span><small>".get_post_meta($event['ID'],'event_location',true)."</small></span>";
-					$output.= "</div></div>";
-					
+					$output.= "</div><hr></div>";
 
 				} else {
 					$output.= "<p><a href='{$thisURL}'> ".$thistitle."</a></p>";
@@ -230,7 +230,8 @@ class htEventsListing extends WP_Widget {
 				}
 	
 				$output.= "</div>";
-				$output.= "</div><hr>";
+				if ( 'on' != $calendar ) $output.= "<hr>";
+				$output.= "</div>";
 			}
 	
 			if (count($events_to_show)!=0){

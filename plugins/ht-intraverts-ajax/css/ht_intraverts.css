@@ -1,7 +1,6 @@
-.ht_intraverts>.category-block>a>img, .ht_intraverts>.category-block>p>iframe {
-	margin-top: 17px;
-}
+.ht_intraverts>.category-block>a>img, .ht_intraverts>.category-block>p>iframe { margin-top: 17px; }
 a.btn.filter_results_skip { width: auto; text-decoration: none; overflow:hidden; position: absolute;top: 0;right: 0; padding: 3px 2px 1px 10px; }
+.ht_intraverts .category-block .filter_results_skip { margin-top: 0; }        
 .ht_intraverts .category-block { position: relative; }
 #content .widget-box { position: relative; }
 .ht_intraverts .btn { white-space: normal; }

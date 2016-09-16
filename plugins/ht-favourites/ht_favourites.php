@@ -409,7 +409,7 @@ function ht_favourites_ajax_show() {
 	endif;
 	
 	if ( $temp ):
-		$html = $before_widget . "<a href='".$userurl."' class='btn btn-sm btn-sm btn-default pull-right editfav'>Edit</a>" . $before_title . $title . $after_title . "<ul class='first-link widget-list'>" . $temp . "</ul>" . $after_widget ;
+		$html = $before_widget . "<a href='".$userurl."' class='btn btn-sm btn-sm btn-default pull-right editfav'>Edit</a>" . $before_title . $title . $after_title . "<ul class='widget-list'>" . $temp . "</ul>" . $after_widget ;
 	else:
 		$html = "";
 	endif;
