@@ -38,6 +38,16 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.20.4 - 16 Sep 2016 ###
+* Icon updates to support .dot files 
+* Aggregate template fix for blog listings 
+* Auto-related blog posts 
+* News update widget style updates 
+* Intravert widget style updates 
+* HT Notify widget deactivation fix 
+* New CSS classes for event and vacancy widget listings 
+* Translation updates 
+
 ### 4.20.3 - 14 Sep 2016 ###
 * Bootstrap updates 
 * Fixes to news auto-related links 
