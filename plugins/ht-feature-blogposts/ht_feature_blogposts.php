@@ -125,13 +125,11 @@ class htFeatureBlogposts extends WP_Widget {
 		$titledone = 0;
 
 		$blogstransient = substr( 'cached_blogs_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
-		$html = get_transient( $blogstransient );
+		$html = "";
+		if ( $cache > 0 ) $html = get_transient( $blogstransient );
 
 		if ( !$html ){
 
-			$html = "";
-		     
-		
 			if ( $num_top_slots > 0 ){ 
 				if ( $title ) {
 					$html.= $before_widget; 
@@ -176,7 +174,7 @@ class htFeatureBlogposts extends WP_Widget {
 						$html.= "</a>";
 					}
 					if ($excerpt == 'on') $html.=get_the_excerpt();
-					$html.= "</div></div>";
+					$html.= "</div></div><hr>";
 				endwhile;		
 			};
 			
@@ -245,7 +243,7 @@ class htFeatureBlogposts extends WP_Widget {
 					$html.= "</a>";
 				}
 				if ($excerpt == 'on') $html.=wpautop(get_the_excerpt());
-				$html.= "</div></div>";
+				$html.= "</div></div><hr>";
 			}
 			if ($blogs->have_posts() && $more){
 				$landingpage = get_option('options_module_blog_page'); 
@@ -256,7 +254,7 @@ class htFeatureBlogposts extends WP_Widget {
 					$landingpage_link_text = get_the_title( $landingpage[0] );
 					$landingpage = get_permalink( $landingpage[0] );
 				endif;
-				$html.= '<hr><p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
+				$html.= '<p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 			} 
 			if ($blogs->have_posts() || $num_top_slots > 0 ){
 				$html.= '</div>';

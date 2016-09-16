@@ -54,8 +54,6 @@ class htVacancyListing extends WP_Widget {
 		$gatransient = substr( 'vacancy_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
 		$output = "";
 		if ( $cacheperiod > 0 ) $output = get_transient( $gatransient );
-		$output = get_transient( $gatransient );
-
 		if ( $output == '' ):
 
 			$tzone = get_option('timezone_string');

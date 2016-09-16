@@ -38,6 +38,13 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.20.5 - 16 Sep 2016 ###
+* About this page widget updates - linked author, performance improvements 
+* Author template updates 
+* Blog listing widget updates 
+* Vacancy listing widget updates 
+* Translation updates 
+
 ### 4.20.4 - 16 Sep 2016 ###
 * Icon updates to support .dot files 
 * Aggregate template fix for blog listings 

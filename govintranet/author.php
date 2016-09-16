@@ -49,9 +49,11 @@ get_header();
 				<h1><?php 
 				if ($sfilter=='forum'){ 
 					printf( __('Forum posts by %s' , 'govintranet'), $curauth->display_name); 
-				}else{ 
+				} elseif ( have_posts() ) { 
 					printf( __('Blog posts by %s' , 'govintranet'), $curauth->display_name); 
-				} 
+				} else {
+					printf( __('Profile: %s' , 'govintranet'), $curauth->display_name); 
+				}
 				?></h1>
 				<p>
 				<?php
@@ -59,10 +61,11 @@ get_header();
 				if ( $forumsupport && function_exists('bbp_user_profile_url')) :
 					?>
 					<a href='<?php bbp_user_profile_url( bbp_get_current_user_id() );?>'><?php _e('Staff profile','govintranet'); ?></a> | 
-				<?php endif; ?>
+					<?php 
+				endif; ?>
 				<a href="mailto:<?php echo $curauth->user_email ; ?>"><?php echo $curauth->display_name ; ?></a></p>
 				<?php
-				
+				if ( have_posts()):				
 					/* Since we called the_post() above, we need to
 					 * rewind the loop back to the beginning that way
 					 * we can run the loop properly, in full.
@@ -74,6 +77,7 @@ get_header();
 					 * called loop-archives.php and that will be used instead.
 					 */
 					 get_template_part( 'loop', 'archive' );
+				endif;
 				?>
 			</div>
 		<div class="col-lg-4 col-md-4 col-sm-4">

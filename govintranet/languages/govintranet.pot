@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GovIntranet v1.0.0\n"
 "Report-Msgid-Bugs-To: Luke Oatham <lukeoatham@gmail.com>\n"
-"POT-Creation-Date: 2016-09-16 17:00+0100\n"
+"POT-Creation-Date: 2016-09-16 22:45+0100\n"
 "\"PO-Revision-Date: \n"
 "Last-Translator: Luke Oatham <lukeoatham@gmail.com>\n"
 "Language-Team: Helpful Technology <luke@helpfultechnology.com>\n"
@@ -113,7 +113,12 @@ msgstr ""
 msgid "Blog posts by %s"
 msgstr ""
 
-#: govintranet/author.php:61
+#: govintranet/author.php:55
+#, php-format
+msgid "Profile: %s"
+msgstr ""
+
+#: govintranet/author.php:63
 msgid "Staff profile"
 msgstr ""
 
@@ -2250,7 +2255,7 @@ msgid "Date"
 msgstr ""
 
 #: govintranet/functions.php:10400 govintranet/single-blog.php:62
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:169
+#: plugins2016/ht-about-this-page/ht_about_this_page.php:168
 msgid "Author"
 msgstr ""
 
@@ -2290,8 +2295,8 @@ msgstr ""
 #: govintranet/taxonomy-news-type.php:103
 #: plugins2016/convert-comment-users/convert_comment_users.php:71
 #: plugins2016/convert-comment-users/convert_comment_users.php:79
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:175
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:243
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:173
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:241
 #: plugins2016/ht-feature-news/ht_feature_news.php:324
 #: plugins2016/ht-feature-news/ht_feature_news.php:336
 #: plugins2016/ht-feature-news/ht_feature_news.php:349
@@ -2301,7 +2306,7 @@ msgstr ""
 #: plugins2016/ht-need-to-know-ajax/ht_need_to_know_ajax.php:167
 #: plugins2016/ht-need-to-know/ht_need_to_know.php:74
 #: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:441
-#: plugins2016/ht-news-updates/ht_news_updates.php:281
+#: plugins2016/ht-news-updates/ht_news_updates.php:290
 #, php-format
 msgid "1 comment"
 msgid_plural "%d comments"
@@ -2592,7 +2597,7 @@ msgid "teams"
 msgstr ""
 
 #: govintranet/search.php:189
-#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:155
+#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:153
 msgid "vacancies"
 msgstr ""
 
@@ -2816,7 +2821,7 @@ msgid "download"
 msgstr ""
 
 #: govintranet/tag.php:280
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:119
+#: plugins2016/ht-about-this-page/ht_about_this_page.php:83
 msgid "Updated"
 msgstr ""
 
@@ -3047,10 +3052,10 @@ msgid "A to Z box"
 msgstr ""
 
 #: plugins2016/ht-a-to-z/ht_a_to_z.php:69
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:157
+#: plugins2016/ht-about-this-page/ht_about_this_page.php:156
 #: plugins2016/ht-events-listing/ht_events_listing.php:291
 #: plugins2016/ht-favourites/ht_favourites.php:129
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:294
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:292
 #: plugins2016/ht-feature-news/ht_feature_news.php:555
 #: plugins2016/ht-feedback/ht_feedback.php:62
 #: plugins2016/ht-how-do-i/ht_how_do_i.php:82
@@ -3060,11 +3065,11 @@ msgstr ""
 #: plugins2016/ht-need-to-know-ajax/ht_need_to_know_ajax.php:64
 #: plugins2016/ht-need-to-know/ht_need_to_know.php:102
 #: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:248
-#: plugins2016/ht-news-updates/ht_news_updates.php:327
+#: plugins2016/ht-news-updates/ht_news_updates.php:336
 #: plugins2016/ht-profile-nudge/ht_profile_nudge.php:296
 #: plugins2016/ht-recent-comments/ht_recent_comments.php:187
 #: plugins2016/ht-tube-status/ht_tube_status.php:133
-#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:188
+#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:186
 msgid "Title:"
 msgstr ""
 
@@ -3076,27 +3081,19 @@ msgstr ""
 msgid "Display page metadata"
 msgstr ""
 
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:25
-msgid "About this page widget"
-msgstr ""
-
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:29
-msgid "Display also on children of:"
-msgstr ""
-
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:124
+#: plugins2016/ht-about-this-page/ht_about_this_page.php:88
 msgid "Published"
 msgstr ""
 
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:160
+#: plugins2016/ht-about-this-page/ht_about_this_page.php:159
 msgid "Include"
 msgstr ""
 
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:163
+#: plugins2016/ht-about-this-page/ht_about_this_page.php:162
 msgid "Modified date"
 msgstr ""
 
-#: plugins2016/ht-about-this-page/ht_about_this_page.php:166
+#: plugins2016/ht-about-this-page/ht_about_this_page.php:165
 msgid "Published date"
 msgstr ""
 
@@ -3113,14 +3110,14 @@ msgid "Nothing coming up. Here's the most recent:"
 msgstr ""
 
 #: plugins2016/ht-events-listing/ht_events_listing.php:294
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:296
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:294
 #: plugins2016/ht-most-active/ht_most_active.php:555
 #: plugins2016/ht-most-recent/ht_most_recent.php:251
 #: plugins2016/ht-need-to-know-ajax/ht_need_to_know_ajax.php:66
 #: plugins2016/ht-need-to-know/ht_need_to_know.php:104
 #: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:251
-#: plugins2016/ht-news-updates/ht_news_updates.php:330
-#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:191
+#: plugins2016/ht-news-updates/ht_news_updates.php:339
+#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:189
 msgid "Number of items:"
 msgstr ""
 
@@ -3137,7 +3134,7 @@ msgid "Show location"
 msgstr ""
 
 #: plugins2016/ht-events-listing/ht_events_listing.php:307
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:301
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:299
 #: plugins2016/ht-feature-news/ht_feature_news.php:571
 msgid "Show excerpt"
 msgstr ""
@@ -3147,7 +3144,7 @@ msgid "Show recent"
 msgstr ""
 
 #: plugins2016/ht-events-listing/ht_events_listing.php:311
-#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:197
+#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:195
 msgid "Cache (minutes):"
 msgstr ""
 
@@ -3240,42 +3237,42 @@ msgstr ""
 msgid "Blogpost listing widget"
 msgstr ""
 
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:172
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:170
 #: plugins2016/ht-feature-news/ht_feature_news.php:333
 #: plugins2016/ht-feature-news/ht_feature_news.php:346
 msgid "Featured"
 msgstr ""
 
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:298
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:296
 msgid "Freshness (days)"
 msgstr ""
 
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:303
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:301
 msgid "Show thumbnails"
 msgstr ""
 
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:304
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:302
 msgid "Displays the featured image if present, otherwise the author avatar"
 msgstr ""
 
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:307
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:305
 msgid "Show link to more"
 msgstr ""
 
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:308
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:306
 msgid "Title for more"
 msgstr ""
 
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:309
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:307
 #: plugins2016/ht-feature-news/ht_feature_news.php:574
 #: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:255
-#: plugins2016/ht-news-updates/ht_news_updates.php:334
+#: plugins2016/ht-news-updates/ht_news_updates.php:343
 msgid "Leave blank for the default title"
 msgstr ""
 
-#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:310
+#: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:308
 #: plugins2016/ht-feature-news/ht_feature_news.php:575
-#: plugins2016/ht-news-updates/ht_news_updates.php:336
+#: plugins2016/ht-news-updates/ht_news_updates.php:345
 msgid "Minutes to cache:"
 msgstr ""
 
@@ -3331,7 +3328,7 @@ msgstr ""
 
 #: plugins2016/ht-feature-news/ht_feature_news.php:573
 #: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:254
-#: plugins2016/ht-news-updates/ht_news_updates.php:333
+#: plugins2016/ht-news-updates/ht_news_updates.php:342
 msgid "Title for more:"
 msgstr ""
 
@@ -4226,11 +4223,11 @@ msgstr ""
 msgid "Vacancy listing widget"
 msgstr ""
 
-#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:147
+#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:145
 #, php-format
 msgid "Closing at %s"
 msgstr ""
 
-#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:194
+#: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:192
 msgid "Days to look forward:"
 msgstr ""

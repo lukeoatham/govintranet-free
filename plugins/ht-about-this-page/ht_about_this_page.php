@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.3
+Version: 1.4
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -18,83 +18,47 @@ class htAboutThisPage extends WP_Widget {
 			array( 'description' => __( 'Display page metadata' , 'govintranet') )
 		);
 
-		if( function_exists('register_field_group') ):
-		
-		register_field_group(array (
-			'key' => 'group_54c8168128e72',
-			'title' => __('About this page widget','govintranet'),
-			'fields' => array (
-				array (
-					'key' => 'field_54c816872d1e0',
-					'label' => __('Display also on children of:','govintranet'),
-					'name' => 'about_this_page_children',
-					'prefix' => '',
-					'type' => 'relationship',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'post_type' => array (
-						0 => 'page',
-					),
-					'taxonomy' => '',
-					'filters' => array (
-						0 => 'search',
-					),
-					'elements' => '',
-					'max' => '',
-					'return_format' => 'id',
-				),
-			),
-			'location' => array (
-				array (
-					array (
-						'param' => 'widget',
-						'operator' => '==',
-						'value' => 'htaboutthispage',
-					),
-				),
-			),
-			'menu_order' => 0,
-			'position' => 'normal',
-			'style' => 'default',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-		));
-		
-		endif;
-
 	}
 
     function widget($args, $instance) {
+
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $show_modified_date = ($instance['show_modified_date']);
         $show_published_date = ($instance['show_published_date']);
         $show_author = ($instance['show_author']);
         $normal_date_format = ($instance['normal_date_format']);
-	        
-		$showabout = false;
-		if ( is_single() ) $showabout = true; 		
+		$showabout = true;
 		if ( is_singular(array('forum','topic','reply'))) $showabout = false;
-
-		if ( is_page() && get_option("widget_" . $this->id_base . "-" . $this->number . "_about_this_page_children") ):
-			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_about_this_page_children" ;  
-			$aboutChildren = get_option($acf_key); 
-			global $post; 
-			$my_wp_query = new WP_Query();
-			$all_wp_pages = $my_wp_query->query(array('post_type' => 'page','posts_per_page'=>-1)); 
-
-			if ($aboutChildren) foreach ($aboutChildren as $a){ 
-								
-				// Filter through all pages and find Portfolio's children
-				$children = get_page_children( $a, $all_wp_pages );
-
-				if ($children) foreach ($children as $c){ 
-					$child[]=$c->ID; if ($post->ID == $c->ID) $showabout = true; 
-				}
-				
-			}
+		if ( is_search() ) $showabout = false;
+		if ( is_archive() ) $showabout = false;
+		if ( is_front_page() ) $showabout = false;
+		if ( is_home() ) $showabout = false;
+						
+		if ( is_page() ):
+			$landing_pages = array(
+			"page-about.php",
+			"page-aggregator.php",
+			"page-newsboard.php",
+			"page-blog.php",
+			"page-doc-finder.php",
+			"page-event-past.php",
+			"page-event.php",
+			"page-forum-simple.php",
+			"page-forum.php",
+			"page-how-do-i-alt-classic.php",
+			"page-how-do-i-alt.php",
+			"page-how-do-i.php",
+			"page-jargon-buster.php",
+			"page-news-multi.php",
+			"page-news-updates.php",
+			"page-news.php",
+			"page-projects.php",
+			"page-staff-directory-masonry.php",
+			"page-vacancies.php",
+			"search.php"
+			);
+			if ( in_array( basename(get_page_template()), $landing_pages ) ) $showabout = false;
 		endif;
 
 		if ($showabout) {
@@ -125,10 +89,45 @@ class htAboutThisPage extends WP_Widget {
 			}
 
 			if ($show_author=='on'){
-				$useremail = get_the_author_meta('user_email');
-				echo "<a href='mailto:".$useremail."'>";
-				the_author();
-				echo "</a>";
+				global $post;
+				$user = get_userdata($post->post_author);
+				$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
+				$gis = "options_forum_support";
+				$forumsupport = get_option($gis);
+				$staffdirectory = get_option('options_module_staff_directory');
+				if ($forumsupport){	
+					$authorlink = "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>";
+					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+						$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
+					} 
+					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
+						echo "<a href='";
+						bbp_user_profile_url( $post->post_author );
+						echo "'>";
+					} else {
+						echo $authorlink;	
+					}
+					$user_info = get_userdata($post->post_author);
+					$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+					$avstyle="";
+					if ( $directorystyle==1 ) $avstyle = " img-circle";
+					$image_url = get_avatar($post->post_author , 32);
+					$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
+					echo $image_url;
+					echo "</a>&nbsp;";
+					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
+						echo "<a href='";
+						bbp_user_profile_url( $post->post_author );
+						echo "'>";
+					} else {
+						echo $authorlink;	
+					}
+					$auth = get_the_author();
+					echo "<span class='listglyph'>".$auth."</span>";
+					echo "</a> ";
+				} else {
+				    echo "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>" . $displayname . "</a>";  
+				}
 			}
 
 			echo "</div>";
