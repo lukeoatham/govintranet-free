@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GovIntranet v1.0.0\n"
 "Report-Msgid-Bugs-To: Luke Oatham <lukeoatham@gmail.com>\n"
-"POT-Creation-Date: 2016-09-16 22:45+0100\n"
+"POT-Creation-Date: 2016-09-18 00:08+0100\n"
 "\"PO-Revision-Date: \n"
 "Last-Translator: Luke Oatham <lukeoatham@gmail.com>\n"
 "Language-Team: Helpful Technology <luke@helpfultechnology.com>\n"
@@ -175,9 +175,9 @@ msgstr ""
 
 #: govintranet/category.php:236 govintranet/page-blog.php:61
 #: govintranet/page-event-past.php:269 govintranet/page-event.php:163
-#: govintranet/page-news.php:84 govintranet/single-blog.php:115
+#: govintranet/page-news.php:84 govintranet/single-blog.php:127
 #: govintranet/single-event.php:161 govintranet/single-news.php:97
-#: govintranet/single-task.php:257 govintranet/single-vacancy.php:105
+#: govintranet/single-task.php:251 govintranet/single-vacancy.php:105
 msgid "Categories"
 msgstr ""
 
@@ -1123,7 +1123,7 @@ msgid "Most used"
 msgstr ""
 
 #: govintranet/functions.php:1881
-#: plugins2016/ht-feature-news/ht_feature_news.php:557
+#: plugins2016/ht-feature-news/ht_feature_news.php:562
 msgid "Number of stories"
 msgstr ""
 
@@ -2254,7 +2254,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: govintranet/functions.php:10400 govintranet/single-blog.php:62
+#: govintranet/functions.php:10400 govintranet/single-blog.php:73
 #: plugins2016/ht-about-this-page/ht_about_this_page.php:168
 msgid "Author"
 msgstr ""
@@ -2297,15 +2297,15 @@ msgstr ""
 #: plugins2016/convert-comment-users/convert_comment_users.php:79
 #: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:173
 #: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:241
-#: plugins2016/ht-feature-news/ht_feature_news.php:324
-#: plugins2016/ht-feature-news/ht_feature_news.php:336
-#: plugins2016/ht-feature-news/ht_feature_news.php:349
-#: plugins2016/ht-feature-news/ht_feature_news.php:464
-#: plugins2016/ht-feature-news/ht_feature_news.php:475
-#: plugins2016/ht-feature-news/ht_feature_news.php:487
+#: plugins2016/ht-feature-news/ht_feature_news.php:329
+#: plugins2016/ht-feature-news/ht_feature_news.php:341
+#: plugins2016/ht-feature-news/ht_feature_news.php:354
+#: plugins2016/ht-feature-news/ht_feature_news.php:469
+#: plugins2016/ht-feature-news/ht_feature_news.php:480
+#: plugins2016/ht-feature-news/ht_feature_news.php:492
 #: plugins2016/ht-need-to-know-ajax/ht_need_to_know_ajax.php:167
 #: plugins2016/ht-need-to-know/ht_need_to_know.php:74
-#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:441
+#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:440
 #: plugins2016/ht-news-updates/ht_news_updates.php:290
 #, php-format
 msgid "1 comment"
@@ -2510,15 +2510,14 @@ msgstr ""
 msgid "Closing"
 msgstr ""
 
-#: govintranet/page-vacancies.php:202 govintranet/single-blog.php:222
+#: govintranet/page-vacancies.php:202 govintranet/single-blog.php:341
 #: govintranet/single-news-update.php:179 govintranet/single-news.php:268
 msgid "Read more"
 msgstr ""
 
-#: govintranet/part-downloads.php:6 govintranet/single-project.php:196
-#: govintranet/single-task.php:179
+#: govintranet/part-downloads.php:6
 msgctxt "Documents to download"
-msgid "Downloads"
+msgid "Documents"
 msgstr ""
 
 #: govintranet/search-staff.php:53 govintranet/search.php:260
@@ -2656,27 +2655,35 @@ msgstr ""
 msgid "Refine search"
 msgstr ""
 
-#: govintranet/single-blog.php:131 govintranet/single-event.php:174
+#: govintranet/single-blog.php:144 govintranet/single-event.php:174
 #: govintranet/single-news-update.php:102 govintranet/single-news.php:110
-#: govintranet/single-project.php:231 govintranet/single-task.php:272
+#: govintranet/single-project.php:231 govintranet/single-task.php:266
 #: govintranet/single-vacancy.php:124
 msgid "Tags"
 msgstr ""
 
-#: govintranet/single-blog.php:155
-msgid "Recent in this category"
+#: govintranet/single-blog.php:183
+msgid "Similar"
 msgstr ""
 
-#: govintranet/single-blog.php:162
-msgid "Recent in other categories"
+#: govintranet/single-blog.php:203
+msgid "Based on category"
 msgstr ""
 
-#: govintranet/single-blog.php:170
-msgid "Recent posts"
+#: govintranet/single-blog.php:217
+msgid "Based on tags"
 msgstr ""
 
-#: govintranet/single-blog.php:174
-msgid "Nothing to show yet"
+#: govintranet/single-blog.php:241
+msgid "Recommended"
+msgstr ""
+
+#: govintranet/single-blog.php:251
+msgid "By this blogger"
+msgstr ""
+
+#: govintranet/single-blog.php:274 govintranet/single-blog.php:280
+msgid "Recent"
 msgstr ""
 
 #: govintranet/single-event.php:56 govintranet/single-event.php:118
@@ -2729,7 +2736,7 @@ msgid "Recent news"
 msgstr ""
 
 #: govintranet/single-project.php:150 govintranet/single-project.php:171
-#: govintranet/single-task.php:166 govintranet/single-task.php:198
+#: govintranet/single-task.php:166 govintranet/single-task.php:191
 msgid "Overview"
 msgstr ""
 
@@ -2739,8 +2746,13 @@ msgid "Navigate to next part"
 msgstr ""
 
 #: govintranet/single-project.php:171 govintranet/single-project.php:179
-#: govintranet/single-task.php:198 govintranet/single-task.php:206
+#: govintranet/single-task.php:191 govintranet/single-task.php:199
 msgid "Navigate to previous part"
+msgstr ""
+
+#: govintranet/single-project.php:196
+msgctxt "Documents to download"
+msgid "Downloads"
 msgstr ""
 
 #: govintranet/single-team.php:20
@@ -2839,7 +2851,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: govintranet/tag.php:326 plugins2016/ht-feature-news/ht_feature_news.php:513
+#: govintranet/tag.php:326 plugins2016/ht-feature-news/ht_feature_news.php:518
 msgid "More"
 msgstr ""
 
@@ -3056,7 +3068,7 @@ msgstr ""
 #: plugins2016/ht-events-listing/ht_events_listing.php:291
 #: plugins2016/ht-favourites/ht_favourites.php:129
 #: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:292
-#: plugins2016/ht-feature-news/ht_feature_news.php:555
+#: plugins2016/ht-feature-news/ht_feature_news.php:560
 #: plugins2016/ht-feedback/ht_feedback.php:62
 #: plugins2016/ht-how-do-i/ht_how_do_i.php:82
 #: plugins2016/ht-most-active/ht_most_active.php:552
@@ -3064,7 +3076,7 @@ msgstr ""
 #: plugins2016/ht-most-recent/ht_most_recent.php:248
 #: plugins2016/ht-need-to-know-ajax/ht_need_to_know_ajax.php:64
 #: plugins2016/ht-need-to-know/ht_need_to_know.php:102
-#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:248
+#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:249
 #: plugins2016/ht-news-updates/ht_news_updates.php:336
 #: plugins2016/ht-profile-nudge/ht_profile_nudge.php:296
 #: plugins2016/ht-recent-comments/ht_recent_comments.php:187
@@ -3115,7 +3127,7 @@ msgstr ""
 #: plugins2016/ht-most-recent/ht_most_recent.php:251
 #: plugins2016/ht-need-to-know-ajax/ht_need_to_know_ajax.php:66
 #: plugins2016/ht-need-to-know/ht_need_to_know.php:104
-#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:251
+#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:252
 #: plugins2016/ht-news-updates/ht_news_updates.php:339
 #: plugins2016/ht-vacancy-listing/ht_vacancy_listing.php:189
 msgid "Number of items:"
@@ -3135,7 +3147,7 @@ msgstr ""
 
 #: plugins2016/ht-events-listing/ht_events_listing.php:307
 #: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:299
-#: plugins2016/ht-feature-news/ht_feature_news.php:571
+#: plugins2016/ht-feature-news/ht_feature_news.php:576
 msgid "Show excerpt"
 msgstr ""
 
@@ -3238,8 +3250,8 @@ msgid "Blogpost listing widget"
 msgstr ""
 
 #: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:170
-#: plugins2016/ht-feature-news/ht_feature_news.php:333
-#: plugins2016/ht-feature-news/ht_feature_news.php:346
+#: plugins2016/ht-feature-news/ht_feature_news.php:338
+#: plugins2016/ht-feature-news/ht_feature_news.php:351
 msgid "Featured"
 msgstr ""
 
@@ -3264,14 +3276,14 @@ msgid "Title for more"
 msgstr ""
 
 #: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:307
-#: plugins2016/ht-feature-news/ht_feature_news.php:574
-#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:255
+#: plugins2016/ht-feature-news/ht_feature_news.php:579
+#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:256
 #: plugins2016/ht-news-updates/ht_news_updates.php:343
 msgid "Leave blank for the default title"
 msgstr ""
 
 #: plugins2016/ht-feature-blogposts/ht_feature_blogposts.php:308
-#: plugins2016/ht-feature-news/ht_feature_news.php:575
+#: plugins2016/ht-feature-news/ht_feature_news.php:580
 #: plugins2016/ht-news-updates/ht_news_updates.php:345
 msgid "Minutes to cache:"
 msgstr ""
@@ -3302,32 +3314,32 @@ msgstr ""
 msgid "Exclude stories"
 msgstr ""
 
-#: plugins2016/ht-feature-news/ht_feature_news.php:327
-#: plugins2016/ht-feature-news/ht_feature_news.php:341
-#: plugins2016/ht-feature-news/ht_feature_news.php:352
-#: plugins2016/ht-feature-news/ht_feature_news.php:480
-#: plugins2016/ht-feature-news/ht_feature_news.php:490
+#: plugins2016/ht-feature-news/ht_feature_news.php:332
+#: plugins2016/ht-feature-news/ht_feature_news.php:346
+#: plugins2016/ht-feature-news/ht_feature_news.php:357
+#: plugins2016/ht-feature-news/ht_feature_news.php:485
+#: plugins2016/ht-feature-news/ht_feature_news.php:495
 msgid "Full story"
 msgstr ""
 
-#: plugins2016/ht-feature-news/ht_feature_news.php:558
+#: plugins2016/ht-feature-news/ht_feature_news.php:563
 msgid "Large"
 msgstr ""
 
-#: plugins2016/ht-feature-news/ht_feature_news.php:561
+#: plugins2016/ht-feature-news/ht_feature_news.php:566
 msgid "Medium"
 msgstr ""
 
-#: plugins2016/ht-feature-news/ht_feature_news.php:564
+#: plugins2016/ht-feature-news/ht_feature_news.php:569
 msgid "Thumbnail"
 msgstr ""
 
-#: plugins2016/ht-feature-news/ht_feature_news.php:567
+#: plugins2016/ht-feature-news/ht_feature_news.php:572
 msgid "List format (no photos)"
 msgstr ""
 
-#: plugins2016/ht-feature-news/ht_feature_news.php:573
-#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:254
+#: plugins2016/ht-feature-news/ht_feature_news.php:578
+#: plugins2016/ht-news-updates-restricted/ht_news_updates_restricted.php:255
 #: plugins2016/ht-news-updates/ht_news_updates.php:342
 msgid "Title for more:"
 msgstr ""
