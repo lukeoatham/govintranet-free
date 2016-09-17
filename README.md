@@ -38,6 +38,9 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.21.1 - 17 Sep 2016 ###
+* Fix to listdocs shortcode (tommarshall)
+
 ### 4.21 - 17 Sep 2016 ###
 * Changes to document downloads box styling 
 * Auto-related blog post updates 
