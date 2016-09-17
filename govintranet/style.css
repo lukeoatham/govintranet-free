@@ -2,7 +2,7 @@
 Theme Name: GovIntranet 4
 Theme URI: https://help.govintra.net
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.20.5
+Version: 4.21
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -1132,7 +1132,13 @@ ul.howdoi { list-style: none; }
 .howdoi a:link { text-decoration: underline; }
 .widget-box ul.howdoi { padding-left: 0 !important; }
 li p.howdesc  { margin-top: 10px; margin-bottom: 1.2em !important; }
-.page-template-page-how-do-i-alt-classic .category-block p { padding: 0.5em;}
+.page-template-page-how-do-i-alt-classic .category-block p { padding: 0.5em; }
+.document-download { display: block; padding: 0; background: #eee; }
+.document-download h3 { display: block; padding: 0.5em; color: white; background: #353535; }
+.document-download ul { list-style: none; padding: 0.5em; margin-bottom: 0.55em; }
+.document-download ul li { padding: 0.55em 0.35em 0.15em 0.35em; border-top: 1px solid rgba(255,255,255,0.45); display: block; }
+.document-download ul li a { display: block; }
+.document-download ul li:first-child { border-top: none; margin-top: -0.65em; }
 
 /* NEED TO KNOW NEWS */
 

@@ -4,7 +4,7 @@ Plugin Name: HT News updates - restricted
 Plugin URI: http://www.helpfultechnology.com
 Description: Hide news updates from users
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -171,6 +171,7 @@ class htnewsupdatesrestricted extends WP_Widget {
         if ( $trans ):
 			 echo "<div data-id='".$this->number."' id='news-updates-restricted-".$this->number."' class='ht_news_updates_restricted_".$this->number."'>".$trans."</div>";
         else:
+        
         $title = apply_filters('widget_title', $instance['title']);
         if ( !$title ) $title = "no_title_" . $id;
         $moretitle = $instance['moretitle'];
@@ -320,18 +321,18 @@ function load_news_updates(  ) {
 		$tdate= date('Ymd');
 		
 		$oldnews = query_posts(array(
-		'post_type'=>'news-update',
-		'meta_query'=>array(array(
-		'key'=>'news_update_expiry_date',
-		'value'=>$tdate,
-		'compare'=>'<='
+			'post_type'=>'news-update',
+			'meta_query'=>array(array(
+				'key'=>'news_update_expiry_date',
+				'value'=>$tdate,
+				'compare'=>'<='
 		))));
+		
 		if ( count($oldnews) > 0 ){
 			foreach ($oldnews as $old) {
 				if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'news_update_expiry_date',true)) )): // if expiry today, check the time
 					if (date('H:i:s',strtotime(get_post_meta($old->ID,'news_update_expiry_time',true))) > date('H:i:s') ) continue;
 				endif;
-				
 				$expiryaction = get_post_meta($old->ID,'news_update_expiry_action',true);
 				if ($expiryaction=='Revert to draft status'){
 					  $my_post = array();
@@ -358,24 +359,22 @@ function load_news_updates(  ) {
 					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
 				}	
 			}
-		wp_reset_query();
+			wp_reset_query();
 		}
 
-		
-			$cquery = array(
-				'post_status' => 'publish',
-				'orderby' => 'post_date',
-			    'order' => 'DESC',
-			    'post_type' => 'news-update',
-			    'posts_per_page' => $items,
-			    'tax_query' => array(array(
-				    'taxonomy' => 'news-update-type',
-				    'field' => 'id',
-				    'terms' => (array)$news_update_types,
-				    'compare' => "IN",
-			    ))
-				);
-
+		$cquery = array(
+			'post_status' => 'publish',
+			'orderby' => 'post_date',
+		    'order' => 'DESC',
+		    'post_type' => 'news-update',
+		    'posts_per_page' => $items,
+		    'tax_query' => array(array(
+			    'taxonomy' => 'news-update-type',
+			    'field' => 'id',
+			    'terms' => (array)$news_update_types,
+			    'compare' => "IN",
+		    ))
+			);
 
 		$news = new WP_Query($cquery); 
 		if ($news->post_count!=0){

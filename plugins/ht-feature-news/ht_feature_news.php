@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.1
+Version: 4.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -122,7 +122,7 @@ class htFeatureNews extends WP_Widget {
 		));
 		
 		endif;
-}
+	}
 
 function widget($args, $instance) {
     extract( $args );
@@ -206,13 +206,17 @@ function widget($args, $instance) {
 	}
 	
 	$newstransient = substr( 'cached_news_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
-	$html = get_transient( $newstransient );
-
-
+	$html = "";
+	$blank = true;
+	if ( $cache > 0 ):
+	 	$html = get_transient( $newstransient );
+	 	if ( $html ) $blank = false;
+	endif;
+	
 	if ( !$html ){
 
-		$html = "";
 	    $html.= $before_widget; 
+		$html.= '<div id="'.$widget_id.'">';
 	
 	    if ( $title && $title != "no_title_" . $id) :
 		    $html.= $before_title;
@@ -220,8 +224,6 @@ function widget($args, $instance) {
 		    $html.= $after_title; 
 		endif;
 	
-		$html.= '<div id="ht-feature-news">';
-		
 		//formulate grid of news stories and formats
 		$totalstories =  $largeitems + $mediumitems + $thumbnailitems + $listitems; 
 	
@@ -246,8 +248,11 @@ function widget($args, $instance) {
 	
 		//manual override news stories
 		//display sticky top news stories
-	
-		$num_top_slots = count($top_slot);
+		if ( $top_slot ):
+			$num_top_slots = count($top_slot);
+		else:
+			$num_top_slots = 0;
+		endif;
 		$to_fill = $totalstories - $num_top_slots;
 		$k = -1;
 		$alreadydone = array();
@@ -361,47 +366,47 @@ function widget($args, $instance) {
 		
 				$html.= "<hr class='light' />\n";
 		
-			
-				}
-			} //end of stickies
+			}
+
+		} //end of stickies
+	
+		//display remaining stories
+		$cquery = array(
+			    'post_type' => 'news',
+			    'posts_per_page' => $totalstories,
+			    'post__not_in'=>$exclude,
+			    'tax_query' => array(array(
+			    'taxonomy'=>'post_format',
+			    'field'=>'slug',
+			    'terms'=>array('post-format-status'),
+			    "operator"=>"NOT IN"
+			    ))
+				);
+		if ( $newstypes ) $cquery['tax_query'] = array(
+				"relation"=>"AND",
+				array(
+				'taxonomy' => 'news-type',
+				'terms' => $newstypes,
+				'field' => 'id',	
+				),
+				array(
+				'taxonomy'=>'post_format',
+			    'field'=>'slug',
+			    'terms'=>array('post-format-status'),
+			    "operator"=>"NOT IN"
+
+				),
+				);
 		
-			//display remaining stories
-			$cquery = array(
-				    'post_type' => 'news',
-				    'posts_per_page' => $totalstories,
-				    'post__not_in'=>$exclude,
-				    'tax_query' => array(array(
-				    'taxonomy'=>'post_format',
-				    'field'=>'slug',
-				    'terms'=>array('post-format-status'),
-				    "operator"=>"NOT IN"
-				    ))
-					);
-				if ( $newstypes ) $cquery['tax_query'] = array(
-						"relation"=>"AND",
-						array(
-						'taxonomy' => 'news-type',
-						'terms' => $newstypes,
-						'field' => 'id',	
-						),
-						array(
-						'taxonomy'=>'post_format',
-					    'field'=>'slug',
-					    'terms'=>array('post-format-status'),
-					    "operator"=>"NOT IN"
-		
-						),
-						);
-				
-		
-			$news =new WP_Query($cquery);
-			if ($news->post_count==0){
-				$html.= "Nothing to show.";
+			$news = new WP_Query($cquery);
+			$blank = true;
+			if ( $news->have_posts() || $num_top_slots ){
+				$blank = false;
 			} 
 			global $post;
 			while ($news->have_posts()) {
-					$news->the_post();
-					$theid = get_the_id();
+				$news->the_post();
+				$theid = get_the_id();
 				if (in_array($theid, $alreadydone )) { //don't show if already in stickies
 					continue;
 				}
@@ -524,8 +529,8 @@ function widget($args, $instance) {
 			$html.= "</div>";
 			$html.= $after_widget; 
 			if ( $cache > 0 ) set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
-		}
-		echo $html;
+		} 
+		if ( !$blank ) echo $html;
     }	
 
     function update($new_instance, $old_instance) {

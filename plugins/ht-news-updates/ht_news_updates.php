@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.3
+Version: 1.4
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -201,7 +201,7 @@ class htNewsUpdates extends WP_Widget {
 		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold; border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
 
 		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box h3 { padding: 0; margin: 0 0 10px 0; border: none ; color: ".$text_colour."; }\n";
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold; border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold;  }\n";
 
 		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box ul.need li a:visited { color: ".$text_colour."; }\n";
 

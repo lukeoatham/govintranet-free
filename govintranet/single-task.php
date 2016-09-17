@@ -174,15 +174,8 @@ get_header(); ?>
 
 			endif;
 
-			if( have_rows('document_attachments') ) : 
-				echo "<div class='alert alert-info'>";
-				echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
-				    while ( have_rows('document_attachments') ) : the_row(); 
-						$doc = get_sub_field('document_attachment'); 
-						if ( isset($doc['title']) )  echo "<p><a class='alert-link' href='".$doc['url']."'>".$doc['title']."</a></p>";
-					endwhile;
-				echo "</div>";
-			endif;
+			get_template_part("part", "downloads");	
+
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
@@ -215,9 +208,10 @@ get_header(); ?>
 			<h1><?php echo $guidetitle; ?> <small class="task-context"><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 			<?php
 			the_content(); 
+			
 			if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ):
 
-			show_manual();
+				show_manual();
 
 			endif;
 
@@ -227,53 +221,53 @@ get_header(); ?>
 				 comments_template( '', true ); 
 			}
 		}
-		 ?>
+		?>
 
 		</div>
 
 		<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-4">	
 
-				<?php 
-				get_template_part("part", "sidebar");
-				
-				dynamic_sidebar('task-widget-area'); 
-				
-				get_template_part("part", "related");
+		<?php 
+		get_template_part("part", "sidebar");
+		
+		dynamic_sidebar('task-widget-area'); 
+		
+		get_template_part("part", "related");
 
-				$post_categories = wp_get_post_categories( $post->ID ); 
-				$cats = array();
-				$catsfound = false;	
-				$catshtml='';
-				if ($post_categories){
-					foreach($post_categories as $c){
-						$cat = get_category( $c );
-						if ( $c < 2 ) continue;
-						$catsfound = true;
-						$catshtml.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug, 'category')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
-					}
-				}
-					
-				if ($catsfound){
-					echo "<div class='widget-box'><h3>" . __('Categories' , 'govintranet') . "</h3><p class='taglisting page'>".$catshtml."</p></div>";
-				}
-				
-				$posttags = get_the_tags();
-				if ($posttags) {
-					$foundtags=false;	
-					$tagstr="";
-				  	foreach($posttags as $tag) {
-				  		if (substr($tag->name,0,9)!="carousel:"){
-				  			$foundtags=true;
-				  			$tagurl = $tag->term_id;
-					    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=task'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
-				    	}
-				  	}
-				  	if ($foundtags){
-					  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
-					  	echo $tagstr;
-					  	echo "</p></div>";
-				  	}
-				}
+		$post_categories = wp_get_post_categories( $post->ID ); 
+		$cats = array();
+		$catsfound = false;	
+		$catshtml='';
+		if ($post_categories){
+			foreach($post_categories as $c){
+				$cat = get_category( $c );
+				if ( $c < 2 ) continue;
+				$catsfound = true;
+				$catshtml.= "<span><a class='wptag t".$cat->term_id."' href='".get_term_link($cat->slug, 'category')."'>".str_replace(" ","&nbsp;",$cat->name)."</a></span> ";
+			}
+		}
+			
+		if ($catsfound){
+			echo "<div class='widget-box'><h3>" . __('Categories' , 'govintranet') . "</h3><p class='taglisting page'>".$catshtml."</p></div>";
+		}
+		
+		$posttags = get_the_tags();
+		if ($posttags) {
+			$foundtags=false;	
+			$tagstr="";
+		  	foreach($posttags as $tag) {
+		  		if (substr($tag->name,0,9)!="carousel:"){
+		  			$foundtags=true;
+		  			$tagurl = $tag->term_id;
+			    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=task'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
+		    	}
+		  	}
+		  	if ($foundtags){
+			  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
+			  	echo $tagstr;
+			  	echo "</p></div>";
+		  	}
+		}
 
 
 		 	?>			

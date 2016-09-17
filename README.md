@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.21 - 17 Sep 2016 ###
+* Changes to document downloads box styling 
+* Auto-related blog post updates 
+* Enhancement to feature news widget (removed 'nothing to show' message)
+* Enhancements to news update (better styling on template sidebars)
+
 ### 4.20.5 - 16 Sep 2016 ###
 * About this page widget updates - linked author, performance improvements 
 * Author template updates 
