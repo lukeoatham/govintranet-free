@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.2
+Version: 4.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -28,7 +28,6 @@ class htEventsListing extends WP_Widget {
         $items = intval($instance['items']);
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
-        if ( !intval($cacheperiod) ) $cacheperiod = 60 * 60;
         $calendar = ($instance['calendar']);
         $thumbnails = ($instance['thumbnails']);
         $excerpt = ($instance['excerpt']);
@@ -60,12 +59,14 @@ class htEventsListing extends WP_Widget {
 	    ";			
 		wp_enqueue_style( 'govintranet_event_styles', plugins_url("/ht-events-listing/ht_events_listing.css"));
 		wp_add_inline_style('govintranet_event_styles' , $custom_css);
-		$gatransient = substr( 'event_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+		$gatransient = $widget_id;
 		$output = "";
 		if ( $cacheperiod > 0 ) $output = get_transient( $gatransient );
 		
 		if ( empty( $output ) ){
+			
 			global $wpdb;
+			
 			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_event_listing_event_types" ;
 			$etypes = get_option($acf_key);
 			$eventtypes = $etypes;
@@ -155,7 +156,21 @@ class htEventsListing extends WP_Widget {
 					}
 				}
 			
-				if ( count($events_to_show) == 0 ) return;
+				if ( count($events_to_show) == 0 ){
+					if ( $cacheperiod ) {
+						$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
+					    // Try to lock.
+					    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+					 
+					    if ( ! $lock_result ) {
+				            return;
+					    }
+					 
+						set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
+						delete_option( $lock_name );
+					}
+					return;
+				}
 					
 				if ( count($events_to_show) != 0 ){
 					$output.= $before_widget; 
@@ -166,7 +181,21 @@ class htEventsListing extends WP_Widget {
 			$k=0;
 			$alreadydone= array();
 	
-			if ( count($events_to_show) == 0 ) return;
+			if ( count($events_to_show) == 0 ){
+				if ( $cacheperiod ) {
+					$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
+				    // Try to lock.
+				    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+				 
+				    if ( ! $lock_result ) {
+			            return;
+				    }
+				 
+					set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
+					delete_option( $lock_name );
+				}
+				return;
+			}
 
 			foreach ($events_to_show as $event) { 
 				global $post;//required for access within widget	
@@ -217,7 +246,7 @@ class htEventsListing extends WP_Widget {
 					$output.= "</p>";
 					$output.= "<small><strong>".$edate."</strong></small>";
 					if ( $location == 'on' && get_post_meta($event['ID'],'event_location',true) ) $output.= "<br><span><small>".get_post_meta($event['ID'],'event_location',true)."</small></span>";
-					$output.= "</div><hr></div>";
+					$output.= "</div></div>";
 
 				} else {
 					$output.= "<p><a href='{$thisURL}'> ".$thistitle."</a></p>";
@@ -229,8 +258,7 @@ class htEventsListing extends WP_Widget {
 						$output.= "<p class='eventclear'><span>".get_the_excerpt_by_id($event['ID'])."</span></p>";
 				}
 	
-				$output.= "</div>";
-				if ( 'on' != $calendar ) $output.= "<hr>";
+				$output.= "<hr></div>";
 				$output.= "</div>";
 			}
 	
@@ -250,7 +278,20 @@ class htEventsListing extends WP_Widget {
 			}
 			$output.= "</div>";
 			$output.= "</div>";
-			set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
+			if ( $cacheperiod ) {
+				$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
+			    // Try to lock.
+			    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+			 
+			    if ( ! $lock_result ) {
+			        echo $output;
+		            return;
+			    }
+			 
+				set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
+				delete_option( $lock_name );
+			}
+
 		}
 
 		echo $output;
@@ -269,12 +310,7 @@ class htEventsListing extends WP_Widget {
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
 		$instance['location'] = strip_tags($new_instance['location']);
 		$instance['recent'] = strip_tags($new_instance['recent']);
-/*
-		global $wpdb;
-		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_event_%".sanitize_file_name( $new_instance['title'] )."'");
-		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_timeout_event_%".sanitize_file_name( $new_instance['title'] )."'");
-*/
-       return $instance;
+        return $instance;
     }
 
     function form($instance) {

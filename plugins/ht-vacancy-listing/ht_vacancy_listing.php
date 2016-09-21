@@ -4,7 +4,7 @@ Plugin Name: HT Vacancy listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display closing vacancies
 Author: Luke Oatham
-Version: 0.1
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -26,7 +26,6 @@ class htVacancyListing extends WP_Widget {
         $days = intval($instance['days']);
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
-        if ( !intval($cacheperiod) ) $cacheperiod = 60 * 60;
 		$custom_css = "
 		.vacancybox .vacancy-dow {
 			background: ".get_theme_mod('header_background', '0b2d49').";
@@ -51,7 +50,7 @@ class htVacancyListing extends WP_Widget {
 	    ";	        
 		wp_enqueue_style( 'govintranet_vacancy_styles', plugins_url("/ht-vacancy-listing/ht_vacancy_listing.css"));
 		wp_add_inline_style('govintranet_vacancy_styles' , $custom_css);
-		$gatransient = substr( 'vacancy_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+		$gatransient = $widget_id;
 		$output = "";
 		if ( $cacheperiod > 0 ) $output = get_transient( $gatransient );
 		if ( $output == '' ):
@@ -124,7 +123,7 @@ class htVacancyListing extends WP_Widget {
 				$edate = get_post_meta($post->ID,'vacancy_closing_date',true);
 				$etime = date(get_option('time_format'),strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
 				$edate = date(get_option('date_format'),strtotime($edate));
-				$thisURL=get_permalink(); 
+				$thisURL = get_permalink(); 
 				$output.= "<div class='media vacancylisting vacancy-".$post->ID."'>";
 				$output.= "<div class='media-left alignleft'>";
 				$output.= "<a class='calendarlink' href='".$thisURL."'>";
@@ -142,12 +141,11 @@ class htVacancyListing extends WP_Widget {
 				$output.= "</a>";
 				$output.= "</p>";
 				//$output.= "<small><strong>".$edate."</strong></small>";
-				if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) $output.= "<span class='alert-vacancy' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
+				if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) $output.= "<span class='alert-vacancy small' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
 				$output.= "</div></div>";
 			}
 	
 			if ($vacancies->post_count!=0){
-	
 				$landingpage = get_option('options_module_vacancies_page'); 
 				if ( !$landingpage ):
 					$landingpage_link_text = __('vacancies','govintranet');
@@ -156,12 +154,24 @@ class htVacancyListing extends WP_Widget {
 					$landingpage_link_text = get_the_title( $landingpage[0] );
 					$landingpage = get_permalink( $landingpage[0] );
 				endif;
-				
-				$output.= '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p></div>';
+				$output.= '<p class="vacancy-more-link"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p></div>';
 				$output.= $after_widget;
 			}
-			set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
-
+			if ( $cacheperiod ) {
+				$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
+				global $wpdb;
+			    // Try to lock.
+			    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+			 
+			    if ( ! $lock_result ) {
+			        echo $output;
+		            return;
+			    }
+			 
+				set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default		
+				delete_option( $lock_name );
+			}
+			
 		endif;
 		echo $output;
 		wp_reset_query();								

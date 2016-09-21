@@ -101,10 +101,7 @@ get_header(); ?>
 			if ($catcount == 3) echo "</div><!- end 3 -->";
 			if ($catcount == 2) echo "</div><!- end 2 -->";
 			if ($catcount < 2) echo "</div><!- end 1 -->";
-			
-			// Big tag cloud
-			?>
-
+		
 			<?php 
 			$taghtml = "";
 			$taghtml = get_transient("ht_how_do_i_tags");
@@ -115,15 +112,18 @@ get_header(); ?>
 				else:
 					$taghtml =  wp_tag_cloud(array('echo'=>false));
 				endif;
-				set_transient("ht_how_do_i_tags", $taghtml, 60*15);
+				set_transient("ht_how_do_i_tags", $taghtml."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60*15);
 			endif;
-			if ($taghtml):
-				echo "<div class='browsetags'><h3>" . __('Search by tag' , 'govintranet') . "</h3>";
-				echo $taghtml;
-				echo "</div>";
+			if ($taghtml): ?>
+				<div style="text-align:middle; clear:both;"  class="widget-box browsetags">
+				<h3 class="widget-title"><?php _e('Browse by tag','govintranet'); ?></h3>
+				<div class="tagcloud">
+				<?php echo $taghtml; ?>
+				</div>
+				</div>
+				<?php
 			endif;
-		
-				?>
+			?>
 		
 		</div>
 		<div class="col-sm-3">

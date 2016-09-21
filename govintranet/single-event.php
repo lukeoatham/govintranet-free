@@ -37,6 +37,8 @@ $mainid=$post->ID;
 	echo "<p>".date(get_option('date_format'),strtotime(get_post_meta($post->ID,'event_start_date',true)));
 	if (get_post_meta($post->ID,'event_start_time',true)):
 		echo " <i class='dashicons dashicons-clock'></i> ".date(get_option('time_format'),strtotime(get_post_meta($post->ID,'event_start_time',true))). " - ";
+	else:
+		echo "&nbsp;";
 	endif;
 	if (date(get_option('date_format'),strtotime(get_post_meta($post->ID,'event_start_date',true)))==date(get_option('date_format'),strtotime(get_post_meta($post->ID,'event_end_date',true))) ) {
 		if (get_post_meta($post->ID,'event_end_time',true)):

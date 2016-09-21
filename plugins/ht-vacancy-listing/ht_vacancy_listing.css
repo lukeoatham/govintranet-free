@@ -14,3 +14,5 @@ a.calendarlink:hover .vacancybox  { background: #eee; }
 .alert-vacancy {
 	color: red;
 }
+.media.vacancylisting { border-bottom: 1px solid #EED; padding-bottom: 0.5em;}
+.vacancy-more-link { margin-top: 1em;}

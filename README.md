@@ -38,6 +38,20 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.22 - 18 Sep 2016 ###
+* Enhancements to news and news updates to allow timed taxonomy change via auto-expiry 
+* Tube status widget updates 
+* Enhancement to About this page widget with links to staff profiles 
+* Enhancement to About page template for equal height rows 
+* User profile page title fix 
+* Event single template update for no times 
+* Improved widget caching 
+* Translation updates 
+
+### 4.21.3 - 18 Sep 2016 ###
+* Fix to category search box buttons 
+* Translation updates 
+
 ### 4.21.2 - 17 Sep 2016 ###
 * Fix to search box button (tommarshall)
 

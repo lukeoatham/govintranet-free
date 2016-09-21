@@ -118,11 +118,13 @@ endif;
 ****************************************/	
 
 function govintranet_version_check() {
-	if ( get_transient("govintranet_update_check") ) return;
-	set_transient("govintranet_update_check", "nextdue", 60 * 60 * 12);
+	
+	//if ( get_transient("govintranet_update_check") ) return;
+	//set_transient("govintranet_update_check", "nextdue", 60 * 60 * 12);
 	$my_theme = wp_get_theme();
 	$theme_version = $my_theme->get('Version');
 	$database_version = get_option("govintranet_db_version");
+	if ( $theme_version == $database_version ) return;
 	if ( !$database_version ):
 		add_option("govintranet_db_version", "1.0");
 		$database_version = "1.0";
@@ -328,17 +330,17 @@ function govintranet_filter_wp_title( $title, $separator ) {
 	}
 	global $wp_query;
 	$view = $wp_query->get_queried_object();
-	if (isset($view) && isset($view->taxonomy) ) if ( $view->taxonomy == "a-to-z" ) {
-		$title = _x("Letter","alphabet","govintranet") .  " " . $title ;
-	}
-	else if (isset($view) && $view->taxonomy == "category") {
-		$title.= " " . __("tasks and guides category","govintranet");
-	}
-	else if (isset($view) && $view->taxonomy ) {
-		return $title;
-	}
-	else if ($post->post_type == "task"  ) {
-
+	if (isset($view) && isset($view->taxonomy) ) {
+		if ( $view->taxonomy == "a-to-z" ) {
+			$title = _x("Letter","alphabet","govintranet") .  " " . $title ;
+		} elseif (isset($view) && $view->taxonomy == "category") {
+			$title.= " " . __("tasks and guides category","govintranet");
+		} elseif (isset($view) && $view->taxonomy == "post_tag") {
+			$title.= " - " . __("tag","govintranet");
+		} elseif (isset($view) && $view->taxonomy ) {
+			return $title;
+		}
+	} elseif ($post->post_type == "task"  ) {
 		$taskparent=$post->post_parent;
 		$title_context='';
 		if ($taskparent){
@@ -346,43 +348,36 @@ function govintranet_filter_wp_title( $title, $separator ) {
 			$taskparent = get_post($parent_guide_id);
 			$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
 		}			
-	
 		$title .= $title_context. " - " . __('tasks and guides','govintranet')  ;
-	}
-	else if ($post->post_type == "project"  ) {
+	} elseif ($post->post_type == "project"  ) {
 		$title .= " - " . __('project','govintranet') ;
-	}
-	else if ($post->post_type == "vacancy"  ) {
+	} elseif ($post->post_type == "vacancy"  ) {
 		$title .= " - " . __('job vacancies','govintranet') ;
-	}
-	else if ($post->post_type == "event"  ) {
+	} elseif ($post->post_type == "event"  ) {
 		$title .= " - " . __('events','govintranet') ;
-	}
-	else if ($post->post_type == "jargon-buster"  ) {
+	} elseif ($post->post_type == "jargon-buster"  ) {
 		$title .= " - " . __('jargon buster','govintranet') ;
-	}
-	else if ($post->post_type == "forums"  ) {
+	} elseif ($post->post_type == "forums"  ) {
 		$title .= " - " . __('forums','govintranet') ;
-	}
-	else if ($post->post_type == "topics"  ) {
+	} elseif ($post->post_type == "topics"  ) {
 		$title .= " - " . __('forum topics','govintranet') ;
-	}
-	else if ($post->post_type == "replies"  ) {
+	} elseif ($post->post_type == "replies"  ) {
 		$title .= " - " . __('forum replies','govintranet') ;
-	}
-	else if ($post->post_type == "news"  ) {
+	} elseif ($post->post_type == "news"  ) {
 		$title .= " - " . __('news','govintranet') ;
-	}
-	else if ($post->post_type == "news-update"  ) {
+	} elseif ($post->post_type == "news-update"  ) {
 		$title .= " - " . __('news update','govintranet') ;
-	}
-	else if ($post->post_type == "blog"  ) {
-		$title .= " - " . __('blog','govintranet') ;
-	}
-	else if (!$post->post_type  ) {
-		global $post;
-		$u = $post->post_title;
-		$title .= $u." - " . __('staff profile','govintranet') ;
+	} elseif ($post->post_type == "blog"  ) {
+		$title .= " - " . __('blog post','govintranet') ;
+	} elseif ( function_exists("bbp_is_single_user") ) {
+		if ( bbp_is_single_user() ) {
+			if ( !bbp_is_user_home() ){
+				$u = $post->post_title;
+				$title .= $u." - " . __('staff profile','govintranet') ;
+			} else {
+				$title .= __('My profile','govintranet') ;
+			}
+		}
 	}
 	// If we have a site description and we're on the home/front page, add the description:
 	$site_description = get_bloginfo( 'description', 'display' );
@@ -1548,11 +1543,12 @@ function cptui_register_my_cpt_news_update() {
 						'id' => '',
 					),
 					'choices' => array (
-						'Revert to draft status' => 'Revert to draft status',
-						'Move to trash' => 'Move to trash',
+						'Revert to draft status' => __('Revert to draft status','govintranet'),
+						'Move to trash' => __('Bin it','govintranet'),
+						'Change tax' => __('Change type','govintranet'),
 					),
 					'default_value' => array (
-						'Revert to draft status' => 'Revert to draft status',
+						'Revert to draft status' => __('Revert to draft status','govintranet'),
 					),
 					'allow_null' => 0,
 					'multiple' => 0,
@@ -1562,6 +1558,41 @@ function cptui_register_my_cpt_news_update() {
 					'disabled' => 0,
 					'readonly' => 0,
 				),
+				array (
+					'key' => 'field_57dddffb628d1',
+					'label' => 'News update type',
+					'name' => 'news_update_expiry_type',
+					'type' => 'taxonomy',
+					'instructions' => __('Leave blank to remove all types','govintranet'),
+					'required' => 0,
+					'conditional_logic' => array (
+						array (
+							array (
+								'field' => 'field_558c8496d39b4',
+								'operator' => '==',
+								'value' => 'Change tax',
+							),
+							array (
+								'field' => 'field_558c8496c4f35',
+								'operator' => '==',
+								'value' => '1',
+							),
+						),
+					),
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'taxonomy' => 'news-update-type',
+					'field_type' => 'select',
+					'allow_null' => 1,
+					'add_term' => 0,
+					'save_terms' => 0,
+					'load_terms' => 0,
+					'return_format' => 'id',
+					'multiple' => 0,
+				),				
 			),
 			'location' => array (
 				array (
@@ -2737,7 +2768,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Search placeholder','govintranet'),
 				'name' => 'search_placeholder',
 				'type' => 'text',
-				'instructions' => __('Enter phrases separated by || to use as a nudge in the search box. Phrases will appear at random with the first phrase appearing most frequently.','govintranet'),
+				'instructions' => __('Enter phrases separated by || to use as a nudge in the search box. Phrases will appear at random with the first phrase appearing most frequent. Example: Search the intranet || e.g. book a meeting room || Search guides, events, people','govintranet'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array (
@@ -2746,7 +2777,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'id' => '',
 				),
 				'default_value' => '',
-				'placeholder' => __('Search the intranet, Search the intranet e.g. book a meeting room, Search for anything','govintranet'),
+				'placeholder' => 'Search',
 				'prepend' => '',
 				'append' => '',
 				'maxlength' => '',
@@ -4794,12 +4825,13 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 				),
 				'choices' => array (
-					'Revert to draft status' => 'Revert to draft status',
-					'Change to regular news' => 'Change to regular news',
-					'Move to trash' => 'Move to trash',
+					'Revert to draft status' => __('Revert to draft status','govintranet'),
+					'Change to regular news' => __('Change to regular news','govintranet'),
+					'Move to trash' => __('Bin it','govintranet'),
+					'Change tax' => __('Change news type','govintranet')
 				),
 				'default_value' => array (
-					'Revert to draft status' => 'Revert to draft status',
+					'Revert to draft status' => __('Revert to draft status','govintranet'),
 				),
 				'allow_null' => 0,
 				'multiple' => 0,
@@ -4809,6 +4841,42 @@ if( function_exists('acf_add_local_field_group') ):
 				'disabled' => 0,
 				'readonly' => 0,
 			),
+			array (
+				'key' => 'field_57dddffb628d1a',
+				'label' => __('News type','govintranet'),
+				'name' => 'news_expiry_type',
+				'type' => 'taxonomy',
+				'instructions' => __('Leave blank to remove all types','govintranet'),
+				'required' => 0,
+				'conditional_logic' => array (
+					array (
+						array (
+							'field' => 'field_536ec0ad59dd8',
+							'operator' => '==',
+							'value' => 'Change tax',
+						),
+						array (
+							'field' => 'field_536ec2de62b52',
+							'operator' => '==',
+							'value' => '1',
+						),
+
+					),
+				),
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'taxonomy' => 'news-type',
+				'field_type' => 'select',
+				'allow_null' => 1,
+				'add_term' => 0,
+				'save_terms' => 0,
+				'load_terms' => 0,
+				'return_format' => 'id',
+				'multiple' => 0,
+			),				
 		),
 		'location' => array (
 			array (

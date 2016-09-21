@@ -19,6 +19,8 @@
 
 .ht_tubeline {
 	border-bottom: none;
+	min-height: 35px;
+	padding-left: 4px;
 }
 
 .ht_tubeline.GoodService {
@@ -98,3 +100,7 @@
 	background: #70c3ce;
 }
 
+.ht_tubeline90 {
+	color: #ffffff;
+	background: #6c0;
+}

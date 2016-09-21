@@ -1,7 +1,12 @@
 <?php
 /* Template name: About page */
 					
-get_header(); ?>
+get_header(); 
+
+wp_register_script( 'match_heights', get_stylesheet_directory_uri() . "/js/jquery.matchHeight-min.js");
+wp_enqueue_script( 'match_heights' );
+
+?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	
@@ -39,12 +44,12 @@ get_header(); ?>
 			}
 			$excerpt = str_replace('[bbp-forum-index]', '', $excerpt);
 			if ( get_post_meta($id, 'ht_about_restrict', true)):
-				echo "<div class='col-lg-4 col-md-6 col-sm-6 white'>";
+				echo "<div class='col-lg-4 col-md-4 col-sm-6 white'>";
 			else:
-				echo "<div class='col-lg-3 col-md-6 col-sm-6 white'>";
+				echo "<div class='col-lg-3 col-md-4 col-sm-6 white'>";
 			endif;
 			echo "
-				<div class='category-block'>
+				<div class='category-block match-height'>
 					<h2><a href='".get_permalink($c->ID)."'>".govintranetpress_custom_title($c->post_title)."</a></h2>
 					<p>".$excerpt."</p>
 				</div>
@@ -54,6 +59,12 @@ get_header(); ?>
 		echo '</div>'; ?>
 
 	</div>
-
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	
+	jQuery('.match-height').matchHeight();
+	
+}); 
+</script>
 <?php endwhile; 
 	 get_footer(); ?>

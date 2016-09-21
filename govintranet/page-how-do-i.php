@@ -119,16 +119,16 @@ get_header();
 					else:
 						$taghtml =  wp_tag_cloud(array('echo'=>false));
 					endif;
-					set_transient("ht_how_do_i_tags", $taghtml, 60*15);
+					set_transient("ht_how_do_i_tags", $taghtml."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60*15);
 				endif;
 				if ($taghtml): ?>
-				<div style="text-align:middle; clear:both;"  class="widget-box browsetags">
-				<h3 class="widget-title"><?php _e('Browse by tag','govintranet'); ?></h3>
-				<div class="tagcloud">
-				 <?php	echo $taghtml; ?>
-				</div>
-				</div>
-				<?php
+					<div style="text-align:middle; clear:both;"  class="widget-box browsetags">
+					<h3 class="widget-title"><?php _e('Browse by tag','govintranet'); ?></h3>
+					<div class="tagcloud">
+					<?php echo $taghtml; ?>
+					</div>
+					</div>
+					<?php
 				endif;
 				?>
 		</div>

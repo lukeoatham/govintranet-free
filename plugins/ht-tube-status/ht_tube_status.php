@@ -89,7 +89,7 @@ class htTubeStatus extends WP_Widget {
 					//if problems
 					if ($linestatusDetails[$counter] != ""):
 						$output[]= "<div class='col-lg-6 col-md-12 col-sm-6 ht_tubestatus ".$linestatusClass[$counter].$last."'>";
-						$output[]= '<a data-toggle="collapse" data-parent="#ht_tube_status_widget" href="#collapse'.$counter.'">'.$linestatusDesc[$counter]."</a>";
+						$output[]= '<a data-toggle="collapse" data-parent="#ht_tube_status_widget" href="#collapse'.$counter.'">'.$linestatusDesc[$counter].'<span class="pull-right small"><span class="glyphicon glyphicon-download"></span</span></a>';
 						$output[]= "</div><div class='col-lg-12 col-md-12 col-sm-12'><p id='collapse".$counter."' class='collapse out'>".$linestatusDetails[$counter]."</p></div>";
 					else: 
 					//if good service

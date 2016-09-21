@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.4
+Version: 1.6
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -18,7 +18,7 @@ class htNewsUpdates extends WP_Widget {
 			array( 'description' => __( 'News Updates widget' , 'govintranet') )
 		);   
 		
-	if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
+		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
 			'key' => 'group_558c858e438b9',
 			'title' => _x('Update types','Categories of news updates','govintranet'),
 			'fields' => array (
@@ -115,7 +115,7 @@ class htNewsUpdates extends WP_Widget {
         $moretitle = $instance['moretitle'];
         $items = intval($instance['items']);
 		$cache = intval($instance['cache']);
-		
+
 		//process expired news
 		
 		$tzone = get_option('timezone_string'); 
@@ -123,15 +123,15 @@ class htNewsUpdates extends WP_Widget {
 		$tdate= date('Ymd');
 
 		$removenews = get_transient('cached_removenewsupdates'); 
-		if (!$removenews || !is_array($removenews)){
+		if (!$removenews ){
 			set_transient('cached_removenewsupdates',"wait",60*3); 		
 			$oldnews = query_posts(array(
-			'post_type'=>'news-update',
-			'meta_query'=>array(array(
-			'key'=>'news_update_expiry_date',
-			'value'=>$tdate,
-			'compare'=>'<='
-			))));
+				'post_type'=>'news-update',
+				'meta_query'=>array(array(
+				'key'=>'news_update_expiry_date',
+				'value'=>$tdate,
+				'compare'=>'<='
+				))));
 			if ( count($oldnews) > 0 ){
 				foreach ($oldnews as $old) {
 					if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'news_update_expiry_date',true)) )): // if expiry today, check the time
@@ -149,9 +149,7 @@ class htNewsUpdates extends WP_Widget {
 						  delete_post_meta($old->ID, 'news_update_expiry_action');
 						  delete_post_meta($old->ID, 'news_auto_expiry');
 						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
-					}	
-					if ($expiryaction=='Move to trash'){
+					} elseif ($expiryaction=='Move to trash'){
 						  $my_post = array();
 						  $my_post['ID'] = $old->ID;
 						  $my_post['post_status'] = 'trash';
@@ -161,10 +159,20 @@ class htNewsUpdates extends WP_Widget {
 						  delete_post_meta($old->ID, 'news_auto_expiry');
 						  wp_update_post( $my_post );
 						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
-					}	
+					} elseif ($expiryaction=='Change tax'){
+						$new_tax = get_post_meta($old->ID,'news_update_expiry_type',true); 
+						$new_tax = intval($new_tax);
+						wp_delete_object_term_relationships( $old->ID, 'news-update-type' );
+						if ( $new_tax ) wp_set_object_terms( $old->ID, $new_tax, 'news-update-type', false );
+						delete_post_meta($old->ID, 'news_update_expiry_date');
+						delete_post_meta($old->ID, 'news_update_expiry_time');
+						delete_post_meta($old->ID, 'news_update_expiry_action');
+						delete_post_meta($old->ID, 'news_update_auto_expiry');
+						delete_post_meta($old->ID, 'news_update_expiry_type');
+						if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
+					}		
 				}
-			wp_reset_query();
+				wp_reset_query();
 			}
 		}
 
@@ -181,43 +189,41 @@ class htNewsUpdates extends WP_Widget {
 
 		$custom_css = "";
 		if ( $border_colour ):
-			$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: ".$border_height."px solid ".$border_colour." ; }\n";
+			$custom_css.= ".need-to-know-container.".$widget_id." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: ".$border_height."px solid ".$border_colour." ; }\n";
 		else:
-			$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
+			$custom_css.= ".need-to-know-container.".$widget_id." { background-color: ".$background_colour."; color: ".$text_colour."; padding: 1em; margin-top: 16px; border-top: 5px solid rgba(0, 0, 0, 0.45); }\n";
 		endif;
 
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
 
-		$custom_css.= "#content .need-to-know-container.".sanitize_file_name($title)." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
+		$custom_css.= "#content .need-to-know-container.".$widget_id." h3 { background-color: ".$background_colour."; color: ".$text_colour."; }\n";
 
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." a { color: ".$text_colour."; }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." a { color: ".$text_colour."; }\n";
 
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block { background: ".$background_colour."; }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." .category-block { background: ".$background_colour."; }\n";
 
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." .category-block h3 { padding: 0 0 10px 0; margin-top: 0; border: none ; color: ".$text_colour."; }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
 
-		$custom_css.= "#content .need-to-know-container.".sanitize_file_name($title)." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .category-block p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold; border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+		$custom_css.= "#content .need-to-know-container.".$widget_id." .category-block ul li { border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." .category-block p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold; border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
 
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box h3 { padding: 0; margin: 0 0 10px 0; border: none ; color: ".$text_colour."; }\n";
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold;  }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." .widget-box h3 { padding: 0; margin: 0 0 10px 0; border: none ; color: ".$text_colour."; }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." .widget-box p.more-updates { margin-bottom: 0 !important; padding-top: 10px; font-weight: bold;  }\n";
 
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box ul.need li a:visited { color: ".$text_colour."; }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." .widget-box ul.need li a:visited { color: ".$text_colour."; }\n";
 
-		$custom_css.= ".need-to-know-container.".sanitize_file_name($title)." .widget-box ul.need li {  border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
+		$custom_css.= ".need-to-know-container.".$widget_id." .widget-box ul.need li {  border-top: 1px solid rgba(255, 255, 255, 0.45); }\n";
 
 		wp_enqueue_style( 'govintranet_news_update_styles', plugins_url("/ht-news-updates/ht_news_updates.css"));
 		wp_add_inline_style('govintranet_news_update_styles' , $custom_css);
 
-		$newstransient = substr( 'nu_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
-		$html = get_transient( $newstransient );
+		$newstransient = $widget_id;
+		$html = "";
+		if ( $cache ) $html = get_transient( $newstransient );
 
 		if ( !$html ){
 	
-			$html = "";
-		
-			//display need to know stories
 			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_widget_include_type" ;  
 			$news_update_types = get_option($acf_key); ;
 	
@@ -249,7 +255,7 @@ class htNewsUpdates extends WP_Widget {
 			if ($news->post_count!=0){
 				
 				if ( $title ) {
-					$html.= "<div class='need-to-know-container ".sanitize_file_name($title)."'>";
+					$html.= "<div class='need-to-know-container news-updates-widget ".$widget_id."'>";
 					$html.= $before_widget; 
 					if ( $title == "no_title_" . $id ) $title = "";
 					if ( $title ) $html.= $before_title . $title . $after_title;
@@ -309,8 +315,22 @@ class htNewsUpdates extends WP_Widget {
 				$html.= "</div>";
 			}
 			
+			if ( $cache > 0 ){
+				$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
+				global $wpdb;
+			    // Try to lock.
+			    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+			 
+			    if ( ! $lock_result ) {
+			        echo $html;
+		            return;
+			    }
+			 
+				set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period 
+				delete_option( $lock_name );
+			}				
 			wp_reset_query();		
-			if ( $cache > 0 ) set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period									
+						
 		}
 		
 		echo $html;

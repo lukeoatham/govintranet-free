@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: http://www.helpfultechnology.com
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 
 */
@@ -124,7 +124,7 @@ class htFeatureBlogposts extends WP_Widget {
 		$alreadydone = array();
 		$titledone = 0;
 
-		$blogstransient = substr( 'cached_blogs_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
+		$blogstransient = $widget_id;
 		$html = "";
 		if ( $cache > 0 ) $html = get_transient( $blogstransient );
 
@@ -261,7 +261,21 @@ class htFeatureBlogposts extends WP_Widget {
 				$html.= $after_widget;
 			}
 			wp_reset_query();								
-			if ( $cache > 0 ) set_transient($blogstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
+			if ( $cache > 0 ) {
+				$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
+				global $wpdb;
+			    // Try to lock.
+			    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+			 
+			    if ( ! $lock_result ) {
+			        echo $html;
+		            return;
+			    }
+			 
+				set_transient($blogstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
+				delete_option( $lock_name );
+			}
+
 		}
 		
 		echo $html;

@@ -2,6 +2,7 @@ a.calendarlink:hover { text-decoration: none; }
 a.calendarlink:hover .calbox .caldate { background: #eee; }
 a.calendarlink:hover .calbox .calmonth { background: #eee; }
 a.calendarlink:hover .calbox  { background: #eee; }
+.media.eventslisting { margin-bottom: -0.5em; }
 .eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
 .eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
 .eventslisting p { margin-bottom: 0 !important; }

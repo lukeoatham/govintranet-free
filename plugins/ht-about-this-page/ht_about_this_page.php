@@ -34,7 +34,6 @@ class htAboutThisPage extends WP_Widget {
 		if ( is_archive() ) $showabout = false;
 		if ( is_front_page() ) $showabout = false;
 		if ( is_home() ) $showabout = false;
-						
 		if ( is_page() ):
 			$landing_pages = array(
 			"page-about.php",
@@ -42,6 +41,7 @@ class htAboutThisPage extends WP_Widget {
 			"page-newsboard.php",
 			"page-blog.php",
 			"page-doc-finder.php",
+			"template-media-atoz.php",
 			"page-event-past.php",
 			"page-event.php",
 			"page-forum-simple.php",
@@ -49,6 +49,7 @@ class htAboutThisPage extends WP_Widget {
 			"page-how-do-i-alt-classic.php",
 			"page-how-do-i-alt.php",
 			"page-how-do-i.php",
+			"page-home.php",
 			"page-jargon-buster.php",
 			"page-news-multi.php",
 			"page-news-updates.php",
@@ -58,7 +59,7 @@ class htAboutThisPage extends WP_Widget {
 			"page-vacancies.php",
 			"search.php"
 			);
-			if ( in_array( basename(get_page_template()), $landing_pages ) ) $showabout = false;
+			if ( in_array( get_page_template_slug(), $landing_pages ) ) $showabout = false;
 		endif;
 
 		if ($showabout) {
