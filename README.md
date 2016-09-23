@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.22.1 - 23 Sep 2016 ###
+* Widget caching improvements 
+* Tag template fix 
+
 ### 4.22 - 18 Sep 2016 ###
 * Enhancements to news and news updates to allow timed taxonomy change via auto-expiry 
 * Tube status widget updates 

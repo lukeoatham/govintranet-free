@@ -110,6 +110,8 @@ class htFeatureBlogposts extends WP_Widget {
         $more = $instance['more'];
         $excerpt = $instance['excerpt'];
         $cache = intval($instance['cache']);
+		$tzone = get_option('timezone_string');
+		date_default_timezone_set($tzone);
 		$tdate=date('Y-m-d')." 00:00:00";
 		$freshness = "-".$freshness." day ";
         $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );  
@@ -201,7 +203,7 @@ class htFeatureBlogposts extends WP_Widget {
 					    'compare' => "IN",
 				    ));
 	
-			$blogs =new WP_Query($cquery);
+			$blogs = new WP_Query($cquery);
 			if ($blogs->post_count!=0 && !$titledone ) {
 				if ( $title ) {
 					$html.= $before_widget; 
@@ -230,7 +232,7 @@ class htFeatureBlogposts extends WP_Widget {
 						$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
 						$html.= "<a class='pull-left' href='".get_permalink()."'>{$image_uri}</a>";		
 					} else {
-						$html.= "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";				}
+						$html.= "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";						}
 				}
 				$html.= "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 				$html.= "<br><span class='news_date'>".$edate." by ";
@@ -239,7 +241,6 @@ class htFeatureBlogposts extends WP_Widget {
 				if ( get_comments_number() ){
 					$html.= " <a href='".$thisURL."#comments'>";
 					$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
-
 					$html.= "</a>";
 				}
 				if ($excerpt == 'on') $html.=wpautop(get_the_excerpt());
@@ -256,26 +257,14 @@ class htFeatureBlogposts extends WP_Widget {
 				endif;
 				$html.= '<p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 			} 
-			if ($blogs->have_posts() || $num_top_slots > 0 ){
+			if ( $blogs->have_posts() || $num_top_slots > 0 ){
 				$html.= '</div>';
 				$html.= $after_widget;
 			}
-			wp_reset_query();								
 			if ( $cache > 0 ) {
-				$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
-				global $wpdb;
-			    // Try to lock.
-			    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
-			 
-			    if ( ! $lock_result ) {
-			        echo $html;
-		            return;
-			    }
-			 
 				set_transient($blogstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
-				delete_option( $lock_name );
 			}
-
+			wp_reset_query();								
 		}
 		
 		echo $html;

@@ -537,18 +537,7 @@ class htFeatureNews extends WP_Widget {
 				$html.= "</div>";
 				$html.= $after_widget; 
 				if ( $cache > 0 ) {
-					$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
-					global $wpdb;
-				    // Try to lock.
-				    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
-				 
-				    if ( ! $lock_result ) {
-				        if ( !$blank ) echo $html;
-			            return;
-				    }
-				 
 					set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
-					delete_option( $lock_name );
 				}
 			} 
 		if ( !$blank ) echo $html;

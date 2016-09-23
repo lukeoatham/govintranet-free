@@ -351,11 +351,13 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 			endif;
 			echo $html;
 			
-			add_filter('pre_get_posts', 'ht_filter_search');
-			wp_reset_query();
 			?>
 		</div> <!--end of second column-->
 			
-<?php endwhile; // end of the loop. ?>
+<?php endwhile; // end of the loop. 
 
-<?php get_footer(); ?>
+add_filter('pre_get_posts', 'ht_filter_search');
+
+wp_reset_query();
+
+get_footer(); ?>

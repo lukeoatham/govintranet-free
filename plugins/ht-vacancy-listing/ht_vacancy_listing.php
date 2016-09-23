@@ -158,18 +158,7 @@ class htVacancyListing extends WP_Widget {
 				$output.= $after_widget;
 			}
 			if ( $cacheperiod ) {
-				$lock_name = "widget_" . $this->id_base . "_" . $this->number . ".lock" ;  
-				global $wpdb;
-			    // Try to lock.
-			    $lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
-			 
-			    if ( ! $lock_result ) {
-			        echo $output;
-		            return;
-			    }
-			 
 				set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default		
-				delete_option( $lock_name );
 			}
 			
 		endif;

@@ -109,7 +109,7 @@ get_header();
 		 			'orderby'=>'name',
 		 			'order'=>'ASC',
 		 			)); 
-				elseif ($pt =='event'): // tasks sorted alphabetically
+				elseif ($pt =='event'): // tasks sorted by start date
 					$tagged = new WP_Query(array(
 		 			'post_type'=>array("event"),
 		 			'post__in'=>$carray,
@@ -226,7 +226,7 @@ get_header();
 					endif;
 	
 					$terms = "";
-					foreach($post_cat as $cat){
+					if ( $post_cat ) foreach($post_cat as $cat){
 						if ($cat->term_id != 1 ){
 							$terms.= "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name."</a></span>&nbsp;";							
 						}
@@ -241,7 +241,7 @@ get_header();
 					if (($post_type=="Task")){
 						echo "<p>";
 						echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
-						foreach($post_cat as $cat){
+						if ( $post_cat ) foreach($post_cat as $cat){
 							if ($cat->term_id != 1 ){
 								echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 								echo "</a></span>&nbsp;";							
