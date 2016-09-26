@@ -38,6 +38,11 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.22.2 - 26 Sep 2016 ###
+* How do I? template fixes 
+* Bug fix for excerpts in loop 
+* Core WordPress image styles added 
+
 ### 4.22.1 - 23 Sep 2016 ###
 * Widget caching improvements 
 * Tag template fix 

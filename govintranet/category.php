@@ -176,7 +176,7 @@ if ( have_posts() )
 				}
 			}
 			?>
-			</small></h3>
+			</h3>
 
 			<?php
 			the_excerpt(); 
@@ -214,7 +214,7 @@ if ( have_posts() )
 				  			$desc = '';
 					  		if ($themeid == 1) continue;
 					  		$active = "";
-					  		if ( $taxonomy->term_id == $catid ) $active = " class='active'";
+					  		if ( $taxonomy->term_id == $catid ) $active = " class='active' ";
 							echo "<li><a";
 							echo $active;
 							echo " href='".get_term_link($taxonomy->slug, 'category')."'><span class='brd". $taxonomy->term_id ."'>&nbsp;</span>&nbsp;".$taxonomy->name."</a>".$desc."</li>";
@@ -238,7 +238,7 @@ if ( have_posts() )
 			foreach($post_cat as $cat){
 				if ( $cat->term_id > 1 && $cat->name ){
 					echo "<li><a ";
-					if ($cat->term_id == $catid || $cat->term_id == $catparentid) echo " class='active'";
+					if ($cat->term_id == $catid || $cat->term_id == $catparentid) echo " class='active' ";
 					echo "href='" . get_term_link($cat->slug, 'category') . "'><span class='brd" . $cat->term_id . "'></span>&nbsp;";
 					if ($cat->term_id == $catid) echo "<strong>";
 					echo $cat->name;

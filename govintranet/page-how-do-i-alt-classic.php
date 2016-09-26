@@ -73,8 +73,7 @@ get_header(); ?>
 		  		    $catcount++;
 		  		    if ($catcount==4) $catcount=1;
 		  		    if ($catcount==1) echo "<div class='row'>";
-		  			echo "
-					<div class='col-sm-4 white";
+		  			echo "<div class='col-sm-4 white";
 					if ($catcount==3){
 						echo ' last';
 					} 
@@ -98,11 +97,11 @@ get_header(); ?>
 					echo "<div class='row'>";
 				}						
 			}  
-			if ($catcount == 3) echo "</div><!- end 3 -->";
-			if ($catcount == 2) echo "</div><!- end 2 -->";
-			if ($catcount < 2) echo "</div><!- end 1 -->";
+			if ($catcount == 3) echo "</div><!-- end 3 -->";
+			if ($catcount == 2) echo "</div><!-- end 2 -->";
+			if ($catcount < 2) echo "</div><!-- end 1 -->";
 		
-			<?php 
+
 			$taghtml = "";
 			$taghtml = get_transient("ht_how_do_i_tags");
 			if ( !$taghtml ):

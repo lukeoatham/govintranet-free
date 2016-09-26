@@ -97,7 +97,7 @@ get_header();
 					  			}
 					  			$catcount++;
 								if ($catcount > round(count($terms)/2,0,PHP_ROUND_HALF_DOWN) && count($terms) > 3 ) {
-									echo "</ul></div></div><div class='row'><div class='col-lg-6  col-md-6 col-sm-6'><ul class='howdoi'>";
+									echo "</ul></div></div><div class='col-lg-6  col-md-6 col-sm-6'><div class='row'><ul class='howdoi'>";
 									$catcount=0;
 								}
 								echo "
@@ -132,7 +132,7 @@ get_header();
 				endif;
 				?>
 		</div>
-	</div>
+
 <?php endwhile; ?>
 
 <?php get_footer(); ?>

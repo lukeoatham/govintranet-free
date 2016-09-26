@@ -420,8 +420,8 @@ function govintranet_new_excerpt($text)
 		$text = strip_shortcodes( $text );
 		$text = apply_filters('the_content', $text);
 		$text = str_replace(']]>', ']]>', $text);
-		$text = strip_tags($text);
 		$text = nl2br($text);
+		$text = strip_tags($text);
 		$excerpt_length = apply_filters('excerpt_length', 30);
 		$words = explode(' ', $text, $excerpt_length + 1);
 		if (count($words) > $excerpt_length) {

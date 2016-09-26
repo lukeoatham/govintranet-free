@@ -117,7 +117,7 @@ get_header(); ?>
 		<?php if (is_active_sidebar('tasklanding-widget-area')) dynamic_sidebar('tasklanding-widget-area'); ?>
 	</div>
 
-</div>
+
 
 <?php endwhile; ?>
 
