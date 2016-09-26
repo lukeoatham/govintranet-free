@@ -112,7 +112,7 @@ $parentpageclass.=" custom-background";
 
 	<div id='topstrip'>
 				
-		<nav class="navbar navbar-inverse" role="navigation">
+		<nav class="navbar navbar-inverse">
 		  <!-- Brand and toggle get grouped for better mobile display -->
 		  <div class="navbar-header">
 		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">

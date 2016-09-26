@@ -295,48 +295,6 @@ Template Name: Newsboard
 							echo "</div>";
 						endif;
 				        if ( get_sub_field('newsboard_tab_content_type') == 4 ) :
-							$output.= "
-						    <style>
-							.calbox .cal-dow {
-								background: ".get_theme_mod('header_background', '0b2d49').";
-								color: #".get_header_textcolor().";
-								font-size: 16px;
-							}
-							.calbox { 
-								width: 4.4em;
-								border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-								text-align: center;
-								border-radius: 3px;
-								background: #fff;
-								box-shadow: 0 2px 3px rgba(0,0,0,.2);
-								
-							}
-							.calbox .caldate {
-								font-size: 32px;
-								padding: 7px 17px;
-								margin: 0;
-								font-weight: 800;
-							}
-							.calbox .calmonth {
-								color: ".get_theme_mod('header_background', '0b2d49').";
-								text-transform: uppercase;
-								font-weight: 800;
-								font-size: 22px;
-								line-height: 24px;
-								padding-bottom: 5px;
-							}
-							a.calendarlink:hover { text-decoration: none; }
-							a.calendarlink:hover .calbox .caldate { background: #eee; }
-							a.calendarlink:hover .calbox .calmonth { background: #eee; }
-							a.calendarlink:hover .calbox  { background: #eee; }
-							.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
-							.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
-							.eventslisting p { margin-bottom: 0 !important; }
-							
-							.media.newsboard-events h3.media-heading { padding-bottom: 0; }
-						    </style>
-						    ";
-							echo $output;
 							$tax_terms = get_sub_field('newsboard_event_types');
 							echo '<div role="tabpanel" class="tab-pane fade'.$active.'" id="ntab-'.$rowcount.'" aria-labelledBy="newsboard-tab-'.$rowcount.'">';
 							$tzone = get_option('timezone_string');
@@ -425,6 +383,52 @@ Template Name: Newsboard
 <?php 
 endwhile; 
 endif; 
+
+function ht_newsboard_head(){
+	$custom_css = "
+	.calbox .cal-dow {
+		background: ".get_theme_mod('header_background', '0b2d49').";
+		color: #".get_header_textcolor().";
+		font-size: 16px;
+	}
+	.calbox { 
+		width: 4.4em;
+		border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+		text-align: center;
+		border-radius: 3px;
+		background: #fff;
+		box-shadow: 0 2px 3px rgba(0,0,0,.2);
+		
+	}
+	.calbox .caldate {
+		font-size: 32px;
+		padding: 7px 17px;
+		margin: 0;
+		font-weight: 800;
+	}
+	.calbox .calmonth {
+		color: ".get_theme_mod('header_background', '0b2d49').";
+		text-transform: uppercase;
+		font-weight: 800;
+		font-size: 22px;
+		line-height: 24px;
+		padding-bottom: 5px;
+	}
+	a.calendarlink:hover { text-decoration: none; }
+	a.calendarlink:hover .calbox .caldate { background: #eee; }
+	a.calendarlink:hover .calbox .calmonth { background: #eee; }
+	a.calendarlink:hover .calbox  { background: #eee; }
+	.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+	.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
+	.eventslisting p { margin-bottom: 0 !important; }
+	
+	.media.newsboard-events h3.media-heading { padding-bottom: 0; }
+    ";
+	wp_enqueue_style( 'ht_newsboard_head', get_stylesheet_directory_uri("/newsboard/style-newsboard.css"));
+	wp_add_inline_style('ht_newsboard_head' , $custom_css);
+
+}
+add_action('wp_head','ht_newsboard_head',4);
 ?> 
 
 <?php get_footer(); ?>

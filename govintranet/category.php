@@ -59,7 +59,7 @@ if ( have_posts() )
 	
 		<?php 
 		echo wpautop($catdesc); ?>
-		<form class="form-horizontal" role="form" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
+		<form class="form-horizontal" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
 			<div class="input-group input-md">
 				<label for="sbc-s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
 				<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="<?php _e('How do I...','govintranet'); ?>" />

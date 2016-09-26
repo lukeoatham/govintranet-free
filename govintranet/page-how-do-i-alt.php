@@ -19,7 +19,7 @@ get_header(); ?>
 	<h1><?php the_title(); ?></h1>
 	<?php  the_content(); ?>
 	<div class="well well-sm">
-		<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
+		<form class="form-horizontal" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
 			<label for="sbc-s" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>
 			<div class="input-group">
 				<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php _e('Search' , 'govintranet'); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />

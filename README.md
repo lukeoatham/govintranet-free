@@ -38,6 +38,11 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.23 - 27 Sep 2016 ###
+* HTML validation updates to various templates 
+* Inline styles moved to head in event, vacancy and intravert widgets 
+* Update to About this page widget for 404 page 
+
 ### 4.22.2/3 - 26 Sep 2016 ###
 * How do I? template fixes 
 * Bug fix for excerpts in loop 

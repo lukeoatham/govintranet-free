@@ -51,7 +51,7 @@ $mainid=$post->ID;
 		endif;
 	}
 	
-	echo " " . $addToCalendar . "</p>";
+	echo "</p> " . $addToCalendar . "";
 
 	$locationname = get_post_meta($post->ID,'event_location',true);
 	if ( $locationname ):

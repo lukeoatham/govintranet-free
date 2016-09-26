@@ -32,6 +32,7 @@ class htAboutThisPage extends WP_Widget {
 		if ( is_singular(array('forum','topic','reply'))) $showabout = false;
 		if ( is_search() ) $showabout = false;
 		if ( is_archive() ) $showabout = false;
+		if ( is_404() ) $showabout = false;
 		if ( is_front_page() ) $showabout = false;
 		if ( is_home() ) $showabout = false;
 		if ( is_page() ):

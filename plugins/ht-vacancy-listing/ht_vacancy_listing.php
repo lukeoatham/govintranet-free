@@ -26,30 +26,6 @@ class htVacancyListing extends WP_Widget {
         $days = intval($instance['days']);
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
-		$custom_css = "
-		.vacancybox .vacancy-dow {
-			background: ".get_theme_mod('header_background', '0b2d49').";
-			color: #".get_header_textcolor().";
-			font-size: 16px;
-		}
-		.vacancybox { 
-			width: 3.5em; 
-			border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-			text-align: center;
-			border-radius: 3px;
-			background: #fff;
-			box-shadow: 0 2px 3px rgba(0,0,0,.2);
-		}
-		.vacancybox .vacancy-month {
-			color: ".get_theme_mod('header_background', '0b2d49').";
-			text-transform: uppercase;
-			font-weight: 800;
-			font-size: 18px;
-			line-height: 20px;
-		}
-	    ";	        
-		wp_enqueue_style( 'govintranet_vacancy_styles', plugins_url("/ht-vacancy-listing/ht_vacancy_listing.css"));
-		wp_add_inline_style('govintranet_vacancy_styles' , $custom_css);
 		$gatransient = $widget_id;
 		$output = "";
 		if ( $cacheperiod > 0 ) $output = get_transient( $gatransient );
@@ -200,6 +176,34 @@ class htVacancyListing extends WP_Widget {
 
 }
 
+function ht_vacancy_head(){
+	$custom_css = "
+	.vacancybox .vacancy-dow {
+		background: ".get_theme_mod('header_background', '0b2d49').";
+		color: #".get_header_textcolor().";
+		font-size: 16px;
+	}
+	.vacancybox { 
+		width: 3.5em; 
+		border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+		text-align: center;
+		border-radius: 3px;
+		background: #fff;
+		box-shadow: 0 2px 3px rgba(0,0,0,.2);
+	}
+	.vacancybox .vacancy-month {
+		color: ".get_theme_mod('header_background', '0b2d49').";
+		text-transform: uppercase;
+		font-weight: 800;
+		font-size: 18px;
+		line-height: 20px;
+	}
+    ";	        
+	wp_enqueue_style( 'govintranet_vacancy_styles', plugins_url("/ht-vacancy-listing/ht_vacancy_listing.css"));
+	wp_add_inline_style('govintranet_vacancy_styles' , $custom_css);
+}
+
+add_action('wp_head','ht_vacancy_head',4);
 add_action('widgets_init', create_function('', 'return register_widget("htVacancyListing");'));
 
 ?>

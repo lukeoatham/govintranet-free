@@ -21,7 +21,7 @@ get_header(); ?>
 
 			<div class="category-search">
 				<div class="well well-sm">
-					<form class="form-horizontal" role="form" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
+					<form class="form-horizontal" method="get" id="task-alt-search" action="<?php echo site_url('/'); ?>">
 						<div class="input-group">
 							 <label for="sbc-s" class="sr-only"><?php _e('Search for' , 'govintranet'); ?></label>
 							<input type="text" value="" name="s" id="sbc-s" class="multi-cat form-control input-md" placeholder="<?php _e('Search' , 'govintranet'); ?>" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />

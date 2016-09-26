@@ -177,5 +177,5 @@ do_action( 'bbp_template_before_user_profile' );
 	<?php } ?>
 	</div>
 	<?php do_action( 'bbp_template_after_user_profile' ); ?>
-</div>
+
 			

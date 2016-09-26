@@ -48,8 +48,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		?>
 		<!-- category search box -->
 		<div class="well">
-			<form class="form-horizontal" role="form" method="get" id="sbc-search" action="<?php echo site_url('/'); ?>">
-				<label for="cat"><?php printf( __('In %s', 'govintranet') , strtolower(get_the_title()) ) ; ?></label>
+			<form class="form-horizontal" method="get" id="sbc-search" action="<?php echo site_url('/'); ?>">
+				<label for="sbc-s"><?php printf( __('In %s', 'govintranet') , strtolower(get_the_title()) ) ; ?></label>
 				<div class="form-group input-md">
 					<input type="text" value="" name="s" id="sbc-s" class="form-control input-md" onblur="if (this.value == '') {this.value = '';}"  onfocus="if (this.value == '') {this.value = '';}" />
 				</div>

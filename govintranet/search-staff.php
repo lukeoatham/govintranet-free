@@ -51,7 +51,7 @@ get_header(); ?>
 	}
 	?>
 	<h1><?php printf( __( 'Search results for: %s', 'govintranet' ),  $sw ); ?></h1>
-	<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php echo get_permalink(get_the_id()); ?>">
+	<form class="form-horizontal" id="searchform2" name="searchform2" action="<?php echo get_permalink(get_the_id()); ?>">
 	  <div class="col-lg-12">
 		<div id="staff-search" class="well well-sm">
 			<div class="input-group">

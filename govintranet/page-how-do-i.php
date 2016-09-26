@@ -22,7 +22,7 @@ get_header();
 			<div class="well">
 				<h1><?php  the_title(); ?></h1>
 				<?php  the_content(); ?>
-				<form class="form-horizontal" role="form" method="get" id="task-search" action="<?php echo site_url('/'); ?>">
+				<form class="form-horizontal" method="get" id="task-search" action="<?php echo site_url('/'); ?>">
 					<label for="cat"><?php _e('Search in' , 'govintranet'); ?>: </label>
 					<div class="form-group input-md">
 						<select name='cat' id='cat' class='form-control input-md'>

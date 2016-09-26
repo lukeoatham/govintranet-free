@@ -19,7 +19,7 @@ if ( $placeholder != '' && strpos($placeholder, "||") ){
 	$randex = __("Search","govintranet");
 }	
 ?>
-<form class="form-horizontal" role="form" id="searchform" name="searchform" action="<?php echo site_url( '/' ); ?>">
+<form class="form-horizontal" id="searchform" name="searchform" action="<?php echo site_url( '/' ); ?>">
   <div class="notfound">
 	  <div class="input-group">
 		 <label for="s" class="sr-only"><?php echo $randex; ?></label>

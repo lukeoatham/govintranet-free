@@ -214,7 +214,7 @@ get_header(); ?>
 
 		?>
 		<div class="well well-sm search-again-wrapper-not-found">
-		<form class="form" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
+		<form class="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
 			<div class="form-group">
 		    <label for="nameSearch"><?php _e('Search again','govintranet'); ?></label>
 			<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">

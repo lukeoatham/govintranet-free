@@ -59,7 +59,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 				<div class="col-sm-12 well well-sm">
 					<div id="staff-search">
 						<div class="col-sm-8">
-							<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo "/"; } else { echo site_url( '/search-staff/' ); } ?>">
+							<form class="form-horizontal" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo "/"; } else { echo site_url( '/search-staff/' ); } ?>">
 								<div class="input-group">
 								<label for="s2" class="sr-only"><?php _e('Search staff' , 'govintranet'); ?></label>
 								<input type="text" class="form-control pull-left" placeholder="<?php _e('Name, job title, skills, team, number...' , 'govintranet'); ?>" name="<?php if ( function_exists('relevanssi_do_query') ) { echo "s"; } else { echo "q"; } ?>" id="s2">
@@ -297,7 +297,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 							if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 							if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 							if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
-							echo "</div></div></div></div></a>";
+							echo "</div></div></a></div></div>";
 							$counter++;	
 						}	
 						

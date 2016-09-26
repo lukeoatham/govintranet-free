@@ -4,7 +4,7 @@ Plugin Name: HT Intraverts
 Plugin URI: http://www.helpfultechnology.com
 Description: Displays promotional adverts using AJAX
 Author: Luke Oatham
-Version: 2.1.1
+Version: 2.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -446,19 +446,6 @@ class htIntraverts extends WP_Widget {
         );
         wp_localize_script( 'ht_intraverts', 'ht_intraverts', $params );
         
-		$border_height = get_option("options_widget_border_height", 5);
-		$border_heighta = $border_height + 2;
-		$custom_css = '
-		.ht_intraverts .widget-box a img { margin-top: -'.$border_heighta.'px; } /* border height + 2 */
-		.ht_intraverts .filter_results_skip { margin-top: -'.$border_height.'px; } /* border height */
-		';
-
-		/*
-		Load css
-		*/
-		wp_enqueue_style( 'intraverts', plugins_url("/ht-intraverts-ajax/css/ht_intraverts.css"));
-		wp_add_inline_style('intraverts' , $custom_css);
-
 		//write script for google analytics if on homepage and not set
 		$gistrackhome = get_option('options_track_homepage');
 		$gisgtc = get_option('options_google_tracking_code');
@@ -665,6 +652,22 @@ function ht_intraverts_ajax_show() {
     exit();
 }
   
+function ht_intravert_head() {
+	$border_height = get_option("options_widget_border_height", 5);
+	$border_heighta = $border_height + 2;
+	$custom_css = '
+	.ht_intraverts .widget-box a img { margin-top: -'.$border_heighta.'px; } /* border height + 2 */
+	.ht_intraverts .filter_results_skip { margin-top: -'.$border_height.'px; } /* border height */
+	';
+
+	/*
+	Load css
+	*/
+	wp_enqueue_style( 'intraverts', plugins_url("/ht-intraverts-ajax/css/ht_intraverts.css"));
+	wp_add_inline_style('intraverts' , $custom_css);
+}  
+
 add_action('widgets_init', create_function('', 'return register_widget("htIntraverts");'));
+add_action('wp_head', 'ht_intravert_head',4);
 
 ?>

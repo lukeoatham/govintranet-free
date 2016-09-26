@@ -22,7 +22,7 @@ get_header(); ?>
 			<div class="alert alert-dismissable alert-<?php echo $homecontentcolour; ?>">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					<?php	echo apply_filters('the_content', $homecontent, true);	 ?>
-				</div>
+			</div>
 		</div>	
 		<?php 
 	endif; ?>
@@ -32,11 +32,9 @@ get_header(); ?>
 	</div>
 
 	<?php 	if (is_active_sidebar('home-widget-area-hero')): ?>
-	<div id="home-hero" class="col-lg-6 col-md-6 col-sm-5">
-	<?php 	dynamic_sidebar('home-widget-area-hero'); ?>
-	<?php endif; ?>
-	<?php 	if (is_active_sidebar('home-widget-area-hero')): ?>
-	</div>
+		<div id="home-hero" class="col-lg-6 col-md-6 col-sm-5">
+		<?php 	dynamic_sidebar('home-widget-area-hero'); ?>
+		</div>
 	<?php endif; ?>
 
 	<div  id="home-col-2"  class="col-lg-3 col-md-3 col-sm-5">
@@ -73,7 +71,7 @@ get_header(); ?>
 	<?php 
 	if (is_active_sidebar('home-widget-area3t')) dynamic_sidebar('home-widget-area3t'); 
 	echo "</div>";
-	if (is_active_sidebar('home-widget-area-hero')) echo "</div>";
+	//if (is_active_sidebar('home-widget-area-hero')) echo "</div>";
 
 	if ($campaign_message) :  //Display campaign message ?>
 		<div class="clearfix"></div>

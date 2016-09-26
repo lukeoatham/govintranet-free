@@ -35,7 +35,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			<div class="col-sm-12 well well-sm">
 			<div id="staff-search">
 				<div class="col-sm-8">
-					<form class="form-horizontal" role="form" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo site_url('/'); } else { echo site_url( '/search-staff/' ); } ?>">
+					<form class="form-horizontal" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo site_url('/'); } else { echo site_url( '/search-staff/' ); } ?>">
 						<div class="input-group">
 							<label for="s2" class="sr-only"><?php _e('Search staff' , 'govintranet' ); ?></label>
 					    	<input type="text" class="form-control pull-left" placeholder="<?php _e('Name, job title, skills, team, number...' , 'govintranet' ); ?>" name="<?php if ( function_exists('relevanssi_do_query') ) { echo "s"; } else { echo "q"; } ?>" id="s2">
@@ -242,7 +242,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 }
 ?>
 
-<script lang="text/javascript">
+<script type="text/javascript">
 jQuery(document).ready(function($){
 var container = jQuery('#gridcontainer');
 container.imagesLoaded(function(){
