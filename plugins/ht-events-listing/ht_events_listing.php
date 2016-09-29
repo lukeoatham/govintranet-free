@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.4
+Version: 4.5
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -134,7 +134,7 @@ class htEventsListing extends WP_Widget {
 			
 				if ( count($events_to_show) == 0 ){
 					if ( $cacheperiod ) {
-						set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
+						set_transient($gatransient,"<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
 					}
 					return;
 				}
@@ -150,7 +150,7 @@ class htEventsListing extends WP_Widget {
 	
 			if ( count($events_to_show) == 0 ){
 				if ( $cacheperiod ) {
-					set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
+					set_transient($gatransient,"<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
 				}
 				return;
 			}
