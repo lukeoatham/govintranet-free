@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.6
+Version: 1.7
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -123,7 +123,7 @@ class htNewsUpdates extends WP_Widget {
 		$tdate= date('Ymd');
 
 		$removenews = get_transient('cached_removenewsupdates'); 
-		if (!$removenews ){
+		if ( !$removenews ){
 			set_transient('cached_removenewsupdates',"wait",60*3); 		
 			$oldnews = query_posts(array(
 				'post_type'=>'news-update',
@@ -316,7 +316,11 @@ class htNewsUpdates extends WP_Widget {
 			}
 			
 			if ( $cache > 0 ){
-				set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period 
+				if ( $news->post_count != 0 ){
+					set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period 
+				} else {
+					set_transient($newstransient,"<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period 	
+				}
 			}				
 			wp_reset_query();		
 						

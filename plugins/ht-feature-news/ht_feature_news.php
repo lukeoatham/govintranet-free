@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.4
+Version: 4.5
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -469,15 +469,15 @@ class htFeatureNews extends WP_Widget {
 					$html.= "<h3 class='noborder'><a href='".$thisURL."'>".$thistitle."</a> ".$ext_icon."</h3>";
 		
 					if ($newsgrid[$k]=="Li"){
-							$html.= "<p>";
-							$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
-							$html.= '</span> ';
-							if ( get_comments_number() ){
-								$html.= "<a href='".$thisURL."#comments'>";
-								$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
-								$html.= "</a>";
-							}
-							$html.= "</p>";									
+						$html.= "<p>";
+						$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+						$html.= '</span> ';
+						if ( get_comments_number() ){
+							$html.= "<a href='".$thisURL."#comments'>";
+							$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+							$html.= "</a>";
+						}
+						$html.= "</p>";									
 					} else {
 						if ($showexcerpt == 'on') {
 							$html.= "<p>";
@@ -486,7 +486,7 @@ class htFeatureNews extends WP_Widget {
 							if ( get_comments_number() ){
 								$html.= " <a href='".$thisURL."#comments'>";
 								$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
-								 $html.= "</a>";
+								$html.= "</a>";
 							}
 							$html.= "</p>";									
 							$html.= $thisexcerpt;
@@ -495,11 +495,11 @@ class htFeatureNews extends WP_Widget {
 							$html.= "<p>";
 							$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
 							$html.= '</span> ';
-						if ( get_comments_number() ){
-							$html.= " <a href='".$thisURL."#comments'>";
-							$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
-							 $html.= "</a>";
-						}
+							if ( get_comments_number() ){
+								$html.= " <a href='".$thisURL."#comments'>";
+								$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+								$html.= "</a>";
+							}
 							$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 						}
 					}
@@ -537,7 +537,11 @@ class htFeatureNews extends WP_Widget {
 				$html.= "</div>";
 				$html.= $after_widget; 
 				if ( $cache > 0 ) {
-					set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
+					if ( $blank ){
+						set_transient($newstransient,"<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
+					} else {
+						set_transient($newstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
+					}
 				}
 			} 
 		if ( !$blank ) echo $html;

@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: http://www.helpfultechnology.com
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3
 Author URI: http://www.helpfultechnology.com
 
 */
@@ -262,7 +262,11 @@ class htFeatureBlogposts extends WP_Widget {
 				$html.= $after_widget;
 			}
 			if ( $cache > 0 ) {
-				set_transient($blogstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
+				if ( $blogs->have_posts() ){
+					set_transient($blogstransient,$html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period	
+				} else {
+					set_transient($blogstransient,"<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cache * 60 ); // set cache period
+				}
 			}
 			wp_reset_query();								
 		}

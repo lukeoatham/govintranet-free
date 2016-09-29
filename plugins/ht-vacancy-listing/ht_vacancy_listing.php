@@ -4,7 +4,7 @@ Plugin Name: HT Vacancy listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display closing vacancies
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -133,8 +133,13 @@ class htVacancyListing extends WP_Widget {
 				$output.= '<p class="vacancy-more-link"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p></div>';
 				$output.= $after_widget;
 			}
+
 			if ( $cacheperiod ) {
-				set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default		
+				if ( $vacancies->post_count != 0 ){
+					set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); 
+				} else {
+					set_transient($gatransient,"<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); 
+				}
 			}
 			
 		endif;
