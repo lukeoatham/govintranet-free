@@ -78,8 +78,8 @@ get_header();
 		<div class="col-lg-7 col-md-7 col-sm-12">
 			<div class="widget-box browsecats">
 				<h3 class="widget-title"><?php _e('Browse by category' , 'govintranet'); ?></h3>
-				<div class="col-lg-6 col-md-6 col-sm-6">
-					<div class="row">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-6">
 						<ul class="howdoi">
 						<?php
 						// Display category blocks
@@ -97,7 +97,7 @@ get_header();
 					  			}
 					  			$catcount++;
 								if ($catcount > round(count($terms)/2,0,PHP_ROUND_HALF_DOWN) && count($terms) > 3 ) {
-									echo "</ul></div></div><div class='col-lg-6  col-md-6 col-sm-6'><div class='row'><ul class='howdoi'>";
+									echo "</ul></div><div class='col-lg-6  col-md-6 col-sm-6'><ul class='howdoi'>";
 									$catcount=0;
 								}
 								echo "

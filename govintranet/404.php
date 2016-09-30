@@ -14,7 +14,7 @@ if ( !$notfound ) $notfound = __("Not found","govintranet");
 		<h1 class="entry-title"><?php  echo $notfound;  ?></h1>
 		<p><?php _e( 'The page that you are trying to reach doesn\'t exist. <br><br>Please go back or try searching.', 'govintranet' ); ?></p><br>
 		<div class='col-lg-6'>
-			<form class="form" role="form" action="<?php echo site_url( '/' ); ?>">
+			<form class="form" action="<?php echo site_url( '/' ); ?>">
 			  	<div class="col-lg-12">
 			   		<div class="input-group">
 			    		<input type="text" class="form-control" placeholder="<?php _e('Search','govintranet');?>..." name="s" id="snf" value="<?php echo the_search_query();?>">
