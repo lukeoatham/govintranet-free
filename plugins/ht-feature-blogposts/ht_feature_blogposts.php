@@ -163,7 +163,7 @@ class htFeatureBlogposts extends WP_Widget {
 							$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
 							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'>{$image_uri}</a>";		
 						} else {
-							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";					}
+							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".esc_attr($thistitle)."' /></a>";					}
 					}
 					$html.= "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 					$html.= "<br><span class='news_date'>".$edate." by ";
@@ -232,7 +232,7 @@ class htFeatureBlogposts extends WP_Widget {
 						$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
 						$html.= "<a class='pull-left' href='".get_permalink()."'>{$image_uri}</a>";		
 					} else {
-						$html.= "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";						}
+						$html.= "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".esc_attr($thistitle)."' /></a>";						}
 				}
 				$html.= "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 				$html.= "<br><span class='news_date'>".$edate." by ";

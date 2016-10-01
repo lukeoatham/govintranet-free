@@ -7,6 +7,7 @@ if ( isset($_GET['cdir'])) $cdir = $_GET['cdir'];
 if (isset($_GET['cat'])) $eventcat = $_GET['cat'];
 $tzone = get_option('timezone_string');
 date_default_timezone_set($tzone);
+$posts_per_page = get_option('posts_per_page',10);
 
 get_header(); ?>
 
@@ -91,7 +92,7 @@ get_header(); ?>
 					       array(
 					           'key' => 'event_end_time',
 					           'value' => $stime,
-					           'compare' => '>',
+					           'compare' => '<',
 				           ),
 				       ),
 					), 				    
@@ -99,7 +100,7 @@ get_header(); ?>
 				    'meta_key' => 'event_start_date',
 				    'order' => 'DESC',
 				    'post_type' => 'event',
-					'posts_per_page' => 10,
+					'posts_per_page' => $posts_per_page,
 				    'paged' => $paged												
 				);
 
@@ -140,7 +141,7 @@ get_header(); ?>
 				    'meta_key' => 'event_start_date',
 				    'order' => 'ASC',
 				    'post_type' => 'event',
-					'posts_per_page' => 10,
+					'posts_per_page' => $posts_per_page,
 				    'paged' => $paged												
 				);
 
@@ -151,7 +152,7 @@ get_header(); ?>
 			if ($cdir=="b"){ //past events all event types
 				$cquery = array(
 					'post_type' => 'event',
-					'posts_per_page' => 10,
+					'posts_per_page' => $posts_per_page,
 		  			'meta_query' => array(
 					'relation' => 'OR',
 				       array(
@@ -171,7 +172,7 @@ get_header(); ?>
 					       array(
 					           'key' => 'event_end_time',
 					           'value' => $stime,
-					           'compare' => '>',
+					           'compare' => '<',
 				           ),
 				       ),
 					), 				    
@@ -185,7 +186,7 @@ get_header(); ?>
 
 				$cquery = array(
 					'post_type' => 'event',
-					'posts_per_page' => 10,
+					'posts_per_page' => $posts_per_page,
 		  			'meta_query' => array(
 					'relation' => 'OR',
 				       array(

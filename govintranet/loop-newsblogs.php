@@ -40,7 +40,7 @@ if ($k==1 && $paged<2){
 	if ($video){
 		echo $video;
 	} elseif ($image_uri!="" ){
-		echo "<a href='".get_permalink($post->ID)."'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".$thistitle."' /></a>";																			} 
+		echo "<a href='".get_permalink($post->ID)."'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr($thistitle)."' /></a>";																			} 
 	$ext_icon = '';
 	if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
 	echo "<h3".$headclass.">".$ext_icon."<a href='".get_permalink($post->ID)."'>".$needtoknow.$thistitle."</a></h3>";

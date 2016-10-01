@@ -256,7 +256,7 @@ get_header();
 		}
 		?>
 		<div id="docspinner" class="col-sm-12 hidden">
-			<img src="<?php echo includes_url('/images/spinner-2x.gif'); ?>" alt="<?php _e('Please wait' , 'govintranet') ;?>" />
+			<img src="<?php echo includes_url('/images/spinner-2x.gif'); ?>" alt="<?php esc_attr_e('Please wait' , 'govintranet') ;?>" />
 		</div>
 		<?php
 		echo '<ul id="docresults" class="docmenu">';

@@ -18,12 +18,13 @@ get_header();
 		the_content();
 
 		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+		$posts_per_page = get_option('posts_per_page',10);
 		$counter = 0;	
 		$cquery = array(
 			'orderby' => 'post_date',
 		    'order' => 'DESC',
 		    'post_type' => 'blog',
-		    'posts_per_page' => 10,
+		    'posts_per_page' => $posts_per_page,
 		    'paged' => $paged												
 			);
 

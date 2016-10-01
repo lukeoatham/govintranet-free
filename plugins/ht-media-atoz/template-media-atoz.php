@@ -413,7 +413,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				<div class="clearfix"></div>
 				<?php if ($docs->found_posts == 0 ) echo '<p id="docresults">' . __('Nothing to show' , 'govintranet') . ".</p>"; ?>
 				<div id="docspinner" class="col-sm-12 hidden">
-					<img src="<?php echo includes_url('/images/spinner-2x.gif'); ?>" alt="<?php _e('Please wait' , 'govintranet') ;?>" />
+					<img src="<?php echo includes_url('/images/spinner-2x.gif'); ?>" alt="<?php esc_attr_e('Please wait' , 'govintranet') ;?>" />
 				</div>
 				<?php
 				echo '<div id="docresults"><ul class="docmenu">';

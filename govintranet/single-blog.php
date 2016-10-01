@@ -39,7 +39,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 				
 					$ts = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' ); 
 					$tt = get_the_title();
-					$tn = "<img src='".$ts[0]."' width='".$ts[1]."' height='".$ts[2]."' class='img img-responsive' alt='".$tt."' />";
+					$tn = "<img src='".$ts[0]."' width='".$ts[1]."' height='".$ts[2]."' class='img img-responsive' alt='".esc_attr($tt)."' />";
 					if ($ts){
 						echo $tn;
 						echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );

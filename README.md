@@ -38,6 +38,13 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.25 - 2 Oct 2016 ###
+* Listings standardised to default posts per page in Settings, Reading 
+* Change to automated events expiry, now a setting in Options, Modules, Events  
+* Minor security updates to templates and plugins 
+* Updates to Events Calendar Listing widget (utility to support The Events Calendar)
+* Updates to Content Assistant plugin 
+
 ### 4.24 - 1 Oct 2016 ###
 * Improvements to automated expiry background routines (news, news updates and vacancies) 
 * Minor security updates to templates and plugins 

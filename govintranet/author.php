@@ -17,13 +17,14 @@ get_header();
 	 
 	 $curauth = (isset($_GET['author_name'])) ? get_user_by('slug',$author_name): get_userdata(intval($author));
 	 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+	 $posts_per_page = get_option('posts_per_page',10);
 	 $sfilter = '';
 	 if ( isset( $_GET['show'] ) ) $sfilter = $_GET['show'];
 	 
 	 if ($sfilter == 'forum'){
-		 query_posts( array('post_type'=>array('reply','forum','topic'),'author'=>$author,"paged"=>$paged,"posts_per_page"=>10 ) );
+		 query_posts( array('post_type'=>array('reply','forum','topic'),'author'=>$author,"paged"=>$paged,"posts_per_page"=>$posts_per_page ) );
 	 } else {
-	 	 query_posts( array('post_type'=>'blog','author'=>$author,"paged"=>$paged,"posts_per_page"=>10 ) );
+	 	 query_posts( array('post_type'=>'blog','author'=>$author,"paged"=>$paged,"posts_per_page"=>$posts_per_page ) );
 	 }
 
 	if ( have_posts() )

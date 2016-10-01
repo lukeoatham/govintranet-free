@@ -102,7 +102,7 @@ get_header();
 							'orderby' => 'post_date',
 						    'order' => 'DESC',
 						    'post_type' => 'news-update',
-						    'posts_per_page' => 10,
+						    'posts_per_page' => $ppp,
 							);	        
 				
 							$qposts = new WP_Query($cquery);
@@ -154,7 +154,7 @@ get_header();
 								$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
 								echo "<a class='pull-left' href='".get_permalink($post->ID)."'>{$image_uri}</a>";		
 							} else {
-								echo "<a class='pull-left' href='".get_permalink($post->ID)."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
+								echo "<a class='pull-left' href='".get_permalink($post->ID)."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".esc_attr($thistitle)."' /></a>";		
 							}
 						}
 						echo "<div class='media-body'><a href='{$thisURL}'><strong>".$thistitle."</strong></a>";

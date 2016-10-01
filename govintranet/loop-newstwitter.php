@@ -75,7 +75,7 @@ if ($k==1 && $paged<2){
 	echo "<div class='hidden-xs'><a href='$thisURL'>";
 	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'thumbnail' );
 	if ($image_uri!="" ){
-		echo "<img class='img img-responsive alignright' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".govintranetpress_custom_title($post->post_title)."' />";									
+		echo "<img class='img img-responsive alignright' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(govintranetpress_custom_title($post->post_title))."' />";									
 	} 	
 	echo "</a></div>" ;
 	echo "<div class='media-body'>";

@@ -110,7 +110,7 @@ if ( $output == '' ){
 		if ($showthumbnail=='on'){
 			$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $event['ID'] ), 'newsmedium' ); 
 			if ($image_uri != "" ){
-				$output.= "<a href='".$thisURL."'><img class='img img-responsive' src='{$image_uri[0]}' alt='".$thistitle."' /></a>";		
+				$output.= "<a href='".$thisURL."'><img class='img img-responsive' src='{$image_uri[0]}' alt='".esc_attr($thistitle)."' /></a>";		
 			}
 		} 
 

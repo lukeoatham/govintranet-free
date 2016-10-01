@@ -62,6 +62,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		endif;
 
 		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+		$posts_per_page = get_option('posts_per_page',10);
 		$counter = 0;	
 
 		if ( $jobgrade!='all' && $jobgrade!='' ){ 
@@ -72,7 +73,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			'orderby' => 'vacancy_closing_date', 
 			'order' => 'ASC',
 			'post_type'=>'vacancy',
-			'posts_per_page'=>10,
+			'posts_per_page'=>$posts_per_page,
 			'paged' => $paged,
 			'tax_query' => array(
 					array(
@@ -114,7 +115,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				'orderby' => 'vacancy_closing_date', 
 				'order' => 'ASC',
 				'post_type'=>'vacancy',
-				'posts_per_page'=>10,
+				'posts_per_page'=>$posts_per_page,
 				'paged' => $paged,
 				'meta_query' => array(
 						'relation' => 'OR',

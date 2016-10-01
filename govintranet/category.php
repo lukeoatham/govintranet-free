@@ -37,6 +37,7 @@ if ($tasktagslug):
 	$tasktag = $tasktag[0]->name;
 endif;
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+$posts_per_page = get_option('posts_per_page',10);
 if ( have_posts() )
 	the_post();
 	?>
@@ -119,7 +120,7 @@ if ( have_posts() )
 			'post_type'=>'task',
 			'cat'=>$catid,
 			'tag'=>$tasktagslug,
-			'posts_per_page' => 25,
+			'posts_per_page' => $posts_per_page,
 			'paged' => $paged,												
 			'orderby'=>'name',
 			'order'=>'ASC',
@@ -130,7 +131,7 @@ if ( have_posts() )
 			array (
 			'post_type'=>'task',
 			'cat'=>$catid,
-			'posts_per_page' => 25,
+			'posts_per_page' => $posts_per_page,
 			'paged' => $paged,												
 			'orderby'=>'name',
 			'order'=>'ASC',

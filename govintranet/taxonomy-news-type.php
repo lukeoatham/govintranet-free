@@ -24,6 +24,7 @@ if ($tasktagslug):
 	$tasktag = $tasktag[0]->name;
 endif;
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+$posts_per_page = get_option('posts_per_page',10);
 $landingpage = get_option('options_module_news_page'); 
 if ( !$landingpage ):
 	$landingpage_link_text = 'news';
@@ -65,7 +66,7 @@ if ( have_posts() )
 				'post_type'=>'news',
 				'news-type'=>$catslug,
 				'tag'=>$tasktagslug,
-				'posts_per_page' => 25,
+				'posts_per_page' => $posts_per_page,
 				'paged' => $paged,												
 				'orderby'=>'date',
 				'order'=>'DESC',
@@ -77,7 +78,7 @@ if ( have_posts() )
 				array (
 				'post_type'=>'news',
 				'news-type'=>$catslug,
-				'posts_per_page' => 25,
+				'posts_per_page' => $posts_per_page,
 				'paged' => $paged,												
 				'orderby'=>'date',
 				'order'=>'DESC',

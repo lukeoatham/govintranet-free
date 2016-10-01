@@ -53,6 +53,7 @@ get_header();
 				 * called loop-tag.php and that will be used instead.
 				 */
 				//$paged=$_GET['paged'];
+				$posts_per_page = get_option('posts_per_page',10);
 				$pt=$posttype;
 				if (!$pt){
 					$pt='any';
@@ -65,7 +66,7 @@ get_header();
  						)),
  						'post_type'=>$pt,
  						'paged'=>$paged,
- 						'posts_per_page'=> 10,
+ 						'posts_per_page'=> $posts_per_page,
  						'orderby'=>'name',
  						'order'=>'ASC'
  						);
@@ -105,7 +106,7 @@ get_header();
 		 			'post_type'=>array("task"),
 		 			'post__in'=>$carray,
 		 			'paged'=>$paged,
-		 			'posts_per_page'=>10,
+		 			'posts_per_page'=>$posts_per_page,
 		 			'orderby'=>'name',
 		 			'order'=>'ASC',
 		 			)); 
@@ -114,7 +115,7 @@ get_header();
 		 			'post_type'=>array("event"),
 		 			'post__in'=>$carray,
 		 			'paged'=>$paged,
-		 			'posts_per_page'=>10,
+		 			'posts_per_page'=>$posts_per_page,
 		 			'orderby'=>'meta_value',
 		 			'order'=>'ASC',
 		 			'meta_key' => 'event_start_date',
@@ -124,7 +125,7 @@ get_header();
 		 			'post_type'=>array("task","vacancy","project","news","news-update","event","blog","page"),
 		 			'post__in'=>$carray,
 		 			'paged'=>$paged,
-		 			'posts_per_page'=>10,
+		 			'posts_per_page'=>$posts_per_page,
 		 			'orderby'=>'date',
 		 			'order'=>'DESC'
 		 			));

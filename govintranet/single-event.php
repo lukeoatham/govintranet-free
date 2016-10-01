@@ -105,7 +105,7 @@ $mainid=$post->ID;
 	<?php
 	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' );
 	if ($image_uri!=""){
-		echo "<img class='img img-responsive' src='{$image_uri[0]}'  alt='".get_the_title()."' />";
+		echo "<img class='img img-responsive' src='{$image_uri[0]}'  alt='".esc_attr(get_the_title())."' />";
 		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 	}
 	
