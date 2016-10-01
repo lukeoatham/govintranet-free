@@ -98,10 +98,10 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 			echo "<strong>".$jobtitle."</strong><br class='blog-staff-profile-link'>";
             if ($forumsupport){
                 echo "<a class='blog-staff-profile-link' href='".site_url()."/staff/";
-				echo $user->user_nicename . "/' title='{$user->display_name}'>Staff profile</a><br>";
+				echo $user->user_nicename . "/' title='".esc_attr($user->display_name)."'>Staff profile</a><br>";
             }
             echo "<a class='blog-author-link'  href='".site_url()."/author/";
-			echo $user->user_nicename . "/' title='{$user->display_name}'>Blog posts</a><br class='blog-author-link'>";
+			echo $user->user_nicename . "/' title='".esc_attr($user->display_name)."'>Blog posts</a><br class='blog-author-link'>";
 			echo "</div></div></div></div>";
 			
 			get_template_part("part", "sidebar");

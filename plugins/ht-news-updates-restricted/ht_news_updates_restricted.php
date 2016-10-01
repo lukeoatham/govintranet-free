@@ -335,28 +335,24 @@ function load_news_updates(  ) {
 				endif;
 				$expiryaction = get_post_meta($old->ID,'news_update_expiry_action',true);
 				if ($expiryaction=='Revert to draft status'){
+					  delete_post_meta($old->ID, 'news_update_expiry_date');
+					  delete_post_meta($old->ID, 'news_update_expiry_time');
+					  delete_post_meta($old->ID, 'news_update_expiry_action');
+					  delete_post_meta($old->ID, 'news_auto_expiry');
 					  $my_post = array();
 					  $my_post['ID'] = $old->ID;
 					  $my_post['post_status'] = 'draft';
 					  wp_update_post( $my_post );
+				}	
+				if ($expiryaction=='Move to trash'){
 					  delete_post_meta($old->ID, 'news_update_expiry_date');
 					  delete_post_meta($old->ID, 'news_update_expiry_time');
 					  delete_post_meta($old->ID, 'news_update_expiry_action');
 					  delete_post_meta($old->ID, 'news_auto_expiry');
-					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
-				}	
-				if ($expiryaction=='Move to trash'){
 					  $my_post = array();
 					  $my_post['ID'] = $old->ID;
 					  $my_post['post_status'] = 'trash';
-					  delete_post_meta($old->ID, 'news_update_expiry_date');
-					  delete_post_meta($old->ID, 'news_update_expiry_time');
-					  delete_post_meta($old->ID, 'news_update_expiry_action');
-					  delete_post_meta($old->ID, 'news_auto_expiry');
 					  wp_update_post( $my_post );
-					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-					  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $my_post ) ;		  
 				}	
 			}
 			wp_reset_query();

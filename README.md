@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.24 - 1 Oct 2016 ###
+* Improvements to automated expiry background routines (news, news updates and vacancies) 
+* Minor security updates to templates and plugins 
+
 ### 4.23.1 - 30 Sep 2016 ###
 * Fix for How do I template 
 * HTML validation update to 404 template 

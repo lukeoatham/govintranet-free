@@ -17,7 +17,7 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 		<div id="bbp-user-avatar">
 
 			<span class='vcard'>
-				<a class="url fn n" href="<?php bbp_user_profile_url(); ?>" title="<?php bbp_displayed_user_field( 'display_name' ); ?>" rel="me">
+				<a class="url fn n" href="<?php bbp_user_profile_url(); ?>" title="<?php esc_attr(bbp_displayed_user_field( 'display_name' )); ?>" rel="me">
 					<?php
 					$user_id = bbp_get_displayed_user_field( 'id' ); 
 					$avstyle="";
@@ -35,7 +35,7 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 			<ul>
 				<li class="<?php if ( bbp_is_single_user_profile() ) :?>current<?php endif; ?>">
 					<span class="vcard bbp-user-profile-link">
-						<a class="url fn n" href="<?php bbp_user_profile_url(); ?>" title="<?php printf( esc_attr__( "%s's Profile", 'govintranet' ), bbp_get_displayed_user_field( 'display_name' ) ); ?>" rel="me"><?php _e( 'Profile', 'govintranet' ); ?></a>
+						<a class="url fn n" href="<?php bbp_user_profile_url(); ?>" title="<?php printf( esc_attr__("%s's Profile", 'govintranet' ),  bbp_get_displayed_user_field( 'display_name' ) ); ?>" rel="me"><?php _e( 'Profile', 'govintranet' ); ?></a>
 					</span>
 				</li>
 

@@ -159,7 +159,7 @@
 		?>			
 		<div class="media"><div>
 		<h3 class='postlist'>				
-		<a class='serps' data-user-id="<?php echo $post->ID; ?>" href="<?php echo $userurl; ?>" title="<?php  the_title_attribute( 'echo=0' ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
+		<a class='serps' data-user-id="<?php echo $post->ID; ?>" href="<?php echo $userurl; ?>" title="<?php  the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php the_title(); echo " (".$context.")";  ?></a></h3>
 		<?php 
 	elseif ($post_type != 'Category'): 
 		echo "<div class='media'>" ;

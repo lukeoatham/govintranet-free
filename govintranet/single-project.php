@@ -164,22 +164,22 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 
         if ($chapter_header){ // if on chapter 1
 			
-			echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'" title="'. __("Navigate to next part" , "govintranet") .'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+			echo '<div class="col-lg-12 chapterr"><a href="'.get_permalink($carray[2]["id"]).'" title="'. esc_attr__("Navigate to next part" , "govintranet") .'">'.$carray[2]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 			
         } elseif ($current_chapter==2) { // if on chapter 2
 
-			echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="' . __("Navigate to previous part" ,"govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;' . __("Overview" , "govintranet") . '</a></div>';
+			echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="' . esc_attr__("Navigate to previous part" ,"govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;' . __("Overview" , "govintranet") . '</a></div>';
             if ($carray[3]['slug']){
-				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'" title="'. __("Navigate to next part" , "govintranet").'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'" title="'.esc_attr__( "Navigate to next part" , "govintranet").'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 	        }
         }   else { // we're deep in the middle somewhere
         	$previous_chapter = $current_chapter-1; 
 			$next_chapter = $current_chapter+1;
 
-			echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="'. __("Navigate to previous part" , "govintranet") .'"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
+			echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($carray[$previous_chapter]["id"]).'" title="'. esc_attr__("Navigate to previous part" , "govintranet") .'"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;'.govintranetpress_custom_title($carray[$previous_chapter]["name"]).'</a></div>';
 
             if ($carray[$next_chapter]['slug']){
-				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'" title="'. __("Navigate to next part" , "govintranet").'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
+				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'" title="'. esc_attr__("Navigate to next part" , "govintranet") .'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 			}
 		}
 		echo "</div>";

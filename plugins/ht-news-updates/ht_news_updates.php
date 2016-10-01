@@ -122,60 +122,6 @@ class htNewsUpdates extends WP_Widget {
 		date_default_timezone_set($tzone);
 		$tdate= date('Ymd');
 
-		$removenews = get_transient('cached_removenewsupdates'); 
-		if ( !$removenews ){
-			set_transient('cached_removenewsupdates',"wait",60*3); 		
-			$oldnews = query_posts(array(
-				'post_type'=>'news-update',
-				'meta_query'=>array(array(
-				'key'=>'news_update_expiry_date',
-				'value'=>$tdate,
-				'compare'=>'<='
-				))));
-			if ( count($oldnews) > 0 ){
-				foreach ($oldnews as $old) {
-					if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'news_update_expiry_date',true)) )): // if expiry today, check the time
-						if (date('H:i:s',strtotime(get_post_meta($old->ID,'news_update_expiry_time',true))) > date('H:i:s') ) continue;
-					endif;
-					
-					$expiryaction = get_post_meta($old->ID,'news_update_expiry_action',true);
-					if ($expiryaction=='Revert to draft status'){
-						  $my_post = array();
-						  $my_post['ID'] = $old->ID;
-						  $my_post['post_status'] = 'draft';
-						  wp_update_post( $my_post );
-						  delete_post_meta($old->ID, 'news_update_expiry_date');
-						  delete_post_meta($old->ID, 'news_update_expiry_time');
-						  delete_post_meta($old->ID, 'news_update_expiry_action');
-						  delete_post_meta($old->ID, 'news_auto_expiry');
-						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-					} elseif ($expiryaction=='Move to trash'){
-						  $my_post = array();
-						  $my_post['ID'] = $old->ID;
-						  $my_post['post_status'] = 'trash';
-						  delete_post_meta($old->ID, 'news_update_expiry_date');
-						  delete_post_meta($old->ID, 'news_update_expiry_time');
-						  delete_post_meta($old->ID, 'news_update_expiry_action');
-						  delete_post_meta($old->ID, 'news_auto_expiry');
-						  wp_update_post( $my_post );
-						  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-					} elseif ($expiryaction=='Change tax'){
-						$new_tax = get_post_meta($old->ID,'news_update_expiry_type',true); 
-						$new_tax = intval($new_tax);
-						wp_delete_object_term_relationships( $old->ID, 'news-update-type' );
-						if ( $new_tax ) wp_set_object_terms( $old->ID, $new_tax, 'news-update-type', false );
-						delete_post_meta($old->ID, 'news_update_expiry_date');
-						delete_post_meta($old->ID, 'news_update_expiry_time');
-						delete_post_meta($old->ID, 'news_update_expiry_action');
-						delete_post_meta($old->ID, 'news_update_auto_expiry');
-						delete_post_meta($old->ID, 'news_update_expiry_type');
-						if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
-					}		
-				}
-				wp_reset_query();
-			}
-		}
-
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_background_colour" ;  
 		$background_colour = get_option($acf_key); 
 		

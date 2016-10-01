@@ -28,7 +28,6 @@ if ( count($oldvacs) > 0 ){
 	  $my_post['ID'] = $old->ID;
 	  $my_post['post_status'] = 'draft';
 	  wp_update_post( $my_post );
-	  if (function_exists('wp_cache_post_change')) wp_cache_post_change( $old->ID ) ;
 	}	
 }
 wp_reset_query();

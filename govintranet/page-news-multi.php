@@ -198,7 +198,7 @@ get_header();
 						$landingpage_link_text = get_the_title( $landingpage[0] );
 						$landingpage = get_permalink( $landingpage[0] );
 					endif;
-					echo '<hr><p><strong><a title="{$landingpage_link_text}" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
+					echo '<hr><p><strong><a title="'.esc_attr($landingpage_link_text).'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 				} 			       
 			   ?>
 				</div>
