@@ -216,7 +216,7 @@ Template Name: Newsboard
 									echo "<a href='".get_permalink($pageid)."' class='more'>".get_the_title($pageid)."<span class='dashicons dashicons-arrow-right-alt2'></span></a>";
 								elseif ( $linkto == "2" ):
 									echo "<a href='".site_url('/news/')."' class='more'>More <span class='dashicons dashicons-arrow-right-alt2'></span></a>";
-								elseif ( $linkto == "3" ):
+								elseif ( $linkto == "3" && $tax_terms[0] ):
 									echo "<a href='".get_term_link($tax_terms[0], 'news-type')."' class='more'>More <span class='dashicons dashicons-arrow-right-alt2'></span></a>";
 								endif;
 							endif;		
@@ -252,7 +252,7 @@ Template Name: Newsboard
 									echo "<a href='".get_permalink($pageid)."' class='more'>".get_the_title($pageid)."<span class='dashicons dashicons-arrow-right-alt2'></span></a>";
 								elseif ( $linkto == "2" ):
 									echo "<a href='".site_url('/news-update/')."' class='more'>More <span class='dashicons dashicons-arrow-right-alt2'></span></a>";
-								elseif ( $linkto == "3" ):
+								elseif ( $linkto == "3" && $tax_terms[0] ):
 									echo "<a href='".get_term_link($tax_terms[0], 'news-update-type')."' class='more'>More <span class='dashicons dashicons-arrow-right-alt2'></span></a>";
 								endif;
 							endif;									
@@ -288,7 +288,7 @@ Template Name: Newsboard
 									echo "<a href='".get_permalink($pageid)."' class='more'>".get_the_title($pageid)."<span class='dashicons dashicons-arrow-right-alt2'></span></a>";
 								elseif ( $linkto == "2" ):
 									echo "<a href='".site_url('/blog/')."' class='more'>More <span class='dashicons dashicons-arrow-right-alt2'></span></a>";
-								elseif ( $linkto == "3" ):
+								elseif ( $linkto == "3" && $tax_terms[0] ):
 									echo "<a href='".get_term_link($tax_terms[0], 'blog-category')."' class='more'>More <span class='dashicons dashicons-arrow-right-alt2'></span></a>";
 								endif;
 							endif;		
@@ -353,7 +353,7 @@ Template Name: Newsboard
 									echo "<a href='".get_permalink($pageid)."' class='more'>".get_the_title($pageid)."<span class='dashicons dashicons-arrow-right-alt2'></span></a>";
 								elseif ( $linkto == "2" ):
 									echo "<a href='".site_url('/event/')."' class='more'>More <span class='dashicons dashicons-arrow-right-alt2'></span></a>";
-								elseif ( $linkto == "3" ):
+								elseif ( $linkto == "3" && $tax_terms[0] ):
 									echo "<a href='".get_term_link($tax_terms[0], 'event-type')."' class='more'>More <span class='dashicons dashicons-arrow-right-alt2'></span></a>";
 								endif;
 							endif;		

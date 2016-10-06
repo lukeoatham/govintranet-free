@@ -158,6 +158,8 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 				
 				$relateditems = new WP_Query();
 				
+				// BOTH CATEGORIES AND TAGS
+				
 				if ( $post_cat && $posttags ):
 					$blog_categories = array();
 					foreach ( $post_cat as $cat){
@@ -187,6 +189,8 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$reason = __('Similar' , 'govintranet');
 					remove_filter('pre_get_posts', 'filter_blogs');
 				endif;
+				
+				// JUST CATEGORY or JUST TAG
 				
 				if ( !$relateditems->have_posts() && $post_cat ):
 					$blog_categories = array();
@@ -235,6 +239,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 							if ( $candidate_tags ) foreach ( $candidate_tags as $t ){
 								if ( in_array($t->term_id, $blogtags) ) $score++;
 							}
+							if ( $post->post_author == $user->ID ) $score++;
 							$final_cut[] = array( 'score'=>$score, 'date'=>$post->post_date, 'ID' => $post->ID, 'reason'=>$reason, 'post_author'=>$post->post_author );
 							$alreadydone[] = $post->ID;
 							$autos_to_show--;
@@ -244,7 +249,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 	
 				$related_title = __("Recommended","govintranet");
 				
-				// get 2 most recent posts for this author
+				// get most recent posts for this author
 				if ( $autos_to_show ):
 					$recent_author = new WP_Query(array(
 						'post_type'=>'blog',
@@ -258,7 +263,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 						while ( $recent_author->have_posts() ) : 
 							$recent_author->the_post(); 
 							if ($mainid!=$post->ID) {
-								$final_cut[] = array( 'score'=>2, 'date'=>$post->post_date, 'ID' => $post->ID, 'reason'=>$reason, 'post_author'=>$post->post_author );
+								$final_cut[] = array( 'score'=>1, 'date'=>$post->post_date, 'ID' => $post->ID, 'reason'=>$reason, 'post_author'=>$post->post_author );
 								$alreadydone[] = $post->ID;
 								$autos_to_show--;
 							}
@@ -268,7 +273,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 				
 				/* If nothing found, show recent */
 				$recentitems = new WP_Query();
-				if ( $autos_to_show == 5 ):
+				if ( 5 == $autos_to_show ):
 					$recentitems = new WP_Query(array(
 					'post_type'=>'blog',
 					'posts_per_page'=> $autos_to_show,
@@ -346,7 +351,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 						}
 					}; 
 					$html.= "</div>";
-					set_transient($trans, $html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60 * 5);
+					set_transient($trans, $html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60 * 60);
 				endif;
 			endif;
 			echo $html;

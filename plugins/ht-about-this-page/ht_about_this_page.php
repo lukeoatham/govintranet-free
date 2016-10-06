@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.4
+Version: 1.5
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -39,7 +39,7 @@ class htAboutThisPage extends WP_Widget {
 			$landing_pages = array(
 			"page-about.php",
 			"page-aggregator.php",
-			"page-newsboard.php",
+			"newsboard/page-newsboard.php",
 			"page-blog.php",
 			"page-doc-finder.php",
 			"template-media-atoz.php",

@@ -38,6 +38,16 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.26 - 6 Oct 2016 ###
+* New option to close the search filter panel 
+* Comments turned off by default for tasks, projects, vacancies and events 
+* Better error handling on newsboard template 
+* Updates to blog post auto-related feature 
+* Fix for avatar spacing 
+* Newsboard excluded from About this page widget 
+* Minor updates to widgets to display on published posts 
+* Updates to content assistant utility 
+
 ### 4.25 - 2 Oct 2016 ###
 * Listings standardised to default posts per page in Settings, Reading 
 * Change to automated events expiry, now a setting in Options, Modules, Events  

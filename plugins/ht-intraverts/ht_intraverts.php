@@ -443,6 +443,7 @@ class htIntraverts extends WP_Widget {
 			    'post_type' => 'intravert',
 			    'posts_per_page' => -1,
 			    'post__in'=>$intravertToShow,
+			    'post_status' => 'publish',
 			    'orderby'=>'menu_order',
 			    'order' => 'ASC',
 				);

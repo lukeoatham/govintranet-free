@@ -2732,6 +2732,22 @@ if( function_exists('acf_add_local_field_group') ):
 				'default_value' => 0,
 			),
 			array (
+				'key' => 'field_57f6952829073',
+				'label' => __('Start with filter panel closed','govintranet'),
+				'name' => 'enable_closed_search_filter',
+				'type' => 'true_false',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'message' => '',
+				'default_value' => 0,
+			),
+			array (
 				'key' => 'field_56ff054a97ce6a',
 				'label' => __('Enable attachments filter','govintranet'),
 				'name' => 'enable_include_attachments',
@@ -10813,3 +10829,23 @@ function govintranet_expiry_patrol_cron() {
 		}
 	}
 }
+
+
+/* SET DEFAULT COMMENT STATUS BY CUSTOM POST TYPE */
+
+function govintranet_default_content( $post_content, $post ) {
+    if( $post->post_type )
+    switch( $post->post_type ) {
+        case 'task':
+            $post->comment_status = 'closed';
+        case 'event':
+            $post->comment_status = 'closed';
+        case 'vacancy':
+            $post->comment_status = 'closed';
+        case 'project':
+            $post->comment_status = 'closed';
+        break;
+    }
+    return $post_content;
+}
+add_filter( 'default_content', 'govintranet_default_content', 10, 2 );

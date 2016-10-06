@@ -40,7 +40,9 @@ if ($gishelpfulsearch == 1):
 	endif;
 endif;
 $include_attachments = get_option("options_enable_include_attachments");
-$include_forums = get_option("options_enable_include_forums");				
+$include_forums = get_option("options_enable_include_forums");			
+$closed_filter = get_option("options_enable_closed_search_filter");
+	
  //*****************************************************				
 
 get_header(); ?>
@@ -129,7 +131,11 @@ get_header(); ?>
 	}
 	$checkbox .= '><span class="labelForCheck">' . __("Recently published first","govintranet") . '</span></label>';
 	$hidden.='<input type="hidden" name="orderby" id="search-filter-orderby">';
+	$filter_status = " in";
 
+	if ( !$is_filtered && $closed_filter){
+		$filter_status = " out";
+	}
 	if ( !have_posts() ) : 
 
 		$searchnotfound = get_option('options_search_not_found');
@@ -330,7 +336,7 @@ get_header(); ?>
 	        </a>
 	      </h3>
 	    </div>
-	    <div id="collapseFilter" class="xpanel-collapse out in">
+	    <div id="collapseFilter" class="xpanel-collapse collapse <?php echo $filter_status; ?>">
 	      	<div class="xpanel-body">
 				<form role="search" method="get" id="searchfilter" action="<?php echo home_url('/'); ?>">
 					<input type="hidden" name="s" value="<?php echo get_search_query(); ?>" id = "search-filter-s">

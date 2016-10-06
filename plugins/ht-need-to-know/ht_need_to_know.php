@@ -33,6 +33,7 @@ class htNeedToKnow extends WP_Widget {
 			'orderby' => 'post_date',
 		    'order' => 'DESC',
 		    'post_type' => 'news',
+		    'post_status' => 'publish',
 		    'posts_per_page' => -1,
 		    'tax_query' => array(array(
 		    'taxonomy'=>'post_format',

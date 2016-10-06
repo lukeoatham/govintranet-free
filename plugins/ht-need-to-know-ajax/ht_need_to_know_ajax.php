@@ -125,6 +125,7 @@ function ht_need_to_know_ajax_show() {
 			'orderby' => 'post_date',
 		    'order' => 'DESC',
 		    'post_type' => 'news',
+		    'post_status' => 'publish',
 		    'posts_per_page' => -1,
 		    'tax_query' => array(array(
 		    'taxonomy'=>'post_format',

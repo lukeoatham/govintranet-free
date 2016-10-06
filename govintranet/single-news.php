@@ -273,7 +273,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 	
 				add_filter('pre_get_posts', 'ht_filter_search');
 				wp_reset_query();
-				set_transient($trans, $html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60 * 5);
+				set_transient($trans, $html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60 * 60);
 			endif;
 			echo $html;
 			?>
