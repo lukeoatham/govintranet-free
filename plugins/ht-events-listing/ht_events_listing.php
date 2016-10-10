@@ -216,7 +216,7 @@ class htEventsListing extends WP_Widget {
 						$output.= "<p class='eventclear'><span>".get_the_excerpt_by_id($event['ID'])."</span></p>";
 				}
 	
-				$output.= "<hr></div>";
+				$output.= "<hr class='light'></div>";
 				$output.= "</div>";
 			}
 	

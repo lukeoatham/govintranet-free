@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.26.1 - 10 Oct 2016 ###
+* Fix for excerpts 
+* Event listing divider colour correction 
+* Blog listing divider colour correction  
+* Top tags widget updates 
+
 ### 4.26 - 6 Oct 2016 ###
 * New option to close the search filter panel 
 * Comments turned off by default for tasks, projects, vacancies and events 
@@ -45,7 +51,7 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 * Updates to blog post auto-related feature 
 * Fix for avatar spacing 
 * Newsboard excluded from About this page widget 
-* Minor updates to widgets to display on published posts 
+* Minor updates to widgets to display only published posts 
 * Updates to content assistant utility 
 
 ### 4.25 - 2 Oct 2016 ###

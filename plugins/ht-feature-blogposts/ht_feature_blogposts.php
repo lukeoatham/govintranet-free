@@ -176,7 +176,7 @@ class htFeatureBlogposts extends WP_Widget {
 						$html.= "</a>";
 					}
 					if ($excerpt == 'on') $html.=get_the_excerpt();
-					$html.= "</div></div><hr>";
+					$html.= "</div></div><hr class='light'>";
 				endwhile;		
 			};
 			
@@ -244,7 +244,7 @@ class htFeatureBlogposts extends WP_Widget {
 					$html.= "</a>";
 				}
 				if ($excerpt == 'on') $html.=wpautop(get_the_excerpt());
-				$html.= "</div></div><hr>";
+				$html.= "</div></div><hr class='light'>";
 			}
 			if ($blogs->have_posts() && $more){
 				$landingpage = get_option('options_module_blog_page'); 

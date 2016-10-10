@@ -371,7 +371,7 @@ class htTopTags extends WP_Widget {
 		
 					if ( "on" == $chart ): 
 						$temphtml='
-						<div class="progress">
+						<div id="ht_top_tags" class="progress">
 						  <div class="progress-bar progress-bar-title" style="width: 70%">
 						    <a href="'.site_url().'/tag/'.$tt.'/">'.str_replace(' ', '&nbsp' , ucfirst($toptags[$tt])).'</a>  </div>
 						    <span class="sr-only"> '.ucfirst($toptags[$tt]).'</span>

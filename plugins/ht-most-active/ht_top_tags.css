@@ -1,21 +1,18 @@
 .wptag {
 	padding: 10px 10px;
 }
-.progress {
-	margin-bottom: 0;
-}
-.progress-bar {
+#ht_top_tags .progress-bar {
 	background: none;
 }
-.progress-bar.progress-bar-title { background-color: #ffffff;
+#ht_top_tags .progress-bar.progress-bar-title { background-color: #ffffff;
 	background-image: none;
 	color: #535353;
 	text-align: left;
 }
-.progress {
+#ht_top_tags.progress {
 	margin-bottom: 1px;
 }
-.progress-bar {
+#ht_top_tags .progress-bar {
 	transition: width 2.7s ease;
 }
 

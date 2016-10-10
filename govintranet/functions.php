@@ -409,30 +409,20 @@ function govintranet_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'govintranet_page_menu_args' );
 
 /**
- * Set the post excerpt length to 30 characters and add custom ellipsis.
- *
+ * Sets the post excerpt length to 30 words.
  */
-function govintranet_new_excerpt($text)
-{
-	if ($text == '')
-	{
-		$text = get_the_content('');
-		$text = strip_shortcodes( $text );
-		$text = apply_filters('the_content', $text);
-		$text = str_replace(']]>', ']]>', $text);
-		$text = nl2br($text);
-		$text = strip_tags($text);
-		$excerpt_length = apply_filters('excerpt_length', 30);
-		$words = explode(' ', $text, $excerpt_length + 1);
-		if (count($words) > $excerpt_length) {
-			array_pop($words);
-			$text = implode(' ', $words). ' &hellip;';
-		}
-	}
-	return $text;
+function govintranet_excerpt_length( $length ) {
+	return 30;
 }
-remove_filter('get_the_excerpt', 'wp_trim_excerpt');
-add_filter('get_the_excerpt', 'govintranet_new_excerpt');
+add_filter( 'excerpt_length', 'govintranet_excerpt_length' );
+
+/**
+ * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis 
+ */
+function govintranet_auto_excerpt_more( $more ) {
+	return ' &hellip;';
+}
+add_filter( 'excerpt_more', 'govintranet_auto_excerpt_more' );
 
 if ( ! function_exists( 'get_the_excerpt_by_id' ) ) :
 
@@ -10843,6 +10833,8 @@ function govintranet_default_content( $post_content, $post ) {
         case 'vacancy':
             $post->comment_status = 'closed';
         case 'project':
+            $post->comment_status = 'closed';
+        case 'team':
             $post->comment_status = 'closed';
         break;
     }
