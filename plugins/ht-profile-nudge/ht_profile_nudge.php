@@ -155,12 +155,11 @@ class htProfileNudge extends WP_Widget {
 			<select class="form-control" name="team" id="team">
 			  <?php
 			  	echo "<option value='0'>" . __('Choose your team','govintranet') . "</option>";
-				$terms = get_posts('post_type=team&orderby=title&order=ASC&posts_per_page=-1');
-				if ($terms) {
-			  		foreach ((array)$terms as $taxonomy ) {
-			  		    $themeid = $taxonomy->ID;
-			  		    $themeURL= $taxonomy->post_name;		  		  
-			  			echo "<option value='".$themeid."'>".$taxonomy->post_title."</option>";
+				$teams = get_posts('post_type=team&orderby=title&order=ASC&posts_per_page=-1');
+				if ($teams) {
+			  		foreach ((array)$teams as $team ) {
+			  		    $themeid = $team->ID;
+			  			echo "<option value='".$themeid."'>".get_the_title($team->ID)."</option>";
 					}
 				}  
 				?>

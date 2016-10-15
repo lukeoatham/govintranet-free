@@ -42,7 +42,6 @@ do_action( 'bbp_template_before_user_profile' );
 		  		foreach ((array)$teams as $t ) { 
 		  			$team = get_post($t);
 		  		    $teamid = $team->ID;
-		  		    $teamurl= $team->post_name;
 		  		    $teamparent = $team->post_parent; 
 		  		    while ($teamparent!=0){
 		  		    	$parentteam = get_post($teamparent); 

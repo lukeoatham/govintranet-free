@@ -308,11 +308,10 @@ function ht_profile_nudge_ajax_show() {
 			<label for='team'>" . __('Team','govintranet') . "</label>
 			<select class='form-control' name='team' id='team_".$widget_id."'>
 			<option value='0'>" . __('Choose your team','govintranet') . "</option>";
-			$terms = get_posts('post_type=team&orderby=title&order=ASC&posts_per_page=-1');
-			if ($terms) {
-		  		foreach ((array)$terms as $taxonomy ) {
-		  		    $themeid = $taxonomy->ID;
-		  			$html.=  "<option value='{$themeid}'>{$taxonomy->post_title}</option>";
+			$teams = get_posts('post_type=team&orderby=title&order=ASC&posts_per_page=-1');
+			if ($teams) {
+		  		foreach ((array)$teams as $team ) {
+		  			$html.=  "<option value='".$team->ID."'>".get_the_title($team->ID)."</option>";
 				}
 			}
 			$html.="

@@ -38,6 +38,11 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.26.2 - 15 Oct 2016 ###
+* Avatar image style fixes 
+* Theme helper updates  
+* Template and plugin code tidy 
+
 ### 4.26.1 - 10 Oct 2016 ###
 * Fix for excerpts 
 * Event listing divider colour correction 

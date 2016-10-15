@@ -33,7 +33,6 @@ class htEventsListing extends WP_Widget {
         $excerpt = ($instance['excerpt']);
         $location = ($instance['location']);
         $recent = ($instance['recent']);
-		$widget_id = $id;
         $output = '';
 		$gatransient = $widget_id;
 		$output = "";

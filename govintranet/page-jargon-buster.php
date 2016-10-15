@@ -50,7 +50,7 @@ get_header(); ?>
 
 			if ( strtoupper($thisletter) == strtoupper($requestshow) ) {
 				
-				$html .= "\r\r<div class='letterinfo'>\r<h3><a class='accordion-toggle' data-toggle='collapse' data-parent='#atozlist'  href='#atozgloss-".$post->post_name."''>".get_the_title()."</a></h3><div class='collapse out' id='atozgloss-".$post->post_name."'>" . wpautop(get_the_content()) . "</div></div>";
+				$html .= "\r\r<div class='letterinfo'>\r<h3><a class='accordion-toggle' data-toggle='collapse' data-parent='#atozlist'  href='#atozgloss-".esc_attr($post->post_name)."''>".get_the_title()."</a></h3><div class='collapse out' id='atozgloss-".esc_attr($post->post_name)."'>" . wpautop(get_the_content()) . "</div></div>";
 				$counter++;
 																											
 			}

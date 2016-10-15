@@ -372,7 +372,7 @@ function govintranet_filter_wp_title( $title, $separator ) {
 	} elseif ( function_exists("bbp_is_single_user") ) {
 		if ( bbp_is_single_user() ) {
 			if ( !bbp_is_user_home() ){
-				$u = $post->post_title;
+				$u = esc_html($post->post_title);
 				$title .= $u." - " . __('staff profile','govintranet') ;
 			} else {
 				$title .= __('My profile','govintranet') ;
@@ -423,27 +423,6 @@ function govintranet_auto_excerpt_more( $more ) {
 	return ' &hellip;';
 }
 add_filter( 'excerpt_more', 'govintranet_auto_excerpt_more' );
-
-if ( ! function_exists( 'get_the_excerpt_by_id' ) ) :
-
-function get_the_excerpt_by_id($post_id){
-    $the_post = get_post($post_id); //Gets post ID
-    $the_excerpt = $the_post->post_excerpt;
-    if ( !$the_excerpt ):
-	    $the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
-	    $excerpt_length = 30; //Sets excerpt length by word count
-	    $the_excerpt = strip_tags(strip_shortcodes($the_excerpt)); //Strips tags and images
-	    $words = explode(' ', $the_excerpt, $excerpt_length + 1);
-	    if(count($words) > $excerpt_length) :
-	        array_pop($words);
-	        $the_excerpt = implode(' ', $words) . ' &hellip;';
-	    endif;
-	    $the_excerpt = '<p>' . $the_excerpt . '</p>';
-	endif;
-    return $the_excerpt;
-}
-
-endif;
 
 if ( ! function_exists( 'govintranet_comment' ) ) :
 /**
@@ -9708,7 +9687,7 @@ function listdocs_func( $atts ) {
 	global $post;
 	if ( $docs->have_posts() ) while ( $docs->have_posts() ) : $docs->the_post(); 
 		$html.= '<li><a href="'.get_permalink($post->ID).'">';
-		$html.= $post->post_title;
+		$html.= govintranetpress_custom_title($post->post_title);
 		$html.= '</a>';
 		if ($post->post_content && $desc) $html.='<br>'.$post->post_content.'</li>';
 	endwhile;
@@ -9807,7 +9786,7 @@ function ht_listtags_shortcode($atts,$content){
 		$thistitle = get_the_title($list->ID);
 		$titleatt = the_title_attribute( 'echo=0', 'post='.$list->ID ); 
 		$thisURL = get_permalink($list->ID);
-		$thisexcerpt = get_the_excerpt_by_id($list->ID);
+		$thisexcerpt = get_the_excerpt($list->ID);
 		$thisdate = $list->post_date;
 		$thisdate = date(get_option('date_format'),strtotime($thisdate));
 		$image_url = get_the_post_thumbnail($list->ID, 'medium', array("class"=>"img img-responsive","width"=>175,"height"=>175));	
@@ -10098,6 +10077,10 @@ function save_vacancy_meta( $post_id ) {
     	$newvalue = date( 'H:i', strtotime( $prev ));
 		update_post_meta( $post_id, 'vacancy_closing_time', $newvalue, $prev );
 	}
+    if ( $prev = get_post_meta( $post_id, 'vacancy_closing_date', true ) ) {
+    	$newvalue = date( 'Ymd', strtotime( $prev ));
+		update_post_meta( $post_id, 'vacancy_closing_date', $newvalue, $prev );
+	}
 	return;
 }
 add_action( 'save_post', 'save_vacancy_meta' );
@@ -10123,6 +10106,14 @@ function save_event_meta( $post_id ) {
     if ( $prev = get_post_meta( $post_id, 'event_end_time',true ) ) {
     	$newvalue = date('H:i',strtotime($prev));
 		update_post_meta( $post_id, 'event_end_time', $newvalue, $prev );
+	}
+    if ( $prev = get_post_meta( $post_id, 'event_start_date',true ) ) {
+    	$newvalue = date('Ymd',strtotime($prev));
+		update_post_meta( $post_id, 'event_start_date', $newvalue, $prev );
+	}
+    if ( $prev = get_post_meta( $post_id, 'event_end_date',true ) ) {
+    	$newvalue = date('Ymd',strtotime($prev));
+		update_post_meta( $post_id, 'event_end_date', $newvalue, $prev );
 	}
 	return;
 }

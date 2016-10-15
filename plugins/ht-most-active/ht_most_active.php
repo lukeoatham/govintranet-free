@@ -156,7 +156,6 @@ class htMostActive extends WP_Widget {
 			$tokenExpires   = get_option('ga_token_expires');
 		    $tokenCreated   = get_option('ga_token_created');
 
-
 		    /*
 		     *  Step 1: Get a Token
 		     */
@@ -309,12 +308,10 @@ class htMostActive extends WP_Widget {
 									if ("publish" != $taskpod->post_status) continue;
 									$tasktitle =  govintranetpress_custom_title($taskpod->post_title);
 									$taskid = $taskpod->ID;
-									$taskslug = $taskpod->post_name;
 									if ( $taskpod->post_parent ){ 
 										$taskpod2 = get_post($taskpod->post_parent);
 										if ( $showchapters != 1 ): // hide individual chapters
 											$taskid = $taskpod2->ID;
-											$taskslug = $taskpod2->post_name;
 											$tasktitle =  govintranetpress_custom_title($taskpod2->post_title);
 										else: // show individual chapters
 											$tasktitlecontext = " <small>(".govintranetpress_custom_title($taskpod2->post_title).")</small>";
@@ -343,7 +340,6 @@ class htMostActive extends WP_Widget {
 									if ("publish" != $taskpod->post_status) continue;
 									$tasktitle=  $taskpod->post_title;
 									$taskid = $taskpod->ID;
-									$taskslug = $taskpod->post_name;
 									if (!$tasktitle) continue;
 									if (in_array($taskid, $alreadydone )) continue;
 									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
@@ -367,11 +363,9 @@ class htMostActive extends WP_Widget {
 									if ("publish" != $taskpod->post_status) continue;
 									$tasktitle=  $taskpod->post_title;
 									$taskid = $taskpod->ID;
-									$taskslug = $taskpod->post_name;
 									if ( $taskpod->post_parent ){
 										$taskpod = get_post($taskpod->post_parent);
 										$taskid = $taskpod->ID;
-										$taskslug = $taskpod->post_name;
 										$tasktitle=  $taskpod->post_title ;
 									}
 									if (!$tasktitle) continue;
@@ -397,7 +391,6 @@ class htMostActive extends WP_Widget {
 									if ("publish" != $taskpod->post_status) continue;
 									$tasktitle=  $taskpod->post_title;
 									$taskid = $taskpod->ID;
-									$taskslug = $taskpod->post_name;
 									if (!$tasktitle) continue;
 									if (in_array($taskid, $alreadydone )) continue;
 									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
@@ -421,7 +414,6 @@ class htMostActive extends WP_Widget {
 									if ("publish" != $taskpod->post_status) continue;
 									$tasktitle=  $taskpod->post_title;
 									$taskid = $taskpod->ID;
-									$taskslug = $taskpod->post_name;
 									if (!$tasktitle) continue;
 									if (in_array($taskid, $alreadydone )) continue;
 									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
@@ -445,7 +437,6 @@ class htMostActive extends WP_Widget {
 									if ("publish" != $taskpod->post_status) continue;
 									$tasktitle=  $taskpod->post_title;
 									$taskid = $taskpod->ID;
-									$taskslug = $taskpod->post_name;
 									if (!$tasktitle) continue;
 									if (in_array($taskid, $alreadydone )) continue;
 									if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
@@ -469,7 +460,6 @@ class htMostActive extends WP_Widget {
 										if ("publish" != $taskpod->post_status) continue;
 										$tasktitle=  $taskpod->post_title;
 										$taskid = $taskpod->ID;
-										$taskslug = $taskpod->post_name;
 										if (!$tasktitle) continue;
 										if (in_array($taskid, $alreadydone )) continue;
 										if ( get_post_meta($taskpod->ID,'external_link',true) ) $ext="class='external-link' ";
@@ -489,7 +479,7 @@ class htMostActive extends WP_Widget {
 			}
 
 			if ( count($transga) > 0 ) {
-				$transga[] ="<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->";
+				$transga[] = "<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->";
 				set_transient($gatransient,$transga,$cache * 60 * 60); // set cache period
 			}
 		}

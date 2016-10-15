@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.5
+Version: 1.6
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -21,7 +21,8 @@ class htAboutThisPage extends WP_Widget {
 	}
 
     function widget($args, $instance) {
-
+		global $post;
+	    wp_reset_postdata();
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $show_modified_date = ($instance['show_modified_date']);
@@ -60,7 +61,7 @@ class htAboutThisPage extends WP_Widget {
 			"page-vacancies.php",
 			"search.php"
 			);
-			if ( in_array( get_page_template_slug(), $landing_pages ) ) $showabout = false;
+			if ( in_array( get_page_template_slug($post->ID), $landing_pages ) ) $showabout = false;
 		endif;
 
 		if ($showabout) {

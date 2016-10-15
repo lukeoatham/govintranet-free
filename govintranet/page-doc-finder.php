@@ -263,7 +263,7 @@ get_header();
 	
 		if ( $docs->have_posts() ) while ( $docs->have_posts() ) : $docs->the_post(); 
 			echo '<li><a href="'.wp_get_attachment_url().'">';
-			echo ''.$post->post_title;
+			echo esc_html($post->post_title);
 			echo '</a></li>';
 		endwhile;
 	

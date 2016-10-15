@@ -115,8 +115,8 @@
 		if ( $title ) echo "<h3>".esc_attr($title)."</h3>";
 		echo '<ul id="docresults" class="docmenu">';
 		while ( $docs->have_posts() ) : $docs->the_post(); 
-			echo '<li><a href="'.wp_get_attachment_url().'" class="">';
-			echo ''.$post->post_title;
+			echo '<li><a href="'.wp_get_attachment_url().'">';
+			echo esc_html($post->post_title);
 			echo '</a></li>';
 		endwhile;
 		echo '</ul>';						
