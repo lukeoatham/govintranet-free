@@ -38,6 +38,9 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.26.3 - 16 Oct 2016 ###
+* Fix for email links containing .dot, .doc etc.  
+
 ### 4.26.2 - 15 Oct 2016 ###
 * Avatar image style fixes 
 * Theme helper updates  

@@ -1,12 +1,15 @@
 function markDocumentLinks() {
-	jQuery('a[href*=".pdf"]').addClass('pdfdocument').append(' <span class="doc_type_text">(PDF)</span>');
-	jQuery('a[href*=".xls"]').addClass('xlsdocument').append(' <span class="doc_type_text">(Excel)</span>');
-	jQuery('a[href*=".doc"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
-	jQuery('a[href*=".dot"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
-	jQuery('a[href*=".ppt"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
-	jQuery('a[href*=".txt"]').addClass('txtdocument').append(' <span class="doc_type_text">(Text)</span>');
-	jQuery('a[href*=".csv"]').addClass('xlsdocument').append(' <span class="doc_type_text">(CSV)</span>');
-	jQuery('a[href*="mailto"]').before("<span class='dashicons dashicons-email-alt'></span> ");
+	jQuery('a[href$=".pdf"]').addClass('pdfdocument').append(' <span class="doc_type_text">(PDF)</span>');
+	jQuery('a[href$=".xls"]').addClass('xlsdocument').append(' <span class="doc_type_text">(Excel)</span>');
+	jQuery('a[href$=".xlsx"]').addClass('xlsdocument').append(' <span class="doc_type_text">(Excel)</span>');
+	jQuery('a[href$=".doc"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
+	jQuery('a[href$=".docx"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
+	jQuery('a[href$=".dot"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
+	jQuery('a[href$=".ppt"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
+	jQuery('a[href$=".pptx"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
+	jQuery('a[href$=".txt"]').addClass('txtdocument').append(' <span class="doc_type_text">(Text)</span>');
+	jQuery('a[href$=".csv"]').addClass('xlsdocument').append(' <span class="doc_type_text">(CSV)</span>');
+	jQuery('a[href^="mailto:"]').before("<span class='dashicons dashicons-email-alt'></span> ");
 	jQuery('.gallery br').remove();
 	jQuery('div.gallery').append('<div class="clearfix"></div>');
 
