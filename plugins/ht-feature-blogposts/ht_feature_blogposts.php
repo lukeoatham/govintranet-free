@@ -186,6 +186,7 @@ class htFeatureBlogposts extends WP_Widget {
 			    'post_type' => 'blog',
 				'posts_per_page' => $to_fill,
 				'post__not_in' => $alreadydone,
+				'fields' => 'ids',
 				'date_query' => array(
 						array(
 							'after'     => date('Ymd',strtotime($tdate)),
@@ -220,8 +221,7 @@ class htFeatureBlogposts extends WP_Widget {
 				}
 				global $post;//required for access within widget
 				$thistitle = get_the_title();
-				$edate = $post->post_date;
-				if (!$edate) $edate = get_the_date();
+				$edate = get_the_date();
 				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink(); 
 				$html.= "<div class='media'>";

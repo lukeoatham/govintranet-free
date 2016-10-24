@@ -362,10 +362,10 @@ class htFeatureNews extends WP_Widget {
 					if ($newsgrid[$k]=="L"){
 						if ($video){
 							$html.= $video;
-						} elseif (has_post_thumbnail($post->ID)){
+						} elseif (has_post_thumbnail($theid)){
 							//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
 							//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
-							$html.= "<a href='{$thisURL}'>" . get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
+							$html.= "<a href='{$thisURL}'>" . get_the_post_thumbnail($theid, 'newshead', array('class'=>'img-responsive')) . "</a>";
 							$html.= wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 						} 
 					} 
@@ -373,7 +373,7 @@ class htFeatureNews extends WP_Widget {
 					if ($newsgrid[$k]=="M"){
 						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $theid ), 'newsmedium' );
 						if ($image_uri!="" ){
-							$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(govintranetpress_custom_title($post->post_title))."' /></a>";									
+							$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(govintranetpress_custom_title(get_the_title($theid)))."' /></a>";									
 						} 
 					} 
 			
@@ -451,14 +451,14 @@ class htFeatureNews extends WP_Widget {
 				endif;
 		
 				if ( !$moretitle ) $moretitle = $title;
-				if ( $moretitle = "no_title_" . $id ) $moretitle = __("More","govintranet");
+				if ( $moretitle == "no_title_" . $id ) $moretitle = __("More","govintranet");
 				if ( is_array($newstypes) && count($newstypes) < 2 ): 
 					$term = intval($newstypes[0]); 
 					$landingpage = get_term_link($term, 'news-type'); 
-					$html.= '<p class="more-updates"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+					$html.= '<p class="more-updates"><strong><a title="'.esc_attr($landingpage_link_text).'" class="small" href="'.$landingpage.'">'.esc_html($moretitle).'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 				else: 
 					$landingpage_link_text = $moretitle;
-					$html.= '<p class="more-updates"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+					$html.= '<p class="more-updates"><strong><a title="'.esc_attr($landingpage_link_text).'" class="small" href="'.$landingpage.'">'.esc_html($landingpage_link_text).'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 				endif;
 		
 				$html.= "<div class='clearfix'></div>";

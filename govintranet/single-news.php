@@ -159,6 +159,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$recentitems = new WP_Query(array(
 						'post_type'	=>	'news',
 						'posts_per_page'	=>	5,
+						'no_found_rows' => true,
 						'post__not_in'	=> $alreadydone,
 						'tax_query' => array(array(
 							'taxonomy' => 'post_format',
@@ -175,6 +176,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$recentitems = new WP_Query(array(
 							'post_type'	=>	'news',
 							'posts_per_page'	=>	5,
+							'no_found_rows' => true,
 							'post__not_in'	=> $alreadydone,
 							'tax_query' => array(
 								'relation' => 'AND',
@@ -202,6 +204,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$recentitems = new WP_Query(array(
 							'post_type'	=>	'news',
 							'posts_per_page'	=>	5,
+							'no_found_rows' => true,
 							'post__not_in'	=> $alreadydone,
 							'tax_query' => array(
 								array(
@@ -222,6 +225,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 						$recentitems = new WP_Query(array(
 							'post_type'	=>	'news',
 							'posts_per_page'	=>	5,
+							'no_found_rows' => true,
 							'post__not_in'	=> $alreadydone,
 							'tax_query' => array(array(
 								'taxonomy' => 'news-type',
@@ -238,6 +242,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$recentitems = new WP_Query(array(
 						'post_type'	=>	'news',
 						'posts_per_page'	=>	5,
+						'no_found_rows' => true,
 						'post__not_in'	=> $alreadydone,
 						'tax_query' => array(array(
 							'taxonomy' => 'post_format',

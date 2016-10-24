@@ -10,6 +10,7 @@ global $compact;
 $query = array(
 		"post_type" => "blog",
 		"posts_per_page" => $num,
+		'no_found_rows' => true,
 	);
 
 if ( $freshness ):

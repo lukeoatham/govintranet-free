@@ -10,6 +10,7 @@
 	$query = array(
 			"post_type" => "task",
 			"posts_per_page" => -1,
+			'no_found_rows' => true,
 			"order_by" => "menu_order, title",
 			"order" => "ASC",
 		);

@@ -38,6 +38,17 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.27 - 24 Oct 2016 ###
+* Major update to Media A to Z plugin 
+* New Document Finder and Media A to Z templates incorporating search, A to Z, document type and category filters
+* Removal of Media Categories plugin 
+* Removal of theme Document Finder template 
+* Updates to shortcodes and Content Report plugin to support Media A to Z changes 
+* Enhancement to login/logout links in utilities menu 
+* Enhancement to Events listing widget to link to taxonomy term for more 
+* Enhancement to Vacancy listing widget to show/hide calendar 
+* Minor performance improvements 
+
 ### 4.26.3 - 16 Oct 2016 ###
 * Fix for email links containing .dot, .doc etc.  
 

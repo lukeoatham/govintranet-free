@@ -200,6 +200,20 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 		}
 	}
 
+	$xcats = implode(', ', $cats);
+	if ( !$xcats ) $xcats = "=NA()";	
+	$xtags = implode(', ', $tags);
+	if ( !$xtags ) $xtags = "=NA()";	
+	$xatoz = implode(', ', $atoz);
+	if ( !$xatoz ) $xatoz = "=NA()";	
+	$xdoc_attachments = implode(', ', $doc_attachments);
+	if ( !$xdoc_attachments ) $xdoc_attachments = "=NA()";	
+	$xrelated_teams = implode(', ', $related_teams);
+	if ( !$xrelated_teams ) $xrelated_teams = "=NA()";	
+	if ( !$keywords ) $keywords = "=NA()";	
+	if ( !$skeywords ) $skeywords = "=NA()";	
+	if ( !$hide ) $hide = "=NA()";	
+
     $objPHPExcel->setActiveSheetIndex(0)
 	    ->setCellValue('A'.$X, get_the_title())
 	    ->setCellValue('B'.$X, get_permalink())
@@ -207,9 +221,9 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 	    ->setCellValue('D'.$X, get_the_date('Y-m-d'))
 	    ->setCellValue('E'.$X, get_the_modified_date('Y-m-d'))
 		->setCellValue('F'.$X, get_post_status())
-		->setCellValue('G'.$X, implode(', ', $cats))
-		->setCellValue('H'.$X, implode(', ', $tags))
-		->setCellValue('I'.$X, implode(', ', $atoz))
+		->setCellValue('G'.$X, $xcats)
+		->setCellValue('H'.$X, $xtags)
+		->setCellValue('I'.$X, $xatoz)
 		->setCellValue('J'.$X, $keywords)
 		->setCellValue('K'.$X, $skeywords)
 		->setCellValue('L'.$X, $hide)
@@ -217,8 +231,8 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 		->setCellValue('N'.$X, $post->menu_order)
 		->setCellValue('O'.$X, $post->post_parent)
 		->setCellValue('P'.$X, $post->post_type)
-		->setCellValue('Q'.$X, implode(', ', $doc_attachments))		
-		->setCellValue('R'.$X, implode(', ', $related_teams))		
+		->setCellValue('Q'.$X, $xdoc_attachments)		
+		->setCellValue('R'.$X, $xrelated_teams)		
 		;
   
       $X++;        

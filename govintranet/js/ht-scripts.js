@@ -7,6 +7,7 @@ function markDocumentLinks() {
 	jQuery('a[href$=".dot"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
 	jQuery('a[href$=".ppt"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
 	jQuery('a[href$=".pptx"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
+	jQuery('a[href$=".ppsx"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
 	jQuery('a[href$=".txt"]').addClass('txtdocument').append(' <span class="doc_type_text">(Text)</span>');
 	jQuery('a[href$=".csv"]').addClass('xlsdocument').append(' <span class="doc_type_text">(CSV)</span>');
 	jQuery('a[href^="mailto:"]').before("<span class='dashicons dashicons-email-alt'></span> ");

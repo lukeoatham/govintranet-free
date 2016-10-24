@@ -25,28 +25,24 @@
  * @version    ##VERSION##, ##DATE##
  */
 
-global $wpdb;
+/** include WordPress defaults */
+include($_SERVER['DOCUMENT_ROOT']."/wp-config.php");
 
-if(!isset($wpdb)){
-	require('../../../wp-includes/wp-db.php');
-	include($_SERVER['DOCUMENT_ROOT']."/wp-config.php");
-}
 $nonce = $_POST['nonce'];
-// redirect if coming to this directly, not via the authenticated download page
+// redirect if coming to this directly or not via the authenticated download page
 
 if (!current_user_can('manage_options'))  {
 	wp_die( __('You do not have sufficient permissions to access this page.','govintranet') );
 }
+
 if (!isset($_SERVER['HTTP_REFERER'])) { // direct request, not authenticated
 	header("Location: https://" . $_SERVER['HTTP_HOST']);	
 }
-if ( !wp_verify_nonce($nonce, 'ht_document_report') ) { // not verified
+if ( !wp_verify_nonce($nonce, 'ht_search_terms_report') ) { // not verified
 	header("Location: https://" . $_SERVER['HTTP_HOST']);	
 }
 
 ob_start();
-
-/** Error reporting */
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
@@ -63,82 +59,50 @@ require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
 echo date('H:i:s') , " Create new PHPExcel object" , EOL;
 $objPHPExcel = new PHPExcel();
 
-$xquery = get_posts(array(
-	'post_type'=>'attachment',
-	'orderby'=>'title',
-	'order'=>'ASC',
-    'posts_per_page' => -1,
-	'post_status'=>'inherit',
-	'post_mime_type' => array( 'application' ),
-	));	
+$startdate = $_POST['startdate'];
+$enddate = $_POST['enddate'];
+$numterms = intval($_POST['numterms']);
+if ( !$numterms ) $numterms = 100;
+
+if ( $startdate ) $startdate = date('Y-m-d',strtotime($startdate));
+if ( $enddate ) $enddate = date('Y-m-d',strtotime($enddate));
+if ( $startdate && !$enddate ) $enddate = date('Y-m-d');
+
+global $wpdb;
+$prefix = $wpdb->prefix;
+
+if ( $startdate && $enddate ){
+	$xquery = $wpdb->get_results("select count(id) as qcount, query as qterms from ".$prefix."relevanssi_log where time >= '".$startdate."' and time <= '".$enddate."' group by query order by count(id) desc limit ".$numterms.";");
 	
+} else {
+	$xquery = $wpdb->get_results("select count(id) as qcount, query as qterms from ".$prefix."relevanssi_log group by query order by count(id) desc limit ".$numterms.";");
+	
+}
+
 $objPHPExcel->setActiveSheetIndex(0)
-	->setCellValue('A1', __('Title','govintranet'))
-	->setCellValue('B1', __('URL','govintranet'))
-	->setCellValue('C1', __('Author','govintranet'))
-	->setCellValue('D1', __('Last modified','govintranet'))
-	->setCellValue('E1', __('Category','govintranet'))
-	->setCellValue('F1', __('Document type','govintranet'))
-	->setCellValue('G1', __('A to Z','govintranet'))
-	->setCellValue('H1', __('ID','govintranet'))
-	->setCellValue('I1', __('Parent','govintranet'))
+	->setCellValue('A1', __('Count','govintranet'))
+	->setCellValue('B1', __('Terms','govintranet'))
+	->setCellValue('C1', $startdate . " - " . $enddate )
 	;
 
 $X = 2;		
-	
-	          
-if ( count($xquery) > 0 ) foreach ( $xquery as $xq ){
-	
-	$tax = 'category';
-	$cats = array();
-	$xcats = wp_get_object_terms($xq->ID, $tax);
-	if ( isset($xcats) ) foreach ( $xcats as $c ) $cats[] = $c->slug;
-
-	$tags = array();
-	$xtags = get_the_terms( $xq->ID, 'document-type' ) ;
-	if ( isset($xtags) && count($xtags) > 0 ) foreach ( (array)$xtags as $c ) { 
-		$tags[] = $c->slug;
-		}
-	
-	$atoz = array();
-	if (is_taxonomy('media-a-to-z')) $xatoz = wp_get_object_terms($xq->ID, 'media-a-to-z');
-	if ( isset($xatoz) ) foreach ( $xatoz as $c ) { 
-		$atoz[] = $c->slug;
-		}
-		
-
-	$authormeta = get_author_name($xq->post_author);
-	$author = get_the_author_meta( 'user_email' , $xq->post_author);
-	$xcats = implode(', ', $cats);
-	if ( !$xcats ) $xcats = "=NA()";	
-	$xtags = implode(', ', $tags);
-	if ( !$xtags ) $xtags = "=NA()";	
-	$xatoz = implode(', ', $atoz);
-	if ( !$xatoz ) $xatoz = "=NA()";	
-	
+		          
+if ( $xquery ) foreach ( $xquery as $line ){
     $objPHPExcel->setActiveSheetIndex(0)
-	    ->setCellValue('A'.$X, $xq->post_title)
-	    ->setCellValue('B'.$X, wp_get_attachment_url($xq->ID))
-	    ->setCellValue('C'.$X, $author)
-	    ->setCellValue('D'.$X, date('Y-m-d',strtotime($xq->post_modified)))
-		->setCellValue('E'.$X, $xcats)
-		->setCellValue('F'.$X, $xtags)
-		->setCellValue('G'.$X, $xatoz)
-		->setCellValue('H'.$X, $xq->ID)
-		->setCellValue('I'.$X, $xq->post_parent)
+	    ->setCellValue('A'.$X, $line->qcount)
+	    ->setCellValue('B'.$X, $line->qterms)
 		;
   
       $X++;        
-	
 }		
 	
 // Set document properties
 echo date('H:i:s') , " Set document properties" , EOL;
 $objPHPExcel->getProperties()->setCreator("GovIntranet")
-                            ->setTitle("Document Report");
+                            ->setTitle(__("Search Terms Report","govintranet"));
 							 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Document Report');
+$objPHPExcel->getActiveSheet()->setTitle(__('Search Terms Report','govintranet'));
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);
@@ -146,7 +110,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 ob_clean();
 // Redirect output to a client's web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="document-report-'.date('YmdHis').'.xls"');
+header('Content-Disposition: attachment;filename="search-terms-report-'.date('YmdHis').'.xls"');
 header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
 header('Cache-Control: max-age=1');
@@ -160,4 +124,3 @@ header ('Pragma: public'); // HTTP/1.0
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 $objWriter->save('php://output');
 exit;
-

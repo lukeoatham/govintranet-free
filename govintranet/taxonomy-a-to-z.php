@@ -66,6 +66,7 @@ get_header(); ?>
 			<?php
 			$args = array(
 				'posts_per_page' => -1,
+				'no_found_rows' => true,
 				'post_status' => array('publish'),
 				'tax_query' => array(
 					array(

@@ -250,6 +250,32 @@ function govintranet_version_check() {
 		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 20 || !isset($database_version_array[1]) ) ):
 			delete_option('options_enable_automatic_complementary_colour');
 		endif;
+
+		// LESS THAN 4.27 deactivate media categories plugin
+
+		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 27 || !isset($database_version_array[1]) ) ):
+			if ( is_plugin_active( '/media-categories/media-categories.php' ) ):
+				deactivate_plugins( '/media-categories/media-categories.php' ); 
+			endif;
+				
+			//Update document types
+			global $wpdb;
+			$doctypes = $wpdb->get_results("select post_id, meta_value from $wpdb->postmeta where meta_key='document_type' and meta_value <> '';");
+			if ( count($doctypes) > 0 ) {
+				foreach ( $doctypes as $doc ){
+					if ( $doc->meta_value == "" ) continue;
+					foreach ( $doc->meta_value as $d){
+						wp_set_object_terms($doc->post_id, $d, 'document-type', true );
+					}
+				}
+				// Tidy old doc type meta
+				$wpdb->query("delete from $wpdb->postmeta where meta_key='document_type';");
+				$wpdb->query("delete from $wpdb->postmeta where meta_key='_document_type';");
+			}				
+
+		endif;
+
+		// UPDATE DATABASE VERSION
 		
 		if ( $update_okay ):
 			// Update the database version
@@ -262,9 +288,8 @@ function govintranet_version_check() {
 			$class = 'notice notice-error is-dismissible';
 			$message = sprintf( __( 'Error updating version %2$s database to GovIntranet version %1$s', 'govintranet' ), $theme_version, $database_version );
 			printf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', $class, $message ); 
-		
 		endif;
-
+		
 	endif;
 
 }
@@ -676,7 +701,7 @@ function govintranet_widgets_init() {
 	register_sidebar( array(
 		'name' => __( 'Login area', 'govintranet' ),
 		'id' => 'login-widget-area',
-		'description' => __( 'Login widget area', 'govintranet' ),
+		'description' => __( 'Login widget area.', 'govintranet' ),
 		'before_widget' => '',
 		'after_widget' => '',
 		'before_title' => '',
@@ -697,8 +722,6 @@ function govintranetpress_custom_title( $output ) {
 }
 add_filter( 'the_title', 'govintranetpress_custom_title' );
 
-
-
 /**
  * Removes the default styles that are packaged with the Recent Comments widget.
  *
@@ -712,8 +735,6 @@ function govintranet_remove_recent_comments_style() {
 	remove_action( 'wp_head', array( $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style' ) );
 }
 add_action( 'widgets_init', 'govintranet_remove_recent_comments_style' );
-
-
 
 // check jQuery is available
 
@@ -736,14 +757,10 @@ function enqueueThemeScripts() {
 }
 add_action('wp_enqueue_scripts','enqueueThemeScripts');
 
-
 function enqueueThemeStyles() {
-
 	 wp_enqueue_style( 'ht-style', bloginfo( 'stylesheet_url' ),'','screen');
-
 }
 add_action('wp_enqueue_style','enqueueThemeStyles');
-
 
 function govintranetpress_custom_excerpt_more( $output ) {
 	return preg_replace('/<a[^>]+>Continue reading.*?<\/a>/i','',$output);
@@ -786,7 +803,6 @@ function get_post_thumbnail_caption() {
 	if ( $thumb = get_post_thumbnail_id() )
 		return get_post( $thumb )->post_excerpt;
 }
-
 
 // shorten cache lifetime for blog aggregators to keep it fresh
 add_filter( 'wp_feed_cache_transient_lifetime', create_function( '$a', 'return 900;' ) ); // 15 mins
@@ -2050,34 +2066,6 @@ function cptui_register_my_taxes_a_to_z() {
 		'choose_from_most_used' => __('Most used','govintranet'),
 		),
 		'update_count_callback' => 'ht_update_post_term_count' 
-	) 
-	); 
-}
-
-add_action('init', 'cptui_register_my_taxes_document_type');
-function cptui_register_my_taxes_document_type() {
-	register_taxonomy( 'document-type',array (
-	  0 => 'post',
-	),
-	array( 'hierarchical' => true,
-		'label' => __('Document types','govintranet'),
-		'show_ui' => true,
-		'query_var' => true,
-		'show_admin_column' => false,
-		'labels' => array (
-	  'search_items' => __('Document type','govintranet'),
-	  'popular_items' => __('Popular types','govintranet'),
-	  'all_items' => __('All types','govintranet'),
-	  'parent_item' => __('Parent document type','govintranet'),
-	  'parent_item_colon' => '',
-	  'edit_item' => __('Edit document type','govintranet'),
-	  'update_item' => __('Update document type','govintranet'),
-	  'add_new_item' => __('Add document type','govintranet'),
-	  'new_item_name' => __('New document type','govintranet'),
-	  'separate_items_with_commas' => '',
-	  'add_or_remove_items' => __('Add or remove a document type','govintranet'),
-	  'choose_from_most_used' => __('Most used','govintranet'),
-	  )
 	) 
 	); 
 }
@@ -4069,44 +4057,6 @@ if( function_exists('acf_add_local_field_group') ):
 		'menu_order' => 0,
 		'position' => 'normal',
 		'style' => 'seamless',
-		'label_placement' => 'top',
-		'instruction_placement' => 'label',
-		'hide_on_screen' => '',
-	));
-
-	acf_add_local_field_group(array (
-		'key' => 'group_53c6e3abc8544',
-		'title' => __('Media','govintranet'),
-		'fields' => array (
-			array (
-				'key' => 'field_53c6e3b04383e',
-				'label' => __('Document type','govintranet'),
-				'name' => 'document_type',
-				'prefix' => '',
-				'type' => 'taxonomy',
-				'instructions' => '',
-				'required' => 0,
-				'conditional_logic' => 0,
-				'taxonomy' => 'document-type',
-				'field_type' => 'checkbox',
-				'allow_null' => 0,
-				'load_save_terms' => 0,
-				'return_format' => 'id',
-				'multiple' => 0,
-			),
-		),
-		'location' => array (
-			array (
-				array (
-					'param' => 'attachment',
-					'operator' => '==',
-					'value' => 'all',
-				),
-			),
-		),
-		'menu_order' => 0,
-		'position' => 'side',
-		'style' => 'default',
 		'label_placement' => 'top',
 		'instruction_placement' => 'label',
 		'hide_on_screen' => '',
@@ -9540,7 +9490,8 @@ if( function_exists('acf_add_local_field_group') ):
 
 endif;
 
-function my_post_queries( $query ) {
+
+function govintranet_post_queries( $query ) {
 	// do not alter the query on wp-admin pages and only alter it if it's the main query
 	if (!is_admin() && $query->is_main_query()){
 
@@ -9550,7 +9501,7 @@ function my_post_queries( $query ) {
 
 	}
 }
-add_action( 'pre_get_posts', 'my_post_queries' );
+add_action( 'pre_get_posts', 'govintranet_post_queries' );
 
 // [listdocs type="policy" cat="hr" desc='true']
 function listdocs_func( $atts ) {
@@ -9593,38 +9544,41 @@ function listdocs_func( $atts ) {
 	$cathead = '';
 	if ($cat_id!='any' && $doctyp!='any'){	// cat and doc type
 	
-	//tax queries need to be meta queries for document_type
-		
 		$docs = get_posts(array(
 		'post_type'=>'attachment',
 		'orderby'=>'title',
 		'order'=>'ASC',
 	    'posts_per_page' => -1,
 	    'tax_query'=>array(
-	    array(  
-	    'taxonomy' => 'category',
-		'field' => 'slug',
-		'terms' => $cat_id)),
-		'meta_query'=>array(
-	    array(  
-	    'key' => 'document_type',
-	    'compare'=>"LIKE",
-		'value' => '"' .$dtid.'"' ))
+		    'relation' => 'AND',
+			array(  
+		    'taxonomy' => 'category',
+			'field' => 'slug',
+			'terms' => $cat_id
+			),
+			array(  
+		    'taxonomy' => 'document-type',
+			'field' => 'term_id',
+			'terms' => $dtid
+			)
+		)
 		));
 	} 
 
 	if ($cat_id=='any' && $doctyp!='any'){	// single doc type
-		$docs = get_posts(Array(
+		$docs = get_posts(array(
 		'post_type'=>'attachment',
 		'orderby'=>'title',
 		'order'=>'ASC',
 	    'posts_per_page' => -1,
-		'meta_query'=>array(
-	    array(  
-	    'key' => 'document_type',
-	    'compare'=>"LIKE",
-		'value' => '"' .$dtid.'"' ))
-		));	
+	    'tax_query'=>array(
+			array(  
+		    'taxonomy' => 'document-type',
+			'field' => 'term_id',
+			'terms' => $dtid
+			)
+		)
+		));
 	}
 
 	if ($cat_id=='any' && $doctyp=='any' ){ // no filter
@@ -9632,17 +9586,29 @@ function listdocs_func( $atts ) {
 	    foreach ( $subcat as $term ) {
 	       $inlist[] = $term->term_id; 
 	     }
+		$catlist=array(); 
+	    foreach ( $post_cat as $term ) {
+	       $catlist[] = $term->term_id; 
+		}
+	     
 		$docs = get_posts(array(
 			'post_type'=>'attachment',
 			'orderby'=>'title',
 			'order'=>'ASC',
 	        'posts_per_page' => -1,
-			'meta_query'=>array(
-		    array(  
-		    'key' => 'document_type',
-		    'value' => '',
-	        'compare'=>'!=',
-			)),
+			'tax_query' => array(
+				'relation' => 'OR',
+			    array(  
+			    'taxonomy' => 'document-type',
+				'field' => 'term_id',
+				'terms' => $inlist,
+				),
+				array(
+			    'taxonomy' => 'category',
+				'field' => 'term_id',
+				'terms' => $catlist,
+				)
+			)
 	        
 		));	
 	}
@@ -9662,12 +9628,6 @@ function listdocs_func( $atts ) {
 			'taxonomy' => 'category',
 			'field' => 'slug',
 			'terms' => $cat_id)),
-			'meta_query'=>array(
-		    array(  
-		    'key' => 'document_type',
-		    'value' => '',
-	        'compare'=>'!=',
-			)),
 		));	
 	}
 
@@ -9757,7 +9717,7 @@ function ht_listteams_shortcode(){
 		'title_li'     => "", 
 	);			
 	$teams = wp_list_pages( $args );
-	return $teams;
+	return "<ul class='listteams'>".$teams."</ul>";
 }
 add_shortcode("listteams", "ht_listteams_shortcode");
 
@@ -9810,7 +9770,6 @@ function ht_listtags_shortcode($atts,$content){
 }
 
 add_shortcode("listtags", "ht_listtags_shortcode");
-
 
 function ht_people_shortcode($atts){
     //get any attributes that may have been passed; override defaults
@@ -10156,74 +10115,25 @@ function ht_login_url(){
 
 add_filter('login_headerurl', 'ht_login_url');
 
-add_action( 'init', 'add_loginout_link', 14 );
-function add_loginout_link( ) {
-	if ( (get_option("options_show_my_profile", false) || get_option("options_show_login_logout", false) ) ){
-		if (!wp_script_is('jquery', 'queue')){
-			wp_enqueue_script('jquery');
-		}
-		wp_register_script( 'ht_account_links', get_stylesheet_directory_uri() . "/js/secondary-nav.js");
-		wp_enqueue_script( 'ht_account_links' );
-	    $protocol = isset( $_SERVER["HTTPS"]) ? 'https://' : 'http://';
-		$items = "";
-	    if ( is_user_logged_in() ) {
-		    $current_user = wp_get_current_user();
-			$userurl = get_author_posts_url( $current_user->ID ); 
-			$staffdirectory = get_option('options_module_staff_directory');
-			if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-				$userurl=str_replace('/author', '/members', $userurl); }
-			elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-				$userurl=str_replace('/author', '/staff', $userurl); }
-			elseif (function_exists('bbp_get_displayed_user_field')  ){ // if using bbPress - link to the staff page
-				$userurl=str_replace('/author', '/users', $userurl);
-			}	    
-		    if ( get_option("options_show_my_profile", false) ) $items .= '<li id="ht_my_profile" class=menu-item><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>';
-	        if ( get_option("options_show_login_logout", false) ) $items .= '<li class="menu-item"><a href="'. wp_logout_url() .'">'.__("Logout","govintranet").'</a></li>';
-	    }
-	    elseif (!is_user_logged_in() ) {
-	        if ( get_option("options_show_login_logout", false) ) $items .= "<li id=menu-item-login class=menu-item><a href=". esc_url(site_url('wp-login.php')) .">".__("Login","govintranet")."</a></li>";
-	    }
-	
-	    $params = array(
-	      'ajaxurl' => admin_url( 'admin-ajax.php', $protocol ),
-		  'items' => $items,
-	    );
-	    wp_localize_script( 'ht_account_links', 'ht_account_links', $params );
-	
-		add_action( 'wp_ajax_ht_account_links', 'ht_account_links' );
-		add_action( 'wp_ajax_nopriv_ht_account_links', 'ht_account_links' );
-	}
-}
+add_filter( 'wp_nav_menu_utilities_items','govintranet_loginout_menu_link' );
 
-function ht_account_links(){
- 	$items = $_POST['items'];
-    $response = new WP_Ajax_Response;
-	global $post;
-	
-	    if(
-	        $items
-	    ) {
-	        // Request successful
-	        $response->add( array(
-	            'data' => 'success',
-	            'supplemental' => array(
-	                'message' => $items
-	            ),
-	        ) );
-	    } else {
-	        // Request failed
-	        $response->add( array(
-	            'data' => 'error',
-	            'supplemental' => array(
-	                'message' => 'an error occured'
-	            ),
-	        ) );
-	    }
-	
-	    $response->send();
-	    
-	    exit();	    
-
+function govintranet_loginout_menu_link( $menu ) {
+    $loginout = wp_loginout($_SERVER['REQUEST_URI'], false );
+    $menu = "<li>".$loginout."</li>". $menu;
+    if ( is_user_logged_in() && get_option("options_show_my_profile", false) ) {
+	    $current_user = wp_get_current_user();
+		$userurl = get_author_posts_url( $current_user->ID ); 
+		$staffdirectory = get_option('options_module_staff_directory');
+		if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+			$userurl=str_replace('/author', '/members', $userurl); }
+		elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+			$userurl=str_replace('/author', '/staff', $userurl); }
+		elseif (function_exists('bbp_get_displayed_user_field')  ){ // if using bbPress - link to the staff page
+			$userurl=str_replace('/author', '/users', $userurl);
+		}	    
+	    $menu = '<li id="ht_my_profile" class=menu-item><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>' . $menu;
+    }    
+    return $menu;
 }
 
 /*
@@ -10279,9 +10189,9 @@ NAME IN REGISTRATION FORM
 	
 *****************************/
 //1. Add a new form element...
-add_action( 'register_form', 'myplugin_register_form', 1 );
+add_action( 'register_form', 'govintranet_register_form', 1 );
 	
-	function myplugin_register_form() {
+	function govintranet_register_form() {
 
 	    $first_name = ( ! empty( $_POST['first_name'] ) ) ? trim( $_POST['first_name'] ) : '';
 	    $last_name = ( ! empty( $_POST['last_name'] ) ) ? trim( $_POST['last_name'] ) : '';
@@ -10299,8 +10209,8 @@ add_action( 'register_form', 'myplugin_register_form', 1 );
 	}
 
     //2. Add validation. In this case, we make sure first_name is required.
-    add_filter( 'registration_errors', 'myplugin_registration_errors', 10, 3 );
-    function myplugin_registration_errors( $errors, $sanitized_user_login, $user_email ) {
+    add_filter( 'registration_errors', 'govintranet_registration_errors', 10, 3 );
+    function govintranet_registration_errors( $errors, $sanitized_user_login, $user_email ) {
         
         if ( empty( $_POST['first_name'] ) || ! empty( $_POST['first_name'] ) && trim( $_POST['first_name'] ) == '' ) {
             $errors->add( 'first_name_error', __( '<strong>ERROR</strong>: You must include a first name.', 'govintranet' ) );
@@ -10314,8 +10224,8 @@ add_action( 'register_form', 'myplugin_register_form', 1 );
     }
 
     //3. Finally, save our extra registration user meta.
-    add_action( 'user_register', 'myplugin_user_register' );
-    function myplugin_user_register( $user_id ) {
+    add_action( 'user_register', 'govintranet_user_register' );
+    function govintranet_user_register( $user_id ) {
         if ( ! empty( $_POST['first_name'] ) ) {
             update_user_meta( $user_id, 'first_name', trim( $_POST['first_name'] ) );
         }
@@ -10423,7 +10333,7 @@ function govintranet_custom_styles() {
 	#primarynav ul li:first-child  {	border-left: 1px solid ".$gishex.";	}
 	#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }";		
 	$custom_css.= "a.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
-	$custom_css.= "a.:visited.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
+	$custom_css.= "a:visited.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
 
 	if ($headimage != 'remove-header' && $headimage) $custom_css.= '#utilitybar ul#menu-utilities li a, #menu-utilities, #crownlink { text-shadow: 1px 1px #333; }'; 
 	

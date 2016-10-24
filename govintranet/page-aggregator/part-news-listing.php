@@ -13,6 +13,7 @@
 	$query = array(
 			"post_type" => "news",
 			"posts_per_page" => $num,
+			'no_found_rows' => true,
 		);
 
 	if ($freshness):

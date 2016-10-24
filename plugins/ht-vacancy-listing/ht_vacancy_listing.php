@@ -4,7 +4,7 @@ Plugin Name: HT Vacancy listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display closing vacancies
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -23,6 +23,7 @@ class htVacancyListing extends WP_Widget {
 	    extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
+        $calendar = ($instance['calendar']);
         $days = intval($instance['days']);
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
@@ -100,25 +101,32 @@ class htVacancyListing extends WP_Widget {
 				$etime = date(get_option('time_format'),strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
 				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL = get_permalink(); 
-				$output.= "<div class='media vacancylisting vacancy-".$post->ID."'>";
-				$output.= "<div class='media-left alignleft'>";
-				$output.= "<a class='calendarlink' href='".$thisURL."'>";
-				$output.= "<div class='vacancybox'>";
-				$output.= "<div class='vacancy-dow'>".date('D',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
-				$output.= "<div class='vacancy-date'>".date('d',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
-				$output.= "<div class='vacancy-month'>".date('M',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
-				$output.= "</div>";
-				$output.= "</a>";
-				$output.= "</div>";
-				$output.= "<div class='media-body'>";
-				$output.= "<p class='media-heading'>";
-				$output.= "<a href='".$thisURL."'>";
-				$output.= $thistitle;
-				$output.= "</a>";
-				$output.= "</p>";
-				//$output.= "<small><strong>".$edate."</strong></small>";
-				if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) $output.= "<span class='alert-vacancy small' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
-				$output.= "</div></div>";
+
+				if ( 'on' == $calendar ) {
+					$output.= "<div class='media vacancylisting vacancy-".$post->ID."'>";
+					$output.= "<div class='media-left alignleft'>";
+					$output.= "<a class='calendarlink' href='".$thisURL."'>";
+					$output.= "<div class='vacancybox'>";
+					$output.= "<div class='vacancy-dow'>".date('D',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
+					$output.= "<div class='vacancy-date'>".date('d',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
+					$output.= "<div class='vacancy-month'>".date('M',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))."</div>";
+					$output.= "</div>";
+					$output.= "</a>";
+					$output.= "</div>";
+					$output.= "<div class='media-body'>";
+					$output.= "<p class='media-heading'>";
+					$output.= "<a href='".$thisURL."'>";
+					$output.= $thistitle;
+					$output.= "</a>";
+					$output.= "</p>";
+					//$output.= "<small><strong>".$edate."</strong></small>";
+					if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) $output.= "<span class='alert-vacancy small' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
+					$output.= "</div></div>";
+				} else {
+					$output.= "<p><a href='{$thisURL}'>".$thistitle."</a>";
+					$output.= "<br><small><strong>".$edate."</strong></small></p>";
+				} 
+
 			}
 	
 			if ($vacancies->post_count!=0){
@@ -151,6 +159,7 @@ class htVacancyListing extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['items'] = strip_tags($new_instance['items']);
+		$instance['calendar'] = strip_tags($new_instance['calendar']);
 		$instance['days'] = strip_tags($new_instance['days']);
 		$instance['cacheperiod'] = strip_tags($new_instance['cacheperiod']);
        return $instance;
@@ -159,6 +168,7 @@ class htVacancyListing extends WP_Widget {
     function form($instance) {
         $title = esc_attr($instance['title']);
         $items = esc_attr($instance['items']);
+        $calendar = esc_attr($instance['calendar']);
         $days = esc_attr($instance['days']);
         $cacheperiod = esc_attr($instance['cacheperiod']);
         ?>
@@ -168,6 +178,10 @@ class htVacancyListing extends WP_Widget {
 
           <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
+
+          <input id="<?php echo $this->get_field_id('calendar'); ?>" name="<?php echo $this->get_field_name('calendar'); ?>" type="checkbox" <?php checked((bool) $instance['calendar'], true ); ?> />
+          <label for="<?php echo $this->get_field_id('calendar'); ?>"><?php _e('Show calendar','govintranet'); ?></label> <br><br>
+          
 
           <label for="<?php echo $this->get_field_id('days'); ?>"><?php _e('Days to look forward:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('days'); ?>" name="<?php echo $this->get_field_name('days'); ?>" type="text" value="<?php echo $days; ?>" /><br><br>
