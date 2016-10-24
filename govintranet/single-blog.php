@@ -169,6 +169,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$relateditems = new WP_Query(array(
 						'post_type'=>'blog',
 						'posts_per_page'=> $autos_to_show,
+						'no_found_rows' => true,
 						'post__not_in' => $alreadydone,
 						'tax_query' => array(
 							'relation' => 'AND',
@@ -200,6 +201,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$relateditems = new WP_Query(array(
 						'post_type'=>'blog',
 						'posts_per_page'=> $autos_to_show,
+						'no_found_rows' => true,
 						'post__not_in' => $alreadydone,
 						'tax_query' => array(array(
 						    'taxonomy' => 'blog-category',
@@ -214,6 +216,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$relateditems = new WP_Query(array(
 						'post_type'=>'blog',
 						'posts_per_page'=> $autos_to_show,
+						'no_found_rows' => true,
 						'post__not_in' => $alreadydone,
 						'tax_query' => array(array(
 					    'taxonomy' => 'post_tag',
@@ -254,6 +257,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$recent_author = new WP_Query(array(
 						'post_type'=>'blog',
 						'posts_per_page'=>$autos_to_show,
+						'no_found_rows' => true,
 						'post__not_in' => $alreadydone,
 						'author' => $user->ID,
 						));			
@@ -277,6 +281,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					$recentitems = new WP_Query(array(
 					'post_type'=>'blog',
 					'posts_per_page'=> $autos_to_show,
+					'no_found_rows' => true,
 					'post__not_in' => $alreadydone,
 					));	
 					if ( 5 != $autos_to_show ) {
@@ -307,11 +312,11 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					foreach ( $final_cut as $slot ) { 
 						$post = get_post($slot['ID']);
 						setup_postdata($post);
-						if ($mainid!=$slot['ID']) {
+						if ($mainid != $slot['ID']) {
 							$thistitle = get_the_title($slot['ID']);
-							$thisURL=get_permalink($slot['ID']);
-							$thisdate= get_the_date();
-							$thisdate=date(get_option('date_format'),strtotime($thisdate));
+							$thisURL = get_permalink($slot['ID']);
+							$thisdate = $slot['date'];
+							$thisdate = date(get_option('date_format'),strtotime($thisdate));
 							$html.= "<div class='widgetnewsitem'>";
 							$image_url = get_the_post_thumbnail($slot['ID'], 'thumbnail', array('class' => 'alignright'));
 							$html.= "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";

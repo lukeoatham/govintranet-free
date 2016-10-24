@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.6
+Version: 4.7
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -211,8 +211,8 @@ class htEventsListing extends WP_Widget {
 					if ( $location == 'on' && get_post_meta($event['ID'],'event_location',true) ) $output.= "<br><span><small>".get_post_meta($event['ID'],'event_location',true)."</small></span>";
 				} 
 	
-				if ( $excerpt == 'on' && get_the_excerpt_by_id($event['ID']) ){
-						$output.= "<p class='eventclear'><span>".get_the_excerpt_by_id($event['ID'])."</span></p>";
+				if ( $excerpt == 'on' && get_the_excerpt($event['ID']) ){
+						$output.= "<p class='eventclear'><span>".get_the_excerpt($event['ID'])."</span></p>";
 				}
 	
 				$output.= "<hr class='light'></div>";
@@ -229,8 +229,17 @@ class htEventsListing extends WP_Widget {
 					$landingpage_link_text = get_the_title( $landingpage[0] );
 					$landingpage = get_permalink( $landingpage[0] );
 				endif;
+
+				if ( is_array($eventtypes) && count($eventtypes) < 2 ): 
+					$term = intval($eventtypes[0]); 
+					$landingpage = get_term_link($term, 'event-type'); 
+					$termobj = get_term($term, 'event-type', OBJECT);
+					if ( $termobj ) $landingpage_link_text = $termobj->name;
+					$output.= '<p class="more-updates"><strong><a title="'.esc_attr($landingpage_link_text).'" class="small" href="'.$landingpage.'">'.esc_html($landingpage_link_text).'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+				else: 
+					$output.= '<p class="more-updates"><strong><a title="'.esc_attr($landingpage_link_text).'" class="small" href="'.$landingpage.'">'.esc_html($landingpage_link_text).'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
+				endif;
 	
-				$output.= '<p class="events-more"><strong><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 				$output.= $after_widget;
 			}
 			$output.= "</div>";
