@@ -10333,7 +10333,6 @@ function govintranet_custom_styles() {
 	#primarynav ul li:first-child  {	border-left: 1px solid ".$gishex.";	}
 	#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }";		
 	$custom_css.= "a.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
-	$custom_css.= "a:visited.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
 
 	if ($headimage != 'remove-header' && $headimage) $custom_css.= '#utilitybar ul#menu-utilities li a, #menu-utilities, #crownlink { text-shadow: 1px 1px #333; }'; 
 	

@@ -92,7 +92,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	?>
 
 	<div class="row">
-		<div class="col-md-3 col-sm-6">
+		<div class="col-md-3 col-sm-6 matoz-search-col">
 			<div class="widget-box doc_search">
 				<h3 class="widget-title"><?php _e('Search','govintranet'); ?></h3>
 				<form class="form-horizontal" role="form" id="docsearchform" name="docsearchform" method="get">
@@ -123,7 +123,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				<div class="clearfix"></div>
 			</div>
 		</div>
-		<div class="col-md-3 col-sm-6">
+		<div class="col-md-3 col-sm-6 matoz-search-atoz">
 			<div class="widget-box doc_atoz">
 				<h3 class="widget-title"><?php _e('A to Z','govintranet'); ?></h3>
 				<div id="document_atoz">
@@ -158,7 +158,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3 col-sm-6">
+		<div class="col-md-3 col-sm-6 matoz-search-doctype">
 			<div id="document_type_dropdown" class="widget-box">
 				<h3 class="widget-title"><?php _e('Document type','govintranet'); ?></h3>
 				<div class="btn-group">
@@ -192,7 +192,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3 col-sm-6">
+		<div class="col-md-3 col-sm-6 matoz-search-cat">
 			<?php
 			$taxonomies[]='category';
 			$post_type[]='attachment';
@@ -266,8 +266,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 							),
 						    array(  
 						    'taxonomy' => 'document-type',
-							'field' => 'slug',
-							'terms' => $dtname
+							'field' => 'term_id',
+							'terms' => $dtid
 							)
 						),
 						);
@@ -309,8 +309,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						'tax_query' => array(
 						    array(  
 						    'taxonomy' => 'document-type',
-							'field' => 'slug',
-							'terms' => $dtname
+							'field' => 'term_id',
+							'terms' => $dtid
 							)
 							)
 						);	

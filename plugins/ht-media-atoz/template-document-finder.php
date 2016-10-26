@@ -257,8 +257,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 							),
 						    array(  
 						    'taxonomy' => 'document-type',
-							'field' => 'slug',
-							'terms' => $dtname
+							'field' => 'term_id',
+							'terms' => $dtid
 							)
 						),
 						);
@@ -300,8 +300,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						'tax_query' => array(
 						    array(  
 						    'taxonomy' => 'document-type',
-							'field' => 'slug',
-							'terms' => $dtname
+							'field' => 'term_id',
+							'terms' => $dtid
 							)
 							)
 						);	
