@@ -29,6 +29,8 @@ $custom_css = "
 .matoz-results h3.widget-title small { color: {$headtext}; }
 .pager li a:hover { background: {$giscc}; color: white; }
 .pager li.active a { background: {$gishex}; color: {$headtext}; }
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover { background-color: {$gishex}; color: {$headtext}; }
+
 ";
 wp_register_style( 'ht-media-atoz', plugin_dir_url("/") ."ht-media-atoz/css/ht-media-atoz.css" );
 wp_enqueue_style('ht-media-atoz');
@@ -421,6 +423,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				if ( $matoz!="any" ):
 					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&q={$search}'>".strtoupper($matoz)." <span class='badge small'>X</span></a>";
 				endif;
+				if ( $search ):
+					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz={$matoz}&q='>&quot;".esc_html($search)."&quot; <span class='badge small'>X</span></a>";
+				endif; 
 				?>						
 				<div class="clearfix"></div>
 				<?php if ($docs->found_posts == 0 ) echo '<p id="docresults">' . __('Nothing to show' , 'govintranet') . ".</p>"; ?>

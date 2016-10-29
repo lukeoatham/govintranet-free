@@ -25,10 +25,11 @@ $custom_css = "
 .document-finder-filter { border-top: {$gisheight}px solid {$gishex}; }
 .document-finder-filter-box { background: #eee; padding: 0 0 5px 0; margin-bottom: 17px; }
 .document-finder-filter-box h3.widget-title,
-.matoz-results h3.widget-title { background: {$gishex}; color: {$headtext}; padding-top: 10px; }
+.matoz-results h3.widget-title { background: {$gishex}; color: {$headtext}; padding: 5px; font-size: 1em; }
 .matoz-results h3.widget-title small { color: {$headtext}; }
 .pager li a:hover { background: {$giscc}; color: white; }
 .pager li.active a { background: {$gishex}; color: {$headtext}; }
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover { background-color: {$gishex}; color: {$headtext}; }
 ";
 wp_register_style( 'ht-media-atoz', plugin_dir_url("/") ."ht-media-atoz/css/ht-media-atoz.css" );
 wp_enqueue_style('ht-media-atoz');
@@ -61,15 +62,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	
 	if ($cat_slug != "any") {
 		$catterm = get_category_by_slug($cat_slug);
-		$catname = $catterm->name;
-		$catid = $catterm->term_id;
+		$catname = $catterm->name . " <span class='caret'></span>";
+		$catid = $catterm->term_id . " <span class='caret'></span>";
 	} else {
 		$catname = __("All","govintranet") . " <span class='caret'></span>";
 	}	
 	
 	if ($doctyp != "any") {
 		$dtterm = get_term_by('slug', $doctyp, 'document-type'); 
-		$dtname = $dtterm->name;
+		$dtname = $dtterm->name  . " <span class='caret'></span>";
 		$dtid = $dtterm->term_id;
 	} else {
 		$dtname = __("All","govintranet") . " <span class='caret'></span>";
@@ -241,7 +242,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div class='matoz-results widget-box'>
+			<div class='matoz-results'>
 				<?php
 				
 				/* BUILD THE QUERY BASED ON FILTERS */
@@ -399,7 +400,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				if ($docs->found_posts == 0 ) {
 					?>
 					<h3 class="widget-title">
-						<a class="btn btn-primary btn-sm pull-right matoz" href="<?php echo get_permalink();?>"><?php _e('Reset filters','govintranet'); ?></a>
 						<?php _e('No results' , 'govintranet'); ?>
 					</h3>
 					<?php
@@ -411,9 +411,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						<?php
 						if ( $is_filtered  ):
 							printf( esc_html( _n( '%d result', '%d results', $docs->found_posts, 'govintranet'  ) ), $docs->found_posts );
-							?>
-							<a class="btn btn-primary btn-sm pull-right matoz" href="<?php echo get_permalink();?>"><?php _e('Reset filters','govintranet'); ?></a>
-						<?php						
 						else:
 							_e('All results','govintranet');
 						endif;
@@ -421,6 +418,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						</h3>
 					<?php
 				}
+				if ( $is_filtered ):
+					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink()."'>".__('Reset filters','govintranet')."</a>";
+				endif;
 				if ( $cat_slug!="any" ):
 					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat=&matoz={$matoz}&q={$search}'>".strtoupper($catname)." <span class='badge small'>X</span></a>";
 				endif;
@@ -430,6 +430,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				if ( $matoz!="any" ):
 					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&q={$search}'>".strtoupper($matoz)." <span class='badge small'>X</span></a>";
 				endif;
+				if ( $search ):
+					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz={$matoz}&q='>&quot;".esc_html($search)."&quot; <span class='badge small'>X</span></a>";
+				endif; 
 				?>						
 				<div class="clearfix"></div>
 				<?php if ($docs->found_posts == 0 ) echo '<p id="docresults">' . __('Nothing to show' , 'govintranet') . ".</p>"; ?>

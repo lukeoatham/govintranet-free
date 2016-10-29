@@ -2,7 +2,7 @@
 Theme Name: GovIntranet 4
 Theme URI: https://help.govintra.net
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.27.1
+Version: 4.27.3
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -1134,7 +1134,8 @@ ul.howdoi { list-style: none; }
 li p.howdesc  { margin-top: 10px; margin-bottom: 1.2em !important; }
 .page-template-page-how-do-i-alt-classic .category-block p { padding: 0.5em; }
 .document-download { display: block; padding: 0; background: #eee; }
-.document-download h3 { display: block; padding: 0.5em; color: white; background: #353535; }
+.document-download h3 { display: block; padding: 0.5em; color: white; background: #353535; font-size: 1.2em; }
+.document-download h3 .small { display: block; color: white; background: #353535; }
 .document-download ul { list-style: none; padding: 0.5em; margin-bottom: 0.55em; }
 .document-download ul li { padding: 0.55em 0.35em 0.15em 0.35em; border-top: 1px solid rgba(255,255,255,0.45); display: block; }
 .document-download ul li a { display: block; }
@@ -1210,6 +1211,13 @@ h3.postlist {
 /* EVENTS */
 
 #map-location { font-size: 90%; font-weight: bold;}
+
+/* SHORTCODES */
+ul.listteams { list-style: none; padding: 0; }
+ul.listteams li { padding: 10px; background: #eee; margin-bottom: 5px; display: block; font-weight: bold; }
+ul.listteams li.page_item_has_children {  }
+ul.listteams li.page_item_has_children ul.children { margin-top: 10px; margin-bottom: -5px !important; padding-left: 1em; list-style: square; }
+ul.listteams li.page_item_has_children ul.children li { display: list-item; margin-left: 5px; padding: 5px; font-weight: normal; }
 
 /* RESPONSIVE */
 

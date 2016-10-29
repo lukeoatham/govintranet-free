@@ -32,6 +32,10 @@ ul#matozbutton {
 	list-style-type: none;
 	padding-left: 0;
 }
+.btn-group-vertical>.btn, .btn-group>.btn { width: 100%; text-align: left; }
+.btn-group, .btn-group-vertical { display: block; }
+a.matoz.matoz-reset { text-decoration: underline; }
+.btn.btn-sm.matoz { margin-left: 1px; }
 @media only screen and (max-width: 768px)  {
 	.pagination>li>a {
 		width: 44px;

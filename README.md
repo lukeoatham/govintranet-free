@@ -38,6 +38,16 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.27.3 - 29 Oct 2016 ###
+* Minor style update to attachment download box 
+
+### 4.27.2 - 28 Oct 2016 ###
+* Minor style and functionality updates to Media A to Z plugin 
+
+### 4.27.1 - 26 Oct 2016 ###
+* Minor style updates 
+* Fix for Media A to Z plugin  
+
 ### 4.27 - 24 Oct 2016 ###
 * Major update to Media A to Z plugin 
 * New Document Finder and Media A to Z templates incorporating search, A to Z, document type and category filters
