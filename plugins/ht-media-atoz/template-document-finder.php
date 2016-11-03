@@ -126,6 +126,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						<input type="hidden" name="doctyp" value="<?php echo $doctyp; ?>" />
 						<input type="hidden" name="cat" value="<?php echo $cat_slug; ?>" />
 						<input type="hidden" name="matoz" value="<?php echo $matoz; ?>" />
+						<input type="hidden" name="paged" value="1" />
 					</form>
 			  	</div>
 				<div class="clearfix"></div>
