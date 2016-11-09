@@ -38,6 +38,14 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.27.4 - 9 Nov 2016 ###
+* Changes to category template to pick up search box overrides 
+* Additional CSS classes added to user profile edit template 
+* Bug fix for login/logout link in utilities menu 
+* Additional support for The Events Calendar 
+* Improvements to search results template 
+* New option in Zero Hits Monitor for threshold pageviews 
+
 ### 4.27.3 - 29 Oct 2016 ###
 * Minor style update to attachment download box 
 

@@ -11,11 +11,11 @@
 
 <form id="bbp-your-profile" action="<?php bbp_user_profile_edit_url( bbp_get_displayed_user_id() ); ?>" method="post" enctype="multipart/form-data">
 
-	<h2 class="entry-title"><?php _e( 'Name', 'govintranet' ) ?></h2>
+	<h2 class="entry-title gi-name"><?php _e( 'Name', 'govintranet' ) ?></h2>
 
 	<?php do_action( 'bbp_user_edit_before' ); ?>
 
-	<fieldset class="bbp-form">
+	<fieldset class="bbp-form gi-name">
 		<legend><?php _e( 'Name', 'govintranet' ) ?></legend>
 
 		<?php do_action( 'bbp_user_edit_before_name' ); ?>
@@ -73,9 +73,9 @@
 	</fieldset>
 -->
 
-	<h2 class="entry-title"><?php bbp_is_user_home_edit() ? _e( 'About yourself', 'govintranet' ) : _e( 'About the user', 'govintranet' ); ?></h2>
+	<h2 class="entry-title gi-about"><?php bbp_is_user_home_edit() ? _e( 'About yourself', 'govintranet' ) : _e( 'About the user', 'govintranet' ); ?></h2>
 
-	<fieldset class="bbp-form">
+	<fieldset class="bbp-form gi-about">
 		<legend><?php bbp_is_user_home_edit() ? _e( 'About yourself', 'govintranet' ) : _e( 'About the user', 'govintranet' ); ?></legend>
 
 		<?php do_action( 'bbp_user_edit_before_about' ); ?>
@@ -91,9 +91,9 @@
 
 
 
-	<h2 class="entry-title"><?php _e( 'Account', 'govintranet' ) ?></h2>
+	<h2 class="entry-title gi-account"><?php _e( 'Account', 'govintranet' ) ?></h2>
 
-	<fieldset class="bbp-form">
+	<fieldset class="bbp-form gi-account">
 		<legend><?php _e( 'Account', 'govintranet' ) ?></legend>
 
 		<?php do_action( 'bbp_user_edit_before_account' ); ?>
@@ -103,7 +103,7 @@
 			<input type="text" name="user_login" id="user_login" value="<?php bbp_displayed_user_field( 'user_login', 'edit' ); ?>" disabled="disabled" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
 		</div>
 
-		<div>
+		<div class="gi-email">
 			<label for="email"><?php _e( 'Email', 'govintranet' ); ?></label>
 
 			<input type="text" name="email" id="email" value="<?php bbp_displayed_user_field( 'user_email', 'edit' ); ?>" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
@@ -148,9 +148,9 @@
 
 	<?php if ( current_user_can( 'edit_users' ) && ! bbp_is_user_home_edit() ) : ?>
 
-		<h2 class="entry-title"><?php _e( 'User role', 'govintranet' ) ?></h2>
+		<h2 class="entry-title gi-role"><?php _e( 'User role', 'govintranet' ) ?></h2>
 
-		<fieldset class="bbp-form">
+		<fieldset class="bbp-form gi-role">
 			<legend><?php _e( 'User role', 'govintranet' ); ?></legend>
 
 			<?php do_action( 'bbp_user_edit_before_role' ); ?>

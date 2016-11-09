@@ -17,27 +17,36 @@ $catdesc = get_queried_object()->description;
 $catlongdesc = get_option("category_".$catid."_cat_long_description", "");
 if ( $catlongdesc ) $catdesc = $catlongdesc;
 $childrenargs = array (
-'orderby'           => 'name', 
-'order'             => 'ASC',
-'child_of'          => $catid,
-);
+	'orderby'           => 'name', 
+	'order'             => 'ASC',
+	'child_of'          => $catid,
+	);
 $catchildren = get_terms('category', $childrenargs ); 
 $catparentid = get_queried_object()->parent; 
 $catparent = "";
 if ( $catparentid ):
 	$catparent = get_term($catparentid, 'category');
-	$catparentlink = "<a href='".get_term_link($catparentid, 'category')."'>".$catparent->name."</a>";
-	$subtitle = $catparent->name;
+	$catparentlink = "<a href='".get_term_link($catparentid, 'category')."'>".esc_html($catparent->name)."</a>";
+	$subtitle = esc_html($catparent->name);
 endif;
 $tasktagslug = '';
 $tasktag = '';
 if ( isset( $_GET['showtag'] ) ) $tasktagslug = $_GET['showtag'];
 if ($tasktagslug):
 	$tasktag = get_tags(array('slug'=>$tasktagslug));
-	$tasktag = $tasktag[0]->name;
+	$tasktag = esc_html($tasktag[0]->name);
 endif;
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 $posts_per_page = get_option('posts_per_page',10);
+$how_do_i_page = get_option('options_module_tasks_page');
+$search_prompt = get_the_title($how_do_i_page[0]);
+if ( !$search_prompt ) $search_prompt = __('How do I...','govintranet');
+$icon_override = get_option('options_search_button_override', false); 
+if ( isset($icon_override) && $icon_override ):
+	$override_text = esc_html(get_option('options_search_button_text', __('Search','govintranet')));
+	$search_prompt = $override_text;
+endif;
+
 if ( have_posts() )
 	the_post();
 	?>
@@ -63,12 +72,10 @@ if ( have_posts() )
 		<form class="form-horizontal" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
 			<div class="input-group input-md">
 				<label for="sbc-s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
-				<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="<?php _e('How do I...','govintranet'); ?>" />
+				<input type="text" value="" class="form-control" name="s" id="sbc-s" placeholder="<?php echo $search_prompt; ?>" />
 				 <span class="input-group-btn">
 		    	 <?php
-			    	 $icon_override = get_option('options_search_button_override', false); 
 			    	 if ( isset($icon_override) && $icon_override ):
-				    	 $override_text = esc_attr(get_option('options_search_button_text', __('Search','govintranet')));
 						 ?>
 				 		<button class="btn btn-primary t<?php echo $catid; ?>" type="submit"><?php echo $override_text; ?></button>
 					 	<?php 

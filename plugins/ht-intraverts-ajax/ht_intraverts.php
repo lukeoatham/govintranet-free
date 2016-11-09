@@ -428,7 +428,6 @@ class htIntraverts extends WP_Widget {
 	    global $post;
 	    $post_id = $post->ID;
         extract( $args ); 
-        $widget_id = $id. "-" . $this->number;
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_eligible_intraverts" ;  
 		$intravertToShow = get_option($acf_key); 
         

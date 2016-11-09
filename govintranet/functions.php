@@ -10119,7 +10119,7 @@ add_filter( 'wp_nav_menu_utilities_items','govintranet_loginout_menu_link' );
 
 function govintranet_loginout_menu_link( $menu ) {
     $loginout = wp_loginout($_SERVER['REQUEST_URI'], false );
-    $menu = "<li>".$loginout."</li>". $menu;
+    if ( get_option('options_show_login_logout') ) $menu = "<li>".$loginout."</li>". $menu;
     if ( is_user_logged_in() && get_option("options_show_my_profile", false) ) {
 	    $current_user = wp_get_current_user();
 		$userurl = get_author_posts_url( $current_user->ID ); 

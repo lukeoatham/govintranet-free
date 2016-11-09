@@ -39,13 +39,93 @@ if ($gishelpfulsearch == 1):
 		endif;
 	endif;
 endif;
+get_header(); 
 $include_attachments = get_option("options_enable_include_attachments");
 $include_forums = get_option("options_enable_include_forums");			
 $closed_filter = get_option("options_enable_closed_search_filter");
-	
+$s=get_search_query();
+$ptargs = array( '_builtin' => false, 'public' => true, 'exclude_from_search' => false );
+$postTypes = get_post_types($ptargs, 'objects');
+$checkbox = "";
+ksort($postTypes); 
+$sposttype = array();
+$showusers = false; 
+$showforums = false;
+$is_filtered = false;
+if ( isset( $_GET['post_types'] ) ) $sposttype = $_GET['post_types'];
+if ( get_option('options_forum_support') ) $showforums = true;
+if ( get_option('options_module_staff_directory') ) $showusers = true;
+foreach($postTypes as $pt){
+	if( $pt->rewrite["slug"] != "spot" ){
+		$checkbox .= '<label class="checkbox filter-'. $pt->query_var .'"><input type="checkbox" name="post_types[]" value="'. $pt->query_var .'" id="filter-check-'. $pt->query_var .'"';
+		if(in_array($pt->query_var, $sposttype)){ 
+			$checkbox .= " checked=\"checked\"";
+			$is_filtered = true;
+		}
+		$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';
+		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-'. $pt->query_var .'">';
+	}
+}
+if( $showusers){
+		$showusers = false;
+		$checkbox .= '<label class="checkbox filter-user"><input type="checkbox" name="include" value="user" id="filter-check-include"';
+		if( isset( $_GET['include'] ) && $_GET['include'] == 'user'){ 
+			$checkbox .= " checked=\"checked\"";
+			$is_filtered = true;
+		}
+		$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
+		$hidden.='<input type="hidden" name="include" id="search-filter-include">';
+}
+if( $pt->labels->name > "Forums" && $showforums && $include_forums ){
+		$showforums = false;
+		$checkbox .= '<label class="checkbox filter-forum"><input type="checkbox" name="post_types[]" value="forum" id="filter-check-forum"';
+		if(in_array('forum', $sposttype)){ 
+			$checkbox .= " checked=\"checked\"";
+			$is_filtered = true;
+		}
+		$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
+		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-forum">';
+		
+		$checkbox .= '<label class="checkbox filter-topic"><input type="checkbox" name="post_types[]" value="topic" id="filter-check-topic"';
+		if(in_array('topic', $sposttype)){ 
+			$checkbox .= " checked=\"checked\"";
+			$is_filtered = true;
+		}
+		$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
+		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-topic">';
+		
+		$checkbox .= '<label class="checkbox filter-reply"><input type="checkbox" name="post_types[]" value="reply" id="filter-check-reply"';
+		if(in_array('reply', $sposttype)){ 
+			$checkbox .= " checked=\"checked\"";
+			$is_filtered = true;
+		}
+		$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
+		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-reply">';
+}
+if ( $include_attachments ){
+	$checkbox .= '<label class="checkbox filter-attachment"><input type="checkbox" name="post_types[]" value="attachment" id="filter-check-attachment"';
+	if(in_array('attachment', $sposttype)){ 
+		$checkbox .= " checked=\"checked\"";
+		$is_filtered = true;
+	}
+	$checkbox .= '> <span class="labelForCheck">' . __("Media" , "govintranet") . '</span></label>';
+	$hidden.='<input type="hidden" name="post_types[]" id="search-filter-attachment">';
+}
+$checkbox .= '<label class="checkbox"><input type="checkbox" name="orderby" value="date" id="filter-check-orderby"';
+if( isset( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] ){ 
+	$checkbox .= " checked=\"checked\"";
+	$is_filtered = true;
+}
+$checkbox .= '><span class="labelForCheck">' . __("Recently published first","govintranet") . '</span></label>';
+$hidden.='<input type="hidden" name="orderby" id="search-filter-orderby">';
+$filter_status = " in";
+
+if ( !$is_filtered && $closed_filter){
+	$filter_status = " out";
+}	
  //*****************************************************				
 
-get_header(); ?>
+?>
 
 	<div class="col-lg-8 col-md-8 col-sm-12 white">
 		<div class="row">
@@ -56,86 +136,7 @@ get_header(); ?>
 			</div>
 		</div>
 	<?php 
-	$s=get_search_query();
-	$ptargs = array( '_builtin' => false, 'public' => true, 'exclude_from_search' => false );
-	$postTypes = get_post_types($ptargs, 'objects');
-	$checkbox = "";
-	ksort($postTypes); 
-	$sposttype = array();
-	$showusers = false; 
-	$showforums = false;
-	$is_filtered = false;
-	if ( isset( $_GET['post_types'] ) ) $sposttype = $_GET['post_types'];
-	if ( get_option('options_forum_support') ) $showforums = true;
-	if ( get_option('options_module_staff_directory') ) $showusers = true;
-	foreach($postTypes as $pt){
-		if( $pt->rewrite["slug"] != "spot" ){
-			$checkbox .= '<label class="checkbox filter-'. $pt->query_var .'"><input type="checkbox" name="post_types[]" value="'. $pt->query_var .'" id="filter-check-'. $pt->query_var .'"';
-			if(in_array($pt->query_var, $sposttype)){ 
-				$checkbox .= " checked=\"checked\"";
-				$is_filtered = true;
-			}
-			$checkbox .= '> <span class="labelForCheck">'. $pt->labels->name .'</span></label>';
-			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-'. $pt->query_var .'">';
-		}
-	}
-	if( $showusers){
-			$showusers = false;
-			$checkbox .= '<label class="checkbox filter-user"><input type="checkbox" name="include" value="user" id="filter-check-include"';
-			if( isset( $_GET['include'] ) && $_GET['include'] == 'user'){ 
-				$checkbox .= " checked=\"checked\"";
-				$is_filtered = true;
-			}
-			$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
-			$hidden.='<input type="hidden" name="include" id="search-filter-include">';
-	}
-	if( $pt->labels->name > "Forums" && $showforums && $include_forums ){
-			$showforums = false;
-			$checkbox .= '<label class="checkbox filter-forum"><input type="checkbox" name="post_types[]" value="forum" id="filter-check-forum"';
-			if(in_array('forum', $sposttype)){ 
-				$checkbox .= " checked=\"checked\"";
-				$is_filtered = true;
-			}
-			$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
-			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-forum">';
-			
-			$checkbox .= '<label class="checkbox filter-topic"><input type="checkbox" name="post_types[]" value="topic" id="filter-check-topic"';
-			if(in_array('topic', $sposttype)){ 
-				$checkbox .= " checked=\"checked\"";
-				$is_filtered = true;
-			}
-			$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
-			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-topic">';
-			
-			$checkbox .= '<label class="checkbox filter-reply"><input type="checkbox" name="post_types[]" value="reply" id="filter-check-reply"';
-			if(in_array('reply', $sposttype)){ 
-				$checkbox .= " checked=\"checked\"";
-				$is_filtered = true;
-			}
-			$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
-			$hidden.='<input type="hidden" name="post_types[]" id="search-filter-reply">';
-	}
-	if ( $include_attachments ){
-		$checkbox .= '<label class="checkbox filter-attachment"><input type="checkbox" name="post_types[]" value="attachment" id="filter-check-attachment"';
-		if(in_array('attachment', $sposttype)){ 
-			$checkbox .= " checked=\"checked\"";
-			$is_filtered = true;
-		}
-		$checkbox .= '> <span class="labelForCheck">' . __("Media" , "govintranet") . '</span></label>';
-		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-attachment">';
-	}
-	$checkbox .= '<label class="checkbox"><input type="checkbox" name="orderby" value="date" id="filter-check-orderby"';
-	if( isset( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] ){ 
-		$checkbox .= " checked=\"checked\"";
-		$is_filtered = true;
-	}
-	$checkbox .= '><span class="labelForCheck">' . __("Recently published first","govintranet") . '</span></label>';
-	$hidden.='<input type="hidden" name="orderby" id="search-filter-orderby">';
-	$filter_status = " in";
 
-	if ( !$is_filtered && $closed_filter){
-		$filter_status = " out";
-	}
 	if ( !have_posts() ) : 
 
 		$searchnotfound = get_option('options_search_not_found');
@@ -159,6 +160,10 @@ get_header(); ?>
 				$searchcon.= " " . __('blog posts','govintranet');
 			}
 			if (in_array('event', $pt)){
+				if ($searchcon) $searchcon.=" or";
+				$searchcon.=" " . __('events', 'govintranet');
+			}
+			if (in_array('tribe_events', $pt)){
 				if ($searchcon) $searchcon.=" or";
 				$searchcon.=" " . __('events', 'govintranet');
 			}
@@ -228,8 +233,6 @@ get_header(); ?>
 			<div class="form-group">
 			<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
 			</div>
-			<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="search-filter-cat">
-			<?php echo $hidden; ?>
 		</form>
 		</div>
 
@@ -257,6 +260,7 @@ get_header(); ?>
 				</div>
 				<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
 				<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="search-filter-cat">
+				<input type="hidden" name="paged" value="1">
 				<?php echo $hidden; ?>
 			</form>
 			</div>

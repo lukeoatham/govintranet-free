@@ -43,6 +43,8 @@
 		$post_cat = get_the_terms($post->ID,'news-type');
 	elseif ($post_type == "Event"):
 		$post_cat = get_the_terms($post->ID,'event-type');
+	elseif ($post_type == "Tribe_events"):
+		$post_cat = get_the_terms($post->ID,'tribe_events_cat');
 	endif;
 	$title_context='';		
 	$context='';
@@ -123,6 +125,10 @@
 			$context = __("event","govintranet");
 			$icon = "calendar";			
 	}
+	if ($post_type=='Tribe_events'){
+			$context = __("event","govintranet");
+			$icon = "calendar";			
+	}
 	if ($post_type=='jargon-buster'){
 			$context = __("jargon buster","govintranet");
 			$icon = "th-list";			
@@ -136,12 +142,10 @@
 			$context = __("team","govintranet");
 			$icon = "list-alt";			
 	}
-
 	if ($post_type=='Page'){
 			$context = __("page","govintranet");
 			$icon = "file";
 	}
-
 	if ($post_type=='Forum'||$post_type=='Reply'||$post_type=='Topic'){
 			$context = __("forum","govintranet");
 			$icon = "comment";
@@ -232,6 +236,18 @@
 	} elseif ($post_type=="Event" && $pageslug!="category"){
 		echo "<div><p>";
 		$thisdate= get_post_meta($post->ID, 'event_start_date', true);
+		$thisdate=date(get_option('date_format'),strtotime($thisdate));
+		echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
+		if ( $post_cat ) foreach($post_cat as $cat){
+			if ($cat->term_id != 1 ){
+				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span>".$cat->name;
+			echo "</span>&nbsp;";
+			}
+		}
+		echo "</p></div>";
+	} elseif ($post_type=="Tribe_events" && $pageslug!="category"){
+		echo "<div><p>";
+		$thisdate= get_post_meta($post->ID, '_EventStartDate', true);
 		$thisdate=date(get_option('date_format'),strtotime($thisdate));
 		echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>&nbsp;&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){

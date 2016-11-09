@@ -4,7 +4,7 @@ Plugin Name: HT Zero Hits Monitor
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display least active pages
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -35,8 +35,8 @@ function ht_zero_hits_options() {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
 
-    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
+	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 
 	$baseurl = site_url();
 	$to_fill = $items;
@@ -273,8 +273,9 @@ function ht_zero_hits_options() {
 		echo "
 			<h2>Settings</h2> 
 			 <form method='post'>
-			 	<p><label for='url'>View ID</label> <input type='text' name='viewid' value='".get_option('options_zh_viewid')."'></p>
-			 	<p><label for='zh_date_format'>Date format</label> <input type='text' name='zh_date_format' value='".get_option('options_zh_date_format')."'></p>
+			 	<p><label for='url'>View ID</label> <input type='text' name='viewid' value='".esc_attr(get_option('options_zh_viewid'))."'></p>
+			 	<p><label for='zh_date_format'>Date format</label> <input type='text' name='zh_date_format' value='".esc_attr(get_option('options_zh_date_format'))."'></p>
+			 	<p><label for='zh_threshold'>Zero threshold</label> <input type='text' name='zh_threshold' value='".esc_attr(get_option('options_zh_threshold'))."'></p>
 			 	<p><label for='ptype'>Content types</label></p>
 			";			 	
 				echo'<p><label class="checkbox"><input type="checkbox" name="ptype[]" value="page"';
@@ -318,11 +319,13 @@ function ht_zero_hits_options() {
 		$viewid = $_REQUEST['viewid'];
 		$posttypes = $_REQUEST['ptype'];
 		$zh_date_format = $_REQUEST['zh_date_format'];
+		$zh_threshold = $_REQUEST['zh_threshold'];
 		$reset = $_REQUEST['reset'];
 		$catchup = $_REQUEST['catchup'];
 		update_option('options_zh_viewid', $viewid);
 		update_option('options_zh_post_types', $posttypes);
 		update_option('options_zh_date_format', $zh_date_format);
+		update_option('options_zh_threshold', $zh_threshold);
 		
 		echo "<p>Settings updated!</p>";
 		$tzone = get_option('timezone_string');
@@ -405,7 +408,7 @@ function zero_hits_monitor(){
 	$ptype = get_option('options_zh_post_types'); 
 
     $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
 	
 	$viewid = get_option('options_zh_viewid');	
     $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
@@ -495,8 +498,9 @@ function zero_hits_monitor(){
 			    ); 
 			    $ga->setDefaultQueryParams($defaults);
 			    $visits = $ga->query($params); 
-			
+				
 				if ( $visits && !$visits['error'] ) {
+					$threshold = intval( get_option('options_zh_threshold') );
 					foreach($visits as $r=>$result) {
 						if ( $r == "rows" ) {
 							foreach ($result as $res){ 
@@ -504,7 +508,9 @@ function zero_hits_monitor(){
 								$output_box = $curmonth - $input_month;
 								if ( $output_box <= 0 ) $output_box = $output_box + 12;
 								$t = $finalset[get_the_id()][$output_box];
-								$finalset[get_the_id()][$output_box] = $t + $res[2];
+								$pv = $res[2];
+								if ( $pv < $threshold ) $pv = 0;
+								$finalset[get_the_id()][$output_box] = $t + $pv;
 							}			
 						} else {
 							$finalset[get_the_id()][$output_box] = 0;
