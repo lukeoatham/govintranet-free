@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.27.5 - 23 Nov 2016 ###
+* OFT file type now allowed in uploads 
+* Minor tag cloud fix  
+* Feature news widget style fix for pinned posts 
+* Document finder and Media A to Z template updates. New options in the page template to show search, A to Z, document and category filter options. 
+
 ### 4.27.4 - 9 Nov 2016 ###
 * Changes to category template to pick up search box overrides 
 * Additional CSS classes added to user profile edit template 

@@ -40,7 +40,13 @@ wp_enqueue_script('ht-media-atoz-js');
 
 
 
-if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
+if ( have_posts() ) while ( have_posts() ) : the_post(); 
+
+$filters = get_post_meta(get_the_id(),'matoz_show_filters',true);
+if ( !$filters ) $filters = array('Search','A to Z','Document type','Category');
+$showlinks = get_post_meta(get_the_id(),'matoz_show_page_links',true);
+global $wpdb;
+?>
 
 <div class="col-lg-12 white ">
 	<div class="row">
@@ -98,7 +104,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	<div class="row">
 
 		<div class="col-md-5">
-			<div class="document-finder-filter-box doc_search">
+			<?php if ( in_array('Search', $filters) ): ?>
+			<div class="document-finder-filter-box doc_search matoz-search-col">
 				<h3 class="widget-title"><?php _e('Search','govintranet'); ?></h3>
 				<div class="col-sm-12">
 					<form class="form-horizontal" role="form" id="docsearchform" name="docsearchform" method="get">
@@ -130,7 +137,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			  	</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="document-finder-filter-box doc_atoz">
+			<?php endif; ?>
+			<?php if ( in_array('A to Z', $filters) ): ?>
+			<div class="document-finder-filter-box doc_atoz matoz-search-atoz">
 				<h3 class="widget-title"><?php _e('A to Z','govintranet'); ?></h3>
 				<div id="document_atoz">
 					<div class="matoz">
@@ -163,8 +172,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					</div>
 				</div>
 			</div>
-
-	 		<div class="document-finder-filter-box doc_types">
+			<?php endif; ?>
+			<?php if ( in_array('Document type', $filters) ): ?>
+	 		<div class="document-finder-filter-box doc_types matoz-search-doctype">
 				<h3 class="widget-title"><?php _e('Document type','govintranet'); ?></h3>
 				<ul class='pager matoz' role="menu">
 				<?php
@@ -191,12 +201,14 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				?>
 				</ul>
 			</div>
+			<?php endif; ?>
+			<?php if ( in_array('Category', $filters) ): ?>
 			<?php
 			$taxonomies[]='category';
 			$post_type[]='attachment';
 			$post_cat = get_terms_by_media_type( $taxonomies, $post_type);
 			if ($post_cat){ ?>
-			<div class="document-finder-filter-box doc_cats">
+			<div class="document-finder-filter-box doc_cats matoz-search-cat">
 				<h3 class="widget-title"><?php _e('Category','govintranet'); ?></h3>
 				
 				<ul class='nav nav-pills nav-stacked matoz white' role="menu">
@@ -229,7 +241,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				</ul>
 			</div><?php
 			}
-			?> 			
+			endif; ?>
 		</div>
 		<div class="col-md-7">
 			<div class='matoz-results'>
@@ -382,12 +394,8 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				}
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				$counter = 0;	
-				if ( $cat_slug != "any" || $doctyp != "any" || $matoz != "any" ):
-					$max_posts = -1;
-					$paged = 1;
-				else:
-					$max_posts = 25;
-				endif;
+				$max_posts = 25;
+
 				$docs = new wp_query(array('orderby'=>'title','order'=>'ASC','post_status'=>'inherit','posts_per_page'=>$max_posts,'paged'=>$paged,'post_type'=>'attachment','post__in'=>$postsarray));
 				if ($docs->found_posts == 0 ) {
 					?>
@@ -401,7 +409,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					<h3 class="widget-title">
 
 						<?php
-						if ( $is_filtered  ):
+						if ( $is_filtered ):
 							printf( esc_html( _n( '%d result', '%d results', $docs->found_posts, 'govintranet'  ) ), $docs->found_posts );
 						else:
 							_e('All results','govintranet');
@@ -438,7 +446,16 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				if ( $docs->have_posts() ) while ( $docs->have_posts() ) : $docs->the_post(); 
 					echo '<li class="docresult"><a href="'.wp_get_attachment_url().'">';
 					echo esc_html($post->post_title);
-					echo '</a></li>';
+					echo '</a>';
+					if ( $showlinks ){
+						if ( $post->post_parent && get_post_status($post->post_parent) == 'publish' ) echo '<a class="docpage" href="'.get_permalink($post->post_parent).'">View in '.get_post_type($post->post_parent).'</a>';
+						$attached = $wpdb->get_results("select ID from $wpdb->posts join $wpdb->postmeta on $wpdb->posts.ID = $wpdb->postmeta.post_id where post_status = 'publish' and meta_key like 'document_attachments_%_document_attachment' and meta_value = " . $post->ID );
+						if ( $attached ) foreach ( $attached as $a ){
+							// if in document attachments and not already counted in body content
+							if ( $a->ID != $post->post_parent ) echo '<a class="docpage" href="'.get_permalink($a->ID).'">View in '.get_post_type($a->ID).'</a>';
+						}
+					}
+					echo '</li>';
 				endwhile;
 			
 				echo '</ul></div>';

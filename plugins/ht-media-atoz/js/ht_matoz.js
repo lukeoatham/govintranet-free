@@ -2,6 +2,10 @@ jQuery(document).ready(function($) {
 	jQuery('.matoz').click(function(){
 		jQuery('#docspinner').removeClass('hidden');
 		jQuery('#docresults').slideUp();
+		jQuery('#docsearchbutton').addClass('disabled');
+		jQuery('#doctypebutton').addClass('disabled');
+		jQuery('#doccatbutton').addClass('disabled');
+		jQuery('.btn.btn-primary.btn-sm.pull-right.matoz').addClass('disabled');
 		jQuery('.wp-pagenavi').addClass('hidden');
 		return;
 	});

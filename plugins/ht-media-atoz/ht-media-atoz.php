@@ -4,7 +4,7 @@ Plugin Name: HT Media A to Z
 Plugin URI: http://www.helpfultechnology.com
 Description: Adds A to Z functionality to the document finder
 Author: Luke Oatham
-Version: 2.3
+Version: 2.4
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -84,6 +84,22 @@ function cptui_register_my_media_atoz() {
 					'toggle' => 0,
 					'return_format' => 'value',
 				),
+				array (
+					'key' => 'field_582e02d4c19ee',
+					'label' => __('Show page links','govintranet'),
+					'name' => 'matoz_show_page_links',
+					'type' => 'true_false',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'message' => __('Show links to posts and pages where documents are attached','govintranet'),
+					'default_value' => 0,
+				),
 			),
 			'location' => array (
 				array (
@@ -91,6 +107,13 @@ function cptui_register_my_media_atoz() {
 						'param' => 'page_template',
 						'operator' => '==',
 						'value' => 'template-media-atoz.php',
+					),
+				),
+				array (
+					array (
+						'param' => 'page_template',
+						'operator' => '==',
+						'value' => 'template-document-finder.php',
 					),
 				),
 			),

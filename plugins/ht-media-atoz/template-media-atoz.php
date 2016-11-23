@@ -41,6 +41,8 @@ global $wpdb;
 if ( have_posts() ) while ( have_posts() ) : the_post(); 
 
 $filters = get_post_meta(get_the_id(),'matoz_show_filters',true);
+if ( !$filters ) $filters = array('Search','A to Z','Document type','Category');
+$showlinks = get_post_meta(get_the_id(),'matoz_show_page_links',true);
 $filter_count = count($filters);
 $filter_cols = 12 / $filter_count;
 
@@ -465,11 +467,13 @@ $filter_cols = 12 / $filter_count;
 					echo '<li class="docresult"><a href="'.wp_get_attachment_url().'">';
 					echo esc_html($post->post_title);
 					echo '</a>';
-					if ( $post->post_parent && get_post_status($post->post_parent) == 'publish' ) echo '<a class="docpage" href="'.get_permalink($post->post_parent).'">View in '.get_post_type($post->post_parent).'</a>';
-					$attached = $wpdb->get_results('select ID from wp_posts join wp_postmeta on wp_posts.ID = wp_postmeta.post_id where post_status = "publish" and meta_key like "document_attachments_%_document_attachment" and meta_value = ' . $post->ID );
-					if ( $attached ) foreach ( $attached as $a ){
-						// if in document attachments and not already counted in body content
-						if ( $a->ID != $post->post_parent ) echo '<a class="docpage" href="'.get_permalink($a->ID).'">View in '.get_post_type($a->ID).'</a>';
+					if ( $showlinks ){
+						if ( $post->post_parent && get_post_status($post->post_parent) == 'publish' ) echo '<a class="docpage" href="'.get_permalink($post->post_parent).'">View in '.get_post_type($post->post_parent).'</a>';
+						$attached = $wpdb->get_results("select ID from $wpdb->posts join $wpdb->postmeta on $wpdb->posts.ID = $wpdb->postmeta.post_id where post_status = 'publish' and meta_key like 'document_attachments_%_document_attachment' and meta_value = " . $post->ID );
+						if ( $attached ) foreach ( $attached as $a ){
+							// if in document attachments and not already counted in body content
+							if ( $a->ID != $post->post_parent ) echo '<a class="docpage" href="'.get_permalink($a->ID).'">View in '.get_post_type($a->ID).'</a>';
+						}
 					}
 					echo '</li>';
 				endwhile;

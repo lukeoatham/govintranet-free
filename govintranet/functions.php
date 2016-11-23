@@ -1139,6 +1139,7 @@ function custom_upload_mimes ( $existing_mimes=array() ) {
 	// Add *.RDP files to Media upload 
 	$existing_mimes['rdp'] = 'application/rdp'; 
 	$existing_mimes['eps'] = 'application/eps'; 
+	$existing_mimes['oft'] = 'application/vnd.ms-outlook'; 
 	return $existing_mimes; 
 }
 
@@ -9847,6 +9848,7 @@ if (function_exists('acf_add_options_page')):
 endif;
 
 function gi_tag_cloud($taxonomy, $term, $post_type) {
+	global $post;
 	$taxid = get_queried_object()->term_id;	
 	$posts = get_posts(array(
 		'post_type' => $post_type,
