@@ -38,6 +38,9 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.29 - 25 Nov 2016 ###
+* Improvements to bbPress user templates 
+
 ### 4.28 - 24 Nov 2016 ###
 * Support for child themes  
 

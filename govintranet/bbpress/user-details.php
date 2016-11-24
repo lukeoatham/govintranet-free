@@ -13,15 +13,15 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 
 	<?php do_action( 'bbp_template_before_user_details' ); ?>
 
-	<div id="bbp-single-user-details">
+	<div id="bbp-single-user-details-gi" class="col-lg-2 col-md-2 col-sm-3">
 		<div id="bbp-user-avatar">
 
 			<span class='vcard'>
 				<a class="url fn n" href="<?php bbp_user_profile_url(); ?>" title="<?php esc_attr(bbp_displayed_user_field( 'display_name' )); ?>" rel="me">
 					<?php
 					$user_id = bbp_get_displayed_user_field( 'id' ); 
-					$avstyle="";
-					if ( $directorystyle==1 ) $avstyle = " img-circle";
+					$avstyle=" img-responsive";
+					if ( $directorystyle==1 ) $avstyle.= " img-circle";
 					$imgsrc = get_avatar($user_id ,150,"",bbp_get_displayed_user_field( 'display_name' ));
 					$imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
 					echo $imgsrc;

@@ -20,7 +20,7 @@ $imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
 do_action( 'bbp_template_before_user_profile' ); 
 ?>
 
-	<div class="col-lg-6 col-md-6 col-sm-12">
+	<div class="col-lg-5 col-md-5 col-sm-9">
 		<?php
 		if ( is_user_logged_in() && $user_id == get_current_user_id() ):
 			$userid = get_current_user_id();
@@ -121,7 +121,7 @@ do_action( 'bbp_template_before_user_profile' );
 		?>
 	</div>
 
-	<div class="clearfix col-lg-6 col-md-6 col-sm-12">
+	<div class="clearfix col-lg-5 col-md-5 col-sm-12">
 		<?php if ( get_option('options_module_staff_directory') ){ ?>
 			<script>
 			jQuery('.tlink').tooltip();
