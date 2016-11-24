@@ -38,6 +38,9 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.28 - 24 Nov 2016 ###
+* Support for child themes  
+
 ### 4.27.5 - 23 Nov 2016 ###
 * OFT file type now allowed in uploads 
 * Minor tag cloud fix  

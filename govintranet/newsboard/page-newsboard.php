@@ -424,7 +424,7 @@ function ht_newsboard_head(){
 	
 	.media.newsboard-events h3.media-heading { padding-bottom: 0; }
     ";
-	wp_enqueue_style( 'ht_newsboard_head', get_stylesheet_directory_uri("/newsboard/style-newsboard.css"));
+	wp_enqueue_style( 'ht_newsboard_head', get_template_directory_uri("/newsboard/style-newsboard.css"));
 	wp_add_inline_style('ht_newsboard_head' , $custom_css);
 
 }

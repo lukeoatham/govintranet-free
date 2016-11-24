@@ -3,7 +3,7 @@
 					
 get_header(); 
 
-wp_register_script( 'match_heights', get_stylesheet_directory_uri() . "/js/jquery.matchHeight-min.js");
+wp_register_script( 'match_heights', get_template_directory_uri() . "/js/jquery.matchHeight-min.js");
 wp_enqueue_script( 'match_heights' );
 
 ?>

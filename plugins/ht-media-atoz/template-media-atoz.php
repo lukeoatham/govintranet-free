@@ -178,7 +178,7 @@ $filter_cols = 12 / $filter_count;
 			<div id="document_type_dropdown" class="widget-box">
 				<h3 class="widget-title"><?php _e('Document type','govintranet'); ?></h3>
 				<div class="btn-group">
-					<img id="doctypespinner" class="hidden" src="<?php echo get_stylesheet_directory_uri() . '/images/small-squares.gif'; ?>" />
+					<img id="doctypespinner" class="hidden" src="<?php echo get_template_directory_uri() . '/images/small-squares.gif'; ?>" />
 					<button  id="doctypebutton" type="button" class="btn btn-primary dropdown-toggle2" data-toggle="dropdown">
 						<?php echo $dtname; ?></button>
 					<ul class='dropdown-menu docspinner matoz' role="menu">
@@ -220,7 +220,7 @@ $filter_cols = 12 / $filter_count;
 				<h3 class="widget-title"><?php _e('Category','govintranet'); ?></h3>
 				
 				<div class="btn-group">
-				<img id="doccatspinner" class="hidden" src="<?php echo get_stylesheet_directory_uri() . '/images/small-squares.gif'; ?>" />
+				<img id="doccatspinner" class="hidden" src="<?php echo get_template_directory_uri() . '/images/small-squares.gif'; ?>" />
 				<button id = "doccatbutton" type="button" class="btn btn-primary dropdown-toggle2" data-toggle="dropdown">
 				<?php echo $catname; ?></button>
 				<ul class='dropdown-menu docspinner matoz' role="menu">

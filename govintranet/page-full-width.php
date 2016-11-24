@@ -1,6 +1,13 @@
 <?php
+
 /* Template name: Full-width page */
-get_header(); ?>
+
+get_header(); 
+
+wp_register_script( 'match_heights', get_template_directory_uri() . "/js/jquery.matchHeight-min.js");
+wp_enqueue_script( 'match_heights' );
+
+?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 

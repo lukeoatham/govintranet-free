@@ -6,8 +6,8 @@
  */
 
 ?>
-<?php wp_enqueue_script('ouical', get_stylesheet_directory_uri()  . '/add-to-calendar/ouical.js'); ?>
-<?php wp_enqueue_style('ouical', get_stylesheet_directory_uri()  . '/add-to-calendar/main.css'); ?>
+<?php wp_enqueue_script('ouical', get_template_directory_uri()  . '/add-to-calendar/ouical.js'); ?>
+<?php wp_enqueue_style('ouical', get_template_directory_uri()  . '/add-to-calendar/main.css'); ?>
 <?php get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); 

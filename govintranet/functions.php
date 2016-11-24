@@ -105,8 +105,7 @@ function govintranet_setup() {
 	) );
 
 	// theme options functions:
-	
-	require_once ( get_stylesheet_directory() . '/theme-options.php'  );
+	require_once ( get_template_directory() . '/theme-options.php'  );
 	
 	add_theme_support('custom-background');
 	add_theme_support('custom-header');
@@ -575,7 +574,7 @@ function govintranet_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 	register_sidebar( array(
-		'name' => __( 'Homepage third column top', 'govintranet' ),
+		'name' => __( 'Homepage third column', 'govintranet' ),
 		'id' => 'home-widget-area3t',
 		'description' => __( 'Homepage third column top', 'govintranet' ),
 		'before_widget' => '<div class="category-block">',
@@ -743,10 +742,10 @@ function enqueueThemeScripts() {
 	 wp_enqueue_script( 'jquery-ui-core' );
 	 wp_enqueue_script( 'jquery-effects-core' );
 	 
-	 wp_register_script( 'bootstrap_min', get_stylesheet_directory_uri() . "/js/bootstrap.min.js");
+	 wp_register_script( 'bootstrap_min', get_template_directory_uri() . "/js/bootstrap.min.js");
 	 wp_enqueue_script( 'bootstrap_min' );
 
-	 wp_register_script( 'ht-scripts', get_stylesheet_directory_uri() . "/js/ht-scripts.js");
+	 wp_register_script( 'ht-scripts', get_template_directory_uri() . "/js/ht-scripts.js");
 	 wp_enqueue_script( 'ht-scripts' );
 
 	 wp_enqueue_style( 'ht-font', "//fonts.googleapis.com/css?family=Open+Sans:300,400,700",'','screen');
@@ -917,7 +916,7 @@ function my_custom_login_logo() {
     </style>';
     } else {
     echo '<style type="text/css">
-	h1 a { background-image:url('.get_stylesheet_directory_uri().'/images/loginbranding.png) !important; 
+	h1 a { background-image:url('.get_template_directory_uri().'/images/loginbranding.png) !important; 
 	       width: auto !important;
            background-size: auto !important;
            }
@@ -9724,7 +9723,7 @@ add_shortcode("listteams", "ht_listteams_shortcode");
 
 function ht_listtags_shortcode($atts,$content){
 
-	 wp_register_script( 'masonry.pkgd.min', get_stylesheet_directory_uri() . "/js/masonry.pkgd.min.js");
+	 wp_register_script( 'masonry.pkgd.min', get_template_directory_uri() . "/js/masonry.pkgd.min.js");
 	 wp_enqueue_script( 'masonry.pkgd.min',95 );
 
     //get any attributes that may have been passed; override defaults
@@ -10377,7 +10376,7 @@ function govintranet_custom_styles() {
 	$giscss = get_option('options_custom_css_code');
 	if ( $giscss ) $custom_css.= $giscss;
 
-	$styleurl = get_stylesheet_directory_uri() . '/css/custom.css';
+	$styleurl = get_template_directory_uri() . '/css/custom.css';
 	wp_enqueue_style( 'govintranet_custom_styles', $styleurl );
 	wp_add_inline_style('govintranet_custom_styles' , $custom_css);	
 }
@@ -10730,15 +10729,22 @@ function govintranet_default_content( $post_content, $post ) {
     switch( $post->post_type ) {
         case 'task':
             $post->comment_status = 'closed';
+			break;
         case 'event':
             $post->comment_status = 'closed';
+			break;
         case 'vacancy':
             $post->comment_status = 'closed';
+			break;
         case 'project':
             $post->comment_status = 'closed';
+			break;
         case 'team':
             $post->comment_status = 'closed';
-        break;
+			break;
+		/* Just break out of the switch statement for everything else. */
+		default :
+			break;
     }
     return $post_content;
 }
