@@ -109,12 +109,12 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			$activeletter = $requestshow;
 			foreach($letters as $l) {
 				if ($l == $activeletter) {
-					$letterlink[$l] = "<li  class='{$l} active'><a href='?grade=".$grade."&amp;show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
+					$letterlink[$l] = "<li  class='{$l} active'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
 				} else {
 					if (in_array($l, $live)){
-						$letterlink[$l] = "<li  class='{$l}'><a href='?grade=".$grade."&amp;show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
+						$letterlink[$l] = "<li  class='{$l}'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
 					} else {
-							$letterlink[$l] = "<li  class='{$l} disabled'><a href='?grade=".$grade."&amp;show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
+							$letterlink[$l] = "<li  class='{$l} disabled'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
 					}
 				}						
 			}
@@ -132,11 +132,12 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					$userq = $wpdb->get_results($q,ARRAY_A);
 					$html="<div class='row'>";
 					foreach ((array)$userq as $u){ 
+						$userid = $u['user_id'];
+						if ( get_user_meta($userid, 'user_hide', true ) ) continue; 
 						$usergrade = get_user_meta($u['user_id'],'user_grade',true); 
 						$gradecode = '';
 						if ( $usergrade ) $gradecode = get_option('grade_'.$usergrade.'_grade_code', '');
 						$title = $u['name'];
-						$userid = $u['user_id'];
 						$thisletter = strtoupper(substr($title,0,1));	
 						$user_info = get_userdata($userid);
 						if ( isset( $hasentries[$thisletter] ) ):

@@ -1097,13 +1097,28 @@ function ht_exclude_user_search($hits){
 		foreach ($hits[0] as $h){ 
 			$hcount++;
 			if ($h->post_type=='user'):
-				array_push($recs, $h);
+				if ( !get_user_meta($h->ID, 'user_hide', true ) ): 
+					array_push($recs, $h);
+				endif;
 			endif;	
 		}
 		return array($recs);
 	else:
-		// include everything
-		return $hits;
+		// include everything but hidden users
+		$hcount=-1;
+		$recs=array();
+		$newrecs = $hits;
+		foreach ($hits[0] as $h){ 
+			$hcount++;
+			if ($h->post_type=='user'):
+				if ( !get_user_meta($h->ID, 'user_hide', true ) ): 
+					array_push($recs, $h);
+				endif;
+			else:
+				array_push($recs, $h);
+			endif;	
+		}
+		return array($recs);		
 	endif;
 }
 
@@ -4493,7 +4508,7 @@ if( function_exists('acf_add_local_field_group') ):
 		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
 
 			'key' => 'group_55dd043b43161',
-			'title' => __('Staff directory order','govintranet'),
+			'title' => __('Admin options','govintranet'),
 			'fields' => array (
 				array (
 					'key' => 'field_55dd044565e83',
@@ -4517,6 +4532,22 @@ if( function_exists('acf_add_local_field_group') ):
 					'step' => '',
 					'readonly' => 0,
 					'disabled' => 0,
+				),
+				array (
+					'key' => 'field_5839e7119ab89',
+					'label' => __('Hide in staff directory','govintranet'),
+					'name' => 'user_hide',
+					'type' => 'true_false',
+					'instructions' => __('Exclude user in search results, staff directory and team listings.','govintranet'),
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'message' => '',
+					'default_value' => 0,
 				),
 			),
 			'location' => array (

@@ -26,6 +26,12 @@ get_header(); ?>
 
 			<?php the_content(); ?>
 
+			<?php
+			if ('open' == $post->comment_status) {
+				 comments_template( '', true ); 
+			}
+		 	?>
+
 			<?php wp_reset_query();?>
 			
 		</div> <!--end of first column-->

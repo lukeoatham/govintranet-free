@@ -38,6 +38,9 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.30 - 27 Nov 2016 ###
+* New feature to hide users in search results, staff directory and team listings 
+
 ### 4.29 - 25 Nov 2016 ###
 * Improvements to bbPress user templates 
 

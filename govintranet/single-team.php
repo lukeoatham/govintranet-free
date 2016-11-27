@@ -232,6 +232,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 		 			array_multisort( $uorder, $ulastname, $uid);
 		 			if ( $uid ) foreach ($uid as $u){ 
 		 				if ( isset( $alreadyshown[$u] ) ) continue;
+		 				if ( get_user_meta($u, 'user_hide', true ) ) continue; 
 		 				$alreadyshown[$u] = true;
 		 				$userid = $u;
 						if ( isset( $teamleaderid ) && in_array( $userid, $teamleaderid ) ) continue; 
