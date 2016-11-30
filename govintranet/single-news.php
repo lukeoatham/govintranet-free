@@ -115,171 +115,161 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 
 		 	wp_reset_postdata();
 		 	
-		 	$trans = "related_news_" . $post->ID;
-		 	$html = get_transient($trans);
-		 	if ( !$html ):
-				/*****************
+			/*****************
+			
+			AUTOMATED RELATED NEWS
+			
+			Show 5 latest news stories, excluding the current post and any posts already manually entered as related 
+			If this post is a need to know story, show other need to know stories.
+			Otherwise check for recent news stories in the same categories as this post.
+			If still nothing found, show the latest news stories excluding need to know items
 				
-				AUTOMATED RELATED NEWS
-				
-				Show 5 latest news stories, excluding the current post and any posts already manually entered as related 
-				If this post is a need to know story, show other need to know stories.
-				Otherwise check for recent news stories in the same categories as this post.
-				If still nothing found, show the latest news stories excluding need to know items
-					
-				******************/
-		
-			 	// get meta to use for displaying related news
+			******************/
 	
-			 	$alreadydone[] = $post->ID;
-				$update = has_post_format( 'status' , $post->ID ); 
-				$newstype = get_the_terms( $post->ID , 'news-type' ); 
-				$ntags = array();
-				$nidtags = array();
-				$newstags = get_the_tags( $post->ID); 
-				$recentitems = new WP_Query(); 
+		 	// get meta to use for displaying related news
 
-				if ($newstype):
-					$terms = array();
-					foreach ( $newstype as $n ){
-						$terms[] = $n->slug;
-					}
-				endif;
-				
-				if ($newstags):
-					foreach ( $newstags as $n ){
-						$ntags[] = $n->slug; 
-						$nidtags[] = $n->term_id;
-					}
-				endif;
-	
-				// try to find other need to know stories
-				$subhead = __('Other updates', 'govintranet');
-				if ($update) { 
-					$recentitems = new WP_Query(array(
-						'post_type'	=>	'news',
-						'posts_per_page'	=>	5,
-						'no_found_rows' => true,
-						'post__not_in'	=> $alreadydone,
-						'tax_query' => array(array(
-							'taxonomy' => 'post_format',
-							'field' => 'slug',
-							'terms' => 'post-format-status'
-							)),
-						 ) );			
+		 	$alreadydone[] = $post->ID;
+			$update = has_post_format( 'status' , $post->ID ); 
+			$newstype = get_the_terms( $post->ID , 'news-type' ); 
+			$ntags = array();
+			$nidtags = array();
+			$newstags = get_the_tags( $post->ID); 
+			$recentitems = new WP_Query(); 
+
+			if ($newstype):
+				$terms = array();
+				foreach ( $newstype as $n ){
+					$terms[] = $n->slug;
 				}
-				
-				if ( $recentitems->found_posts == 0 && isset($terms) && isset($ntags) && $terms && $ntags ):
-				// no need to know stories so we'll look for others with the same tags AND category
-					add_filter('pre_get_posts', 'filter_news');
-					$subhead = __('Similar news','govintranet');
-					$recentitems = new WP_Query(array(
-							'post_type'	=>	'news',
-							'posts_per_page'	=>	5,
-							'no_found_rows' => true,
-							'post__not_in'	=> $alreadydone,
-							'tax_query' => array(
-								'relation' => 'AND',
-								array(
-								'taxonomy' => 'news-type',
-								'field' => 'slug',
-								'terms' => $terms,
-								'operator' => 'IN'
-								),
-								array(
-								'taxonomy' => 'post_tag',
-								'field' => 'term_id',
-								'terms' => $nidtags,
-								'operator' => 'IN'
-								),
-								),
-							 ) );		
-					remove_filter('pre_get_posts', 'filter_news');
-				endif;			
-				
-				if ( $recentitems->found_posts == 0 && isset($ntags) && $ntags ): 
-				// no stories with same tags and cats so we'll look for others with just the same tags
-					add_filter('pre_get_posts', 'filter_news');
-					$subhead = __('Similar news' , 'govintranet');
-					$recentitems = new WP_Query(array(
-							'post_type'	=>	'news',
-							'posts_per_page'	=>	5,
-							'no_found_rows' => true,
-							'post__not_in'	=> $alreadydone,
-							'tax_query' => array(
-								array(
-								'taxonomy' => 'post_tag',
-								'field' => 'term_id',
-								'terms' => $nidtags,
-								'operator' => 'IN'
-								),
-								),
-							 ) );			
-					remove_filter('pre_get_posts', 'filter_news');
-				endif;			
-				
-				if ( $recentitems->found_posts == 0 && isset($terms) && $terms ): 
-				// still nothing found, we'll look for other stories in the same news categories as this story
-					$subhead = __('Other related news','govintranet');
-					if ($newstype):
-						$recentitems = new WP_Query(array(
-							'post_type'	=>	'news',
-							'posts_per_page'	=>	5,
-							'no_found_rows' => true,
-							'post__not_in'	=> $alreadydone,
-							'tax_query' => array(array(
-								'taxonomy' => 'news-type',
-								'field' => 'slug',
-								'terms' => $terms,
-								)),
-							 ) );	
-					endif;
-				endif;
-				
-				if ( $recentitems->found_posts == 0 ): 
-				// still nothing found, we'll load the latest 5 stories excluding any need to know
-					$subhead = __('Recent news','govintranet');
+			endif;
+			
+			if ($newstags):
+				foreach ( $newstags as $n ){
+					$ntags[] = $n->slug; 
+					$nidtags[] = $n->term_id;
+				}
+			endif;
+
+			// try to find other need to know stories
+			$subhead = __('Other updates', 'govintranet');
+			if ($update) { 
+				$recentitems = new WP_Query(array(
+					'post_type'	=>	'news',
+					'posts_per_page'	=>	5,
+					'post__not_in'	=> $alreadydone,
+					'tax_query' => array(array(
+						'taxonomy' => 'post_format',
+						'field' => 'slug',
+						'terms' => 'post-format-status'
+						)),
+					 ) );			
+			}
+			
+			if ( $recentitems->found_posts == 0 && isset($terms) && isset($ntags) && $terms && $ntags ):
+			// no need to know stories so we'll look for others with the same tags AND category
+				add_filter('pre_get_posts', 'filter_news');
+				$subhead = __('Similar news','govintranet');
+				$recentitems = new WP_Query(array(
+						'post_type'	=>	'news',
+						'posts_per_page'	=>	5,
+						'post__not_in'	=> $alreadydone,
+						'tax_query' => array(
+							'relation' => 'AND',
+							array(
+							'taxonomy' => 'news-type',
+							'field' => 'slug',
+							'terms' => $terms,
+							'operator' => 'IN'
+							),
+							array(
+							'taxonomy' => 'post_tag',
+							'field' => 'term_id',
+							'terms' => $nidtags,
+							'operator' => 'IN'
+							),
+							),
+						 ) );		
+				remove_filter('pre_get_posts', 'filter_news');
+			endif;			
+			
+			if ( $recentitems->found_posts == 0 && isset($ntags) && $ntags ): 
+			// no stories with same tags and cats so we'll look for others with just the same tags
+				add_filter('pre_get_posts', 'filter_news');
+				$subhead = __('Similar news' , 'govintranet');
+				$recentitems = new WP_Query(array(
+						'post_type'	=>	'news',
+						'posts_per_page'	=>	5,
+						'post__not_in'	=> $alreadydone,
+						'tax_query' => array(
+							array(
+							'taxonomy' => 'post_tag',
+							'field' => 'term_id',
+							'terms' => $nidtags,
+							'operator' => 'IN'
+							),
+							),
+						 ) );			
+				remove_filter('pre_get_posts', 'filter_news');
+			endif;			
+			
+			if ( $recentitems->found_posts == 0 && isset($terms) && $terms ): 
+			// still nothing found, we'll look for other stories in the same news categories as this story
+				$subhead = __('Other related news','govintranet');
+				if ($newstype):
 					$recentitems = new WP_Query(array(
 						'post_type'	=>	'news',
 						'posts_per_page'	=>	5,
-						'no_found_rows' => true,
 						'post__not_in'	=> $alreadydone,
 						'tax_query' => array(array(
-							'taxonomy' => 'post_format',
+							'taxonomy' => 'news-type',
 							'field' => 'slug',
-							'terms' => 'post-format-status',
-							'operator' => 'NOT IN',
+							'terms' => $terms,
 							)),
-						 ) );			
+						 ) );	
 				endif;
-	
-				// If something to show, create HTML
-	
-				if ( $recentitems->have_posts() ):
-					$html = "";
-					$html.= "<div class='widget-box nobottom'>";
-					$html.= "<h3>".$subhead."</h3>";
-					while ( $recentitems->have_posts() ) : $recentitems->the_post(); 
-						if ($mainid!=$post->ID) {
-							$thistitle = get_the_title($id);
-							$thistitleatt = the_title_attribute('echo=0');
-							$thisURL = get_permalink($id);
-							$html.= "<div class='widgetnewsitem'>";
-							$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
-							$html.= "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
-							$thisdate = $post->post_date;
-							$thisdate = date(get_option('date_format'),strtotime($thisdate));
-							$html.= "<span class='news_date'>".$thisdate;
-							$html.= "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitleatt}' >" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
-						}
-					endwhile; 
-					$html.= "</div>";
-				endif;
-	
-				add_filter('pre_get_posts', 'ht_filter_search');
-				wp_reset_query();
-				set_transient($trans, $html."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60 * 60);
 			endif;
+			
+			if ( $recentitems->found_posts == 0 ): 
+			// still nothing found, we'll load the latest 5 stories excluding any need to know
+				$subhead = __('Recent news','govintranet');
+				$recentitems = new WP_Query(array(
+					'post_type'	=>	'news',
+					'posts_per_page'	=>	5,
+					'post__not_in'	=> $alreadydone,
+					'tax_query' => array(array(
+						'taxonomy' => 'post_format',
+						'field' => 'slug',
+						'terms' => 'post-format-status',
+						'operator' => 'NOT IN',
+						)),
+					 ) );			
+			endif;
+
+			// If something to show, create HTML
+
+			if ( $recentitems->have_posts() ):
+				$html = "";
+				$html.= "<div class='widget-box nobottom'>";
+				$html.= "<h3>".$subhead."</h3>";
+				while ( $recentitems->have_posts() ) : $recentitems->the_post(); 
+					if ($mainid!=$post->ID) {
+						$thistitle = get_the_title($id);
+						$thistitleatt = the_title_attribute('echo=0');
+						$thisURL = get_permalink($id);
+						$html.= "<div class='widgetnewsitem'>";
+						$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
+						$html.= "<h3><a href='{$thisURL}'>".$thistitle."</a></h3>";
+						$thisdate = $post->post_date;
+						$thisdate = date(get_option('date_format'),strtotime($thisdate));
+						$html.= "<span class='news_date'>".$thisdate;
+						$html.= "</span><br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitleatt}' >" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
+					}
+				endwhile; 
+				$html.= "</div>";
+			endif;
+
+			add_filter('pre_get_posts', 'ht_filter_search');
+			wp_reset_query();
 			echo $html;
 			?>
 		</div> <!--end of second column-->

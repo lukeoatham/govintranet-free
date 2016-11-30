@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.30.1 - 30 Nov 2016 ###
+* Auto-related news and blog post fixes 
+* Language file updates 
+
 ### 4.30 - 27 Nov 2016 ###
 * New feature to hide users in search results, staff directory and team listings 
 
