@@ -26,16 +26,18 @@
 	    'posts_per_page' => -1,
 		'post_status'=>'inherit',
 	    'tax_query'=>array(
-	    array(  
-	    'taxonomy' => 'category',
-		'field' => 'id',
-		'terms' => $cat_id)),
-		'meta_query'=>array(
-	    array(  
-	    'key' => 'document_type',
-	    'compare'=>"LIKE",
-		'value' => '"' .$doctyp.'"' )),
-		
+		    'relation' => 'AND',
+		    array(  
+		    'taxonomy' => 'category',
+			'field' => 'id',
+			'terms' => $cat_id
+			),
+		    array(  
+		    'taxonomy' => 'document-type',
+			'field' => 'id',
+			'terms' => $doctyp
+			),
+			),
 		));
 	} 
 
@@ -47,12 +49,14 @@
 	    'posts_per_page' => -1,
 		'post_status'=>'inherit',
 		'post_mime_type' => 'application',
-		'meta_query'=>array(
-	    array(  
-	    'key' => 'document_type',
-	    'compare'=>"LIKE",
-		'value' => '"' .$doctyp.'"' ))
-		));	
+	    'tax_query'=>array(
+		    array(  
+		    'taxonomy' => 'document-type',
+			'field' => 'id',
+			'terms' => $doctyp,
+			'compare' => 'IN'
+			),
+		)));	
 	}
 
 	if ($cat_id!='any' && $doctyp=='any' ){ // single cat
@@ -62,19 +66,13 @@
 			'order'=>'ASC',
 			'posts_per_page' => -1,
 			'post_status'=>'inherit',
-			'tax_query'=>array(
-			array(  
-			'taxonomy' => 'category',
-			'field' => 'id',
-			'terms' => $cat_id,
-			'compare' => 'IN',
-			)),
-			'meta_query'=>array(
-		    array(  
-		    'key' => 'document_type',
-			'value' => '',
-			'compare' => '!=',
-			)),
+		    'tax_query'=>array(
+			    array(  
+			    'taxonomy' => 'category',
+				'field' => 'id',
+				'terms' => $cat_id
+				),
+				),
 			)); 
 	}
 
@@ -85,12 +83,13 @@
 			'order'=>'ASC',
 	        'posts_per_page' => -1,
 			'post_status'=>'inherit',
-			'meta_query'=>array(
-		    array(  
-		    'key' => 'document_type',
-			'value' => '',
-			'compare' => '!=',
-			)),
+		    'tax_query'=>array(
+			    array(  
+			    'taxonomy' => 'document-type',
+				'field' => 'id',
+				'COMPARE' => 'EXISTS'
+				),
+				),
 		));	
 	}
 

@@ -38,6 +38,10 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.30.2 - 1 Dec 2016 ###
+* Aggregator document listing fix for new document types 
+* Style updates for user avatars on profile page and About this page widget  
+
 ### 4.30.1 - 30 Nov 2016 ###
 * Auto-related news and blog post fixes 
 * Language file updates 
