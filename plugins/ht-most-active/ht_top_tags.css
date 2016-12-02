@@ -1,9 +1,6 @@
 .wptag {
 	padding: 10px 10px;
 }
-#ht_top_tags .progress-bar {
-	background: none;
-}
 #ht_top_tags .progress-bar.progress-bar-title { background-color: #ffffff;
 	background-image: none;
 	color: #535353;
