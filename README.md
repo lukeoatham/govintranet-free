@@ -38,6 +38,12 @@ Refer to [Setup instructions](http://help.govintra.net/) for help and installati
 
 ## Changelog ##
 
+### 4.30.3 - 6 Dec 2016 ###
+* Breadcrumb added to Aggregator template 
+* New option on staff directory template to set default sort order 
+* Event type redirect added to archive template 
+* Search filter fix 
+
 ### 4.30.2 - 1 Dec 2016 ###
 * Aggregator document listing fix for new document types 
 * Style updates for user avatars on profile page and About this page widget  

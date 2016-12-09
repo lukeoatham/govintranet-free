@@ -3,18 +3,15 @@
 
 wp_enqueue_script( 'masonry',1 );
 					
-get_header(); ?>
-
-<?php 
-
-
+get_header(); 
 
 $fulldetails=get_option('options_full_detail_staff_cards'); // 1 = show
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 $showgrade = get_option('options_show_grade_on_staff_cards'); // 1 = show 
 $showmobile = get_option('options_show_mobile_on_staff_cards'); // 1 = show
-$sort = '';
+$sort= "";
 if ( isset( $_GET["sort"] ) ) $sort = $_GET["sort"]; 
+if (!$sort) $sort = strtolower(get_post_meta($post->ID,'staff_directory_order',true));
 if (!$sort) $sort = "first";
 $requestshow = "A";
 if ( isset( $_REQUEST['show'] ) ) $requestshow = $_REQUEST['show'];
@@ -31,9 +28,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			<div class="col-lg-12 col-md-12 col-sm-12">
 				<h1><?php the_title(); ?></h1>
 			</div>
-			<div class="col-sm-4"><!-- blank --></div>
-			<div class="col-sm-12 well well-sm">
-			<div id="staff-search">
+			<div class="col-sm-12 well well-sm" id="staff-search">
 				<div class="col-sm-8">
 					<form class="form-horizontal" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo site_url('/'); } else { echo site_url( '/search-staff/' ); } ?>">
 						<div class="input-group">
@@ -72,55 +67,50 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					?>
 				</div>
 			</div>
-		</div>
 		</div><!--end-->	
-	<script type='text/javascript'>
-	    jQuery(document).ready(function(){
-			jQuery('#searchform2').submit(function(e) {
-			    if (jQuery.trim(jQuery("#s2").val()) === "") {
-			        e.preventDefault();
-			        jQuery('#s2').focus();
-			    }
+		<script type='text/javascript'>
+		    jQuery(document).ready(function(){
+				jQuery('#searchform2').submit(function(e) {
+				    if (jQuery.trim(jQuery("#s2").val()) === "") {
+				        e.preventDefault();
+				        jQuery('#s2').focus();
+				    }
+				});	
 			});	
-		});	
-	</script>
-		
-		<div class="col-lg-4 col-md-4 col-sm-4">
+		</script>
+		<div class="col-lg-4 col-md-4 col-sm-12">
 			<!-- intentionally left blank -->
 		</div>
-	</div>
-	<div class="col-lg-12 col-md-12 col-sm-12">
-	<?php 
-		global $wpdb;
-		if ($sort == 'last' || $sort == 'first'){
-			if ($sort == 'first') :
-				$q = "select distinct left(meta_value,1) as letter from $wpdb->usermeta where meta_key = 'first_name' group by meta_value;";
-				$liveletters = $wpdb->get_results($q,ARRAY_A);
-			endif;
-			if ($sort == 'last') :
-				$q = "select distinct left(meta_value,1) as letter from $wpdb->usermeta where meta_key = 'last_name' group by meta_value;";
-				$liveletters = $wpdb->get_results($q,ARRAY_A);
-			endif;
-			$live = array();
-			foreach ($liveletters as $ll){
-				$live[] = $ll['letter'];
-			}
-			$letters = range('A','Z');
-			$activeletter = $requestshow;
-			foreach($letters as $l) {
-				if ($l == $activeletter) {
-					$letterlink[$l] = "<li  class='{$l} active'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
-				} else {
-					if (in_array($l, $live)){
-						$letterlink[$l] = "<li  class='{$l}'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
+		<div class="col-lg-12 col-md-12 col-sm-12">
+			<?php 
+			global $wpdb;
+			if ($sort == 'last' || $sort == 'first'){
+				if ($sort == 'first') :
+					$q = "select distinct left(meta_value,1) as letter from $wpdb->usermeta where meta_key = 'first_name' group by meta_value;";
+					$liveletters = $wpdb->get_results($q,ARRAY_A);
+				endif;
+				if ($sort == 'last') :
+					$q = "select distinct left(meta_value,1) as letter from $wpdb->usermeta where meta_key = 'last_name' group by meta_value;";
+					$liveletters = $wpdb->get_results($q,ARRAY_A);
+				endif;
+				$live = array();
+				foreach ($liveletters as $ll){
+					$live[] = $ll['letter'];
+				}
+				$letters = range('A','Z');
+				$activeletter = $requestshow;
+				foreach($letters as $l) {
+					if ($l == $activeletter) {
+						$letterlink[$l] = "<li  class='{$l} active'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
 					} else {
-							$letterlink[$l] = "<li  class='{$l} disabled'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
-					}
-				}						
-			}
-				
-			?>	
-
+						if (in_array($l, $live)){
+							$letterlink[$l] = "<li  class='{$l}'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
+						} else {
+								$letterlink[$l] = "<li  class='{$l} disabled'><a href='?show=".$l."&amp;sort={$sort}'>".$l."</a></li>";
+						}
+					}						
+				}
+				?>	
 			<div class="col-lg-12 col-md-12 col-sm-12">
 				<ul id='atozlist' class="pagination">
 					<?php
@@ -207,63 +197,57 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						}
 					}
 				}
-
 				echo @implode("",$letterlink); 
 				?>
-				
 			</ul>
-		</div>
-	</div>
-	<div class="col-lg-12 col-md-12 col-sm-12">
-		<div id="sortfilter">
-			<div class="col-lg-4 col-md-5 col-sm-6">
-				<strong><?php _e('Sort by' , 'govintranet'); ?>:&nbsp;</strong>
-				<?php if ($sort=="first") : ?>
-						<button type="button" class="btn btn-primary"><?php _e('First name' , 'govintranet'); ?></button>
-				<?php else : ?>
-						<a class='btn btn-default' href="<?php the_permalink(); ?>?sort=first&amp;show=<?php echo $requestshow ?>"><?php _e('First name' , 'govintranet'); ?></a>
-				<?php endif; ?>
-
-				<?php if ($sort=="last") : ?>
-					<button type="button" class="btn btn-primary"><?php _e('Last name' , 'govintranet'); ?></button>
-				<?php else : ?>
-					<a class='btn btn-default' href="<?php the_permalink(); ?>?sort=last&amp;show=<?php echo $requestshow ?>"><?php _e('Last name' , 'govintranet' ); ?></a>
-				<?php endif; ?>
 			</div>
 		</div>
-	</div>	
-	<div class="col-lg-12 col-md-12 col-sm-12">
-  		<?php 
-	  	$output='<div id="gridcontainer"><div class="grid-sizer"></div>'.$html."</div>";
-		echo $output;
-		?>
-	</div>
-
-<?php
-}
-?>
-
-<script type="text/javascript">
-jQuery(document).ready(function($){
-var container = jQuery('#gridcontainer');
-container.imagesLoaded(function(){
-container.masonry({
-		itemSelector: '.pgrid-item',
-		gutter: 0,
-		isAnimated: true
-});
-});
-});
-</script>
-
-	<div class="col-lg-12 col-md-12 col-sm-12">
 		<div class="col-lg-12 col-md-12 col-sm-12">
-			<?php the_content(); ?>
+			<div id="sortfilter">
+				<div class="col-lg-4 col-md-5 col-sm-6">
+					<div class="input-group">
+						<span class="input-group-addon" id="directory-sort"><?php _e('Sort by' , 'govintranet'); ?></span>
+						<div class="input-group-btn">
+						<?php if ($sort=="first") : ?>
+								<a class='btn btn-primary disabled' href="<?php the_permalink(); ?>?sort=first&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('First name' , 'govintranet'); ?></a>
+								<a class='btn btn-primary' href="<?php the_permalink(); ?>?sort=last&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('Last name' , 'govintranet' ); ?></a>
+						<?php else : ?>
+								<a class='btn btn-primary' href="<?php the_permalink(); ?>?sort=first&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('First name' , 'govintranet'); ?></a>
+								<a class='btn btn-primary disabled' href="<?php the_permalink(); ?>?sort=last&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('Last name' , 'govintranet' ); ?></a>
+						<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+		<div class="col-lg-12 col-md-12 col-sm-12">
+	  		<?php 
+		  	$output='<div id="gridcontainer"><div class="grid-sizer"></div>'.$html."</div>";
+			echo $output;
+			?>
+		</div>
+	<?php
+	}
+	?>
+	<script type="text/javascript">
+	jQuery(document).ready(function($){
+	var container = jQuery('#gridcontainer');
+	container.imagesLoaded(function(){
+	container.masonry({
+			itemSelector: '.pgrid-item',
+			gutter: 0,
+			isAnimated: true
+	});
+	});
+	});
+	</script>
+		<div class="col-lg-12 col-md-12 col-sm-12">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<?php the_content(); ?>
+			</div>
 		</div>
 	</div>
-
 </div>
-
 <?php endwhile; ?>
 
 <?php get_footer(); ?>

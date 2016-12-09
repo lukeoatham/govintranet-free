@@ -44,7 +44,7 @@ $include_attachments = get_option("options_enable_include_attachments");
 $include_forums = get_option("options_enable_include_forums");			
 $closed_filter = get_option("options_enable_closed_search_filter");
 $s=get_search_query();
-$ptargs = array( '_builtin' => false, 'public' => true, 'exclude_from_search' => false );
+$ptargs = array( '_builtin' => false, 'publicly_queryable' => true, 'exclude_from_search' => false );
 $postTypes = get_post_types($ptargs, 'objects');
 $checkbox = "";
 ksort($postTypes); 

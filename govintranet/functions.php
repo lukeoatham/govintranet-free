@@ -4505,74 +4505,124 @@ if( function_exists('acf_add_local_field_group') ):
 	
 	if ( get_option( 'options_module_staff_directory' )  ):
 	
-		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
+		if( function_exists('acf_add_local_field_group') ) :
+		
+			acf_add_local_field_group(array (
 
-			'key' => 'group_55dd043b43161',
-			'title' => __('Admin options','govintranet'),
-			'fields' => array (
-				array (
-					'key' => 'field_55dd044565e83',
-					'label' => __('Order','govintranet'),
-					'name' => 'user_order',
-					'type' => 'number',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => 0,
-					'placeholder' => '',
-					'prepend' => '',
-					'append' => '',
-					'min' => '',
-					'max' => '',
-					'step' => '',
-					'readonly' => 0,
-					'disabled' => 0,
-				),
-				array (
-					'key' => 'field_5839e7119ab89',
-					'label' => __('Hide in staff directory','govintranet'),
-					'name' => 'user_hide',
-					'type' => 'true_false',
-					'instructions' => __('Exclude user in search results, staff directory and team listings.','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'message' => '',
-					'default_value' => 0,
-				),
-			),
-			'location' => array (
-				array (
+				'key' => 'group_55dd043b43161',
+				'title' => __('Admin options','govintranet'),
+				'fields' => array (
 					array (
-						'param' => 'user_form',
-						'operator' => '==',
-						'value' => 'all',
+						'key' => 'field_55dd044565e83',
+						'label' => __('Order','govintranet'),
+						'name' => 'user_order',
+						'type' => 'number',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => 0,
+						'placeholder' => '',
+						'prepend' => '',
+						'append' => '',
+						'min' => '',
+						'max' => '',
+						'step' => '',
+						'readonly' => 0,
+						'disabled' => 0,
 					),
 					array (
-						'param' => 'current_user_role',
-						'operator' => '==',
-						'value' => 'administrator',
+						'key' => 'field_5839e7119ab89',
+						'label' => __('Hide in staff directory','govintranet'),
+						'name' => 'user_hide',
+						'type' => 'true_false',
+						'instructions' => __('Exclude user in search results, staff directory and team listings.','govintranet'),
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'message' => '',
+						'default_value' => 0,
 					),
 				),
-			),
-			'menu_order' => 100,
-			'position' => 'normal',
-			'style' => 'default',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-		));
+				'location' => array (
+					array (
+						array (
+							'param' => 'user_form',
+							'operator' => '==',
+							'value' => 'all',
+						),
+						array (
+							'param' => 'current_user_role',
+							'operator' => '==',
+							'value' => 'administrator',
+						),
+					),
+				),
+				'menu_order' => 100,
+				'position' => 'normal',
+				'style' => 'default',
+				'label_placement' => 'top',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+			));
 	
-	
+			acf_add_local_field_group(array (
+				'key' => 'group_584735019c01d',
+				'title' => __('Directory order','govintranet'),
+				'fields' => array (
+					array (
+						'key' => 'field_58473520ad7a4',
+						'label' => __('Name','govintranet'),
+						'name' => 'staff_directory_order',
+						'type' => 'radio',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'choices' => array (
+							'First' => __('First','govintranet'),
+							'Last' => __('Last','govintranet'),
+						),
+						'allow_null' => 0,
+						'other_choice' => 0,
+						'save_other_choice' => 0,
+						'default_value' => 'First',
+						'layout' => 'horizontal',
+						'return_format' => 'value',
+					),
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'page_template',
+							'operator' => '==',
+							'value' => 'page-staff-directory-masonry.php',
+						),
+					),
+				),
+				'menu_order' => 0,
+				'position' => 'normal',
+				'style' => 'default',
+				'label_placement' => 'top',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+				'active' => 1,
+				'description' => '',
+			));
+		endif;	
+		
 	endif;
 
 	if ( get_option( 'options_module_vacancies' )  ):
