@@ -339,7 +339,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 			                $html.= " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
 					   	}
 					   	$html.= "</span>";
-						$html.= "<br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='{$thistitleatt}'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
+						$html.= "<br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='".esc_attr(get_the_title())."'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 					}
 				}; 
 				$html.= "</div>";

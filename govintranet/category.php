@@ -9,12 +9,25 @@ get_header();
 $taskicon = get_option("options_module_tasks_icon_tasks", "glyphicon glyphicon-file");
 $guideicon = get_option("options_module_tasks_icon_guides", "glyphicon glyphicon-duplicate");
 $tags_open = get_option("options_module_tasks_tags_open", false );
+$posts_per_page = get_option('posts_per_page',10);
+$how_do_i_page = get_option('options_module_tasks_page');
+$search_prompt = get_the_title($how_do_i_page[0]);
+if ( !$search_prompt ) $search_prompt = __('How do I...','govintranet');
+$icon_override = get_option('options_search_button_override', false); 
+if ( isset($icon_override) && $icon_override ):
+	$override_text = esc_html(get_option('options_search_button_text', __('Search','govintranet')));
+	$search_prompt = $override_text;
+endif;
 $catname = get_queried_object()->name;
 $subtitle = $catname;
 $catid = get_queried_object()->term_id;	
 $catslug = get_queried_object()->slug;
 $catdesc = get_queried_object()->description;
-$catlongdesc = get_option("category_".$catid."_cat_long_description", "");
+if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) ):
+	$catlongdesc = get_term_meta($catid, "cat_long_description", true);
+else:
+	$catlongdesc = get_option("category_".$catid."_cat_long_description", "");
+endif;
 if ( $catlongdesc ) $catdesc = $catlongdesc;
 $childrenargs = array (
 	'orderby'           => 'name', 
@@ -35,17 +48,9 @@ if ( isset( $_GET['showtag'] ) ) $tasktagslug = $_GET['showtag'];
 if ($tasktagslug):
 	$tasktag = get_tags(array('slug'=>$tasktagslug));
 	$tasktag = esc_html($tasktag[0]->name);
+	$expanded = "false";
 endif;
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-$posts_per_page = get_option('posts_per_page',10);
-$how_do_i_page = get_option('options_module_tasks_page');
-$search_prompt = get_the_title($how_do_i_page[0]);
-if ( !$search_prompt ) $search_prompt = __('How do I...','govintranet');
-$icon_override = get_option('options_search_button_override', false); 
-if ( isset($icon_override) && $icon_override ):
-	$override_text = esc_html(get_option('options_search_button_text', __('Search','govintranet')));
-	$search_prompt = $override_text;
-endif;
 
 if ( have_posts() )
 	the_post();
@@ -109,7 +114,7 @@ if ( have_posts() )
 		$tagcloud = gi_tag_cloud('category',$catslug,'task'); 
 		if ($tagcloud):
 			$expanded = "false";
-			if ( $tags_open ) $expanded = "true";
+			if ( $tags_open && !$tasktagslug ) $expanded = "true";
 			?>
 			<div class='cattagbutton' ><a class='btn t<?php echo $catid; ?>' data-toggle="collapse" href="#cattagcloud" aria-expanded="<?php echo $expanded; ?>" aria-controls="cattagcloud"><?php _e('Browse by tag','govintranet'); ?> <span class='caret'></span></a></div>
 			<div class="collapse<?php if ( $expanded == "true" ) echo " in"; ?>" id="cattagcloud">

@@ -8,7 +8,7 @@ if (!$gisheight) $gisheight = 7;
 $gis = "options_header_background";
 $gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
 if ( $gishex == "#") $gishex = "#0b2d49";
-$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
+$custom_css = ".custom-background  { background-color: ".$gishex.";	}";
 $headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
 if ( $headtext == "#") $headtext = "#ffffff";
 
@@ -64,6 +64,7 @@ $filter_cols = 12 / $filter_count;
 	$doctyp = 'any';
 	$cat_slug = 'any';
 	$matoz = 'any';
+	$search = ''; 
 	
 	if ( isset( $_GET['doctyp'] ) ) $doctyp = $_GET['doctyp'] ? $_GET['doctyp'] : 'any' ;
 	if ( isset( $_GET['cat'] ) ) $cat_slug = $_GET['cat'] ? $_GET['cat'] : 'any' ;
@@ -85,7 +86,7 @@ $filter_cols = 12 / $filter_count;
 		$dtname = __("All","govintranet") . " <span class='caret'></span>";
 	}	
 
-	$search = $_GET['q'];
+	if ( isset( $_GET['q'] ) ) $search = $_GET['q'] ? $_GET['q'] : '' ;
 	
 	$is_filtered = true;
 	if ( $cat_slug == "any" && $doctyp == "any" && $matoz == "any" && $search == "" ) $is_filtered = false;
@@ -484,7 +485,7 @@ $filter_cols = 12 / $filter_count;
 		
 				?>
 				<?php if ( $docs->max_num_pages > 1 ) : ?>
-					<?php if (function_exists(wp_pagenavi)) : ?>
+					<?php if (function_exists('wp_pagenavi')) : ?>
 						<?php wp_pagenavi(array('query' => $docs)); ?>
 					<?php else : ?>
 						<?php next_posts_link(__('&larr; Older items','govintranet'), $docs->max_num_pages); ?>

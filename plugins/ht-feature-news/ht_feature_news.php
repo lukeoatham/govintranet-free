@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.6
+Version: 4.7
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -484,7 +484,7 @@ class htFeatureNews extends WP_Widget {
 		$instance['listitems'] = strip_tags($new_instance['listitems']);
 		$instance['showexcerpt'] = strip_tags($new_instance['showexcerpt']);
 		$instance['moretitle'] = strip_tags($new_instance['moretitle']);
-		$instance['cache'] = strip_tags($new_instance['cache']);		
+		$instance['cache'] = intval($new_instance['cache']);		
        return $instance;
     }
 
@@ -496,7 +496,7 @@ class htFeatureNews extends WP_Widget {
         $listitems = esc_attr($instance['listitems']);
         $showexcerpt = esc_attr($instance['showexcerpt']);
         $moretitle = esc_attr($instance['moretitle']);
-        $cache = esc_attr($instance['cache']);
+        $cache = intval($instance['cache']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 

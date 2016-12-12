@@ -4,8 +4,8 @@
 Contributors: lukeoatham  
 Link: http://intranetdiary.co.uk 
 Tags: intranet, gov.uk, responsive  
-Requires at least: 3.4  
-Tested up to: 4.6
+Requires at least: 4.4.0  
+Tested up to: 4.7
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -31,12 +31,17 @@ Intranet theme inspired by GOV.UK. Custom post types: news, blog, events, tasks 
 
 ## Installation ##
 
-This theme requires the [Advanced Custom Fields Pro plugin](http://www.advancedcustomfields.com/pro) to manage custom post types.  
-Tested up to: 5
+This theme requires the [Advanced Custom Fields Pro plugin](http://www.advancedcustomfields.com/pro) v5 to manage options and custom fields.  
+Tested up to: 5.5.0
 Refer to [showcase site](http://demo.govintra.net/) for example intranet.  
-Refer to [Setup instructions](http://help.govintra.net/) for help and installation instructions.
+Refer to [Setup instructions](https://help.govintra.net/) for help and installation instructions.
 
 ## Changelog ##
+
+### 4.31 - 12 Dec 2016 ###
+* Updates for ACF PRO v5.5 
+* Fixes to Timelines and Media A to Z plugins for WP v4.7 
+* New UI for true/false settings in widgets and theme options (requires ACF PRO v5.5+)
 
 ### 4.30.3 - 6 Dec 2016 ###
 * Breadcrumb added to Aggregator template 

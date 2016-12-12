@@ -121,7 +121,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			echo $timetravel;
 			?>
 			<?php if (  $customquery->max_num_pages > 1 ) : ?>
-				<?php if (function_exists(wp_pagenavi)) : ?>
+				<?php if (function_exists('wp_pagenavi')) : ?>
 					<?php wp_pagenavi(array('query' => $customquery)); ?>
 					<?php else : ?>
 					<?php next_posts_link(__('&larr; Older items','govintranet'), $customquery->max_num_pages); ?>

@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: http://www.helpfultechnology.com
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.3
+Version: 1.4
 Author URI: http://www.helpfultechnology.com
 
 */
@@ -282,7 +282,7 @@ class htFeatureBlogposts extends WP_Widget {
 		$instance['freshness'] = strip_tags($new_instance['freshness']);
 		$instance['more'] = strip_tags($new_instance['more']);
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
-		$instance['cache'] = strip_tags($new_instance['cache']);	
+		$instance['cache'] = intval($new_instance['cache']);	
        return $instance;
     }
 
@@ -293,7 +293,7 @@ class htFeatureBlogposts extends WP_Widget {
 		$freshness = esc_attr($instance['freshness']);
 		$more = esc_attr($instance['more']);
 		$more = esc_attr($instance['excerpt']);
-		$cache = esc_attr($instance['cache']);
+		$cache = intval($instance['cache']);
 		?>
 		<p>
 		<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 

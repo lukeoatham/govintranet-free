@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.6
+Version: 1.8
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -23,12 +23,13 @@ class htAboutThisPage extends WP_Widget {
     function widget($args, $instance) {
 		global $post;
 	    wp_reset_postdata();
+		$user = get_userdata($post->post_author);
+		if ( !is_object($user) ) return;
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $show_modified_date = ($instance['show_modified_date']);
         $show_published_date = ($instance['show_published_date']);
         $show_author = ($instance['show_author']);
-        $normal_date_format = ($instance['normal_date_format']);
 		$showabout = true;
 		if ( is_singular(array('forum','topic','reply'))) $showabout = false;
 		if ( is_search() ) $showabout = false;
@@ -99,11 +100,11 @@ class htAboutThisPage extends WP_Widget {
 				$forumsupport = get_option($gis);
 				$staffdirectory = get_option('options_module_staff_directory');
 				if ($forumsupport){	
-					$authorlink = "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>";
+					$authorlink = "<a>";
+					if ( is_object($user) ) $authorlink = "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>";
 					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
 						$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
-					} 
-					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
+					} elseif (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
 						echo "<a href='";
 						bbp_user_profile_url( $post->post_author );
 						echo "'>";

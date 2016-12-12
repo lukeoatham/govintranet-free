@@ -4,7 +4,7 @@ Plugin Name: HT Timeline
 Plugin URI: http://www.helpfultechnology.com
 Description: Create timeline walls with an optional filter
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -13,8 +13,8 @@ function ht_register_timeline_custom_fields() {
 
 	/*
 	Register timeline custom post type
-	*/		
-        
+	*/
+
 	if( function_exists('acf_add_local_field_group') ):
 	acf_add_local_field_group(array (
 		'key' => 'group_56c3389135759',
@@ -83,7 +83,7 @@ function ht_register_timeline_custom_fields() {
 						'label' => 'Icon',
 						'name' => 'ht_timeline_icon',
 						'type' => 'text',
-						'instructions' => 'See http://getbootstrap.com/components/ 
+						'instructions' => 'See http://getbootstrap.com/components/
 	Enter just the last part e.g. hand-up, pushpin',
 						'required' => 0,
 						'conditional_logic' => 0,
@@ -154,8 +154,8 @@ function ht_register_timeline_custom_fields() {
 		'active' => 1,
 		'description' => '',
 	));
-	endif;	
-  
+	endif;
+
 
 }
 
@@ -178,17 +178,17 @@ class Timelines {
 
 
         /**
-         * Returns an instance of this class. 
+         * Returns an instance of this class.
          */
         public static function get_instance() {
 
                 if( null == self::$instance ) {
                         self::$instance = new Timelines();
-                } 
+                }
 
                 return self::$instance;
 
-        } 
+        }
 
         /**
          * Initializes the plugin by setting filters and administration functions.
@@ -199,24 +199,30 @@ class Timelines {
 
 
                 // Add a filter to the attributes metabox to inject template into the cache.
-                add_filter(
-					'page_attributes_dropdown_pages_args',
-					 array( $this, 'register_timelines_simple_templates' ) 
-				);
+	        	if ( version_compare( floatval( get_bloginfo( 'version' ) ), '4.7', '<' ) ) { // 4.6 and older
+	            		add_filter(
+	                		'page_attributes_dropdown_pages_args',
+	                		array( $this, 'register_timelines_simple_templates' )
+	            		);
+	        	} else { // Add a filter to the wp 4.7 version attributes metabox
+	            		add_filter(
+	                		'theme_page_templates', array( $this, 'add_new_template' )
+	            		);
+	        	}
 
 
                 // Add a filter to the save post to inject out template into the page cache
                 add_filter(
-					'wp_insert_post_data', 
-					array( $this, 'register_timelines_simple_templates' ) 
+					'wp_insert_post_data',
+					array( $this, 'register_timelines_simple_templates' )
 				);
 
 
-                // Add a filter to the template include to determine if the page has our 
+                // Add a filter to the template include to determine if the page has our
 				// template assigned and return it's path
                 add_filter(
-					'template_include', 
-					array( $this, 'view_timelines_simple_template') 
+					'template_include',
+					array( $this, 'view_timelines_simple_template')
 				);
 
 
@@ -224,8 +230,18 @@ class Timelines {
                 $this->templates = array(
                         'template-timelines.php'     => __('Timeline','govintranet'),
                 );
-				
-        } 
+
+        }
+
+
+        /**
+     	 * Adds our template to the page dropdown for v4.7+
+     	 *
+     	 */
+    	public function add_new_template( $posts_templates ) {
+        	$posts_templates = array_merge( $posts_templates, $this->templates );
+        	return $posts_templates;
+    	}
 
 
         /**
@@ -239,12 +255,12 @@ class Timelines {
                 // Create the key used for the themes cache
                 $cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
-                // Retrieve the cache list. 
+                // Retrieve the cache list.
 				// If it doesn't exist, or it's empty prepare an array
                 $templates = wp_get_theme()->get_page_templates();
                 if ( empty( $templates ) ) {
                         $templates = array();
-                } 
+                }
 
                 // New cache, therefore remove the old one
                 wp_cache_delete( $cache_key , 'themes');
@@ -259,7 +275,7 @@ class Timelines {
 
                 return $atts;
 
-        } 
+        }
 
         /**
          * Checks if the template is assigned to the page
@@ -268,30 +284,30 @@ class Timelines {
 
                 global $post;
 
-                if (!isset($this->templates[get_post_meta( 
-					$post->ID, '_wp_page_template', true 
+                if (!isset($this->templates[get_post_meta(
+					$post->ID, '_wp_page_template', true
 				)] ) ) {
-					
-                        return $template;
-						
-                } 
 
-                $file = plugin_dir_path(__FILE__). get_post_meta( 
-					$post->ID, '_wp_page_template', true 
+                        return $template;
+
+                }
+
+                $file = plugin_dir_path(__FILE__). get_post_meta(
+					$post->ID, '_wp_page_template', true
 				);
-				
+
                 // Just to be safe, we check if the file exist first
                 if( file_exists( $file ) ) {
                         return $file;
-                } 
+                }
 				else { echo $file; }
 
                 return $template;
 
-        } 
+        }
 
 
-} 
+}
 
 class TimelinesFilter {
 
@@ -312,17 +328,17 @@ class TimelinesFilter {
 
 
         /**
-         * Returns an instance of this class. 
+         * Returns an instance of this class.
          */
         public static function get_instance() {
 
                 if( null == self::$instance ) {
                         self::$instance = new TimelinesFilter();
-                } 
+                }
 
                 return self::$instance;
 
-        } 
+        }
 
         /**
          * Initializes the plugin by setting filters and administration functions.
@@ -332,25 +348,31 @@ class TimelinesFilter {
                 $this->templates = array();
 
 
-                // Add a filter to the attributes metabox to inject template into the cache.
-                add_filter(
-					'page_attributes_dropdown_pages_args',
-					 array( $this, 'register_timelines_filter_templates' ) 
-				);
+				// Add a filter to the attributes metabox to inject template into the cache.
+	        	if ( version_compare( floatval( get_bloginfo( 'version' ) ), '4.7', '<' ) ) { // 4.6 and older
+	            		add_filter(
+	                		'page_attributes_dropdown_pages_args',
+	                		array( $this, 'register_timelines_filter_templates' )
+	            		);
+	        	} else { // Add a filter to the wp 4.7 version attributes metabox
+	            		add_filter(
+	                		'theme_page_templates', array( $this, 'add_new_template' )
+	            		);
+	        	}
 
 
                 // Add a filter to the save post to inject out template into the page cache
                 add_filter(
-					'wp_insert_post_data', 
-					array( $this, 'register_timelines_filter_templates' ) 
+					'wp_insert_post_data',
+					array( $this, 'register_timelines_filter_templates' )
 				);
 
 
-                // Add a filter to the template include to determine if the page has our 
+                // Add a filter to the template include to determine if the page has our
 				// template assigned and return it's path
                 add_filter(
-					'template_include', 
-					array( $this, 'view_timelines_filter_template') 
+					'template_include',
+					array( $this, 'view_timelines_filter_template')
 				);
 
 
@@ -358,8 +380,18 @@ class TimelinesFilter {
                 $this->templates = array(
                         'template-timelines-filter.php'     => __('Timeline with filter','govintranet'),
                 );
-				
-        } 
+
+        }
+
+
+        /**
+     	 * Adds our template to the page dropdown for v4.7+
+     	 *
+     	 */
+    	public function add_new_template( $posts_templates ) {
+        	$posts_templates = array_merge( $posts_templates, $this->templates );
+        	return $posts_templates;
+    	}
 
 
         /**
@@ -373,12 +405,12 @@ class TimelinesFilter {
                 // Create the key used for the themes cache
                 $cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
-                // Retrieve the cache list. 
+                // Retrieve the cache list.
 				// If it doesn't exist, or it's empty prepare an array
                 $templates = wp_get_theme()->get_page_templates();
                 if ( empty( $templates ) ) {
                         $templates = array();
-                } 
+                }
 
                 // New cache, therefore remove the old one
                 wp_cache_delete( $cache_key , 'themes');
@@ -393,7 +425,7 @@ class TimelinesFilter {
 
                 return $atts;
 
-        } 
+        }
 
         /**
          * Checks if the template is assigned to the page
@@ -402,30 +434,30 @@ class TimelinesFilter {
 
                 global $post;
 
-                if (!isset($this->templates[get_post_meta( 
-					$post->ID, '_wp_page_template', true 
+                if (!isset($this->templates[get_post_meta(
+					$post->ID, '_wp_page_template', true
 				)] ) ) {
-					
-                        return $template;
-						
-                } 
 
-                $file = plugin_dir_path(__FILE__). get_post_meta( 
-					$post->ID, '_wp_page_template', true 
+                        return $template;
+
+                }
+
+                $file = plugin_dir_path(__FILE__). get_post_meta(
+					$post->ID, '_wp_page_template', true
 				);
-				
+
                 // Just to be safe, we check if the file exist first
                 if( file_exists( $file ) ) {
                         return $file;
-                } 
+                }
 				else { echo $file; }
 
                 return $template;
 
-        } 
+        }
 
 
-} 
+}
 
 add_action( 'plugins_loaded', array( 'TimelinesFilter', 'get_instance' ) );
 

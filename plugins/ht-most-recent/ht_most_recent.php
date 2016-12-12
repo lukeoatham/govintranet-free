@@ -4,7 +4,7 @@ Plugin Name: HT Most recent
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most recent pages
 Author: Luke Oatham
-Version: 0.1
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -70,14 +70,14 @@ class htMostRecent extends WP_Widget {
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
-        $pages = ($instance['pages']);
-        $tasks = ($instance['tasks']);
-        $projects = ($instance['projects']);
-        $vacancies = ($instance['vacancies']);
-        $news = ($instance['news']);
-        $blog = ($instance['blog']);
-        $events = ($instance['events']);
-        $lastupdated = ($instance['lastupdated']);
+        $pages = $instance['pages'];
+        $tasks = $instance['tasks'];
+        $projects = $instance['projects'];
+        $vacancies = $instance['vacancies'];
+        $news = $instance['news'];
+        $blog = $instance['blog'];
+        $events = $instance['events'];
+        $lastupdated = $instance['lastupdated'];
 
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_exclude_posts" ;  
 		$excludeposts = get_option($acf_key);  

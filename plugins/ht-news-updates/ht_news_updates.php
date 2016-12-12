@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.7
+Version: 1.8
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -281,7 +281,7 @@ class htNewsUpdates extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['items'] = strip_tags($new_instance['items']);
 		$instance['moretitle'] = strip_tags($new_instance['moretitle']);
-		$instance['cache'] = strip_tags($new_instance['cache']);
+		$instance['cache'] = intval($new_instance['cache']);
         return $instance;
     }
 
@@ -289,7 +289,7 @@ class htNewsUpdates extends WP_Widget {
         $title = esc_attr($instance['title']);
         $items = esc_attr($instance['items']);
         $moretitle = esc_attr($instance['moretitle']);
-        $cache = esc_attr($instance['cache']);
+        $cache = intval($instance['cache']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 

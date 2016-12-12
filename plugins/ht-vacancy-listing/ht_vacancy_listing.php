@@ -4,7 +4,7 @@ Plugin Name: HT Vacancy listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display closing vacancies
 Author: Luke Oatham
-Version: 1.3
+Version: 1.4
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -80,7 +80,7 @@ class htVacancyListing extends WP_Widget {
 					'posts_per_page' => $items,
 			);
 	
-			$vacancies =new WP_Query($cquery);
+			$vacancies = new WP_Query($cquery);
 			if ($vacancies->post_count!=0){
 				$output.= $before_widget; 
 				if ( $title ) $output.= $before_title . $title . $after_title;
@@ -88,14 +88,14 @@ class htVacancyListing extends WP_Widget {
 			}
 			$k=0;
 			$alreadydone= array();
+			global $post; //required for access within widget
 	
-			while ($vacancies->have_posts()) {
+			if ( $vacancies->have_posts() ) while ($vacancies->have_posts()) {
 				$vacancies->the_post();
 				//don't show if already in stickies
 				if (in_array($post->ID, $alreadydone )) continue;
 				$k++;
 				if ($k > $items) break;
-				global $post; //required for access within widget
 				$thistitle = get_the_title($post->ID);
 				$edate = get_post_meta($post->ID,'vacancy_closing_date',true);
 				$etime = date(get_option('time_format'),strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
@@ -161,7 +161,7 @@ class htVacancyListing extends WP_Widget {
 		$instance['items'] = strip_tags($new_instance['items']);
 		$instance['calendar'] = strip_tags($new_instance['calendar']);
 		$instance['days'] = strip_tags($new_instance['days']);
-		$instance['cacheperiod'] = strip_tags($new_instance['cacheperiod']);
+		$instance['cacheperiod'] = intval($new_instance['cacheperiod']);
        return $instance;
     }
 
@@ -170,7 +170,7 @@ class htVacancyListing extends WP_Widget {
         $items = esc_attr($instance['items']);
         $calendar = esc_attr($instance['calendar']);
         $days = esc_attr($instance['days']);
-        $cacheperiod = esc_attr($instance['cacheperiod']);
+        $cacheperiod = intval($instance['cacheperiod']);
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 

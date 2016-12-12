@@ -2,20 +2,20 @@
 global $k;
 $k++;
 $showthumb = true;
-if ($k==1 && has_post_thumbnail($post->ID)){ 
-	//headline images
-	$showthumb = false;
-	$headclass = "";
-	if ($video){
-		echo $video;
-	} elseif (has_post_thumbnail($post->ID)){
-		echo "<a href='".get_permalink($post->ID)."' title='$thistitle'>";
+if ($k==1){
+	if ( has_post_thumbnail($post->ID)){ 
+		//headline images
+		$showthumb = false;
+		$headclass = "";
+		echo "<a href='".get_permalink($post->ID)."' title='".esc_attr(get_the_title($post->ID))."'>";
 		echo get_the_post_thumbnail($post->ID, 'newshead', array('class'=>'img-responsive'));
 		echo "</a>";
 		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
-	} 
+	} elseif ( has_post_format('video', $post->ID) ){
+		$video = apply_filters('the_content', get_post_meta( $post->ID, 'news_video_url', true));
+		echo $video;
+	}
 }
-			
 $user = get_userdata($post->post_author);
 $gis = "options_forum_support";
 $staffdirectory = get_option('options_module_staff_directory');

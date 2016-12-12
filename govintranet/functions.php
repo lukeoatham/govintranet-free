@@ -128,14 +128,7 @@ function govintranet_version_check() {
 		add_option("govintranet_db_version", "1.0");
 		$database_version = "1.0";
 	endif;
-	$theme_version_array = explode(".", $theme_version);
-	$database_version_array = explode(".", $database_version);
-	$update_required = false;
-	$ucount = 0;
-	foreach ( $theme_version_array as $vid ){
-		if ( ($theme_version_array[$ucount] > $database_version_array[$ucount]) || !isset($database_version_array[$ucount]) ) $update_required = true;
-		$ucount++;
-	}
+	$update_required = version_compare( $database_version, $theme_version, '<' );
 	
 	if ( $update_required ):
 		
@@ -149,7 +142,7 @@ function govintranet_version_check() {
 		
 		// LESS THAN 4.19 - clean up old metadata
 		
-		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 19 || !isset($database_version_array[1]) ) ):
+		if ( version_compare( $database_version, "4.19", '<' ) ):
 			
 			global $wpdb;
 			
@@ -197,7 +190,7 @@ function govintranet_version_check() {
 
 		// LESS THAN 4.19.1 - update search placeholder to use pipes instead of comma
 		
-		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] <= 19 || !isset($database_version_array[1]) && ( $database_version_array[2] < 1 || !isset($database_version_array[2]) ) ) ):
+		if ( version_compare( $database_version, "4.19.1", '<' ) ):
 			
 			$placeholder = get_option('options_search_placeholder'); //get search placeholder text and variations
 			if ( $placeholder && strpos($placeholder, ",") ){
@@ -217,7 +210,7 @@ function govintranet_version_check() {
 		 
 		 ******************************************************************/
 		
-		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] <= 19 || !isset($database_version_array[1]) ) && ( $database_version_array[2] < 4 || !isset($database_version_array[2]) ) ):
+		if ( version_compare( $database_version, "4.19.4", '<' ) ):
 			if ( function_exists("RGBToHTML") && get_option('options_enable_automatic_complementary_colour') ):
 				$headcol = get_theme_mod('header_background', '#0b2d49');
 				$basecol = HTMLToRGB(substr($headcol,1,6));
@@ -233,6 +226,7 @@ function govintranet_version_check() {
 			
 			$sidebar = get_option('sidebars_widgets');
 			$col3top = $sidebar['home-widget-area3t'];
+			if ( !$col3top ) $col3top = array();
 			$col3bot = $sidebar['home-widget-area3b'];
 			if ( $col3bot ):
 				foreach ( $col3bot as $c){
@@ -246,13 +240,13 @@ function govintranet_version_check() {
 
 		// LESS THAN 4.20 remove complementary colour option
 		
-		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 20 || !isset($database_version_array[1]) ) ):
+		if ( version_compare( $database_version, "4.20", '<' ) ):
 			delete_option('options_enable_automatic_complementary_colour');
 		endif;
 
 		// LESS THAN 4.27 deactivate media categories plugin
 
-		if ( $database_version_array[0] <= 4 && ( $database_version_array[1] < 27 || !isset($database_version_array[1]) ) ):
+		if ( version_compare( $database_version, "4.27", '<' ) ):
 			if ( is_plugin_active( '/media-categories/media-categories.php' ) ):
 				deactivate_plugins( '/media-categories/media-categories.php' ); 
 			endif;
@@ -1143,7 +1137,7 @@ function saveampersands_2($a) {
 
 add_filter('relevanssi_get_words_query', 'fix_query');
 function fix_query($query) {
-    $query = $query . " HAVING c > 1";
+    $query = $query . " HAVING c > 2";
     return $query;
 }
 
@@ -1455,6 +1449,9 @@ function cptui_register_my_cpt_news_update() {
 					'key' => 'field_558c8496c4f35',
 					'label' => __('Enable auto-expiry','govintranet'),
 					'name' => 'news_update_auto_expiry',
+					'ui' => 1,
+					'ui_on_text' => __('Yes','govintranet'),
+					'ui_off_text' => __('No','govintranet'),
 					'type' => 'true_false',
 					'instructions' => '',
 					'required' => 0,
@@ -1697,6 +1694,9 @@ function cptui_register_my_cpt_task() {
 					'key' => 'field_56a40dec54af7',
 					'label' => __('Treat as a manual','govintranet'),
 					'name' => 'treat_as_a_manual',
+					'ui' => 1,
+					'ui_on_text' => __('Yes','govintranet'),
+					'ui_off_text' => __('No','govintranet'),
 					'type' => 'true_false',
 					'instructions' => '',
 					'required' => 0,
@@ -2099,7 +2099,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => 0,
-				'default_value' => '',
+				'default_value' => '#ffffff',
 			),
 			array (
 				'key' => 'field_536ecbee0286a',
@@ -2110,7 +2110,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => 0,
-				'default_value' => '',
+				'default_value' => '#000000',
 			),
 			array (
 				'key' => 'field_536ecba302868',
@@ -2545,6 +2545,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_5755996acff5b',
 				'label' => __('Hide site name in header','govintranet'),
 				'name' => 'hide_sitename',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -2660,6 +2663,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Enable helpful search','govintranet'),
 				'name' => 'enable_helpful_search',
 				'type' => 'true_false',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'instructions' => __('If search finds a perfect match result, go directly to the page instead of showing search results.','govintranet'),
 				'required' => 0,
 				'conditional_logic' => 0,
@@ -2675,6 +2681,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536f73cca21b5',
 				'label' => __('Enable search stemmer','govintranet'),
 				'name' => 'enable_search_stemmer',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('Enrich search queries by also searching for derivatives. E.g. searching for "speak" will also search for speakers and speaking etc.','govintranet'),
 				'required' => 0,
@@ -2691,6 +2700,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_56ff054a97ce6',
 				'label' => __('Disable "Did you mean?"','govintranet'),
 				'name' => 'disable_search_did_you_mean',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('The "Did you mean?" feature of the Relevanssi Premium plugin is enabled by default.','govintranet'),
 				'required' => 0,
@@ -2707,6 +2719,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_57f6952829073',
 				'label' => __('Start with filter panel closed','govintranet'),
 				'name' => 'enable_closed_search_filter',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -2723,6 +2738,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_56ff054a97ce6a',
 				'label' => __('Enable attachments filter','govintranet'),
 				'name' => 'enable_include_attachments',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('Enable option to filter attachments in search results.','govintranet'),
 				'required' => 0,
@@ -2739,6 +2757,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_579d2d0363466',
 				'label' => __('Enable forums filter','govintranet'),
 				'name' => 'enable_include_forums',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('Enable option to filter forums in search results.','govintranet'),
 				'required' => 0,
@@ -2776,6 +2797,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55cfbabe6a350',
 				'label' => __('Jumbo searchbox','govintranet'),
 				'name' => 'search_jumbo_searchbox',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('Displays are full-width search box and removes the regular search box on the homepage only.','govintranet'),
 				'required' => 0,
@@ -2792,6 +2816,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55a6b1424565d',
 				'label' => __('Override search button icon','govintranet'),
 				'name' => 'search_button_override',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('Override the default magnifying glass icon search boxes.','govintranet'),
 				'required' => 0,
@@ -2853,6 +2880,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536f747ca21bb',
 				'label' => __('Track homepage','govintranet'),
 				'name' => 'track_homepage',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('Track the intranet homepage in Google Analytics. If your intranet loads automatically in the browser then you may want to turn off tracking on the homepage.','govintranet'),
 				'required' => 0,
@@ -2928,6 +2958,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55dddf0ea5852',
 				'label' => __('Hide reciprocal related links','govintranet'),
 				'name' => 'hide_reciprocal_related_links',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('By default, if you create a related link on one page it will be also be displayed as a related link on the destination page. Enable this option to make related links one-way.','govintranet'),
 				'required' => 0,
@@ -2944,6 +2977,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55dddf0ea585z',
 				'label' => __('Restrict category authors','govintranet'),
 				'name' => 'restrict_category_authors',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('Stop authors from managing categories','govintranet'),
 				'required' => 0,
@@ -2960,6 +2996,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55dddf0ea585x',
 				'label' => __('Restrict category editors','govintranet'),
 				'name' => 'restrict_category_editors',
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 				'type' => 'true_false',
 				'instructions' => __('Stop editors from managing categories','govintranet'),
 				'required' => 0,
@@ -3095,6 +3134,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536fa13da8af4',
 				'label' => __('News','govintranet'),
 				'name' => 'module_news',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3147,6 +3189,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_558dd3eeeda3b',
 				'label' => __('News updates','govintranet'),
 				'name' => 'module_news_updates',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3163,6 +3208,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536fa173a8af6',
 				'label' => __('Tasks and guides','govintranet'),
 				'name' => 'module_tasks',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3215,6 +3263,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_54dfc0fa682ea',
 				'label' => __('Only show tags applicable to tasks and guides','govintranet'),
 				'name' => 'module_tasks_showtags',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('If checked, will display a plain tag cloud showing only tags found in tasks and guides. If unchecked, will display tags from the whole intranet in variable font sizes, indicating volume of content.','govintranet'),
 				'required' => 0,
@@ -3239,6 +3290,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_56a40f4efa805',
 				'label' => __('Manuals','govintranet'),
 				'name' => 'module_tasks_manuals',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('Add functionality for manuals within tasks.','govintranet'),
 				'required' => 0,
@@ -3325,6 +3379,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55cfd2dc57466',
 				'label' => __('Start with tags open','govintranet'),
 				'name' => 'module_tasks_tags_open',
+				'ui' => 1,
+				'ui_on_text' => __('Open','govintranet'),
+				'ui_off_text' => __('Closed','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('If checked, will automatically open the "Browse tags" button on individual task category pages.','govintranet'),
 				'required' => 0,
@@ -3349,6 +3406,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536fa1b3a8af8',
 				'label' => _x('Projects','noun','govintranet'),
 				'name' => 'module_projects',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3401,6 +3461,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536fa1eea8afa',
 				'label' => __('Vacancies','govintranet'),
 				'name' => 'module_vacancies',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3453,6 +3516,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536fa214a8afc',
 				'label' => __('Blog posts','govintranet'),
 				'name' => 'module_blog',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3505,6 +3571,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536fa28bcb464',
 				'label' => __('Events','govintranet'),
 				'name' => 'module_events',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3557,6 +3626,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_57f02804ffb64',
 				'label' => __('Change past events to draft status','govintranet'),
 				'name' => 'module_events_draft',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3610,6 +3682,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_53af48cd60e21',
 				'label' => __('Jargon buster','govintranet'),
 				'name' => 'module_jargon_buster',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3662,6 +3737,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55b7d69ff69d1',
 				'label' => __('A to Z','govintranet'),
 				'name' => 'module_a_to_z',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3736,6 +3814,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_54d164425d5c0',
 				'label' => __('Teams','govintranet'),
 				'name' => 'module_teams',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3752,6 +3833,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536f764ea21c4',
 				'label' => __('Enable user account support','govintranet'),
 				'name' => 'forum_support',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('Provides support for forums (bbPress)','govintranet'),
 				'required' => 0,
@@ -3768,6 +3852,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_566995ce908a1',
 				'label' => __('Enable WYSIWYG in forums','govintranet'),
 				'name' => 'forum_visual_editor',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('Enables the visual editor in forums (bbPress)','govintranet'),
 				'required' => 0,
@@ -3792,6 +3879,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55d628c205b5b',
 				'label' => __('Show My Profile link','govintranet'),
 				'name' => 'show_my_profile',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('Add a "My Profile" link to the secondary menu if user is logged in.','govintranet'),
 				'required' => 0,
@@ -3816,6 +3906,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_55d6292505b5c',
 				'label' => __('Show login/logout link','govintranet'),
 				'name' => 'show_login_logout',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -3840,6 +3933,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_53769e3b01f93',
 				'label' => __('Staff directory','govintranet'),
 				'name' => 'module_staff_directory',
+				'ui' => 1,
+				'ui_on_text' => __('ON','govintranet'),
+				'ui_off_text' => __('OFF','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('Provides support for staff directory and staff profiles. Integrates with teams, forums and blog posts.','govintranet'),
 				'required' => 0,
@@ -3942,6 +4038,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536f7667a21c5',
 				'label' => __('Show hyperlinks on staff cards','govintranet'),
 				'name' => 'full_detail_staff_cards',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('Enabling this option allows you to click on individual links such as email address and name on staff tiles. With this option disabled, the whole staff tile is clickable and links to the staff profile.','govintranet'),
 				'required' => 0,
@@ -3971,6 +4070,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536f7688a21c6',
 				'label' => __('Show circular avatars','govintranet'),
 				'name' => 'staff_directory_style',
+				'ui' => 1,
+				'ui_on_text' => __('Circles','govintranet'),
+				'ui_off_text' => __('Squares','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -4000,6 +4102,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536f769da21c7',
 				'label' => __('Show grade on staff cards','govintranet'),
 				'name' => 'show_grade_on_staff_cards',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('Requires setting a grade code for each term in the Grades taxonomy.','govintranet'),
 				'required' => 0,
@@ -4029,6 +4134,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_536f76ada21c8',
 				'label' => __('Show mobile on staff cards','govintranet'),
 				'name' => 'show_mobile_on_staff_cards',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => __('Display mobile phone number on staff cards in the staff directory listings.','govintranet'),
 				'required' => 0,
@@ -4539,8 +4647,11 @@ if( function_exists('acf_add_local_field_group') ):
 						'key' => 'field_5839e7119ab89',
 						'label' => __('Hide in staff directory','govintranet'),
 						'name' => 'user_hide',
+						'ui' => 1,
+						'ui_on_text' => __('Hide','govintranet'),
+						'ui_off_text' => __('Show','govintranet'),
 						'type' => 'true_false',
-						'instructions' => __('Exclude user in search results, staff directory and team listings.','govintranet'),
+						'instructions' => '',
 						'required' => 0,
 						'conditional_logic' => 0,
 						'wrapper' => array (
@@ -4548,7 +4659,7 @@ if( function_exists('acf_add_local_field_group') ):
 							'class' => '',
 							'id' => '',
 						),
-						'message' => '',
+						'message' => __('Exclude user in search results, staff directory and team listings.','govintranet'),
 						'default_value' => 0,
 					),
 				),
@@ -4794,6 +4905,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Auto expiry','govintranet'),
 				'name' => 'news_auto_expiry',
 				'prefix' => '',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -9152,6 +9266,9 @@ if( function_exists('acf_add_local_field_group') ):
 				'key' => 'field_5696cdbde4305',
 				'label' => __('Restrict to 3 columns','govintranet'),
 				'name' => 'ht_about_restrict',
+				'ui' => 1,
+				'ui_on_text' => __('Yes','govintranet'),
+				'ui_off_text' => __('No','govintranet'),
 				'type' => 'true_false',
 				'instructions' => '',
 				'required' => 0,
@@ -9265,6 +9382,9 @@ if( function_exists('acf_add_local_field_group') ):
 						'key' => 'field_56997ea39edeb',
 						'label' => __('Feature first','govintranet'),
 						'name' => 'newsboard_feature_first',
+						'ui' => 1,
+						'ui_on_text' => __('Yes','govintranet'),
+						'ui_off_text' => __('No','govintranet'),
 						'type' => 'true_false',
 						'instructions' => __('Highlight the first post with a large feature image.','govintranet'),
 						'required' => 0,
@@ -9416,6 +9536,9 @@ if( function_exists('acf_add_local_field_group') ):
 						'key' => 'field_569982c2c49b9',
 						'label' => __('Link to more','govintranet'),
 						'name' => 'newsboard_link_to_more',
+						'ui' => 1,
+						'ui_on_text' => __('Yes','govintranet'),
+						'ui_off_text' => __('No','govintranet'),
 						'type' => 'true_false',
 						'instructions' => '',
 						'required' => 0,
@@ -10424,8 +10547,13 @@ function govintranet_custom_styles() {
   		foreach ((array)$terms as $taxonomy ) {
   		    $themeid = $taxonomy->term_id;
   		    $themeURL= $taxonomy->slug;
-  			$background=get_option('category_'.$themeid.'_cat_background_colour');
-  			$foreground=get_option('category_'.$themeid.'_cat_foreground_colour');
+			if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) ):
+				$background = get_term_meta($themeid, "cat_background_colour", true);
+				$foreground = get_term_meta($themeid, 'cat_foreground_colour',true);
+			else:
+				$background = get_option("category_".$themeid."_cat_background_colour");
+				$foreground = get_option('category_'.$themeid.'_cat_foreground_colour');
+			endif;
   			$custom_css.= "button.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border: 1px solid ".$background.";} \n";
   			$custom_css.= ".cattagbutton a.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border-bottom: 3px solid #000; border-radius: 3px; } \n";
   			$custom_css.= ".cattagbutton a:hover.btn.t" . $themeid . ", a.btn.t" . $themeid . " {color: " . $foreground . "; background: " . $background . "; border-bottom: 3px solid #000; border-radius: 3px; } \n";

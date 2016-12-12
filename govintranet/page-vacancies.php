@@ -147,7 +147,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		}
 
 		if (  $vacancies->max_num_pages > 1 && $paged > 1 ) : 
-			if (function_exists(wp_pagenavi)) : 
+			if (function_exists('wp_pagenavi')) : 
 				wp_pagenavi(array('query' => $vacancies)); 
 			else : 
 				next_posts_link(__('&larr; Older items','govintranet'), $vacancies->max_num_pages); 
@@ -180,7 +180,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			echo "</div><div class='clearfix'></div><hr class='light' />";
 		}
 		if (  $vacancies->max_num_pages > 1 ) : 
-			if (function_exists(wp_pagenavi)) : 
+			if (function_exists('wp_pagenavi')) : 
 				wp_pagenavi(array('query' => $vacancies)); 
 			else : 
 				next_posts_link(__('&larr; Older items','govintranet'), $vacancies->max_num_pages); 

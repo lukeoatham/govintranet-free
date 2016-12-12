@@ -8,7 +8,7 @@ if (!$gisheight) $gisheight = 7;
 $gis = "options_header_background";
 $gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
 if ( $gishex == "#") $gishex = "#0b2d49";
-$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
+$custom_css = ".custom-background  { background-color: ".$gishex.";	}";
 $headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
 if ( $headtext == "#") $headtext = "#ffffff";
 
@@ -38,8 +38,6 @@ wp_add_inline_style('ht-media-atoz' , $custom_css);
 wp_register_script( 'ht-media-atoz-js', plugin_dir_url("/") ."ht-media-atoz/js/ht_matoz.js" );
 wp_enqueue_script('ht-media-atoz-js');
 
-
-
 if ( have_posts() ) while ( have_posts() ) : the_post(); 
 
 $filters = get_post_meta(get_the_id(),'matoz_show_filters',true);
@@ -64,6 +62,7 @@ global $wpdb;
 	$doctyp = 'any';
 	$cat_slug = 'any';
 	$matoz = 'any';
+	$search = ''; 
 	
 	if ( isset( $_GET['doctyp'] ) ) $doctyp = $_GET['doctyp'] ? $_GET['doctyp'] : 'any' ;
 	if ( isset( $_GET['cat'] ) ) $cat_slug = $_GET['cat'] ? $_GET['cat'] : 'any' ;
@@ -85,7 +84,7 @@ global $wpdb;
 		$dtname = __("All","govintranet") . " <span class='caret'></span>";
 	}	
 
-	$search = $_GET['q'];
+	if ( isset( $_GET['q'] ) ) $search = $_GET['q'] ? $_GET['q'] : '' ;
 	
 	$is_filtered = true;
 	if ( $cat_slug == "any" && $doctyp == "any" && $matoz == "any" && $search == "" ) $is_filtered = false;
@@ -464,7 +463,7 @@ global $wpdb;
 		
 				?>
 				<?php if ( $docs->max_num_pages > 1 ) : ?>
-					<?php if (function_exists(wp_pagenavi)) : ?>
+					<?php if (function_exists('wp_pagenavi')) : ?>
 						<?php wp_pagenavi(array('query' => $docs)); ?>
 					<?php else : ?>
 						<?php next_posts_link(__('&larr; Older items','govintranet'), $docs->max_num_pages); ?>
