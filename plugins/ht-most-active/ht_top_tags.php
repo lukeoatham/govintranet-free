@@ -4,7 +4,7 @@ Plugin Name: HT Top tags
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display top tags from live Google Analytics feed
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3.1
 Author URI: http://www.helpfultechnology.com
 */
  
@@ -209,6 +209,10 @@ class htTopTags extends WP_Widget {
 			        'sort'		 => '-ga:uniquePageviews',
 			    );
 			    $visits = $ga->query($params);
+				
+				$toptagsviews =  array();
+				$toptags =  array();
+				$toptagsslug =  array();
 
 				foreach($visits as $r=>$result) {
 					if ( $r == "rows") { 
@@ -222,7 +226,6 @@ class htTopTags extends WP_Widget {
 							$pathparts = explode("/", $filtered_pagepath);
 							if ( end($pathparts) == '' ) array_pop($pathparts);
 							$thistask = end($pathparts);
-							if ( in_array( $thistask, $stoppages ) ) continue;
 							$tasktitle = false;
 							$check = array_shift($pathparts);
 							$check = array_shift($pathparts);
@@ -266,7 +269,11 @@ class htTopTags extends WP_Widget {
 								$post_tags = get_the_tags($taskid);
 								$pageviews = $res[1];			
 								if ( $post_tags ) foreach ($post_tags as $pt){ 
-									$toptagsviews[$pt->slug]+=$pageviews;
+									if ( isset( $toptagsviews[$pt->slug] )):
+										$toptagsviews[$pt->slug]+=$pageviews;
+									else:
+										$toptagsviews[$pt->slug]=$pageviews;
+									endif;
 									$toptags[$pt->slug]=$pt->name;
 									$toptagsslug[$pt->slug]=$pt->slug;
 								}
@@ -404,9 +411,6 @@ class htTopTags extends WP_Widget {
 		if ($toptagsslug){
 			echo $before_widget; 
 			if ( $title ) echo $before_title . $title . $after_title; 
-			echo "<style>";
-			echo $styles;
-			echo "</style>";
 			echo '<div id="ht-top-tags">';
 			echo '<div class="descr">';
 			echo $html;

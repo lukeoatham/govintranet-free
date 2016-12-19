@@ -189,7 +189,7 @@ get_header(); ?>
 				echo "</div>";
 	        } elseif ($current_chapter==2) { // if on chapter 2
 				echo '<div class="col-lg-6 col-md-6 chapterl"><a href="'.get_permalink($parent_guide_id).'" title="' . esc_attr__("Navigate to previous part" , "govintranet") . '"><span class="dashicons dashicons-arrow-left-alt2"></span>&nbsp;' . __("Overview" ,"govintranet") .'</a></div>';
-	            if ($carray[3]['slug']){
+	            if (isset($carray[3]['slug'])){
 					echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[3]["id"]).'">'.$carray[3]["name"].'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 		        }
 	        }   else { // we're deep in the middle somewhere

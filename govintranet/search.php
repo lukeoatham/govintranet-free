@@ -52,6 +52,7 @@ $sposttype = array();
 $showusers = false; 
 $showforums = false;
 $is_filtered = false;
+$hidden = '';
 if ( isset( $_GET['post_types'] ) ) $sposttype = $_GET['post_types'];
 if ( get_option('options_forum_support') ) $showforums = true;
 if ( get_option('options_module_staff_directory') ) $showusers = true;
@@ -146,13 +147,15 @@ if ( !$is_filtered && $closed_filter){
 		?>
 		<h1><?php echo $searchnotfound; ?></h1>
 		<?php 
-		$pt="";
-		$ct = $_GET['cat'];
-		$ct = get_category($ct);
-		$ct = $ct->name;
-		$searchcon = "";
+		$pt = '';
+		$ct = '';
+		$searchcon = '';
+		if ( isset($_GET['cat']) ){
+			$ct = $_GET['cat'];
+			$ct = get_category($ct);
+			$ct = $ct->name;
+		}
 		if ($ct) $searchcon=$ct;
-		
 		if ( isset( $_GET['post_types'] ) ):
 			$pt = $_GET['post_types']; 
 			if (in_array('blog', $pt)){
@@ -204,7 +207,7 @@ if ( !$is_filtered && $closed_filter){
 				$searchcon.=" " . __('media','govintranet');
 			}
 		endif; 
-		if ($_GET['include']=='user'){
+		if (isset($_GET['include']) && $_GET['include']=='user'){
 			if ($searchcon) $searchcon.=" or";
 			$searchcon.=" " . __('the staff directory','govintranet');
 		}					 
@@ -259,7 +262,7 @@ if ( !$is_filtered && $closed_filter){
 				<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">
 				</div>
 				<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
-				<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="search-filter-cat">
+				<input type="hidden" name="cat" value="<?php echo $ct; ?>" id="search-filter-cat">
 				<input type="hidden" name="paged" value="1">
 				<?php echo $hidden; ?>
 			</form>
@@ -345,7 +348,7 @@ if ( !$is_filtered && $closed_filter){
 				<form role="search" method="get" id="searchfilter" action="<?php echo home_url('/'); ?>">
 					<input type="hidden" name="s" value="<?php echo get_search_query(); ?>" id = "search-filter-s">
 					<input type="hidden" name="paged" value="1">
-					<input type="hidden" name="cat" value="<?php echo esc_attr($_GET['cat']); ?>" id="filter-check-cat">
+					<input type="hidden" name="cat" value="<?php echo $ct; ?>" id="filter-check-cat">
 					<?php echo $checkbox; ?>
 					<br>
 					<button  class="btn btn-primary"><?php _e('Refine search','govintranet');?> <i class="dashicons dashicons-search"></i></button>

@@ -13,10 +13,10 @@ $sort= "";
 if ( isset( $_GET["sort"] ) ) $sort = $_GET["sort"]; 
 if (!$sort) $sort = strtolower(get_post_meta($post->ID,'staff_directory_order',true));
 if (!$sort) $sort = "first";
+if ( $sort != "first" && $sort != "last" ) $sort = "first";
 $requestshow = "A";
-if ( isset( $_REQUEST['show'] ) ) $requestshow = $_REQUEST['show'];
+if ( isset( $_REQUEST['show'] ) ) $requestshow = substr( esc_attr( $_REQUEST['show'] ), 0 , 1 );
 $grade = '';
-if ( isset( $_GET["grade"] ) ) $grade = $_GET["grade"];  
 
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	<a class="sr-only sr-only-focusable" href="#gridcontainer"><?php echo _x('Skip to staff','Screen reader text','govintranet'); ?></a>
@@ -115,19 +115,37 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				<ul id='atozlist' class="pagination">
 					<?php
 					if ($sort == 'last'){
-						$q = "select user_id, meta_value as name from $wpdb->usermeta where meta_key = 'last_name' and ucase(left(meta_value,1)) = '".strtoupper($requestshow)."' order by meta_value asc";
+						$q = "SELECT e.ID, p.meta_value as lname, h.meta_value as fname 
+							   FROM $wpdb->users e 
+							   INNER JOIN $wpdb->usermeta h ON h.user_id=e.ID 
+							   INNER JOIN $wpdb->usermeta p ON p.user_id=h.user_id 
+							   WHERE h.meta_key = 'first_name' 
+							   AND p.meta_key = 'last_name' 
+							   AND ucase(left(p.meta_value,1)) = '".strtoupper($requestshow)."' 
+							   GROUP BY e.ID 
+							   ORDER BY lname, fname
+							";
 					} elseif ($sort == "first"){
-						$q = "select user_id, meta_value as name from $wpdb->usermeta where meta_key = 'first_name' and ucase(left(meta_value,1)) = '".strtoupper($requestshow)."' order by meta_value asc";
+						$q = "SELECT e.ID, p.meta_value as fname, h.meta_value as lname 
+							   FROM $wpdb->users e 
+							   INNER JOIN $wpdb->usermeta h ON h.user_id=e.ID 
+							   INNER JOIN $wpdb->usermeta p ON p.user_id=h.user_id 
+							   WHERE h.meta_key = 'last_name' 
+							   AND p.meta_key = 'first_name' 
+							   AND ucase(left(p.meta_value,1)) = '".strtoupper($requestshow)."' 
+							   GROUP BY e.ID 
+							   ORDER BY fname, lname
+							";
 					}					
 					$userq = $wpdb->get_results($q,ARRAY_A);
 					$html="<div class='row'>";
 					foreach ((array)$userq as $u){ 
-						$userid = $u['user_id'];
+						$userid = $u['ID'];
 						if ( get_user_meta($userid, 'user_hide', true ) ) continue; 
-						$usergrade = get_user_meta($u['user_id'],'user_grade',true); 
+						$usergrade = get_user_meta($userid,'user_grade',true); 
 						$gradecode = '';
 						if ( $usergrade ) $gradecode = get_option('grade_'.$usergrade.'_grade_code', '');
-						$title = $u['name'];
+						if ($sort == 'last') { $title = $u['lname']; } else { $title = $u['fname']; }
 						$thisletter = strtoupper(substr($title,0,1));	
 						$user_info = get_userdata($userid);
 						if ( isset( $hasentries[$thisletter] ) ):
@@ -137,9 +155,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						endif;
 						if (!$requestshow || (strtoupper($thisletter) == strtoupper($requestshow) ) ) {
 							if ($sort == 'last'){
-								$displayname = get_user_meta($userid ,'last_name',true ).", ".get_user_meta($userid ,'first_name',true );
+								$displayname = $u['lname'].", ".$u['fname'];
 							} else {
-								$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );
+								$displayname = $u['fname']." ".$u['lname'];
 							} 
 							if ( ( ( isset( $usergrade['slug'] ) && $usergrade['slug'] == $grade) && ($grade ) ) || (!$grade)  ) {
 								$gradedisplay='';
@@ -164,7 +182,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 								
 								if ( get_user_meta($userid ,'user_job_title',true )) : 
 									$meta = get_user_meta($userid ,'user_job_title',true );
-									$html .= '<span class="small">'.$meta."</span><br>";
+									$html .= '<span class="small">'.$meta.'</span><br>';
 								endif; 
 	
 							

@@ -137,9 +137,10 @@ get_header();
 					$post_type = ucwords($post->post_type); 
 					$image_url = get_the_post_thumbnail($id, 'thumbnail', array('class' => 'alignright'));
 					$ext_icon = '';
-					echo "<div class='media'>" ;
+					$title_context='';	
 					$context='';
 					$titlecontext='';
+					echo "<div class='media'>" ;
 					if ($post_type=='Post_tag') $icon = "tag"; 
 					$post_cat = array();
 					if ($post_type=='Task'){
@@ -148,12 +149,10 @@ get_header();
 						if ( !$taskpod ){		
 							$context = __("task","govintranet");
 							$icon = "question-sign";
-							$title_context='';
 						} else {
 							$context = __("guide","govintranet");
 							$icon = "book";
 							$taskparent=get_post($taskpod);
-							$title_context='';
 							if ($taskparent){
 								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";  
 							}
@@ -163,7 +162,6 @@ get_header();
 						$context = __("project","govintranet");
 						$icon = "road";
 						$projparent=$post->post_parent;
-						$title_context='';	
 						if ($projparent){
 							$projparent = get_post($projparent);
 							$title_context=" (".govintranetpress_custom_title($projparent->post_title).")";

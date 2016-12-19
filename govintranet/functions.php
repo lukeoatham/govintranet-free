@@ -133,6 +133,8 @@ function govintranet_version_check() {
 	if ( $update_required ):
 		
 		$update_okay = 1;
+		$reason = '';
+		$updated_to = "";
 		
 		/************************************************
 		
@@ -185,6 +187,7 @@ function govintranet_version_check() {
 					$update_status = update_user_meta($tm->user_id, "user_team", $new_team, $tm->meta_value );
 				}
 			}
+			$updated_to = "4.19";
 			
 		endif;
 
@@ -198,7 +201,8 @@ function govintranet_version_check() {
 				$placeholder = implode("||", $placeholder);
 				update_option('options_search_placeholder', $placeholder);
 			}
-			
+			$updated_to = "4.19.1";
+				
 		endif;
 
 		/******************************************************************
@@ -211,6 +215,7 @@ function govintranet_version_check() {
 		 ******************************************************************/
 		
 		if ( version_compare( $database_version, "4.19.4", '<' ) ):
+
 			if ( function_exists("RGBToHTML") && get_option('options_enable_automatic_complementary_colour') ):
 				$headcol = get_theme_mod('header_background', '#0b2d49');
 				$basecol = HTMLToRGB(substr($headcol,1,6));
@@ -223,7 +228,6 @@ function govintranet_version_check() {
 				if ( !$comp ) $comp = get_theme_mod('header_background', '#0b2d49');
 				update_option('options_complementary_colour', $comp);
 			endif;
-			
 			$sidebar = get_option('sidebars_widgets');
 			$col3top = $sidebar['home-widget-area3t'];
 			if ( !$col3top ) $col3top = array();
@@ -236,35 +240,61 @@ function govintranet_version_check() {
 				$sidebar['home-widget-area3b'] = array();
 				update_option('sidebars_widgets', $sidebar);
 			endif;
+			$updated_to = "4.19.4";
+			
 		endif;
 
 		// LESS THAN 4.20 remove complementary colour option
 		
 		if ( version_compare( $database_version, "4.20", '<' ) ):
+
 			delete_option('options_enable_automatic_complementary_colour');
+			$updated_to = "4.20";
+
 		endif;
 
-		// LESS THAN 4.27 deactivate media categories plugin
+		// LESS THAN 4.27 deactivate media categories plugin, move document_type post meta to taxonomy
 
 		if ( version_compare( $database_version, "4.27", '<' ) ):
+
 			if ( is_plugin_active( '/media-categories/media-categories.php' ) ):
 				deactivate_plugins( '/media-categories/media-categories.php' ); 
 			endif;
-				
+
 			//Update document types
 			global $wpdb;
 			$doctypes = $wpdb->get_results("select post_id, meta_value from $wpdb->postmeta where meta_key='document_type' and meta_value <> '';");
 			if ( count($doctypes) > 0 ) {
-				foreach ( $doctypes as $doc ){
-					if ( $doc->meta_value == "" ) continue;
-					foreach ( $doc->meta_value as $d){
-						wp_set_object_terms($doc->post_id, $d, 'document-type', true );
+				if ( is_taxonomy('document-type') ){
+					foreach ( $doctypes as $doc ){
+						if ( is_array($doc->meta_value) ) {
+							foreach ( $doc->meta_value as $d){
+								if ( get_the_terms($doc->post_id, 'document-type') ) {
+									$term_taxonomy_ids = wp_set_object_terms($doc->post_id, $d, 'document-type', true ); 	
+								} else {
+									$term_taxonomy_ids = wp_set_object_terms($doc->post_id, $d, 'document-type', false ); 
+								}
+								if ( is_wp_error( $term_taxonomy_ids ) ) {
+									// There was an error somewhere and the terms couldn't be set.
+									$update_okay = 0;
+									$reason = __("Document type","govintranet");
+								} else {
+									// Success! These categories were added to the post.
+									// Tidy old doc type meta
+									delete_post_meta($doc->post_id, 'document_type', $d);
+								}
+							}
+						}
 					}
+				} else {
+					// document types existed but new plugin not activated to register document type taxonomy
+					$update_okay = 0;
+					$reason = __("Activate HT Media A to Z plugin","govintranet");
 				}
-				// Tidy old doc type meta
-				$wpdb->query("delete from $wpdb->postmeta where meta_key='document_type';");
-				$wpdb->query("delete from $wpdb->postmeta where meta_key='_document_type';");
-			}				
+				if ( $update_okay ) $updated_to = "4.27";
+			} else {
+				$updated_to = "4.27";
+			}
 
 		endif;
 
@@ -280,6 +310,11 @@ function govintranet_version_check() {
 		else:
 			$class = 'notice notice-error is-dismissible';
 			$message = sprintf( __( 'Error updating version %2$s database to GovIntranet version %1$s', 'govintranet' ), $theme_version, $database_version );
+			if ( $updated_to ) {
+				$message.= ". " . __("Current database version: ","govintranet") . $updated_to;
+				update_option("govintranet_db_version", $updated_to );
+			}
+			if ( $reason ) $message.= "[" . $reason . "]";
 			printf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', $class, $message ); 
 		endif;
 		
@@ -802,6 +837,7 @@ add_filter( 'wp_feed_cache_transient_lifetime', create_function( '$a', 'return 9
 
 function renderLeftNav($outputcontent="TRUE") {
 		global $post;
+		if ( !is_object($post) ) return false;
 		wp_reset_postdata();
 		$temppost = $post;
 		$parent = $post->post_parent;

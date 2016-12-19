@@ -4,7 +4,7 @@ Plugin Name: HT Zero Hits Monitor
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display least active pages
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -722,7 +722,7 @@ function zh_show_dashboard() {
 			$obj = get_post_type_object( $pt );
 			$pt_singular = $obj->labels->singular_name;
 			$pt_plural = $obj->labels->name;
-			$tot = new WP_Query('post_type='.$pt.'&posts_per_page=-1&fields=ids');
+			$tot = new WP_Query('post_type='.$pt.'&posts_per_page=-1&post_status=publish&fields=ids');
 			$totnum = $tot->found_posts;
 			echo "<td><a href='".admin_url('/tools.php?page=zero_hits&action=generate&ptype[]='.$pt.'&show=all')."'>".$pt_plural." (".$totnum.")</a></td>";
 

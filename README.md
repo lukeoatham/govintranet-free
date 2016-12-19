@@ -38,7 +38,13 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
-### 4.31 - 12 Dec 2016 ###
+### 4.31.1 - 12 Dec 2016 ###
+* Improvements to document type database upgrade from version 4.26 
+* Further fixes for WP 4.7 and ACR PRO 5.5 (category meta) 
+* Improvements to sort order on staff directory 
+* Improvements to Most active and Top tags plugins 
+
+### 4.31 - 16 Dec 2016 ###
 * Updates for ACF PRO v5.5 
 * Fixes to Timelines and Media A to Z plugins for WP v4.7 
 * New UI for true/false settings in widgets and theme options (requires ACF PRO v5.5+)

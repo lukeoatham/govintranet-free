@@ -4,7 +4,7 @@ Plugin Name: HT Most active
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most active pages
 Author: Luke Oatham
-Version: 2.2
+Version: 2.2.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -29,6 +29,9 @@ class htMostActive extends WP_Widget {
 						'label' => __('Show guide chapters','govintranet'),
 						'name' => 'show_guide_chapters',
 						'prefix' => '',
+						'ui' => 1,
+						'ui_on_text' => __('Yes','govintranet'),
+						'ui_off_text' => __('No','govintranet'),
 						'type' => 'true_false',
 						'instructions' => __('If enabled, this option will show individual guide chapters. If disabled, only main guide pages will appear.','govintranet'),
 						'required' => 0,

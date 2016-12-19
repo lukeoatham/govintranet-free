@@ -216,6 +216,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 		 			$ugrade = array();
 		 			$uorder = array();
 		 			$ulastname = array(); 			
+		 			$ufname = array(); 			
 
 		 			if ( $iteams ) foreach ($iteams as $tq){
 				 		$gradehead='';
@@ -224,12 +225,13 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 			 			$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_team','value'=>'.*\"'.$tq.'\".*','compare'=>'REGEXP'))));
 			 			if ( $user_query ) foreach ($user_query->results as $u){ 
 				 			$uid[] = $u->ID;
+				 			$ufname[] = get_user_meta($u->ID,'first_name',true);
 				 			$ulastname[] = get_user_meta($u->ID,'last_name',true);
 				 			$uorder[] = intval(get_user_meta($u->ID,'user_order',true));
 			 			}
 		 			}
 
-		 			array_multisort( $uorder, $ulastname, $uid);
+		 			array_multisort( $uorder, $ulastname, $ufname, $uid);
 		 			if ( $uid ) foreach ($uid as $u){ 
 		 				if ( isset( $alreadyshown[$u] ) ) continue;
 		 				if ( get_user_meta($u, 'user_hide', true ) ) continue; 
@@ -248,7 +250,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
 							$userurl=str_replace('/users', '/staff', $userurl);
 						}
-						$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
+						$displayname = get_user_meta($userid ,'last_name',true ).", ".get_user_meta($userid ,'first_name',true );		
 						$avstyle="";
 						if ( $directorystyle==1 ) $avstyle = " img-circle";
 						$avatarhtml = get_avatar($userid ,66);
