@@ -38,7 +38,7 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
-### 4.31.1 - 12 Dec 2016 ###
+### 4.31.1 - 19 Dec 2016 ###
 * Improvements to document type database upgrade from version 4.26 
 * Further fixes for WP 4.7 and ACR PRO 5.5 (category meta) 
 * Improvements to sort order on staff directory 
