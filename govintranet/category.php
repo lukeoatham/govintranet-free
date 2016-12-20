@@ -23,7 +23,7 @@ $subtitle = $catname;
 $catid = get_queried_object()->term_id;	
 $catslug = get_queried_object()->slug;
 $catdesc = get_queried_object()->description;
-if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) ):
+if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) && function_exists('get_term_meta') ):
 	$catlongdesc = get_term_meta($catid, "cat_long_description", true);
 else:
 	$catlongdesc = get_option("category_".$catid."_cat_long_description", "");

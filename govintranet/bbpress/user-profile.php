@@ -46,11 +46,12 @@ do_action( 'bbp_template_before_user_profile' );
 		  		    while ($teamparent!=0){
 		  		    	$parentteam = get_post($teamparent); 
 		  		    	$parentURL = $parentteam->post_name;
-		  		    	$parentname =govintranetpress_custom_title($parentteam->post_title); 
-			  			$teamlist[]= " <a href='".get_permalink($teamparent)."'>".$parentname."</a>";   
+		  		    	$parentname = govintranetpress_custom_title($parentteam->post_title); 
+			  			$teamlist[] = " <a href='".get_permalink($teamparent)."'>".$parentname."</a>";   
 			  			$teamparent = $parentteam->post_parent; 
 		  		    }
-		  			$teamlist[]= " <a href='".get_permalink($team->ID)."'>".govintranetpress_custom_title($team->post_title)."</a>";
+		  			array_unshift( $teamlist, " <a href='".get_permalink($team->ID)."'>".govintranetpress_custom_title($team->post_title)."</a>" );
+		  			$teamlist = array_reverse( $teamlist );
 		  			echo "<p><strong>" . __('Team' , 'govintranet'). ":</strong> ".implode(" &raquo; ", $teamlist)."</p>";
 		  			$teamlist=array();
 				}

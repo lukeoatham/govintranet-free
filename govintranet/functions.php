@@ -10583,7 +10583,7 @@ function govintranet_custom_styles() {
   		foreach ((array)$terms as $taxonomy ) {
   		    $themeid = $taxonomy->term_id;
   		    $themeURL= $taxonomy->slug;
-			if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) ):
+			if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) && function_exists('get_term_meta') ):
 				$background = get_term_meta($themeid, "cat_background_colour", true);
 				$foreground = get_term_meta($themeid, 'cat_foreground_colour',true);
 			else:
