@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.7
+Version: 4.8
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -232,9 +232,11 @@ class htEventsListing extends WP_Widget {
 
 				if ( is_array($eventtypes) && count($eventtypes) < 2 ): 
 					$term = intval($eventtypes[0]); 
-					$landingpage = get_term_link($term, 'event-type'); 
 					$termobj = get_term($term, 'event-type', OBJECT);
-					if ( $termobj ) $landingpage_link_text = $termobj->name;
+					if ( $termobj ) { 
+						$landingpage_link_text = $termobj->name;
+						$landingpage.="?cat=" . $termobj->slug;
+					}
 					$output.= '<p class="more-updates"><strong><a title="'.esc_attr($landingpage_link_text).'" class="small" href="'.$landingpage.'">'.esc_html($landingpage_link_text).'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
 				else: 
 					$output.= '<p class="more-updates"><strong><a title="'.esc_attr($landingpage_link_text).'" class="small" href="'.$landingpage.'">'.esc_html($landingpage_link_text).'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	

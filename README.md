@@ -38,6 +38,13 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.32 - 29 Dec 2016 ###
+* Redesigned options, split into General, Search and Modules 
+* New option for 404 page not found customised message 
+* New option for search not found customised message 
+* Improvements to search results forms 
+* Improvements to Events listing widget event type links 
+
 ### 4.31.2 - 20 Dec 2016 ###
 * More WP version checks for term meta 
 * User profile template fix for team hierarchies  

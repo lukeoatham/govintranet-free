@@ -12,8 +12,8 @@
 
 $gishelpfulsearch = get_option("options_enable_helpful_search");
 if ($gishelpfulsearch == 1):
-	if ($wp_query->found_posts==1):
-		$location='';
+	if ($wp_query->found_posts == 1):
+		$location = '';
 		while ( have_posts() ) : 
 			the_post(); 
 			if ($post->post_type == 'user' ):
@@ -28,7 +28,7 @@ if ($gishelpfulsearch == 1):
 					$location=str_replace('/author', '/users', $location);
 				endif;
 			elseif ($_GET['pt'] != 'user'):
-					$location=get_permalink($post->ID); 
+					$location = get_permalink($post->ID); 
 			endif;
 		endwhile;
 		if ($location):
@@ -43,7 +43,7 @@ get_header();
 $include_attachments = get_option("options_enable_include_attachments");
 $include_forums = get_option("options_enable_include_forums");			
 $closed_filter = get_option("options_enable_closed_search_filter");
-$s=get_search_query();
+$s = get_search_query();
 $ptargs = array( '_builtin' => false, 'publicly_queryable' => true, 'exclude_from_search' => false );
 $postTypes = get_post_types($ptargs, 'objects');
 $checkbox = "";
@@ -67,41 +67,41 @@ foreach($postTypes as $pt){
 		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-'. $pt->query_var .'">';
 	}
 }
-if( $showusers){
-		$showusers = false;
-		$checkbox .= '<label class="checkbox filter-user"><input type="checkbox" name="include" value="user" id="filter-check-include"';
-		if( isset( $_GET['include'] ) && $_GET['include'] == 'user'){ 
-			$checkbox .= " checked=\"checked\"";
-			$is_filtered = true;
-		}
-		$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
-		$hidden.='<input type="hidden" name="include" id="search-filter-include">';
+if( $showusers ){
+	$showusers = false;
+	$checkbox .= '<label class="checkbox filter-user"><input type="checkbox" name="include" value="user" id="filter-check-include"';
+	if( isset( $_GET['include'] ) && $_GET['include'] == 'user'){ 
+		$checkbox .= " checked=\"checked\"";
+		$is_filtered = true;
+	}
+	$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
+	$hidden .= '<input type="hidden" name="include" id="search-filter-include">';
 }
 if( $pt->labels->name > "Forums" && $showforums && $include_forums ){
-		$showforums = false;
-		$checkbox .= '<label class="checkbox filter-forum"><input type="checkbox" name="post_types[]" value="forum" id="filter-check-forum"';
-		if(in_array('forum', $sposttype)){ 
-			$checkbox .= " checked=\"checked\"";
-			$is_filtered = true;
-		}
-		$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
-		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-forum">';
-		
-		$checkbox .= '<label class="checkbox filter-topic"><input type="checkbox" name="post_types[]" value="topic" id="filter-check-topic"';
-		if(in_array('topic', $sposttype)){ 
-			$checkbox .= " checked=\"checked\"";
-			$is_filtered = true;
-		}
-		$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
-		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-topic">';
-		
-		$checkbox .= '<label class="checkbox filter-reply"><input type="checkbox" name="post_types[]" value="reply" id="filter-check-reply"';
-		if(in_array('reply', $sposttype)){ 
-			$checkbox .= " checked=\"checked\"";
-			$is_filtered = true;
-		}
-		$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
-		$hidden.='<input type="hidden" name="post_types[]" id="search-filter-reply">';
+	$showforums = false;
+	$checkbox .= '<label class="checkbox filter-forum"><input type="checkbox" name="post_types[]" value="forum" id="filter-check-forum"';
+	if(in_array('forum', $sposttype)){ 
+		$checkbox .= " checked=\"checked\"";
+		$is_filtered = true;
+	}
+	$checkbox .= '> <span class="labelForCheck">' . __("Forums" , "govintranet") . '</span></label>';
+	$hidden.= '<input type="hidden" name="post_types[]" id="search-filter-forum">';
+	
+	$checkbox .= '<label class="checkbox filter-topic"><input type="checkbox" name="post_types[]" value="topic" id="filter-check-topic"';
+	if(in_array('topic', $sposttype)){ 
+		$checkbox .= " checked=\"checked\"";
+		$is_filtered = true;
+	}
+	$checkbox .= '> <span class="labelForCheck">' . __("Forum topics" , "govintranet") . '</span></label>';
+	$hidden .= '<input type="hidden" name="post_types[]" id="search-filter-topic">';
+	
+	$checkbox .= '<label class="checkbox filter-reply"><input type="checkbox" name="post_types[]" value="reply" id="filter-check-reply"';
+	if(in_array('reply', $sposttype)){ 
+		$checkbox .= " checked=\"checked\"";
+		$is_filtered = true;
+	}
+	$checkbox .= '> <span class="labelForCheck">' . __("Forum replies" , "govintranet") . '</span></label>';
+	$hidden .= '<input type="hidden" name="post_types[]" id="search-filter-reply">';
 }
 if ( $include_attachments ){
 	$checkbox .= '<label class="checkbox filter-attachment"><input type="checkbox" name="post_types[]" value="attachment" id="filter-check-attachment"';
@@ -110,7 +110,7 @@ if ( $include_attachments ){
 		$is_filtered = true;
 	}
 	$checkbox .= '> <span class="labelForCheck">' . __("Media" , "govintranet") . '</span></label>';
-	$hidden.='<input type="hidden" name="post_types[]" id="search-filter-attachment">';
+	$hidden .= '<input type="hidden" name="post_types[]" id="search-filter-attachment">';
 }
 $checkbox .= '<label class="checkbox"><input type="checkbox" name="orderby" value="date" id="filter-check-orderby"';
 if( isset( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] ){ 
@@ -118,35 +118,30 @@ if( isset( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] ){
 	$is_filtered = true;
 }
 $checkbox .= '><span class="labelForCheck">' . __("Recently published first","govintranet") . '</span></label>';
-$hidden.='<input type="hidden" name="orderby" id="search-filter-orderby">';
+$hidden .= '<input type="hidden" name="orderby" id="search-filter-orderby">';
 $filter_status = " in";
-
 if ( !$is_filtered && $closed_filter){
 	$filter_status = " out";
 }	
- //*****************************************************				
-
+//*****************************************************				
 ?>
+<div class="col-lg-8 col-md-8 col-sm-12 white">
 
-	<div class="col-lg-8 col-md-8 col-sm-12 white">
-		<div class="row">
-			<div class='breadcrumbs'>
-				<?php if(function_exists('bcn_display') && !is_front_page()) {
-						bcn_display();
-					}?>
-			</div>
+	<div class="row">
+		<div class='breadcrumbs'>
+			<?php if(function_exists('bcn_display') && !is_front_page()) {
+					bcn_display();
+				}?>
 		</div>
+	</div>
 	<?php 
-
 	if ( !have_posts() ) : 
 
 		$searchnotfound = get_option('options_search_not_found');
 		$track_homepage = get_option('options_track_homepage');
 		if ( !$track_homepage ) echo get_option('options_google_tracking_code');
-		if ( !$searchnotfound ) $searchnotfound = _x("Nope","search not found","govintranet");
-		?>
-		<h1><?php echo $searchnotfound; ?></h1>
-		<?php 
+		if ( !$searchnotfound ) $searchnotfound = "<h1>" ._x("Nope","search not found","govintranet") ."</h1>";
+		echo apply_filters("the_content", $searchnotfound); 
 		$pt = '';
 		$ct = '';
 		$searchcon = '';
@@ -209,7 +204,7 @@ if ( !$is_filtered && $closed_filter){
 		endif; 
 		if (isset($_GET['include']) && $_GET['include']=='user'){
 			if ($searchcon) $searchcon.=" or";
-			$searchcon.=" " . __('the staff directory','govintranet');
+			$searchcon .= " " . __('the staff directory','govintranet');
 		}					 
 		
 		echo "<p>";
@@ -228,13 +223,11 @@ if ( !$is_filtered && $closed_filter){
 
 		?>
 		<div class="well well-sm search-again-wrapper-not-found">
-		<form class="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
-			<div class="form-group">
-		    <label for="nameSearch"><?php _e('Search again','govintranet'); ?></label>
+		<form class="form-horizontal" id="serps_search" action="<?php echo site_url( '/' ); ?>">
+			<div class="input-group">
+		    <label for="nameSearch" class="sr-only"><?php _e('Search again','govintranet'); ?></label>
 			<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">
-			</div>
-			<div class="form-group">
-			<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
+			<span class="input-group-btn"><button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button></span>
 			</div>
 		</form>
 		</div>
@@ -256,12 +249,12 @@ if ( !$is_filtered && $closed_filter){
 
 		if ( $is_filtered ): ?>
 			<div class="well well-sm search-again-wrapper-filtered">
-			<form class="form-inline" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
-				<div class="form-group">
+			<form class="form-horizontal" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
+				<div class="input-group">
 			    <label class="sr-only" for="nameSearch"><?php _e('Search again','govintranet'); ?></label>
 				<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">
+				<span class="input-group-btn"><button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button></span>
 				</div>
-				<button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button>
 				<input type="hidden" name="cat" value="<?php echo $ct; ?>" id="search-filter-cat">
 				<input type="hidden" name="paged" value="1">
 				<?php echo $hidden; ?>
@@ -291,20 +284,18 @@ if ( !$is_filtered && $closed_filter){
 		if ( $paged > 1 ):
 			?>
 			<div class="wp_pagenavi">
-			<?php if (  $wp_query->max_num_pages > 1  ) : ?>
-				<?php if (function_exists('wp_pagenavi')) : ?>
-					<?php wp_pagenavi(array('query' => $wp_query)); ?>
-					<?php else : ?>
-					<?php next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); ?>
-					<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages); ?>						
-				<?php endif; ?>
-			<?php endif; ?>
-			<?php 
-			//wp_reset_postdata(); 
+				<?php 
+				if (  $wp_query->max_num_pages > 1  ) : 
+					if (function_exists('wp_pagenavi')) : 
+						wp_pagenavi(array('query' => $wp_query)); 
+					else : 
+						next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); 
+						previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages); 
+					endif; 
+				endif; 
 			    wp_reset_query();
-			?>
+				?>
 			</div>
-			
 			<?php
 		endif;
 			
@@ -315,23 +306,20 @@ if ( !$is_filtered && $closed_filter){
 		 get_template_part( 'loop', 'search' );
 
 	endif;
-	
 	?>
 	<div class="wp_pagenavi">
-	<?php if (  $wp_query->max_num_pages > 1  && isset( $_GET['pt'] ) && $_GET['pt'] != 'user'  ) : ?>
-		<?php if (function_exists('wp_pagenavi')) : ?>
-			<?php wp_pagenavi(array('query' => $wp_query)); ?>
-			<?php else : ?>
-			<?php next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); ?>
-			<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages); ?>						
-		<?php endif; ?>
-	<?php endif; ?>
-	<?php 
-	//wp_reset_postdata(); 
+		<?php 
+		if (  $wp_query->max_num_pages > 1  && isset( $_GET['pt'] ) && $_GET['pt'] != 'user'  ) : 
+			if (function_exists('wp_pagenavi')) : 
+				wp_pagenavi(array('query' => $wp_query)); 
+			else : 
+				next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); 
+				previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages); 
+			endif; 
+		endif; 
 	    wp_reset_query();
-	?>
+		?>
 	</div>
-
 </div>
 
 <div class="col-lg-4 col-md-4 col-sm-12">
@@ -361,10 +349,8 @@ if ( !$is_filtered && $closed_filter){
 </div>
 <script type='text/javascript'>
     jQuery(document).ready(function(){
-
-		/* pull filter checkboxes on requery form load */
-
 		<?php
+		/* pull filter checkboxes on requery form load */
 		foreach($postTypes as $pt){
 			echo '
 			if ( jQuery( "#filter-check-'.$pt->rewrite["slug"].'" ).attr("checked")){
@@ -390,7 +376,6 @@ if ( !$is_filtered && $closed_filter){
 		} else {
 			jQuery("#search-filter-orderby").val("");
 		}
-
 		/* push filter checkboxes to search requery form when clicked */
 		<?php
 		foreach($postTypes as $pt){
@@ -463,13 +448,11 @@ if ( !$is_filtered && $closed_filter){
 				jQuery("#search-filter-attachment").val("");
 			}
 		});
-
 		/* push search query back to filter box */
 		jQuery( "#nameSearch" ).change(function() {
 			sq = jQuery( "#nameSearch" ).val();
 			jQuery("#search-filter-s").val(sq);
 		});
-		
 		/* remove fields if all blank */
 		jQuery( "#search-again-button" ).click(function() {
 			<?php
@@ -488,7 +471,6 @@ if ( !$is_filtered && $closed_filter){
 			if ( jQuery( "#filter-check-attachment" ).attr("checked") != "checked"){ jQuery("#search-filter-attachment").remove(); }
 			if ( jQuery( "#filter-check-orderby" ).attr("checked") != "checked"){ jQuery("#search-filter-orderby").remove(); }
 		});
-
 		/* stop a blank search */
 		jQuery('#serps_search').submit(function(e) {
 		    if (jQuery.trim(jQuery("#nameSearch").val()) === "") {
