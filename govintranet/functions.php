@@ -311,6 +311,79 @@ function govintranet_version_check() {
 
 		endif;
 
+		if ( version_compare( $database_version, "4.33", '<' ) ):
+
+			// Reschedule expiry cron 
+
+		    $timestamp = wp_next_scheduled( "govintranet_expiry_patrol" );
+			if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
+
+			global $wpdb;
+			$tzone = get_option('timezone_string'); 
+			date_default_timezone_set($tzone);
+			$tdate = date('Ymd');
+			
+			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='news_expiry_date' and meta_value >= '" . $tdate . "';");
+			if ( $expiry ) foreach ( $expiry as $exp ){
+				$post_id = intval($exp->post_id);
+				if ( in_array( get_post_status($post_id), array("publish","future") )){
+				    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
+			    	$exptime = date('H:i',strtotime($prev));
+				    $expdate = get_post_meta( $post_id, 'news_expiry_date',true );
+				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+					$timestamp = strtotime($expdate."T".$exptime.":00");
+					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				}
+			}
+
+			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='news_update_expiry_date' and meta_value >= '" . $tdate . "';");
+			if ( $expiry ) foreach ( $expiry as $exp ){
+				$post_id = intval($exp->post_id);
+				if ( in_array( get_post_status($post_id), array("publish","future") )){ 
+				    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
+			    	$exptime = date('H:i',strtotime($prev));
+				    $expdate = get_post_meta( $post_id, 'news_update_expiry_date',true );
+				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+					$timestamp = strtotime($expdate."T".$exptime.":00");
+					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				}
+			}
+			
+			
+			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='event_end_date' and meta_value >= '" . $tdate . "';");
+			if ( $expiry ) foreach ( $expiry as $exp ){
+				$post_id = intval($exp->post_id);
+				if ( in_array( get_post_status($post_id), array("publish","future") ) ){
+				    $prev = get_post_meta( $post_id, 'event_end_time',true );
+			    	$exptime = date('H:i',strtotime($prev));
+				    $expdate = get_post_meta( $post_id, 'event_end_date',true );
+				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+					$timestamp = strtotime($expdate."T".$exptime.":00");
+					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				}
+			}
+
+			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='vacancy_closing_date' and meta_value >= '" . $tdate . "';");
+			if ( $expiry ) foreach ( $expiry as $exp ){
+				$post_id = intval($exp->post_id);
+				if ( in_array( get_post_status($post_id), array("publish","future") ) ){
+				    $prev = get_post_meta( $post_id, 'vacancy_closing_time',true );
+			    	$exptime = date('H:i',strtotime($prev));
+				    $expdate = get_post_meta( $post_id, 'vacancy_closing_date',true );
+				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+					$timestamp = strtotime($expdate."T".$exptime.":00");
+					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				}
+			}
+
+			$updated_to = "4.33";
+
+		endif;
+
 		// UPDATE DATABASE VERSION
 		
 		if ( $update_okay ):
@@ -10517,117 +10590,222 @@ add_filter('page_attributes_dropdown_pages_args', 'my_attributes_dropdown_pages_
  */
 function save_news_meta( $post_id ) {
 
-    /*
-     * In production code, $slug should be set only once in the plugin,
-     * preferably as a class property, rather than in each function that needs it.
-     */
+	$tzone = get_option('timezone_string'); 
+	date_default_timezone_set($tzone);
+
+	// Update expiry time meta 
+
     $slug = 'news';
 
-    // If this isn't a 'news' post, don't update it.
-    if ( isset( $_POST['post_type'] ) && $slug != $_POST['post_type'] ) {
+    if ( isset( $_POST['post_type'] ) && $slug == $_POST['post_type'] ) {
+
+	    // - Update the post's metadata.
+	    if ( get_post_meta( $post_id, 'news_auto_expiry',true ) ) {
+		    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
+	    	$exptime = date('H:i',strtotime($prev));
+			update_post_meta( $post_id, 'news_expiry_time', $exptime, $prev );
+		    $expdate = get_post_meta( $post_id, 'news_expiry_date',true );
+		    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+			if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			if ( in_array($_POST['post_status'], array('publish','future') ) ){
+				$timestamp = strtotime($expdate."T".$exptime.":00");
+				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			}
+		}
+
         return;
     }
 
-    // - Update the post's metadata.
-    if ( $prev = get_post_meta( $post_id, 'news_expiry_time',true ) ) {
-    	$newvalue = date('H:i',strtotime($prev));
-		update_post_meta( $post_id, 'news_expiry_time', $newvalue, $prev );
+    $slug = 'news-update';
+
+    if ( isset( $_POST['post_type'] ) && $slug == $_POST['post_type'] ) {
+	
+	    // - Update the post's metadata.
+	    if ( get_post_meta( $post_id, 'news_update_auto_expiry',true ) ) {
+		    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
+	    	$exptime = date('H:i',strtotime($prev));
+			update_post_meta( $post_id, 'news_update_expiry_time', $exptime, $prev );
+		}
+
+		return;
+	}	
+
+    $slug = 'vacancy';
+
+    if ( isset( $_POST['post_type'] ) && $slug == $_POST['post_type'] ) {
+
+	    // - Update the post's metadata.
+	    if ( $prev = get_post_meta( $post_id, 'vacancy_closing_time', true ) ) {
+	    	$exptime = date( 'H:i', strtotime( $prev ));
+			update_post_meta( $post_id, 'vacancy_closing_time', $exptime, $prev );
+		}
+	    if ( $prev = get_post_meta( $post_id, 'vacancy_closing_date', true ) ) {
+	    	$expdate = date( 'Ymd', strtotime( $prev ));
+			update_post_meta( $post_id, 'vacancy_closing_date', $expdate, $prev );
+		}
+	    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+		if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			if ( in_array($_POST['post_status'], array('publish','future') ) ){
+			$timestamp = strtotime($expdate."T".$exptime.":00");
+			wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+		}
+
+		return;
 	}
+
+    $slug = 'event';
+
+    if ( isset( $_POST['post_type'] ) && $slug == $_POST['post_type'] ) {
+
+	    // - Update the post's metadata.
+	    if ( $prev = get_post_meta( $post_id, 'event_start_time',true ) ) {
+	    	$newvalue = date('H:i',strtotime($prev));
+			update_post_meta( $post_id, 'event_start_time', $newvalue, $prev );
+		}
+	    if ( $prev = get_post_meta( $post_id, 'event_end_time',true ) ) {
+	    	$exptime = date('H:i',strtotime($prev));
+			update_post_meta( $post_id, 'event_end_time', $exptime, $prev );
+		}
+	    if ( $prev = get_post_meta( $post_id, 'event_start_date',true ) ) {
+	    	$newvalue = date('Ymd',strtotime($prev));
+			update_post_meta( $post_id, 'event_start_date', $newvalue, $prev );
+		}
+	    if ( $prev = get_post_meta( $post_id, 'event_end_date',true ) ) {
+	    	$expdate = date('Ymd',strtotime($prev));
+			update_post_meta( $post_id, 'event_end_date', $expdate, $prev );
+		}
+		if ( get_option('options_module_events_draft')){
+		    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+			if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			if ( in_array($_POST['post_status'], array('publish','future') ) ){
+				$timestamp = strtotime($expdate."T".$exptime.":00");
+				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			}
+		}
+
+		return;
+	}
+	
 	return;
 }
 add_action( 'save_post', 'save_news_meta' );
 
-/**
- * Save post metadata when a news update post is saved.
- *
- * @param int $post_id The ID of the post.
- */
-function save_news_update_meta( $post_id ) {
-
-    /*
-     * In production code, $slug should be set only once in the plugin,
-     * preferably as a class property, rather than in each function that needs it.
-     */
-    $slug = 'news-update';
-
-    // If this isn't an 'news update' post, don't update it.
-    if ( isset( $_POST['post_type'] ) && $slug != $_POST['post_type'] ) {
-        return;
-    }
-
-    // - Update the post's metadata.
-    if ( $prev = get_post_meta( $post_id, 'news_update_expiry_time',true ) ) {
-    	$newvalue = date('H:i',strtotime($prev));
-		update_post_meta( $post_id, 'news_update_expiry_time', $newvalue, $prev );
+function govintranet_pub_post( $post_id, $postobj ) {
+	global $post;
+	$tzone = get_option('timezone_string'); 
+	date_default_timezone_set($tzone);
+	$post_id = intval($post_id);
+	$post_type = $postobj->post_type;
+	if ( $post_type ) {
+		switch ( $post_type ) {
+			case 'news-update':
+			    if ( get_post_meta( $post_id, 'news_update_auto_expiry',true ) ) {
+				    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
+			    	$exptime = date('H:i',strtotime($prev));
+				    $expdate = get_post_meta( $post_id, 'news_update_expiry_date',true );
+				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+					$timestamp = strtotime($expdate."T".$exptime.":00");
+					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				}
+				break;
+			case 'news':
+			    if ( get_post_meta( $post_id, 'news_auto_expiry',true ) ) {
+				    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
+			    	$exptime = date('H:i',strtotime($prev));
+				    $expdate = get_post_meta( $post_id, 'news_expiry_date',true );
+				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+					$timestamp = strtotime($expdate."T".$exptime.":00");
+					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				}
+				break;
+			case 'event':
+				if ( get_option('options_module_events_draft')){
+				    $prev = get_post_meta( $post_id, 'event_end_time',true );
+			    	$exptime = date('H:i',strtotime($prev));
+				    $prev = get_post_meta( $post_id, 'event_end_date',true );
+			    	$expdate = date('Ymd',strtotime($prev));
+				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+					$timestamp = strtotime($expdate."T".$exptime.":00");
+					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				}
+				break;
+			case 'vacancy':
+			    $prev = get_post_meta( $post_id, 'vacancy_closing_time', true );
+		    	$exptime = date( 'H:i', strtotime( $prev ));
+			    $prev = get_post_meta( $post_id, 'vacancy_closing_date', true );
+		    	$expdate = date( 'Ymd', strtotime( $prev ));
+			    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+				if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				$timestamp = strtotime($expdate."T".$exptime.":00");
+				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				break;
+			default:
+		}
 	}
+    
 	return;
 }
-add_action( 'save_post', 'save_news_update_meta' );
+add_action( 'publish_news-update', 'govintranet_pub_post', 10, 2 );
+add_action( 'publish_news', 'govintranet_pub_post', 10, 2 );
+add_action( 'publish_event', 'govintranet_pub_post', 10, 2 );
+add_action( 'publish_vacancy', 'govintranet_pub_post', 10, 2 );
 
-/**
- * Save post metadata when a post is saved.
- *
- * @param int $post_id The ID of the post.
- */
-function save_vacancy_meta( $post_id ) {
-
-    /*
-     * In production code, $slug should be set only once in the plugin,
-     * preferably as a class property, rather than in each function that needs it.
-     */
-    $slug = 'vacancy';
-
-    // If this isn't an 'vacancy' post, don't update it.
-    if ( isset( $_POST['post_type'] ) && $slug != $_POST['post_type'] ) {
-        return;
-    }
-
-    // - Update the post's metadata.
-    if ( $prev = get_post_meta( $post_id, 'vacancy_closing_time', true ) ) {
-    	$newvalue = date( 'H:i', strtotime( $prev ));
-		update_post_meta( $post_id, 'vacancy_closing_time', $newvalue, $prev );
+function govintranet_future_post( $post_id ) {
+    global $post;
+	$tzone = get_option('timezone_string'); 
+	date_default_timezone_set($tzone);
+	switch ( get_post_type($post_id) ) {
+		case 'news-update':
+		    if ( get_post_meta( $post_id, 'news_update_auto_expiry',true ) ) {
+			    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
+		    	$exptime = date('H:i',strtotime($prev));
+			    $expdate = get_post_meta( $post_id, 'news_update_expiry_date',true );
+			    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+				if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				$timestamp = strtotime($expdate."T".$exptime.":00");
+				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			}
+			break;
+		case 'news':
+		    if ( get_post_meta( $post_id, 'news_auto_expiry',true ) ) {
+			    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
+		    	$exptime = date('H:i',strtotime($prev));
+			    $expdate = get_post_meta( $post_id, 'news_expiry_date',true );
+			    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+				if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				$timestamp = strtotime($expdate."T".$exptime.":00");
+				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			}
+			break;
+		case 'event':
+			if ( get_option('options_module_events_draft')){
+			    $prev = get_post_meta( $post_id, 'event_end_time',true );
+		    	$exptime = date('H:i',strtotime($prev));
+			    $prev = get_post_meta( $post_id, 'event_end_date',true );
+		    	$expdate = date('Ymd',strtotime($prev));
+			    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+				if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+				$timestamp = strtotime($expdate."T".$exptime.":00");
+				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			}
+			break;
+		case 'vacancy':
+		    $prev = get_post_meta( $post_id, 'vacancy_closing_time', true );
+	    	$exptime = date( 'H:i', strtotime( $prev ));
+		    $prev = get_post_meta( $post_id, 'vacancy_closing_date', true );
+	    	$expdate = date( 'Ymd', strtotime( $prev ));
+		    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+			if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			$timestamp = strtotime($expdate."T".$exptime.":00");
+			wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+			break;				
+		default:
 	}
-    if ( $prev = get_post_meta( $post_id, 'vacancy_closing_date', true ) ) {
-    	$newvalue = date( 'Ymd', strtotime( $prev ));
-		update_post_meta( $post_id, 'vacancy_closing_date', $newvalue, $prev );
-	}
-	return;
 }
-add_action( 'save_post', 'save_vacancy_meta' );
-
-function save_event_meta( $post_id ) {
-
-    /*
-     * In production code, $slug should be set only once in the plugin,
-     * preferably as a class property, rather than in each function that needs it.
-     */
-    $slug = 'event';
-
-    // If this isn't an 'event' post, don't update it.
-    if ( isset( $_POST['post_type'] ) && $slug != $_POST['post_type'] ) {
-        return;
-    }
-
-    // - Update the post's metadata.
-    if ( $prev = get_post_meta( $post_id, 'event_start_time',true ) ) {
-    	$newvalue = date('H:i',strtotime($prev));
-		update_post_meta( $post_id, 'event_start_time', $newvalue, $prev );
-	}
-    if ( $prev = get_post_meta( $post_id, 'event_end_time',true ) ) {
-    	$newvalue = date('H:i',strtotime($prev));
-		update_post_meta( $post_id, 'event_end_time', $newvalue, $prev );
-	}
-    if ( $prev = get_post_meta( $post_id, 'event_start_date',true ) ) {
-    	$newvalue = date('Ymd',strtotime($prev));
-		update_post_meta( $post_id, 'event_start_date', $newvalue, $prev );
-	}
-    if ( $prev = get_post_meta( $post_id, 'event_end_date',true ) ) {
-    	$newvalue = date('Ymd',strtotime($prev));
-		update_post_meta( $post_id, 'event_end_date', $newvalue, $prev );
-	}
-	return;
-}
-add_action( 'save_post', 'save_event_meta' );
+add_action( 'publish_future_post', 'govintranet_future_post', 10, 1 );
 
 function save_keyword_meta( $post_id ) {
 
@@ -11067,9 +11245,108 @@ add_action('acf/init', 'govintranet_acf_init');
 
 /***************************************
 
-CREATE CRON SCHEDULE FOR EXPIRY PATROL
+DO CRON JOB FOR SINGLE EXPIRY EVENTS
 
 ***************************************/
+
+add_action( 'gi_autoexpiry', 'gi_autoexpiry_cron' );
+
+function gi_autoexpiry_cron( $post_id ) {
+	$post_id = intval($post_id);
+	global $post;
+	$post_type = get_post_type( $post_id );
+	$tzone = get_option('timezone_string'); 
+	date_default_timezone_set($tzone);
+	
+	switch ($post_type) {
+    case 'news-update':
+		$expiryaction = get_post_meta($post_id,'news_update_expiry_action',true);
+		if ($expiryaction=='Revert to draft status'){
+			delete_post_meta($post_id, 'news_update_expiry_date');
+			delete_post_meta($post_id, 'news_update_expiry_time');
+			delete_post_meta($post_id, 'news_update_expiry_action');
+			delete_post_meta($post_id, 'news_update_auto_expiry');
+			delete_post_meta($post_id, 'news_update_expiry_type');
+			$my_post = array();
+			$my_post['ID'] = $post_id;
+			$my_post['post_status'] = 'draft';
+			wp_update_post( $my_post );
+		} elseif ($expiryaction=='Move to trash'){
+			delete_post_meta($post_id, 'news_update_expiry_date');
+			delete_post_meta($post_id, 'news_update_expiry_time');
+			delete_post_meta($post_id, 'news_update_expiry_action');
+			delete_post_meta($post_id, 'news_update_auto_expiry');
+			delete_post_meta($post_id, 'news_update_expiry_type');
+			$my_post = array();
+			$my_post['ID'] = $post_id;
+			$my_post['post_status'] = 'trash';
+			wp_update_post( $my_post );
+		} elseif ($expiryaction=='Change tax'){
+			$new_tax = get_post_meta($post_id,'news_update_expiry_type',true); 
+			$new_tax = intval($new_tax);
+			wp_delete_object_term_relationships( $post_id, 'news-update-type' );
+			if ( $new_tax ) wp_set_object_terms( $post_id, $new_tax, 'news-update-type', false );
+			delete_post_meta($post_id, 'news_update_expiry_date');
+			delete_post_meta($post_id, 'news_update_expiry_time');
+			delete_post_meta($post_id, 'news_update_expiry_action');
+			delete_post_meta($post_id, 'news_update_auto_expiry');
+			delete_post_meta($post_id, 'news_update_expiry_type');
+		}		
+        break;
+    case 'news':
+		$expiryaction = get_post_meta($post_id,'news_expiry_action',true);
+		if ($expiryaction=='Revert to draft status'){
+			delete_post_meta($post_id, 'news_expiry_date');
+			delete_post_meta($post_id, 'news_expiry_time');
+			delete_post_meta($post_id, 'news_expiry_action');
+			delete_post_meta($post_id, 'news_auto_expiry');
+			$my_post = array();
+			$my_post['ID'] = $post_id;
+			$my_post['post_status'] = 'draft';
+			wp_update_post( $my_post );
+		} elseif ($expiryaction=='Change to regular news'){
+			set_post_format($post_id, ''); 
+			delete_post_meta($post_id, 'news_expiry_date');
+			delete_post_meta($post_id, 'news_expiry_time');
+			delete_post_meta($post_id, 'news_expiry_action');
+			delete_post_meta($post_id, 'news_auto_expiry');
+		} elseif ($expiryaction=='Move to trash'){
+			delete_post_meta($post_id, 'news_expiry_date');
+			delete_post_meta($post_id, 'news_expiry_time');
+			delete_post_meta($post_id, 'news_expiry_action');
+			delete_post_meta($post_id, 'news_auto_expiry');
+			$my_post = array();
+			$my_post['ID'] = $post_id;
+			$my_post['post_status'] = 'trash';
+			wp_update_post( $my_post );
+		} elseif ($expiryaction=='Change tax'){
+			$new_tax = get_post_meta($post_id,'news_expiry_type',true); 
+			$new_tax = intval($new_tax);
+			wp_delete_object_term_relationships( $post_id, 'news-type' );
+			if ( $new_tax ) wp_set_object_terms( $post_id, $new_tax, 'news-type', false );
+			delete_post_meta($post_id, 'news_expiry_date');
+			delete_post_meta($post_id, 'news_expiry_time');
+			delete_post_meta($post_id, 'news_expiry_action');
+			delete_post_meta($post_id, 'news_auto_expiry');
+			delete_post_meta($post_id, 'news_expiry_type');
+		}	
+        break;
+    case 'event':
+		$my_post = array();
+		$my_post['ID'] = $post_id;
+		$my_post['post_status'] = 'draft';
+		wp_update_post( $my_post );
+        break;
+    case 'vacancy':
+		$my_post = array();
+		$my_post['ID'] = $post_id;
+		$my_post['post_status'] = 'draft';
+		wp_update_post( $my_post );
+        break;
+    default:
+    }
+
+}
 
 function govintranet_add_fivemin( $schedules ) {
 	// add a 'fivemin' schedule to the existing set
@@ -11083,7 +11360,7 @@ add_filter( 'cron_schedules', 'govintranet_add_fivemin' );
 
 if ( get_option( 'options_module_news' ) || get_option( 'options_module_news_updates' ) || get_option( 'options_module_vacancies' ) || get_option( 'options_module_events' ) ){
 	if ( ! wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
-		wp_schedule_event( time(), 'fivemin', 'govintranet_expiry_patrol' );
+		wp_schedule_event( time(), 'twicedaily', 'govintranet_expiry_patrol' );
 	}
 } elseif ( wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
 	wp_clear_scheduled_hook( 'govintranet_expiry_patrol' );

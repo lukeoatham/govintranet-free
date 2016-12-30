@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.33 - 30 Dec 2016 ###
+* New auto-expiry processing via cron 
+* Improvements to template attachment download panel 
+* Language updates 
+
 ### 4.32 - 29 Dec 2016 ###
 * Redesigned options, split into General, Search and Modules 
 * New option for 404 page not found customised message 
