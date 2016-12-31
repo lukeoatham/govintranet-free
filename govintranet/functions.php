@@ -351,21 +351,24 @@ function govintranet_version_check() {
 				}
 			}
 			
-			
-			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='event_end_date' and meta_value >= '" . $tdate . "';");
-			if ( $expiry ) foreach ( $expiry as $exp ){
-				$post_id = intval($exp->post_id);
-				if ( in_array( get_post_status($post_id), array("publish","future") ) ){
-				    $prev = get_post_meta( $post_id, 'event_end_time',true );
-			    	$exptime = date('H:i',strtotime($prev));
-				    $expdate = get_post_meta( $post_id, 'event_end_date',true );
-				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-					$timestamp = strtotime($expdate."T".$exptime.":00");
-					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				}
-			}
+			if ( get_option('options_module_events_draft') ){
 
+				$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='event_end_date' and meta_value >= '" . $tdate . "';");
+				if ( $expiry ) foreach ( $expiry as $exp ){
+					$post_id = intval($exp->post_id);
+					if ( in_array( get_post_status($post_id), array("publish","future") ) ){
+					    $prev = get_post_meta( $post_id, 'event_end_time',true );
+				    	$exptime = date('H:i',strtotime($prev));
+					    $expdate = get_post_meta( $post_id, 'event_end_date',true );
+					    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
+						if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
+						$timestamp = strtotime($expdate."T".$exptime.":00");
+						wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
+					}
+				}
+
+			}
+			
 			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='vacancy_closing_date' and meta_value >= '" . $tdate . "';");
 			if ( $expiry ) foreach ( $expiry as $exp ){
 				$post_id = intval($exp->post_id);

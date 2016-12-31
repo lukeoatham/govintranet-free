@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.33.1 - 30 Dec 2016 ###
+* Check for events auto-draft in version upgrade  
+
 ### 4.33 - 30 Dec 2016 ###
 * New auto-expiry processing via cron 
 * Improvements to template attachment download panel 
