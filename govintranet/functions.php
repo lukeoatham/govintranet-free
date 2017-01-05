@@ -387,6 +387,18 @@ function govintranet_version_check() {
 
 		endif;
 
+		if ( version_compare( $database_version, "4.33.2", '<' ) ):
+
+			// Reschedule expiry cron 
+
+		    $timestamp = wp_next_scheduled( "govintranet_expiry_patrol" );
+			if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
+
+			$updated_to = "4.33.2";
+
+		endif;
+
+
 		// UPDATE DATABASE VERSION
 		
 		if ( $update_okay ):
@@ -11363,7 +11375,7 @@ add_filter( 'cron_schedules', 'govintranet_add_fivemin' );
 
 if ( get_option( 'options_module_news' ) || get_option( 'options_module_news_updates' ) || get_option( 'options_module_vacancies' ) || get_option( 'options_module_events' ) ){
 	if ( ! wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
-		wp_schedule_event( time(), 'twicedaily', 'govintranet_expiry_patrol' );
+		wp_schedule_event( time(), 'hourly', 'govintranet_expiry_patrol' );
 	}
 } elseif ( wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
 	wp_clear_scheduled_hook( 'govintranet_expiry_patrol' );

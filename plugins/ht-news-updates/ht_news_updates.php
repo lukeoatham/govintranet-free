@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.8
+Version: 1.9
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -231,7 +231,11 @@ class htNewsUpdates extends WP_Widget {
 				$types_array = get_the_terms($news->ID, 'news-update-type'); 
 				if ( $types_array ) foreach ( $types_array as $t ){
 						$display_types[] = $t->name;
-						$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
+						if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) && function_exists('get_term_meta') ):
+							$icon = get_term_meta($t->term_id, "news_update_icon", true);
+						else:
+							$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
+						endif;
 						if ($icon=='') $icon = get_option('options_need_to_know_icon');
 						if ($icon=='') $icon = "flag";
 				}

@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.33.2 - 5 Jan 2017 ###
+* Fix for news updates widgets and taxonomy term meta 
+* Auto expiry background job changed to hourly 
+
 ### 4.33.1 - 30 Dec 2016 ###
 * Check for events auto-draft in version upgrade  
 

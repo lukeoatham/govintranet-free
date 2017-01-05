@@ -4,7 +4,7 @@ Plugin Name: HT News updates - restricted
 Plugin URI: http://www.helpfultechnology.com
 Description: Hide news updates from users
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -425,7 +425,11 @@ function load_news_updates(  ) {
 			$types_array = get_the_terms($news->ID, 'news-update-type'); 
 			if ( $types_array ) foreach ( $types_array as $t ){
 				$display_types[] = $t->name;
-				$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
+				if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) && function_exists('get_term_meta') ):
+					$icon = get_term_meta($t->term_id, "news_update_icon", true);
+				else:
+					$icon = get_option('news-update-type_'.$t->term_id.'_news_update_icon'); 
+				endif;
 				if ($icon=='') $icon = get_option('options_need_to_know_icon');
 				if ($icon=='') $icon = "flag";
 			}
