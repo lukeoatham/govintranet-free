@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.33.3 - 11 Jan 2017 ###
+* Added functions to remove team and grade from user profiles when posts/terms are deleted  
+
 ### 4.33.2 - 5 Jan 2017 ###
 * Fix for news updates widgets and taxonomy term meta 
 * Auto expiry background job changed to hourly 

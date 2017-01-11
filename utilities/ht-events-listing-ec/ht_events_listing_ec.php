@@ -26,7 +26,6 @@ class hteventslistingec extends WP_Widget {
         $items = intval($instance['items']);
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
-        if ( !intval($cacheperiod) ) $cacheperiod = 60 * 60;
         $calendar = ($instance['calendar']);
         $thumbnails = ($instance['thumbnails']);
         $excerpt = ($instance['excerpt']);
@@ -60,7 +59,8 @@ class hteventslistingec extends WP_Widget {
 		wp_enqueue_style( 'govintranet_eventec_styles', plugins_url("/ht-events-listing-ec/ht_events_listing.css"));
 		wp_add_inline_style('govintranet_eventec_styles' , $custom_css);
 		$gatransient = substr( 'eventec_'.$widget_id.'_'.sanitize_file_name( $title ) , 0, 45 );
-		$output = get_transient( $gatransient );
+		$output="";
+		if ( $cacheperiod ) $output = get_transient( $gatransient );
 		
 		if ( empty( $output ) ){
 			global $wpdb;
@@ -216,13 +216,12 @@ class hteventslistingec extends WP_Widget {
 					$output.= "<small><strong>".$edate."</strong></small>";
 					if ( $location == 'on' && get_post_meta($event['ID'],'event_location',true) ) $output.= "<br><span><small>".get_post_meta($event['ID'],'event_location',true)."</small></span>";
 				} 
-	
-				if ( $excerpt == 'on' && get_the_excerpt_by_id($event['ID']) ){
-						$output.= "<p class='eventclear'><span>".get_the_excerpt_by_id($event['ID'])."</span></p>";
+				if ( $excerpt == 'on' && get_the_excerpt($event['ID']) ){
+						$output.= "<p class='eventclear'><span>".get_the_excerpt($event['ID'])."</span></p>";
 				}
 	
 				$output.= "</div>";
-				$output.= "</div><hr>";
+				$output.= "</div><hr class='light'>";
 			}
 	
 			if (count($events_to_show)!=0){
@@ -241,7 +240,7 @@ class hteventslistingec extends WP_Widget {
 			}
 			$output.= "</div>";
 			$output.= "</div>";
-			set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
+			if ($cacheperiod) set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); // set cache period 60 minutes default
 		}
 
 		echo $output;
@@ -260,9 +259,6 @@ class hteventslistingec extends WP_Widget {
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
 		$instance['location'] = strip_tags($new_instance['location']);
 		$instance['recent'] = strip_tags($new_instance['recent']);
-		global $wpdb;
-		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_eventec_%".sanitize_file_name( $new_instance['title'] )."'");
-		$wpdb->query("DELETE from $wpdb->options WHERE option_name LIKE '_transient_timeout_eventec_%".sanitize_file_name( $new_instance['title'] )."'");
        return $instance;
     }
 

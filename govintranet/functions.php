@@ -298,7 +298,7 @@ function govintranet_version_check() {
 
 		endif;
 
-		if ( version_compare( $database_version, "4.32", '<' ) ):
+		if ( version_compare( $database_version, "4.32", '<' ) && $update_okay ):
 
 			// Add H1 tags to existing not found text
 			
@@ -311,7 +311,7 @@ function govintranet_version_check() {
 
 		endif;
 
-		if ( version_compare( $database_version, "4.33", '<' ) ):
+		if ( version_compare( $database_version, "4.33", '<' ) && $update_okay ):
 
 			// Reschedule expiry cron 
 
@@ -387,7 +387,7 @@ function govintranet_version_check() {
 
 		endif;
 
-		if ( version_compare( $database_version, "4.33.2", '<' ) ):
+		if ( version_compare( $database_version, "4.33.2", '<' ) && $update_okay ):
 
 			// Reschedule expiry cron 
 
@@ -10844,6 +10844,42 @@ function save_keyword_meta( $post_id ) {
 }
 add_action( 'save_post', 'save_keyword_meta' );
 
+if ( get_option('options_module_staff_directory') && get_option('options_module_teams') ) add_action( 'before_delete_post', 'govintranet_post_delete_tidy' );
+function govintranet_post_delete_tidy( $postid ){
+
+    // We check if the global post type isn't ours and just return
+    global $post_type;   
+    if ( $post_type != 'team' ) return;
+
+    // Delete team from user meta
+	$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_team','value'=>'.*\"'.$postid.'\".*','compare'=>'REGEXP'))));
+	if ( $user_query ) foreach ($user_query->results as $u){ 
+		$oldteams = get_user_meta($u->ID,'user_team',true);
+		$newteams = array();
+		foreach ( $oldteams as $ut ){
+			if ( $ut == $postid ) continue;
+			$newteams[] = (string)$ut;
+		}
+		if ( count($newteams) > 0 ) {
+			update_user_meta($u->ID, 'user_team', $newteams, $oldteams);
+		} else {
+			delete_user_meta($u->ID, 'user_team', $oldteams);
+		}
+	}
+    
+}
+
+if ( get_option('options_module_staff_directory') && get_option('options_module_teams') ) add_action( "delete_grade",'govintranet_term_delete_tidy', 10,4 );
+function govintranet_term_delete_tidy( $term_id, $term_taxonomy_id, $deleted_term, $object_ids ){
+
+    // Delete grade from user meta
+	$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_grade','value'=>$term_id))));
+	if ( $user_query ) foreach ($user_query->results as $u){ 
+		delete_user_meta($u->ID, 'user_grade');
+	}
+
+}	
+
 function ht_filter_search($query) {
     if ($query->is_tag && !is_admin()) { 
 		$query->set('post_type', array('any'));
@@ -10982,6 +11018,7 @@ add_action( 'register_form', 'govintranet_register_form', 1 );
 	    }
     }
     
+/* Callback function for taxonomies */
 function ht_update_post_term_count( $terms, $taxonomy ) {
     global $wpdb;
  
