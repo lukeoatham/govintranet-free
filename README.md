@@ -38,6 +38,15 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34 - 16 Jan 2017 ###
+* Updates to Projects templates to remove policy link and display project team members 
+* New option to add custom header code (for loading fonts etc.) 
+* Changes to image alt tags, shows post title if no alt text available 
+* Bug fix on loop template for taxonomy term links 
+* Fix for pagination on vacancies template 
+* Code tidy on tasks and vacancies templates 
+* Minor security updates to plugins 
+
 ### 4.33.3 - 11 Jan 2017 ###
 * Added functions to remove team and grade from user profiles when posts/terms are deleted  
 

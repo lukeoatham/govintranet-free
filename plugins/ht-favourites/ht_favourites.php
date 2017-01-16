@@ -4,7 +4,7 @@ Plugin Name: HT Favourites
 Plugin URI: http://www.helpfultechnology.com
 Description: Manage favourites in staff profiles
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -132,11 +132,12 @@ class htfavourites_display extends WP_Widget {
         <?php 
     }
 }
+
 add_action('widgets_init', create_function('', 'return register_widget("htfavourites_add");'));
 add_action('widgets_init', create_function('', 'return register_widget("htfavourites_display");'));
-
 add_action( 'wp_ajax_ht_favourites_ajax_add', 'ht_favourites_ajax_add' );
 add_action( 'wp_ajax_nopriv_ht_favourites_ajax_add', 'ht_favourites_ajax_add' );
+
 function ht_favourites_ajax_add() {
 
 	$before_widget = stripcslashes($_POST['before_widget']);
@@ -149,7 +150,6 @@ function ht_favourites_ajax_add() {
 	$nonce = $_POST['nonce'];
     $response = new WP_Ajax_Response;
 			
-	
 	if ($html){
 		$finalhtml = "";//$before_widget;
 		$finalhtml.= $html;
@@ -184,68 +184,68 @@ function ht_favourites_ajax_add() {
 add_action('widgets_init', 'ht_favourites_register');
 
 function ht_favourites_register() {
-		/*
-		Register custom user fields
-		*/
-        
-		if( function_exists('acf_add_local_field_group') ):
-		
-		acf_add_local_field_group(array (
-			'key' => 'group_5669acf63093d',
-			'title' => __('Favourites','govintranet'),
-			'fields' => array (
+	/*
+	Register custom user fields
+	*/
+    
+	if( function_exists('acf_add_local_field_group') ):
+	
+	acf_add_local_field_group(array (
+		'key' => 'group_5669acf63093d',
+		'title' => __('Favourites','govintranet'),
+		'fields' => array (
+			array (
+				'key' => 'field_5669ad29841d0',
+				'label' => __('My favourites','govintranet'),
+				'name' => 'user_favourites',
+				'type' => 'relationship',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'post_type' => array (
+					0 => 'page',
+					1 => 'team',
+					2 => 'project',
+					3 => 'task',
+					4 => 'forum',
+				),
+				'taxonomy' => array (
+				),
+				'filters' => array (
+					0 => 'search',
+					1 => 'post_type',
+				),
+				'elements' => '',
+				'min' => '',
+				'max' => '',
+				'return_format' => 'id',
+			),
+		),
+		'location' => array (
+			array (
 				array (
-					'key' => 'field_5669ad29841d0',
-					'label' => __('My favourites','govintranet'),
-					'name' => 'user_favourites',
-					'type' => 'relationship',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'post_type' => array (
-						0 => 'page',
-						1 => 'team',
-						2 => 'project',
-						3 => 'task',
-						4 => 'forum',
-					),
-					'taxonomy' => array (
-					),
-					'filters' => array (
-						0 => 'search',
-						1 => 'post_type',
-					),
-					'elements' => '',
-					'min' => '',
-					'max' => '',
-					'return_format' => 'id',
+					'param' => 'user_form',
+					'operator' => '==',
+					'value' => 'edit',
 				),
 			),
-			'location' => array (
-				array (
-					array (
-						'param' => 'user_form',
-						'operator' => '==',
-						'value' => 'edit',
-					),
-				),
-			),
-			'menu_order' => 100,
-			'position' => 'normal',
-			'style' => 'default',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-			'active' => 1,
-			'description' => '',
-		));
-		
-		endif;
+		),
+		'menu_order' => 100,
+		'position' => 'normal',
+		'style' => 'default',
+		'label_placement' => 'top',
+		'instruction_placement' => 'label',
+		'hide_on_screen' => '',
+		'active' => 1,
+		'description' => '',
+	));
+	
+	endif;
 
 }
 
@@ -265,21 +265,21 @@ function ht_favourites_ajax_action_add() {
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
-			$user_id = $_POST['user_id'];
-			$current_user = wp_get_current_user();
-			$current_user_id = $current_user->ID; 
-			//
-			if ($user_id!=$current_user_id){
-			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
-			} else {
-				$faves = get_user_meta($user_id, 'user_favourites', true);
-				if ( isset($faves) && !in_array($post_id, (array)$faves ) ) $faves[] = $post_id;
-			    update_user_meta($current_user_id,'user_favourites', $faves); 
-				$html = '<div class="ht_addtofav btn btn-sm btn-primary">' . __('Added','govintranet') . '</div>';
-				$success = true;
-			}
+		$user_id = $_POST['user_id'];
+		$current_user = wp_get_current_user();
+		$current_user_id = $current_user->ID; 
+		//
+		if ($user_id!=$current_user_id){
+		    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
+		} else {
+			$faves = get_user_meta($user_id, 'user_favourites', true);
+			if ( isset($faves) && !in_array($post_id, (array)$faves ) ) $faves[] = $post_id;
+		    update_user_meta($current_user_id,'user_favourites', $faves); 
+			$html = '<div class="ht_addtofav btn btn-sm btn-primary">' . __('Added','govintranet') . '</div>';
+			$success = true;
+		}
 	}
-   if( $success  ) {
+    if ( $success  ) {
         // Request successful
    		delete_user_meta( $user_id, 'user_favourites_widget' );
         $response->add( array(
@@ -317,25 +317,25 @@ function ht_favourites_ajax_action_del() {
 	} else {
 	    // The nonce was valid.
 	    // Do stuff here.
-			$user_id = $_POST['user_id'];
-			$current_user = wp_get_current_user();
-			$current_user_id = $current_user->ID; 
-			//
-			if ($user_id!=$current_user_id){
-			    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
-			} else {
-				$faves = get_user_meta($user_id, 'user_favourites', true);
-				$newfaves = array();
-				$fcount = 0;
-				foreach ( $faves as $f ){
-					$fcount++;
-					if ( $f == $post_id ) continue;
-					$newfaves[] = $f;
-				}
-			    update_user_meta($current_user_id,'user_favourites', $newfaves); 
-				$html = '<div class="ht_addtofav btn btn-sm btn-default">' . __('Removed','govintranet') . '</div>';
-				$success = true;
+		$user_id = $_POST['user_id'];
+		$current_user = wp_get_current_user();
+		$current_user_id = $current_user->ID; 
+		//
+		if ($user_id!=$current_user_id){
+		    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
+		} else {
+			$faves = get_user_meta($user_id, 'user_favourites', true);
+			$newfaves = array();
+			$fcount = 0;
+			foreach ( $faves as $f ){
+				$fcount++;
+				if ( $f == $post_id ) continue;
+				$newfaves[] = $f;
 			}
+		    update_user_meta($current_user_id,'user_favourites', $newfaves); 
+			$html = '<div class="ht_addtofav btn btn-sm btn-default">' . __('Removed','govintranet') . '</div>';
+			$success = true;
+		}
 	}
    if( $success  ) {
         // Request successful
@@ -457,7 +457,6 @@ function ht_favourites_btn_ajax_show() {
 	else:
 		$html.= "<a onclick='javascript:delfav();' class='ht_addtofav btn btn-sm btn-default'>".__('Remove from favourites','govintranet')."</a>";
 	endif;
-//	$html.= $after_widget; 	
 	wp_reset_postdata();		
 	
 	if( $html ) {
@@ -484,12 +483,10 @@ function ht_favourites_btn_ajax_show() {
 
 add_action( 'wp_ajax_ht_favourites_btn_ajax_show', 'ht_favourites_btn_ajax_show' );
 add_action( 'wp_ajax_nopriv_ht_favourites_btn_ajax_show', 'ht_favourites_btn_ajax_show' );
-
 add_action( 'profile_update', 'my_profile_fav_update', 10, 2 );
 add_action('personal_options_update', 'my_profile_fav_update', 10, 2);
 function my_profile_fav_update( $user_id ) {
 	delete_user_meta( $user_id, 'user_favourites_widget' );
 }
-
 
 ?>

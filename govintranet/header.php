@@ -67,6 +67,11 @@ header('X-Frame-Options: SAMEORIGIN');
 
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 
+	<?php
+	$headcode = get_option('options_header_code');
+	if ( $headcode ) echo $headcode;
+	?>
+	
 	<!--Google Analytics-->
 	<?php	
 	// write script for google analytics (only do on homepage if homepage tracking is set or on search page)

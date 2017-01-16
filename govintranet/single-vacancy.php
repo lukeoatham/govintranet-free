@@ -114,11 +114,9 @@ $current_vac = $id;
 				$foundtags=false;	
 				$tagstr="";
 			  	foreach($posttags as $tag) {
-			  		if (substr($tag->name,0,9)!="carousel:"){
-			  			$foundtags=true;
-			  			$tagurl = $tag->term_id;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."/?type=vacancy'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
-			    	}
+		  			$foundtags=true;
+		  			$tagurl = $tag->term_id;
+			    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."/?type=vacancy'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 			  	}
 			  	if ($foundtags){
 				  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 

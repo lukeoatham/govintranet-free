@@ -398,6 +398,30 @@ function govintranet_version_check() {
 
 		endif;
 
+		if ( version_compare( $database_version, "4.34", '<' ) && $update_okay ):
+
+			// Tidy document attachments
+			global $wpdb;
+			$blankdocs = $wpdb->get_results("select post_id from $wpdb->postmeta join $wpdb->posts on $wpdb->posts.ID = $wpdb->postmeta.post_id where meta_key = 'document_attachments' and meta_value = 0 and post_status = 'publish';");
+			if ( $blankdocs ) foreach ( $blankdocs as $b ){
+				delete_post_meta(intval($b->post_id), 'document_attachments');
+			}
+			
+			// Remove old project metadata
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='project_policy_link';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_project_policy_link';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='project_start_time';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_project_start_time';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='project_end_time';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_project_end_time';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='project_chapter_number';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_project_chapter_number';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='team_members';");
+			$wpdb->query("delete from $wpdb->postmeta where meta_key='_team_members';");
+
+			$updated_to = "4.34";
+
+		endif;
 
 		// UPDATE DATABASE VERSION
 		
@@ -931,6 +955,20 @@ add_filter( 'rd2_mtc_post_types', 'add_mtc_post_types' );
 function get_post_thumbnail_caption() {
 	if ( $thumb = get_post_thumbnail_id() )
 		return get_post( $thumb )->post_excerpt;
+}
+
+/* Register callback function for post_thumbnail_html filter hook */
+add_filter( 'post_thumbnail_html', 'govintranet_post_thumbnail_alt_change', 10, 5 );
+ 
+/* Function to replace blank alt attribute on featured images */
+function govintranet_post_thumbnail_alt_change( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+
+	$post_title = get_post_meta( $post_thumbnail_id, '_wp_attachment_image_alt', true);
+	if ( !$post_title ) $post_title = get_the_title();
+	$html = preg_replace( '/(alt=")(.*?)(")/i', '$1'.esc_attr( $post_title ).'$3', $html );
+ 
+	return $html;
+ 
 }
 
 // shorten cache lifetime for blog aggregators to keep it fresh
@@ -2533,7 +2571,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array (
 				'key' => 'field_536f741ca21b7',
-				'label' => __('Analytics','govintranet'),
+				'label' => __('Header scripts','govintranet'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -2586,6 +2624,25 @@ if( function_exists('acf_add_local_field_group') ):
 				'new_lines' => '',
 				'readonly' => 0,
 				'disabled' => 0,
+			),
+			array (
+				'default_value' => '',
+				'new_lines' => '',
+				'maxlength' => '',
+				'placeholder' => '',
+				'rows' => '',
+				'key' => 'field_587a8afd4a43e',
+				'label' => __('Header code','govintranet'),
+				'name' => 'header_code',
+				'type' => 'textarea',
+				'instructions' => __('Additional header code for fonts. Advanced users only.','govintranet'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
 			),
 		),			
 		'location' => array (
@@ -4639,24 +4696,6 @@ if( function_exists('acf_add_local_field_group') ):
 				'display_format' => 'd/m/Y',
 				'return_format' => 'd/m/Y',
 				'first_day' => 1,
-			),
-			array (
-				'key' => 'field_536f679093a9a',
-				'label' => __('Policy link','govintranet'),
-				'name' => 'project_policy_link',
-				'prefix' => '',
-				'type' => 'text',
-				'instructions' => '',
-				'required' => 0,
-				'conditional_logic' => 0,
-				'default_value' => '',
-				'placeholder' => '',
-				'prepend' => '',
-				'append' => '',
-				'formatting' => 'html',
-				'maxlength' => '',
-				'readonly' => 0,
-				'disabled' => 0,
 			),
 			array (
 				'key' => 'field_536f67c693a9b',
@@ -11057,7 +11096,7 @@ function govintranet_custom_styles() {
 
 	$bg = get_theme_mod('link_visited_color', '#7303aa');
 	$custom_css.= "a:visited, a:visited .listglyph {color: ".$bg.";}";
-	$gisheight = get_option('options_widget_border_height');
+	$gisheight = intval(get_option('options_widget_border_height'));
 	if (!$gisheight) $gisheight = 7;
 	$gis = "options_header_background";
 	$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;

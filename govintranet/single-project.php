@@ -1,15 +1,14 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * The Template for displaying all single projects.
  *
  * @package WordPress
  */
 
-get_header(); ?>
+get_header(); 
 
-<?php 
-
-if ( have_posts() ) while ( have_posts() ) : the_post(); 
+if ( have_posts() ) while ( have_posts() ) : 
+	the_post(); 
 	$chapter_header = false;
 	$singletask = false;
 	$pagetype = "";
@@ -190,22 +189,50 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 			<?php
 			the_content(); 
 
-			$current_attachments = get_field('document_attachments');
-			if ($current_attachments){
-				echo "<div class='alert alert-info'>";
-				echo "<h3>" . _x('Downloads' , 'Documents to download' , 'govintranet') . " <span class='dashicons dashicons-download'></span></h3>";
-				foreach ($current_attachments as $ca){
-					$c = $ca['document_attachment'];
-					if ( isset($c['title']) ) echo "<p><a class='alert-link' href='".$c['url']."'>".$c['title']."</a></p>";
+			$members = get_post_meta($post->ID, 'project_team_members', true);
+			
+			if ( $members ) {
+				$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+				$showmobile = get_option('options_show_mobile_on_staff_cards'); // 1 = show
+				echo "<div id='project_teams' class='row'><div class='col-lg-12 col-md-12 col-sm-12'><h2>" . __('Project team','govintranet') . "</h2></div>";
+				foreach ($members as $userid){
+					$context = get_user_meta($userid,'user_job_title',true);
+					if ($context=='') $context="staff";
+					$icon = "user";			
+					$user_info = get_userdata($userid);
+					$userurl = site_url().'/users/'.$user_info->user_nicename;
+					$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
+					$staffdirectory = get_option('options_module_staff_directory');
+					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
+						$userurl=str_replace('/users', '/members', $userurl); }
+					elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
+						$userurl=str_replace('/users', '/staff', $userurl);
+					}
+					$avstyle="";
+					if ( $directorystyle==1 ) $avstyle = " img-circle";
+					$avatarhtml = get_avatar($userid ,66);
+					$avatarhtml = str_replace("photo", "photo alignleft".$avstyle, $avatarhtml);
+	
+					echo "<div class='col-lg-6 col-md-6 col-sm-12'><div class='indexcard'><a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+						
+					if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.esc_html(get_user_meta($userid ,'user_job_title',true ))."</span><br>";
+		
+					if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.esc_html(get_user_meta($userid ,'user_telephone',true ))."</span><br>";
+					if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.esc_html(get_user_meta($userid ,'user_mobile',true ))."</span>";
+									
+					echo "</div></div></div></div></a>";
+					$counter++;	
 				}
 				echo "</div>";
-			}	
+			}
 
+			get_template_part('part', 'downloads');
+			
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 
 			}
 		}
-		 ?>
+		?>
 		</div> <!--end of first column-->
 
 		<div class="col-lg-4 col-md-4 col-sm-4">	
@@ -221,11 +248,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				$foundtags=false;	
 				$tagstr="";
 			  	foreach($posttags as $tag) {
-			  		if (substr($tag->name,0,9)!="carousel:"){
-			  			$foundtags=true;
-			  			$tagurl = $tag->term_id;
-				    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=project'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
-			    	}
+		  			$foundtags=true;
+		  			$tagurl = $tag->term_id;
+			    	$tagstr=$tagstr."<span><a class='label label-default' href='".get_tag_link($tagurl)."?type=project'>" . str_replace(' ', '&nbsp' , $tag->name) . '</a></span> '; 
 			  	}
 			  	if ($foundtags){
 				  	echo "<div class='widget-box'><h3>" . __('Tags' , 'govintranet') . "</h3><p> "; 
@@ -233,7 +258,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post();
 				  	echo "</p></div>";
 			  	}
 			}
-		?>
+			?>
 		</div>	
 			
 <?php endwhile; // end of the loop. ?>

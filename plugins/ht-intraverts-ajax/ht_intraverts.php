@@ -4,7 +4,7 @@ Plugin Name: HT Intraverts
 Plugin URI: http://www.helpfultechnology.com
 Description: Displays promotional adverts using AJAX
 Author: Luke Oatham
-Version: 2.2
+Version: 2.4
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -625,7 +625,7 @@ function ht_intraverts_ajax_show() {
 		$html.= "<div class='btn-group btn-group-justified'>";
 		if (get_post_meta($e,'intravert_link_text',true)):
 			$html.= "<a id='intravert_hook_".$widget_id."' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".$e."\",".$icookie.",\"".esc_attr(get_the_title($e))."\",\"".esc_attr($originaltitle)."\");'> ";
-			$html.= get_post_meta($e,'intravert_link_text',true);
+			$html.= esc_html(get_post_meta($e,'intravert_link_text',true));
 			if ( $destination != '#nowhere' ) $html.= " <span class='dashicons dashicons-arrow-right-alt2'></span>";
 			$html.= "</a>";
 		endif;
@@ -664,7 +664,7 @@ function ht_intraverts_ajax_show() {
 }
   
 function ht_intravert_head() {
-	$border_height = get_option("options_widget_border_height", 5);
+	$border_height = intval(get_option("options_widget_border_height", 5));
 	$border_heighta = $border_height + 2;
 	$custom_css = '
 	.ht_intraverts .widget-box a img { margin-top: -'.$border_heighta.'px; } /* border height + 2 */

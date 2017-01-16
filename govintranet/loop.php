@@ -199,7 +199,7 @@
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->term_id != 1 ){
-				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a class='serps' data-category-id='{$cat->term_id} href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
+				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a class='serps' data-category-id='{$cat->term_id}' href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
 				echo "</a></span>&nbsp;";
 			}
 		}

@@ -4,7 +4,7 @@ Plugin Name: HT Need to know AJAX
 Plugin URI: http://www.helpfultechnology.com
 Description: Display need to know news stories using AJAX
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -44,8 +44,6 @@ class htNeedToknowAJAX extends WP_Widget {
 
 		echo "<div id='need-to-know' class='ht_need_to_know_ajax'></div>";
     }
-
-
 		
     function update($new_instance, $old_instance) {
 		$instance = $old_instance;
@@ -116,68 +114,67 @@ function ht_need_to_know_ajax_show() {
     exit();
 }
 
+function load_news( $items, $title, $before_widget, $after_widget, $before_title, $after_title, $hide ) {
+		global $post;
+		$html = "";
 
- function load_news( $items, $title, $before_widget, $after_widget, $before_title, $after_title, $hide ) {
- 		global $post;
- 		$html = "";
-	
-		$cquery = array(
-			'orderby' => 'post_date',
-		    'order' => 'DESC',
-		    'post_type' => 'news',
-		    'post_status' => 'publish',
-		    'posts_per_page' => -1,
-		    'tax_query' => array(array(
-		    'taxonomy'=>'post_format',
-		    'field'=>'slug',
-		    'terms'=>array('post-format-status'),
-		    ))
-			);
-	
-		$news = new WP_Query($cquery); 
-		$read = 0;
-		$show = 0;
-		$alreadydone = array();
-		if ($hide):
-			while ($news->have_posts()):
-				$news->the_post();  
-				if (isset($_COOKIE['ht_need_to_know_'.get_the_id()])):
-					$read++; 
-					$alreadydone[]=get_the_id();
-				else:
-					$show++; 
-				endif;
-			endwhile;
-		else:
-			$show=1; 
-		endif;
-		$k=0;
-		while ($news->have_posts()) {
-			$news->the_post();
-			if (in_array(get_the_id(), $alreadydone ) || $k > $items) continue;  //don't show if already read
-			if ( get_post_status(get_the_id()) != "publish" ) continue;  //don't show if already read
-			$k++;
-			if ($k > $items) break;
-			$thistitle = get_the_title();
-			$thisURL=get_permalink();
-			$icon = get_option('options_need_to_know_icon');
-			if ($icon=='') $icon = "flag";
-			$html.= "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnowAJAX(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
-			if ( get_comments_number() ){
-				$html.=  " <a href='".$thisURL."#comments'>";
-				$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
-				 $html.=  "</a>";
-			}
-			$html.= "</li>";
+	$cquery = array(
+		'orderby' => 'post_date',
+	    'order' => 'DESC',
+	    'post_type' => 'news',
+	    'post_status' => 'publish',
+	    'posts_per_page' => -1,
+	    'tax_query' => array(array(
+	    'taxonomy'=>'post_format',
+	    'field'=>'slug',
+	    'terms'=>array('post-format-status'),
+	    ))
+		);
+
+	$news = new WP_Query($cquery); 
+	$read = 0;
+	$show = 0;
+	$alreadydone = array();
+	if ($hide):
+		while ($news->have_posts()):
+			$news->the_post();  
+			if (isset($_COOKIE['ht_need_to_know_'.get_the_id()])):
+				$read++; 
+				$alreadydone[]=get_the_id();
+			else:
+				$show++; 
+			endif;
+		endwhile;
+	else:
+		$show=1; 
+	endif;
+	$k=0;
+	while ($news->have_posts()) {
+		$news->the_post();
+		if (in_array(get_the_id(), $alreadydone ) || $k > $items) continue;  //don't show if already read
+		if ( get_post_status(get_the_id()) != "publish" ) continue;  //don't show if already read
+		$k++;
+		if ($k > $items) break;
+		$thistitle = get_the_title();
+		$thisURL = get_permalink();
+		$icon = esc_attr(get_option('options_need_to_know_icon'));
+		if ($icon=='') $icon = "flag";
+		$html.= "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnowAJAX(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
+		if ( get_comments_number() ){
+			$html.=  " <a href='".$thisURL."#comments'>";
+			$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
+			 $html.=  "</a>";
 		}
-		if ($k){
-			if ( $title ) $html =  $before_title . $title . $after_title . $html;
-			$html= "<div class='need-to-know'><ul class='need'>" . $html; 
-			$html= "<div class='zign2n category-block'>" . $html; 
-			$html.= "</ul></div>";
-			$html.= $after_widget;
-		}
-		return $html;	 
+		$html.= "</li>";
+	}
+	if ($k){
+		if ( $title ) $html =  $before_title . $title . $after_title . $html;
+		$html= "<div class='need-to-know'><ul class='need'>" . $html; 
+		$html= "<div class='zign2n category-block'>" . $html; 
+		$html.= "</ul></div>";
+		$html.= $after_widget;
+	}
+	return $html;	 
  }
  
 add_action('widgets_init', create_function('', 'return register_widget("htNeedToknowAJAX");'));

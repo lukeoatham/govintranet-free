@@ -4,7 +4,7 @@ Plugin Name: HT Intraverts
 Plugin URI: http://www.helpfultechnology.com
 Description: Display promotional adverts which register clicks
 Author: Luke Oatham
-Version: 1.2
+Version: 1.4
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -569,7 +569,7 @@ class htIntraverts extends WP_Widget {
 			the_content();
 			if (get_post_meta(get_the_id(),'intravert_link_text',true)):
 				echo "<a id='intravert_hook' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".get_the_id()."\",".$icookie.",\"".$ititle."\",\"".esc_attr($originaltitle)."\");'> ";
-				echo get_post_meta(get_the_id(),'intravert_link_text',true);
+				echo esc_html(get_post_meta(get_the_id(),'intravert_link_text',true));
 				if ( $destination != '#nowhere' ) echo " <span class='dashicons dashicons-arrow-right-alt2'></span>";
 				echo "</a> ";
 			endif;

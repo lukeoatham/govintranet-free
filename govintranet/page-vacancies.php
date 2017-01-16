@@ -45,7 +45,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			if ($jobgrade=='all' || !$jobgrade) : ?>
 					<strong><?php _e('All grades' , 'govintranet'); ?></strong> | 
 			<?php else: ?>
-					<a href='?grade=all'><?php _e('All grades' , 'govintranet'); ?></a> | 
+					<a href='?grade=all&paged=1'><?php _e('All grades' , 'govintranet'); ?></a> | 
 			<?php endif; 
 			if ($terms) {
 		  		foreach ((array)$terms as $taxonomy ) {
@@ -54,7 +54,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		  			if ($jobgrade == $themeURL) {
 			  			echo "<strong>" . $taxonomy->name . "</strong> | ";
 			  		} else {
-			  			echo "<a href='?grade=".$themeURL."'>" . $taxonomy->name . "</a> | ";
+			  			echo "<a href='?grade=".$themeURL."&paged=1'>" . $taxonomy->name . "</a> | ";
 			  		}
 				}
 			}  

@@ -4,7 +4,7 @@ Plugin Name: HT Need to know
 Plugin URI: http://www.helpfultechnology.com
 Description: Display need to know news stories
 Author: Luke Oatham
-Version: 0.1
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -67,7 +67,7 @@ class htNeedToKnow extends WP_Widget {
 			if ($k > $items) break;
 			$thistitle = get_the_title();
 			$thisURL=get_permalink();
-			$icon = get_option('options_need_to_know_icon');
+			$icon = esc_attr(get_option('options_need_to_know_icon'));
 			if ($icon=='') $icon = "flag";
 			echo "<li><a href='{$thisURL}' onclick='Javascript:pauseNeedToKnow(\"ht_need_to_know_".get_the_id()."\");'><span class='glyphicon glyphicon-".$icon."'></span> ".$thistitle."</a>";
 			if ( get_comments_number() ){
