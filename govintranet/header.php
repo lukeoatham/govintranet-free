@@ -8,7 +8,6 @@
  * @package Bootstrap
  */
 
-
 // prevent clickjacking, advised by Context security review
 header('X-Frame-Options: SAMEORIGIN');
 
@@ -17,7 +16,7 @@ header('X-Frame-Options: SAMEORIGIN');
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<!--[if (IE)&(lt IE 9) ]>
+	<!--[if (IE)&(IE 8) ]>
 	        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
 	<![endif]-->
 	<!--[if (IE)&(gt IE 8) ]>
@@ -34,44 +33,6 @@ header('X-Frame-Options: SAMEORIGIN');
 		wp_title( '', true, 'right' );
 		?>
 	</title>
-
-	<?php
-	if ( (is_home() || is_front_page()) && !is_search() ):
-		if (intval(get_option('options_homepage_auto_refresh')) > 0):
-		?>
-			<meta http-equiv="refresh" content="<?php echo intval(get_option('options_homepage_auto_refresh'))*60;?>">
-		<?php
-		endif;
-	endif; ?>
-
-	<!--[if lte IE 8]>
-		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie8.css" type="text/css" media="screen" />
-	<![endif]-->
-	<!--[if IE 7]>
-		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie7.css" type="text/css" media="screen" />
-	<![endif]-->
-
-	<link href="<?php echo get_template_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
-
-	<!--[if lt IE 9]>
-	 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/html5-shiv.js"></script>
-	 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/respond.min.js"></script>
-	<![endif]-->
-
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo get_template_directory_uri(); ?>/style.css" />
-	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_template_directory_uri(); ?>/print.css" />
-
-	<!-- [if lte IE 8]>
-		<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ie7/IE8.js"></script>
-	<![endif]-->
-
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-
-	<?php
-	$headcode = get_option('options_header_code');
-	if ( $headcode ) echo $headcode;
-	?>
-	
 	<!--Google Analytics-->
 	<?php	
 	// write script for google analytics (only do on homepage if homepage tracking is set or on search page)
@@ -84,6 +45,27 @@ header('X-Frame-Options: SAMEORIGIN');
 			echo $gisgtc;
 		}
 	}
+	if ( (is_home() || is_front_page()) && !is_search() ) {
+		if (intval(get_option('options_homepage_auto_refresh')) > 0) { ?>
+			<meta http-equiv="refresh" content="<?php echo intval(get_option('options_homepage_auto_refresh'))*60;?>">
+			<?php
+		}
+	} ?>
+	<link href="<?php echo get_template_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" media="all" href="<?php echo get_template_directory_uri(); ?>/style.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_template_directory_uri(); ?>/print.css" />
+	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+	<!--[if lte IE 8]>
+	<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie8.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ie7/IE8.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/html5-shiv.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/respond.min.js"></script>
+	<![endif]-->
+	<?php
+	$headcode = get_option('options_header_code');
+	if ( $headcode ) echo $headcode;
 	
 	/* We add some JavaScript to pages with the comment form
 	 * to support sites with threaded comments (when in use).
@@ -114,26 +96,21 @@ $parentpageclass.=" custom-background";
 		<a href="#primarynav" class='hiddentext' accesskey='2' title="<?php esc_attr_e( 'Main menu', 'govintranet' ); ?>"><?php _e( 'Skip to main menu', 'govintranet' ); ?></a>
 		<a href="#utilitybar" class='hiddentext' accesskey='3' title="<?php esc_attr_e( 'Utility menu', 'govintranet' ); ?>"><?php _e( 'Skip to utility menu', 'govintranet' ); ?></a>
 	</div>
-
 	<div id='topstrip'>
-				
 		<nav class="navbar navbar-inverse">
-		  <!-- Brand and toggle get grouped for better mobile display -->
-		  <div class="navbar-header">
-		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-		      <span class="sr-only"><?php _e('Toggle navigation' , 'govintranet'); ?></span>
-		      <span class="icon-bar"></span>
-		      <span class="icon-bar"></span>
-		      <span class="icon-bar"></span>
-		    </button>
-		    <p><a class='navbar-brand visible-xs pull-left' href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><i class="glyphicon glyphicon-home"></i> <?php _e('Home' , 'govintranet'); ?></a></p>
-		  </div>
-
-		  <!-- Collect the nav links, forms, and other content for toggling -->
-		  <div class="collapse navbar-collapse navbar-ex1-collapse">				
-				
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			      <span class="sr-only"><?php _e('Toggle navigation' , 'govintranet'); ?></span>
+			      <span class="icon-bar"></span>
+			      <span class="icon-bar"></span>
+			      <span class="icon-bar"></span>
+			    </button>
+			    <p><a class='navbar-brand visible-xs pull-left' href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home"><i class="glyphicon glyphicon-home"></i> <?php _e('Home' , 'govintranet'); ?></a></p>
+		  	</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">				
 				<div class="row" id="masthead">	
-
 					<div class="container">
 						<a class="sr-only" href="#content"><?php _e('Skip to content' , 'govintranet');?></a>
 						<div class="row">							
@@ -158,70 +135,60 @@ $parentpageclass.=" custom-background";
 						<?php endif; ?>
 
 						</div>
-
 						<!--utility menu-->
-							<div class="row">
-								<div id="utilities" class="pull-right">
-									<?php
-										
-										if ( has_nav_menu( 'secondary' ) ) :?>
-											<div id='utilitybar'>
-												<?php										
-												wp_nav_menu( array( 
-												'container_class' => 'utilities', 
-												'theme_location' => 'secondary' , 
-												'depth' 		=> 2,
-												'walker' => new wp_bootstrap_navwalker(),
-												) ); ?>
-											</div>
-										<?php
-										else:
-										?>
-										<?php if ( is_active_sidebar( 'utility-widget-area' ) ) : ?>
-												<div id='utilitybar'>	
-													<ul class="menu">
-													<?php dynamic_sidebar( 'utility-widget-area' ); ?>
-													</ul>
-												</div>
-										<?php endif; ?>
-										<?php
-										endif;
-										?>
-
-								</div>
-
-								<div  id="mainnav" class="pull-left">		
-
-									<div id="primarynav" role="navigation">
-											<?php /* Our navigation menu.  If one isn't filled out, wp_nav_menu falls back to wp_page_menu.  The menu assiged to the primary position is the one used.  If none is assigned, the menu with the lowest ID is used.  */ ?>
-											<?php 
-									wp_nav_menu( array( 
-										'container_class' => 'menu-header', 
-										'theme_location' => 'primary' , 
+						<div class="row">
+							<div id="utilities" class="pull-right">
+								<?php
+								if ( has_nav_menu( 'secondary' ) ) :?>
+									<div id='utilitybar'>
+										<?php										
+										wp_nav_menu( array( 
+										'container_class' => 'utilities', 
+										'theme_location' => 'secondary' , 
 										'depth' 		=> 2,
 										'walker' => new wp_bootstrap_navwalker(),
 										) ); ?>
 									</div>
+								<?php
+								else:
+								?>
+								<?php if ( is_active_sidebar( 'utility-widget-area' ) ) : ?>
+										<div id='utilitybar'>	
+											<ul class="menu">
+											<?php dynamic_sidebar( 'utility-widget-area' ); ?>
+											</ul>
+										</div>
+								<?php endif; ?>
+								<?php
+								endif;
+								?>
+							</div>
+							<div  id="mainnav" class="pull-left">		
+
+								<div id="primarynav" role="navigation">
+										<?php /* Our navigation menu.  If one isn't filled out, wp_nav_menu falls back to wp_page_menu.  The menu assiged to the primary position is the one used.  If none is assigned, the menu with the lowest ID is used.  */ ?>
+										<?php 
+								wp_nav_menu( array( 
+									'container_class' => 'menu-header', 
+									'theme_location' => 'primary' , 
+									'depth' 		=> 2,
+									'walker' => new wp_bootstrap_navwalker(),
+									) ); ?>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div><!-- /.navbar-collapse -->
+				</div>
+			</div><!-- /.navbar-collapse -->
 		</nav>						
 	</div>				
-			     
 	<div id="content" class="container">			
-
 		<?php if ( $jumbo_searchbox == 1 && ( is_home() || is_front_page() ) ) : ?>
-
 		<!--search box-->
 			<div class="altsearch-container">
 				<div id='searchformdiv' class='altsearch'>
 						<?php get_search_form(true); ?>
 				</div>
 			</div>
-			
 		<?php endif; ?>
-
 		<div class="content-wrapper">
-			

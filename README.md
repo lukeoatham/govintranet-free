@@ -38,6 +38,12 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.1 - 25 Jan 2017 ###
+* Improved handling of footer javascript 
+* Improvements for IE8 
+* Fixes to related posts and sidebar content 
+* New option to load Open Sans font 
+
 ### 4.34 - 16 Jan 2017 ###
 * Updates to Projects templates to remove policy link and display project team members 
 * New option to add custom header code (for loading fonts etc.) 
