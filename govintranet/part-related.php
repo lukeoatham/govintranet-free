@@ -1,9 +1,9 @@
 <?php
 global $post;
+wp_reset_postdata();
 $id = $post->ID;
 $alreadydone = array();
 $related = get_post_meta($id,'related',true);
-
 $html='';
 if (is_array($related)){
 	foreach ($related as $r){ 

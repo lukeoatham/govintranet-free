@@ -892,28 +892,27 @@ add_action( 'widgets_init', 'govintranet_remove_recent_comments_style' );
 // check jQuery is available
 
 function enqueueThemeScripts() {
-	 wp_enqueue_script( 'jquery' );
-	 wp_enqueue_script( 'jquery-ui-core' );
-	 wp_enqueue_script( 'jquery-effects-core' );
-	 
-	 wp_register_script( 'bootstrap_min', get_template_directory_uri() . "/js/bootstrap.min.js");
-	 wp_enqueue_script( 'bootstrap_min' );
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-effects-core' );
+	
+	wp_register_script( 'bootstrap_min', get_template_directory_uri() . "/js/bootstrap.min.js");
+	wp_enqueue_script( 'bootstrap_min' );
+	
+	wp_register_script( 'ht-scripts', get_template_directory_uri() . "/js/ht-scripts.js");
+	wp_enqueue_script( 'ht-scripts' );
+	
+	wp_register_style( 'dashicons', includes_url("/css/dashicons.min.css"));
+	wp_enqueue_style( 'dashicons' );
 
-	 wp_register_script( 'ht-scripts', get_template_directory_uri() . "/js/ht-scripts.js");
-	 wp_enqueue_script( 'ht-scripts' );
+	if ( 'Open Sans' == get_option('options_gi_base_font') ){
+		wp_enqueue_style( 'ht-font', "//fonts.googleapis.com/css?family=Open+Sans:300,400,700",'','screen');
+	}
 
-	 wp_enqueue_style( 'ht-font', "//fonts.googleapis.com/css?family=Open+Sans:300,400,700",'','screen');
-
-	 wp_register_style( 'dashicons', includes_url("/css/dashicons.min.css"));
-	 wp_enqueue_style( 'dashicons' );
-
+	wp_register_script('gi-footer', get_template_directory_uri() . '/js/ht-scripts-footer.js','','1.0', true);
+	wp_enqueue_script('gi-footer');
 }
 add_action('wp_enqueue_scripts','enqueueThemeScripts');
-
-function enqueueThemeStyles() {
-	 wp_enqueue_style( 'ht-style', bloginfo( 'stylesheet_url' ),'','screen');
-}
-add_action('wp_enqueue_style','enqueueThemeStyles');
 
 function govintranetpress_custom_excerpt_more( $output ) {
 	return preg_replace('/<a[^>]+>Continue reading.*?<\/a>/i','',$output);
@@ -2412,6 +2411,34 @@ if( function_exists('acf_add_local_field_group') ):
 				'new_lines' => '',
 				'readonly' => 0,
 				'disabled' => 0,
+			),
+			'key' => 'group_58892d3e03b2c',
+			'title' => 'Base font',
+			'fields' => array (
+				array (
+					'layout' => 'vertical',
+					'choices' => array (
+						'Helvetica Neue' => 'Helvetica Neue',
+						'Open Sans' => 'Open Sans',
+					),
+					'default_value' => 'Helvetica Neue',
+					'other_choice' => 0,
+					'save_other_choice' => 0,
+					'allow_null' => 0,
+					'return_format' => 'value',
+					'key' => 'field_58892d505075b',
+					'label' => 'Base font',
+					'name' => 'gi_base_font',
+					'type' => 'radio',
+					'instructions' => '',
+					'required' => 1,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+				),
 			),
 			array (
 				'key' => 'field_5864598379dfd',
@@ -11233,26 +11260,26 @@ function my_manage_event_columns( $column, $post_id ) {
 	$date_format = get_option("date_format", "d-m-Y");
 	switch( $column ) {
 
-		/* If displaying the 'duration' column. */
+		/* If displaying the 'event_start_date' column. */
 		case 'event_start_date' :
 
 			/* Get the post meta. */
 			$start = get_post_meta( $post_id, 'event_start_date', true );
 
-			/* If no duration is found, output a default message. */
+			/* If no event_start_date is found, output a default message. */
 			if ( empty( $start ) )
 				echo "&mdash;";
 
-			/* If there is a duration, append 'minutes' to the text string. */
+			/* If there is an event_start_date, display */
 			else
 				echo date($date_format,strtotime($start));
 
 			break;
 
-		/* If displaying the 'genre' column. */
+		/* If displaying the 'event_type' column. */
 		case 'event_type' :
 
-			/* Get the genres for the post. */
+			/* Get the event_type for the post. */
 			$terms = get_the_terms( $post_id, 'event-type' ); 
 
 			/* If terms were found. */
@@ -11305,10 +11332,10 @@ function my_edit_event_load() {
 /* Sorts the events. */
 function my_sort_event( $vars ) {
 
-	/* Check if we're viewing the 'movie' post type. */
+	/* Check if we're viewing the 'event' post type. */
 	if ( isset( $vars['post_type'] ) && 'event' == $vars['post_type'] ) {
 
-		/* Check if 'orderby' is set to 'duration'. */
+		/* Check if 'orderby' is set to 'event_start_date'. */
 		if ( isset( $vars['orderby'] ) && 'event_start_date' == $vars['orderby'] ) {
 
 			/* Merge the query vars with our custom variables. */
