@@ -16,11 +16,9 @@ header('X-Frame-Options: SAMEORIGIN');
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<!--[if (IE)&(IE 8) ]>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<!--[if lt IE 9]>
 	        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
-	<![endif]-->
-	<!--[if (IE)&(gt IE 8) ]>
-	        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 	<![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="profile" href="https://gmpg.org/xfn/11" />

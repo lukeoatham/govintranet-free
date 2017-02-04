@@ -52,32 +52,32 @@ do_action( 'bbp_template_before_user_profile' );
 		  		    }
 		  			array_unshift( $teamlist, " <a href='".get_permalink($team->ID)."'>".govintranetpress_custom_title($team->post_title)."</a>" );
 		  			$teamlist = array_reverse( $teamlist );
-		  			echo "<p><strong>" . __('Team' , 'govintranet'). ":</strong> ".implode(" &raquo; ", $teamlist)."</p>";
+		  			echo "<p class='contactteam'><strong>" . __('Team' , 'govintranet'). ":</strong> ".implode(" &raquo; ", $teamlist)."</p>";
 		  			$teamlist=array();
 				}
 		}  
 		$jt = get_user_meta($user_id, 'user_job_title',true );
 		$ug = get_user_meta( $user_id, 'user_grade',true ); 
 		if (!$teams && ($jt || $ug)) echo '<h3 class="contacthead">' . __("Role" , "govintranet") . '</h3>';
-		if ($jt) echo "<p><strong>" . __('Job title' , 'govintranet' ) . ": </strong>".$jt."</p>";
+		if ($jt) echo "<p class='contactjobtitle'><strong>" . __('Job title' , 'govintranet' ) . ": </strong>".$jt."</p>";
 		if ($ug) {
 			$ug = get_term($ug, 'grade', ARRAY_A);
-			if ($ug['name']) echo "<p><strong>" . __('Grade' , 'govintranet') . ": </strong>".$ug['name']."</p>";
+			if ($ug['name']) echo "<p class='contactgrade'><strong>" . __('Grade' , 'govintranet') . ": </strong>".$ug['name']."</p>";
 		}
 		endif;
 		?>
 		<h3 class="contacthead"><?php echo _x('Contact' , 'Address book details' , 'govintranet'); ?></h3>
 		<?php 
 		if ( $staffdirectory ):
-		if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
-			<p class="bbp-user-description"><i class="dashicons dashicons-phone"></i> <a href="tel:<?php echo str_replace(" ", "",  get_user_meta($user_id, 'user_telephone',true ) ); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
-		<?php 
-		endif; 
-		if ( bbp_get_displayed_user_field( 'user_mobile' ) ) : 
-		?>
-			<p class="bbp-user-description"><i class="dashicons dashicons-smartphone"></i> <a href="tel:<?php echo str_replace(" ", "", get_user_meta($user_id, 'user_mobile',true ) ); ?>"><?php bbp_displayed_user_field( 'user_mobile' ); ?></a></p>
-		<?php 
-		endif;
+			if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
+				<p class="bbp-user-description"><i class="dashicons dashicons-phone"></i> <a href="tel:<?php echo str_replace(" ", "",  get_user_meta($user_id, 'user_telephone',true ) ); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
+			<?php 
+			endif; 
+			if ( bbp_get_displayed_user_field( 'user_mobile' ) ) : 
+			?>
+				<p class="bbp-user-description"><i class="dashicons dashicons-smartphone"></i> <a href="tel:<?php echo str_replace(" ", "", get_user_meta($user_id, 'user_mobile',true ) ); ?>"><?php bbp_displayed_user_field( 'user_mobile' ); ?></a></p>
+			<?php 
+			endif;
 		endif;
 		if ( bbp_get_displayed_user_field( 'user_email' ) ) : 
 		?>
@@ -85,38 +85,38 @@ do_action( 'bbp_template_before_user_profile' );
 			<?php 
 		endif; 
 		if ( $staffdirectory ):
-		if ( bbp_get_displayed_user_field( 'user_twitter_handle' ) ) : 
-		?>
-			<p class="bbp-user-description"><i class="dashicons dashicons-twitter"></i> <a href="https://twitter.com/<?php bbp_displayed_user_field( 'user_twitter_handle' ); ?>"><?php bbp_displayed_user_field( 'user_twitter_handle' ); ?></a></p>
-			<?php 
-		endif; 
-
-		if ( bbp_get_displayed_user_field( 'user_linkedin_url' ) ) : 
-		?>
-			<p class="bbp-user-description"><i class="dashicons dashicons-admin-site"></i> <a href="<?php bbp_displayed_user_field( 'user_linkedin_url' ); ?>">LinkedIn</a></p>
-			<?php 
-		endif; 
-
-
-		if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : 
-		?>
-			<h3 class="contacthead"><?php echo _x('Working pattern' , 'Hours of work' , 'govintranet'); ?></h3>
-			<?php echo wpautop(get_user_meta($user_id,'user_working_pattern',true)); ?>
-			<?php 
-		endif;
-		if ( bbp_get_displayed_user_field( 'description' ) ) : 
-		?>
-			<h3 class="contacthead"><?php _e('About me' , 'govintranet'); ?></h3>
-			<p><?php bbp_displayed_user_field( 'description' ); ?></p>
-			<?php
-		endif;
-		
-		$skills = get_user_meta($user_id,'user_key_skills',true);
-		if ($skills){
-		  echo "<h3 class='contacthead'>" . _x('Key skills and experience' , 'Job skills' , 'govintranet'). "</h3>";
-		  echo wpautop($skills);
-		}
-		$poduser = get_user_meta($user_id,'user_team',true);
+			if ( bbp_get_displayed_user_field( 'user_twitter_handle' ) ) : 
+			?>
+				<p class="bbp-user-description"><i class="dashicons dashicons-twitter"></i> <a href="https://twitter.com/<?php bbp_displayed_user_field( 'user_twitter_handle' ); ?>"><?php bbp_displayed_user_field( 'user_twitter_handle' ); ?></a></p>
+				<?php 
+			endif; 
+	
+			if ( bbp_get_displayed_user_field( 'user_linkedin_url' ) ) : 
+			?>
+				<p class="bbp-user-description"><i class="dashicons dashicons-admin-site"></i> <a href="<?php bbp_displayed_user_field( 'user_linkedin_url' ); ?>">LinkedIn</a></p>
+				<?php 
+			endif; 
+	
+	
+			if ( bbp_get_displayed_user_field( 'user_working_pattern' ) ) : 
+			?>
+				<h3 class="contacthead"><?php echo _x('Working pattern' , 'Hours of work' , 'govintranet'); ?></h3>
+				<?php echo wpautop(get_user_meta($user_id,'user_working_pattern',true)); ?>
+				<?php 
+			endif;
+			if ( bbp_get_displayed_user_field( 'description' ) ) : 
+			?>
+				<h3 class="contacthead"><?php _e('About me' , 'govintranet'); ?></h3>
+				<p><?php bbp_displayed_user_field( 'description' ); ?></p>
+				<?php
+			endif;
+			
+			$skills = get_user_meta($user_id,'user_key_skills',true);
+			if ($skills){
+			  echo "<h3 class='contacthead'>" . _x('Key skills and experience' , 'Job skills' , 'govintranet'). "</h3>";
+			  echo wpautop($skills);
+			}
+			$poduser = get_user_meta($user_id,'user_team',true);
 		endif;
 
 		?>

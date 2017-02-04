@@ -38,6 +38,12 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.2 - 4 Feb 2017 ###
+* Fix to new base font option 
+* Improvements for IE8 compatibility mode 
+* Forum templates moved to /bbpress 
+* Additional classes in templates for CSS 
+
 ### 4.34.1 - 25 Jan 2017 ###
 * Improved handling of footer javascript 
 * Improvements for IE8 

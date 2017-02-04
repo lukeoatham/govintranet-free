@@ -52,12 +52,14 @@ if ( have_posts() )
 		<?php 
 		$tagcloud = gi_tag_cloud('news-type',$catslug,'news');
 		if ($tagcloud):
+			echo "<div class='news-type-tagcloud'>";
 			?>					
 			<h3 class='widget-title h1_<?php echo $catid; ?>'><?php _e('Browse by tag','govintranet'); ?></h3>
 			<?php 
 			/* Run the loop for the category page to output the posts.
 			 */
 			echo $tagcloud;	
+			echo "</div>";
 		endif;
 		
 		if ($tasktagslug):

@@ -423,6 +423,21 @@ function govintranet_version_check() {
 
 		endif;
 
+		if ( version_compare( $database_version, "4.34.2", '<' ) && $update_okay ):
+
+			// Tidy forum templates
+			global $wpdb;
+			$forums = $wpdb->query("update $wpdb->postmeta set meta_value = 'bbpress/page-forum.php' where meta_key = '_wp_page_template' and meta_value = 'page-forum.php';");
+			$forums = $wpdb->query("update $wpdb->postmeta set meta_value = 'bbpress/page-forum-simple.php' where meta_key = '_wp_page_template' and meta_value = 'page-forum-simple.php';");
+			
+			// Reschedule patrol job
+		    $timestamp = wp_next_scheduled( "govintranet_expiry_patrol" );
+			if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
+
+			$updated_to = "4.34.2";
+
+		endif;
+
 		// UPDATE DATABASE VERSION
 		
 		if ( $update_okay ):
@@ -2412,32 +2427,28 @@ if( function_exists('acf_add_local_field_group') ):
 				'readonly' => 0,
 				'disabled' => 0,
 			),
-			'key' => 'group_58892d3e03b2c',
-			'title' => 'Base font',
-			'fields' => array (
-				array (
-					'layout' => 'vertical',
-					'choices' => array (
-						'Helvetica Neue' => 'Helvetica Neue',
-						'Open Sans' => 'Open Sans',
-					),
-					'default_value' => 'Helvetica Neue',
-					'other_choice' => 0,
-					'save_other_choice' => 0,
-					'allow_null' => 0,
-					'return_format' => 'value',
-					'key' => 'field_58892d505075b',
-					'label' => 'Base font',
-					'name' => 'gi_base_font',
-					'type' => 'radio',
-					'instructions' => '',
-					'required' => 1,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
+			array (
+				'layout' => 'vertical',
+				'choices' => array (
+					'Helvetica Neue' => 'Helvetica Neue',
+					'Open Sans' => 'Open Sans',
+				),
+				'default_value' => 'Helvetica Neue',
+				'other_choice' => 0,
+				'save_other_choice' => 0,
+				'allow_null' => 0,
+				'return_format' => 'value',
+				'key' => 'field_58892d505075b',
+				'label' => 'Base font',
+				'name' => 'gi_base_font',
+				'type' => 'radio',
+				'instructions' => '',
+				'required' => 1,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
 				),
 			),
 			array (
@@ -11478,7 +11489,7 @@ add_filter( 'cron_schedules', 'govintranet_add_fivemin' );
 
 if ( get_option( 'options_module_news' ) || get_option( 'options_module_news_updates' ) || get_option( 'options_module_vacancies' ) || get_option( 'options_module_events' ) ){
 	if ( ! wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
-		wp_schedule_event( time(), 'hourly', 'govintranet_expiry_patrol' );
+		wp_schedule_event( time(), 'fivemin', 'govintranet_expiry_patrol' );
 	}
 } elseif ( wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
 	wp_clear_scheduled_hook( 'govintranet_expiry_patrol' );
