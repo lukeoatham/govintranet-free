@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.3 - 7 Feb 2017 ###
+* Fix for custom fields on unselected modules 
+
 ### 4.34.2 - 4 Feb 2017 ###
 * Fix to new base font option 
 * Improvements for IE8 compatibility mode 

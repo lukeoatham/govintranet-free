@@ -4280,7 +4280,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'description' => '',
 	));
 
-	acf_add_local_field_group(array (
+	if ( get_option( 'options_module_tasks' ) || get_option( 'options_module_projects' ) ) acf_add_local_field_group(array (
 		'key' => 'group_53bd5ee04bd4d',
 		'title' => __('Category','govintranet'),
 		'fields' => array (
@@ -4338,7 +4338,7 @@ if( function_exists('acf_add_local_field_group') ):
 		),
 	));
 	
-	acf_add_local_field_group(array (
+	if ( get_option( 'options_module_vacancies' ) || get_option( 'options_module_staff_directory' ) ) acf_add_local_field_group(array (
 		'key' => 'group_54cd1e8380c49',
 		'title' => __('Grades','govintranet'),
 		'fields' => array (
@@ -4377,7 +4377,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'hide_on_screen' => '',
 	));
 	
-	acf_add_local_field_group(array (
+	if ( get_option( 'options_module_teams' ) ) acf_add_local_field_group(array (
 		'key' => 'group_54cd25add8aaa',
 		'title' => __('Teams','govintranet'),
 		'fields' => array (
@@ -4412,7 +4412,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'hide_on_screen' => '',
 	));
 	
-	acf_add_local_field_group(array (
+	if ( get_option( 'options_module_events' ) ) acf_add_local_field_group(array (
 		'key' => 'group_53bd5ee05808f',
 		'title' => __('Events','govintranet'),
 		'fields' => array (
@@ -4692,7 +4692,7 @@ if( function_exists('acf_add_local_field_group') ):
 	endif;
 
 
-	acf_add_local_field_group(array (
+	if ( get_option( 'options_module_projects' ) ) acf_add_local_field_group(array (
 		'key' => 'group_53bd5ee0dbdca',
 		'title' => _x('Projects','noun','govintranet'),
 		'fields' => array (
@@ -4871,238 +4871,239 @@ if( function_exists('acf_add_local_field_group') ):
 
 		endif;
 	
-		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
-
-			'key' => 'group_53bd5ee0ea856',
-			'title' => __('Users','govintranet'),
-			'fields' => array (
-				array (
-					'key' => 'field_536f6ba7c9894',
-					'label' => __('Job title','govintranet'),
-					'name' => 'user_job_title',
-					'type' => 'text',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => '',
-					'prepend' => '',
-					'append' => '',
-					'formatting' => 'html',
-					'maxlength' => '',
-					'readonly' => 0,
-					'disabled' => 0,
-				),
-				array (
-					'key' => 'field_5380e9782feba',
-					'label' => __('Team','govintranet'),
-					'name' => 'user_team',
-					'type' => 'relationship',
-					'instructions' => __('Choose just your local team, e.g. if you work in Communications which is part of Business Services, you only need to choose Communications.','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'post_type' => array (
-						0 => 'team',
-					),
-					'taxonomy' => array (
-					),
-					'filters' => array (
-						0 => 'search',
-					),
-					'elements' => '',
-					'max' => '',
-					'return_format' => 'id',
-					'min' => 0,
-				),
-				array (
-					'key' => 'field_536f6df635194',
-					'label' => __('Line manager','govintranet'),
-					'name' => 'user_line_manager',
-					'type' => 'user',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'role' => '',
-					'allow_null' => 1,
-					'multiple' => 0,
-				),
-				array (
-					'key' => 'field_536f6d8835190',
-					'label' => __('Telephone number','govintranet'),
-					'name' => 'user_telephone',
-					'type' => 'text',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => '',
-					'prepend' => '',
-					'append' => '',
-					'maxlength' => '',
-					'readonly' => 0,
-					'disabled' => 0,
-				),
-				array (
-					'key' => 'field_536f6dae35191',
-					'label' => __('Mobile number','govintranet'),
-					'name' => 'user_mobile',
-					'type' => 'text',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => '',
-					'prepend' => '',
-					'append' => '',
-					'maxlength' => '',
-					'readonly' => 0,
-					'disabled' => 0,
-				),
-				array (
-					'key' => 'field_53ff41c0dd1ee',
-					'label' => __('Twitter handle','govintranet'),
-					'name' => 'user_twitter_handle',
-					'type' => 'text',
-					'instructions' => __('e.g. @Luke_Oatham','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => '',
-					'prepend' => '',
-					'append' => '',
-					'maxlength' => '',
-					'readonly' => 0,
-					'disabled' => 0,
-				),
-				array (
-					'key' => 'field_55e06dd4eab2e',
-					'label' => 'LinkedIn',
-					'name' => 'user_linkedin_url',
-					'type' => 'url',
-					'instructions' => __('Provide the full URL of your LinkedIn profile page.','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => 'https://uk/linkedin.com/in/lukeoatham',
-				),
-				array (
-					'key' => 'field_536f6dbe35192',
-					'label' => _x('Working pattern','Hours of work','govintranet'),
-					'name' => 'user_working_pattern',
-					'type' => 'wysiwyg',
-					'instructions' => __('Which days do you work? Where are you based?','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'toolbar' => 'full',
-					'media_upload' => 1,
-					'tabs' => 'all',
-				),
-				array (
-					'key' => 'field_536f6dd135193',
-					'label' => __('Skills and experience','govintranet'),
-					'name' => 'user_key_skills',
-					'type' => 'wysiwyg',
-					'instructions' => __('List your skills and experience so that others can find you.','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'toolbar' => 'full',
-					'media_upload' => 1,
-					'tabs' => 'all',
-				),
-				array (
-					'key' => 'field_548dd1f76a830',
-					'label' => __('Grade','govintranet'),
-					'name' => 'user_grade',
-					'type' => 'taxonomy',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'taxonomy' => 'grade',
-					'field_type' => 'select',
-					'allow_null' => 1,
-					'load_save_terms' => 0,
-					'return_format' => 'object',
-					'multiple' => 0,
-					'add_term' => 0,
-					'load_terms' => 0,
-					'save_terms' => 0,
-				),
-			),
-			'location' => array (
-				array (
-					array (
-						'param' => 'user_role',
-						'operator' => '==',
-						'value' => 'all',
-					),
-				),
-			),
-			'menu_order' => 0,
-			'position' => 'normal',
-			'style' => 'seamless',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-		));
+		if ( get_option( 'options_module_staff_directory' ) || get_option( 'options_forum_support' )  ):
+		
+			if( function_exists('acf_add_local_field_group') ) :
 	
-	
-	endif;
-	
-	if ( get_option( 'options_module_staff_directory' )  ):
-	
-		if( function_exists('acf_add_local_field_group') ) :
+				acf_add_local_field_group(array (
+		
+					'key' => 'group_53bd5ee0ea856',
+					'title' => __('Users','govintranet'),
+					'fields' => array (
+						array (
+							'key' => 'field_536f6ba7c9894',
+							'label' => __('Job title','govintranet'),
+							'name' => 'user_job_title',
+							'type' => 'text',
+							'instructions' => '',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'default_value' => '',
+							'placeholder' => '',
+							'prepend' => '',
+							'append' => '',
+							'formatting' => 'html',
+							'maxlength' => '',
+							'readonly' => 0,
+							'disabled' => 0,
+						),
+						array (
+							'key' => 'field_5380e9782feba',
+							'label' => __('Team','govintranet'),
+							'name' => 'user_team',
+							'type' => 'relationship',
+							'instructions' => __('Choose just your local team, e.g. if you work in Communications which is part of Business Services, you only need to choose Communications.','govintranet'),
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'post_type' => array (
+								0 => 'team',
+							),
+							'taxonomy' => array (
+							),
+							'filters' => array (
+								0 => 'search',
+							),
+							'elements' => '',
+							'max' => '',
+							'return_format' => 'id',
+							'min' => 0,
+						),
+						array (
+							'key' => 'field_536f6df635194',
+							'label' => __('Line manager','govintranet'),
+							'name' => 'user_line_manager',
+							'type' => 'user',
+							'instructions' => '',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'role' => '',
+							'allow_null' => 1,
+							'multiple' => 0,
+						),
+						array (
+							'key' => 'field_536f6d8835190',
+							'label' => __('Telephone number','govintranet'),
+							'name' => 'user_telephone',
+							'type' => 'text',
+							'instructions' => '',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'default_value' => '',
+							'placeholder' => '',
+							'prepend' => '',
+							'append' => '',
+							'maxlength' => '',
+							'readonly' => 0,
+							'disabled' => 0,
+						),
+						array (
+							'key' => 'field_536f6dae35191',
+							'label' => __('Mobile number','govintranet'),
+							'name' => 'user_mobile',
+							'type' => 'text',
+							'instructions' => '',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'default_value' => '',
+							'placeholder' => '',
+							'prepend' => '',
+							'append' => '',
+							'maxlength' => '',
+							'readonly' => 0,
+							'disabled' => 0,
+						),
+						array (
+							'key' => 'field_53ff41c0dd1ee',
+							'label' => __('Twitter handle','govintranet'),
+							'name' => 'user_twitter_handle',
+							'type' => 'text',
+							'instructions' => __('e.g. @Luke_Oatham','govintranet'),
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'default_value' => '',
+							'placeholder' => '',
+							'prepend' => '',
+							'append' => '',
+							'maxlength' => '',
+							'readonly' => 0,
+							'disabled' => 0,
+						),
+						array (
+							'key' => 'field_55e06dd4eab2e',
+							'label' => 'LinkedIn',
+							'name' => 'user_linkedin_url',
+							'type' => 'url',
+							'instructions' => __('Provide the full URL of your LinkedIn profile page.','govintranet'),
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'default_value' => '',
+							'placeholder' => 'https://uk/linkedin.com/in/lukeoatham',
+						),
+						array (
+							'key' => 'field_536f6dbe35192',
+							'label' => _x('Working pattern','Hours of work','govintranet'),
+							'name' => 'user_working_pattern',
+							'type' => 'wysiwyg',
+							'instructions' => __('Which days do you work? Where are you based?','govintranet'),
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'default_value' => '',
+							'toolbar' => 'full',
+							'media_upload' => 1,
+							'tabs' => 'all',
+						),
+						array (
+							'key' => 'field_536f6dd135193',
+							'label' => __('Skills and experience','govintranet'),
+							'name' => 'user_key_skills',
+							'type' => 'wysiwyg',
+							'instructions' => __('List your skills and experience so that others can find you.','govintranet'),
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'default_value' => '',
+							'toolbar' => 'full',
+							'media_upload' => 1,
+							'tabs' => 'all',
+						),
+						array (
+							'key' => 'field_548dd1f76a830',
+							'label' => __('Grade','govintranet'),
+							'name' => 'user_grade',
+							'type' => 'taxonomy',
+							'instructions' => '',
+							'required' => 0,
+							'conditional_logic' => 0,
+							'wrapper' => array (
+								'width' => '',
+								'class' => '',
+								'id' => '',
+							),
+							'taxonomy' => 'grade',
+							'field_type' => 'select',
+							'allow_null' => 1,
+							'load_save_terms' => 0,
+							'return_format' => 'object',
+							'multiple' => 0,
+							'add_term' => 0,
+							'load_terms' => 0,
+							'save_terms' => 0,
+						),
+					),
+					'location' => array (
+						array (
+							array (
+								'param' => 'user_role',
+								'operator' => '==',
+								'value' => 'all',
+							),
+						),
+					),
+					'menu_order' => 0,
+					'position' => 'normal',
+					'style' => 'seamless',
+					'label_placement' => 'top',
+					'instruction_placement' => 'label',
+					'hide_on_screen' => '',
+				));
+			
+			
+			endif;
+			
 		
 			acf_add_local_field_group(array (
 
@@ -5385,7 +5386,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'hide_on_screen' => '',
 	));
 	
-	acf_add_local_field_group(array (
+	if ( get_option( 'options_module_news' ) ) acf_add_local_field_group(array (
 		'key' => 'group_53bd5ee11b027',
 		'title' => __('News expiry','govintranet'),
 		'fields' => array (
