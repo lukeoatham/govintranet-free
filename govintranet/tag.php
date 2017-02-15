@@ -316,7 +316,7 @@ get_header();
 
 				</div>
 
-				<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
+				<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12" id="sidebar">
 					<div class="widget-box list">
 						<h3 class="widget-title">
 						<?php if (!$posttype){

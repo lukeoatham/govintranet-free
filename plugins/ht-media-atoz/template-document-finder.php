@@ -111,9 +111,10 @@ global $wpdb;
 		  
 					  	<div class="input-group">
 						 <label for="sdoc" class="sr-only"><?php _e('Search','govintranet'); ?></label>
-				    	 <input type="text" class="form-control" name="q" id="q" value="<?php echo esc_attr($search);?>">
+				    	 <input type="text" class="form-control" name="q" id="q" placeholder="<?php _e('Search documents','govintranet'); ?>" value="<?php echo esc_attr($search);?>">
 						 <span class="input-group-btn">
-						<label for="docsearchbutton" class="sr-only"><?php _e('Search','govintranet'); ?></label>	 <div class="matoz">
+						<label for="docsearchbutton" class="sr-only"><?php _e('Search','govintranet'); ?></label>	 
+						<div class="matoz">
 				    	 <?php
 					    	 $icon_override = get_option('options_search_button_override', false); 
 					    	 if ( isset($icon_override) && $icon_override ):
@@ -203,8 +204,8 @@ global $wpdb;
 			<?php endif; ?>
 			<?php if ( in_array('Category', $filters) ): ?>
 			<?php
-			$taxonomies[]='category';
-			$post_type[]='attachment';
+			$taxonomies=array('category');
+			$post_type=array('attachment');
 			$post_cat = get_terms_by_media_type( $taxonomies, $post_type);
 			if ($post_cat){ ?>
 			<div class="document-finder-filter-box doc_cats matoz-search-cat">

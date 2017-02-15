@@ -33,7 +33,7 @@ get_header(); ?>
 			?>
 	</div> 
 
-	<div class="col-lg-4 col-md-4 col-sm-4">
+	<div class="col-lg-4 col-md-4 col-sm-4" id="sidebar">
 	<?php
 		the_post_thumbnail('medium', array('class'=>'img img-responsive')); 
 		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );

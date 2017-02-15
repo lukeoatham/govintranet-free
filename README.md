@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.4 - 15 Feb 2017 ###
+* Improvements to print stylesheet 
+* Comments enabled by default for news and blog posts 
+* Sidebar CSS selector added to templates 
+
 ### 4.34.3 - 7 Feb 2017 ###
 * Fix for custom fields on unselected modules 
 

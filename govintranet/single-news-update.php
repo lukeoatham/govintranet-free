@@ -66,7 +66,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 			 ?>
 
 		</div> <!--end of first column-->
-		<div class="col-lg-4  col-md-4 col-sm-4 col-lg-offset-1">	
+		<div class="col-lg-4  col-md-4 col-sm-4 col-lg-offset-1" id="sidebar">	
 			<?php
 			get_template_part("part", "sidebar");
 

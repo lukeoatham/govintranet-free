@@ -191,7 +191,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		?>
 	</div>
 
-	<div class="col-lg-4 col-md-4">
+	<div class="col-lg-4 col-md-4" id="sidebar">
 
 		<?php if ( $cloud = gi_howto_tag_cloud('vacancy') ): ?>
 		<div class='widget-box'>

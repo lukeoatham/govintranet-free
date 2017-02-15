@@ -110,7 +110,7 @@ $filter_cols = 12 / $filter_count;
 				<form class="form-horizontal" role="form" id="docsearchform" name="docsearchform" method="get">
 			  	<div class="input-group">
 					 <label for="sdoc" class="sr-only"><?php _e('Search','govintranet'); ?></label>
-			    	 <input type="text" class="form-control" name="q" id="q" value="<?php echo esc_attr($search);?>">
+			    	 <input type="text" class="form-control" name="q" id="q" placeholder="<?php _e('Search documents','govintranet'); ?>" value="<?php echo esc_attr($search);?>">
 					 <span class="input-group-btn">
 					<label for="docsearchbutton" class="sr-only"><?php _e('Search','govintranet'); ?></label>	 <div class="matoz">
 			    	 <?php
@@ -213,8 +213,8 @@ $filter_cols = 12 / $filter_count;
 		<?php if ( in_array('Category', $filters) ): ?>
 		<div class="col-md-<?php echo $filter_cols; ?> col-sm-6 matoz-search-cat">
 			<?php
-			$taxonomies[]='category';
-			$post_type[]='attachment';
+			$taxonomies=array('category');
+			$post_type=array('attachment');
 			$post_cat = get_terms_by_media_type( $taxonomies, $post_type);
 			if ($post_cat){ ?>
 			<div class="widget-box doc_cats" id="document_category_dropdown">

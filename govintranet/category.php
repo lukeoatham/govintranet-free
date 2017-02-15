@@ -209,7 +209,7 @@ if ( have_posts() )
 		?>
 	</div>
 
-	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
+	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12" id="sidebar">
 
 		<?php
 		$terms = get_terms('category',array("hide_empty"=>true,"parent"=>$catid));

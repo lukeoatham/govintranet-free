@@ -115,7 +115,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				?>
 			</div>
 		</div>
-		<div class="col-lg-4 col-md-4 col-sm-4">
+		<div class="col-lg-4 col-md-4 col-sm-4" id="sidebar">
 		<?php if ( $cloud = gi_howto_tag_cloud('project') ): ?>
 		<div class='widget-box'>
 			<h3 class='widget-title'><?php _e('Browse by tag' , 'govintranet') ; ?></h3>

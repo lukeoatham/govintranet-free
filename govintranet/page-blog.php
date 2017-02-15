@@ -49,7 +49,7 @@ get_header();
 		wp_reset_query();								
 		?>							
 	</div>
-	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
+	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12" id="sidebar">
 		
 		<?php dynamic_sidebar('bloglanding-widget-area'); ?>
 		<?php

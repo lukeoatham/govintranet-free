@@ -72,7 +72,7 @@ get_header();
     ?>							
 	</div>
 
-	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12">
+	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12" id="sidebar">
 	<?php
 
 		$taxonomies=array();

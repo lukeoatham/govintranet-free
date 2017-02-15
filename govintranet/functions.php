@@ -11646,9 +11646,7 @@ function govintranet_expiry_patrol_cron() {
 		
 		if ( count($oldvacs) > 0 ){
 			foreach ($oldvacs as $old) {
-				if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'vacancy_closing_date',true)) )){ // if expiry today, check the time
-					if (date('H:i:s',strtotime(get_post_meta($old->ID,'vacancy_closing_time',true))) > date('H:i:s') ) continue;
-				}
+				if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'vacancy_closing_date',true))) && date('H:i:s',strtotime(get_post_meta($old->ID,'vacancy_closing_time',true))) > date('H:i:s') ) continue;
 				$my_post = array();
 				$my_post['ID'] = $old->ID;
 				$my_post['post_status'] = 'draft';
@@ -11703,6 +11701,12 @@ function govintranet_default_content( $post_content, $post ) {
 			break;
         case 'team':
             $post->comment_status = 'closed';
+			break;
+        case 'news':
+            if ( 'open' == get_option('default_comment_status') ) $post->comment_status = 'open';
+			break;
+        case 'blog':
+            if ( 'open' == get_option('default_comment_status') ) $post->comment_status = 'open';
 			break;
 		/* Just break out of the switch statement for everything else. */
 		default :

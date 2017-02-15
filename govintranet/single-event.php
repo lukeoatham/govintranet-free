@@ -101,7 +101,7 @@ $mainid=$post->ID;
 
 </div>
 
-<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-5 col-xs-12">
+<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-5 col-xs-12" id="sidebar">
 	<?php
 	$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'newshead' );
 	if ($image_uri!=""){

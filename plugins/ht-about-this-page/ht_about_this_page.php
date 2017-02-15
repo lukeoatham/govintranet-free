@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.8.1
+Version: 1.8.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -118,6 +118,13 @@ class htAboutThisPage extends WP_Widget {
 					if ( $directorystyle==1 ) $avstyle = " img-circle";
 					$image_url = get_avatar($post->post_author , 32);
 					$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
+					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
+						echo "<a href='";
+						bbp_user_profile_url( $post->post_author );
+						echo "'>";
+					} else {
+						echo $authorlink;	
+					}
 					echo $image_url;
 					echo "</a>&nbsp;";
 					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page

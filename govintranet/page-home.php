@@ -5,14 +5,16 @@ get_header(); ?>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); 
 
+	the_title('<h1 class="sr-only">', '</h1>');
+	
 	// Load intranet homepage settings
 	$campaign_message = get_post_meta($post->ID,'campaign_message',true);
 
-	$top_pages =  get_post_meta($post->ID,'top_pages',true);
+	$top_pages = get_post_meta($post->ID,'top_pages',true);
 
 	$homecontent =  get_post_meta($post->ID,'emergency_message',true);
 
-	$homecontentcolour =  strtolower(get_post_meta($post->ID,'emergency_message_style',true)); 
+	$homecontentcolour = strtolower(get_post_meta($post->ID,'emergency_message_style',true)); 
 
 	$forumsupport = get_option('options_forum_support');
 

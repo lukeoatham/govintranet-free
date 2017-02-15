@@ -56,8 +56,8 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 				<!--left blank-->
 
 				<?php if ( $directory ): ?>
-				<div class="col-sm-12 well well-sm">
-					<div id="staff-search">
+				<div class="col-sm-12 well well-sm" id="staff-search">
+					<div >
 						<div class="col-sm-8">
 							<form class="form-horizontal" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo "/"; } else { echo site_url( '/search-staff/' ); } ?>">
 								<div class="input-group">
@@ -114,7 +114,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 				<?php endif; ?>
 			</div>
 
-			<div class="col-md-4 col-sm-12">
+			<div class="col-md-4 col-sm-12" id="sidebar">
 				<?php
 				wp_reset_postdata();
 				$teams = get_posts('post_type=team&posts_per_page=-1&orderby=menu_order , title&order=ASC&post_parent='.$post->ID);

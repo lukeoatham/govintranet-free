@@ -129,7 +129,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				<?php endif; ?>
 			<?php endif; ?>
 		</div>
-		<div class="col-lg-4 col-md-4 col-sm-5 col-sx-12">
+		<div class="col-lg-4 col-md-4 col-sm-5 col-sx-12" id="sidebar">
 			<?php 
 			dynamic_sidebar('eventslanding-widget-area'); 
 			$taxonomies=array();

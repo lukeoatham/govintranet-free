@@ -258,7 +258,7 @@ get_header(); ?>
 
 	</div>
 	
-	<div class="col-md-4 last">
+	<div class="col-md-4" id="sidebar">
 		<?php 
 		dynamic_sidebar('eventslanding-widget-area'); 
 		$taxonomies=array();

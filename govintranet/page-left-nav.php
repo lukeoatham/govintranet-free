@@ -27,7 +27,7 @@ get_header(); ?>
 	
 		</div>
 
-		<div class="col-lg-3 col-md-3 col-sm-12">
+		<div class="col-lg-3 col-md-3 col-sm-12" id="sidebar">
 			<?php 
 			the_post_thumbnail('large', array('class'=>'img img-responsive')); 
 			
