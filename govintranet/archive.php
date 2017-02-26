@@ -11,7 +11,7 @@
  */
 
 if ( is_category() ) wp_redirect( get_term_link( get_queried_object()->slug, "category" ) );
-if ( is_tax("event-type", get_queried_object()->slug) ){
+if ( isset(get_queried_object()->slug) && is_tax("event-type", get_queried_object()->slug ) ){
 	$events_page = get_option("options_module_events_page");
 	$events_url = "";
 	if ($events_page[0]) $events_url = get_permalink($events_page[0]);
@@ -20,7 +20,8 @@ if ( is_tax("event-type", get_queried_object()->slug) ){
 }
 get_header();
 
-$catid = get_queried_object()->term_id;	
+$catid = "";
+if ( isset(get_queried_object()->term_id) ) $catid = get_queried_object()->term_id;	
 
 	if ( have_posts() )
 		the_post();

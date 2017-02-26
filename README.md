@@ -38,6 +38,12 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.5 - 26 Feb 2017 ###
+* Various fixes for PHP warnings 
+* User profile bio display improvements 
+* Minor improvements for page loading 
+* Update to SearchAutocomplete plugin to stop recording Relevanssi user search log 
+
 ### 4.34.4 - 15 Feb 2017 ###
 * Improvements to print stylesheet 
 * Comments enabled by default for news and blog posts 

@@ -4,7 +4,7 @@ Plugin Name: HT Top tags
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display top tags from live Google Analytics feed
 Author: Luke Oatham
-Version: 1.3.1
+Version: 1.3.2
 Author URI: http://www.helpfultechnology.com
 */
  
@@ -39,7 +39,6 @@ class htTopTags extends WP_Widget {
 		
 	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
 	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
-
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; 
 		
@@ -52,6 +51,7 @@ class htTopTags extends WP_Widget {
 		$to_fill = $items;
 		$k=0;
 		$alreadydone= array();
+		$toptagsslug =  array();
 				
 		//display manual overrides first
 		

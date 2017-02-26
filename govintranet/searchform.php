@@ -43,13 +43,3 @@ if ( $placeholder != '' && strpos($placeholder, "||") ){
 	</div><!-- /input-group -->
   </div>
 </form>
-<script type='text/javascript'>
-    jQuery(document).ready(function(){
-		jQuery('#searchform').submit(function(e) {
-		    if (jQuery.trim(jQuery("#s").val()) === "") {
-		        e.preventDefault();
-		        jQuery('#s').focus();
-		    }
-		});	
-	});	
-</script>

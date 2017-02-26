@@ -11,7 +11,7 @@ Author URI: http://www.helpfultechnology.com
 add_action('admin_menu', 'ht_content_report_menu');
 
 function ht_content_report_menu() {
-  add_submenu_page('tools.php', __('Content Report','govintranet'), __('Content Report','govintranet'), 'manage_options', 'content_report', 'ht_content_report_options');
+	add_submenu_page('tools.php', __('Content Report','govintranet'), __('Content Report','govintranet'), 'manage_options', 'content_report', 'ht_content_report_options');
 }
 
 function ht_content_report_options() {
@@ -28,51 +28,51 @@ function ht_content_report_options() {
 	}
 
 	$baseurl = site_url();
-	
+
 	$ptargs = array( '_builtin' => false, 'public' => true, 'exclude_from_search' => false );
 	$postTypes = get_post_types($ptargs, 'objects');
 	$posttypeoptions = array();
 	global $wpdb;
 	$nonce = wp_create_nonce('ht_content_report');
 	echo "<div class='postbox  acf-postbox normal'><div class='inside acf-fields -top'>";
-	
+
 	echo "<h2>".__('Content report','govintranet')."</h2> ";
 	echo "
 		 <form name='content_report' method='post' action='" . plugin_dir_url("/") . "ht-content-report/ht_content_report_download.php'>
-		 	
+
 		 	<p><label for='ptype'>".__('Content types','govintranet')."</label></p>
-		";			 	
-			echo'<p><label class="checkbox cr-check"><input type="checkbox" name="ptype[]" value="page"';
-			if(in_array('page', $posttypeoptions)){ 
+		";
+	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="ptype[]" value="page"';
+	if(in_array('page', $posttypeoptions)){
+		echo" checked=\"checked\"";
+	}
+	echo'> <span class="labelForCheck">'.__("Pages","govintranet").'</span></label></p>';
+	foreach($postTypes as $pt){
+		if( $pt->rewrite["slug"] != "spot" ){
+			echo'<p><label class="checkbox cr-check"><input type="checkbox" name="ptype[]" value="'. $pt->query_var .'"';
+			if(in_array($pt->query_var, $posttypeoptions)){
 				echo" checked=\"checked\"";
 			}
-			echo'> <span class="labelForCheck">'.__("Pages","govintranet").'</span></label></p>';		
-		 	foreach($postTypes as $pt){
-		 		if( $pt->rewrite["slug"] != "spot" ){
-						echo'<p><label class="checkbox cr-check"><input type="checkbox" name="ptype[]" value="'. $pt->query_var .'"';
-						if(in_array($pt->query_var, $posttypeoptions)){ 
-							echo" checked=\"checked\"";
-						}
-						echo'> <span class="labelForCheck">'. $pt->labels->name .'</span></label></p>';
-					}
-		 	}
-			echo "	
+			echo'> <span class="labelForCheck">'. $pt->labels->name .'</span></label></p>';
+		}
+	}
+	echo "
 		 	<p class='clearfix'></p>
 			<hr>
 		 	<p><label for='pstat'>".__('Status','govintranet')."</label></p>";
-		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="publish"> <span class="labelForCheck">'.__("Published","govintranet").'</span></label></p>';
-		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="draft"> <span class="labelForCheck">'.__("Draft","govintranet").'</span></label></p>';
-		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="pending"> <span class="labelForCheck">'.__("Pending","govintranet").'</span></label></p>';
-		 	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="future"> <span class="labelForCheck">'.__("Scheduled","govintranet").'</span></label></p>
+	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="publish"> <span class="labelForCheck">'.__("Published","govintranet").'</span></label></p>';
+	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="draft"> <span class="labelForCheck">'.__("Draft","govintranet").'</span></label></p>';
+	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="pending"> <span class="labelForCheck">'.__("Pending","govintranet").'</span></label></p>';
+	echo'<p><label class="checkbox cr-check"><input type="checkbox" name="pstat[]" value="future"> <span class="labelForCheck">'.__("Scheduled","govintranet").'</span></label></p>
 		 	<p class="clearfix"></p>
 			<hr>
 		 	';
-		 	echo "
+	echo "
 		 	<p><label for='startdate'>".__('Start date','govintranet')."</label></p>
 			<p><input type='text' name='startdate' id='startdatepicker' /></p>
 		 	<p><label for='enddate'>".__('End date','govintranet')."</label></p>
 			<p><input type='text' name='enddate' id='enddatepicker' /></p>";
-			echo '
+	echo '
 			<div class="radio">
 			  <label>
 			    <input type="radio" name="dates" id="optionsRadiosDates1" value="published" checked>
@@ -85,7 +85,7 @@ function ht_content_report_options() {
 			    ' . __("Date modified","govintranet") . '
 			  </label>
 			';
-			echo "
+	echo "
 			<p class='clearfix'></p>
 			</div>
 			<hr>
@@ -103,8 +103,8 @@ function ht_content_report_options() {
 		  </div>
 		  </div>
 		  <p class='clearfix'></p>
-		"; 			
-	
+		";
+
 	$nonce = wp_create_nonce('ht_document_report');
 	echo "<div class='postbox  acf-postbox normal'><div class='inside acf-fields -top'>";
 	echo "<h2>" . __("Document report","govintranet") . "</h2> ";
@@ -115,12 +115,10 @@ function ht_content_report_options() {
 			<input type='hidden' name='page' value='content_report' />
 			<input type='hidden' name='nonce' value='".$nonce."' />
 		  </form><br />
-		  
-		"; 			
 
-	echo "</div>";  
-	echo "</div>";  
+		";
+
+	echo "</div>";
+	echo "</div>";
 
 }
-
-

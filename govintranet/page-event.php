@@ -1,8 +1,17 @@
 <?php
 /* Template name: Event page */
 
-$cdir=$_GET['cdir'];
-$eventcat = $_GET['cat'];
+if ( isset($_GET['cdir']) ) {
+	$cdir = $_GET['cdir']; }
+else {
+	$cdir = "";
+}
+	
+if ( isset($_GET['cat']) ){
+	$cat_id = $_GET['cat'];}
+else {
+	$cat_id = "";
+}
 
 get_header(); 
 
@@ -22,7 +31,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		<h1><?php the_title(); ?>
 		<?php
 		$pub = get_terms( 'event-type', 'orderby=count&hide_empty=1' );
-		$cat_id = $_GET['cat'];;
 		if (count($pub)>0 and $cat_id!=''){
 			foreach ($pub as $sc) { 
 				if ($cat_id == $sc->slug) { echo ' - '.$sc->name; } 
@@ -33,6 +41,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		<?php the_content(); ?>
 		<?php						
 		$sdate=date('Ymd');
+		$stime=date('H:i:s');
 		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 		$posts_per_page = get_option('posts_per_page',10);
 		

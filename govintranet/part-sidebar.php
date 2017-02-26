@@ -9,5 +9,4 @@ if ( get_post_meta ( $post->ID, 'ht_sidebar_content', true ) ){
 	echo "</div>";
 }
 
-	
 ?>	

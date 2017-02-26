@@ -12,6 +12,7 @@ if ( have_posts() ) while ( have_posts() ) :
 	$chapter_header = false;
 	$singletask = false;
 	$pagetype = "";
+	$parent_guide = "";
 	$taskpod = get_post($id);
 	$current_task = $id;
 	if ($post->post_parent != 0){

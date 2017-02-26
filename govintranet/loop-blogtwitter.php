@@ -5,14 +5,15 @@
 global $k;
 $k++;
 $thistitle = get_the_title($id);
-$thisURL=get_permalink($id);
-$thisexcerpt= get_the_excerpt();
-$thisdate= $post->post_date;
-$thisdate=date(get_option('date_format'),strtotime($thisdate));
-
-$ext_icon = '';
-if ( get_post_format($post->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
-
+$thisURL = get_permalink($id);
+$thisexcerpt = get_the_excerpt();
+$thisdate = $post->post_date;
+$thisdate = date(get_option('date_format'),strtotime($thisdate));
+$title_context = "";
+$ext_icon = "";
+if ( get_post_format($post->ID) == 'link' ) {
+	$ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
+}	
 ?>
 
 <h3 class='postlist'>		

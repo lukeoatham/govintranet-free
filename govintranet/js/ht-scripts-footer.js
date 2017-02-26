@@ -5,11 +5,11 @@ jQuery(document).ready(function(){
 	jQuery('.category-block ul').addClass('first-link');
     markDocumentLinks();
 	gaTrackDownloadableFiles();
+	jQuery('#searchform').submit(function(e) {
+	    if (jQuery.trim(jQuery("#s").val()) === "") {
+	        e.preventDefault();
+	        jQuery('#s').focus();
+	    }
+	});	
 });
 
-jQuery('#searchform').submit(function(e) {
-    if (jQuery.trim(jQuery("#s").val()) === "") {
-        e.preventDefault();
-        jQuery('#s').focus();
-    }
-});	

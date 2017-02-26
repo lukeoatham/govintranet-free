@@ -107,7 +107,7 @@ do_action( 'bbp_template_before_user_profile' );
 			if ( bbp_get_displayed_user_field( 'description' ) ) : 
 			?>
 				<h3 class="contacthead"><?php _e('About me' , 'govintranet'); ?></h3>
-				<p><?php bbp_displayed_user_field( 'description' ); ?></p>
+				<?php echo wpautop( bbp_get_displayed_user_field( 'description' ) ); ?>
 				<?php
 			endif;
 			

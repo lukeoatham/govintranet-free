@@ -19,8 +19,6 @@
 
 <?php 
 
-	$pageslug = $post->post_name;
-
 	if ( ! have_posts() ) { 
 	
 			echo "<h1>";
@@ -34,7 +32,7 @@
 
 
 	while ( have_posts() ) : the_post(); //echo $post->post_type;
-
+	$pageslug = $post->post_name;
 	$post_type = ucwords($post->post_type);
 	$post_cat = '';
 	if ($post_type == "Task"):

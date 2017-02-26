@@ -2,9 +2,9 @@
 /* Template name: Events (inc past) page */
 
 $cdir = '';
-$eventcat = '';
+$cat_id = '';
 if ( isset($_GET['cdir'])) $cdir = $_GET['cdir'];
-if (isset($_GET['cat'])) $eventcat = $_GET['cat'];
+if (isset($_GET['cat'])) $cat_id = $_GET['cat'];
 $tzone = get_option('timezone_string');
 date_default_timezone_set($tzone);
 $posts_per_page = get_option('posts_per_page',10);
@@ -24,7 +24,6 @@ get_header(); ?>
 
 		<h1><?php the_title(); 
 		$pub = get_terms( 'event-type', 'orderby=count&hide_empty=1' );
-		$cat_id = $_GET['cat'];
 		if (count($pub)>0 and $cat_id!=''){
 			foreach ($pub as $sc) { 
 				if ($cat_id == $sc->slug) { echo ' - '.$sc->name; } 
