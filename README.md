@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.6 - 26 Feb 2017 ###
+* Staff directory profile links fix 
+
 ### 4.34.5 - 26 Feb 2017 ###
 * Various fixes for PHP warnings 
 * User profile bio display improvements 

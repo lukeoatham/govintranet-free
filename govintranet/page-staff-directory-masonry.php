@@ -205,7 +205,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 									} else {
 										$profile_url = site_url()."/staff/".$user_info->user_nicename."/";
 									}
-									$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='indexcard'><a href='".bbp_get_user_profile_url($userid,true)."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
+									$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='indexcard'><a href='".$profile_url."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 									// display team name(s)
 									$team = get_user_meta($userid,'user_team',true);
 									if ($team){
