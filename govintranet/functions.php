@@ -1171,7 +1171,7 @@ if( !function_exists('base_custom_mce_format') ){
 }
 
 function add_pagination_to_author_page_query_string($query_string){
-    if (isset($query_string['author_name']) && !is_admin()):
+    if (isset($query_string['author_name']) && !is_admin() && isset($_GET['show']) ):
 		if ( $_GET['show'] == "forum" ):
 	    	$query_string['post_type'] = array('topic','reply');
 	    else:
@@ -11750,3 +11750,17 @@ function govintranet_default_content( $post_content, $post ) {
     return $post_content;
 }
 add_filter( 'default_content', 'govintranet_default_content', 10, 2 );
+
+function govintranet_get_call_permalink( $callno, $protocol='tel:' ) {
+	$callno = str_replace(" ", "",  $callno );
+	$callno = preg_replace( "/\(.*\)/", "", $callno );
+	$callno = str_replace("[", "", $callno );
+	$callno = str_replace("]", "", $callno );
+	$callno = str_replace("extn", ",", $callno );
+	$callno = str_replace("ext", ",", $callno );
+	$callno = str_replace("ex", ",", $callno );
+	$callno = str_replace("x", ",", $callno );
+
+	return $protocol . $callno;
+
+}

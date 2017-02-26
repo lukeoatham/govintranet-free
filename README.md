@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.7 - 26 Feb 2017 ###
+* Improvements for tel: protocol links 
+
 ### 4.34.6 - 26 Feb 2017 ###
 * Staff directory profile links fix 
 

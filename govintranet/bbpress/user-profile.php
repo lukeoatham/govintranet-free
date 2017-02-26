@@ -69,14 +69,17 @@ do_action( 'bbp_template_before_user_profile' );
 		<h3 class="contacthead"><?php echo _x('Contact' , 'Address book details' , 'govintranet'); ?></h3>
 		<?php 
 		if ( $staffdirectory ):
-			if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : ?>
-				<p class="bbp-user-description"><i class="dashicons dashicons-phone"></i> <a href="tel:<?php echo str_replace(" ", "",  get_user_meta($user_id, 'user_telephone',true ) ); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
+			if ( bbp_get_displayed_user_field( 'user_telephone' ) ) : 
+				$callno = get_user_meta($user_id, 'user_telephone',true );
+				?>
+				<p class="bbp-user-description"><i class="dashicons dashicons-phone"></i> <a href="<?php echo govintranet_get_call_permalink($callno); ?>"><?php bbp_displayed_user_field( 'user_telephone' ); ?></a></p>
 			<?php 
 			endif; 
 			if ( bbp_get_displayed_user_field( 'user_mobile' ) ) : 
-			?>
-				<p class="bbp-user-description"><i class="dashicons dashicons-smartphone"></i> <a href="tel:<?php echo str_replace(" ", "", get_user_meta($user_id, 'user_mobile',true ) ); ?>"><?php bbp_displayed_user_field( 'user_mobile' ); ?></a></p>
-			<?php 
+				$callno = get_user_meta($user_id, 'user_mobile',true );
+				?>
+				<p class="bbp-user-description"><i class="dashicons dashicons-smartphone"></i> <a href="<?php echo govintranet_get_call_permalink($callno); ?>"><?php bbp_displayed_user_field( 'user_mobile' ); ?></a></p>
+				<?php 
 			endif;
 		endif;
 		if ( bbp_get_displayed_user_field( 'user_email' ) ) : 
