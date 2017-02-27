@@ -463,8 +463,8 @@ function govintranet_version_check() {
 }
 add_action("admin_notices", "govintranet_version_check");
 
-add_action("init","govintranet_theme_check");
-function govintranet_theme_check(){
+add_action( 'govintranet_theme_check', 'govintranet_theme_check_cron' );
+function govintranet_theme_check_cron(){
 	//Initialize the update checker.
 	require 'theme-updates/theme-update-checker.php';
 	$latest_feed = 'http://demo.govintra.net/auto-updates/info.json';
@@ -1447,217 +1447,170 @@ if ( get_option( 'options_module_blog' ) ){
 	
 if ( get_option( 'options_module_events' ) ) {
 	add_action('init', 'cptui_register_my_cpt_event');
-function cptui_register_my_cpt_event() {
-	register_post_type('event', array(
-	'label' => __('Events','govintranet'),
-	'description' => '',
-	'public' => true,
-	'show_ui' => true,
-	'show_in_menu' => true,
-	'capability_type' => 'post',
-	'map_meta_cap' => true,
-	'hierarchical' => false,
-	'rewrite' => array('slug' => 'event', 'with_front' => true),
-	'query_var' => true,
-	'has_archive' => true,
-	'menu_position' => '28',
-	'menu_icon' => 'dashicons-calendar-alt',
-	'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author'),
-	'taxonomies' => array('post_tag','event-type'),
-	'labels' => array (
-	  'name' => __('Events','govintranet'),
-	  'singular_name' => __('Event','govintranet'),
-	  'menu_name' => __('Events','govintranet'),
-	  'add_new' => __('Add Event','govintranet'),
-	  'add_new_item' => __('Add New Event','govintranet'),
-	  'edit' => __('Edit','govintranet'),
-	  'edit_item' => __('Edit Event','govintranet'),
-	  'new_item' => __('New Event','govintranet'),
-	  'view' => __('View Event','govintranet'),
-	  'view_item' => __('View Event','govintranet'),
-	  'search_items' => __('Search Events','govintranet'),
-	  'not_found' => __('No Events Found','govintranet'),
-	  'not_found_in_trash' => __('No Events found in trash','govintranet'),
-	  'parent' => __('Parent Event','govintranet'),
-	  )
-	) 
-	); 
-}
+	function cptui_register_my_cpt_event() {
+		register_post_type('event', array(
+		'label' => __('Events','govintranet'),
+		'description' => '',
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'capability_type' => 'post',
+		'map_meta_cap' => true,
+		'hierarchical' => false,
+		'rewrite' => array('slug' => 'event', 'with_front' => true),
+		'query_var' => true,
+		'has_archive' => true,
+		'menu_position' => '28',
+		'menu_icon' => 'dashicons-calendar-alt',
+		'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author'),
+		'taxonomies' => array('post_tag','event-type'),
+		'labels' => array (
+		  'name' => __('Events','govintranet'),
+		  'singular_name' => __('Event','govintranet'),
+		  'menu_name' => __('Events','govintranet'),
+		  'add_new' => __('Add Event','govintranet'),
+		  'add_new_item' => __('Add New Event','govintranet'),
+		  'edit' => __('Edit','govintranet'),
+		  'edit_item' => __('Edit Event','govintranet'),
+		  'new_item' => __('New Event','govintranet'),
+		  'view' => __('View Event','govintranet'),
+		  'view_item' => __('View Event','govintranet'),
+		  'search_items' => __('Search Events','govintranet'),
+		  'not_found' => __('No Events Found','govintranet'),
+		  'not_found_in_trash' => __('No Events found in trash','govintranet'),
+		  'parent' => __('Parent Event','govintranet'),
+		  )
+		) 
+		); 
+	}
 }
 
 if ( get_option( 'options_module_jargon_buster' ) ) {
 	add_action('init', 'cptui_register_my_cpt_jargon_buster');
-function cptui_register_my_cpt_jargon_buster() {
-	register_post_type('jargon-buster', array(
-	'label' => __('Jargon busters','govintranet'),
-	'description' => '',
-	'public' => true,
-	'show_ui' => true,
-	'show_in_menu' => true,
-	'capability_type' => 'post',
-	'map_meta_cap' => true,
-	'hierarchical' => false,
-	'rewrite' => array('slug' => 'jargon-buster', 'with_front' => true),
-	'query_var' => true,
-	'has_archive' => true,
-	'menu_position' => '32',
-	'menu_icon' => 'dashicons-info',
-	'supports' => array('title','editor','excerpt','revisions','thumbnail','author'),
-	'labels' => array (
-	  'name' => __('Jargon busters','govintranet'),
-	  'singular_name' => __('Jargon buster','govintranet'),
-	  'menu_name' => __('Jargon busters','govintranet'),
-	  'add_new' => __('Add Jargon buster','govintranet'),
-	  'add_new_item' => __('Add New Jargon buster','govintranet'),
-	  'edit' => __('Edit','govintranet'),
-	  'edit_item' => __('Edit Jargon buster','govintranet'),
-	  'new_item' => __('New Jargon buster','govintranet'),
-	  'view' => __('View Jargon buster','govintranet'),
-	  'view_item' => __('View Jargon buster','govintranet'),
-	  'search_items' => __('Search Jargon busters','govintranet'),
-	  'not_found' => __('No Jargon busters found','govintranet'),
-	  'not_found_in_trash' => __('No Jargon busters found in trash','govintranet'),
-	  'parent' => __('Parent Jargon buster','govintranet'),
-	  )
-	) 
-	); 
-}	
+	function cptui_register_my_cpt_jargon_buster() {
+		register_post_type('jargon-buster', array(
+		'label' => __('Jargon busters','govintranet'),
+		'description' => '',
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'capability_type' => 'post',
+		'map_meta_cap' => true,
+		'hierarchical' => false,
+		'rewrite' => array('slug' => 'jargon-buster', 'with_front' => true),
+		'query_var' => true,
+		'has_archive' => true,
+		'menu_position' => '32',
+		'menu_icon' => 'dashicons-info',
+		'supports' => array('title','editor','excerpt','revisions','thumbnail','author'),
+		'labels' => array (
+		  'name' => __('Jargon busters','govintranet'),
+		  'singular_name' => __('Jargon buster','govintranet'),
+		  'menu_name' => __('Jargon busters','govintranet'),
+		  'add_new' => __('Add Jargon buster','govintranet'),
+		  'add_new_item' => __('Add New Jargon buster','govintranet'),
+		  'edit' => __('Edit','govintranet'),
+		  'edit_item' => __('Edit Jargon buster','govintranet'),
+		  'new_item' => __('New Jargon buster','govintranet'),
+		  'view' => __('View Jargon buster','govintranet'),
+		  'view_item' => __('View Jargon buster','govintranet'),
+		  'search_items' => __('Search Jargon busters','govintranet'),
+		  'not_found' => __('No Jargon busters found','govintranet'),
+		  'not_found_in_trash' => __('No Jargon busters found in trash','govintranet'),
+		  'parent' => __('Parent Jargon buster','govintranet'),
+		  )
+		) 
+		); 
+	}	
 }
 
 if ( get_option( 'options_module_news' ) ) {
 	add_action('init', 'cptui_register_my_cpt_news');
-function cptui_register_my_cpt_news() {
-	register_post_type('news', array(
-	'label' => __('News','govintranet'),
-	'description' => '',
-	'public' => true,
-	'show_ui' => true,
-	'show_in_menu' => true,
-	'capability_type' => 'post',
-	'map_meta_cap' => true,
-	'hierarchical' => false,
-	'rewrite' => array('slug' => 'news', 'with_front' => true),
-	'query_var' => true,
-	'has_archive' => true,
-	'menu_position' => '34',
-	'menu_icon' => 'dashicons-format-status',
-	'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author','post-formats'),
-	'taxonomies' => array('post_tag'),
-	'labels' => array (
-	  'name' => _x('News','post type plural','govintranet'),
-	  'singular_name' => _x('News','post type singular','govintranet'),
-	  'menu_name' => __('News','govintranet'),
-	  'add_new' => __('Add News','govintranet'),
-	  'add_new_item' => __('Add New News','govintranet'),
-	  'edit' => __('Edit','govintranet'),
-	  'edit_item' => __('Edit News','govintranet'),
-	  'new_item' => __('New News','govintranet'),
-	  'view' => __('View News','govintranet'),
-	  'view_item' => __('View News','govintranet'),
-	  'search_items' => __('Search News','govintranet'),
-	  'not_found' => __('No News found','govintranet'),
-	  'not_found_in_trash' => __('No News found in trash','govintranet'),
-	  'parent' => __('Parent News','govintranet'),
-	  )
-	) 
-	); 
-}
+	function cptui_register_my_cpt_news() {
+		register_post_type('news', array(
+		'label' => __('News','govintranet'),
+		'description' => '',
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'capability_type' => 'post',
+		'map_meta_cap' => true,
+		'hierarchical' => false,
+		'rewrite' => array('slug' => 'news', 'with_front' => true),
+		'query_var' => true,
+		'has_archive' => true,
+		'menu_position' => '34',
+		'menu_icon' => 'dashicons-format-status',
+		'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author','post-formats'),
+		'taxonomies' => array('post_tag'),
+		'labels' => array (
+		  'name' => _x('News','post type plural','govintranet'),
+		  'singular_name' => _x('News','post type singular','govintranet'),
+		  'menu_name' => __('News','govintranet'),
+		  'add_new' => __('Add News','govintranet'),
+		  'add_new_item' => __('Add New News','govintranet'),
+		  'edit' => __('Edit','govintranet'),
+		  'edit_item' => __('Edit News','govintranet'),
+		  'new_item' => __('New News','govintranet'),
+		  'view' => __('View News','govintranet'),
+		  'view_item' => __('View News','govintranet'),
+		  'search_items' => __('Search News','govintranet'),
+		  'not_found' => __('No News found','govintranet'),
+		  'not_found_in_trash' => __('No News found in trash','govintranet'),
+		  'parent' => __('Parent News','govintranet'),
+		  )
+		) 
+		); 
+	}
 }
 
 if ( get_option( 'options_module_news_updates' ) ) {
 	add_action('init', 'cptui_register_my_cpt_news_update');
-function cptui_register_my_cpt_news_update() {
-	$labels = array(
-		"name" => __("News updates",'govintranet'),
-		"singular_name" => __("News update",'govintranet'),
-		'menu_name' => __('News updates','govintranet'),
-		'add_new' => __('Add News update','govintranet'),
-		'add_new_item' => __('Add News update','govintranet'),
-		'edit' => __('Edit','govintranet'),
-		'edit_item' => __('Edit news update','govintranet'),
-		'new_item' => __('New news update','govintranet'),
-		'not_found' => __('No news updates found','govintranet'),
-		'not_found_in_trash' => __('No news updates found in trash','govintranet'),
-		'parent' => __('Parent news update','govintranet'),
-	);
-
-	$args = array(
-		"labels" => $labels,
-		"description" => "",
-		"public" => true,
-		"show_ui" => true,
-		"has_archive" => true,
-		"show_in_menu" => true,
-		"exclude_from_search" => false,
-		"capability_type" => "post",
-		"map_meta_cap" => true,
-		"hierarchical" => false,
-		"rewrite" => array( "slug" => "news-update", "with_front" => true ),
-		"query_var" => true,
-		"menu_position" => '35',		
-		"menu_icon" => "dashicons-flag",		
-		"supports" => array( "title", "editor", "excerpt", "comments", "revisions", "thumbnail", "author" ),			
-		"taxonomies" => array( "post_tag" ),
-	);
-	register_post_type( "news-update", $args );
-		
-	if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
-		'key' => 'group_558c8b74375a2',
-		'title' => __('Options','govintranet'),
-		'fields' => array (
-			array (
-				'key' => 'field_558c8b8af3329',
-				'label' => __('Icon','govintranet'),
-				'name' => 'news_update_icon',
-				'type' => 'text',
-				'instructions' => __('See http://getbootstrap.com/components/#glyphicons','govintranet'),
-				'required' => 0,
-				'conditional_logic' => 0,
-				'wrapper' => array (
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'default_value' => 'flag',
-				'placeholder' => '',
-				'prepend' => '',
-				'append' => '',
-				'maxlength' => '',
-				'readonly' => 0,
-				'disabled' => 0,
-			),
-		),
-		'location' => array (
-			array (
-				array (
-					'param' => 'taxonomy',
-					'operator' => '==',
-					'value' => 'news-update-type',
-				),
-			),
-		),
-		'menu_order' => 0,
-		'position' => 'normal',
-		'style' => 'default',
-		'label_placement' => 'top',
-		'instruction_placement' => 'label',
-		'hide_on_screen' => '',
-	));
-
-	if( function_exists('acf_add_local_field_group') ) {
-		acf_add_local_field_group(array (
-			'key' => 'group_558c8496b8b94',
-			'title' => __('News update auto expiry','govintranet'),
+	function cptui_register_my_cpt_news_update() {
+		$labels = array(
+			"name" => __("News updates",'govintranet'),
+			"singular_name" => __("News update",'govintranet'),
+			'menu_name' => __('News updates','govintranet'),
+			'add_new' => __('Add News update','govintranet'),
+			'add_new_item' => __('Add News update','govintranet'),
+			'edit' => __('Edit','govintranet'),
+			'edit_item' => __('Edit news update','govintranet'),
+			'new_item' => __('New news update','govintranet'),
+			'not_found' => __('No news updates found','govintranet'),
+			'not_found_in_trash' => __('No news updates found in trash','govintranet'),
+			'parent' => __('Parent news update','govintranet'),
+		);
+	
+		$args = array(
+			"labels" => $labels,
+			"description" => "",
+			"public" => true,
+			"show_ui" => true,
+			"has_archive" => true,
+			"show_in_menu" => true,
+			"exclude_from_search" => false,
+			"capability_type" => "post",
+			"map_meta_cap" => true,
+			"hierarchical" => false,
+			"rewrite" => array( "slug" => "news-update", "with_front" => true ),
+			"query_var" => true,
+			"menu_position" => '35',		
+			"menu_icon" => "dashicons-flag",		
+			"supports" => array( "title", "editor", "excerpt", "comments", "revisions", "thumbnail", "author" ),			
+			"taxonomies" => array( "post_tag" ),
+		);
+		register_post_type( "news-update", $args );
+			
+		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
+			'key' => 'group_558c8b74375a2',
+			'title' => __('Options','govintranet'),
 			'fields' => array (
 				array (
-					'key' => 'field_558c8496c4f35',
-					'label' => __('Enable auto-expiry','govintranet'),
-					'name' => 'news_update_auto_expiry',
-					'ui' => 1,
-					'ui_on_text' => __('Yes','govintranet'),
-					'ui_off_text' => __('No','govintranet'),
-					'type' => 'true_false',
-					'instructions' => '',
+					'key' => 'field_558c8b8af3329',
+					'label' => __('Icon','govintranet'),
+					'name' => 'news_update_icon',
+					'type' => 'text',
+					'instructions' => __('See http://getbootstrap.com/components/#glyphicons','govintranet'),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array (
@@ -1665,56 +1618,7 @@ function cptui_register_my_cpt_news_update() {
 						'class' => '',
 						'id' => '',
 					),
-					'message' => '',
-					'default_value' => 0,
-				),
-				array (
-					'key' => 'field_558c8496c9d3c',
-					'label' => __('Expiry date','govintranet'),
-					'name' => 'news_update_expiry_date',
-					'type' => 'date_picker',
-					'instructions' => '',
-					'required' => 1,
-					'conditional_logic' => array (
-						array (
-							array (
-								'field' => 'field_558c8496c4f35',
-								'operator' => '==',
-								'value' => '1',
-							),
-						),
-					),
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'display_format' => 'd/m/Y',
-					'return_format' => 'Ymd',
-					'first_day' => 1,
-				),
-				array (
-					'key' => 'field_558c8496ceb61',
-					'label' => __('Expiry time','govintranet'),
-					'name' => 'news_update_expiry_time',
-					'type' => 'text',
-					'instructions' => '',
-					'required' => 1,
-					'conditional_logic' => array (
-						array (
-							array (
-								'field' => 'field_558c8496c4f35',
-								'operator' => '==',
-								'value' => '1',
-							),
-						),
-					),
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
+					'default_value' => 'flag',
 					'placeholder' => '',
 					'prepend' => '',
 					'append' => '',
@@ -1722,275 +1626,13 @@ function cptui_register_my_cpt_news_update() {
 					'readonly' => 0,
 					'disabled' => 0,
 				),
-				array (
-					'key' => 'field_558c8496d39b4',
-					'label' => __('Expiry action','govintranet'),
-					'name' => 'news_update_expiry_action',
-					'type' => 'select',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => array (
-						array (
-							array (
-								'field' => 'field_558c8496c4f35',
-								'operator' => '==',
-								'value' => '1',
-							),
-						),
-					),
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'choices' => array (
-						'Revert to draft status' => __('Revert to draft status','govintranet'),
-						'Move to trash' => __('Bin it','govintranet'),
-						'Change tax' => __('Change type','govintranet'),
-					),
-					'default_value' => array (
-						'Revert to draft status' => __('Revert to draft status','govintranet'),
-					),
-					'allow_null' => 0,
-					'multiple' => 0,
-					'ui' => 0,
-					'ajax' => 0,
-					'placeholder' => '',
-					'disabled' => 0,
-					'readonly' => 0,
-				),
-				array (
-					'key' => 'field_57dddffb628d1',
-					'label' => 'News update type',
-					'name' => 'news_update_expiry_type',
-					'type' => 'taxonomy',
-					'instructions' => __('Leave blank to remove all types','govintranet'),
-					'required' => 0,
-					'conditional_logic' => array (
-						array (
-							array (
-								'field' => 'field_558c8496d39b4',
-								'operator' => '==',
-								'value' => 'Change tax',
-							),
-							array (
-								'field' => 'field_558c8496c4f35',
-								'operator' => '==',
-								'value' => '1',
-							),
-						),
-					),
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'taxonomy' => 'news-update-type',
-					'field_type' => 'select',
-					'allow_null' => 1,
-					'add_term' => 0,
-					'save_terms' => 0,
-					'load_terms' => 0,
-					'return_format' => 'id',
-					'multiple' => 0,
-				),				
 			),
 			'location' => array (
 				array (
 					array (
-						'param' => 'post_type',
+						'param' => 'taxonomy',
 						'operator' => '==',
-						'value' => 'news-update',
-					),
-				),
-			),
-			'menu_order' => 10,
-			'position' => 'side',
-			'style' => 'default',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-		));
-	}
-}
-}
-
-if ( get_option( 'options_module_projects' ) ) {
-	add_action('init', 'cptui_register_my_cpt_project');
-function cptui_register_my_cpt_project() {
-	register_post_type('project', array(
-	'label' => _x('Projects','noun','govintranet'),
-	'description' => '',
-	'public' => true,
-	'show_ui' => true,
-	'show_in_menu' => true,
-	'capability_type' => 'post',
-	'map_meta_cap' => true,
-	'hierarchical' => true,
-	'rewrite' => array('slug' => 'project', 'with_front' => true),
-	'query_var' => true,
-	'has_archive' => true,
-	'menu_position' => '36',
-	'menu_icon' => 'dashicons-chart-bar',
-	'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author','page-attributes'),
-	'taxonomies' => array('post_tag'),
-	'labels' => array (
-	  'name' => _x('Projects','noun','govintranet'),
-	  'singular_name' => _x('Projects','noun','govintranet'),
-	  'menu_name' => _x('Projects','noun','govintranet'),
-	  'add_new' => __('Add Project','govintranet'),
-	  'add_new_item' => __('Add New Project','govintranet'),
-	  'edit' => __('Edit','govintranet'),
-	  'edit_item' => __('Edit Project','govintranet'),
-	  'new_item' => __('New Project','govintranet'),
-	  'view' => __('View Project','govintranet'),
-	  'view_item' => __('View Project','govintranet'),
-	  'search_items' => __('Search Projects','govintranet'),
-	  'not_found' => __('No Projects found','govintranet'),
-	  'not_found_in_trash' => __('No Projects found in trash','govintranet'),
-	  'parent' => __('Parent Project','govintranet'),
-	  )
-	) 
-	); 
-}
-}
-
-if ( get_option( 'options_module_tasks' ) ) {
-	add_action('init', 'cptui_register_my_cpt_task');
-function cptui_register_my_cpt_task() {
-	register_post_type('task', array(
-	'label' => __('Tasks','govintranet'),
-	'description' => '',
-	'public' => true,
-	'show_ui' => true,
-	'show_in_menu' => true,
-	'capability_type' => 'post',
-	'map_meta_cap' => true,
-	'hierarchical' => true,
-	'rewrite' => array('slug' => 'task', 'with_front' => true),
-	'query_var' => true,
-	'has_archive' => true,
-	'menu_position' => '38',
-	'menu_icon' => 'dashicons-hammer',
-	'supports' => array('title','editor','excerpt','comments','revisions','author','page-attributes'),
-	'taxonomies' => array('category','post_tag'),
-	'labels' => array (
-	  'name' => __('Tasks','govintranet'),
-	  'singular_name' => __('Task','govintranet'),
-	  'menu_name' => __('Tasks','govintranet'),
-	  'add_new' => __('Add Task','govintranet'),
-	  'add_new_item' => __('Add New Task','govintranet'),
-	  'edit' => __('Edit','govintranet'),
-	  'edit_item' => __('Edit Task','govintranet'),
-	  'new_item' => __('New Task','govintranet'),
-	  'view' => __('View Task','govintranet'),
-	  'view_item' => __('View Task','govintranet'),
-	  'search_items' => __('Search Tasks','govintranet'),
-	  'not_found' => __('No Tasks found','govintranet'),
-	  'not_found_in_trash' => __('No Tasks found in trash','govintranet'),
-	  'parent' => __('Parent Task','govintranet'),
-	  )
-	) 
-	); 
-	if ( get_option( 'options_module_tasks_manuals' ) ):
-		if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
-			'key' => 'group_56a40dcab6d85',
-			'title' => 'Manual',
-			'fields' => array (
-				array (
-					'key' => 'field_56a40dec54af7',
-					'label' => __('Treat as a manual','govintranet'),
-					'name' => 'treat_as_a_manual',
-					'ui' => 1,
-					'ui_on_text' => __('Yes','govintranet'),
-					'ui_off_text' => __('No','govintranet'),
-					'type' => 'true_false',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'message' => '',
-					'default_value' => 0,
-				),
-				array (
-					'key' => 'field_56a40e2754af8',
-					'label' => __('Manual chapters','govintranet'),
-					'name' => 'manual_chapters',
-					'type' => 'repeater',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => array (
-						array (
-							array (
-								'field' => 'field_56a40dec54af7',
-								'operator' => '==',
-								'value' => '1',
-							),
-						),
-					),
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'collapsed' => '',
-					'min' => '',
-					'max' => '',
-					'layout' => 'row',
-					'button_label' => 'Add a chapter',
-					'sub_fields' => array (
-						array (
-							'key' => 'field_56a40e5854af9',
-							'label' => __('Chapter title','govintranet'),
-							'name' => 'manual_chapter_title',
-							'type' => 'text',
-							'instructions' => '',
-							'required' => 1,
-							'conditional_logic' => 0,
-							'wrapper' => array (
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'default_value' => '',
-							'placeholder' => '',
-							'prepend' => '',
-							'append' => '',
-							'maxlength' => '',
-							'readonly' => 0,
-							'disabled' => 0,
-						),
-						array (
-							'key' => 'field_56a40e7354afa',
-							'label' => __('Content','govintranet'),
-							'name' => 'manual_chapter_content',
-							'type' => 'wysiwyg',
-							'instructions' => '',
-							'required' => 0,
-							'conditional_logic' => 0,
-							'wrapper' => array (
-								'width' => '',
-								'class' => '',
-								'id' => '',
-							),
-							'default_value' => '',
-							'tabs' => 'all',
-							'toolbar' => 'full',
-							'media_upload' => 1,
-						),
-					),
-				),
-			),
-			'location' => array (
-				array (
-					array (
-						'param' => 'post_type',
-						'operator' => '==',
-						'value' => 'task',
+						'value' => 'news-update-type',
 					),
 				),
 			),
@@ -2000,316 +1642,683 @@ function cptui_register_my_cpt_task() {
 			'label_placement' => 'top',
 			'instruction_placement' => 'label',
 			'hide_on_screen' => '',
-			'active' => 1,
-			'description' => '',
 		));
-	endif;
+	
+		if( function_exists('acf_add_local_field_group') ) {
+			acf_add_local_field_group(array (
+				'key' => 'group_558c8496b8b94',
+				'title' => __('News update auto expiry','govintranet'),
+				'fields' => array (
+					array (
+						'key' => 'field_558c8496c4f35',
+						'label' => __('Enable auto-expiry','govintranet'),
+						'name' => 'news_update_auto_expiry',
+						'ui' => 1,
+						'ui_on_text' => __('Yes','govintranet'),
+						'ui_off_text' => __('No','govintranet'),
+						'type' => 'true_false',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'message' => '',
+						'default_value' => 0,
+					),
+					array (
+						'key' => 'field_558c8496c9d3c',
+						'label' => __('Expiry date','govintranet'),
+						'name' => 'news_update_expiry_date',
+						'type' => 'date_picker',
+						'instructions' => '',
+						'required' => 1,
+						'conditional_logic' => array (
+							array (
+								array (
+									'field' => 'field_558c8496c4f35',
+									'operator' => '==',
+									'value' => '1',
+								),
+							),
+						),
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'display_format' => 'd/m/Y',
+						'return_format' => 'Ymd',
+						'first_day' => 1,
+					),
+					array (
+						'key' => 'field_558c8496ceb61',
+						'label' => __('Expiry time','govintranet'),
+						'name' => 'news_update_expiry_time',
+						'type' => 'text',
+						'instructions' => '',
+						'required' => 1,
+						'conditional_logic' => array (
+							array (
+								array (
+									'field' => 'field_558c8496c4f35',
+									'operator' => '==',
+									'value' => '1',
+								),
+							),
+						),
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => '',
+						'placeholder' => '',
+						'prepend' => '',
+						'append' => '',
+						'maxlength' => '',
+						'readonly' => 0,
+						'disabled' => 0,
+					),
+					array (
+						'key' => 'field_558c8496d39b4',
+						'label' => __('Expiry action','govintranet'),
+						'name' => 'news_update_expiry_action',
+						'type' => 'select',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => array (
+							array (
+								array (
+									'field' => 'field_558c8496c4f35',
+									'operator' => '==',
+									'value' => '1',
+								),
+							),
+						),
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'choices' => array (
+							'Revert to draft status' => __('Revert to draft status','govintranet'),
+							'Move to trash' => __('Bin it','govintranet'),
+							'Change tax' => __('Change type','govintranet'),
+						),
+						'default_value' => array (
+							'Revert to draft status' => __('Revert to draft status','govintranet'),
+						),
+						'allow_null' => 0,
+						'multiple' => 0,
+						'ui' => 0,
+						'ajax' => 0,
+						'placeholder' => '',
+						'disabled' => 0,
+						'readonly' => 0,
+					),
+					array (
+						'key' => 'field_57dddffb628d1',
+						'label' => 'News update type',
+						'name' => 'news_update_expiry_type',
+						'type' => 'taxonomy',
+						'instructions' => __('Leave blank to remove all types','govintranet'),
+						'required' => 0,
+						'conditional_logic' => array (
+							array (
+								array (
+									'field' => 'field_558c8496d39b4',
+									'operator' => '==',
+									'value' => 'Change tax',
+								),
+								array (
+									'field' => 'field_558c8496c4f35',
+									'operator' => '==',
+									'value' => '1',
+								),
+							),
+						),
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'taxonomy' => 'news-update-type',
+						'field_type' => 'select',
+						'allow_null' => 1,
+						'add_term' => 0,
+						'save_terms' => 0,
+						'load_terms' => 0,
+						'return_format' => 'id',
+						'multiple' => 0,
+					),				
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'news-update',
+						),
+					),
+				),
+				'menu_order' => 10,
+				'position' => 'side',
+				'style' => 'default',
+				'label_placement' => 'top',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+			));
+		}
+	}
 }
+
+if ( get_option( 'options_module_projects' ) ) {
+	add_action('init', 'cptui_register_my_cpt_project');
+	function cptui_register_my_cpt_project() {
+		register_post_type('project', array(
+		'label' => _x('Projects','noun','govintranet'),
+		'description' => '',
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'capability_type' => 'post',
+		'map_meta_cap' => true,
+		'hierarchical' => true,
+		'rewrite' => array('slug' => 'project', 'with_front' => true),
+		'query_var' => true,
+		'has_archive' => true,
+		'menu_position' => '36',
+		'menu_icon' => 'dashicons-chart-bar',
+		'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author','page-attributes'),
+		'taxonomies' => array('post_tag'),
+		'labels' => array (
+		  'name' => _x('Projects','noun','govintranet'),
+		  'singular_name' => _x('Projects','noun','govintranet'),
+		  'menu_name' => _x('Projects','noun','govintranet'),
+		  'add_new' => __('Add Project','govintranet'),
+		  'add_new_item' => __('Add New Project','govintranet'),
+		  'edit' => __('Edit','govintranet'),
+		  'edit_item' => __('Edit Project','govintranet'),
+		  'new_item' => __('New Project','govintranet'),
+		  'view' => __('View Project','govintranet'),
+		  'view_item' => __('View Project','govintranet'),
+		  'search_items' => __('Search Projects','govintranet'),
+		  'not_found' => __('No Projects found','govintranet'),
+		  'not_found_in_trash' => __('No Projects found in trash','govintranet'),
+		  'parent' => __('Parent Project','govintranet'),
+		  )
+		) 
+		); 
+	}
+}
+
+if ( get_option( 'options_module_tasks' ) ) {
+	add_action('init', 'cptui_register_my_cpt_task');
+	function cptui_register_my_cpt_task() {
+		register_post_type('task', array(
+		'label' => __('Tasks','govintranet'),
+		'description' => '',
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'capability_type' => 'post',
+		'map_meta_cap' => true,
+		'hierarchical' => true,
+		'rewrite' => array('slug' => 'task', 'with_front' => true),
+		'query_var' => true,
+		'has_archive' => true,
+		'menu_position' => '38',
+		'menu_icon' => 'dashicons-hammer',
+		'supports' => array('title','editor','excerpt','comments','revisions','author','page-attributes'),
+		'taxonomies' => array('category','post_tag'),
+		'labels' => array (
+		  'name' => __('Tasks','govintranet'),
+		  'singular_name' => __('Task','govintranet'),
+		  'menu_name' => __('Tasks','govintranet'),
+		  'add_new' => __('Add Task','govintranet'),
+		  'add_new_item' => __('Add New Task','govintranet'),
+		  'edit' => __('Edit','govintranet'),
+		  'edit_item' => __('Edit Task','govintranet'),
+		  'new_item' => __('New Task','govintranet'),
+		  'view' => __('View Task','govintranet'),
+		  'view_item' => __('View Task','govintranet'),
+		  'search_items' => __('Search Tasks','govintranet'),
+		  'not_found' => __('No Tasks found','govintranet'),
+		  'not_found_in_trash' => __('No Tasks found in trash','govintranet'),
+		  'parent' => __('Parent Task','govintranet'),
+		  )
+		) 
+		); 
+		if ( get_option( 'options_module_tasks_manuals' ) ):
+			if( function_exists('acf_add_local_field_group') ) acf_add_local_field_group(array (
+				'key' => 'group_56a40dcab6d85',
+				'title' => 'Manual',
+				'fields' => array (
+					array (
+						'key' => 'field_56a40dec54af7',
+						'label' => __('Treat as a manual','govintranet'),
+						'name' => 'treat_as_a_manual',
+						'ui' => 1,
+						'ui_on_text' => __('Yes','govintranet'),
+						'ui_off_text' => __('No','govintranet'),
+						'type' => 'true_false',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'message' => '',
+						'default_value' => 0,
+					),
+					array (
+						'key' => 'field_56a40e2754af8',
+						'label' => __('Manual chapters','govintranet'),
+						'name' => 'manual_chapters',
+						'type' => 'repeater',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => array (
+							array (
+								array (
+									'field' => 'field_56a40dec54af7',
+									'operator' => '==',
+									'value' => '1',
+								),
+							),
+						),
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'collapsed' => '',
+						'min' => '',
+						'max' => '',
+						'layout' => 'row',
+						'button_label' => 'Add a chapter',
+						'sub_fields' => array (
+							array (
+								'key' => 'field_56a40e5854af9',
+								'label' => __('Chapter title','govintranet'),
+								'name' => 'manual_chapter_title',
+								'type' => 'text',
+								'instructions' => '',
+								'required' => 1,
+								'conditional_logic' => 0,
+								'wrapper' => array (
+									'width' => '',
+									'class' => '',
+									'id' => '',
+								),
+								'default_value' => '',
+								'placeholder' => '',
+								'prepend' => '',
+								'append' => '',
+								'maxlength' => '',
+								'readonly' => 0,
+								'disabled' => 0,
+							),
+							array (
+								'key' => 'field_56a40e7354afa',
+								'label' => __('Content','govintranet'),
+								'name' => 'manual_chapter_content',
+								'type' => 'wysiwyg',
+								'instructions' => '',
+								'required' => 0,
+								'conditional_logic' => 0,
+								'wrapper' => array (
+									'width' => '',
+									'class' => '',
+									'id' => '',
+								),
+								'default_value' => '',
+								'tabs' => 'all',
+								'toolbar' => 'full',
+								'media_upload' => 1,
+							),
+						),
+					),
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'task',
+						),
+					),
+				),
+				'menu_order' => 0,
+				'position' => 'normal',
+				'style' => 'default',
+				'label_placement' => 'top',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+				'active' => 1,
+				'description' => '',
+			));
+		endif;
+	}
 }
 
 if ( get_option( 'options_module_teams' ) ) {
 	add_action('init', 'cptui_register_my_cpt_team');
-function cptui_register_my_cpt_team() {
-	register_post_type('team', array(
-	'label' => __('Teams','govintranet'),
-	'description' => '',
-	'public' => true,
-	'show_ui' => true,
-	'show_in_menu' => true,
-	'capability_type' => 'post',
-	'map_meta_cap' => true,
-	'hierarchical' => true,
-	'rewrite' => array('slug' => 'team', 'with_front' => true),
-	'query_var' => true,
-	'has_archive' => true,
-	'menu_position' => '40',
-	'menu_icon' => 'dashicons-groups',
-	'supports' => array('title','editor','excerpt','revisions','thumbnail','author','page-attributes'),
-	'taxonomies' => array('post_tag'),
-	'labels' => array (
-	  'name' => __('Teams','govintranet'),
-	  'singular_name' => __('Team','govintranet'),
-	  'menu_name' => __('Teams','govintranet'),
-	  'add_new' => __('Add Team','govintranet'),
-	  'add_new_item' => __('Add New Team','govintranet'),
-	  'edit' => __('Edit','govintranet'),
-	  'edit_item' => __('Edit Team','govintranet'),
-	  'new_item' => __('New Team','govintranet'),
-	  'view' => __('View Team','govintranet'),
-	  'view_item' => __('View Team','govintranet'),
-	  'search_items' => __('Search Teams','govintranet'),
-	  'not_found' => __('No Teams found','govintranet'),
-	  'not_found_in_trash' =>__( 'No Teams found in trash','govintranet'),
-	  'parent' => __('Parent Team','govintranet'),
-	  )
-	) 
-	); 
-}
+	function cptui_register_my_cpt_team() {
+		register_post_type('team', array(
+		'label' => __('Teams','govintranet'),
+		'description' => '',
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'capability_type' => 'post',
+		'map_meta_cap' => true,
+		'hierarchical' => true,
+		'rewrite' => array('slug' => 'team', 'with_front' => true),
+		'query_var' => true,
+		'has_archive' => true,
+		'menu_position' => '40',
+		'menu_icon' => 'dashicons-groups',
+		'supports' => array('title','editor','excerpt','revisions','thumbnail','author','page-attributes'),
+		'taxonomies' => array('post_tag'),
+		'labels' => array (
+		  'name' => __('Teams','govintranet'),
+		  'singular_name' => __('Team','govintranet'),
+		  'menu_name' => __('Teams','govintranet'),
+		  'add_new' => __('Add Team','govintranet'),
+		  'add_new_item' => __('Add New Team','govintranet'),
+		  'edit' => __('Edit','govintranet'),
+		  'edit_item' => __('Edit Team','govintranet'),
+		  'new_item' => __('New Team','govintranet'),
+		  'view' => __('View Team','govintranet'),
+		  'view_item' => __('View Team','govintranet'),
+		  'search_items' => __('Search Teams','govintranet'),
+		  'not_found' => __('No Teams found','govintranet'),
+		  'not_found_in_trash' =>__( 'No Teams found in trash','govintranet'),
+		  'parent' => __('Parent Team','govintranet'),
+		  )
+		) 
+		); 
+	}
 }
 
 if ( get_option( 'options_module_vacancies' ) ) {
 	add_action('init', 'cptui_register_my_cpt_vacancy');
-function cptui_register_my_cpt_vacancy() {
-	register_post_type('vacancy', array(
-	'label' => __('Vacancies','govintranet'),
-	'description' => '',
-	'public' => true,
-	'show_ui' => true,
-	'show_in_menu' => true,
-	'capability_type' => 'post',
-	'map_meta_cap' => true,
-	'hierarchical' => false,
-	'rewrite' => array('slug' => 'vacancy', 'with_front' => true),
-	'query_var' => true,
-	'has_archive' => true,
-	'menu_position' => '42',
-	'menu_icon' => 'dashicons-randomize',
-	'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author'),
-	'taxonomies' => array('post_tag','grade'),
-	'labels' => array (
-	  'name' => __('Vacancies','govintranet'),
-	  'singular_name' => __('Vacancy','govintranet'),
-	  'menu_name' => __('Vacancies','govintranet'),
-	  'add_new' => __('Add Vacancy','govintranet'),
-	  'add_new_item' => __('Add New Vacancy','govintranet'),
-	  'edit' => __('Edit','govintranet'),
-	  'edit_item' => __('Edit Vacancy','govintranet'),
-	  'new_item' => __('New Vacancy','govintranet'),
-	  'view' => __('View Vacancy','govintranet'),
-	  'view_item' => __('View Vacancy','govintranet'),
-	  'search_items' => __('Search Vacancies','govintranet'),
-	  'not_found' => __('No Vacancies found','govintranet'),
-	  'not_found_in_trash' => __('No Vacancies found in trash','govintranet'),
-	  'parent' => __('Parent Vacancy','govintranet'),
-	  )
-	) 
-	); 
-}
+	function cptui_register_my_cpt_vacancy() {
+		register_post_type('vacancy', array(
+		'label' => __('Vacancies','govintranet'),
+		'description' => '',
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'capability_type' => 'post',
+		'map_meta_cap' => true,
+		'hierarchical' => false,
+		'rewrite' => array('slug' => 'vacancy', 'with_front' => true),
+		'query_var' => true,
+		'has_archive' => true,
+		'menu_position' => '42',
+		'menu_icon' => 'dashicons-randomize',
+		'supports' => array('title','editor','excerpt','comments','revisions','thumbnail','author'),
+		'taxonomies' => array('post_tag','grade'),
+		'labels' => array (
+		  'name' => __('Vacancies','govintranet'),
+		  'singular_name' => __('Vacancy','govintranet'),
+		  'menu_name' => __('Vacancies','govintranet'),
+		  'add_new' => __('Add Vacancy','govintranet'),
+		  'add_new_item' => __('Add New Vacancy','govintranet'),
+		  'edit' => __('Edit','govintranet'),
+		  'edit_item' => __('Edit Vacancy','govintranet'),
+		  'new_item' => __('New Vacancy','govintranet'),
+		  'view' => __('View Vacancy','govintranet'),
+		  'view_item' => __('View Vacancy','govintranet'),
+		  'search_items' => __('Search Vacancies','govintranet'),
+		  'not_found' => __('No Vacancies found','govintranet'),
+		  'not_found_in_trash' => __('No Vacancies found in trash','govintranet'),
+		  'parent' => __('Parent Vacancy','govintranet'),
+		  )
+		) 
+		); 
+	}
 }
 
 if ( get_option( 'options_module_news' ) ) {
 	add_action('init', 'cptui_register_my_taxes_news_type');
-function cptui_register_my_taxes_news_type() {
-	register_taxonomy( 'news-type',
-	array (  0 => 'news',
-	  ),
-	array( 'hierarchical' => true,
-		'label' => __('News types','govintranet'),
-		'show_ui' => true,
-		'query_var' => true,
-		'show_admin_column' => true,
-		'show_in_quick_edit' => true,
-		'labels' => array (
-		  'search_items' => __('News type','govintranet'),
-		  'popular_items' => __('Popular types','govintranet'),
-		  'all_items' => __('All types','govintranet'),
-		  'parent_item' => __('Parent type','govintranet'),
-		  'parent_item_colon' => '',
-		  'edit_item' => __('Edit news type','govintranet'),
-		  'update_item' => __('Update news type','govintranet'),
-		  'add_new_item' => __('Add news type','govintranet'),
-		  'new_item_name' => __('New type','govintranet'),
-		  'separate_items_with_commas' => '',
-		  'add_or_remove_items' => __('Add or remove a type','govintranet'),
-		  'choose_from_most_used' => __('Most used','govintranet'),
+	function cptui_register_my_taxes_news_type() {
+		register_taxonomy( 'news-type',
+		array (  0 => 'news',
 		  ),
- 		'update_count_callback' => 'ht_update_post_term_count' 
-	) 
-	); 
-	if( function_exists('acf_add_local_field_group') ):
-		acf_add_local_field_group(array (
-			'key' => 'group_572b7ab61d0ab',
-			'title' => 'Offset',
-			'fields' => array (
-				array (
-					'key' => 'field_572b7af1ae3a6',
-					'label' => __('Number of stories','govintranet'),
-					'name' => 'news_offset',
-					'type' => 'number',
-					'instructions' => __('Number of stories to offset the start of the listing by. Leave blank for full listing.','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => '',
-					'prepend' => '',
-					'append' => '',
-					'min' => '',
-					'max' => '',
-					'step' => '',
-					'readonly' => 0,
-					'disabled' => 0,
-				),
-			),
-			'location' => array (
-				array (
+		array( 'hierarchical' => true,
+			'label' => __('News types','govintranet'),
+			'show_ui' => true,
+			'query_var' => true,
+			'show_admin_column' => true,
+			'show_in_quick_edit' => true,
+			'labels' => array (
+			  'search_items' => __('News type','govintranet'),
+			  'popular_items' => __('Popular types','govintranet'),
+			  'all_items' => __('All types','govintranet'),
+			  'parent_item' => __('Parent type','govintranet'),
+			  'parent_item_colon' => '',
+			  'edit_item' => __('Edit news type','govintranet'),
+			  'update_item' => __('Update news type','govintranet'),
+			  'add_new_item' => __('Add news type','govintranet'),
+			  'new_item_name' => __('New type','govintranet'),
+			  'separate_items_with_commas' => '',
+			  'add_or_remove_items' => __('Add or remove a type','govintranet'),
+			  'choose_from_most_used' => __('Most used','govintranet'),
+			  ),
+	 		'update_count_callback' => 'ht_update_post_term_count' 
+		) 
+		); 
+		if( function_exists('acf_add_local_field_group') ):
+			acf_add_local_field_group(array (
+				'key' => 'group_572b7ab61d0ab',
+				'title' => 'Offset',
+				'fields' => array (
 					array (
-						'param' => 'page_template',
-						'operator' => '==',
-						'value' => 'page-news.php',
+						'key' => 'field_572b7af1ae3a6',
+						'label' => __('Number of stories','govintranet'),
+						'name' => 'news_offset',
+						'type' => 'number',
+						'instructions' => __('Number of stories to offset the start of the listing by. Leave blank for full listing.','govintranet'),
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => '',
+						'placeholder' => '',
+						'prepend' => '',
+						'append' => '',
+						'min' => '',
+						'max' => '',
+						'step' => '',
+						'readonly' => 0,
+						'disabled' => 0,
 					),
 				),
-				array (
+				'location' => array (
 					array (
-						'param' => 'page_template',
-						'operator' => '==',
-						'value' => 'newsboard/page-newsboard.php',
+						array (
+							'param' => 'page_template',
+							'operator' => '==',
+							'value' => 'page-news.php',
+						),
 					),
-				),
-				array (
 					array (
-						'param' => 'page_template',
-						'operator' => '==',
-						'value' => 'page-news-updates.php',
+						array (
+							'param' => 'page_template',
+							'operator' => '==',
+							'value' => 'newsboard/page-newsboard.php',
+						),
 					),
-				),
-				array (
 					array (
-						'param' => 'page_template',
-						'operator' => '==',
-						'value' => 'page-news-multi.php',
+						array (
+							'param' => 'page_template',
+							'operator' => '==',
+							'value' => 'page-news-updates.php',
+						),
+					),
+					array (
+						array (
+							'param' => 'page_template',
+							'operator' => '==',
+							'value' => 'page-news-multi.php',
+						),
 					),
 				),
-			),
-			'menu_order' => 0,
-			'position' => 'side',
-			'style' => 'default',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-			'active' => 1,
-			'description' => '',
-		));
-	
-	endif;
-}
+				'menu_order' => 0,
+				'position' => 'side',
+				'style' => 'default',
+				'label_placement' => 'top',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+				'active' => 1,
+				'description' => '',
+			));
+		
+		endif;
+	}
 }
 
 if ( get_option( 'options_module_news_updates' ) ) {
 	add_action('init', 'cptui_register_my_taxes_news_update_type');
-function cptui_register_my_taxes_news_update_type() {
-	$labels = array(
-		"label" => __("News update type",'govintranet'),
-			);
-
-	$args = array(
-		"labels" => $labels,
-		"hierarchical" => true,
-		"label" => __("News update types",'govintranet'),
-		"show_ui" => true,
-		"query_var" => true,
-		"rewrite" => array( 'slug' => 'news-update-type', 'with_front' => true ),
-		"show_admin_column" => true,
-		'show_in_quick_edit' => true,
-		'update_count_callback' => 'ht_update_post_term_count' 
-	);
-	register_taxonomy( "news-update-type", array( "news-update" ), $args );
-}
+	function cptui_register_my_taxes_news_update_type() {
+		$labels = array(
+			"label" => __("News update type",'govintranet'),
+				);
+	
+		$args = array(
+			"labels" => $labels,
+			"hierarchical" => true,
+			"label" => __("News update types",'govintranet'),
+			"show_ui" => true,
+			"query_var" => true,
+			"rewrite" => array( 'slug' => 'news-update-type', 'with_front' => true ),
+			"show_admin_column" => true,
+			'show_in_quick_edit' => true,
+			'update_count_callback' => 'ht_update_post_term_count' 
+		);
+		register_taxonomy( "news-update-type", array( "news-update" ), $args );
+	}
 }
 
 if ( get_option( 'options_module_vacancies' ) || get_option ( 'options_module_staff_directory' ) ) {
 	add_action('init', 'cptui_register_my_taxes_grade');
-function cptui_register_my_taxes_grade() {
-	register_taxonomy( 'grade',array (
-	  0 => 'post',
-	  1 => 'vacancy',
-	),
-	array( 'hierarchical' => true,
-		'label' => __('Grades','govintranet'),
-		'show_ui' => true,
-		'query_var' => true,
-		'show_admin_column' => true,
-		'show_in_quick_edit' => true,
-		'labels' => array (
-		  'search_items' => __('Grade','govintranet'),
-		  'popular_items' => __('Popular grades','govintranet'),
-		  'all_items' => __('All grades','govintranet'),
-		  'parent_item' => __('Parent grade','govintranet'),
-		  'parent_item_colon' => '',
-		  'edit_item' => __('Edit grade','govintranet'),
-		  'update_item' => __('Update grade','govintranet'),
-		  'add_new_item' => __('Add new grade','govintranet'),
-		  'new_item_name' => __('New grade','govintranet'),
-		  'separate_items_with_commas' => '',
-		  'add_or_remove_items' => __('Add or remove a grade','govintranet'),
-		  'choose_from_most_used' => __('Most used','govintranet'),
-		  ),
-		'update_count_callback' => 'ht_update_post_term_count' 	  
-	) 
-	); 
-}
+	function cptui_register_my_taxes_grade() {
+		register_taxonomy( 'grade',array (
+		  0 => 'user',
+		  1 => 'vacancy',
+		),
+		array( 'hierarchical' => true,
+			'label' => __('Grades','govintranet'),
+			'show_ui' => true,
+			'query_var' => true,
+			'show_admin_column' => true,
+			'show_in_quick_edit' => true,
+			'labels' => array (
+			  'search_items' => __('Grade','govintranet'),
+			  'popular_items' => __('Popular grades','govintranet'),
+			  'all_items' => __('All grades','govintranet'),
+			  'parent_item' => __('Parent grade','govintranet'),
+			  'parent_item_colon' => '',
+			  'edit_item' => __('Edit grade','govintranet'),
+			  'update_item' => __('Update grade','govintranet'),
+			  'add_new_item' => __('Add new grade','govintranet'),
+			  'new_item_name' => __('New grade','govintranet'),
+			  'separate_items_with_commas' => '',
+			  'add_or_remove_items' => __('Add or remove a grade','govintranet'),
+			  'choose_from_most_used' => __('Most used','govintranet'),
+			  ),
+			'update_count_callback' => 'ht_update_post_term_count' 	  
+		) 
+		); 
+	}
+} 
+
+if ( !get_option( 'options_module_vacancies' ) && get_option ( 'options_module_staff_directory' ) ) {
+	// not using vacancies, so need to surface Grades taxonomy under Users
+	add_action( 'admin_menu', 'gi_user_menu_grades' );
+	function gi_user_menu_grades() {
+	    add_submenu_page('users.php', 'Grades', 'Grades', 'manage_options', 'edit-tags.php?taxonomy=grade');
+    }
+
 }
 
 if ( get_option( 'options_module_events' ) ) {
 	add_action('init', 'cptui_register_my_taxes_event_type');
-function cptui_register_my_taxes_event_type() {
-	register_taxonomy( 'event-type',array (
-	  0 => 'event',
-	),
-	array( 'hierarchical' => true,
-		'label' => __('Event types','govintranet'),
-		'show_ui' => true,
-		'query_var' => true,
-		'show_admin_column' => true,
-		'show_in_quick_edit' => true,
-		'labels' => array (
-		  'search_items' => __('Event type','govintranet'),
-		  'popular_items' => __('Popular types','govintranet'),
-		  'all_items' => __('All types','govintranet'),
-		  'parent_item' => __('Parent event type','govintranet'),
-		  'parent_item_colon' => '',
-		  'edit_item' => __('Edit event type','govintranet'),
-		  'update_item' => __('Update event type','govintranet'),
-		  'add_new_item' => __('Add event type','govintranet'),
-		  'new_item_name' => __('New event type','govintranet'),
-		  'separate_items_with_commas' => '',
-		  'add_or_remove_items' => __('Add or remove event types','govintranet'),
-		  'choose_from_most_used' => __('Most used','govintranet'),
-		  ),
-		'update_count_callback' => 'ht_update_post_term_count' 	  
-	) 
-	); 
-}
+	function cptui_register_my_taxes_event_type() {
+		register_taxonomy( 'event-type',array (
+		  0 => 'event',
+		),
+		array( 'hierarchical' => true,
+			'label' => __('Event types','govintranet'),
+			'show_ui' => true,
+			'query_var' => true,
+			'show_admin_column' => true,
+			'show_in_quick_edit' => true,
+			'labels' => array (
+			  'search_items' => __('Event type','govintranet'),
+			  'popular_items' => __('Popular types','govintranet'),
+			  'all_items' => __('All types','govintranet'),
+			  'parent_item' => __('Parent event type','govintranet'),
+			  'parent_item_colon' => '',
+			  'edit_item' => __('Edit event type','govintranet'),
+			  'update_item' => __('Update event type','govintranet'),
+			  'add_new_item' => __('Add event type','govintranet'),
+			  'new_item_name' => __('New event type','govintranet'),
+			  'separate_items_with_commas' => '',
+			  'add_or_remove_items' => __('Add or remove event types','govintranet'),
+			  'choose_from_most_used' => __('Most used','govintranet'),
+			  ),
+			'update_count_callback' => 'ht_update_post_term_count' 	  
+		) 
+		); 
+	}
 }
 
 if ( get_option( 'options_module_a_to_z' ) ) {
 	add_action('init', 'cptui_register_my_taxes_a_to_z');
-function cptui_register_my_taxes_a_to_z() {
-	register_taxonomy( 'a-to-z',array (
-	  0 => 'page',
-	  1 => 'task',
-	  2 => 'team',
-	  3 => 'project',
-	),
-	array( 
-		'hierarchical' => true,
-		'label' => __('A to Z letters','govintranet'),
-		'show_ui' => true,
-		'query_var' => true,
-		'show_admin_column' => true,
-		'show_in_quick_edit' => true,
-		'labels' => array (
-		'search_items' => __('A to Z letter','govintranet'),
-		'popular_items' => __('Popular letters','govintranet'),
-		'all_items' => __('All letters','govintranet'),
-		'parent_item' => __('Parent letter','govintranet'),
-		'parent_item_colon' => '',
-		'edit_item' => __('Edit letter','govintranet'),
-		'update_item' => __('Update letter','govintranet'),
-		'add_new_item' => __('Add new letter','govintranet'),
-		'new_item_name' => _x('Letter','alphabet','govintranet'),
-		'separate_items_with_commas' => '',
-		'add_or_remove_items' => __('Add or remove letters','govintranet'),
-		'choose_from_most_used' => __('Most used','govintranet'),
+	function cptui_register_my_taxes_a_to_z() {
+		register_taxonomy( 'a-to-z',array (
+		  0 => 'page',
+		  1 => 'task',
+		  2 => 'team',
+		  3 => 'project',
 		),
-		'update_count_callback' => 'ht_update_post_term_count' 
-	) 
-	); 
-}
+		array( 
+			'hierarchical' => true,
+			'label' => __('A to Z letters','govintranet'),
+			'show_ui' => true,
+			'query_var' => true,
+			'show_admin_column' => true,
+			'show_in_quick_edit' => true,
+			'labels' => array (
+			'search_items' => __('A to Z letter','govintranet'),
+			'popular_items' => __('Popular letters','govintranet'),
+			'all_items' => __('All letters','govintranet'),
+			'parent_item' => __('Parent letter','govintranet'),
+			'parent_item_colon' => '',
+			'edit_item' => __('Edit letter','govintranet'),
+			'update_item' => __('Update letter','govintranet'),
+			'add_new_item' => __('Add new letter','govintranet'),
+			'new_item_name' => _x('Letter','alphabet','govintranet'),
+			'separate_items_with_commas' => '',
+			'add_or_remove_items' => __('Add or remove letters','govintranet'),
+			'choose_from_most_used' => __('Most used','govintranet'),
+			),
+			'update_count_callback' => 'ht_update_post_term_count' 
+		) 
+		); 
+	}
 }
 
 if( function_exists('acf_add_local_field_group') ){
@@ -10703,13 +10712,13 @@ add_shortcode('loginform', 'pippin_login_form_shortcode');
  *
  */
 
-function my_attributes_dropdown_pages_args($dropdown_args) {
+function gi_attributes_dropdown_pages_args($dropdown_args) {
 
     $dropdown_args['post_status'] = array('publish','draft','private','pending','future');
 
     return $dropdown_args;
 }
-add_filter('page_attributes_dropdown_pages_args', 'my_attributes_dropdown_pages_args', 1, 1);
+add_filter('page_attributes_dropdown_pages_args', 'gi_attributes_dropdown_pages_args', 1, 1);
 
 /**
  * Save post metadata when a news post is saved.
@@ -10957,41 +10966,45 @@ function save_keyword_meta( $post_id ) {
 }
 add_action( 'save_post', 'save_keyword_meta' );
 
-if ( get_option('options_module_staff_directory') && get_option('options_module_teams') ) add_action( 'before_delete_post', 'govintranet_post_delete_tidy' );
-function govintranet_post_delete_tidy( $postid ){
-
-    // We check if the global post type isn't ours and just return
-    global $post_type;   
-    if ( $post_type != 'team' ) return;
-
-    // Delete team from user meta
-	$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_team','value'=>'.*\"'.$postid.'\".*','compare'=>'REGEXP'))));
-	if ( $user_query ) foreach ($user_query->results as $u){ 
-		$oldteams = get_user_meta($u->ID,'user_team',true);
-		$newteams = array();
-		foreach ( $oldteams as $ut ){
-			if ( $ut == $postid ) continue;
-			$newteams[] = (string)$ut;
+if ( get_option('options_module_staff_directory') && get_option('options_module_teams') ) { 
+	add_action( 'before_delete_post', 'govintranet_post_delete_tidy' );
+	function govintranet_post_delete_tidy( $postid ){
+	
+	    // We check if the global post type isn't ours and just return
+	    global $post_type;   
+	    if ( $post_type != 'team' ) return;
+	
+	    // Delete team from user meta
+		$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_team','value'=>'.*\"'.$postid.'\".*','compare'=>'REGEXP'))));
+		if ( $user_query ) foreach ($user_query->results as $u){ 
+			$oldteams = get_user_meta($u->ID,'user_team',true);
+			$newteams = array();
+			foreach ( $oldteams as $ut ){
+				if ( $ut == $postid ) continue;
+				$newteams[] = (string)$ut;
+			}
+			if ( count($newteams) > 0 ) {
+				update_user_meta($u->ID, 'user_team', $newteams, $oldteams);
+			} else {
+				delete_user_meta($u->ID, 'user_team', $oldteams);
+			}
 		}
-		if ( count($newteams) > 0 ) {
-			update_user_meta($u->ID, 'user_team', $newteams, $oldteams);
-		} else {
-			delete_user_meta($u->ID, 'user_team', $oldteams);
-		}
+	    
 	}
-    
 }
 
-if ( get_option('options_module_staff_directory') && get_option('options_module_teams') ) add_action( "delete_grade",'govintranet_term_delete_tidy', 10,4 );
-function govintranet_term_delete_tidy( $term_id, $term_taxonomy_id, $deleted_term, $object_ids ){
-
-    // Delete grade from user meta
-	$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_grade','value'=>$term_id))));
-	if ( $user_query ) foreach ($user_query->results as $u){ 
-		delete_user_meta($u->ID, 'user_grade');
-	}
-
-}	
+if ( get_option('options_module_staff_directory') ) {
+	add_action( "delete_grade",'govintranet_term_delete_tidy', 10,4 );
+	function govintranet_term_delete_tidy( $term_id, $term_taxonomy_id, $deleted_term, $object_ids ){
+	
+	    // Delete grade from user meta
+		$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_grade','value'=>$term_id))));
+		if ( $user_query ) foreach ($user_query->results as $u){ 
+			delete_user_meta($u->ID, 'user_grade');
+		}
+	
+	}	
+}
 
 function ht_filter_search($query) {
     if ($query->is_tag && !is_admin()) { 
@@ -11084,52 +11097,52 @@ NAME IN REGISTRATION FORM
 //1. Add a new form element...
 add_action( 'register_form', 'govintranet_register_form', 1 );
 	
-	function govintranet_register_form() {
+function govintranet_register_form() {
 
-	    $first_name = ( ! empty( $_POST['first_name'] ) ) ? trim( $_POST['first_name'] ) : '';
-	    $last_name = ( ! empty( $_POST['last_name'] ) ) ? trim( $_POST['last_name'] ) : '';
-        
-        ?>
-        <p>
-            <label for="first_name"><?php _e( 'First Name', 'govintranet' ) ?><br />
-                <input type="text" name="first_name" id="first_name" class="input" value="<?php echo esc_attr( wp_unslash( $first_name ) ); ?>" size="25" /></label>
-        </p>
-        <p>
-            <label for="last_name"><?php _e( 'Last Name', 'govintranet' ) ?><br />
-                <input type="text" name="last_name" id="last_name" class="input" value="<?php echo esc_attr( wp_unslash( $last_name ) ); ?>" size="25" /></label>
-        </p>
-        <?php
-	}
+    $first_name = ( ! empty( $_POST['first_name'] ) ) ? trim( $_POST['first_name'] ) : '';
+    $last_name = ( ! empty( $_POST['last_name'] ) ) ? trim( $_POST['last_name'] ) : '';
+    
+    ?>
+    <p>
+        <label for="first_name"><?php _e( 'First Name', 'govintranet' ) ?><br />
+            <input type="text" name="first_name" id="first_name" class="input" value="<?php echo esc_attr( wp_unslash( $first_name ) ); ?>" size="25" /></label>
+    </p>
+    <p>
+        <label for="last_name"><?php _e( 'Last Name', 'govintranet' ) ?><br />
+            <input type="text" name="last_name" id="last_name" class="input" value="<?php echo esc_attr( wp_unslash( $last_name ) ); ?>" size="25" /></label>
+    </p>
+    <?php
+}
 
-    //2. Add validation. In this case, we make sure first_name is required.
-    add_filter( 'registration_errors', 'govintranet_registration_errors', 10, 3 );
-    function govintranet_registration_errors( $errors, $sanitized_user_login, $user_email ) {
-        
-        if ( empty( $_POST['first_name'] ) || ! empty( $_POST['first_name'] ) && trim( $_POST['first_name'] ) == '' ) {
-            $errors->add( 'first_name_error', __( '<strong>ERROR</strong>: You must include a first name.', 'govintranet' ) );
-        }
-
-        if ( empty( $_POST['last_name'] ) || ! empty( $_POST['last_name'] ) && trim( $_POST['last_name'] ) == '' ) {
-            $errors->add( 'last_name_error', __( '<strong>ERROR</strong>: You must include a last name.', 'govintranet' ) );
-        }
-
-        return $errors;
+//2. Add validation. In this case, we make sure first_name is required.
+add_filter( 'registration_errors', 'govintranet_registration_errors', 10, 3 );
+function govintranet_registration_errors( $errors, $sanitized_user_login, $user_email ) {
+    
+    if ( empty( $_POST['first_name'] ) || ! empty( $_POST['first_name'] ) && trim( $_POST['first_name'] ) == '' ) {
+        $errors->add( 'first_name_error', __( '<strong>ERROR</strong>: You must include a first name.', 'govintranet' ) );
     }
 
-    //3. Finally, save our extra registration user meta.
-    add_action( 'user_register', 'govintranet_user_register' );
-    function govintranet_user_register( $user_id ) {
-        if ( ! empty( $_POST['first_name'] ) ) {
-            update_user_meta( $user_id, 'first_name', trim( $_POST['first_name'] ) );
-        }
-        if ( ! empty( $_POST['last_name'] ) ) {
-            update_user_meta( $user_id, 'last_name', trim( $_POST['last_name'] ) );
-        }
-        if ( ! empty( $_POST['first_name'] ) && ! empty( $_POST['last_name'] )) {
-			$displayname = trim( $_POST['first_name'] ) . " " . trim( $_POST['last_name'] ) ;
-			$user_id = wp_update_user( array( 'ID' => $user_id, 'display_name' => $displayname ) );
-	    }
+    if ( empty( $_POST['last_name'] ) || ! empty( $_POST['last_name'] ) && trim( $_POST['last_name'] ) == '' ) {
+        $errors->add( 'last_name_error', __( '<strong>ERROR</strong>: You must include a last name.', 'govintranet' ) );
     }
+
+    return $errors;
+}
+
+//3. Finally, save our extra registration user meta.
+add_action( 'user_register', 'govintranet_user_register' );
+function govintranet_user_register( $user_id ) {
+    if ( ! empty( $_POST['first_name'] ) ) {
+        update_user_meta( $user_id, 'first_name', trim( $_POST['first_name'] ) );
+    }
+    if ( ! empty( $_POST['last_name'] ) ) {
+        update_user_meta( $user_id, 'last_name', trim( $_POST['last_name'] ) );
+    }
+    if ( ! empty( $_POST['first_name'] ) && ! empty( $_POST['last_name'] )) {
+		$displayname = trim( $_POST['first_name'] ) . " " . trim( $_POST['last_name'] ) ;
+		$user_id = wp_update_user( array( 'ID' => $user_id, 'display_name' => $displayname ) );
+    }
+}
     
 /* Callback function for taxonomies */
 function ht_update_post_term_count( $terms, $taxonomy ) {
@@ -11283,120 +11296,123 @@ add_action( 'wp_enqueue_scripts', 'govintranet_custom_styles' );
 /*******************************************************************
 			ADD COLUMNS TO ADMIN SCREEN FOR EVENTS
 ********************************************************************/
+if ( get_option('options_module_events') ){
 
-add_filter( 'manage_edit-event_columns', 'my_edit_event_columns' ) ;
-
-function my_edit_event_columns( $columns ) {
-
-	$columns = array(
-		'cb' => '<input type="checkbox" />',
-		'title' => __( 'Event','govintranet' ),
-		'event_start_date' => __( 'Start date' , 'govintranet' ),
-		'event_type' => __( 'Event type','govintranet' ),
-		'date' => __( 'Date' , 'govintranet' ),
-		'author' => __( 'Author' , 'govintranet' ),
-	);
-
-	return $columns;
-}
-
-add_action( 'manage_event_posts_custom_column', 'my_manage_event_columns', 10, 2 );
-
-function my_manage_event_columns( $column, $post_id ) {
-	global $post;
-	$date_format = get_option("date_format", "d-m-Y");
-	switch( $column ) {
-
-		/* If displaying the 'event_start_date' column. */
-		case 'event_start_date' :
-
-			/* Get the post meta. */
-			$start = get_post_meta( $post_id, 'event_start_date', true );
-
-			/* If no event_start_date is found, output a default message. */
-			if ( empty( $start ) )
-				echo "&mdash;";
-
-			/* If there is an event_start_date, display */
-			else
-				echo date($date_format,strtotime($start));
-
-			break;
-
-		/* If displaying the 'event_type' column. */
-		case 'event_type' :
-
-			/* Get the event_type for the post. */
-			$terms = get_the_terms( $post_id, 'event-type' ); 
-
-			/* If terms were found. */
-			if ( !empty( $terms ) ) {
-
-				$out = array();
-
-				/* Loop through each term, linking to the 'edit posts' page for the specific term. */
-				foreach ( $terms as $term ) {
-					$out[] = sprintf( '<a href="%s">%s</a>',
-						esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'event-type' => $term->slug ), 'edit.php' ) ),
-						esc_html( sanitize_term_field( 'name', $term->name, $term->term_id, 'event-type', 'display' ) )
-					);
-				}
-
-				/* Join the terms, separating them with a comma. */
-				echo join( ', ', $out );
-			}
-
-			/* If no terms were found, output a default message. */
-			else {
-				echo "&mdash;";
-			}
-
-			break;
-
-				
-		/* Just break out of the switch statement for everything else. */
-		default :
-			break;
+	add_filter( 'manage_edit-event_columns', 'gi_edit_event_columns' ) ;
+	
+	function gi_edit_event_columns( $columns ) {
+	
+		$columns = array(
+			'cb' => '<input type="checkbox" />',
+			'title' => __( 'Event','govintranet' ),
+			'event_start_date' => __( 'Start date' , 'govintranet' ),
+			'event_type' => __( 'Event type','govintranet' ),
+			'date' => __( 'Date' , 'govintranet' ),
+			'author' => __( 'Author' , 'govintranet' ),
+		);
+	
+		return $columns;
 	}
-}
 
-add_filter( 'manage_edit-event_sortable_columns', 'my_event_sortable_columns' );
-
-function my_event_sortable_columns( $columns ) {
-
-	$columns['event_start_date'] = 'event_start_date';
-
-	return $columns;
-}
-
-/* Only run our customization on the 'edit.php' page in the admin. */
-add_action( 'load-edit.php', 'my_edit_event_load' );
-
-function my_edit_event_load() {
-	add_filter( 'request', 'my_sort_event' );
-}
-
-/* Sorts the events. */
-function my_sort_event( $vars ) {
-
-	/* Check if we're viewing the 'event' post type. */
-	if ( isset( $vars['post_type'] ) && 'event' == $vars['post_type'] ) {
-
-		/* Check if 'orderby' is set to 'event_start_date'. */
-		if ( isset( $vars['orderby'] ) && 'event_start_date' == $vars['orderby'] ) {
-
-			/* Merge the query vars with our custom variables. */
-			$vars = array_merge(
-				$vars,
-				array(
-					'meta_key' => 'event_start_date',
-					'orderby' => 'meta_value_num'
-				)
-			);
+	add_action( 'manage_event_posts_custom_column', 'gi_manage_event_columns', 10, 2 );
+	
+	function gi_manage_event_columns( $column, $post_id ) {
+		global $post;
+		$date_format = get_option("date_format", "d-m-Y");
+		switch( $column ) {
+	
+			/* If displaying the 'event_start_date' column. */
+			case 'event_start_date' :
+	
+				/* Get the post meta. */
+				$start = get_post_meta( $post_id, 'event_start_date', true );
+	
+				/* If no event_start_date is found, output a default message. */
+				if ( empty( $start ) )
+					echo "&mdash;";
+	
+				/* If there is an event_start_date, display */
+				else
+					echo date($date_format,strtotime($start));
+	
+				break;
+	
+			/* If displaying the 'event_type' column. */
+			case 'event_type' :
+	
+				/* Get the event_type for the post. */
+				$terms = get_the_terms( $post_id, 'event-type' ); 
+	
+				/* If terms were found. */
+				if ( !empty( $terms ) ) {
+	
+					$out = array();
+	
+					/* Loop through each term, linking to the 'edit posts' page for the specific term. */
+					foreach ( $terms as $term ) {
+						$out[] = sprintf( '<a href="%s">%s</a>',
+							esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'event-type' => $term->slug ), 'edit.php' ) ),
+							esc_html( sanitize_term_field( 'name', $term->name, $term->term_id, 'event-type', 'display' ) )
+						);
+					}
+	
+					/* Join the terms, separating them with a comma. */
+					echo join( ', ', $out );
+				}
+	
+				/* If no terms were found, output a default message. */
+				else {
+					echo "&mdash;";
+				}
+	
+				break;
+	
+					
+			/* Just break out of the switch statement for everything else. */
+			default :
+				break;
 		}
 	}
 
-	return $vars;
+	add_filter( 'manage_edit-event_sortable_columns', 'gi_event_sortable_columns' );
+	
+	function gi_event_sortable_columns( $columns ) {
+	
+		$columns['event_start_date'] = 'event_start_date';
+	
+		return $columns;
+	}
+
+	/* Only run our customization on the 'edit.php' page in the admin. */
+	add_action( 'load-edit.php', 'gi_edit_event_load' );
+
+	function gi_edit_event_load() {
+		add_filter( 'request', 'gi_sort_event' );
+	}
+
+	/* Sorts the events. */
+	function gi_sort_event( $vars ) {
+	
+		/* Check if we're viewing the 'event' post type. */
+		if ( isset( $vars['post_type'] ) && 'event' == $vars['post_type'] ) {
+	
+			/* Check if 'orderby' is set to 'event_start_date'. */
+			if ( isset( $vars['orderby'] ) && 'event_start_date' == $vars['orderby'] ) {
+	
+				/* Merge the query vars with our custom variables. */
+				$vars = array_merge(
+					$vars,
+					array(
+						'meta_key' => 'event_start_date',
+						'orderby' => 'meta_value_num'
+					)
+				);
+			}
+		}
+	
+		return $vars;
+	}
+
 }
 
 /**********************************
@@ -11523,12 +11539,18 @@ function govintranet_add_fivemin( $schedules ) {
 }
 add_filter( 'cron_schedules', 'govintranet_add_fivemin' ); 
 
-if ( get_option( 'options_module_news' ) || get_option( 'options_module_news_updates' ) || get_option( 'options_module_vacancies' ) || get_option( 'options_module_events' ) ){
-	if ( ! wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
-		wp_schedule_event( time(), 'fivemin', 'govintranet_expiry_patrol' );
+add_action( 'init' , 'govintranet_cron_setup' );
+function govintranet_cron_setup() {
+	if ( get_option( 'options_module_news' ) || get_option( 'options_module_news_updates' ) || get_option( 'options_module_vacancies' ) || get_option( 'options_module_events' ) ){
+		if ( ! wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
+			wp_schedule_event( time(), 'fivemin', 'govintranet_expiry_patrol' );
+		}
+	} elseif ( wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
+		wp_clear_scheduled_hook( 'govintranet_expiry_patrol' );
 	}
-} elseif ( wp_next_scheduled( 'govintranet_expiry_patrol' ) ) {
-	wp_clear_scheduled_hook( 'govintranet_expiry_patrol' );
+	if ( ! wp_next_scheduled( 'govintranet_theme_check' ) ) {
+		wp_schedule_event( time(), 'daily', 'govintranet_theme_check' );
+	}
 }
 
 add_action( 'govintranet_expiry_patrol', 'govintranet_expiry_patrol_cron' );

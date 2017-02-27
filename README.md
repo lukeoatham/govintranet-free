@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.8 - 27 Feb 2017 ###
+* Performance improvements 
+* New HT Remove post menu plugin 
+* Bug fix for HT Feature blogposts widget with no titles 
+
 ### 4.34.7 - 26 Feb 2017 ###
 * Improvements for tel: protocol links 
 

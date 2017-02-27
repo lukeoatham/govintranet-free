@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: http://www.helpfultechnology.com
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.4
+Version: 1.4.1
 Author URI: http://www.helpfultechnology.com
 
 */
@@ -133,8 +133,8 @@ class htFeatureBlogposts extends WP_Widget {
 		if ( !$html ){
 
 			if ( $num_top_slots > 0 ){ 
+				$html.= $before_widget; 
 				if ( $title ) {
-					$html.= $before_widget; 
 					$html.= $before_title . $title . $after_title;
 				}
 				$html.= "<div class='widget-area widget-blogposts'>";
@@ -206,8 +206,8 @@ class htFeatureBlogposts extends WP_Widget {
 	
 			$blogs = new WP_Query($cquery);
 			if ($blogs->post_count!=0 && !$titledone ) {
+				$html.= $before_widget; 
 				if ( $title ) {
-					$html.= $before_widget; 
 					$html.= $before_title . $title . $after_title;
 				}
 				$html.= "<div class='widget-area widget-blogposts'>";
