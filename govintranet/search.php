@@ -11,34 +11,34 @@
  // if only one result found, zoom straight to the page
 
 $gishelpfulsearch = get_option("options_enable_helpful_search");
-if ($gishelpfulsearch == 1){
-	if ($wp_query->found_posts == 1){
+if ($gishelpfulsearch == 1):
+	if ($wp_query->found_posts == 1):
 		$location = '';
-		while ( have_posts() ) {
+		while ( have_posts() ) : 
 			the_post(); 
-			if ($post->post_type == 'user' ){
+			if ($post->post_type == 'user' ):
 				$userid = $post->user_id;
 				$location = get_author_posts_url( $post->user_id ); 
 				$staffdirectory = get_option('options_module_staff_directory');
-				if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-					$location=str_replace('/author', '/members', $location); }
-				elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-					$location=str_replace('/author', '/staff', $location); }
-				elseif (function_exists('bbp_get_displayed_user_field') ){ // if using bbPress - link to the staff page
+				if (function_exists('bp_activity_screen_index')): // if using BuddyPress - link to the members page
+					$location=str_replace('/author', '/members', $location); 
+				elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ): // if using bbPress - link to the staff page
+					$location=str_replace('/author', '/staff', $location); 
+				elseif (function_exists('bbp_get_displayed_user_field') ): // if using bbPress - link to the staff page
 					$location=str_replace('/author', '/users', $location);
-				}
-			elseif ($_GET['pt'] != 'user'){
+				endif;
+			elseif ($_GET['pt'] != 'user'):
 					$location = get_permalink($post->ID); 
-			}
-		}
-		if ($location){
+			endif;
+		endwhile;
+		if ($location):
 			$location = str_replace( "#038;", "&", $location);
 			$location = str_replace( "&amp;", "&", $location);
 			header('Location: '.$location);
 			exit;
-		}
-	}
-}
+		endif;
+	endif;
+endif;
 get_header(); 
 $include_attachments = get_option("options_enable_include_attachments");
 $include_forums = get_option("options_enable_include_forums");			
@@ -137,21 +137,24 @@ if ( !$is_filtered && $closed_filter){
 	<?php 
 	$pt = '';
 	$ct = '';
-	$searchcon = '';
-	if ( !have_posts() ) {
+	$searchcon = '';		
+	if ( !have_posts() ) : 
 
 		$searchnotfound = get_option('options_search_not_found');
 		$track_homepage = get_option('options_track_homepage');
 		if ( !$track_homepage ) echo get_option('options_google_tracking_code');
 		if ( !$searchnotfound ) $searchnotfound = "<h1>" ._x("Nope","search not found","govintranet") ."</h1>";
 		echo apply_filters("the_content", $searchnotfound); 
+		$pt = '';
+		$ct = '';
+		$searchcon = '';
 		if ( isset($_GET['cat']) ){
 			$ct = $_GET['cat'];
 			$ct = get_category($ct);
 			$ct = $ct->name;
 		}
 		if ($ct) $searchcon=$ct;
-		if ( isset( $_GET['post_types'] ) ){
+		if ( isset( $_GET['post_types'] ) ):
 			$pt = $_GET['post_types']; 
 			if (in_array('blog', $pt)){
 				if ($searchcon) $searchcon.=" or";
@@ -201,7 +204,7 @@ if ( !$is_filtered && $closed_filter){
 				if ($searchcon) $searchcon.=" or";
 				$searchcon.=" " . __('media','govintranet');
 			}
-		}
+		endif; 
 		if (isset($_GET['include']) && $_GET['include']=='user'){
 			if ($searchcon) $searchcon.=" or";
 			$searchcon .= " " . __('the staff directory','govintranet');
@@ -245,7 +248,9 @@ if ( !$is_filtered && $closed_filter){
 		</script>
 		<?php
 				
-	} elseif ( $is_filtered ){ ?>
+	else:
+
+		if ( $is_filtered ): ?>
 			<div class="well well-sm search-again-wrapper-filtered">
 			<form class="form-horizontal" role="form" id="serps_search" action="<?php echo site_url( '/' ); ?>">
 				<div class="input-group">
@@ -259,7 +264,7 @@ if ( !$is_filtered && $closed_filter){
 			</form>
 			</div>
 			<?php		
-		}
+		endif;
 		?>
 		<h1><?php printf( __( 'Search results for: %s', 'govintranet' ), '' . $s . '' ); ?></h1>
 		<?php
@@ -279,23 +284,23 @@ if ( !$is_filtered && $closed_filter){
 			echo "</p>";
 		}
 				
-		if ( $paged > 1 ){
+		if ( $paged > 1 ):
 			?>
 			<div class="wp_pagenavi">
 				<?php 
-				if (  $wp_query->max_num_pages > 1  ) {
-					if (function_exists('wp_pagenavi')) { 
-						wp_pagenavi(array('query' => $wp_query)); }
-					else {
+				if (  $wp_query->max_num_pages > 1  ) : 
+					if (function_exists('wp_pagenavi')) : 
+						wp_pagenavi(array('query' => $wp_query)); 
+					else : 
 						next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); 
 						previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages); 
-					}
-				}
+					endif; 
+				endif; 
 			    wp_reset_query();
 				?>
 			</div>
 			<?php
-		}
+		endif;
 			
 		/* Run the loop for the search to output the results.
 		 * If you want to overload this in a child theme then include a file
@@ -303,18 +308,18 @@ if ( !$is_filtered && $closed_filter){
 		 */
 		 get_template_part( 'loop', 'search' );
 
-	}
+	endif;
 	?>
 	<div class="wp_pagenavi">
 		<?php 
-		if (  $wp_query->max_num_pages > 1  && isset( $_GET['pt'] ) && $_GET['pt'] != 'user'  ) {
-			if (function_exists('wp_pagenavi')) {
-				wp_pagenavi(array('query' => $wp_query)); }
-			else {
+		if (  $wp_query->max_num_pages > 1  && isset( $_GET['pt'] ) && $_GET['pt'] != 'user'  ) : 
+			if (function_exists('wp_pagenavi')) : 
+				wp_pagenavi(array('query' => $wp_query)); 
+			else : 
 				next_posts_link(__('&larr; Older items','govintranet'), $wp_query->max_num_pages); 
 				previous_posts_link(__('Newer items &rarr;','govintranet'), $wp_query->max_num_pages); 
-			}
-		}
+			endif; 
+		endif; 
 	    wp_reset_query();
 		?>
 	</div>

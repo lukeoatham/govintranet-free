@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.8.1 - 28 Feb 2017 ###
+* Search results page bug fix  
+
 ### 4.34.8 - 27 Feb 2017 ###
 * Performance improvements 
 * New HT Remove post menu plugin 
