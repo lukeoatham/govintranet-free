@@ -4,7 +4,7 @@ Plugin Name: HT Notify
 Plugin URI: http://www.helpfultechnology.com
 Description: Manage notifications in staff profiles. Includes a widget to add a Notify button, extra fields in the staff profile, and a cron job to send notifications.
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -321,8 +321,8 @@ function notify_monitor() {
 	// for each post
 	if ( count($new_mods) > 0 ):
 		foreach ( (array)$new_mods as $n ){
-	//		find the users who have subscribed to this post
-			$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_notifications','value'=>'%"'.$n->ID.'"%','compare'=>'LIKE'))));
+			//	find the users who have subscribed to this post
+			$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_notifications','value'=>'.*\"'.$n->ID.'\".*','compare'=>'REGEXP'))));
  			if ( $user_query ) foreach ($user_query->results as $u){ 
 	 			$temp = $to_notify[$u->ID];
 	 			if ( !$temp ) $temp = array();
@@ -340,7 +340,7 @@ function notify_monitor() {
 			$to = $user->user_email;
 			// compose email
 			$sitename = get_option("blogname", __("Intranet","govintranet"));
-			$admin_email = get_option("admin_email", __("Intranet","govintranet"));
+			$admin_email = get_option("admin_email");
 			$subject = __('Intranet updates','govintranet');
 			$headers = array('Content-Type: text/html; charset=UTF-8','From: '.$sitename.' <'.$admin_email.'>' . "\r\n");
 			$body = "<p>" . _n('The following page has been updated', 'The following pages have been updated', count($posts), 'govintranet') . "</p>";
@@ -356,25 +356,6 @@ function notify_monitor() {
 
 	update_option("ht_notify_last_run", $this_run );	
 }
-
-/*
-function flag_subs( $post_id ) {
-
-    $slug = array('news-update','news','page','task','blogpost','project','vacancy','team','event');
-
-    if ( isset( $_POST['post_type'] ) && !in_array( $_POST['post_type'] , $slug ) ) {
-        return;
-    }
-
-	// check if any subscribers
-	
-
-    // - Update the post's metadata.
-	add_post_meta( $post_id, 'ht_subcribe_flag', 1 );
-	return;
-}
-add_action( 'save_post', 'flag_subs' );
-*/
 
 function ht_notify_ajax_show() {
 
