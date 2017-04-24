@@ -120,7 +120,13 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					echo "<div class='media-body'><h3><a href='" .get_permalink() . "'>" . get_the_title() . "</a></h3>";
 					$thisdate =  get_post_meta($post->ID,'event_start_date',true); 
 					$thistime =  get_post_meta($post->ID,'event_start_time',true); 
-					echo "<strong>".date(get_option('date_format'),strtotime($thisdate))." ".date(get_option('time_format'),strtotime($thistime))."</strong>";
+					if ( $thisdate ) {
+						echo "<strong>".date(get_option('date_format'),strtotime($thisdate));
+						if ( $thistime ) {
+							echo " " . date(get_option('time_format'),strtotime($thistime));
+						}
+						echo "</strong>";
+					}
 					the_excerpt();
 					echo "</div></div>";
 				}

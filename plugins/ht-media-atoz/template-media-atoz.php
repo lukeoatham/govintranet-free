@@ -465,17 +465,53 @@ $filter_cols = 12 / $filter_count;
 				echo '<div id="docresults"><ul class="docmenu">';
 			
 				if ( $docs->have_posts() ) while ( $docs->have_posts() ) : $docs->the_post(); 
+					
 					echo '<li class="docresult"><a href="'.wp_get_attachment_url().'">';
 					echo esc_html($post->post_title);
 					echo '</a>';
 					if ( $showlinks ){
-						if ( $post->post_parent && get_post_status($post->post_parent) == 'publish' ) echo '<a class="docpage" href="'.get_permalink($post->post_parent).'">View in '.get_post_type($post->post_parent).'</a>';
+						$in_context = array();
+						$full_context = array();
+						
+						if ( $post->post_parent && get_post_status($post->post_parent) == 'publish' ) {
+							$in_context[]= '<a class="docpage" href="'.get_permalink($post->post_parent).'" title="'.get_the_title($post->post_parent).'">' . __("View in context","govintranet") . '</a>';
+							$full_context[]= '<a class="docpage" href="'.get_permalink($post->post_parent).'">'.get_the_title($post->post_parent).'</a>';
+						}
 						$attached = $wpdb->get_results("select ID from $wpdb->posts join $wpdb->postmeta on $wpdb->posts.ID = $wpdb->postmeta.post_id where post_status = 'publish' and meta_key like 'document_attachments_%_document_attachment' and meta_value = " . $post->ID );
 						if ( $attached ) foreach ( $attached as $a ){
 							// if in document attachments and not already counted in body content
-							if ( $a->ID != $post->post_parent ) echo '<a class="docpage" href="'.get_permalink($a->ID).'">View in '.get_post_type($a->ID).'</a>';
+							if ( $a->ID != $post->post_parent ) {
+								$in_context[]= '<a class="docpage" href="'.get_permalink($a->ID).'" title="'.get_the_title($a->ID).'">' . __("View in context","govintranet") . '</a>';
+								$full_context[]= '<a class="docpage" href="'.get_permalink($a->ID).'">'.get_the_title($a->ID).'</a>';
+							}
 						}
+
+						if ( count($in_context) > 1 ){
+							// do dropdown
+							?>
+							<div class="dropdown">
+							  <a class="dropdown-toggle subdocmenu" id="dropdownMenu<?php echo $post->ID; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							    <?php echo __('View in context','govintranet'); ?> 
+							    <span class="caret"></span>
+							  </a>
+							  <ul class="dropdown-menu docmenu" aria-labelledby="dropdownMenu<?php echo $post->ID; ?>">
+							  	<?php
+								foreach ( $full_context as $fc ){
+									echo "<li class='docresult'>" . $fc . "</li>";
+								}
+								?>	  
+							  </ul>
+							</div>				
+							<?php
+						} else {
+							// do single link
+							echo $in_context[0];
+						}
+
+
 					}
+					
+					
 					echo '</li>';
 				endwhile;
 			
@@ -484,6 +520,9 @@ $filter_cols = 12 / $filter_count;
 				wp_reset_query();
 		
 				?>
+				
+				
+				
 				<?php if ( $docs->max_num_pages > 1 ) : ?>
 					<?php if (function_exists('wp_pagenavi')) : ?>
 						<?php wp_pagenavi(array('query' => $docs)); ?>

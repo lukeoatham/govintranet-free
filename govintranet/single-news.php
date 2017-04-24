@@ -96,6 +96,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					if ( $html ){
 						echo "<div class='widget-box'><h3>" . __('Categories' , 'govintranet') . "</h3>".$html."</div>";
 					}
+					$html='';
 				}
 				$posttags = get_the_tags();
 				if ( $posttags ) {
@@ -266,11 +267,11 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					}
 				endwhile; 
 				$html.= "</div>";
+				echo $html;
 			endif;
 
 			add_filter('pre_get_posts', 'ht_filter_search');
 			wp_reset_query();
-			echo $html;
 			?>
 		</div> <!--end of second column-->
 			

@@ -235,7 +235,7 @@ get_header(); ?>
 				}	
 				echo "<div class='media-body'><h3><a href='" .get_permalink() . "'>" . get_the_title() . "</a></h3>";
 				$thisdate =  get_post_meta($post->ID,'event_start_date',true); 
-				echo "<strong>".date(get_option('date_format'),strtotime($thisdate))."</strong>";
+				if ( $thisdate ) echo "<strong>".date(get_option('date_format'),strtotime($thisdate))."</strong>";
 				the_excerpt();
 				echo "</div></div>";
 			}

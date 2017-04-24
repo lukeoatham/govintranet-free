@@ -38,6 +38,12 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.9 - 24 Apr 2017 ###
+* Date display tidy on events templates 
+* Fixes to news sidebar showing duplicate taxonomy terms 
+* Media A to Z plugin updates for docs linked to multiple pages 
+* PHP fixes in pending badge plugin 
+
 ### 4.34.8.1 - 28 Feb 2017 ###
 * Search results page bug fix  
 

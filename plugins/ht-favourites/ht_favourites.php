@@ -74,14 +74,21 @@ class htfavourites_add extends WP_Widget {
 }
 
 class htfavourites_display extends WP_Widget {
-    function htfavourites_display() {
-        parent::WP_Widget(false, __('HT Display favourites','govintranet'), array('description' => __('Display favourites from staff profile','govintranet')));
+	
+
+	function __construct() {
+		
+		parent::__construct(
+			'htfavourites_display',
+			__( 'HT Display favourites' , 'govintranet'),
+			array( 'description' => __( 'Display favourites from staff profile' , 'govintranet') )
+		);
 
 		/*
 		Load css
 		*/
 		wp_enqueue_style( 'favourites', plugins_url("/ht-favourites/css/ht_favourites.css"));
-        
+	        
     }
 
     function widget($args, $instance) { 

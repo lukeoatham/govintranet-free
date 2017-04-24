@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.8.2
+Version: 1.8.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -96,6 +96,7 @@ class htAboutThisPage extends WP_Widget {
 			if ($show_author=='on'){
 				global $post;
 				$user = get_userdata($post->post_author);
+				
 				$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
 				$gis = "options_forum_support";
 				$forumsupport = get_option($gis);
@@ -105,26 +106,17 @@ class htAboutThisPage extends WP_Widget {
 					if ( is_object($user) ) $authorlink = "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>";
 					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
 						$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
+						echo $authorlink;	
 					} elseif (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
 						echo "<a href='";
 						bbp_user_profile_url( $post->post_author );
 						echo "'>";
-					} else {
-						echo $authorlink;	
 					}
-					$user_info = get_userdata($post->post_author);
 					$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-					$avstyle="";
+					$avstyle = "";
 					if ( $directorystyle==1 ) $avstyle = " img-circle";
-					$image_url = get_avatar($post->post_author , 32);
-					$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
-					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
-						echo "<a href='";
-						bbp_user_profile_url( $post->post_author );
-						echo "'>";
-					} else {
-						echo $authorlink;	
-					}
+					$image_url = get_avatar($post->post_author , 32, '', $displayname);
+					if ( $avstyle ) $image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
 					echo $image_url;
 					echo "</a>&nbsp;";
 					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
