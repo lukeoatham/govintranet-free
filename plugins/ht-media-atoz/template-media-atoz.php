@@ -31,6 +31,7 @@ $custom_css = "
 .pager li.active a { background: {$gishex}; color: {$headtext}; }
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover { background-color: {$gishex}; color: {$headtext}; }
 ";
+$context = ( get_field('gi_docfinder_context_text') ? esc_html(get_field('gi_docfinder_context_text')) : "View in context" );
 wp_register_style( 'ht-media-atoz', plugin_dir_url("/") ."ht-media-atoz/css/ht-media-atoz.css" );
 wp_enqueue_style('ht-media-atoz');
 wp_add_inline_style('ht-media-atoz' , $custom_css);	
@@ -474,14 +475,14 @@ $filter_cols = 12 / $filter_count;
 						$full_context = array();
 						
 						if ( $post->post_parent && get_post_status($post->post_parent) == 'publish' ) {
-							$in_context[]= '<a class="docpage" href="'.get_permalink($post->post_parent).'" title="'.get_the_title($post->post_parent).'">' . __("View in context","govintranet") . '</a>';
+							$in_context[]= '<a class="docpage" href="'.get_permalink($post->post_parent).'" title="'.get_the_title($post->post_parent).'">' . $context . '</a>';
 							$full_context[]= '<a class="docpage" href="'.get_permalink($post->post_parent).'">'.get_the_title($post->post_parent).'</a>';
 						}
 						$attached = $wpdb->get_results("select ID from $wpdb->posts join $wpdb->postmeta on $wpdb->posts.ID = $wpdb->postmeta.post_id where post_status = 'publish' and meta_key like 'document_attachments_%_document_attachment' and meta_value = " . $post->ID );
 						if ( $attached ) foreach ( $attached as $a ){
 							// if in document attachments and not already counted in body content
 							if ( $a->ID != $post->post_parent ) {
-								$in_context[]= '<a class="docpage" href="'.get_permalink($a->ID).'" title="'.get_the_title($a->ID).'">' . __("View in context","govintranet") . '</a>';
+								$in_context[]= '<a class="docpage" href="'.get_permalink($a->ID).'" title="'.get_the_title($a->ID).'">' . $context . '</a>';
 								$full_context[]= '<a class="docpage" href="'.get_permalink($a->ID).'">'.get_the_title($a->ID).'</a>';
 							}
 						}
@@ -491,7 +492,7 @@ $filter_cols = 12 / $filter_count;
 							?>
 							<div class="dropdown">
 							  <a class="dropdown-toggle subdocmenu" id="dropdownMenu<?php echo $post->ID; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							    <?php echo __('View in context','govintranet'); ?> 
+							    <?php echo $context; ?> 
 							    <span class="caret"></span>
 							  </a>
 							  <ul class="dropdown-menu docmenu" aria-labelledby="dropdownMenu<?php echo $post->ID; ?>">
