@@ -4,7 +4,7 @@ Plugin Name: HT Vacancy listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display closing vacancies
 Author: Luke Oatham
-Version: 1.4
+Version: 1.5
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -24,6 +24,7 @@ class htVacancyListing extends WP_Widget {
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
         $calendar = ($instance['calendar']);
+        $shownew = ($instance['shownew']);
         $days = intval($instance['days']);
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
@@ -80,20 +81,20 @@ class htVacancyListing extends WP_Widget {
 					'posts_per_page' => $items,
 			);
 	
-			$vacancies = new WP_Query($cquery);
-			if ($vacancies->post_count!=0){
-				$output.= $before_widget; 
-				if ( $title ) $output.= $before_title . $title . $after_title;
-				$output.= "<div class='widget-area widget-vacancies'>";
+			if ( $items ) {
+				$vacancies = new WP_Query($cquery);
+			} else {
+				$vacancies = new WP_QUERY();	
 			}
-			$k=0;
-			$alreadydone= array();
+			$k = 0;
+			$alreadydone = array();
 			global $post; //required for access within widget
 	
 			if ( $vacancies->have_posts() ) while ($vacancies->have_posts()) {
 				$vacancies->the_post();
 				//don't show if already in stickies
 				if (in_array($post->ID, $alreadydone )) continue;
+				$alreadydone[]= get_the_id();
 				$k++;
 				if ($k > $items) break;
 				$thistitle = get_the_title($post->ID);
@@ -119,7 +120,6 @@ class htVacancyListing extends WP_Widget {
 					$output.= $thistitle;
 					$output.= "</a>";
 					$output.= "</p>";
-					//$output.= "<small><strong>".$edate."</strong></small>";
 					if ( date('Ymd') == date('Ymd',strtotime(get_post_meta($post->ID,'vacancy_closing_date',true)))) $output.= "<span class='alert-vacancy small' >" . sprintf( __('Closing at %s' , 'govintranet'), date(get_option('time_format'),strtotime($etime)))."</span>";
 					$output.= "</div></div>";
 				} else {
@@ -128,8 +128,34 @@ class htVacancyListing extends WP_Widget {
 				} 
 
 			}
-	
-			if ($vacancies->post_count!=0){
+			
+			if ( $shownew ) {
+				$new_vacancies = new WP_Query(array(
+					'post_type' => 'vacancy',
+					'posts_per_page' => $shownew,
+					'post__not_in' => $alreadydone
+				));
+				if ( $new_vacancies->have_posts() ) {
+					$output.= "<h4>" . __('Latest','govintranet') . "</h4>";
+					while ($new_vacancies->have_posts()) {
+						$new_vacancies->the_post();
+						//don't show if already in stickies
+						$thistitle = get_the_title($post->ID);
+						$edate = get_post_meta($post->ID,'vacancy_closing_date',true);
+						$etime = date(get_option('time_format'),strtotime(get_post_meta($post->ID,'vacancy_closing_time',true))); 
+						$edate = date(get_option('date_format'),strtotime($edate));
+						$thisURL = get_permalink(); 
+						$output.= "<p><a href='{$thisURL}'>".$thistitle."</a>";
+						$output.= "<br><small><strong>".$edate."</strong></small></p>";
+					}				
+				}
+			}
+			if ($vacancies->post_count || $new_vacancies->post_count){
+				$tempo = '';
+				$tempo = $before_widget; 
+				if ( $title ) $tempo.= $before_title . $title . $after_title;
+				$tempo.= "<div class='widget-area widget-vacancies'>";
+				$output = $tempo . $output;
 				$landingpage = get_option('options_module_vacancies_page'); 
 				if ( !$landingpage ):
 					$landingpage_link_text = __('vacancies','govintranet');
@@ -143,7 +169,7 @@ class htVacancyListing extends WP_Widget {
 			}
 
 			if ( $cacheperiod ) {
-				if ( $vacancies->post_count != 0 ){
+				if ( $vacancies->post_count || $new_vacancies->post_count ){
 					set_transient($gatransient,$output."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); 
 				} else {
 					set_transient($gatransient,"<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->",$cacheperiod); 
@@ -160,6 +186,7 @@ class htVacancyListing extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['items'] = strip_tags($new_instance['items']);
 		$instance['calendar'] = strip_tags($new_instance['calendar']);
+		$instance['shownew'] = strip_tags($new_instance['shownew']);
 		$instance['days'] = strip_tags($new_instance['days']);
 		$instance['cacheperiod'] = intval($new_instance['cacheperiod']);
        return $instance;
@@ -167,8 +194,9 @@ class htVacancyListing extends WP_Widget {
 
     function form($instance) {
         $title = esc_attr($instance['title']);
-        $items = esc_attr($instance['items']);
-        $calendar = esc_attr($instance['calendar']);
+        $items = intval($instance['items']);
+        $calendar = intval($instance['calendar']);
+        $shownew = esc_attr($instance['shownew']);
         $days = esc_attr($instance['days']);
         $cacheperiod = intval($instance['cacheperiod']);
         ?>
@@ -176,12 +204,14 @@ class htVacancyListing extends WP_Widget {
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /><br><br>
 
-          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of items:','govintranet'); ?></label> 
+          <label for="<?php echo $this->get_field_id('items'); ?>"><?php _e('Number of closing vacancies:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('items'); ?>" name="<?php echo $this->get_field_name('items'); ?>" type="text" value="<?php echo $items; ?>" /><br><br>
 
+          <label for="<?php echo $this->get_field_id('shownew'); ?>"><?php _e('Number of new vacancies:','govintranet'); ?></label> 
+          <input class="widefat" id="<?php echo $this->get_field_id('shownew'); ?>" name="<?php echo $this->get_field_name('shownew'); ?>" type="text" value="<?php echo $shownew; ?>" /><br><br>
+
           <input id="<?php echo $this->get_field_id('calendar'); ?>" name="<?php echo $this->get_field_name('calendar'); ?>" type="checkbox" <?php checked((bool) $instance['calendar'], true ); ?> />
-          <label for="<?php echo $this->get_field_id('calendar'); ?>"><?php _e('Show calendar','govintranet'); ?></label> <br><br>
-          
+          <label for="<?php echo $this->get_field_id('calendar'); ?>"><?php _e('Show calendar','govintranet'); ?></label> <br><br>          
 
           <label for="<?php echo $this->get_field_id('days'); ?>"><?php _e('Days to look forward:','govintranet'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('days'); ?>" name="<?php echo $this->get_field_name('days'); ?>" type="text" value="<?php echo $days; ?>" /><br><br>
