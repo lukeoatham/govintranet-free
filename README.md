@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.10 - 14 May 2017 ###
+* Fix for news expiry date 
+* Fix for Tube status widget if the feed is down  
+
 ### 4.34.9 - 24 Apr 2017 ###
 * Date display tidy on events templates 
 * Fixes to news sidebar showing duplicate taxonomy terms 

@@ -4,7 +4,7 @@ Plugin Name: HT Tube status
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display London Underground tube status
 Author: Luke Oatham
-Version: 0.1
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -46,7 +46,8 @@ class htTubeStatus extends WP_Widget {
 	
 			if (!$rss):
 				echo "Can't find the TfL tube status feed.";
-				exit;
+				echo $after_widget; 
+				return;
 			endif;
 		
 			$feedcontent = new SimpleXMLElement($rss);
