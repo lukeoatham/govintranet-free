@@ -3,15 +3,15 @@
 Template Name: Newsboard
 */
 
+	get_header(); 
+
 	if (!wp_script_is('jquery', 'queue')){
      	wp_enqueue_script('jquery');
 	}
 	wp_register_script( 'newsboard-js', get_template_directory_uri() . '/newsboard/newsboard.js' );
 	wp_enqueue_script( 'newsboard-js' );
 
-	get_header(); ?> 
-
-<?php if ( have_posts() ) : 
+	if ( have_posts() ) : 
 	while ( have_posts() ) : the_post(); ?>
 		<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 white ">
 			<div class="row">

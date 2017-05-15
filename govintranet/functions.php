@@ -10380,7 +10380,7 @@ function listdocs_func( $atts ) {
 	$html= '<ul class="docmenu">';
 	global $post;
 	if ( $docs->have_posts() ) while ( $docs->have_posts() ) : $docs->the_post(); 
-		$html.= '<li><a href="'.get_permalink($post->ID).'">';
+		$html.= '<li><a href="'.($post->guid).'">';
 		$html.= govintranetpress_custom_title($post->post_title);
 		$html.= '</a>';
 		if ($post->post_content && $desc) $html.='<br>'.$post->post_content.'</li>';
