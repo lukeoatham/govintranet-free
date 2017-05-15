@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.11 - 15 May 2017 ###
+* Fix for newsboard template (page back causing blank tabs) 
+* Fix for listdocs shortcode (link directly to attachments)  
+* Added MP3 icon 
+
 ### 4.34.10 - 14 May 2017 ###
 * Fix for news expiry date 
 * Fix for Tube status widget if the feed is down  
