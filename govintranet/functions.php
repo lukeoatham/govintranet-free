@@ -10383,7 +10383,10 @@ function listdocs_func( $atts ) {
 		$html.= '<li><a href="'.($post->guid).'">';
 		$html.= govintranetpress_custom_title($post->post_title);
 		$html.= '</a>';
-		if ($post->post_content && $desc) $html.='<br>'.$post->post_content.'</li>';
+		if ($post->post_content && $desc) {
+			$html.='<span class="docmenudesc">'.$post->post_content.'</span>';
+		}
+		echo '</li>';
 	endwhile;
 
 	$html.= '</ul>';

@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.12 - 16 May 2017 ###
+* Improvements to listdocs shortcode, include desc='true' to display media item description
+
 ### 4.34.11 - 15 May 2017 ###
 * Fix for newsboard template (page back causing blank tabs) 
 * Fix for listdocs shortcode (link directly to attachments)  
