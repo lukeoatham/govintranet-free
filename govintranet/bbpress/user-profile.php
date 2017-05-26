@@ -169,7 +169,7 @@ do_action( 'bbp_template_before_user_profile' );
 					if ( $directorystyle==1 ) $avstyle = " img-circle";
 					$imgsrc = get_avatar($pid, 66,'',$u->display_name);				
 					$imgsrc = str_replace(" photo", " photo ".$avstyle, $imgsrc);
-					echo "<a title='".esc_attr( $u->display_name )."' href='".site_url()."/staff/".$u->user_nicename."'>".$imgsrc."</a>";
+					echo "<a title='".esc_attr( $u->display_name )."' href='".site_url()."/staff/".$u->user_nicename."/'>".$imgsrc."</a>";
 				}
 				echo "</p>";
 			}

@@ -10,6 +10,7 @@ function markDocumentLinks() {
 	jQuery('a[href$=".ppsx"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
 	jQuery('a[href$=".txt"]').addClass('txtdocument').append(' <span class="doc_type_text">(Text)</span>');
 	jQuery('a[href$=".csv"]').addClass('xlsdocument').append(' <span class="doc_type_text">(CSV)</span>');
+	jQuery('a[href$=".mp3"]').addClass('mp3document').append(' <span class="doc_type_text">(MP3)</span>');
 	jQuery('a[href^="mailto:"]').before("<span class='dashicons dashicons-email-alt'></span> ");
 	jQuery('.gallery br').remove();
 	jQuery('div.gallery').append('<div class="clearfix"></div>');

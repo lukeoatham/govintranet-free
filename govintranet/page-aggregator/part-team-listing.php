@@ -17,7 +17,7 @@
 			if ($context=='') $context="staff";
 			$icon = "user";			
 			$user_info = get_userdata($userid);
-			$userurl = site_url().'/staff/'.$user_info->user_nicename;
+			$userurl = gi_get_user_url($userid); 
 			$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
 			$avatarhtml = get_avatar($userid,66); 
 			if ($directorystyle==1){
@@ -25,7 +25,7 @@
 			} else {
 				$avatarhtml = str_replace(" photo", " photo alignleft", $avatarhtml);
 			}
-			echo "<a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+			echo "<a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 			if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 			if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 			if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
@@ -70,7 +70,7 @@
 		if ($context=='') $context="staff";
 		$icon = "user";			
 		$user_info = get_userdata($userid);
-		$userurl = site_url().'/staff/'.$user_info->user_nicename;
+		$userurl = gi_get_user_url($userid); 
 		$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
 		$avatarhtml = get_avatar($userid,66);
 		if ($directorystyle==1):
@@ -78,7 +78,7 @@
 		else:
 			$avatarhtml = str_replace(" photo", " photo alignleft", $avatarhtml);
 		endif;
-		echo "<a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+		echo "<a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 		if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 		if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 		if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";

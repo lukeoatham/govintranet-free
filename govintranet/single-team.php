@@ -117,7 +117,25 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 			<div class="col-md-4 col-sm-12" id="sidebar">
 				<?php
 				wp_reset_postdata();
-				$teams = get_posts('post_type=team&posts_per_page=-1&orderby=menu_order , title&order=ASC&post_parent='.$post->ID);
+				
+				$parents = array();
+				$pid = $post->ID;
+				while ( $pid ){
+					$parents[] = $pid;
+					$newp = get_post($pid);
+					$pid = $newp->post_parent;
+				}
+				
+				
+				$teams = get_posts(array(
+					'post_type'=>'team',
+					'posts_per_page'=>-1,
+					'orderby'=>'menu_order , title',
+					'order'=>'ASC',
+					'post_parent'=>$post->ID
+					)
+					);
+					
 				if ($teams) {
 					$teamstr = '';
 			  		foreach ((array)$teams as $team ) {
@@ -141,14 +159,9 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 					if ($context=='') $context="staff";
 					$icon = "user";			
 					$user_info = get_userdata($userid);
-					$userurl = site_url().'/users/'.$user_info->user_nicename;
+					$userurl = gi_get_user_url($userid);
 					$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
 					$staffdirectory = get_option('options_module_staff_directory');
-					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-						$userurl=str_replace('/users', '/members', $userurl); }
-					elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-						$userurl=str_replace('/users', '/staff', $userurl);
-					}
 					$avstyle="";
 					if ( $directorystyle==1 ) $avstyle = " img-circle";
 					$avatarhtml = get_avatar($userid ,66);
@@ -200,7 +213,15 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 					echo "<div class='col-sm-12'>";
 					//***********************************************************************************************
 					//query all sub teams for this team
-			 		$term_query = get_posts('post_type=team&posts_per_page=-1&orderby=title&order=ASC&post_parent='.$post->ID);	 		
+					$term_query = get_pages(array(
+					'post_type'=>'team',
+					'posts_per_page'=>-1,
+					'orderby'=>'title',
+					'order'=>'ASC',
+					'child_of'=> $post->ID
+					)
+					);
+
 		 			$iteams = array();
 		 			$iteams[] = $post->ID;
 		 			$multipleteams = false;
@@ -243,13 +264,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						if ($context=='') $context="staff";
 						$icon = "user";			
 						$user_info = get_userdata($userid);
-						$userurl = site_url().'/users/'.$user_info->user_nicename;
-						$staffdirectory = get_option('options_module_staff_directory');
-						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-							$userurl=str_replace('/users', '/members', $userurl); }
-						elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-							$userurl=str_replace('/users', '/staff', $userurl);
-						}
+						$userurl = gi_get_user_url($userid);
 						$displayname = get_user_meta($userid ,'last_name',true ).", ".get_user_meta($userid ,'first_name',true );		
 						$avstyle="";
 						if ( $directorystyle==1 ) $avstyle = " img-circle";
