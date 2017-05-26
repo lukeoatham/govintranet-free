@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.34.12.2 - 26 May 2017 ###
+* Fix news expiry ACF conditional fields (tommarshall)
+
 ### 4.34.12.1 - 23 May 2017 ###
 * User profile breadcrumb fix (tommarshall)
 
