@@ -5137,9 +5137,11 @@ if( function_exists('acf_add_local_field_group') ){
 					'required' => 1,
 					'conditional_logic' => array (
 						array (
-							'field' => 'field_536ec2de62b52',
-							'operator' => '==',
-							'value' => '1',
+							array (
+								'field' => 'field_536ec2de62b52',
+								'operator' => '==',
+								'value' => '1',
+							),
 						),
 					),
 					'display_format' => 'd/m/Y',
@@ -5156,9 +5158,11 @@ if( function_exists('acf_add_local_field_group') ){
 					'required' => 1,
 					'conditional_logic' => array (
 						array (
-							'field' => 'field_536ec2de62b52',
-							'operator' => '==',
-							'value' => '1',
+							array (
+								'field' => 'field_536ec2de62b52',
+								'operator' => '==',
+								'value' => '1',
+							),
 						),
 					),
 					'default_value' => '',
