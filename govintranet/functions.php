@@ -11717,7 +11717,7 @@ function gi_get_user_url( $user_id ){
 		$profile_url = site_url() . "/members/" . $user_nicename . "/profile/";
 	} elseif ( function_exists('bbp_user_profile_url') && get_option('options_module_staff_directory') ){
 		// BBPRESS
-		$profile_url = bbp_user_profile_url( $user_id );
+		$profile_url = bbp_get_user_profile_url( $user_id );
 	} else {
 		$profile_url = get_author_posts_url( $user_id, $user_nicename );
 	}
