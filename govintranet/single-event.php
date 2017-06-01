@@ -108,8 +108,9 @@ $mainid=$post->ID;
 		echo "<img class='img img-responsive' src='{$image_uri[0]}'  alt='".esc_attr(get_the_title())."' />";
 		echo wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 	}
+	$map ='';
 	
-	$map= get_field('event_map_location');
+	if ( function_exists('get_field') ) $map = get_field('event_map_location');
 	$text = esc_attr(get_post_meta($post->ID,'event_location',true));
 	
 	if (isset($map['lat'])):

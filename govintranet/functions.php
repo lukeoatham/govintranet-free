@@ -10961,6 +10961,20 @@ function govintranet_custom_styles() {
 	$giscss = get_option('options_custom_css_code');
 	if ( $giscss ) $custom_css.= $giscss;
 
+	if ( function_exists('bp_core_get_userlink') ):
+		$custom_css.='
+		#buddypress input[type=submit], #buddypress .button, .bbpress .button, #loginform .button-primary {
+		background: '.$gishex.' !important; 
+		border: 1px solid '.$gishex.' !important;	
+		';
+	
+		$custom_css.='
+		#edit-personal-li { display: none; }
+		.bp-widget.base { display: none; }
+		#change-avatar-personal-li { display: none; }
+		';
+	endif;
+
 	$styleurl = get_template_directory_uri() . '/css/custom.css';
 	wp_enqueue_style( 'govintranet_custom_styles', $styleurl );
 	wp_add_inline_style('govintranet_custom_styles' , $custom_css);	
