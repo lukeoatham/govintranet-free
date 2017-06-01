@@ -1,6 +1,6 @@
 <?php
 global $post;
-$current_attachments = get_field('document_attachments');
+if ( function_exists('get_field')) $current_attachments = get_field('document_attachments');
 if ( is_array($current_attachments) ) {
 	$html = '';
 	foreach ($current_attachments as $ca){

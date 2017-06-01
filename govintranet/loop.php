@@ -52,26 +52,14 @@
 		global $foundstaff;
 		$foundstaff++;
 		
-		$user_info = get_userdata($userid);
-		$userurl = site_url().'/staff/'.$user_info->user_nicename;
+		$user_info = get_userdata($post->user_id);
+		$userurl = gi_get_user_url($post->user_id);
 		$displayname = get_user_meta($post->user_id ,'first_name',true )." ".get_user_meta($post->user_id ,'last_name',true );		
 		$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 		$avstyle="";
-		if ( $directorystyle==1 ) $avstyle = " img-circle";
+		if ( $directorystyle == 1 ) $avstyle = " img-circle";
 		$image_url = get_avatar($post->user_id ,100);
 		$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
-		$userurl = get_author_posts_url( $post->user_id ); 
-		$gis = "options_forum_support";
-		$forumsupport = get_option($gis);
-		$userid = $post->user_id;
-		$staffdirectory = get_option('options_module_staff_directory');
-		if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-			$userurl=str_replace('/author', '/members', $userurl); }
-		elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-			$userurl=str_replace('/author', '/staff', $userurl); } 
-		elseif (function_exists('bbp_get_displayed_user_field') ){ // if using bbPress - link to the staff page
-			$userurl=str_replace('/author', '/users', $userurl);
-		}
 	} else {
 		$userurl = get_permalink();
 	}

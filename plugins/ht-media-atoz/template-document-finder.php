@@ -31,7 +31,8 @@ $custom_css = "
 .pager li.active a { background: {$gishex}; color: {$headtext}; }
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover { background-color: {$gishex}; color: {$headtext}; }
 ";
-$context = ( get_field('gi_docfinder_context_text') ? esc_html(get_field('gi_docfinder_context_text')) : "View in context" );
+$context = '';
+if ( function_exists('get_field')) $context = ( get_field('gi_docfinder_context_text') ? esc_html(get_field('gi_docfinder_context_text')) : "View in context" );
 wp_register_style( 'ht-media-atoz', plugin_dir_url("/") ."ht-media-atoz/css/ht-media-atoz.css" );
 wp_enqueue_style('ht-media-atoz');
 wp_add_inline_style('ht-media-atoz' , $custom_css);	

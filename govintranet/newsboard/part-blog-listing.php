@@ -53,17 +53,8 @@ echo "<span class='listglyph'>".get_the_date()."</span>&nbsp;";
 $gis = "options_forum_support";
 $forumsupport = get_option($gis);
 if ($forumsupport){	
-   	$authorlink = "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>";
-	if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-		$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
-	} 
-	if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
-		echo "<a href='";
-		bbp_user_profile_url( $post->post_author );
-		echo "'>";
-	} else {
-		echo $authorlink;	
-	}
+   	$authorlink = gi_get_user_url( $post->post_author );
+	echo "<a href='" . $authorlink . "'>";
 	$user_info = get_userdata($post->post_author);
 	$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
 	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
@@ -73,13 +64,7 @@ if ($forumsupport){
 	$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
 	echo $image_url;
 	echo "</a>&nbsp;";
-	if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
-		echo "<a href='";
-		bbp_user_profile_url( $post->post_author );
-		echo "'>";
-	} else {
-		echo $authorlink;	
-	}
+	echo "<a href='" . $authorlink . "'>";
 	$auth = get_the_author();
 	echo "<span class='listglyph'>".$auth."</span>";
 	echo "</a> ";

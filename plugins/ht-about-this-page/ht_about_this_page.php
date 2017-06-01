@@ -96,42 +96,21 @@ class htAboutThisPage extends WP_Widget {
 			if ($show_author=='on'){
 				global $post;
 				$user = get_userdata($post->post_author);
-				
-				$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
-				$gis = "options_forum_support";
-				$forumsupport = get_option($gis);
-				$staffdirectory = get_option('options_module_staff_directory');
-				if ($forumsupport){	
-					$authorlink = "<a>";
-					if ( is_object($user) ) $authorlink = "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>";
-					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-						$authorlink = "<a href='".site_url()."/members/" . $user->user_nicename . "/'>";
-						echo $authorlink;	
-					} elseif (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
-						echo "<a href='";
-						bbp_user_profile_url( $post->post_author );
-						echo "'>";
-					}
-					$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-					$avstyle = "";
-					if ( $directorystyle==1 ) $avstyle = " img-circle";
-					$image_url = get_avatar($post->post_author , 32, '', $displayname);
-					if ( $avstyle ) $image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
-					echo $image_url;
-					echo "</a>&nbsp;";
-					if (function_exists('bbp_user_profile_url') && $staffdirectory ){ // if using bbPress - link to the staff page
-						echo "<a href='";
-						bbp_user_profile_url( $post->post_author );
-						echo "'>";
-					} else {
-						echo $authorlink;	
-					}
-					$auth = get_the_author();
-					echo "<span class='listglyph'>".$auth."</span>";
-					echo "</a> ";
-				} else {
-				    echo "<a href='" . get_author_posts_url( $post->post_author, $user->user_nicename ) . "'>" . $displayname . "</a>";  
-				}
+				$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );	
+				$profile_url = gi_get_user_url($userid); 
+				$authorlink = "<a href='" . $profile_url . "'>";
+				echo $authorlink; 
+				$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+				$avstyle = "";
+				if ( $directorystyle==1 ) $avstyle = " img-circle";
+				$image_url = get_avatar($post->post_author , 32, '', $displayname);
+				if ( $avstyle ) $image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
+				echo $image_url;
+				echo "</a>&nbsp;";
+				echo "<a href='" . $profile_url . "'>";
+				$auth = get_the_author();
+				echo "<span class='listglyph'>".$auth."</span>";
+				echo "</a> ";
 			}
 
 			echo "</div>";
@@ -146,7 +125,6 @@ class htAboutThisPage extends WP_Widget {
 		$instance['show_modified_date'] = strip_tags($new_instance['show_modified_date']);
 		$instance['show_published_date'] = strip_tags($new_instance['show_published_date']);
 		$instance['show_author'] = strip_tags($new_instance['show_author']);
-
        return $instance;
     }
 
@@ -178,5 +156,3 @@ class htAboutThisPage extends WP_Widget {
 }
 
 add_action('widgets_init', create_function('', 'return register_widget("htAboutThisPage");'));
-
-?>

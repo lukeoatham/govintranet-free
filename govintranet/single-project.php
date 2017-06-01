@@ -201,14 +201,9 @@ if ( have_posts() ) while ( have_posts() ) :
 					if ($context=='') $context="staff";
 					$icon = "user";			
 					$user_info = get_userdata($userid);
-					$userurl = site_url().'/users/'.$user_info->user_nicename;
+					$userurl = gi_get_user_url($userid);
 					$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
 					$staffdirectory = get_option('options_module_staff_directory');
-					if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-						$userurl=str_replace('/users', '/members', $userurl); }
-					elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-						$userurl=str_replace('/users', '/staff', $userurl);
-					}
 					$avstyle="";
 					if ( $directorystyle==1 ) $avstyle = " img-circle";
 					$avatarhtml = get_avatar($userid ,66);

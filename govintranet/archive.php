@@ -92,7 +92,8 @@ if ( isset(get_queried_object()->term_id) ) $catid = get_queried_object()->term_
 				 dynamic_sidebar('news-landing-widget-area');  
 				 endif;
 				 ?>
-				 <?php if (is_tax(array('blog-category')) || is_post_type_archive('blog')):
+				 <?php 
+				if (is_tax(array('blog-category')) || is_post_type_archive('blog')):
 					$taxonomies=array();
 					$post_type = array();
 					$taxonomies[] = 'blog-category';
@@ -111,7 +112,7 @@ if ( isset(get_queried_object()->term_id) ) $catid = get_queried_object()->term_
 						}
 						echo "</p></div>";
 					}
-				 dynamic_sidebar('blog-landing-widget-area');  
+					dynamic_sidebar('blog-landing-widget-area');  
 				 endif;
 				 ?>
 		</div>
@@ -119,4 +120,3 @@ if ( isset(get_queried_object()->term_id) ) $catid = get_queried_object()->term_
 
 <?php 
 get_footer(); 
-?>

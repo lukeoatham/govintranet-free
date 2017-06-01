@@ -169,42 +169,34 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 								$avatarhtml = get_avatar($userid,66);
 								$avatarhtml = str_replace(" photo", " photo alignleft ".$avstyle, $avatarhtml);
 								if ($fulldetails){
-									if ( function_exists('bbp_get_user_profile_url') ){
-										$profile_url = bbp_get_user_profile_url($userid); 
-									} else {
-										$profile_url = site_url()."/staff/".$user_info->user_nicename."/";
-									}
+									$profile_url = gi_get_user_url($userid); 
 									$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".$profile_url."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$profile_url."'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
-								// display team name(s)
-								$poduser = get_userdata($userid);
-								$team = get_user_meta($userid ,'user_team',true );
-								if ($team) {				
-									foreach ((array)$team as $t ) { 
-							  		    $theme = get_post($t);
-										$html.= "<a href='".get_permalink($theme->ID)."'>".govintranetpress_custom_title($theme->post_title)."</a><br>";
-							  		}
-								}  
+									// display team name(s)
+									$poduser = get_userdata($userid);
+									$team = get_user_meta($userid ,'user_team',true );
+									if ($team) {				
+										foreach ((array)$team as $t ) { 
+								  		    $theme = get_post($t);
+											$html.= "<a href='".get_permalink($theme->ID)."'>".govintranetpress_custom_title($theme->post_title)."</a><br>";
+								  		}
+									}  
+									
+									if ( get_user_meta($userid ,'user_job_title',true )) : 
+										$meta = get_user_meta($userid ,'user_job_title',true );
+										$html .= '<span class="small">'.$meta.'</span><br>';
+									endif; 
+		
 								
-								if ( get_user_meta($userid ,'user_job_title',true )) : 
-									$meta = get_user_meta($userid ,'user_job_title',true );
-									$html .= '<span class="small">'.$meta.'</span><br>';
-								endif; 
-	
-							
-								if ( get_user_meta($userid ,'user_telephone',true )) $html.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-								if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span><br>";
-								$html .= '<span class="small"><a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></span></p></div></div></div>';
-								$counter++;
-							} else {
+									if ( get_user_meta($userid ,'user_telephone',true )) $html.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+									if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span><br>";
+									$html .= '<span class="small"><a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></span></p></div></div></div>';
+									$counter++;
+								} else {
 									$avstyle="";
 									if ( $directorystyle==1 ) $avstyle = " img-circle ";
 									$avatarhtml = get_avatar($userid,66);
 									$avatarhtml = str_replace(" photo", " photo alignleft ".$avstyle, $avatarhtml);
-									if ( function_exists('bp_core_get_userlink') ){
-										$profile_url = bp_core_get_userlink($userid);
-									} else {
-										$profile_url = site_url()."/staff/".$user_info->user_nicename."/";
-									}
+									$profile_url = gi_get_user_url($userid);
 									$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='indexcard'><a href='".$profile_url."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 									// display team name(s)
 									$team = get_user_meta($userid,'user_team',true);

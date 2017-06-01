@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35 - 1 Jun 2017 ###
+* New support for BuddyPress 
+* New function to get user url 
+* Improvements to widget float alignments 
+
 ### 4.34.12.2 - 26 May 2017 ###
 * Fix news expiry ACF conditional fields (tommarshall)
 
@@ -48,9 +53,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 * Improvements to listdocs shortcode, include desc='true' to display media item description
 
 ### 4.34.11 - 15 May 2017 ###
-* Fix for newsboard template (page back causing blank tabs) 
-* Fix for listdocs shortcode (link directly to attachments)  
-* Added MP3 icon 
+* Fix for newsboard template (page back causing blank tabs)
+* Fix for listdocs shortcode (link directly to attachments)
+* Added MP3 icon
 
 ### 4.34.10 - 14 May 2017 ###
 * Fix for news expiry date 

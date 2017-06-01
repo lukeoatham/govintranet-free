@@ -131,333 +131,7 @@ function govintranet_version_check() {
 	$update_required = version_compare( $database_version, $theme_version, '<' );
 	
 	if ( $update_required ):
-		
-		$update_okay = 1;
-		$reason = '';
-		$updated_to = "";
-		
-		/************************************************
-		
-		Process any version-specific database updates
-		
-		************************************************/
-		
-		// LESS THAN 4.19 - clean up old metadata
-		
-		if ( version_compare( $database_version, "4.19", '<' ) ):
-			
-			global $wpdb;
-			
-			// Tidy old Pods meta
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_children_chapters';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_children_chapters';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_document_attachments';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_expiry_action';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_page_related_tasks';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_page_type';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_parent_guide';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_related_tasks';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_video_still';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_project';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_project_vacancies';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_related_pages';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_related_stories';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_pods_related_projects';");
-
-			//Tidy old Pods user meta
-			$wpdb->query("delete from $wpdb->usermeta where meta_key='_pods_user_line_manager';");
-			$wpdb->query("delete from $wpdb->usermeta where meta_key='_pods_user_grade';");
-			$wpdb->query("delete from $wpdb->usermeta where meta_key='_pods_user_team';");
-			
-			//Update user team meta
-			$team_meta = $wpdb->get_results("select user_id, meta_value from $wpdb->usermeta where meta_key='user_team';");
-			if ( count($team_meta) > 0 ) foreach ( $team_meta as $tm ){
-				if ( $tm->meta_value == "" ) continue;
-				$current_team = array();
-				if ( is_numeric( $tm->meta_value ) ):
-					$current_team[] = $tm->meta_value;
-				else:
-					$current_team = get_user_meta($tm->user_id,"user_team",true);
-				endif;
-				$new_team = array();
-				foreach ( $current_team as $ct ){
-					$new_team[] = (string)$ct;
-				}
-				if ( count($new_team) > 0 ){
-					$update_status = update_user_meta($tm->user_id, "user_team", $new_team, $tm->meta_value );
-				}
-			}
-			$updated_to = "4.19";
-			
-		endif;
-
-		// LESS THAN 4.19.1 - update search placeholder to use pipes instead of comma
-		
-		if ( version_compare( $database_version, "4.19.1", '<' ) ):
-			
-			$placeholder = get_option('options_search_placeholder'); //get search placeholder text and variations
-			if ( $placeholder && strpos($placeholder, ",") ){
-				$placeholder = explode(",", $placeholder);
-				$placeholder = implode("||", $placeholder);
-				update_option('options_search_placeholder', $placeholder);
-			}
-			$updated_to = "4.19.1";
-				
-		endif;
-
-		/******************************************************************
-			
-		 LESS THAN 4.19.4 
-		 
-		 - store complementary colour in prep for removal in 4.20
-		 - move homepage col 3 bottom widget items to end of homepage col 3 top in prep for new widget area 4.20
-		 
-		 ******************************************************************/
-		
-		if ( version_compare( $database_version, "4.19.4", '<' ) ):
-
-			if ( function_exists("RGBToHTML") && get_option('options_enable_automatic_complementary_colour') ):
-				$headcol = get_theme_mod('header_background', '#0b2d49');
-				$basecol = HTMLToRGB(substr($headcol,1,6));
-				$basecol = ChangeLuminosity($basecol, 33);
-				$comp = RGBToHTML($basecol); 
-				update_option('options_complementary_colour', $comp);
-			else:
-				// missed an incremental update and the color functions are no longer available so default to header colour 
-				$comp = get_option('options_complementary_colour'); 
-				if ( !$comp ) $comp = get_theme_mod('header_background', '#0b2d49');
-				update_option('options_complementary_colour', $comp);
-			endif;
-			$sidebar = get_option('sidebars_widgets');
-			$col3top = $sidebar['home-widget-area3t'];
-			if ( !$col3top ) $col3top = array();
-			$col3bot = $sidebar['home-widget-area3b'];
-			if ( $col3bot ):
-				foreach ( $col3bot as $c){
-					$col3top[] = $c;
-				}
-				$sidebar['home-widget-area3t'] = $col3top;
-				$sidebar['home-widget-area3b'] = array();
-				update_option('sidebars_widgets', $sidebar);
-			endif;
-			$updated_to = "4.19.4";
-			
-		endif;
-
-		// LESS THAN 4.20 remove complementary colour option
-		
-		if ( version_compare( $database_version, "4.20", '<' ) ):
-
-			delete_option('options_enable_automatic_complementary_colour');
-			$updated_to = "4.20";
-
-		endif;
-
-		// LESS THAN 4.27 deactivate media categories plugin, move document_type post meta to taxonomy
-
-		if ( version_compare( $database_version, "4.27", '<' ) ):
-
-			if ( is_plugin_active( '/media-categories/media-categories.php' ) ):
-				deactivate_plugins( '/media-categories/media-categories.php' ); 
-			endif;
-
-			//Update document types
-			global $wpdb;
-			$doctypes = $wpdb->get_results("select post_id, meta_value from $wpdb->postmeta where meta_key='document_type' and meta_value <> '';");
-			if ( count($doctypes) > 0 ) {
-				if ( is_taxonomy('document-type') ){
-					foreach ( $doctypes as $doc ){
-						if ( is_array($doc->meta_value) ) {
-							foreach ( $doc->meta_value as $d){
-								if ( get_the_terms($doc->post_id, 'document-type') ) {
-									$term_taxonomy_ids = wp_set_object_terms($doc->post_id, $d, 'document-type', true ); 	
-								} else {
-									$term_taxonomy_ids = wp_set_object_terms($doc->post_id, $d, 'document-type', false ); 
-								}
-								if ( is_wp_error( $term_taxonomy_ids ) ) {
-									// There was an error somewhere and the terms couldn't be set.
-									$update_okay = 0;
-									$reason = __("Document type","govintranet");
-								} else {
-									// Success! These categories were added to the post.
-									// Tidy old doc type meta
-									delete_post_meta($doc->post_id, 'document_type', $d);
-								}
-							}
-						}
-					}
-				} else {
-					// document types existed but new plugin not activated to register document type taxonomy
-					$update_okay = 0;
-					$reason = __("Activate HT Media A to Z plugin","govintranet");
-				}
-				if ( $update_okay ) $updated_to = "4.27";
-			} else {
-				$updated_to = "4.27";
-			}
-
-		endif;
-
-		if ( version_compare( $database_version, "4.32", '<' ) && $update_okay ):
-
-			// Add H1 tags to existing not found text
-			
-			$search = get_option('options_search_not_found');
-			if ( $search ) update_option('options_search_not_found','<h1>'.$search.'</h1><p>'. __( 'The page that you are trying to reach doesn\'t exist. <br><br>Please go back or try searching.','govintranet') . '</p>');
-			$fof = get_option('options_page_not_found');
-			if ( $fof ) update_option('options_page_not_found','<h1>'.$fof.'</h1>');
-			
-			$updated_to = "4.32";
-
-		endif;
-
-		if ( version_compare( $database_version, "4.33", '<' ) && $update_okay ):
-
-			// Reschedule expiry cron 
-
-		    $timestamp = wp_next_scheduled( "govintranet_expiry_patrol" );
-			if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
-
-			global $wpdb;
-			$tzone = get_option('timezone_string'); 
-			date_default_timezone_set($tzone);
-			$tdate = date('Ymd');
-			
-			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='news_expiry_date' and meta_value >= '" . $tdate . "';");
-			if ( $expiry ) foreach ( $expiry as $exp ){
-				$post_id = intval($exp->post_id);
-				if ( in_array( get_post_status($post_id), array("publish","future") )){
-				    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
-			    	$exptime = date('H:i',strtotime($prev));
-				    $expdate = get_post_meta( $post_id, 'news_expiry_date',true );
-				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-					$timestamp = strtotime($expdate."T".$exptime.":00");
-					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				}
-			}
-
-			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='news_update_expiry_date' and meta_value >= '" . $tdate . "';");
-			if ( $expiry ) foreach ( $expiry as $exp ){
-				$post_id = intval($exp->post_id);
-				if ( in_array( get_post_status($post_id), array("publish","future") )){ 
-				    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
-			    	$exptime = date('H:i',strtotime($prev));
-				    $expdate = get_post_meta( $post_id, 'news_update_expiry_date',true );
-				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-					$timestamp = strtotime($expdate."T".$exptime.":00");
-					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				}
-			}
-			
-			if ( get_option('options_module_events_draft') ){
-
-				$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='event_end_date' and meta_value >= '" . $tdate . "';");
-				if ( $expiry ) foreach ( $expiry as $exp ){
-					$post_id = intval($exp->post_id);
-					if ( in_array( get_post_status($post_id), array("publish","future") ) ){
-					    $prev = get_post_meta( $post_id, 'event_end_time',true );
-				    	$exptime = date('H:i',strtotime($prev));
-					    $expdate = get_post_meta( $post_id, 'event_end_date',true );
-					    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-						if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-						$timestamp = strtotime($expdate."T".$exptime.":00");
-						wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-					}
-				}
-
-			}
-			
-			$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='vacancy_closing_date' and meta_value >= '" . $tdate . "';");
-			if ( $expiry ) foreach ( $expiry as $exp ){
-				$post_id = intval($exp->post_id);
-				if ( in_array( get_post_status($post_id), array("publish","future") ) ){
-				    $prev = get_post_meta( $post_id, 'vacancy_closing_time',true );
-			    	$exptime = date('H:i',strtotime($prev));
-				    $expdate = get_post_meta( $post_id, 'vacancy_closing_date',true );
-				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-					$timestamp = strtotime($expdate."T".$exptime.":00");
-					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				}
-			}
-
-			$updated_to = "4.33";
-
-		endif;
-
-		if ( version_compare( $database_version, "4.33.2", '<' ) && $update_okay ):
-
-			// Reschedule expiry cron 
-
-		    $timestamp = wp_next_scheduled( "govintranet_expiry_patrol" );
-			if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
-
-			$updated_to = "4.33.2";
-
-		endif;
-
-		if ( version_compare( $database_version, "4.34", '<' ) && $update_okay ):
-
-			// Tidy document attachments
-			global $wpdb;
-			$blankdocs = $wpdb->get_results("select post_id from $wpdb->postmeta join $wpdb->posts on $wpdb->posts.ID = $wpdb->postmeta.post_id where meta_key = 'document_attachments' and meta_value = 0 and post_status = 'publish';");
-			if ( $blankdocs ) foreach ( $blankdocs as $b ){
-				delete_post_meta(intval($b->post_id), 'document_attachments');
-			}
-			
-			// Remove old project metadata
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='project_policy_link';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_project_policy_link';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='project_start_time';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_project_start_time';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='project_end_time';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_project_end_time';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='project_chapter_number';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_project_chapter_number';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='team_members';");
-			$wpdb->query("delete from $wpdb->postmeta where meta_key='_team_members';");
-
-			$updated_to = "4.34";
-
-		endif;
-
-		if ( version_compare( $database_version, "4.34.2", '<' ) && $update_okay ):
-
-			// Tidy forum templates
-			global $wpdb;
-			$forums = $wpdb->query("update $wpdb->postmeta set meta_value = 'bbpress/page-forum.php' where meta_key = '_wp_page_template' and meta_value = 'page-forum.php';");
-			$forums = $wpdb->query("update $wpdb->postmeta set meta_value = 'bbpress/page-forum-simple.php' where meta_key = '_wp_page_template' and meta_value = 'page-forum-simple.php';");
-			
-			// Reschedule patrol job
-		    $timestamp = wp_next_scheduled( "govintranet_expiry_patrol" );
-			if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
-
-			$updated_to = "4.34.2";
-
-		endif;
-
-		// UPDATE DATABASE VERSION
-		
-		if ( $update_okay ):
-			// Update the database version
-			update_option("govintranet_db_version", $theme_version );
-			$class = 'notice notice-info is-dismissible';
-			$message = sprintf( __( 'Updated to GovIntranet version %1$s', 'govintranet' ), $theme_version );
-			$links = __("visit <a href='http://help.govintra.net/'>GovIntranetters</a> for latest features.","govintranet");
-			printf( '<div class="%1$s"><p><strong>%2$s</strong> &raquo; %3$s</p></div>', $class, $message, $links ); 
-		else:
-			$class = 'notice notice-error is-dismissible';
-			$message = sprintf( __( 'Error updating version %2$s database to GovIntranet version %1$s', 'govintranet' ), $theme_version, $database_version );
-			if ( $updated_to ) {
-				$message.= ". " . __("Current database version: ","govintranet") . $updated_to;
-				update_option("govintranet_db_version", $updated_to );
-			}
-			if ( $reason ) $message.= "[" . $reason . "]";
-			printf( '<div class="%1$s"><p><strong>%2$s</strong></p></div>', $class, $message ); 
-		endif;
-		
+		require get_parent_theme_file_path( '/inc/theme-update.php' );
 	endif;
 
 }
@@ -723,7 +397,7 @@ function govintranet_widgets_init() {
 		'name' => __( 'Homepage first column', 'govintranet' ),
 		'id' => 'home-widget-area1',
 		'description' => __( 'Homepage 1st column', 'govintranet' ),
-		'before_widget' => '<div class="category-block">',
+		'before_widget' => '<div class="category-block clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
@@ -732,7 +406,7 @@ function govintranet_widgets_init() {
 		'name' => __( 'Homepage hero area', 'govintranet' ),
 		'id' => 'home-widget-area-hero',
 		'description' => __( 'Homepage hero area', 'govintranet' ),
-		'before_widget' => '<div class="category-block">',
+		'before_widget' => '<div class="category-block clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
@@ -741,7 +415,7 @@ function govintranet_widgets_init() {
 		'name' => __( 'Homepage second column', 'govintranet' ),
 		'id' => 'home-widget-area2',
 		'description' => __( 'Homepage second column', 'govintranet' ),
-		'before_widget' => '<div class="category-block">',
+		'before_widget' => '<div class="category-block clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
@@ -750,7 +424,7 @@ function govintranet_widgets_init() {
 		'name' => __( 'Homepage third column', 'govintranet' ),
 		'id' => 'home-widget-area3t',
 		'description' => __( 'Homepage third column top', 'govintranet' ),
-		'before_widget' => '<div class="category-block">',
+		'before_widget' => '<div class="category-block clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
@@ -766,7 +440,7 @@ function govintranet_widgets_init() {
 		'name' => __( 'Left footer', 'govintranet' ),
 		'id' => 'first-footer-widget-area',
 		'description' => __( 'Left footer widget area', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
@@ -775,7 +449,7 @@ function govintranet_widgets_init() {
 		'name' => __( 'Right footer 1', 'govintranet' ),
 		'id' => 'right1-footer-widget-area',
 		'description' => __( 'The 1st right footer widget area', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
@@ -784,79 +458,79 @@ function govintranet_widgets_init() {
 		'name' => __( 'Right footer 2', 'govintranet' ),
 		'id' => 'right2-footer-widget-area',
 		'description' => __( 'The 2nd right footer widget area', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-	register_sidebar( array(
+	if ( get_option("options_module_tasks") ) register_sidebar( array(
 		'name' => __( 'How do I page', 'govintranet' ),
 		'id' => 'tasklanding-widget-area',
 		'description' => __( 'How do I page', 'govintranet' ),
-		'before_widget' => '<div class="category-block">',
+		'before_widget' => '<div class="category-block clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-	register_sidebar( array(
+	if ( get_option("options_module_tasks") ) register_sidebar( array(
 		'name' => __( 'Tasks sidebar', 'govintranet' ),
 		'id' => 'task-widget-area',
 		'description' => __( 'Tasks widget area, appears on individual tasks', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-	register_sidebar( array(
+	if ( get_option("options_module_news") ) register_sidebar( array(
 		'name' => __( 'News landing page', 'govintranet' ),
 		'id' => 'newslanding-widget-area',
 		'description' => __( 'The right-hand col on the news page', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );	
-	register_sidebar( array(
+	if ( get_option("options_module_news") ) register_sidebar( array(
 		'name' => __( 'News sidebar', 'govintranet' ),
 		'id' => 'news-widget-area',
 		'description' => __( 'News widget area, appears on individual news and news updtes', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-	register_sidebar( array(
+	if ( get_option("options_module_blog") ) register_sidebar( array(
 		'name' => __( 'Blog landing page', 'govintranet' ),
 		'id' => 'bloglanding-widget-area',
 		'description' => __( 'Blog landing page widget area', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-	register_sidebar( array(
+	if ( get_option("options_module_blog") ) register_sidebar( array(
 		'name' => __( 'Blog sidebar', 'govintranet' ),
 		'id' => 'blog-widget-area',
 		'description' => __( 'Blog posts widget area, appears on individual blog posts', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-	register_sidebar( array(
+	if ( get_option("options_module_events") ) register_sidebar( array(
 		'name' => __( 'Events landing page', 'govintranet' ),
 		'id' => 'eventslanding-widget-area',
 		'description' => __( 'Events landing page widget area', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	) );
-	register_sidebar( array(
+	if ( get_option("options_module_events") ) register_sidebar( array(
 		'name' => __( 'Events sidebar', 'govintranet' ),
 		'id' => 'events-widget-area',
 		'description' => __( 'Events posts widget area, appears on individual events', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
@@ -865,7 +539,7 @@ function govintranet_widgets_init() {
 		'name' => __( 'Search results page', 'govintranet' ),
 		'id' => 'serp-widget-area',
 		'description' => __( 'Search results page widget area', 'govintranet' ),
-		'before_widget' => '<div class="widget-box">',
+		'before_widget' => '<div class="widget-box clearfix">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
@@ -911,6 +585,9 @@ add_action( 'widgets_init', 'govintranet_remove_recent_comments_style' );
 // check jQuery is available
 
 function enqueueThemeScripts() {
+	
+	wp_enqueue_style( 'govintranet-css', get_stylesheet_uri() );	
+	
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-effects-core' );
@@ -1214,9 +891,11 @@ function get_terms_by_media_type( $taxonomies, $post_types ) {
 
 }
 
-if ( current_user_can('level_0') && !current_user_can('level_1') ){
+if ( !current_user_can('edit_posts') ){
 	add_action( 'admin_menu', 'my_remove_menu_pages' );
-	add_filter('show_admin_bar', '__return_false');
+	if ( ! function_exists('bp_core_get_userlink') ) {
+		add_filter('show_admin_bar', '__return_false'); 
+	}
 	function my_remove_menu_pages() {
 	    remove_menu_page('edit.php?post_type=incsub_wiki');  
 	    remove_menu_page('video-user-manuals/plugin.php');  
@@ -4616,7 +4295,7 @@ if( function_exists('acf_add_local_field_group') ){
 					'prefix' => '',
 					'type' => 'text',
 					'instructions' => '',
-					'required' => 0,
+					'required' => 1,
 					'conditional_logic' => 0,
 					'default_value' => '',
 					'placeholder' => '',
@@ -11031,15 +10710,7 @@ function govintranet_loginout_menu_link( $menu ) {
     if ( get_option('options_show_login_logout') ) $menu = "<li>".$loginout."</li>". $menu;
     if ( is_user_logged_in() && get_option("options_show_my_profile", false) ) {
 	    $current_user = wp_get_current_user();
-		$userurl = get_author_posts_url( $current_user->ID ); 
-		$staffdirectory = get_option('options_module_staff_directory');
-		if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-			$userurl=str_replace('/author', '/members', $userurl); }
-		elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-			$userurl=str_replace('/author', '/staff', $userurl); }
-		elseif (function_exists('bbp_get_displayed_user_field')  ){ // if using bbPress - link to the staff page
-			$userurl=str_replace('/author', '/users', $userurl);
-		}	    
+		$userurl = gi_get_user_url( $current_user->ID ); 
 	    $menu = '<li id="ht_my_profile" class=menu-item><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>' . $menu;
     }    
     return $menu;
@@ -11289,6 +10960,20 @@ function govintranet_custom_styles() {
 	
 	$giscss = get_option('options_custom_css_code');
 	if ( $giscss ) $custom_css.= $giscss;
+
+	if ( function_exists('bp_core_get_userlink') ):
+		$custom_css.='
+		#buddypress input[type=submit], #buddypress .button, .bbpress .button, #loginform .button-primary {
+		background: '.$gishex.' !important; 
+		border: 1px solid '.$gishex.' !important;	
+		';
+	
+		$custom_css.='
+		#edit-personal-li { display: none; }
+		.bp-widget.base { display: none; }
+		#change-avatar-personal-li { display: none; }
+		';
+	endif;
 
 	$styleurl = get_template_directory_uri() . '/css/custom.css';
 	wp_enqueue_style( 'govintranet_custom_styles', $styleurl );
@@ -11776,6 +11461,12 @@ function govintranet_default_content( $post_content, $post ) {
 }
 add_filter( 'default_content', 'govintranet_default_content', 10, 2 );
 
+/**************************************************
+*
+* Format phone number links
+*
+***************************************************/
+
 function govintranet_get_call_permalink( $callno, $protocol='tel:' ) {
 	$callno = str_replace(" ", "",  $callno );
 	$callno = preg_replace( "/\(.*\)/", "", $callno );
@@ -11789,3 +11480,249 @@ function govintranet_get_call_permalink( $callno, $protocol='tel:' ) {
 	return $protocol . $callno;
 
 }
+
+/**************************************************
+*
+* Filters to handle custom profile cover images
+*
+***************************************************/
+
+function govintranet_cover_image_css( $settings = array() ) {
+    /**
+     * If you are using a child theme, use bp-child-css
+     * as the theme handel
+     */
+    $theme_handle = 'bp-parent-css';
+
+    $settings['theme_handle'] = $theme_handle;
+
+    /**
+     * Then you'll probably also need to use your own callback function
+     * @see the previous snippet
+     */
+     $settings['callback'] = 'govintranet_theme_cover_image';
+
+    return $settings;
+}
+
+if ( function_exists('bp_core_get_userlink') ){
+	add_filter( 'bp_before_xprofile_cover_image_settings_parse_args', 'govintranet_cover_image_css', 10, 1 );
+	add_filter( 'bp_before_groups_cover_image_settings_parse_args', 'govintranet_cover_image_css', 10, 1 );
+}
+
+function govintranet_theme_cover_image( $params = array() ) {
+	if ( empty( $params ) ) {
+		return;
+	}
+
+	// Avatar height - padding - 1/2 avatar height.
+	$avatar_offset = $params['height'] - 5 - round( (int) bp_core_avatar_full_height() / 2 );
+
+	// Header content offset + spacing.
+	$top_offset  = bp_core_avatar_full_height() - 10;
+	$left_offset = bp_core_avatar_full_width() + 20;
+
+	$cover_image = ( !empty( $params['cover_image'] ) ) ? 'background-image: url(' . $params['cover_image'] . ');' : '';
+
+	$hide_avatar_style = '';
+
+	// Adjust the cover image header, in case avatars are completely disabled.
+	if ( ! buddypress()->avatar->show_avatars ) {
+		$hide_avatar_style = '
+			#buddypress #item-header-cover-image #item-header-avatar {
+				display:  none;
+			}
+		';
+
+		if ( bp_is_user() ) {
+			$hide_avatar_style = '
+				#buddypress #item-header-cover-image #item-header-avatar a {
+					display: block;
+					height: ' . $top_offset . 'px;
+					margin: 0 15px 19px 0;
+				}
+
+				#buddypress div#item-header #item-header-cover-image #item-header-content {
+					margin-left: auto;
+				}
+			';
+		}
+	}
+
+	return '
+		/* Cover image */
+		#buddypress #header-cover-image {
+			height: ' . $params["height"] . 'px;
+			' . $cover_image . '
+		}
+
+		#buddypress #create-group-form #header-cover-image {
+			margin: 1em 0;
+			position: relative;
+		}
+
+		.bp-user #buddypress #item-header {
+			padding-top: 0;
+		}
+
+		#buddypress #item-header-cover-image #item-header-avatar {
+			margin-top: '. $avatar_offset .'px;
+			float: left;
+			overflow: visible;
+			width: auto;
+		}
+
+		#buddypress div#item-header #item-header-cover-image #item-header-content {
+			clear: both;
+			float: left;
+			margin-left: ' . $left_offset . 'px;
+			margin-top: -' . $top_offset . 'px;
+			width: auto;
+		}
+
+		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content,
+		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
+			clear: none;
+			margin-top: ' . $params["height"] . 'px;
+			margin-left: 0;
+			max-width: 50%;
+		}
+
+		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
+			max-width: 20%;
+			padding-top: 20px;
+		}
+
+		' . $hide_avatar_style . '
+
+		#buddypress div#item-header-cover-image .user-nicename a,
+		#buddypress div#item-header-cover-image .user-nicename {
+			font-size: 200%;
+			color: #fff;
+			margin: 0 0 0.6em;
+			text-rendering: optimizelegibility;
+			text-shadow: 0 0 3px rgba( 0, 0, 0, 0.8 );
+		}
+
+		#buddypress #item-header-cover-image #item-header-avatar img.avatar {
+			background: rgba( 255, 255, 255, 0.8 );
+			border: solid 2px #fff;
+		}
+
+		#buddypress #item-header-cover-image #item-header-avatar a {
+			border: 0;
+			text-decoration: none;
+		}
+
+		#buddypress #item-header-cover-image #item-buttons {
+			margin: 0 0 10px;
+			padding: 0 0 5px;
+		}
+
+		#buddypress #item-header-cover-image #item-buttons:after {
+			clear: both;
+			content: "";
+			display: table;
+		}
+
+		@media screen and (max-width: 782px) {
+			#buddypress #item-header-cover-image #item-header-avatar,
+			.bp-user #buddypress #item-header #item-header-cover-image #item-header-avatar,
+			#buddypress div#item-header #item-header-cover-image #item-header-content {
+				width: 100%;
+				text-align: center;
+			}
+
+			#buddypress #item-header-cover-image #item-header-avatar a {
+				display: inline-block;
+			}
+
+			#buddypress #item-header-cover-image #item-header-avatar img {
+				margin: 0;
+			}
+
+			#buddypress div#item-header #item-header-cover-image #item-header-content,
+			body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content,
+			body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
+				margin: 0;
+			}
+
+			body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content,
+			body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
+				max-width: 100%;
+			}
+
+			#buddypress div#item-header-cover-image h2 a,
+			#buddypress div#item-header-cover-image h2 {
+				color: inherit;
+				text-shadow: none;
+				margin: 25px 0 0;
+				font-size: 200%;
+			}
+
+			#buddypress #item-header-cover-image #item-buttons div {
+				float: none;
+				display: inline-block;
+			}
+
+			#buddypress #item-header-cover-image #item-buttons:before {
+				content: "";
+			}
+
+			#buddypress #item-header-cover-image #item-buttons {
+				margin: 5px 0;
+			}
+		}
+		div.item-list-tabs { 
+			background:'.get_theme_mod("header_background", "#0b2d49").'; 
+		}
+		div.item-list-tabs ul li a {
+			text-decoration:none;
+			color:#'.get_theme_mod("header_textcolor", "ffffff").';
+		}
+
+
+
+		
+	';
+}
+
+/**************************************************
+*
+* Add circular BuddyPress avatars
+*
+***************************************************/
+
+add_action( 'bp_get_activity_avatar', 'gi_bp_avatar' );
+function gi_bp_avatar($args){
+	if ( get_option('options_staff_directory_style') ) $args = str_replace( 'avatar ', 'avatar img-circle ', $args ); 
+	return $args;
+}
+
+/**************************************************
+*
+* Return appropriate user url
+*
+***************************************************/
+
+function gi_get_user_url( $user_id ){
+
+	if ( ! isset( $user_id ) ) return "";
+
+	$user_info = get_userdata( $user_id );
+	$user_nicename = $user_info->user_nicename;
+
+	if ( function_exists('bp_core_get_userlink') ) {
+		// BUDDYPRESS 
+		$profile_url = site_url() . "/members/" . $user_nicename . "/profile/";
+	} elseif ( function_exists('bbp_user_profile_url') && get_option('options_module_staff_directory') ){
+		// BBPRESS
+		$profile_url = bbp_get_user_profile_url( $user_id );
+	} else {
+		$profile_url = get_author_posts_url( $user_id, $user_nicename );
+	}
+	
+	return $profile_url;
+}
+
+
