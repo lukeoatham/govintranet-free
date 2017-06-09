@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.7
+Version: 4.7.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -210,6 +210,8 @@ class htFeatureNews extends WP_Widget {
 					}
 					$thistitle = $slot->post_title;
 					$thisURL=get_permalink($slot->ID); 
+					$thisdate=date(get_option('date_format'),strtotime($slot->post_date));
+					
 					$video = 0;
 					if ( has_post_format('video', $slot->ID) ):
 						$video = apply_filters('the_content', get_post_meta( $slot->ID, 'news_video_url', true));
@@ -240,12 +242,10 @@ class htFeatureNews extends WP_Widget {
 						} 
 					} 
 			
-					$thisdate= $slot->post_date;
 					$post = get_post( $slot->ID );
 					setup_postdata( $post );
 					
 					$thisexcerpt= get_the_excerpt();
-					$thisdate=date(get_option('date_format'),strtotime($thisdate));
 					$ext_icon = '';
 					if ( get_post_format($slot->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
 			
@@ -258,7 +258,7 @@ class htFeatureNews extends WP_Widget {
 		
 					if ($newsgrid[$k]=="Li"){
 						$html.= "<p>";
-						$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+						$html.= '<span class="listglyph">'.$thisdate; 
 						$html.= '</span> ';
 						$html.= " <span class='badge badge-featured'>Featured</span>";
 						if ( get_comments_number() ){
@@ -270,7 +270,7 @@ class htFeatureNews extends WP_Widget {
 					} else {
 						if ($showexcerpt == 'on') {
 							$html.= "<p>";
-							$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+							$html.= '<span class="listglyph">'.$thisdate; 
 							$html.= '</span> ';
 							$html.= " <span class='badge badge-featured'>" . __('Featured','govintranet') . "</span>";
 							if ( get_comments_number() ){
@@ -283,7 +283,7 @@ class htFeatureNews extends WP_Widget {
 							$html.= "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 						} else {
 							$html.= "<p>";
-							$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+							$html.= '<span class="listglyph">'.$thisdate; 
 							$html.= '</span> ';
 							$html.= " <span class='badge'>" . __('Featured','govintranet') . "</span>";
 							if ( get_comments_number() ){
@@ -353,6 +353,7 @@ class htFeatureNews extends WP_Widget {
 					}
 					$thistitle = get_the_title($theid);
 					$thisURL=get_permalink($theid); 
+					$thisdate=date(get_option('date_format'),strtotime($post->post_date));
 			
 					$video = 0;
 					if ( has_post_format('video', $theid) ):
@@ -384,7 +385,6 @@ class htFeatureNews extends WP_Widget {
 						} 
 					} 
 					
-					$thisdate= get_the_date(get_option('date_format')); 
 					$thisexcerpt= get_the_excerpt();
 					$ext_icon = '';
 			
@@ -398,7 +398,7 @@ class htFeatureNews extends WP_Widget {
 		
 					if ($newsgrid[$k]=="Li"){
 						$html.= "<p>";
-						$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+						$html.= '<span class="listglyph">'.$thisdate; 
 						$html.= '</span> ';
 						if ( get_comments_number() ){
 							$html.= "<a href='".$thisURL."#comments'>";
@@ -409,7 +409,7 @@ class htFeatureNews extends WP_Widget {
 					} else {
 						if ($showexcerpt == 'on') {
 							$html.= "<p>";
-							$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+							$html.= '<span class="listglyph">'.$thisdate; 
 							$html.= '</span> ';
 							if ( get_comments_number() ){
 								$html.= " <a href='".$thisURL."#comments'>";
@@ -421,7 +421,7 @@ class htFeatureNews extends WP_Widget {
 							$html.= "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
 						} else {
 							$html.= "<p>";
-							$html.= '<span class="listglyph">'.get_the_date(get_option('date_format')); 
+							$html.= '<span class="listglyph">'.$thisdate; 
 							$html.= '</span> ';
 							if ( get_comments_number() ){
 								$html.= " <a href='".$thisURL."#comments'>";
