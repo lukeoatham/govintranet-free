@@ -10895,7 +10895,7 @@ function govintranet_custom_styles() {
 	$custom_css.= "#content .widget-box { padding: .1em 0 .7em 0; font-size: .9em; background: #fff; border-top: ".$gisheight."px solid ".$giscc."; margin-top: .7em; }	";
 	$custom_css.= ".home.page .category-block h3, .page-template-page-how-do-i .category-block h3, .page-template-page-how-do-i-alt-classic .category-block h3, .page-template-page-how-do-i-alt .category-block h3  { border-top: ".$gisheight."px solid ".$giscc."; border-bottom: none; padding-top: 16px; margin-top: 16px; }";
 	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;}";
+	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;}#buddypress img.avatar {border-radius:50%;}";
 	$custom_css.= ".bbp-user-page .panel-heading {border-top: ".$gisheight."px solid ".$giscc."; }";
 	$custom_css.= ".page-template-page-news-php h1 {border-bottom: ".$gisheight."px solid ".$giscc.";} .tax-team h2 {border-bottom: ".$gisheight."px solid ".$giscc.";}";
 	$custom_css.= "#bbpress-forums li.bbp-header, #bbpress-forums li.bbp-header a { background-color:".$gishex." !important; color: ".$headtext."; }";
@@ -10961,19 +10961,11 @@ function govintranet_custom_styles() {
 	$giscss = get_option('options_custom_css_code');
 	if ( $giscss ) $custom_css.= $giscss;
 
-	if ( function_exists('bp_core_get_userlink') ):
-		$custom_css.='
-		#buddypress input[type=submit], #buddypress .button, .bbpress .button, #loginform .button-primary {
-		background: '.$gishex.' !important; 
-		border: 1px solid '.$gishex.' !important;	
-		';
-	
-		$custom_css.='
-		#edit-personal-li { display: none; }
-		.bp-widget.base { display: none; }
-		#change-avatar-personal-li { display: none; }
-		';
-	endif;
+	$custom_css.='
+	#buddypress input[type=submit], #buddypress .button {
+	background: '.$gishex.' !important; 
+	border: 1px solid '.$gishex.' !important;	
+	';
 
 	$styleurl = get_template_directory_uri() . '/css/custom.css';
 	wp_enqueue_style( 'govintranet_custom_styles', $styleurl );
@@ -11552,7 +11544,7 @@ function govintranet_theme_cover_image( $params = array() ) {
 	return '
 		/* Cover image */
 		#buddypress #header-cover-image {
-			height: ' . $params["height"] . 'px;
+			height: 350px;
 			' . $cover_image . '
 		}
 
@@ -11566,7 +11558,7 @@ function govintranet_theme_cover_image( $params = array() ) {
 		}
 
 		#buddypress #item-header-cover-image #item-header-avatar {
-			margin-top: '. $avatar_offset .'px;
+			margin-top: 275px;
 			float: left;
 			overflow: visible;
 			width: auto;
@@ -11576,7 +11568,7 @@ function govintranet_theme_cover_image( $params = array() ) {
 			clear: both;
 			float: left;
 			margin-left: ' . $left_offset . 'px;
-			margin-top: -' . $top_offset . 'px;
+			margin-top: -125px;
 			width: auto;
 		}
 

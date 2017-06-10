@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.1 - 10 Jun 2017 ###
+* Profile style updates  
+
 ### 4.35 - 1 Jun 2017 ###
 * New support for BuddyPress 
 * New function to get user url 

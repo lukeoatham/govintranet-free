@@ -2340,7 +2340,19 @@ p.activity-greeting {
 	padding:0;
 }
 
-/* NEEDS localising */
-img.avatar {
-	border-radius:50%;
+#edit-personal-li { display: none; }
+#settings-personal-li { display: none; }
+.bp-widget.base { display: none; }
+
+#change-avatar-personal-li { display: none; }
+
+.bp-screen-reader-text { margin-left: -9999px; }
+
+.bp-uploader-window label { display: block; }
+
+@media screen and (max-width: 782px){
+	#buddypress div#item-header-cover-image .user-nicename a, #buddypress div#item-header-cover-image .user-nicename{
+		color: #0a0b0c !important;
+		text-shadow: none !important; 
+	}
 }

@@ -143,7 +143,7 @@
 				echo "<p><i class='dashicons dashicons-arrow-up-alt2'></i></p>";
 			}
 			echo "<p><strong>";
-			bbp_displayed_user_field( 'display_name' );
+			bp_displayed_user_fullname();
 			echo "<br>".get_user_meta($user_id,'user_job_title',true);
 			echo "</strong></p>";
 			$q = "select meta_value as ID, user_id, display_name from $wpdb->users join $wpdb->usermeta on $wpdb->users.ID = $wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='user_line_manager' and $wpdb->usermeta.meta_value = ".$user_id;
