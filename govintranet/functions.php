@@ -10962,7 +10962,7 @@ function govintranet_custom_styles() {
 	if ( $giscss ) $custom_css.= $giscss;
 
 	$custom_css.='
-	#buddypress input[type=submit], #buddypress .button {
+	#buddypress input[type=submit], #buddypress .button, body:not(.bbp-user-edit).bbpress .button, #loginform .button-primary {
 	background: '.$gishex.' !important; 
 	border: 1px solid '.$gishex.' !important;	
 	';
