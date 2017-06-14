@@ -159,7 +159,7 @@ class htIntraverts extends WP_Widget {
 						'required' => 1,
 						'conditional_logic' => array (
 							array (
-								'rule_rule_rule_0' => array (
+								array (
 									'field' => 'field_5494c1c796832',
 									'operator' => '==',
 									'value' => '1',
@@ -180,7 +180,7 @@ class htIntraverts extends WP_Widget {
 						'required' => 1,
 						'conditional_logic' => array (
 							array (
-								'rule_rule_rule_0' => array (
+								array (
 									'field' => 'field_5494c1c796832',
 									'operator' => '==',
 									'value' => '1',
@@ -239,7 +239,7 @@ class htIntraverts extends WP_Widget {
 						'required' => 0,
 						'conditional_logic' => array (
 							array (
-								'rule_rule_rule_0' => array (
+								array (
 									'field' => 'field_5494c18696831',
 									'operator' => '==',
 									'value' => '1',
@@ -267,7 +267,7 @@ class htIntraverts extends WP_Widget {
 						'required' => 0,
 						'conditional_logic' => array (
 							array (
-								'rule_rule_rule_0' => array (
+								array (
 									'field' => 'field_5494c18696831',
 									'operator' => '==',
 									'value' => '1',
