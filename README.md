@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.3 - 16 Jun 2017 ###
+* Theme update checker fix 
+
 ### 4.35.2 - 11 Jun 2017 ###
 * Profile style updates  
 

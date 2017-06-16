@@ -137,8 +137,8 @@ function govintranet_version_check() {
 }
 add_action("admin_notices", "govintranet_version_check");
 
-add_action( 'govintranet_theme_check', 'govintranet_theme_check_cron' );
-function govintranet_theme_check_cron(){
+add_action("init","govintranet_theme_check");
+function govintranet_theme_check(){
 	//Initialize the update checker.
 	require 'theme-updates/theme-update-checker.php';
 	$latest_feed = 'http://demo.govintra.net/auto-updates/info.json';
