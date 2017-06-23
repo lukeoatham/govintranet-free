@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.3.1 - 19 Jun 2017 ###
+* Project template wording change  
+
 ### 4.35.3 - 16 Jun 2017 ###
 * Theme update checker fix 
 

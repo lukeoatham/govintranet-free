@@ -51,7 +51,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			$show = ''; 
 			if ( isset($_GET['show']) ) $show = $_GET['show'];
 			if ( $show != "all" ):
-				echo '<p><a href="?show=all">' . __("Show past projects","govintranet") . '</a></p>';
+				echo '<p><a href="?show=all">' . __("Show all projects","govintranet") . '</a></p>';
 			else:
 				echo '<p><a href="?show=">' . __("Only show open projects","govintranet") . '</a></p>';
 			endif;
