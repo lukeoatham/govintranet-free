@@ -56,7 +56,7 @@ get_header(); ?>
 		<div id="staff-search" class="well well-sm">
 			<div class="input-group">
 		    	 <input type="text" class="form-control" placeholder="<?php _e('Search for a name, job title, skills, phone number...' , 'govintranet'); ?>" name="q" id="s2" value="<?php echo $sw;?>">
-				 <label for="searchbutton" class="sr-only"><?php _e('Search' , 'govingtranet'); ?></label>	 
+				 <label for="searchbutton" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>	 
 				 <span class="input-group-btn">
 					 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 				 </span>

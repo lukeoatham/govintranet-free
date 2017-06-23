@@ -11,6 +11,17 @@ function markDocumentLinks() {
 	jQuery('a[href$=".txt"]').addClass('txtdocument').append(' <span class="doc_type_text">(Text)</span>');
 	jQuery('a[href$=".csv"]').addClass('xlsdocument').append(' <span class="doc_type_text">(CSV)</span>');
 	jQuery('a[href$=".mp3"]').addClass('mp3document').append(' <span class="doc_type_text">(MP3)</span>');
+
+	jQuery('a[href$=".odt"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+	jQuery('a[href$=".fodt"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+	jQuery('a[href$=".odp"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+	jQuery('a[href$=".fodp"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+	jQuery('a[href$=".ods"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+	jQuery('a[href$=".fods"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+	jQuery('a[href$=".odg"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+	jQuery('a[href$=".fodg"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+	jQuery('a[href$=".odf"]').addClass('opendocument').append(' <span class="doc_type_text">(OpenDocument)</span>');
+
 	jQuery('a[href^="mailto:"]').before("<span class='dashicons dashicons-email-alt'></span> ");
 	jQuery('.gallery br').remove();
 	jQuery('div.gallery').append('<div class="clearfix"></div>');
@@ -43,6 +54,24 @@ function gaTrackDownloadableFiles() {
 			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
 			} else if (links[i].href.indexOf('.png') != "-1") {
 			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.odt') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.fodt') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.odp') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.fodp') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.ods') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.fods') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.odg') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.fodg') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
+			} else if (links[i].href.indexOf('.odf') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: _gaq.push(['_trackPageview', '"+links[i].href+"']);");
 			}           
 		}
 		for(var i = 0; i < xlinks.length; i++) {
@@ -69,6 +98,26 @@ function gaTrackDownloadableFiles() {
 			} else if (links[i].href.indexOf('.gif') != "-1") {
 			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
 			} else if (links[i].href.indexOf('.png') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.png') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.odt') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.fodt') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.odp') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.fodp') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.ods') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.fods') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.odg') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.fodg') != "-1") {
+			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
+			} else if (links[i].href.indexOf('.odf') != "-1") {
 			   jQuery(links[i]).attr("onclick","javascript: ga('send', 'pageview', '"+links[i].href+"');");
 			}           
 		}

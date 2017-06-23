@@ -119,7 +119,33 @@ do_action( 'bbp_template_before_user_profile' );
 			  echo "<h3 class='contacthead'>" . _x('Key skills and experience' , 'Job skills' , 'govintranet'). "</h3>";
 			  echo wpautop($skills);
 			}
-			$poduser = get_user_meta($user_id,'user_team',true);
+
+			if ( taxonomy_exists('building_location') ){
+				$location = get_user_meta($user_id,'user_location',true);
+				$building = get_user_meta($user_id,'user_floor_room',true);
+				if ($location || $building){
+				  	echo "<h3 class='contacthead'>" . _x('Location' , 'Building or location' , 'govintranet'). "</h3>";
+				  	if ($location) foreach ( $location as $l ){
+					  	$location_term = get_term($l, 'building_location');
+					  	if ( $location_term ) {
+					  		$location_name = $location_term->name;
+					  		echo '<p>' . $location_name . '</p>';
+					  	}
+				  	}
+				  	if ($building){
+					  	echo "<p>" . __("Floor/room","govintranet") . ": " . esc_html($building) . "</p>";
+				  	}
+				}
+			}
+
+			$group_function = get_user_meta($user_id,'user_group_function',true);
+			if ($group_function){
+			  	echo "<h3 class='contacthead'>" . __('Group function' , 'govintranet'). "</h3>";
+			  	if ($group_function) foreach ( $group_function as $gf ){
+			  		echo '<p>' . $gf . '</p>';
+			  	}
+			}
+
 		endif;
 
 		?>

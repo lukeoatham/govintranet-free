@@ -38,6 +38,12 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.4 - 23 Jun 2017 ###
+* User profile styling changes 
+* Preparation for locations in user profiles 
+* Support for OpenDocument attachments   
+* Bug fix on team template search box 
+
 ### 4.35.3.1 - 19 Jun 2017 ###
 * Project template wording change  
 

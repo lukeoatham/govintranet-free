@@ -3,6 +3,7 @@
  * The template for displaying team pages.
  *
  */
+ 
 get_header(); 
 $directory = get_option('options_module_staff_directory'); 
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
@@ -59,7 +60,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 				<div class="col-sm-12 well well-sm" id="staff-search">
 					<div >
 						<div class="col-sm-8">
-							<form class="form-horizontal" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo "/"; } else { echo site_url( '/search-staff/' ); } ?>">
+							<form class="form-horizontal" id="searchform2" name="searchform2" action="<?php if ( function_exists('relevanssi_do_query') ) { echo site_url("/"); } else { echo site_url( '/search-staff/' ); } ?>">
 								<div class="input-group">
 								<label for="s2" class="sr-only"><?php _e('Search staff' , 'govintranet'); ?></label>
 								<input type="text" class="form-control pull-left" placeholder="<?php _e('Name, job title, skills, team, number...' , 'govintranet'); ?>" name="<?php if ( function_exists('relevanssi_do_query') ) { echo "s"; } else { echo "q"; } ?>" id="s2">
