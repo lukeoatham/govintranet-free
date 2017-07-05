@@ -97,7 +97,7 @@ class htAboutThisPage extends WP_Widget {
 				global $post;
 				$user = get_userdata($post->post_author);
 				$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );	
-				$profile_url = gi_get_user_url($userid); 
+				$profile_url = gi_get_user_url($post->post_author); 
 				$authorlink = "<a href='" . $profile_url . "'>";
 				echo $authorlink; 
 				$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles

@@ -891,7 +891,7 @@ function get_terms_by_media_type( $taxonomies, $post_types ) {
 
 }
 
-if ( !current_user_can('edit_posts') ){
+if ( !current_user_can('delete_posts') ){
 	add_action( 'admin_menu', 'my_remove_menu_pages' );
 	if ( ! function_exists('bp_core_get_userlink') ) {
 		add_filter('show_admin_bar', '__return_false'); 

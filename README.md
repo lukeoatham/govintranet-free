@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.5 - 5 Jul 2017 ###
+* Bug fix for admin bar display 
+* Bug fix for blog post dates
+* Bug fix for About this page widget author link
+
 ### 4.35.4 - 23 Jun 2017 ###
 * User profile styling changes 
 * Preparation for locations in user profiles 

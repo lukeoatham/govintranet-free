@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: http://www.helpfultechnology.com
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.4.1
+Version: 1.4.2
 Author URI: http://www.helpfultechnology.com
 
 */
@@ -186,7 +186,6 @@ class htFeatureBlogposts extends WP_Widget {
 			    'post_type' => 'blog',
 				'posts_per_page' => $to_fill,
 				'post__not_in' => $alreadydone,
-				'fields' => 'ids',
 				'date_query' => array(
 						array(
 							'after'     => date('Ymd',strtotime($tdate)),
@@ -199,10 +198,11 @@ class htFeatureBlogposts extends WP_Widget {
 			if ( is_array($blog_categories) )
 					$cquery['tax_query'] = array(array(
 					    'taxonomy' => 'blog-category',
-					    'field' => 'id',
 					    'terms' => (array)$blog_categories,
 					    'compare' => "IN",
 				    ));
+
+			
 	
 			$blogs = new WP_Query($cquery);
 			if ($blogs->post_count!=0 && !$titledone ) {
@@ -212,16 +212,19 @@ class htFeatureBlogposts extends WP_Widget {
 				}
 				$html.= "<div class='widget-area widget-blogposts'>";
 			}
-			$k=0;
-			while ($blogs->have_posts()) {
+			$k = 0;
+			if ($blogs->have_posts()) while ($blogs->have_posts()) {
 				$blogs->the_post();
+				global $post;//required for access within widget
 				$k++;
 				if ($k > $to_fill){
 					break;
 				}
-				global $post;//required for access within widget
 				$thistitle = get_the_title();
-				$edate = get_the_date();
+				$edate = $post->post_date;
+				if (!$edate) {
+					$edate = get_the_date();
+				}
 				$edate = date(get_option('date_format'),strtotime($edate));
 				$thisURL=get_permalink(); 
 				$html.= "<div class='media'>";
@@ -232,7 +235,8 @@ class htFeatureBlogposts extends WP_Widget {
 						$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
 						$html.= "<a class='pull-left' href='".get_permalink()."'>{$image_uri}</a>";		
 					} else {
-						$html.= "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".esc_attr($thistitle)."' /></a>";						}
+						$html.= "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".esc_attr($thistitle)."' /></a>";						
+					}
 				}
 				$html.= "<div class='media-body'><a href='{$thisURL}'>".$thistitle."</a>";
 				$html.= "<br><span class='news_date'>".$edate." by ";

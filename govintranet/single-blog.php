@@ -46,8 +46,11 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 				}
 			}
 			the_title("<h1>","</h1>");
-			$article_date = get_the_date();
 			$mainid = $post->ID;
+			$article_date = $post->post_date;
+			if ( !$article_date ) {
+				$article_date = get_the_date();
+			}
 			$article_date = date(get_option('date_format'),strtotime($article_date));	
 			echo '<p class=news_date>' . $article_date . '</p>'; 
 			if ( has_post_format('video', $post->ID) ){
