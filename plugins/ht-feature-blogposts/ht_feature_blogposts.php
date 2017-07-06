@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: http://www.helpfultechnology.com
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.4.2
+Version: 1.4.3
 Author URI: http://www.helpfultechnology.com
 
 */
@@ -198,6 +198,7 @@ class htFeatureBlogposts extends WP_Widget {
 			if ( is_array($blog_categories) )
 					$cquery['tax_query'] = array(array(
 					    'taxonomy' => 'blog-category',
+					    'field' => 'id',
 					    'terms' => (array)$blog_categories,
 					    'compare' => "IN",
 				    ));
