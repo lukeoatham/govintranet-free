@@ -10965,6 +10965,7 @@ function govintranet_custom_styles() {
 	#buddypress input[type=submit], #buddypress .button, body:not(.bbp-user-edit).bbpress .button, #loginform .button-primary {
 	background: '.$gishex.' !important; 
 	border: 1px solid '.$gishex.' !important;	
+	}
 	';
 
 	$styleurl = get_template_directory_uri() . '/css/custom.css';

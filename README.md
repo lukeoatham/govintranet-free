@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.5.1 - 9 Jul 2017 ###
+* CSS fix 
+
 ### 4.35.5 - 5 Jul 2017 ###
 * Bug fix for admin bar display 
 * Bug fix for blog post dates
