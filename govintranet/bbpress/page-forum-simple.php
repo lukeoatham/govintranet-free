@@ -22,7 +22,7 @@ get_header(); ?>
 			the_content();
 
 			if (is_user_logged_in()){
-				get_currentuserinfo();
+				$current_user = wp_get_current_user();
 				echo "<br><p>";
 				printf( __('Logged in as %s' , 'govintranet') , $current_user->display_name );
 				echo " | <a href='".wp_logout_url(get_permalink($post->ID))."'>" . __('Logout' , 'govintranet') . "</a></p><br>";

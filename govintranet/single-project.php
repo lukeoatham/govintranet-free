@@ -66,7 +66,7 @@ if ( have_posts() ) while ( have_posts() ) :
 
 		?>
 		<div>
-			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranedt'); ?></small></h1>
+			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranet'); ?></small></h1>
 			<?php 
 			$podchap = get_post($parent_guide_id); 
 			$alreadydone[]=$parent_guide_id;

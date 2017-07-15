@@ -71,7 +71,7 @@ $mainid=$post->ID;
 		$alreadybooked = $wpdb->get_results($q,"ARRAY_A");
 	} 
 	
-	if ($alreadybooked) echo "<strong>* " . __('You have made a booking for this event') . " *</strong>";
+	if ($alreadybooked) echo "<strong>* " . __('You have made a booking for this event','govintranet') . " *</strong>";
 	echo '<h3>' . __('Details' , 'govintranet') . '</h3>';
 	the_content(); 
 	$sdate= date('Ymd');

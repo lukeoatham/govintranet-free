@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.6 - 15 Jul 2017 ###
+* Various theme updates to remove deprecated functions  
+* Updates to translations
+
 ### 4.35.5.1 - 9 Jul 2017 ###
 * CSS fix 
 

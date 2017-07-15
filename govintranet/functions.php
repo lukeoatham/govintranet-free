@@ -6118,7 +6118,7 @@ if( function_exists('acf_add_local_field_group') ){
 							'sub_fields' => array (
 								array (
 									'key' => 'field_5522f7ca8627b',
-									'label' => _x('Content','Page content, data','govintranet'),
+									'label' => _x('Content','Page content or data','govintranet'),
 									'name' => 'aggregator_free_format_area_content',
 									'type' => 'wysiwyg',
 									'instructions' => '',
@@ -7073,7 +7073,7 @@ if( function_exists('acf_add_local_field_group') ){
 							'sub_fields' => array (
 								array (
 									'key' => 'field_552ababd4e4ff',
-									'label' => _x('Content','Page content, data','govintranet'),
+									'label' => _x('Content','Page content or data','govintranet'),
 									'name' => 'aggregator_free_format_area_content',
 									'type' => 'wysiwyg',
 									'instructions' => '',
@@ -8051,7 +8051,7 @@ if( function_exists('acf_add_local_field_group') ){
 							'sub_fields' => array (
 								array (
 									'key' => 'field_552a8997ca102',
-									'label' => __('Content','Page content, data','govintranet'),
+									'label' => __('Content','Page content or data','govintranet'),
 									'name' => 'aggregator_free_format_area_content',
 									'type' => 'wysiwyg',
 									'instructions' => '',
@@ -8973,7 +8973,7 @@ if( function_exists('acf_add_local_field_group') ){
 							'sub_fields' => array (
 								array (
 									'key' => 'field_552a89ae6eb7e',
-									'label' => __('Content','Page content, data','govintranet'),
+									'label' => __('Content','Page content or data','govintranet'),
 									'name' => 'aggregator_free_format_area_content',
 									'type' => 'wysiwyg',
 									'instructions' => '',

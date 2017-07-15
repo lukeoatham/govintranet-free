@@ -136,7 +136,7 @@
 		global $wpdb;
 		$doctypes = $wpdb->get_results("select post_id, meta_value from $wpdb->postmeta where meta_key='document_type' and meta_value <> '';");
 		if ( count($doctypes) > 0 ) {
-			if ( is_taxonomy('document-type') ){
+			if ( taxonomy_exists('document-type') ){
 				foreach ( $doctypes as $doc ){
 					if ( is_array($doc->meta_value) ) {
 						foreach ( $doc->meta_value as $d){

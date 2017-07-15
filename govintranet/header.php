@@ -53,12 +53,12 @@ header('X-Frame-Options: SAMEORIGIN');
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_template_directory_uri(); ?>/print.css" />
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	<!--[if lte IE 8]>
-	<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/ie8.css" type="text/css" media="screen" />
-	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ie7/IE8.js"></script>
+	<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ) ; ?>/css/ie8.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/ie7/IE8.js"></script>
 	<![endif]-->
 	<!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/html5-shiv.js"></script>
-	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/respond.min.js"></script>
+	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/html5-shiv.js"></script>
+	<script type="text/javascript" src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/respond.min.js"></script>
 	<![endif]-->
 	<?php
 	$headcode = get_option('options_header_code');
@@ -179,7 +179,7 @@ $parentpageclass.=" custom-background";
 			</div><!-- /.navbar-collapse -->
 		</nav>						
 	</div>				
-	<div id="content" class="container">			
+	<div id="content" <?php post_class('container'); ?>>			
 		<?php if ( $jumbo_searchbox == 1 && ( is_home() || is_front_page() ) ) : ?>
 		<!--search box-->
 			<div class="altsearch-container">
