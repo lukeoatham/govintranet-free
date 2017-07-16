@@ -179,7 +179,7 @@ $parentpageclass.=" custom-background";
 			</div><!-- /.navbar-collapse -->
 		</nav>						
 	</div>				
-	<div id="content" <?php post_class('container'); ?>>			
+	<div id="content" class="container">			
 		<?php if ( $jumbo_searchbox == 1 && ( is_home() || is_front_page() ) ) : ?>
 		<!--search box-->
 			<div class="altsearch-container">

@@ -45,7 +45,7 @@ body {
 	line-height:1;
 }
 
-ol,ul {
+#buddypress ol, #buddypress ul {
 	list-style:none;
 }
 
@@ -75,7 +75,7 @@ table {
 	border-spacing:0;
 }
 
-a img {
+#buddypress a img {
 	border:none;
 }
 
@@ -104,31 +104,31 @@ h1,h2,h3,h4,h5,h6 {
 	margin:5px 0 15px;
 }
 
-h1 {
+#buddypress h1 {
 	font-size:28px;
 	margin-bottom:25px;
 }
 
-h2 {
+#buddypress h2 {
 	font-size:24px;
 	margin-bottom:20px;
 }
 
-h3 {
+#buddypress h3 {
 	font-size:20px;
 }
 
-h4 {
+#buddypress h4 {
 	font-size:16px;
 	margin-bottom:15px;
 }
 
-h5 {
+#buddypress h5 {
 	font-size:14px;
 	margin-bottom:0;
 }
 
-h6 {
+#buddypress h6 {
 	font-size:12px;
 	margin-bottom:0;
 }
@@ -176,15 +176,15 @@ div.post ul ul,div.post ol ol,div.post ol ul,div.post ul ol,div.page ul ul,div.p
 /*--------------------------------------------------------------
 4.0 - Navigation
 --------------------------------------------------------------*/
-a {
+#buddypress a {
 	color:#1fb3dd;
 }
 
-a:hover,a:active {
+#buddypress a:hover,#buddypress a:active {
 	color:#888;
 }
 
-a:focus {
+#buddypress a:focus {
 	outline:1px dotted #ccc;
 }
 
@@ -528,7 +528,7 @@ div.comment-meta em {
 	border-top:2px solid #fffeff;
 }
 
-#respond {
+#buddypress #respond {
 	background-color:#fafafa;
 	border:1px solid #e5e5e5;
 	-moz-border-radius:4px;
@@ -537,16 +537,16 @@ div.comment-meta em {
 	padding:15px;
 }
 
-#respond .avb img {
+#buddypress #respond .avb img {
 	float:inherit;
 }
 
-#respond .comment-avatar-box {
+#buddypress #respond .comment-avatar-box {
 	float:left;
 	margin:0 15px 0 0;
 }
 
-#respond .form-submit {
+#buddypress #respond .form-submit {
 	margin-bottom:0;
 }
 
