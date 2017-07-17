@@ -287,7 +287,7 @@ class Timelines {
 
                 if (!isset($this->templates[get_post_meta(
 					$post->ID, '_wp_page_template', true
-				)] ) ) {
+				)] ) || is_tax() ) {
 
                         return $template;
 
@@ -438,7 +438,7 @@ class TimelinesFilter {
 
                 if (!isset($this->templates[get_post_meta(
 					$post->ID, '_wp_page_template', true
-				)] ) ) {
+				)] ) || is_tax() ) {
 
                         return $template;
 
