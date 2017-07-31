@@ -206,8 +206,10 @@ if ( !$is_filtered && $closed_filter){
 			 _e( 'Couldn\'t find anything like that. Try searching the whole intranet.', 'govintranet' ) ; 
 		} elseif ($pt) {
 			 printf(__( 'Couldn\'t find anything in %s. Try searching the whole intranet.', 'govintranet' ) , $searchcon) ; 
-		} else {
+		} elseif ( count ( explode(' ', get_search_query() ) ) > 2 ) {
 			_e( 'Couldn\'t find anything on the intranet like that. Sometimes using fewer words can help.', 'govintranet' ); 				
+		} else {
+			_e( 'Couldn\'t find anything on the intranet like that.', 'govintranet' ); 				
 		}
 		echo "</p>";
 

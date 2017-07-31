@@ -140,8 +140,8 @@ do_action( 'bbp_template_before_user_profile' );
 
 			$group_function = get_user_meta($user_id,'user_group_function',true);
 			if ($group_function){
-			  	echo "<h3 class='contacthead'>" . __('Group function' , 'govintranet'). "</h3>";
-			  	if ($group_function) foreach ( $group_function as $gf ){
+			  	echo "<h3 class='contacthead'>" . __('Additional responsibilities' , 'govintranet'). "</h3>";
+			  	foreach ( $group_function as $gf ){
 			  		echo '<p>' . $gf . '</p>';
 			  	}
 			}
@@ -186,6 +186,7 @@ do_action( 'bbp_template_before_user_profile' );
 				echo "<p><i class='dashicons dashicons-arrow-down-alt2'></i></p>";
 				echo "<p id='directreports'>";
 				foreach ($poduserreports as $p){ 
+					if ( get_user_meta( $pid, 'user_hide', true) ) continue;
 					$pid = $p['user_id'];
 	                $u = get_userdata($pid);
 	                $jobtitle = get_user_meta($pid, 'user_job_title', true);

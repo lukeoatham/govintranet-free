@@ -43,17 +43,6 @@ get_header(); ?>
 			</div><!-- /input-group -->
 		</form>
 	</div>
-	<script type='text/javascript'>
-	    jQuery(document).ready(function(){
-			jQuery('#task-alt-search').submit(function(e) {
-			    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
-			        e.preventDefault();
-			        jQuery('#sbc-s').focus();
-			    }
-			});	
-		});	
-	
-	</script>
 
 	<div class="widget-box browsecats">
 		<h3 class="widget-title"><?php _e('Browse by category','govintranet'); ?></h3>
@@ -99,7 +88,11 @@ get_header(); ?>
 			else:
 				$taghtml =  wp_tag_cloud(array('echo'=>false));
 			endif;
-			set_transient("ht_how_do_i_tags", $taghtml."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60*15);
+			if ( $taghtml ) {
+				set_transient("ht_how_do_i_tags", $taghtml."<!-- Cached by GovIntranet at ".date('Y-m-d H:i:s')." -->", 60*15);
+			} else {
+				set_transient("ht_how_do_i_tags", "0", 60*15);
+			}
 		endif;
 		if ($taghtml): ?>
 			<div style="text-align:middle; clear:both;"  class="widget-box browsetags">
@@ -120,5 +113,16 @@ get_header(); ?>
 
 
 <?php endwhile; ?>
+<script type='text/javascript'>
+    jQuery(document).ready(function(){
+		jQuery('#task-alt-search').submit(function(e) {
+		    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
+		        e.preventDefault();
+		        jQuery('#sbc-s').focus();
+		    }
+		});	
+	});	
+
+</script>
 
 <?php get_footer(); ?>

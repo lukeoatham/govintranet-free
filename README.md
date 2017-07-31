@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.6.2 - 30 Jul 2017 ###
+* How do I? template updates to improve caching and performance 
+* Search template wording changes 
+
 ### 4.35.6.1 - 16 Jul 2017 ###
 * Styling fixes for buddyPress  
 
