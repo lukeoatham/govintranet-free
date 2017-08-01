@@ -288,7 +288,7 @@ class MediaAtoZ {
 			if ( !is_object($post) ) return $template;
             if (!isset($this->templates[get_post_meta( 
 				$post->ID, '_wp_page_template', true 
-			)] ) || is_tax() ) {
+			)] ) || is_tax() || is_search() ) {
 				
                     return $template;
 					
@@ -434,7 +434,7 @@ class DocumentFinder {
 
             if (!isset($this->templates[get_post_meta( 
 				$post->ID, '_wp_page_template', true 
-			)] ) || is_tax() ) {
+			)] )  || is_tax() || is_search() ) {
 				
                     return $template;
 					

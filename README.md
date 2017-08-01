@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.6.3 - 1 Aug 2017 ###
+* Staff profile fixes for ACF 5.6.0
+
 ### 4.35.6.2 - 30 Jul 2017 ###
 * How do I? template updates to improve caching and performance 
 * Search template wording changes 

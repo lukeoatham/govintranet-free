@@ -4809,9 +4809,9 @@ if( function_exists('acf_add_local_field_group') ){
 						'location' => array (
 							array (
 								array (
-									'param' => 'user_role',
+									'param' => 'user_form',
 									'operator' => '==',
-									'value' => 'all',
+									'value' => 'edit',
 								),
 							),
 						),
