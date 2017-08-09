@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.6.4 - 9 Aug 2017 ###
+* Fix for hidden staff profiles in mini org-tree 
+* Fix for “More” title on blogposts widget
+
 ### 4.35.6.3 - 1 Aug 2017 ###
 * Staff profile fixes for ACF 5.6.0
 

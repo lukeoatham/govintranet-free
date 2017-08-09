@@ -186,8 +186,8 @@ do_action( 'bbp_template_before_user_profile' );
 				echo "<p><i class='dashicons dashicons-arrow-down-alt2'></i></p>";
 				echo "<p id='directreports'>";
 				foreach ($poduserreports as $p){ 
-					if ( get_user_meta( $pid, 'user_hide', true) ) continue;
 					$pid = $p['user_id'];
+					if ( get_user_meta( $pid, 'user_hide', true) ) continue;
 	                $u = get_userdata($pid);
 	                $jobtitle = get_user_meta($pid, 'user_job_title', true);
 	                if ($jobtitle) $jobtitle = " - ".$jobtitle;

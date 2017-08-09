@@ -3,7 +3,7 @@
  * Plugin Name: HT Search Autocomplete
  * Plugin URI: http://www.helpfultechnology.com
  * Description: Adds jQuery Autocomplete functionality to the default WordPress search box.
- * Version: 2.1.2
+ * Version: 2.1.3
  * Author: Gabe Shackle, modified by Luke Oatham
  * Author URI: http://hereswhatidid.com
  * License: GPLv2 or later
@@ -407,7 +407,10 @@ class SearchAutocomplete {
 				<?php echo $postType->labels->name ?></label><br>
 		<?php
 		}
-		?></p>
+			?>
+			<label>
+				<input name="<?php echo self::$options_field; ?>[autocomplete_posttypes][]" class="autocomplete_posttypes" id="autocomplete_posttypes-user" type="checkbox" value="user" <?php checked( in_array( 'user', $selectedTypes ), true ); ?>> Users</label><br>
+		</p>
 		<p class="description"><?php _e( 'Check the post types to include in the autocomplete drop down.', 'search-autocomplete' ); ?></p>
 	<?php
 	}

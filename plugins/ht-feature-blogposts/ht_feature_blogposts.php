@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: http://www.helpfultechnology.com
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.4.3
+Version: 1.4.4
 Author URI: http://www.helpfultechnology.com
 
 */
@@ -108,6 +108,7 @@ class htFeatureBlogposts extends WP_Widget {
         $freshness = intval($instance['freshness']);
         if ( !$freshness ) $freshness = 14;
         $more = $instance['more'];
+        $moretitle = $instance['moretitle'];
         $excerpt = $instance['excerpt'];
         $cache = intval($instance['cache']);
 		$tzone = get_option('timezone_string');
@@ -255,11 +256,14 @@ class htFeatureBlogposts extends WP_Widget {
 				$landingpage = get_option('options_module_blog_page'); 
 				if ( !$landingpage ):
 					$landingpage_link_text = 'blogposts';
+					if ( $moretitle ) $landingpage_link_text = $moretitle;
 					$landingpage = site_url().'/blogposts/';
 				else:
 					$landingpage_link_text = get_the_title( $landingpage[0] );
+				if ( $moretitle ) $landingpage_link_text = $moretitle;
 					$landingpage = get_permalink( $landingpage[0] );
 				endif;
+				
 				$html.= '<p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
 			} 
 			if ( $blogs->have_posts() || $num_top_slots > 0 ){
@@ -286,6 +290,7 @@ class htFeatureBlogposts extends WP_Widget {
 		$instance['thumbnails'] = strip_tags($new_instance['thumbnails']);
 		$instance['freshness'] = strip_tags($new_instance['freshness']);
 		$instance['more'] = strip_tags($new_instance['more']);
+		$instance['moretitle'] = strip_tags($new_instance['moretitle']);
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
 		$instance['cache'] = intval($new_instance['cache']);	
        return $instance;
@@ -296,8 +301,9 @@ class htFeatureBlogposts extends WP_Widget {
 		$items = esc_attr($instance['items']);
 		$thumbnails = esc_attr($instance['thumbnails']);
 		$freshness = esc_attr($instance['freshness']);
+		$excerpt = esc_attr($instance['excerpt']);
 		$more = esc_attr($instance['more']);
-		$more = esc_attr($instance['excerpt']);
+		$moretitle = esc_attr($instance['moretitle']);
 		$cache = intval($instance['cache']);
 		?>
 		<p>
