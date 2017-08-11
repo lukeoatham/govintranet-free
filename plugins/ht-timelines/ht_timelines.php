@@ -4,7 +4,7 @@ Plugin Name: HT Timeline
 Plugin URI: http://www.helpfultechnology.com
 Description: Create timeline walls with an optional filter
 Author: Luke Oatham
-Version: 1.1.1
+Version: 1.1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -161,11 +161,6 @@ function ht_register_timeline_custom_fields() {
 
 class Timelines {
 
-		/**
-         * A Unique Identifier
-         */
-		 protected $plugin_slug;
-
         /**
          * A reference to an instance of this class.
          */
@@ -283,11 +278,13 @@ class Timelines {
         public function view_timelines_simple_template( $template ) {
 
                 global $post;
-				if ( !is_object($post) ) return $template;
+				if ( !is_object($post) || is_tax() || is_search() ) {
+					return $template;
+				}
 
                 if (!isset($this->templates[get_post_meta(
 					$post->ID, '_wp_page_template', true
-				)] ) || is_tax() || is_search() ) {
+				)] ) ) {
 
                         return $template;
 
@@ -311,11 +308,6 @@ class Timelines {
 }
 
 class TimelinesFilter {
-
-		/**
-         * A Unique Identifier
-         */
-		 protected $plugin_slug;
 
         /**
          * A reference to an instance of this class.
@@ -434,11 +426,13 @@ class TimelinesFilter {
         public function view_timelines_filter_template( $template ) {
 
                 global $post;
-				if ( !is_object($post) ) return $template;
+				if ( !is_object($post) || is_tax() || is_search() ) {
+					return $template;
+				}
 
                 if (!isset($this->templates[get_post_meta(
 					$post->ID, '_wp_page_template', true
-				)] ) || is_tax() || is_search() ) {
+				)] ) ) {
 
                         return $template;
 

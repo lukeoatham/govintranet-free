@@ -4,7 +4,7 @@ Plugin Name: HT Media A to Z
 Plugin URI: http://www.helpfultechnology.com
 Description: Adds A to Z functionality to the document finder
 Author: Luke Oatham
-Version: 2.8
+Version: 2.8.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -167,11 +167,6 @@ function cptui_register_my_media_atoz() {
 
 class MediaAtoZ {
 
-	/**
-     * A Unique Identifier
-     */
-	 protected $plugin_slug;
-
     /**
      * A reference to an instance of this class.
      */
@@ -285,10 +280,12 @@ class MediaAtoZ {
     public function view_media_atoz_template( $template ) {
 
             global $post;
-			if ( !is_object($post) ) return $template;
+			if ( !is_object($post) || is_tax() || is_search() ) {
+				return $template;
+			}
             if (!isset($this->templates[get_post_meta( 
 				$post->ID, '_wp_page_template', true 
-			)] ) || is_tax() || is_search() ) {
+			)] ) ) {
 				
                     return $template;
 					
@@ -311,11 +308,6 @@ class MediaAtoZ {
 }
 
 class DocumentFinder {
-
-	/**
-     * A Unique Identifier
-     */
-	 protected $plugin_slug;
 
     /**
      * A reference to an instance of this class.
@@ -430,11 +422,13 @@ class DocumentFinder {
     public function view_document_finder_template( $template ) {
 
             global $post;
-			if ( !is_object($post) ) return $template;
+			if ( !is_object($post) || is_tax() || is_search() ) {
+				return $template;
+			}
 
             if (!isset($this->templates[get_post_meta( 
 				$post->ID, '_wp_page_template', true 
-			)] )  || is_tax() || is_search() ) {
+			)] ) ) {
 				
                     return $template;
 					
