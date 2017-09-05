@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.6.5 - 5 Sep 2017 ###
+* Staff profile edit screen styling fix  
+
 ### 4.35.6.4 - 9 Aug 2017 ###
 * Fix for hidden staff profiles in mini org-tree 
 * Fix for “More” title on blogposts widget

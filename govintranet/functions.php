@@ -10895,7 +10895,7 @@ function govintranet_custom_styles() {
 	$custom_css.= "#content .widget-box { padding: .1em 0 .7em 0; font-size: .9em; background: #fff; border-top: ".$gisheight."px solid ".$giscc."; margin-top: .7em; }	";
 	$custom_css.= ".home.page .category-block h3, .page-template-page-how-do-i .category-block h3, .page-template-page-how-do-i-alt-classic .category-block h3, .page-template-page-how-do-i-alt .category-block h3  { border-top: ".$gisheight."px solid ".$giscc."; border-bottom: none; padding-top: 16px; margin-top: 16px; }";
 	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;}#buddypress img.avatar {border-radius:50%;}";
+	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;display: inline-block;}#buddypress img.avatar {border-radius:50%; }";
 	$custom_css.= ".bbp-user-page .panel-heading {border-top: ".$gisheight."px solid ".$giscc."; }";
 	$custom_css.= ".page-template-page-news-php h1 {border-bottom: ".$gisheight."px solid ".$giscc.";} .tax-team h2 {border-bottom: ".$gisheight."px solid ".$giscc.";}";
 	$custom_css.= "#bbpress-forums li.bbp-header, #bbpress-forums li.bbp-header a { background-color:".$gishex." !important; color: ".$headtext."; }";
@@ -10956,7 +10956,7 @@ function govintranet_custom_styles() {
 	#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black; }
 	";
 	
-	if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ) $custom_css.= "#bbpress-forums img.avatar { border-radius: 50%; }";
+	if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ) $custom_css.= "#bbpress-forums img.avatar { border-radius: 50%; display: inline-block;}";
 	
 	$giscss = get_option('options_custom_css_code');
 	if ( $giscss ) $custom_css.= $giscss;
