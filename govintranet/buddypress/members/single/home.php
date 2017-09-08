@@ -146,7 +146,7 @@
 			bp_displayed_user_fullname();
 			echo "<br>".get_user_meta($user_id,'user_job_title',true);
 			echo "</strong></p>";
-			$q = "select meta_value as ID, user_id, display_name from $wpdb->users join $wpdb->usermeta on $wpdb->users.ID = $wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='user_line_manager' and $wpdb->usermeta.meta_value = ".$user_id;
+			$q = "select distinct meta_value as ID, user_id, display_name from $wpdb->users join $wpdb->usermeta on $wpdb->users.ID = $wpdb->usermeta.user_id where $wpdb->usermeta.meta_key='user_line_manager' and $wpdb->usermeta.meta_value = ".$user_id;
 			$poduserreports = $wpdb->get_results($q,ARRAY_A);
 			if (count($poduserreports)>0){
 				echo "<p><i class='dashicons dashicons-arrow-down-alt2'></i></p>";

@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.35.6.6 - 9 Sep 2017 ###
+* Staff profile mini org-chart fix 
+* Staff directory search updates  
+
 ### 4.35.6.5 - 5 Sep 2017 ###
 * Staff profile edit screen styling fix  
 
