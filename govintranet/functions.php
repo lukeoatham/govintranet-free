@@ -11302,6 +11302,7 @@ function govintranet_expiry_patrol_cron() {
 					delete_post_meta($old->ID, 'news_auto_expiry');
 					delete_post_meta($old->ID, 'news_expiry_type');
 				}	
+				wp_clear_scheduled_hook( 'gi_autoexpiry', array($old->ID) );
 			}
 		}
 	}
@@ -11364,6 +11365,7 @@ function govintranet_expiry_patrol_cron() {
 					delete_post_meta($old->ID, 'news_update_auto_expiry');
 					delete_post_meta($old->ID, 'news_update_expiry_type');
 				}		
+				wp_clear_scheduled_hook( 'gi_autoexpiry', array($old->ID) );
 			}
 		}	
 	}
@@ -11389,6 +11391,7 @@ function govintranet_expiry_patrol_cron() {
 				$my_post['ID'] = $old->ID;
 				$my_post['post_status'] = 'draft';
 				wp_update_post( $my_post );
+				wp_clear_scheduled_hook( 'gi_autoexpiry', array($old->ID) );
 			}	
 		}
 	}
@@ -11414,6 +11417,7 @@ function govintranet_expiry_patrol_cron() {
 				$my_post['ID'] = $old->ID;
 				$my_post['post_status'] = 'draft';
 				wp_update_post( $my_post );
+				wp_clear_scheduled_hook( 'gi_autoexpiry', array($old->ID) );
 			}	
 		}
 	}
@@ -11673,10 +11677,6 @@ function govintranet_theme_cover_image( $params = array() ) {
 			text-decoration:none;
 			color:#'.get_theme_mod("header_textcolor", "ffffff").';
 		}
-
-
-
-		
 	';
 }
 
