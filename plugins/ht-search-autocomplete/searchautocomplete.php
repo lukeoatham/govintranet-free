@@ -96,10 +96,6 @@ class SearchAutocomplete {
 		add_action( 'wp_ajax_nopriv_autocompleteCallback', array( $this, 'acCallback' ) );
 	}
 
-	public function gi_stop_relevanssi_logging($bool, $query, $hits, $user_agent, $ip) {
-		return false;
-	}
-
 	public function acCallback() {
 		global $wpdb;
 		$resultsPosts = array();
@@ -125,9 +121,9 @@ class SearchAutocomplete {
 					'post_type'   => $this->options['autocomplete_posttypes'],
 					'post_status' => 'publish'
 					) ;
-					add_filter('relevanssi_ok_to_log' , 'gi_stop_relevanssi_logging', 10, 5);
+					add_filter('relevanssi_ok_to_log' , '__return_false');
 					relevanssi_do_query($tempPosts);
-					remove_filter('relevanssi_ok_to_log' , 'gi_stop_relevanssi_logging' );
+					remove_filter('relevanssi_ok_to_log' , '__return_false' );
 					$tempPosts = $tempPosts->posts;
 			}
 
