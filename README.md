@@ -2,10 +2,10 @@
 ================
 
 Contributors: lukeoatham  
-Link: http://intranetdiary.co.uk 
+Link: https://intranetdiary.co.uk 
 Tags: intranet, gov.uk, responsive  
-Requires at least: 4.4.0  
-Tested up to: 4.7
+Requires at least: 4.7  
+Tested up to: 4.8.1
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -37,6 +37,9 @@ Refer to [showcase site](http://demo.govintra.net/) for example intranet.
 Refer to [Setup instructions](https://help.govintra.net/) for help and installation instructions.
 
 ## Changelog ##
+
+### 4.35.7 - 17 Sep 2017 ###
+* Wide template for tasks   
 
 ### 4.35.6.7 - 16 Sep 2017 ###
 * Auto expiry cron updates  

@@ -1,6 +1,9 @@
 <?php
 
-/* Template name: Full-width page */
+/* 
+	Template name: Full-width page 
+	Template Post Type: page, task
+*/
 
 get_header(); 
 
@@ -19,8 +22,20 @@ wp_enqueue_script( 'match_heights' );
 					}?>
 			</div>
 		</div>
-		<h1><?php the_title(); ?></h1>
-		<?php the_content(); ?>
+
+		<?php 
+		if ( is_singular('task') ):	
+
+			get_template_part("part", "task");	
+
+		else: 
+
+			the_title('<h1>','</h1>'); 
+
+			the_content(); 
+
+		endif; 
+		?>
 	
 	</div> 
 
