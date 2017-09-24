@@ -10078,6 +10078,60 @@ function listdocs_func( $atts ) {
 }
 add_shortcode( 'listdocs', 'listdocs_func' );
 
+// [listposts type="news" cat="hr" num='3']
+function listposts_func( $atts ) {
+	extract( shortcode_atts( array(
+		'type' => '',
+		'cat' => '',
+		'num' => 3
+	), $atts ) );
+
+	$html = '';
+
+	if ( ! in_array($type, array('news','news-update','blog') ) ) return $html;
+	
+	$listq = array(
+		'post_type' => $type,
+		'posts_per_page' => intval($num)
+	);
+	
+	$tax ='';	
+	if ( $cat ) {
+		
+		switch ( $type ) {
+			case 'news':
+				$tax = 'news-type';
+				break;
+			case 'news-update':
+				$tax = 'news-update-type';
+				break;
+			case 'blog':
+				$tax = 'blog-category';
+				break;
+			default:
+				break;
+		}
+		$listq['tax_query'] = array(array(
+			'taxonomy' => $tax,
+			'field' => 'slug',
+			'terms' => esc_sql($cat)
+		));
+	}
+	
+	$list = new WP_Query( $listq );
+	
+	if ( $list->have_posts() ) {
+		while ( $list->have_posts() ) {
+			$list->the_post();
+			$html.= "<li><a href='".get_permalink($id)."'>".get_the_title($id)."</a></li>";
+		}
+		return "<ul>" . $html . "</ul>";
+	}
+	
+}
+add_shortcode( 'listposts', 'listposts_func' );
+
+
 function ht_landingpages_shortcode($atts,$content){
     //get any attributes that may have been passed; override defaults
     $opts=shortcode_atts( array(
@@ -10323,14 +10377,14 @@ function gi_tag_cloud($taxonomy, $term, $post_type) {
 	}
 	
 	ksort($alltags);
-	$tagstr="<span><a  class='wptag t".$taxid."' href='?showtag=&paged=1'>"._x('All','all tags','govintranet')."</a></span> "; 
+	$tagstr="<span><a  class='wptag t".$taxid."' href='".get_term_link( $term, $taxonomy )."?showtag=&paged=1'>"._x('All','all tags','govintranet')."</a></span> "; 
 	foreach ($alltags as $a):
 		$active='';
 		if (isset( $_GET['showtag'] ) && $_GET['showtag'] == $a['slug']) { $active = 'active " '; $activeicon="<span class='dashicons dashicons-tag'></span>&nbsp;"; } else { $active = ''; $activeicon = '';};
 		$tagstr.="<span><a class='wptag ".$active."t".$taxid;
-		$tagstr.="' href='?showtag=".$a['slug']."&paged=1'>" . $activeicon . str_replace(' ', '&nbsp;' , $a['name']) . '</a></span> '; 
+		$tagstr.="' href='".get_term_link( $term, $taxonomy )."?showtag=".$a['slug']."&paged=1'>" . $activeicon . str_replace(' ', '&nbsp;' , $a['name']) . '</a></span> '; 
 	endforeach;
-	if ( "<span><a  class='wptag t".$taxid."' href='?showtag=&paged=1'>"._x('All','all tags','govintranet')."</a></span> " == $tagstr ):
+	if ( "<span><a  class='wptag t".$taxid."' href='".get_term_link( $term, $taxonomy )."?showtag=&paged=1'>"._x('All','all tags','govintranet')."</a></span> " == $tagstr ):
 		return;
 	else:
 		return $tagstr;
@@ -10419,17 +10473,10 @@ function save_news_meta( $post_id ) {
     if ( isset( $_POST['post_type'] ) && $slug == $_POST['post_type'] ) {
 
 	    // - Update the post's metadata.
+	    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
 	    if ( get_post_meta( $post_id, 'news_auto_expiry',true ) ) {
-		    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
 	    	$exptime = date('H:i',strtotime($prev));
 			update_post_meta( $post_id, 'news_expiry_time', $exptime, $prev );
-		    $expdate = get_post_meta( $post_id, 'news_expiry_date',true );
-		    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-			if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			if ( in_array($_POST['post_status'], array('publish','future') ) ){
-				$timestamp = strtotime($expdate."T".$exptime.":00");
-				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			}
 		}
 
         return;
@@ -10440,8 +10487,8 @@ function save_news_meta( $post_id ) {
     if ( isset( $_POST['post_type'] ) && $slug == $_POST['post_type'] ) {
 	
 	    // - Update the post's metadata.
-	    if ( get_post_meta( $post_id, 'news_update_auto_expiry',true ) ) {
-		    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
+	    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
+	    if ( $prev ) {
 	    	$exptime = date('H:i',strtotime($prev));
 			update_post_meta( $post_id, 'news_update_expiry_time', $exptime, $prev );
 		}
@@ -10454,21 +10501,16 @@ function save_news_meta( $post_id ) {
     if ( isset( $_POST['post_type'] ) && $slug == $_POST['post_type'] ) {
 
 	    // - Update the post's metadata.
-	    if ( $prev = get_post_meta( $post_id, 'vacancy_closing_time', true ) ) {
-	    	$exptime = date( 'H:i', strtotime( $prev ));
-			update_post_meta( $post_id, 'vacancy_closing_time', $exptime, $prev );
+	    $closing_time = get_post_meta( $post_id, 'vacancy_closing_time', true );
+	    if ( $closing_time ) {
+	    	$exptime = date( 'H:i', strtotime( $closing_time ));
+			update_post_meta( $post_id, 'vacancy_closing_time', $exptime, $closing_time );
 		}
-	    if ( $prev = get_post_meta( $post_id, 'vacancy_closing_date', true ) ) {
-	    	$expdate = date( 'Ymd', strtotime( $prev ));
-			update_post_meta( $post_id, 'vacancy_closing_date', $expdate, $prev );
+	    $closing_date = get_post_meta( $post_id, 'vacancy_closing_date', true );
+	    if ( $closing_date ) {
+	    	$expdate = date( 'Ymd', strtotime( $closing_date ));
+			update_post_meta( $post_id, 'vacancy_closing_date', $expdate, $closing_date );
 		}
-	    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-		if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			if ( in_array($_POST['post_status'], array('publish','future') ) ){
-			$timestamp = strtotime($expdate."T".$exptime.":00");
-			wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-		}
-
 		return;
 	}
 
@@ -10477,154 +10519,32 @@ function save_news_meta( $post_id ) {
     if ( isset( $_POST['post_type'] ) && $slug == $_POST['post_type'] ) {
 
 	    // - Update the post's metadata.
-	    if ( $prev = get_post_meta( $post_id, 'event_start_time',true ) ) {
+	    $prev = get_post_meta( $post_id, 'event_start_time',true );
+	    if ( $prev ) {
 	    	$newvalue = date('H:i',strtotime($prev));
 			update_post_meta( $post_id, 'event_start_time', $newvalue, $prev );
 		}
-	    if ( $prev = get_post_meta( $post_id, 'event_end_time',true ) ) {
+		$prev = get_post_meta( $post_id, 'event_end_time',true );
+	    if ( $prev ) {
 	    	$exptime = date('H:i',strtotime($prev));
 			update_post_meta( $post_id, 'event_end_time', $exptime, $prev );
 		}
-	    if ( $prev = get_post_meta( $post_id, 'event_start_date',true ) ) {
+		$prev = get_post_meta( $post_id, 'event_start_date',true );
+	    if ( $prev ) {
 	    	$newvalue = date('Ymd',strtotime($prev));
 			update_post_meta( $post_id, 'event_start_date', $newvalue, $prev );
 		}
-	    if ( $prev = get_post_meta( $post_id, 'event_end_date',true ) ) {
+		$prev = get_post_meta( $post_id, 'event_end_date',true );
+	    if ( $prev ) {
 	    	$expdate = date('Ymd',strtotime($prev));
 			update_post_meta( $post_id, 'event_end_date', $expdate, $prev );
 		}
-		if ( get_option('options_module_events_draft')){
-		    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-			if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			if ( in_array($_POST['post_status'], array('publish','future') ) ){
-				$timestamp = strtotime($expdate."T".$exptime.":00");
-				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			}
-		}
-
 		return;
 	}
 	
 	return;
 }
 add_action( 'save_post', 'save_news_meta' );
-
-function govintranet_pub_post( $post_id, $postobj ) {
-	global $post;
-	$tzone = get_option('timezone_string'); 
-	date_default_timezone_set($tzone);
-	$post_id = intval($post_id);
-	$post_type = $postobj->post_type;
-	if ( $post_type ) {
-		switch ( $post_type ) {
-			case 'news-update':
-			    if ( get_post_meta( $post_id, 'news_update_auto_expiry',true ) ) {
-				    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
-			    	$exptime = date('H:i',strtotime($prev));
-				    $expdate = get_post_meta( $post_id, 'news_update_expiry_date',true );
-				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-					$timestamp = strtotime($expdate."T".$exptime.":00");
-					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				}
-				break;
-			case 'news':
-			    if ( get_post_meta( $post_id, 'news_auto_expiry',true ) ) {
-				    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
-			    	$exptime = date('H:i',strtotime($prev));
-				    $expdate = get_post_meta( $post_id, 'news_expiry_date',true );
-				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-					$timestamp = strtotime($expdate."T".$exptime.":00");
-					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				}
-				break;
-			case 'event':
-				if ( get_option('options_module_events_draft')){
-				    $prev = get_post_meta( $post_id, 'event_end_time',true );
-			    	$exptime = date('H:i',strtotime($prev));
-				    $prev = get_post_meta( $post_id, 'event_end_date',true );
-			    	$expdate = date('Ymd',strtotime($prev));
-				    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-					if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-					$timestamp = strtotime($expdate."T".$exptime.":00");
-					wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				}
-				break;
-			case 'vacancy':
-			    $prev = get_post_meta( $post_id, 'vacancy_closing_time', true );
-		    	$exptime = date( 'H:i', strtotime( $prev ));
-			    $prev = get_post_meta( $post_id, 'vacancy_closing_date', true );
-		    	$expdate = date( 'Ymd', strtotime( $prev ));
-			    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-				if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				$timestamp = strtotime($expdate."T".$exptime.":00");
-				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				break;
-			default:
-		}
-	}
-    
-	return;
-}
-add_action( 'publish_news-update', 'govintranet_pub_post', 10, 2 );
-add_action( 'publish_news', 'govintranet_pub_post', 10, 2 );
-add_action( 'publish_event', 'govintranet_pub_post', 10, 2 );
-add_action( 'publish_vacancy', 'govintranet_pub_post', 10, 2 );
-
-function govintranet_future_post( $post_id ) {
-    global $post;
-	$tzone = get_option('timezone_string'); 
-	date_default_timezone_set($tzone);
-	switch ( get_post_type($post_id) ) {
-		case 'news-update':
-		    if ( get_post_meta( $post_id, 'news_update_auto_expiry',true ) ) {
-			    $prev = get_post_meta( $post_id, 'news_update_expiry_time',true );
-		    	$exptime = date('H:i',strtotime($prev));
-			    $expdate = get_post_meta( $post_id, 'news_update_expiry_date',true );
-			    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-				if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				$timestamp = strtotime($expdate."T".$exptime.":00");
-				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			}
-			break;
-		case 'news':
-		    if ( get_post_meta( $post_id, 'news_auto_expiry',true ) ) {
-			    $prev = get_post_meta( $post_id, 'news_expiry_time',true );
-		    	$exptime = date('H:i',strtotime($prev));
-			    $expdate = get_post_meta( $post_id, 'news_expiry_date',true );
-			    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-				if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				$timestamp = strtotime($expdate."T".$exptime.":00");
-				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			}
-			break;
-		case 'event':
-			if ( get_option('options_module_events_draft')){
-			    $prev = get_post_meta( $post_id, 'event_end_time',true );
-		    	$exptime = date('H:i',strtotime($prev));
-			    $prev = get_post_meta( $post_id, 'event_end_date',true );
-		    	$expdate = date('Ymd',strtotime($prev));
-			    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-				if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-				$timestamp = strtotime($expdate."T".$exptime.":00");
-				wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			}
-			break;
-		case 'vacancy':
-		    $prev = get_post_meta( $post_id, 'vacancy_closing_time', true );
-	    	$exptime = date( 'H:i', strtotime( $prev ));
-		    $prev = get_post_meta( $post_id, 'vacancy_closing_date', true );
-	    	$expdate = date( 'Ymd', strtotime( $prev ));
-		    $timestamp = wp_next_scheduled( "gi_autoexpiry", array($post_id) );
-			if ( $timestamp ) wp_unschedule_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			$timestamp = strtotime($expdate."T".$exptime.":00");
-			wp_schedule_single_event( $timestamp, "gi_autoexpiry", array($post_id) );
-			break;				
-		default:
-	}
-}
-add_action( 'publish_future_post', 'govintranet_future_post', 10, 1 );
 
 function save_keyword_meta( $post_id ) {
 
@@ -10895,7 +10815,8 @@ function govintranet_custom_styles() {
 	$custom_css.= "#content .widget-box { padding: .1em 0 .7em 0; font-size: .9em; background: #fff; border-top: ".$gisheight."px solid ".$giscc."; margin-top: .7em; }	";
 	$custom_css.= ".home.page .category-block h3, .page-template-page-how-do-i .category-block h3, .page-template-page-how-do-i-alt-classic .category-block h3, .page-template-page-how-do-i-alt .category-block h3  { border-top: ".$gisheight."px solid ".$giscc."; border-bottom: none; padding-top: 16px; margin-top: 16px; }";
 	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;display: inline-block;}#buddypress img.avatar {border-radius:50%; }";
+	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;}
+	#buddypress img.avatar {border-radius:50%; display: inline-block;}";
 	$custom_css.= ".bbp-user-page .panel-heading {border-top: ".$gisheight."px solid ".$giscc."; }";
 	$custom_css.= ".page-template-page-news-php h1 {border-bottom: ".$gisheight."px solid ".$giscc.";} .tax-team h2 {border-bottom: ".$gisheight."px solid ".$giscc.";}";
 	$custom_css.= "#bbpress-forums li.bbp-header, #bbpress-forums li.bbp-header a { background-color:".$gishex." !important; color: ".$headtext."; }";
@@ -11102,113 +11023,7 @@ REGISTER GOOGLE ANALYTICS API KEY
 function govintranet_acf_init() {
 	if ( get_option('options_google_api_key', '') && function_exists('acf_update_setting' )) acf_update_setting('google_api_key', get_option('options_google_api_key', ''));
 }
-
 add_action('acf/init', 'govintranet_acf_init');
-
-/***************************************
-
-DO CRON JOB FOR SINGLE EXPIRY EVENTS
-
-***************************************/
-
-add_action( 'gi_autoexpiry', 'gi_autoexpiry_cron' );
-
-function gi_autoexpiry_cron( $post_id ) {
-	$post_id = intval($post_id);
-	global $post;
-	$post_type = get_post_type( $post_id );
-	$tzone = get_option('timezone_string'); 
-	date_default_timezone_set($tzone);
-	
-	switch ($post_type) {
-    case 'news-update':
-		$expiryaction = get_post_meta($post_id,'news_update_expiry_action',true);
-		if ($expiryaction=='Revert to draft status'){
-			delete_post_meta($post_id, 'news_update_expiry_date');
-			delete_post_meta($post_id, 'news_update_expiry_time');
-			delete_post_meta($post_id, 'news_update_expiry_action');
-			delete_post_meta($post_id, 'news_update_auto_expiry');
-			delete_post_meta($post_id, 'news_update_expiry_type');
-			$my_post = array();
-			$my_post['ID'] = $post_id;
-			$my_post['post_status'] = 'draft';
-			wp_update_post( $my_post );
-		} elseif ($expiryaction=='Move to trash'){
-			delete_post_meta($post_id, 'news_update_expiry_date');
-			delete_post_meta($post_id, 'news_update_expiry_time');
-			delete_post_meta($post_id, 'news_update_expiry_action');
-			delete_post_meta($post_id, 'news_update_auto_expiry');
-			delete_post_meta($post_id, 'news_update_expiry_type');
-			$my_post = array();
-			$my_post['ID'] = $post_id;
-			$my_post['post_status'] = 'trash';
-			wp_update_post( $my_post );
-		} elseif ($expiryaction=='Change tax'){
-			$new_tax = get_post_meta($post_id,'news_update_expiry_type',true); 
-			$new_tax = intval($new_tax);
-			wp_delete_object_term_relationships( $post_id, 'news-update-type' );
-			if ( $new_tax ) wp_set_object_terms( $post_id, $new_tax, 'news-update-type', false );
-			delete_post_meta($post_id, 'news_update_expiry_date');
-			delete_post_meta($post_id, 'news_update_expiry_time');
-			delete_post_meta($post_id, 'news_update_expiry_action');
-			delete_post_meta($post_id, 'news_update_auto_expiry');
-			delete_post_meta($post_id, 'news_update_expiry_type');
-		}		
-        break;
-    case 'news':
-		$expiryaction = get_post_meta($post_id,'news_expiry_action',true);
-		if ($expiryaction=='Revert to draft status'){
-			delete_post_meta($post_id, 'news_expiry_date');
-			delete_post_meta($post_id, 'news_expiry_time');
-			delete_post_meta($post_id, 'news_expiry_action');
-			delete_post_meta($post_id, 'news_auto_expiry');
-			$my_post = array();
-			$my_post['ID'] = $post_id;
-			$my_post['post_status'] = 'draft';
-			wp_update_post( $my_post );
-		} elseif ($expiryaction=='Change to regular news'){
-			set_post_format($post_id, ''); 
-			delete_post_meta($post_id, 'news_expiry_date');
-			delete_post_meta($post_id, 'news_expiry_time');
-			delete_post_meta($post_id, 'news_expiry_action');
-			delete_post_meta($post_id, 'news_auto_expiry');
-		} elseif ($expiryaction=='Move to trash'){
-			delete_post_meta($post_id, 'news_expiry_date');
-			delete_post_meta($post_id, 'news_expiry_time');
-			delete_post_meta($post_id, 'news_expiry_action');
-			delete_post_meta($post_id, 'news_auto_expiry');
-			$my_post = array();
-			$my_post['ID'] = $post_id;
-			$my_post['post_status'] = 'trash';
-			wp_update_post( $my_post );
-		} elseif ($expiryaction=='Change tax'){
-			$new_tax = get_post_meta($post_id,'news_expiry_type',true); 
-			$new_tax = intval($new_tax);
-			wp_delete_object_term_relationships( $post_id, 'news-type' );
-			if ( $new_tax ) wp_set_object_terms( $post_id, $new_tax, 'news-type', false );
-			delete_post_meta($post_id, 'news_expiry_date');
-			delete_post_meta($post_id, 'news_expiry_time');
-			delete_post_meta($post_id, 'news_expiry_action');
-			delete_post_meta($post_id, 'news_auto_expiry');
-			delete_post_meta($post_id, 'news_expiry_type');
-		}	
-        break;
-    case 'event':
-		$my_post = array();
-		$my_post['ID'] = $post_id;
-		$my_post['post_status'] = 'draft';
-		wp_update_post( $my_post );
-        break;
-    case 'vacancy':
-		$my_post = array();
-		$my_post['ID'] = $post_id;
-		$my_post['post_status'] = 'draft';
-		wp_update_post( $my_post );
-        break;
-    default:
-    }
-
-}
 
 function govintranet_add_fivemin( $schedules ) {
 	// add a 'fivemin' schedule to the existing set
@@ -11302,7 +11117,6 @@ function govintranet_expiry_patrol_cron() {
 					delete_post_meta($old->ID, 'news_auto_expiry');
 					delete_post_meta($old->ID, 'news_expiry_type');
 				}	
-				wp_clear_scheduled_hook( 'gi_autoexpiry', array($old->ID) );
 			}
 		}
 	}
@@ -11365,7 +11179,6 @@ function govintranet_expiry_patrol_cron() {
 					delete_post_meta($old->ID, 'news_update_auto_expiry');
 					delete_post_meta($old->ID, 'news_update_expiry_type');
 				}		
-				wp_clear_scheduled_hook( 'gi_autoexpiry', array($old->ID) );
 			}
 		}	
 	}
@@ -11386,16 +11199,16 @@ function govintranet_expiry_patrol_cron() {
 		
 		if ( count($oldvacs) > 0 ){
 			foreach ($oldvacs as $old) {
-				if ($tdate == date('Ymd',strtotime(get_post_meta($old->ID,'vacancy_closing_date',true))) && date('H:i:s',strtotime(get_post_meta($old->ID,'vacancy_closing_time',true))) > date('H:i:s') ) continue;
+				$closing_date = get_post_meta($old->ID,'vacancy_closing_date',true);
+				if ( !$closing_date ) continue;
+				if ($tdate == date('Ymd',strtotime($closing_date)) && date('H:i:s',strtotime(get_post_meta($old->ID,'vacancy_closing_time',true))) > date('H:i:s') ) continue;
 				$my_post = array();
 				$my_post['ID'] = $old->ID;
 				$my_post['post_status'] = 'draft';
 				wp_update_post( $my_post );
-				wp_clear_scheduled_hook( 'gi_autoexpiry', array($old->ID) );
 			}	
 		}
 	}
-	
 	
 	// CHANGE CLOSED EVENTS TO DRAFT STATUS
 
@@ -11417,7 +11230,6 @@ function govintranet_expiry_patrol_cron() {
 				$my_post['ID'] = $old->ID;
 				$my_post['post_status'] = 'draft';
 				wp_update_post( $my_post );
-				wp_clear_scheduled_hook( 'gi_autoexpiry', array($old->ID) );
 			}	
 		}
 	}
@@ -11677,6 +11489,10 @@ function govintranet_theme_cover_image( $params = array() ) {
 			text-decoration:none;
 			color:#'.get_theme_mod("header_textcolor", "ffffff").';
 		}
+
+
+
+		
 	';
 }
 

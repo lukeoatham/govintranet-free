@@ -6,6 +6,8 @@
 	$update_okay = 1;
 	$reason = '';
 	$updated_to = '';
+	$tzone = get_option('timezone_string'); 
+	date_default_timezone_set($tzone);
 	
 	/************************************************
 	
@@ -190,8 +192,6 @@
 		if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
 
 		global $wpdb;
-		$tzone = get_option('timezone_string'); 
-		date_default_timezone_set($tzone);
 		$tdate = date('Ymd');
 		
 		$expiry = $wpdb->get_results("select post_id from $wpdb->postmeta where meta_key='news_expiry_date' and meta_value >= '" . $tdate . "';");
@@ -307,6 +307,88 @@
 
 		$updated_to = "4.34.2";
 
+	endif;
+
+	if ( version_compare( $database_version, "4.36", '<' ) && $update_okay ):
+
+		// PROCESS NEWS
+		if ( get_option('options_module_news') ){
+			$oldnews = query_posts(array(
+				'post_type'=>'news',
+				'meta_query'=>array(
+					'relation' => 'AND',
+					array(
+					'key'=>'news_auto_expiry',
+					'value'=>1,
+					),
+					array(
+					'key'=>'news_expiry_date',
+					'value'=>$tdate,
+					'compare'=>'>='
+					),
+				)));
+			if ( count($oldnews) > 0 ){
+				foreach ($oldnews as $old) {
+					wp_clear_scheduled_hook( 'gi_autoexpiry', $old->ID );
+				}
+			}
+		}
+		// PROCESS NEWS UPDATES
+		if ( get_option('options_module_news_updates') ){
+			$oldnews = query_posts(array(
+				'post_type'=>'news-update',
+				'meta_query'=>array(
+					"relation" => "AND",
+					array(
+					'key'=>'news_update_auto_expiry',
+					'value'=>1,
+					),
+					array(
+					'key'=>'news_update_expiry_date',
+					'value'=>$tdate,
+					'compare'=>'>='
+					)
+				)));
+			if ( count($oldnews) > 0 ){
+				foreach ($oldnews as $old) {
+					wp_clear_scheduled_hook( 'gi_autoexpiry', $old->ID );
+				}
+			}	
+		}
+		// PROCESS VACANCIES
+		if ( get_option('options_module_vacancies') ){
+			$ttime = date('H:i'); 
+			$oldvacs = query_posts(array(
+			'post_type'=>'vacancy',
+			'meta_query'=>array(array(
+			'key'=>'vacancy_closing_date',
+			'value'=>$tdate,
+			'compare'=>'>=',
+			))));
+			if ( count($oldvacs) > 0 ){
+				foreach ($oldvacs as $old) {
+					wp_clear_scheduled_hook( 'gi_autoexpiry', $old->ID );
+				}	
+			}
+		}
+		// PRCOESS EVENTS
+		if ( get_option('options_module_events_draft') ){
+			$oldvacs = query_posts(array(
+				'post_type'=>'event',
+				'meta_query'=>array(array(
+				'key'=>'event_end_date',
+				'value'=>$tdate,
+				'compare'=>'>='
+				))));
+			if ( count($oldvacs) > 0 ){
+				foreach ($oldvacs as $old) {
+					wp_clear_scheduled_hook( 'gi_autoexpiry', $old->ID );
+				}	
+			}
+		}
+	
+		$updated_to = "4.36";
+		
 	endif;
 
 	// UPDATE DATABASE VERSION
