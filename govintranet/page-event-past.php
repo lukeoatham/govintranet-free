@@ -214,7 +214,6 @@ get_header(); ?>
 				    'order' => 'ASC',
 				    'paged' => $paged
 					);
-			
 			}
 		}
 
@@ -244,21 +243,22 @@ get_header(); ?>
 		wp_reset_query();
 		
 		echo $timetravel;
-		?>
-	
-		<?php if (  $customquery->max_num_pages > 1 ) : ?>
-			<?php if (function_exists('wp_pagenavi')) : ?>
-				<?php wp_pagenavi(array('query' => $customquery)); ?>
-				<?php else : ?>
-				<?php next_posts_link(__('&larr; Older items','govintranet'), $customquery->max_num_pages); ?>
-				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $customquery->max_num_pages); ?>						
-			<?php endif; ?>
-		<?php endif; ?>
+		
+		if (  $customquery->max_num_pages > 1 ) : 
+			if (function_exists('wp_pagenavi')) : 
+				wp_pagenavi(array('query' => $customquery)); 
+			else : 
+				next_posts_link(__('&larr; Older items','govintranet'), $customquery->max_num_pages); 
+				previous_posts_link(__('Newer items &rarr;','govintranet'), $customquery->max_num_pages); 
+			endif; 
+		endif; ?>
 
 	</div>
 	
 	<div class="col-md-4" id="sidebar">
 		<?php 
+		get_template_part("part", "sidebar"); 
+		get_template_part("part", "related");
 		dynamic_sidebar('eventslanding-widget-area'); 
 		$taxonomies=array();
 		$post_type = array();
@@ -285,8 +285,6 @@ get_header(); ?>
 			echo "</div>";
 		endif;
 		?>
-	
-	 	
 	
 	</div>
 

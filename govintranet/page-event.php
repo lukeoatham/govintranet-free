@@ -134,18 +134,21 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 						
 			wp_reset_query();
 			echo $timetravel;
-			?>
-			<?php if (  $customquery->max_num_pages > 1 ) : ?>
-				<?php if (function_exists('wp_pagenavi')) : ?>
-					<?php wp_pagenavi(array('query' => $customquery)); ?>
-					<?php else : ?>
-					<?php next_posts_link(__('&larr; Older items','govintranet'), $customquery->max_num_pages); ?>
-					<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $customquery->max_num_pages); ?>						
-				<?php endif; ?>
-			<?php endif; ?>
+			
+			if (  $customquery->max_num_pages > 1 ) : 
+				if (function_exists('wp_pagenavi')) : 
+					wp_pagenavi(array('query' => $customquery)); 
+				else : 
+					next_posts_link(__('&larr; Older items','govintranet'), $customquery->max_num_pages); 
+					previous_posts_link(__('Newer items &rarr;','govintranet'), $customquery->max_num_pages); 
+				endif; 
+			endif; ?>
 		</div>
+		
 		<div class="col-lg-4 col-md-4 col-sm-5 col-sx-12" id="sidebar">
 			<?php 
+			get_template_part("part", "sidebar"); 
+			get_template_part("part", "related");
 			dynamic_sidebar('eventslanding-widget-area'); 
 			$taxonomies=array();
 			$post_type = array();
@@ -164,7 +167,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				}
 				echo "</p></div>";
 			}
-
 			$eventcloud = gi_howto_tag_cloud('event'); 
 			if ($eventcloud) :?>
 				<div class="widget-box">
@@ -172,12 +174,9 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				<?php echo $eventcloud; ?>
 				</div>
 				<br>			
-			<?php	
-			endif;
-			?>
+			<?php endif; ?>
 		
 		</div>
-	</div>
 	
 <?php endwhile; ?>
 

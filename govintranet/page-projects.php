@@ -51,7 +51,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			$show = ''; 
 			if ( isset($_GET['show']) ) $show = $_GET['show'];
 			if ( $show != "all" ):
-				echo '<p><a href="?show=all">' . __("Show all projects","govintranet") . '</a></p>';
+				echo '<p><a href="?show=all">' . __("Show past projects","govintranet") . '</a></p>';
 			else:
 				echo '<p><a href="?show=">' . __("Only show open projects","govintranet") . '</a></p>';
 			endif;
@@ -78,7 +78,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					    	       'type' => 'DATE' 
 					    	       )  
 						       );
-
 			
 			$projects =new WP_Query( $pquery );
 			if ($projects->post_count==0){
@@ -100,30 +99,30 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				the_excerpt(); 
 				echo "</div>";
 			}
+			if (  $projects->max_num_pages > 1 ) : 
+				if (function_exists('wp_pagenavi')) : 
+					wp_pagenavi(array('query' => $projects)); 
+				else : 
+					next_posts_link(__('&larr; Older items','govintranet'), $projects->max_num_pages); 
+					previous_posts_link(__('Newer items &rarr;','govintranet'), $projects->max_num_pages); 
+				endif; 
+			endif; 
+			wp_reset_query();								
 			?>
-			<?php if (  $projects->max_num_pages > 1 ) : ?>
-			<?php if (function_exists('wp_pagenavi')) : ?>
-				<?php wp_pagenavi(array('query' => $projects)); ?>
-				<?php else : ?>
-				<?php next_posts_link(__('&larr; Older items','govintranet'), $projects->max_num_pages); ?>
-				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $projects->max_num_pages); ?>						
-			<?php endif; 
-			?>
-		<?php endif; 
-				wp_reset_query();								
-
-				?>
 			</div>
 		</div>
-		<div class="col-lg-4 col-md-4 col-sm-4" id="sidebar">
-		<?php if ( $cloud = gi_howto_tag_cloud('project') ): ?>
-		<div class='widget-box'>
-			<h3 class='widget-title'><?php _e('Browse by tag' , 'govintranet') ; ?></h3>
-			<?php echo $cloud; ?>
-		</div>
-		<?php endif; ?>
-		</div>
 
+		<div class="col-lg-4 col-md-4 col-sm-4" id="sidebar">
+			<?php 
+			get_template_part("part", "sidebar"); 
+			get_template_part("part", "related");
+			if ( $cloud = gi_howto_tag_cloud('project') ): ?>
+			<div class='widget-box'>
+				<h3 class='widget-title'><?php _e('Browse by tag' , 'govintranet') ; ?></h3>
+				<?php echo $cloud; ?>
+			</div>
+			<?php endif; ?>
+		</div>
 
 <?php endwhile; ?>
 

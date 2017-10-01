@@ -38,11 +38,15 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.36.1 - 1 Oct 2017 ###
+* Fix for sidebar field not appearing in some templates 
+* New Hashtags plugin  
+
 ### 4.36 - 23 Sep 2017 ###
 * Fix for sidebar field not appearing in some templates 
 * New listposts shortcode 
 * Improvements to tagcloud links 
-* Simplification of background autoexpiry functions    
+* Simplification of background autoexpiry functions 
 
 ### 4.35.7 - 17 Sep 2017 ###
 * Wide template for tasks   

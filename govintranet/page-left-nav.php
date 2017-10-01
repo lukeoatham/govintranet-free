@@ -29,15 +29,13 @@ get_header(); ?>
 
 		<div class="col-lg-3 col-md-3 col-sm-12" id="sidebar">
 			<?php 
-			the_post_thumbnail('large', array('class'=>'img img-responsive')); 
-			
-			echo wpautop( "<span class='news_date'>".get_post_thumbnail_caption()."</span>" );
-
-			get_template_part("part", "related");
-
+			if ( has_post_thumbnail( $id )){	
+				the_post_thumbnail('large', array('class'=>'img img-responsive')); 
+				echo wpautop( "<span class='news_date'>".get_post_thumbnail_caption()."</span>" );
+			}
 			get_template_part("part", "sidebar");
+			get_template_part("part", "related");
 			?>		
-			
 		</div>
 
 	</div>

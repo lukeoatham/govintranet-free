@@ -2,7 +2,8 @@
 /* Template name: Blog   */
 
 get_header(); 
-	 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
+
+if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 	<div class="col-lg-7 col-md-8 col-sm-12 white">
 		<div class="row">
@@ -28,31 +29,30 @@ get_header();
 		    'paged' => $paged												
 			);
 
-       $projectspost = new WP_Query($cquery);
-	   global $k; 
-	   $k = 0;
-       while ($projectspost->have_posts()) : $projectspost->the_post();
-         get_template_part( 'loop', 'blogtwitter' );
-       endwhile;
-	    ?>
-	    <?php wp_reset_query();   //Restore global post data stomped by the_post(). ?>
-	    <?php 
-			if (  $projectspost->max_num_pages > 1 ) : ?>
-			<?php if (function_exists('wp_pagenavi')) : ?>
-				<?php wp_pagenavi(array('query' => $projectspost)); ?>
-				<?php else : ?>
-				<?php next_posts_link(__('&larr; Older items','govintranet'), $projectspost->max_num_pages); ?>
-				<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $projectspost->max_num_pages); ?>						
-			<?php endif; 
-			?>
-		<?php endif; 
+		$projectspost = new WP_Query($cquery);
+		global $k; 
+		$k = 0;
+		while ($projectspost->have_posts()) : $projectspost->the_post();
+		get_template_part( 'loop', 'blogtwitter' );
+		endwhile;
+	    wp_reset_query();   //Restore global post data stomped by the_post(). 
+		if (  $projectspost->max_num_pages > 1 ) : 
+			if (function_exists('wp_pagenavi')) : 
+				wp_pagenavi(array('query' => $projectspost)); 
+			else : 
+				next_posts_link(__('&larr; Older items','govintranet'), $projectspost->max_num_pages); 
+				previous_posts_link(__('Newer items &rarr;','govintranet'), $projectspost->max_num_pages); 
+			endif; 
+		endif; 
 		wp_reset_query();								
 		?>							
 	</div>
+	
 	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12" id="sidebar">
-		
-		<?php dynamic_sidebar('bloglanding-widget-area'); ?>
-		<?php
+		<?php 
+		get_template_part("part", "sidebar"); 
+		get_template_part("part", "related");
+		dynamic_sidebar('bloglanding-widget-area'); 
 		$taxonomies=array();
 		$post_type = array();
 		$taxonomies[] = 'blog-category';
@@ -72,5 +72,6 @@ get_header();
 		?>
 	</div>
 
-<?php endwhile; 
-	get_footer(); ?>
+<?php endwhile; ?>
+
+<?php get_footer(); ?>

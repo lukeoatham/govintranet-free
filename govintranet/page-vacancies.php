@@ -192,14 +192,15 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	</div>
 
 	<div class="col-lg-4 col-md-4" id="sidebar">
-
-		<?php if ( $cloud = gi_howto_tag_cloud('vacancy') ): ?>
+		<?php 
+		get_template_part("part", "sidebar"); 
+		get_template_part("part", "related");
+		if ( $cloud = gi_howto_tag_cloud('vacancy') ): ?>
 		<div class='widget-box'>
 			<h3 class='widget-title'><?php _e('Browse by tag' , 'govintranet'); ?></h3>
 			<?php echo $cloud; ?>
 		</div>
 		<?php endif; ?>
-		
 	</div>
 
 <?php endwhile; ?>

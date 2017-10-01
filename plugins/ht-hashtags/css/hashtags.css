@@ -1,0 +1,230 @@
+
+
+/* =====================================
+   ============== general ==============
+   =================================== */
+
+.lead {
+	margin: 10px 0 50px;
+}
+
+.description {
+	margin-bottom: 20px;
+}
+
+.thumbnail {
+	border: 0;
+	border-radius: 0;
+	padding: 0;
+}
+
+.homefirst {
+	padding-right: 0;
+}
+.homelast {
+	padding-left: 0;
+}
+
+
+.inner-grid {
+	padding: 15px 20px;
+	overflow-x: hidden;
+	margin: 10px 10px 15px 10px;
+	border: 1px solid  #e6e6e6;
+}
+.inner-grid img.alignnone { margin: 0 0 1em 0; }
+.metro-list div.inner-grid.anarticle.featured-spot { padding: 1em; }
+.grid-item {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;
+}
+.grid-item.w4{
+	width: 690px;	
+}
+.grid-item.w3{
+	width: 520px;	
+}
+.grid-item.w2{
+	width: 32.9%;	
+}
+.grid-item.w1{
+	width: 32.9%;
+}
+.indexcard {
+	padding: 19px;
+	margin-bottom: 20px;
+	background: whitesmoke;
+}
+
+@media 	(max-width:1024px) {
+
+.grid-item.w2{
+	width: 49.6%;	
+}
+.grid-item.w1{
+	width: 49.6%;
+}
+.grid-item.w2{
+	width: 32.8%;	
+}
+.grid-item.w1{
+	width: 32.8%;
+}
+
+}
+
+@media handheld, only screen and (max-width:768px) {
+
+
+.grid-item.w2{
+	width: 49.5%;	
+}
+.grid-item.w1{
+	width: 49.5%;
+}
+
+}
+@media handheld, only screen and	(max-width:320px) {
+
+.grid-sizer {
+	width: 99%;	
+}
+.grid-item {
+	width: 99%;	
+}
+.grid-item.w2{
+	width: 99%;	
+}
+.grid-item.w1{
+	width: 99%;
+}
+
+}
+
+
+/* =====================================
+   =========== metro boxes ============
+   =================================== */
+
+.grimason-container {
+	padding: 12px;
+}  
+
+.metro {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.metrobox {
+	padding: 5px;
+	overflow: hidden;
+}
+
+.metro-container {
+	background: #444;
+	color: #fff;
+	padding: 20px;
+	position: relative;
+	overflow: hidden;
+}
+
+.img-dummy {
+	width: 100%;
+	height: auto;
+}
+
+.metro-inner-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 20px;
+	position: absolute;
+	width: 100%;
+	overflow: hidden;
+	font-size: 0.8em;	
+	height: 100%;	
+}
+
+.metro-list {
+	font-weight: 200;
+}
+
+.metro-list .bodycontent {
+	overflow: hidden;
+	height: 100%;
+}
+
+
+
+.metro-icon {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+/****************** temporary ********** staging ********** stuff ********* ajom *******************/
+
+.metro-list .type-icon {
+	position: absolute;
+	top: auto !important;
+	bottom: 0;
+	right: 20px;
+	padding-bottom: 1em !important;	
+}
+.metro-list .user-icon {
+	padding-bottom: 0 !important;	
+	margin-top: -0.5em;
+	margin-bottom: 0.5em !important;	
+	vertical-align: middle;
+}
+.metro-list .user-icon img {
+	margin-right: 0.5em !important;	
+}
+.metro-list .type-icon a {
+	color: #280bbb;
+}
+.metro-list .user-icon-text {
+	font-weight: bold;
+}
+.metro-list .featuredpage .user-icon {
+	padding-left: 2em;
+}
+.metro-list a {
+	text-decoration: none;
+}
+
+.metro-list p {
+	line-height: 150%;
+	margin-bottom: 0;
+	overflow: hidden;
+}
+.metro-list p.grid-excerpt {
+	line-height: 150%;
+	margin-bottom: 3em !important;
+	overflow: hidden;
+}
+.metro-list h4 {
+	margin-bottom: 25px;
+}
+
+.metro-list .anarticle {
+	padding: 0;
+}
+.metro-list .anarticle p,.metro-list .anarticle h4 {
+	padding: 0 1em;	
+}
+
+.metro-list a h4 {
+	color: black;
+	padding: 0 1em;
+}
+.metro-list a:hover h4 {
+	text-decoration: underline;
+}
+.metro-list .featuredpage p a {
+	text-decoration: underline;
+}
+.metro-list .featuredpage p img, .metro-list .featuredpage p iframe  {
+	margin: 0 -1em;
+}
