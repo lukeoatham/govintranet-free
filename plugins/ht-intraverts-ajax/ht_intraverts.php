@@ -4,7 +4,7 @@ Plugin Name: HT Intraverts
 Plugin URI: http://www.helpfultechnology.com
 Description: Displays promotional adverts using AJAX
 Author: Luke Oatham
-Version: 2.4
+Version: 2.4.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -539,7 +539,7 @@ function ht_intraverts_ajax_show() {
 	
 	if ( count($eligibles) > 0 ) foreach ( $eligibles as $e ) {
 
-		if ( !get_post_status($e) == "publish" ) continue;
+		if ( get_post_status($e) != "publish" ) continue;
 
 		$icookie = get_post_meta($e, 'intravert_cookie_period', true); 
 		if (!$icookie) $icookie = 14;

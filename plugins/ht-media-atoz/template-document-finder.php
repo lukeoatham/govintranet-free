@@ -263,6 +263,7 @@ global $wpdb;
 						'order'=>'ASC',
 					    'posts_per_page' => -1,
 						'post_status'=>'inherit',
+				        'fields' => 'ids',
 					    'tax_query'=>array(
 						    'relation' => 'AND',
 						    array(  
@@ -292,6 +293,7 @@ global $wpdb;
 							'order'=>'ASC',
 							'posts_per_page' => -1,
 							'post_status'=>'inherit',
+					        'fields' => 'ids',
 							'tax_query'=>array(
 							    array(  
 							    'taxonomy' => 'category',
@@ -311,6 +313,7 @@ global $wpdb;
 						'order'=>'ASC',
 					    'posts_per_page' => -1,
 						'post_status'=>'inherit',
+				        'fields' => 'ids',
 						'post_mime_type' => array( 'image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/tiff', 'image/x-icon', 'application' ),
 						'tax_query' => array(
 						    array(  
@@ -339,6 +342,7 @@ global $wpdb;
 							'order'=>'ASC',
 					        'posts_per_page' => -1,
 							'post_status'=>'inherit',
+					        'fields' => 'ids',
 							'tax_query' => array(
 								'relation' => 'OR',
 							    array(  
@@ -378,21 +382,26 @@ global $wpdb;
 					$docfinder['s'] = $search;
 				}		
 				
-				$docs = get_posts($docfinder);
+				$docs = new WP_Query($docfinder);
 				
 				$postsarray = array();
 				
-				if ( isset($docs) ) foreach($docs as $doc){ 
+				if ( $docs->have_posts(  ) ) while ( $docs->have_posts(  ) ){
+					$docs->the_post(  ); 
+					$postsarray[] = $id;
+/*
 					if (!is_object($doc)):
 						$postsarray[]=$doc['ID'];
 					else:
 						$postsarray[]=$doc->ID;
 					endif;
+*/
 				};
 		
-				if (count($docs) == 0 ) {
+				if ( !$docs->have_posts ) {
 					$postsarray[]='';
 				}
+				
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 				$counter = 0;	
 				$max_posts = 25;

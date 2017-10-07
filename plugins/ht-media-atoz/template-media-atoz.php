@@ -277,7 +277,7 @@ $filter_cols = 12 / $filter_count;
 						'post_type'=>'attachment',
 						'orderby'=>'title',
 						'order'=>'ASC',
-				        'field' => 'ids',
+				        'fields' => 'ids',
 					    'posts_per_page' => -1,
 						'post_status'=>'inherit',
 					    'tax_query'=>array(
@@ -307,7 +307,7 @@ $filter_cols = 12 / $filter_count;
 							'post_type'=>'attachment',
 							'orderby'=>'title',
 							'order'=>'ASC',
-					        'field' => 'ids',
+					        'fields' => 'ids',
 							'posts_per_page' => -1,
 							'post_status'=>'inherit',
 							'tax_query'=>array(
@@ -330,7 +330,7 @@ $filter_cols = 12 / $filter_count;
 						'post_type'=>'attachment',
 						'orderby'=>'title',
 						'order'=>'ASC',
-				        'field' => 'ids',
+				        'fields' => 'ids',
 					    'posts_per_page' => -1,
 						'post_status'=>'inherit',
 						'post_mime_type' => array( 'image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/tiff', 'image/x-icon', 'application' ),
@@ -360,7 +360,7 @@ $filter_cols = 12 / $filter_count;
 							'orderby'=>'title',
 							'order'=>'ASC',
 					        'posts_per_page' => -1,
-					        'field' => 'ids',
+					        'fields' => 'ids',
 							'post_status'=>'inherit',
 							'tax_query' => array(
 								'relation' => 'OR',
@@ -401,19 +401,23 @@ $filter_cols = 12 / $filter_count;
 					$docfinder['s'] = $search;
 				}		
 				
-				$docs = get_posts($docfinder);
+				$docs = new WP_Query($docfinder);
 				
 				$postsarray = array();
 				
-				if ( isset($docs) ) foreach($docs as $doc){ 
+				if ( $docs->have_posts(  ) ) while ( $docs->have_posts(  ) ){
+					$docs->the_post(  ); 
+					$postsarray[] = $id;
+/*
 					if (!is_object($doc)):
 						$postsarray[]=$doc['ID'];
 					else:
 						$postsarray[]=$doc->ID;
 					endif;
+*/
 				};
 		
-				if (count($docs) == 0 ) {
+				if ( !$docs->have_posts ) {
 					$postsarray[]='';
 				}
 				
@@ -441,9 +445,9 @@ $filter_cols = 12 / $filter_count;
 					</h3>
 					<?php
 				}
-				
+				wp_reset_query(  );
 				if ( $is_filtered ):
-					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink()."'>".__('Reset filters','govintranet')."</a>";
+					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."'>".__('Reset filters','govintranet')."</a>";
 				endif;
 				if ( $cat_slug!="any" ):
 					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat=&matoz={$matoz}&q={$search}'>".strtoupper($catname)." <span class='badge small'>X</span></a>";
