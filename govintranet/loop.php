@@ -176,8 +176,7 @@
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->term_id != 1 ){
-				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a class='serps'  data-category-id='{$cat->term_id}' href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
-			echo "</a></span>&nbsp;";
+				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span>".esc_html($cat->name) . "</span>&nbsp;";
 			}
 		}
 	} elseif (($post_type=="News" || $post_type=="News-update" || $post_type =="Blog" || $post_type=='Forum' || $post_type=='Topic' || $post_type=='Reply' ) && $pageslug!="category"){
@@ -185,8 +184,7 @@
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
 			if ($cat->term_id != 1 ){
-				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span><a class='serps' data-category-id='{$cat->term_id}' href='".get_term_link($cat->slug,$cat->taxonomy)."'>".$cat->name;
-				echo "</a></span>&nbsp;";
+				echo "<span class='listglyph'><span class='dashicons dashicons-category gb".$cat->term_id."'></span>".esc_html($cat->name) . "</span>&nbsp;";
 			}
 		}
 		if ( is_archive() || is_search() || is_author() ){
