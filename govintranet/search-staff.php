@@ -3,12 +3,16 @@
  		
  //*****************************************************				
 
+get_header(); 
+
+wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_search' );
+
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 $showgrade = get_option('options_show_grade_on_staff_cards'); // 1 = show 
 $showmobile = get_option('options_show_mobile_on_staff_cards'); // 1 = show
 $fulldetails = get_option('options_full_detail_staff_cards'); // 1 = show
-
-get_header(); ?>
+?>
 
 <div class="col-lg-8 col-md-9 white">
 	<div class='breadcrumbs'>
@@ -64,18 +68,6 @@ get_header(); ?>
 		  </div>
 	  	</div>
 	</form>
-	<script type='text/javascript'>
-	    jQuery(document).ready(function(){
-			jQuery('#searchform2').submit(function(e) {
-			    if (jQuery.trim(jQuery("#s2").val()) === "") {
-			        e.preventDefault();
-			        jQuery('#s2').focus();
-			    }
-			});	
-		});	
-	
-	</script>
-
 	<?php
 	if (count($searchmasterstaff) > 0 || count($searchmasterteam) > 0){
 		$totfound = count($searchmasterstaff)+count($searchmasterteam);
@@ -116,37 +108,37 @@ get_header(); ?>
 
 		if ($fulldetails){
 				
-				echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
+			echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
-				$terms = get_user_meta($userid ,'user_team',true ); 
-				if ($terms) {				
-					foreach ((array)$terms as $t ) { 
-			  		    $theme = get_post($t);
-						echo govintranetpress_custom_title($theme->post_title)."<br>";
-			  		}
-				}  
+			$terms = get_user_meta($userid ,'user_team',true ); 
+			if ($terms) {				
+				foreach ((array)$terms as $t ) { 
+		  		    $theme = get_post($t);
+					echo govintranetpress_custom_title($theme->post_title)."<br>";
+		  		}
+			}  
 
-				if ( get_user_meta($userid ,'user_job_title',true )) : 
-	
-					echo esc_attr(get_user_meta($userid ,'user_job_title',true ))."<br>";
-	
-				endif;
-				
-				if ( get_user_meta($userid ,'user_telephone',true )) : 
-	
-					echo '<i class="glyphicon glyphicon-earphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.esc_attr(get_user_meta($userid ,'user_telephone',true ))."</a><br>";
-	
-				endif; 
-	
-				if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
-	
-					echo '<i class="glyphicon glyphicon-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
-	
-				 endif;
-	
-				echo  '<a href="mailto:'.$user_info->user_email.'">' . __("Email" , "govintranet") . ' ' . $user_info->first_name. '</a></p></div></div></div>';
-				
-				$counter++;	
+			if ( get_user_meta($userid ,'user_job_title',true )) : 
+
+				echo esc_attr(get_user_meta($userid ,'user_job_title',true ))."<br>";
+
+			endif;
+			
+			if ( get_user_meta($userid ,'user_telephone',true )) : 
+
+				echo '<i class="glyphicon glyphicon-earphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.esc_attr(get_user_meta($userid ,'user_telephone',true ))."</a><br>";
+
+			endif; 
+
+			if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
+
+				echo '<i class="glyphicon glyphicon-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
+
+			 endif;
+
+			echo  '<a href="mailto:'.$user_info->user_email.'">' . __("Email" , "govintranet") . ' ' . $user_info->first_name. '</a></p></div></div></div>';
+			
+			$counter++;	
 
 			
 		} //end full details
@@ -170,7 +162,6 @@ get_header(); ?>
 		}	
 	
 	}
-
 
 	foreach ((array)$searchmasterteam as $post){
 		?>
@@ -210,7 +201,8 @@ get_header(); ?>
 	</div>
 	</div>
 	<div class="col-lg-4 col-md-3" id='sidebar'>
-	<?php 	dynamic_sidebar('serp-widget-area'); ?>	
+		<h2 class="sr-only">Sidebar</h2>
+	<?php dynamic_sidebar('serp-widget-area'); ?>	
 	</div>
 
 <?php get_footer(); ?>

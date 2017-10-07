@@ -31,6 +31,7 @@ get_header(); ?>
 	</div>
 	
 	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-4" id="sidebar">	
+		<h2 class="sr-only">Sidebar</h2>
 
 		<?php 
 		get_template_part("part", "sidebar");

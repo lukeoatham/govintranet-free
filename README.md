@@ -38,6 +38,16 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.37 - 7 Oct 2017 ###
+* Semantic improvements for sidebars 
+* Improved loading of javascript in templates 
+* Improvements to search forms and filters 
+* Minor performance updates for related news 
+* RTF file type added to templates and tracking 
+* Changes to the Tag template, removed additional category links in listings, moved meta info to foot of list items
+* User profile tidy 
+
+
 ### 4.36.1 - 1 Oct 2017 ###
 * Fix for sidebar field not appearing in some templates 
 * New Hashtags plugin  

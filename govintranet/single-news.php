@@ -73,6 +73,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 
 		</div> <!--end of first column-->
 		<div class="col-lg-4  col-md-4 col-sm-4 col-lg-offset-1" id="sidebar">	
+			<h2 class="sr-only">Sidebar</h2>
 				<?php
 
 				get_template_part("part", "sidebar");
@@ -131,10 +132,10 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 
 		 	$alreadydone[] = $post->ID;
 			$update = has_post_format( 'status' , $post->ID ); 
-			$newstype = get_the_terms( $post->ID , 'news-type' ); 
+			$newstype = $post_cat;
 			$ntags = array();
 			$nidtags = array();
-			$newstags = get_the_tags( $post->ID); 
+			$newstags = $posttags;
 			$recentitems = new WP_Query(); 
 
 			if ($newstype):
@@ -276,13 +277,16 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 		</div> <!--end of second column-->
 			
 <?php endwhile; // end of the loop. ?>
-<script>
+<?php if ( $update ): ?>
+<script type="text/javascript">
+jQuery(document).ready(function(){	
 	if (location.protocol === 'https:') {
 		var contype = 1;
 	}else{
 		var contype = 0;
 	}
 	setCookie('ht_need_to_know_<?php echo $post->ID; ?>','closed','10080','/',0,contype); 
+});		
 </script>
-
+<?php endif; ?>
 <?php get_footer(); ?>

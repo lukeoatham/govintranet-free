@@ -66,5 +66,6 @@ jQuery(document).ready(function() {
 	
 }); 
 </script>
-<?php endwhile; 
-	 get_footer(); ?>
+<?php endwhile; ?>
+
+<?php get_footer(); ?>

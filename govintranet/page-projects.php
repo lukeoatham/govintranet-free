@@ -1,9 +1,10 @@
 <?php
 /* Template name: Projects */
 
-get_header(); ?>
+get_header(); 
+wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_search' );
 
-<?php 
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		<div class="col-lg-8 col-md-8 col-sm-8 white ">
 			<div class="row">
@@ -36,17 +37,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					</div>
 				</form>
 			</div>
-			<script type='text/javascript'>
-			    jQuery(document).ready(function(){
-					jQuery('#sbc-search').submit(function(e) {
-					    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
-					        e.preventDefault();
-					        jQuery('#sbc-s').focus();
-					    }
-					});	
-				});	
-			
-			</script>
 			<?php
 			$show = ''; 
 			if ( isset($_GET['show']) ) $show = $_GET['show'];
@@ -113,6 +103,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		</div>
 
 		<div class="col-lg-4 col-md-4 col-sm-4" id="sidebar">
+			<h2 class="sr-only">Sidebar</h2>
 			<?php 
 			get_template_part("part", "sidebar"); 
 			get_template_part("part", "related");

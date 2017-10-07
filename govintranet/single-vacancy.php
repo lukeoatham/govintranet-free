@@ -92,7 +92,7 @@ $current_vac = $id;
 		</div> <!--end of first column-->
 		
 		<div class="col-lg-4 col-md-5 col-sm-6" id="sidebar">	
-
+			<h2 class="sr-only">Sidebar</h2>
 			<?php
 
 			get_template_part("part", "sidebar");

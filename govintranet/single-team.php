@@ -10,6 +10,12 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 $showmobile = get_option('options_show_mobile_on_staff_cards'); // 1 = show
 $fulldetails = get_option('options_full_detail_staff_cards');
 
+wp_register_script( 'scripts_grid', get_template_directory_uri() . '/js/ht-scripts-grid.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_grid' );
+
+wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_search' );
+
 wp_register_script( 'masonry.pkgd.min', get_template_directory_uri() . "/js/masonry.pkgd.min.js");
 wp_enqueue_script( 'masonry.pkgd.min',95 );
 
@@ -100,22 +106,12 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						</div>
 				  	</div>
 				</div>
+			<?php endif; ?>
 
-				<script type='text/javascript'>
-				    jQuery(document).ready(function(){
-						jQuery('#searchform2').submit(function(e) {
-						    if (jQuery.trim(jQuery("#s2").val()) === "") {
-						        e.preventDefault();
-						        jQuery('#s2').focus();
-						    }
-						});	
-					});	
-				</script>
-
-				<?php endif; ?>
 			</div>
 
 			<div class="col-md-4 col-sm-12" id="sidebar">
+				<h2 class="sr-only">Sidebar</h2>
 				<?php
 				wp_reset_postdata();
 				
@@ -127,7 +123,6 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 					$pid = $newp->post_parent;
 				}
 				
-				
 				$teams = get_posts(array(
 					'post_type'=>'team',
 					'posts_per_page'=>-1,
@@ -135,7 +130,7 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 					'order'=>'ASC',
 					'post_parent'=>$post->ID
 					)
-					);
+				);
 					
 				if ($teams) {
 					$teamstr = '';
@@ -151,11 +146,17 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 			$teamleaderid = get_post_meta($id, 'team_lead', true);
 			$counter=0;
 			$tcounter=0;
+			$tl_text = '';
+			$tl_valid = false;
+			
 			if ( $teamleaderid ):
-				echo "<div class='col-sm-12'></div>";
+				$tl_text.= "<div class='col-sm-12'></div>";
 			
 				foreach ($teamleaderid as $userid){
+					$live_user = get_user_by( 'ID', $userid );
+					if (!$live_user ) continue;
 					$alreadyshown[$userid] = true;	
+					$tl_valid = true;
 					$context = get_user_meta($userid,'user_job_title',true);
 					if ($context=='') $context="staff";
 					$icon = "user";			
@@ -169,16 +170,16 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 					$avatarhtml = str_replace("photo", "photo alignleft".$avstyle, $avatarhtml);
 					if ($fulldetails){
 							
-						echo "<div class='col-lg-4 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".$userurl."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."'><strong>".$displayname."</strong></a><br>";
+						$tl_text.= "<div class='col-lg-4 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".$userurl."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."'><strong>".$displayname."</strong></a><br>";
 
 						if ( get_user_meta($userid ,'user_job_title',true )) : 
 							$meta = get_user_meta($userid ,'user_job_title',true );
-							echo '<span class="small">'.$meta."</span><br>";
+							$tl_text.= '<span class="small">'.$meta."</span><br>";
 						endif; 
 						
-						if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-						if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span><br>";
-						echo '<span class="small"><a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></span></div></div></div>';
+						if ( get_user_meta($userid ,'user_telephone',true )) $tl_text.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+						if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $tl_text.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span><br>";
+						$tl_text.= '<span class="small"><a href="mailto:'.$user_info->user_email.'">Email '. $user_info->first_name. '</a></span></div></div></div>';
 						
 						$counter++;	
 						$tcounter++;	
@@ -187,18 +188,21 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 
 					} else { 
 
-						echo "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+						$tl_text.= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 							
-						if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
+						if ( get_user_meta($userid ,'user_job_title',true )) $tl_text.= '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
-						if ( get_user_meta($userid ,'user_telephone',true )) echo '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-						if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) echo '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+						if ( get_user_meta($userid ,'user_telephone',true )) $tl_text.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+						if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $tl_text.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
 										
-						echo "</div></div></div></div></a>";
+						$tl_text.= "</div></div></div></div></a>";
 						$counter++;	
 					}
 				}
-				echo "<div class='col-sm-12'><hr></div>";
+				$tl_text.= "<div class='col-sm-12'><hr></div>";
+				if ( $tl_valid === true ):
+					 echo $tl_text; 
+				endif;
 
 			else:
 
@@ -215,12 +219,12 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 					//***********************************************************************************************
 					//query all sub teams for this team
 					$term_query = get_pages(array(
-					'post_type'=>'team',
-					'posts_per_page'=>-1,
-					'orderby'=>'title',
-					'order'=>'ASC',
-					'child_of'=> $post->ID
-					)
+						'post_type'=>'team',
+						'posts_per_page'=>-1,
+						'orderby'=>'title',
+						'order'=>'ASC',
+						'child_of'=> $post->ID
+						)
 					);
 
 		 			$iteams = array();
@@ -272,7 +276,6 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 						$avatarhtml = get_avatar($userid ,66);
 						$avatarhtml = str_replace(" photo", " photo alignleft".$avstyle, $avatarhtml);
 						if ($fulldetails) {
-								
 							echo "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".$userurl."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
 							// display team name(s)
@@ -284,9 +287,8 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 									echo "<a href='".get_permalink($theme->ID)."'>".govintranetpress_custom_title($theme->post_title)."</a><br>";
 						  		}
 							}  
-							?>
 
-						<?php if ( get_user_meta($userid ,'user_job_title',true )) : 
+							if ( get_user_meta($userid ,'user_job_title',true )) : 
 									$meta = get_user_meta($userid ,'user_job_title',true );
 									echo '<span class="small">'.$meta."</span><br>";
 							endif; 
@@ -319,26 +321,11 @@ wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
 							echo "</div></div></a></div></div>";
 							$counter++;	
 						}	
-						
 					}			
 		 			?>
-
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<script>
-jQuery(document).ready(function($){
-var $container = jQuery('#gridcontainer');
-$container.imagesLoaded(function(){
-$container.masonry({
-		itemSelector: '.pgrid-item',
-		gutter: 0,
-		isAnimated: true
-});
-});
-});
-</script>
-
 <?php get_footer(); ?>

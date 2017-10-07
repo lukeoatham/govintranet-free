@@ -31,6 +31,8 @@ if ($gishelpfulsearch == 1):
 	endif;
 endif;
 get_header(); 
+wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_search' );
 $include_attachments = get_option("options_enable_include_attachments");
 $include_forums = get_option("options_enable_include_forums");			
 $closed_filter = get_option("options_enable_closed_search_filter");
@@ -67,6 +69,7 @@ if( $showusers ){
 	}
 	$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
 	$hidden .= '<input type="hidden" name="include" id="search-filter-include">';
+	$hidden .= '<input type="hidden" name="post_types[]" id="search-filter-users">';
 }
 if( $pt->labels->name > "Forums" && $showforums && $include_forums ){
 	$showforums = false;
@@ -223,6 +226,7 @@ if ( !$is_filtered && $closed_filter){
 			<div class="input-group">
 		    <label for="nameSearch" class="sr-only"><?php _e('Search again','govintranet'); ?></label>
 			<input type="text" class="form-control" placeholder="<?php _e('Search again','govintranet'); ?>" name="s" id="nameSearch" value="<?php echo the_search_query();?>">
+			<?php echo $hidden; ?>
 			<span class="input-group-btn"><button id="search-again-button" type="submit" class="btn btn-primary"><?php _e('Search again','govintranet'); ?></button></span>
 			</div>
 		</form>
@@ -319,6 +323,7 @@ if ( !$is_filtered && $closed_filter){
 </div>
 
 <div class="col-lg-4 col-md-4 col-sm-12">
+	<h2 class="sr-only">Sidebar</h2>
 	<div id="search_filter">
 		<div id="accordion">
 	      <h3>
@@ -359,6 +364,7 @@ if ( !$is_filtered && $closed_filter){
 		?>				
 		if ( jQuery( "#filter-check-include" ).attr("checked")){
 			jQuery("#search-filter-include").val("user");	
+			jQuery("#search-filter-users").val("user");	
 		} else {
 			jQuery("#search-filter-include").val("");
 		}
@@ -398,8 +404,10 @@ if ( !$is_filtered && $closed_filter){
 		jQuery( "#filter-check-include" ).click(function() {
 			if ( jQuery( "#filter-check-include" ).attr("checked")){
 				jQuery("#search-filter-include").val("user");	
+				jQuery("#search-filter-users").val("user");	
 			} else {
 				jQuery("#search-filter-include").val("");
+				jQuery("#search-filter-users").val("");	
 			}
 		});
 		jQuery( "#filter-check-page" ).click(function() {
@@ -462,7 +470,7 @@ if ( !$is_filtered && $closed_filter){
 			if ( jQuery( "#filter-check-forum" ).attr("checked") != "checked"){ jQuery( "#search-filter-forum" ).remove();}
 			if ( jQuery( "#filter-check-topic" ).attr("checked") != "checked"){ jQuery( "#search-filter-topic" ).remove();}
 			if ( jQuery( "#filter-check-reply" ).attr("checked") != "checked"){ jQuery( "#search-filter-reply" ).remove();}
-			if ( jQuery( "#filter-check-include" ).attr("checked") != "checked"){ jQuery("#search-filter-include").remove(); }
+			if ( jQuery( "#filter-check-include" ).attr("checked") != "checked"){ jQuery("#search-filter-include").remove(); jQuery("#search-filter-users").remove(); }
 			if ( jQuery( "#filter-check-media" ).attr("checked") != "checked"){ jQuery("#search-filter-media").remove(); }
 			if ( jQuery( "#filter-check-attachment" ).attr("checked") != "checked"){ jQuery("#search-filter-attachment").remove(); }
 			if ( jQuery( "#filter-check-orderby" ).attr("checked") != "checked"){ jQuery("#search-filter-orderby").remove(); }

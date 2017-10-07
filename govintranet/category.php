@@ -6,6 +6,8 @@
  */
 
 get_header(); 
+wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_search' );
 $taskicon = get_option("options_module_tasks_icon_tasks", "glyphicon glyphicon-file");
 $guideicon = get_option("options_module_tasks_icon_guides", "glyphicon glyphicon-duplicate");
 $tags_open = get_option("options_module_tasks_tags_open", false );
@@ -71,9 +73,8 @@ if ( have_posts() )
 		?>		
 
 		<h1 <?php echo "class='h1_" . $catid . "'>". single_tag_title( '', false ) ; ?></h1>
-	
-		<?php 
-		echo wpautop($catdesc); ?>
+		<h2 class="sr-only">Listing page <?php echo $paged; ?></h2>
+		<?php echo wpautop($catdesc); ?>
 		<form class="form-horizontal" method="get" name="task-category" id="category-search" action="<?php echo site_url( '/' ); ?>">
 			<div class="input-group input-md">
 				<label for="sbc-s" class="sr-only"><?php _e('Search','govintranet'); ?></label>
@@ -96,19 +97,6 @@ if ( have_posts() )
 				<input type="hidden" value="task" name = "post_type[]" />
 			</div>
 		</form>
-
-		<script type='text/javascript'>
-		    jQuery(document).ready(function(){
-				jQuery('#category-search').submit(function(e) {
-				    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
-				        e.preventDefault();
-				        jQuery('#sbc-s').focus();
-				    }
-				});	
-			});	
-		
-		</script>
-							
 							
 		<?php 
 		$tagcloud = gi_tag_cloud('category',$catslug,'task'); 
@@ -195,14 +183,12 @@ if ( have_posts() )
 			the_excerpt(); 
 			echo "</div>";
 		 }
-		 ?>
-		 <?php 	if (  $taskitems->max_num_pages > 1 ) : ?>
-		 		<?php if (function_exists('wp_pagenavi')) : ?>
-					<?php wp_pagenavi(array('query' => $taskitems)); ?>
-				<?php else : ?>
-			<?php next_posts_link(__('&larr; Older items','govintranet'), $taskitems->max_num_pages); ?>
-			<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $taskitems->max_num_pages); ?>						
-			<?php 
+		 if (  $taskitems->max_num_pages > 1 ) : 
+			if (function_exists('wp_pagenavi')) : 
+				wp_pagenavi(array('query' => $taskitems)); 
+			else : 
+				next_posts_link(__('&larr; Older items','govintranet'), $taskitems->max_num_pages); 
+				previous_posts_link(__('Newer items &rarr;','govintranet'), $taskitems->max_num_pages); 
 			endif; 
 		endif; 
 		wp_reset_query();								
@@ -210,7 +196,7 @@ if ( have_posts() )
 	</div>
 
 	<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12" id="sidebar">
-
+		<h2 class="sr-only">Sidebar</h2>
 		<?php
 		$terms = get_terms('category',array("hide_empty"=>true,"parent"=>$catid));
 		if ( !$terms && $catparentid ) $terms = get_terms('category',array("hide_empty"=>true,"parent"=>$catparentid));

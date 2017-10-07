@@ -65,6 +65,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 		</div> <!--end of first column-->
 
 		<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12" id="sidebar">
+			<h2 class="sr-only">Sidebar</h2>
 			<?php
             $user = get_userdata($post->post_author);
             

@@ -1,12 +1,12 @@
 <?php
 /* Template name: How do I? classic page */
 
-get_header(); ?>
+get_header(); 
+	
+wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_search' );
 
-<?php if ( have_posts() ) while ( have_posts() ) : the_post(); 
-?>
-
-
+if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 <div class="col-sm-12 white">
 	<div class="row">
 		<div class='breadcrumbs'>
@@ -45,21 +45,7 @@ get_header(); ?>
 						</div><!-- /input-group -->
 					</form>
 				</div>
-				<script type='text/javascript'>
-				    jQuery(document).ready(function(){
-						jQuery('#task-alt-search').submit(function(e) {
-						    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
-						        e.preventDefault();
-						        jQuery('#sbc-s').focus();
-						    }
-						});	
-					});	
-				
-				</script>	
-		
 			</div>
-			
-			
 			<?php
 			// Display category blocks
 			
@@ -100,8 +86,6 @@ get_header(); ?>
 			if ($catcount == 3) echo "</div><!-- end 3 -->";
 			if ($catcount == 2) echo "</div><!-- end 2 -->";
 			if ($catcount < 2) echo "</div><!-- end 1 -->";
-		
-
 			$taghtml = "";
 			$taghtml = get_transient("ht_how_do_i_tags");
 			if ( !$taghtml ):
@@ -127,7 +111,6 @@ get_header(); ?>
 				<?php
 			endif;
 			?>
-		
 		</div>
 		<div class="col-sm-3">
 		<?php 	if (is_active_sidebar('tasklanding-widget-area')) dynamic_sidebar('tasklanding-widget-area'); ?>

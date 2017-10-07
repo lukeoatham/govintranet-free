@@ -232,6 +232,7 @@ if ( have_posts() ) while ( have_posts() ) :
 		</div> <!--end of first column-->
 
 		<div class="col-lg-4 col-md-4 col-sm-4" id="sidebar">	
+			<h2 class="sr-only">Sidebar</h2>
 		
 			<?php 
 

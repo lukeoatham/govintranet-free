@@ -374,6 +374,7 @@ Template Name: Newsboard
 	</div>
 
 	<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 white" id="sidebar">
+		<h2 class="sr-only">Sidebar</h2>
 		<?php 
 		get_template_part("part", "sidebar");
 		if (is_active_sidebar('newslanding-widget-area')) dynamic_sidebar('newslanding-widget-area'); 

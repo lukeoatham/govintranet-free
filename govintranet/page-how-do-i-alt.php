@@ -1,11 +1,11 @@
 <?php
 /* Template name: How do I? alt page */
 
-get_header(); ?>
+get_header(); 
+wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_search' );
 
-<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-
-
+if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 <div class="col-lg-8 col-md-8 white">
 	<div class="row">
 		<div class='breadcrumbs'>
@@ -110,19 +110,6 @@ get_header(); ?>
 		<?php if (is_active_sidebar('tasklanding-widget-area')) dynamic_sidebar('tasklanding-widget-area'); ?>
 	</div>
 
-
-
 <?php endwhile; ?>
-<script type='text/javascript'>
-    jQuery(document).ready(function(){
-		jQuery('#task-alt-search').submit(function(e) {
-		    if (jQuery.trim(jQuery("#sbc-s").val()) === "") {
-		        e.preventDefault();
-		        jQuery('#sbc-s').focus();
-		    }
-		});	
-	});	
-
-</script>
 
 <?php get_footer(); ?>

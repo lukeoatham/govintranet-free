@@ -1,10 +1,14 @@
 <?php
 /* Template name: Staff directory flexible */
 
-wp_enqueue_script( 'masonry',1 );
-					
 get_header(); 
+wp_enqueue_script( 'masonry',1 );
+wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_search' );
+wp_register_script( 'scripts_grid', get_template_directory_uri() . '/js/ht-scripts-grid.js','' ,'' ,true );
+wp_enqueue_script( 'scripts_grid' );
 
+					
 $fulldetails=get_option('options_full_detail_staff_cards'); // 1 = show
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 $showgrade = get_option('options_show_grade_on_staff_cards'); // 1 = show 
@@ -69,16 +73,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				</div>
 			</div>
 		</div><!--end-->	
-		<script type='text/javascript'>
-		    jQuery(document).ready(function(){
-				jQuery('#searchform2').submit(function(e) {
-				    if (jQuery.trim(jQuery("#s2").val()) === "") {
-				        e.preventDefault();
-				        jQuery('#s2').focus();
-				    }
-				});	
-			});	
-		</script>
 		<div class="col-lg-4 col-md-4 col-sm-12">
 			<!-- intentionally left blank -->
 		</div>
@@ -250,18 +244,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 	<?php
 	}
 	?>
-	<script type="text/javascript">
-	jQuery(document).ready(function($){
-	var container = jQuery('#gridcontainer');
-	container.imagesLoaded(function(){
-	container.masonry({
-			itemSelector: '.pgrid-item',
-			gutter: 0,
-			isAnimated: true
-	});
-	});
-	});
-	</script>
 		<div class="col-lg-12 col-md-12 col-sm-12">
 			<div class="col-lg-12 col-md-12 col-sm-12">
 				<?php the_content(); ?>

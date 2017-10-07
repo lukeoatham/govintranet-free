@@ -152,11 +152,7 @@ do_action( 'bbp_template_before_user_profile' );
 	</div>
 
 	<div class="clearfix col-lg-5 col-md-5 col-sm-12">
-		<?php if ( get_option('options_module_staff_directory') ){ ?>
-			<script>
-			jQuery('.tlink').tooltip();
-			</script>
-			<?php 
+		<?php if ( get_option('options_module_staff_directory') ){ 
 			$poduserparent = get_user_meta( $user_id , 'user_line_manager', true); 
 			$poduserparent = get_userdata($poduserparent);
 			echo "<div class='panel panel-default'>

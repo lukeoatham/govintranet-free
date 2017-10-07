@@ -256,6 +256,7 @@ get_header(); ?>
 	</div>
 	
 	<div class="col-md-4" id="sidebar">
+		<h2 class="sr-only">Sidebar</h2>		
 		<?php 
 		get_template_part("part", "sidebar"); 
 		get_template_part("part", "related");

@@ -146,6 +146,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		</div>
 		
 		<div class="col-lg-4 col-md-4 col-sm-5 col-sx-12" id="sidebar">
+			<h2 class="sr-only">Sidebar</h2>
 			<?php 
 			get_template_part("part", "sidebar"); 
 			get_template_part("part", "related");

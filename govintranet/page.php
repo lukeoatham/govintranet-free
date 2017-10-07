@@ -33,6 +33,7 @@ get_header(); ?>
 	</div> 
 
 	<div class="col-lg-4 col-md-4 col-sm-4" id="sidebar">
+		<h2 class="sr-only">Sidebar</h2>
 		<?php 
 		if ( has_post_thumbnail( $id )){	
 			the_post_thumbnail('large', array('class'=>'img img-responsive')); 

@@ -179,6 +179,7 @@ get_header();
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-6 white" id="sidebar">
+				<h2 class="sr-only">Sidebar</h2>
 			<?php 		if (is_active_sidebar('newslanding-widget-area')) dynamic_sidebar('newslanding-widget-area'); ?>
 			</div>			
 

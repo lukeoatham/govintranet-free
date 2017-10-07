@@ -69,6 +69,7 @@ if ( isset(get_queried_object()->term_id) ) $catid = get_queried_object()->term_
 		</div>
 
 	<div class="col-lg-4 col-md-4" id="sidebar">
+		<h2 class="sr-only">Sidebar</h2>
 		<div id="related">
 			<?php if (is_tax(array('news-update-type')) || is_post_type_archive('news-update')):
 					$taxonomies=array();
