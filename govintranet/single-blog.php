@@ -67,17 +67,18 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 		<div class="col-lg-4 col-lg-offset-1 col-md-4 col-sm-12" id="sidebar">
 			<h2 class="sr-only">Sidebar</h2>
 			<?php
+			$sidehtml = '';
             $user = get_userdata($post->post_author);
             
-            echo "<div class='widget-box'><h3>" . __('Author' , 'govintranet') . "</h3><div class='well'><div class='media'>";
+            $sidehtml.= "<div class='widget-box'><h3>" . __('Author' , 'govintranet') . "</h3><div class='well'><div class='media'>";
             
             $gis = "options_module_staff_directory";
 			$forumsupport = get_option($gis); 
 			if ($forumsupport){
 				$profile_url = gi_get_user_url($post->post_author); 
-                echo "<a class='pull-left' href='" . $profile_url . "'>";
+                $sidehtml.= "<a class='pull-left' href='" . $profile_url . "'>";
             } else {
-                echo "<a class='pull-left' href='".site_url()."/author/" . $user->user_nicename . "/'>";	                        
+                $sidehtml.= "<a class='pull-left' href='".site_url()."/author/" . $user->user_nicename . "/'>";	                        
             }
 			$user_info = get_userdata($post->post_author);
 			$displayname = get_user_meta($post->post_author ,'first_name',true )." ".get_user_meta($post->post_author ,'last_name',true );		
@@ -88,19 +89,20 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 			$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
 			$image_url = str_replace('"150"', '"96"', $image_url);
 			$image_url = str_replace("'150'", "'96'", $image_url);
-            echo $image_url;
-            echo "</a>";
-            echo "<div class='media-body'><p class='media-heading'>";
-            echo "<strong>".$user->display_name."</strong><br>";                        
+            $sidehtml.= $image_url;
+            $sidehtml.= "</a>";
+            $sidehtml.= "<div class='media-body'><p class='media-heading'>";
+            $sidehtml.= "<strong>".$user->display_name."</strong><br>";                        
             $jobtitle = get_user_meta($user->ID, 'user_job_title',true);
             $bio = get_user_meta($user->ID,'description',true);                        
-			echo "<strong>".$jobtitle."</strong><br class='blog-staff-profile-link'>";
+			$sidehtml.= "<strong>".$jobtitle."</strong><br class='blog-staff-profile-link'>";
             if ($forumsupport){
-                echo "<a class='blog-staff-profile-link' href='" . $profile_url . "' title='".esc_attr($user->display_name)."'>".__('Staff profile','govintranet')."</a><br>";
+                $sidehtml.= "<a class='blog-staff-profile-link' href='" . $profile_url . "' title='".esc_attr($user->display_name)."'>".__('Staff profile','govintranet')."</a><br>";
             }
-            echo "<a class='blog-author-link'  href='".site_url()."/author/";
-			echo $user->user_nicename . "/' title='".esc_attr($user->display_name)."'>".__('Blog posts','govintranet')."</a><br class='blog-author-link'>";
-			echo "</div></div></div></div>";
+            $sidehtml.= "<a class='blog-author-link'  href='".site_url()."/author/";
+			$sidehtml.= $user->user_nicename . "/' title='".esc_attr($user->display_name)."'>".__('Blog posts','govintranet')."</a><br class='blog-author-link'>";
+			$sidehtml.= "</div></div></div></div>";
+			echo $sidehtml;
 			
 			get_template_part("part", "sidebar");
 
@@ -150,7 +152,6 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 			$alreadydone = array($mainid);
 			$autos_to_show = 5;
 			$final_cut = array();
-			
 			$relateditems = new WP_Query();
 			
 			// BOTH CATEGORIES AND TAGS
@@ -311,7 +312,8 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 						$gis = "options_forum_support";
 						$staffdirectory = get_option('options_module_staff_directory');
 						$user_info = get_userdata($slot['post_author']);
-						$displayname = get_user_meta($slot['post_author'] ,'first_name',true )." ".get_user_meta($slot['post_author'] ,'last_name',true );							$forumsupport = get_option($gis);
+						$displayname = get_user_meta($slot['post_author'] ,'first_name',true )." ".get_user_meta($slot['post_author'] ,'last_name',true );							
+						$forumsupport = get_option($gis);
 						$html.= "<span class='nowrap'>";
 						if ($forumsupport){	
 							$profile_url = gi_get_user_url($slot['post_author']); 
@@ -329,8 +331,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 							$html.= "<span class='listglyph'>".$auth."</span>";
 							$html.= "</a> ";
 						} else {
-			                $html.= " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";			   
-					   	}
+			                $html.= " <a href='".site_url()."/author/" . $user->user_nicename . "/'>" . $user->display_name . "</a>";						   	}
 					   	$html.= "</span>";
 						$html.= "<br>".get_the_excerpt()."<br><span class='news_date'><a class='more' href='{$thisURL}' title='".esc_attr(get_the_title())."'>" . __('Read more' , 'govintranet') . "</a></span></div><div class='clearfix'></div><hr class='light' />";
 					}

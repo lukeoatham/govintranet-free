@@ -26,7 +26,7 @@ if ( have_posts() ) while ( have_posts() ) :
 	} else {
 		$parent_guide_id = $post->ID;
 	}
-	$children_chapters = get_posts ("post_type=project&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order&order=ASC");
+	$children_chapters = get_posts ("post_type=project&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order title&order=ASC");
 	
 	if (!$parent_guide && !$children_chapters){
 		$singletask=true;
@@ -68,9 +68,8 @@ if ( have_posts() ) while ( have_posts() ) :
 		<div>
 			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranet'); ?></small></h1>
 			<?php 
-			$podchap = get_post($parent_guide_id); 
 			$alreadydone[]=$parent_guide_id;
-			$children_chapters = get_posts("post_type=project&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order&order=ASC");
+			$children_chapters = get_posts("post_type=project&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order title&order=ASC");
 			$totalchapters = count($children_chapters) + 1;
 			$halfchapters = round($totalchapters/2,0,PHP_ROUND_HALF_UP); 
 			?>
@@ -232,8 +231,9 @@ if ( have_posts() ) while ( have_posts() ) :
 		</div> <!--end of first column-->
 
 		<div class="col-lg-4 col-md-4 col-sm-4" id="sidebar">	
-			<h2 class="sr-only">Sidebar</h2>
 		
+			<h2 class="sr-only">Sidebar</h2>
+
 			<?php 
 
 			get_template_part("part", "sidebar");

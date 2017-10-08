@@ -25,7 +25,7 @@ if ($post->post_parent != 0){
 } else {
 	$parent_guide_id = $post->ID;
 } 
-$children_chapters = get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order&order=ASC");
+$children_chapters = get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order title&order=ASC");
 
 if (!$parent_guide && !$children_chapters){
 	$singletask=true; 
@@ -56,7 +56,7 @@ if ($pagetypeorig=="guide"): ?>
 		<?php 
 		$podchap = get_post($parent_guide_id); 
 		$alreadydone[]=$parent_guide_id;
-		$children_chapters = get_posts("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order&order=ASC");
+		$children_chapters = get_posts("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$parent_guide_id."&orderby=menu_order title&order=ASC");
 		$totalchapters = count($children_chapters) + 1;
 		$halfchapters = round($totalchapters/2,0,PHP_ROUND_HALF_UP); 
 		if ( $totalchapters == 2 ) $halfchapters = 1;
