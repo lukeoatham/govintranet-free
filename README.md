@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.37.2 - 8 Oct 2017 ###
+* Added Title as secondary sort field for multi-page projects and tasks 
+
 ### 4.37.1 - 7 Oct 2017 ###
 * Removed category links from search results  
 
