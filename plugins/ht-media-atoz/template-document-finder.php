@@ -134,6 +134,7 @@ global $wpdb;
 						<input type="hidden" name="doctyp" value="<?php echo $doctyp; ?>" />
 						<input type="hidden" name="cat" value="<?php echo $cat_slug; ?>" />
 						<input type="hidden" name="matoz" value="<?php echo $matoz; ?>" />
+						<input type="hidden" name="paged" value="1" />
 					</form>
 			  	</div>
 				<div class="clearfix"></div>
@@ -382,23 +383,15 @@ global $wpdb;
 					$docfinder['s'] = $search;
 				}		
 				
-				$docs = new WP_Query($docfinder);
+				$docs = get_posts($docfinder);
 				
 				$postsarray = array();
-				
-				if ( $docs->have_posts(  ) ) while ( $docs->have_posts(  ) ){
-					$docs->the_post(  ); 
-					$postsarray[] = $id;
-/*
-					if (!is_object($doc)):
-						$postsarray[]=$doc['ID'];
-					else:
-						$postsarray[]=$doc->ID;
-					endif;
-*/
-				};
+
+				if ( isset($docs) ) foreach($docs as $doc){ 
+					$postsarray[]=$doc;
+				}
 		
-				if ( !$docs->have_posts ) {
+				if (count($docs) == 0 ) {
 					$postsarray[]='';
 				}
 				

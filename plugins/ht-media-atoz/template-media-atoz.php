@@ -227,7 +227,7 @@ $filter_cols = 12 / $filter_count;
 				<button id = "doccatbutton" type="button" class="btn btn-primary dropdown-toggle2" data-toggle="dropdown">
 				<?php echo $catname; ?></button>
 				<ul class='dropdown-menu docspinner matoz' role="menu">
-					<?php
+				<?php
 				$active = "";
 				if ( !$cat_slug || $cat_slug == "any" ) $active = " class='active'";
 				if ($doctyp !='any' ) {
@@ -252,14 +252,14 @@ $filter_cols = 12 / $filter_count;
 						}
 					}
 				}
-				?>
-				</ul>
+				echo "</ul>
 				</div>
-			</div><?php
+			</div>";
 			}
-			?> 			
-		</div>
-		<?php endif; ?>
+			
+			echo "</div>";
+			
+		endif; ?>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -400,33 +400,25 @@ $filter_cols = 12 / $filter_count;
 				if ( $search ){
 					$docfinder['s'] = $search;
 				}		
-				
-				$docs = new WP_Query($docfinder);
-				
-				$postsarray = array();
-				
-				if ( $docs->have_posts(  ) ) while ( $docs->have_posts(  ) ){
-					$docs->the_post(  ); 
-					$postsarray[] = $id;
-/*
-					if (!is_object($doc)):
-						$postsarray[]=$doc['ID'];
-					else:
-						$postsarray[]=$doc->ID;
-					endif;
-*/
-				};
-		
-				if ( !$docs->have_posts ) {
-					$postsarray[]='';
-				}
-				
+
 				$counter = 0;	
 				$max_posts = 25;
+								
+				$docs = get_posts($docfinder);
+				
+				$postsarray = array();
+
+				if ( isset($docs) ) foreach($docs as $doc){ 
+					$postsarray[]=$doc;
+				}
+		
+				if (count($docs) == 0 ) {
+					$postsarray[]='';
+				}
 
 				$docs = new wp_query(array('orderby'=>'title','order'=>'ASC','post_status'=>'inherit','posts_per_page'=>$max_posts,'paged'=>$paged,'post_type'=>'attachment','post__in'=>$postsarray));
 
-				if ( $docs->found_posts == 0 ) {
+				if ( !$docs->have_posts( )) {
 					?>
 					<h3 class="widget-title">
 						<?php _e('No results' , 'govintranet'); ?>
@@ -445,9 +437,9 @@ $filter_cols = 12 / $filter_count;
 					</h3>
 					<?php
 				}
-				wp_reset_query(  );
+				
 				if ( $is_filtered ):
-					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."'>".__('Reset filters','govintranet')."</a>";
+					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink()."'>".__('Reset filters','govintranet')."</a>";
 				endif;
 				if ( $cat_slug!="any" ):
 					echo "<a class='btn btn-primary btn-sm pull-right matoz' href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat=&matoz={$matoz}&q={$search}'>".strtoupper($catname)." <span class='badge small'>X</span></a>";
@@ -473,7 +465,7 @@ $filter_cols = 12 / $filter_count;
 				if ( $docs->have_posts() ) while ( $docs->have_posts() ) : $docs->the_post(); 
 					
 					echo '<li class="docresult"><a href="'.wp_get_attachment_url().'">';
-					echo esc_html($post->post_title);
+					echo esc_html(get_the_title());
 					echo '</a>';
 					if ( $showlinks ){
 						$in_context = array();
@@ -514,29 +506,24 @@ $filter_cols = 12 / $filter_count;
 							echo $in_context[0];
 						}
 
-
 					}
 					
-					
 					echo '</li>';
+
 				endwhile;
 			
 				echo '</ul></div>';
 			
 				wp_reset_query();
-		
-				?>
 				
-				
-				
-				<?php if ( $docs->max_num_pages > 1 ) : ?>
-					<?php if (function_exists('wp_pagenavi')) : ?>
-						<?php wp_pagenavi(array('query' => $docs)); ?>
-					<?php else : ?>
-						<?php next_posts_link(__('&larr; Older items','govintranet'), $docs->max_num_pages); ?>
-						<?php previous_posts_link(__('Newer items &rarr;','govintranet'), $docs->max_num_pages); ?>						
-					<?php endif; ?>
-				<?php endif; ?>
+				if ( $docs->max_num_pages > 1 ) : 
+					if (function_exists('wp_pagenavi')) : 
+						wp_pagenavi(array('query' => $docs)); 
+					else : 
+						next_posts_link(__('&larr; Older items','govintranet'), $docs->max_num_pages); 
+						previous_posts_link(__('Newer items &rarr;','govintranet'), $docs->max_num_pages); 
+					endif; 
+				endif; ?>
 		
 			</div>
 		</div>
