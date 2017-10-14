@@ -19,7 +19,7 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 			<span class='vcard'>
 				<a class="url fn n" href="<?php bbp_user_profile_url(); ?>" title="<?php esc_attr(bbp_displayed_user_field( 'display_name' )); ?>" rel="me">
 					<?php
-					$user_id = bbp_get_displayed_user_field( 'id' ); 
+					$user_id = bbp_get_displayed_user_field( 'ID' ); 
 					$avstyle=" img-responsive";
 					if ( $directorystyle==1 ) $avstyle.= " img-circle";
 					$imgsrc = get_avatar($user_id ,150,"",bbp_get_displayed_user_field( 'display_name' ));

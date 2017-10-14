@@ -10,17 +10,11 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 $showmobile = get_option('options_show_mobile_on_staff_cards'); // 1 = show
 $fulldetails = get_option('options_full_detail_staff_cards');
 
-wp_register_script( 'scripts_grid', get_template_directory_uri() . '/js/ht-scripts-grid.js','' ,'' ,true );
-wp_enqueue_script( 'scripts_grid' );
-
+wp_enqueue_script( 'jquery-masonry','',array('jquery'),'',true );
 wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
 wp_enqueue_script( 'scripts_search' );
-
-wp_register_script( 'masonry.pkgd.min', get_template_directory_uri() . "/js/masonry.pkgd.min.js");
-wp_enqueue_script( 'masonry.pkgd.min',95 );
-
-wp_register_script( 'imagesloaded.pkgd.min', get_template_directory_uri() . "/js/imagesloaded.pkgd.min.js");
-wp_enqueue_script( 'imagesloaded.pkgd.min',94 );
+wp_register_script( 'scripts_grid', get_template_directory_uri() . '/js/ht-scripts-grid.js',array('jquery-masonry'),'' ,true );
+wp_enqueue_script( 'scripts_grid' );
 
 ?>
 

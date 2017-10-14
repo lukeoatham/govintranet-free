@@ -2,10 +2,10 @@
 /* Template name: Staff directory flexible */
 
 get_header(); 
-wp_enqueue_script( 'masonry',1 );
+wp_enqueue_script( 'jquery-masonry','',array('jquery'),'',true );
 wp_register_script( 'scripts_search', get_template_directory_uri() . '/js/ht-scripts-search.js','' ,'' ,true );
 wp_enqueue_script( 'scripts_search' );
-wp_register_script( 'scripts_grid', get_template_directory_uri() . '/js/ht-scripts-grid.js','' ,'' ,true );
+wp_register_script( 'scripts_grid', get_template_directory_uri() . '/js/ht-scripts-grid.js',array('jquery-masonry'),'' ,true );
 wp_enqueue_script( 'scripts_grid' );
 
 					
@@ -221,14 +221,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			<div id="sortfilter">
 				<div class="col-lg-4 col-md-5 col-sm-6">
 					<div class="input-group">
-						<span class="input-group-addon" id="directory-sort"><?php _e('Sort by' , 'govintranet'); ?></span>
 						<div class="input-group-btn">
 						<?php if ($sort=="first") : ?>
-								<a class='btn btn-primary disabled' href="<?php the_permalink(); ?>?sort=first&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('First name' , 'govintranet'); ?></a>
-								<a class='btn btn-primary' href="<?php the_permalink(); ?>?sort=last&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('Last name' , 'govintranet' ); ?></a>
+								<a class='btn btn-primary' href="<?php the_permalink(); ?>?sort=last&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('List by last name' , 'govintranet' ); ?></a>
 						<?php else : ?>
-								<a class='btn btn-primary' href="<?php the_permalink(); ?>?sort=first&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('First name' , 'govintranet'); ?></a>
-								<a class='btn btn-primary disabled' href="<?php the_permalink(); ?>?sort=last&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('Last name' , 'govintranet' ); ?></a>
+								<a class='btn btn-primary' href="<?php the_permalink(); ?>?sort=first&amp;show=<?php echo $requestshow ?>" aria-describedby="directory-sort"><?php _e('List by first name' , 'govintranet'); ?></a>
 						<?php endif; ?>
 						</div>
 					</div>

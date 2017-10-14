@@ -66,6 +66,7 @@
 	$context='';
 	if ($post_type=='Post_tag') { 
 		$icon = "tag"; 
+		$title_context = "<span class='dashicons dashicons-tag'></span>";
 	}	
 	if ($post_type=='Task'){
 		if ($post->post_parent){ // child chapter
@@ -159,9 +160,17 @@
 			$ext_icon = "<span class='dashicons dashicons-migrate'></span>";
 			$ext="class='external-link' ";
 		endif;
-		?>
-		<h3 class='postlist'>				
-		<a class='serps'  data-post-id="<?php echo $post->ID; ?>" href="<?php echo get_the_permalink(get_the_id()); ?>" <?php echo $ext; ?> title="<?php  the_title_attribute( 'echo=1' ); ?>" rel="bookmark"><?php echo get_the_title($post->ID); echo "</a> <small>".$title_context."</small>"; ?><?php echo $ext_icon; ?></h3>
+		
+		echo "<h3 class='postlist'>";
+		if ( $post_type == 'Post_tag' ):
+			echo "<a class='serps'  data-post-id='" . $post->term_id . "' href='" . get_tag_link( $post->term_id ) . "'" . $ext . " title='" .  the_title_attribute( 'echo=0' ) . "' rel='bookmark'>";
+		else:
+			echo "<a class='serps'  data-post-id='" . $post->ID . "' href='" . get_the_permalink(get_the_id()) . "'" . $ext . " title='" .  the_title_attribute( 'echo=0' ) . "' rel='bookmark'>";
+		endif;
+		echo get_the_title($post->ID); 
+		echo "</a> <small>".$title_context."</small>"; 
+		echo $ext_icon; ?>
+		</h3>
 		<?php
 	endif;
 	
@@ -171,7 +180,7 @@
 		echo "'><div class='hidden-xs'>".$image_url."</div></a>" ;
 	endif;
 
-	if (($post_type=="Task" && $pageslug!="category")){
+	if (( $post_type == "Task" && $pageslug != "category" )){
 		echo "<p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
@@ -247,7 +256,7 @@
 		if ($thisdate) $thisdate = date(get_option('date_format'),strtotime($thisdate));
 		echo '<span class="listglyph">'.ucfirst($context).'&nbsp;'.$thisdate.'</span>';
 		echo "</p></div>";
-	} elseif ($post_type != 'Category' && $post_type != 'User') {
+	} elseif ($post_type != 'Category' && $post_type != 'User' && 'Post_tag' != $post_type ) {
 		echo "<div><p>";
 		echo '<span class="listglyph">'.ucfirst($context).'</span>&nbsp;';
 		if ( $post_cat ) foreach($post_cat as $cat){
@@ -262,12 +271,14 @@
 	if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. 
 
 		if ($post_type=='Post_tag') { 
+			echo "<p>";
 			printf( _x( 'All intranet pages tagged with %s' , 'represents the tag name' , 'govintranet' ) , "\"" . get_the_title() . "\"" );
+			echo "</p>";
 		} elseif ($post_type=='Category') { 
 			echo "<div class='media'>" ;
 			?>
 			<h3 class='postlist'>				
-			<a class='serps' data-category-id="<?php echo $post->ID; ?>" href="<?php echo $post->link; ?>" title="<?php the_title_attribute( 'echo=1' );  ?>" rel="bookmark"><?php echo esc_attr($post->post_title); echo "</a> "; ?></h3><span class='listglyph'><?php _e('Tasks and guides category' , 'govintranet'); ?></span>
+			<a class='serps' data-category-id="<?php echo $post->ID; ?>" href="<?php echo $post->link; ?>" title="<?php the_title_attribute( 'echo=1' );  ?>" rel="bookmark"><?php echo esc_attr($post->post_title); echo "</a> "; ?></h3><p><span class='listglyph'><?php _e('Tasks and guides category' , 'govintranet'); ?></span></p>
 			
 
 			<?php

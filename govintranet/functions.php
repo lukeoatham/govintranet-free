@@ -587,27 +587,26 @@ add_action( 'widgets_init', 'govintranet_remove_recent_comments_style' );
 function enqueueThemeScripts() {
 	
 	wp_enqueue_style( 'govintranet-css', get_stylesheet_uri() );	
-	
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-ui-core' );
-	wp_enqueue_script( 'jquery-effects-core' );
-	
-	wp_register_script( 'bootstrap_min', get_template_directory_uri() . "/js/bootstrap.min.js",'','', true);
-	wp_enqueue_script( 'bootstrap_min' );
-	
-	wp_register_script( 'ht-scripts', get_template_directory_uri() . "/js/ht-scripts.js",'','',true);
-	wp_enqueue_script( 'ht-scripts' );
-	
 	wp_register_style( 'dashicons', includes_url("/css/dashicons.min.css"));
 	wp_enqueue_style( 'dashicons' );
 
 	if ( 'Open Sans' == get_option('options_gi_base_font') ){
 		wp_enqueue_style( 'ht-font', "//fonts.googleapis.com/css?family=Open+Sans:300,400,700",'','screen');
 	}
-
+	
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-effects-core' );
+	if ( get_option( "options_gi_use_bootstrap_cdn", 0 ) ){
+		wp_register_script( 'bootstrap-min', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array('jquery'), '3.3.7', true );
+	} else {
+		wp_register_script( 'bootstrap-min', get_template_directory_uri() . "/js/bootstrap.min.js", array('jquery'), '3.3.4', true );
+	}
+	wp_enqueue_script( 'bootstrap-min' );
+	wp_register_script( 'ht-scripts', get_template_directory_uri() . "/js/ht-scripts.js",'','',true);
+	wp_enqueue_script( 'ht-scripts' );
 	wp_register_script('gi-footer', get_template_directory_uri() . '/js/ht-scripts-footer.js',array('ht-scripts'),'',true);
 	wp_enqueue_script('gi-footer');
-
 }
 add_action('wp_enqueue_scripts','enqueueThemeScripts');
 
@@ -2345,6 +2344,26 @@ if( function_exists('acf_add_local_field_group') ){
 					),
 					'placement' => 'top',
 					'endpoint' => 0,
+				),
+				array (
+					'key' => 'field_59da96b9e692d',
+					'label' => __('Use CDN','govintranet'),
+					'name' => 'gi_use_bootstrap_cdn',
+					'type' => 'true_false',
+					'value' => NULL,
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array (
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'message' => __('Load Bootstrap from the MaxCDN network','govintranet'),
+					'default_value' => 0,
+					'ui' => 1,
+					'ui_on_text' => '',
+					'ui_off_text' => '',
 				),
 				array (
 					'key' => 'field_536f747ca21bb',

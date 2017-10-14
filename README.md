@@ -38,6 +38,14 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.37.3 - 8 Oct 2017 ###
+* Option to load Bootstrap from MaxCDN network 
+* More javascript loading improvements 
+* User profile updates for deprecated functions 
+* New sort option on staff directory template 
+* Image caption styling updates 
+* Improved support for tags in search results 
+
 ### 4.37.2 - 8 Oct 2017 ###
 * Added Title as secondary sort field for multi-page projects and tasks 
 

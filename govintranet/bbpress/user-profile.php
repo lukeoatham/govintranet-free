@@ -10,7 +10,7 @@
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 $staffdirectory = get_option('options_module_staff_directory');
 global $wpdb;
-$user_id = bbp_get_displayed_user_field( 'id' ); 
+$user_id = bbp_get_displayed_user_field( 'ID' ); 
 $poduser = get_userdata($user_id);		
 $avstyle="";
 if ( $directorystyle==1 ) $avstyle = " img-circle";

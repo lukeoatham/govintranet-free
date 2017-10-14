@@ -48,8 +48,13 @@ header('X-Frame-Options: SAMEORIGIN');
 			<meta http-equiv="refresh" content="<?php echo intval(get_option('options_homepage_auto_refresh'))*60;?>">
 			<?php
 		}
-	} ?>
-	<link href="<?php echo get_template_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
+	} 
+	if ( get_option( "options_gi_use_bootstrap_cdn", 0 ) ){
+		echo '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">';
+	} else {
+		echo '<link href="' . get_template_directory_uri() . '/css/bootstrap.min.css" rel="stylesheet">';
+	}
+	?>
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_template_directory_uri(); ?>/print.css" />
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	<!--[if lte IE 8]>

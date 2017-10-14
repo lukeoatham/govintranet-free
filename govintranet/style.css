@@ -2,7 +2,7 @@
 Theme Name: GovIntranet
 Theme URI: https://help.govintra.net
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.37.2
+Version: 4.37.3
 Author: Luke Oatham
 Author URI: http://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -1356,7 +1356,7 @@ a img.aligncenter {
     margin-right: auto
 }
 
-.wp-caption {
+#content .wp-caption {
     background: #fff;
     border: 1px solid #f0f0f0;
     max-width: 96%; /* Image does not overflow the content area */
@@ -1364,19 +1364,19 @@ a img.aligncenter {
     text-align: center;
 }
 
-.wp-caption.alignnone {
+#content .wp-caption.alignnone {
     margin: 5px 20px 20px 0;
 }
 
-.wp-caption.alignleft {
+#content .wp-caption.alignleft {
     margin: 5px 20px 20px 0;
 }
 
-.wp-caption.alignright {
+#content .wp-caption.alignright {
     margin: 5px 0 20px 20px;
 }
 
-.wp-caption img {
+#content .wp-caption img {
     border: 0 none;
     height: auto;
     margin: 0;
@@ -1385,11 +1385,11 @@ a img.aligncenter {
     width: auto;
 }
 
-.wp-caption p.wp-caption-text {
-    font-size: 11px;
-    line-height: 17px;
-    margin: 0;
-    padding: 0 4px 5px;
+#content .wp-caption p.wp-caption-text {
+    font-size: smaller;
+    line-height: 1.5em;
+    margin-bottom: 0;
+    padding: 0.5em;
 }
 
 /* Text meant only for screen readers. */
