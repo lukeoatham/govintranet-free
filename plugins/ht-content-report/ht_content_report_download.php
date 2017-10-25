@@ -59,26 +59,19 @@ require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
 echo date('H:i:s') , " Create new PHPExcel object" , EOL;
 $objPHPExcel = new PHPExcel();
 
-$pt = $_POST['ptype'];
-$ps = $_POST['pstat'];
-$ppp = $_POST['ppp'];
-$paged = $_POST['paged'];
-$startdate = $_POST['startdate'];
-$enddate = $_POST['enddate'];
-$datetype = $_POST['dates'];
-
-if ( $startdate ) $startdate = date('Y-m-d',strtotime($startdate));
-if ( $enddate ) $enddate = date('Y-m-d',strtotime($enddate));
-
-if ( !$pt ) $pt = array('page');
-if ( !$ps ) $ps = array('publish','draft','future','pending');
-if ( !$ppp ) $ppp = -1;
-if ( !$paged ) $paged = 1;
+$pt = isset($_POST['ptype']) ? $_POST['ptype']: array('page');
+$ps = isset($_POST['pstat']) ? $_POST['pstat']: array('publish','draft','future','pending');
+$ppp = isset($_POST['ppp']) ? $_POST['ppp']: -1;
+$paged = isset($_POST['paged']) ? $_POST['paged']: 1;
+$startdate = isset($_POST['startdate']) ? date('Y-m-d',strtotime($_POST['startdate'])) : '';
+$enddate = isset($_POST['enddate']) ? date('Y-m-d',strtotime($_POST['enddate'])) : '';
+$datetype = isset($_POST['dates']) ? $_POST['dates']: '';
 
 $tempquery = array(
 	'post_type' => $pt,
 	'posts_per_page' => $ppp,
 	'post_status' => $ps,
+	'fields' => 'ids',
 	'order' => 'ASC',
 	'orderby' => 'ID menu_order',
 	'paged' => $paged,
@@ -140,7 +133,7 @@ $X = 2;
 if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 	$xquery->the_post();
 	
-	switch ($post->post_type) {
+	switch (get_post_type( $id )) {
 	    case 'news':
 	        $tax = 'news-type';
 	        break;
@@ -214,10 +207,12 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 	if ( !$skeywords ) $skeywords = "=NA()";	
 	if ( !$hide ) $hide = "=NA()";	
 
+	$post_line = get_post($id);
+
     $objPHPExcel->setActiveSheetIndex(0)
 	    ->setCellValue('A'.$X, get_the_title())
 	    ->setCellValue('B'.$X, get_permalink())
-	    ->setCellValue('C'.$X, get_the_author_meta( 'user_email' , $post->post_author))
+	    ->setCellValue('C'.$X, get_the_author_meta( 'user_email' , $post_line->post_author))
 	    ->setCellValue('D'.$X, get_the_date('Y-m-d'))
 	    ->setCellValue('E'.$X, get_the_modified_date('Y-m-d'))
 		->setCellValue('F'.$X, get_post_status())
@@ -228,9 +223,9 @@ if ( $xquery->have_posts() ) while ( $xquery->have_posts()){
 		->setCellValue('K'.$X, $skeywords)
 		->setCellValue('L'.$X, $hide)
 		->setCellValue('M'.$X, get_the_id())
-		->setCellValue('N'.$X, $post->menu_order)
-		->setCellValue('O'.$X, $post->post_parent)
-		->setCellValue('P'.$X, $post->post_type)
+		->setCellValue('N'.$X, $post_line->menu_order)
+		->setCellValue('O'.$X, $post_line->post_parent)
+		->setCellValue('P'.$X, get_post_type( $id ))
 		->setCellValue('Q'.$X, $xdoc_attachments)		
 		->setCellValue('R'.$X, $xrelated_teams)		
 		;

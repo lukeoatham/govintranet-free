@@ -4,7 +4,7 @@ Plugin Name: HT Content Report
 Plugin URI: http://www.helpfultechnology.com
 Description: Excel export of content and authors
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -15,11 +15,8 @@ function ht_content_report_menu() {
 }
 
 function ht_content_report_options() {
-	wp_enqueue_script('jquery-ui-datepicker');
 	wp_register_style( 'content-report-style2',  plugin_dir_url("/") . "ht-content-report/ht_content_report.css" );
 	wp_enqueue_style( 'content-report-style2' );
-	wp_register_script( 'content-report-script',  plugin_dir_url("/") . "ht-content-report/ht_content_report.js" );
-	wp_enqueue_script( 'content-report-script' );
 
 	echo "<div class='wrap'>";
 
@@ -69,9 +66,9 @@ function ht_content_report_options() {
 		 	';
 	echo "
 		 	<p><label for='startdate'>".__('Start date','govintranet')."</label></p>
-			<p><input type='text' name='startdate' id='startdatepicker' /></p>
+			<p><input type='date' name='startdate' id='startdatepicker' /></p>
 		 	<p><label for='enddate'>".__('End date','govintranet')."</label></p>
-			<p><input type='text' name='enddate' id='enddatepicker' /></p>";
+			<p><input type='date' name='enddate' id='enddatepicker' /></p>";
 	echo '
 			<div class="radio">
 			  <label>
