@@ -4,7 +4,7 @@ Plugin Name: HT Vacancy listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display closing vacancies
 Author: Luke Oatham
-Version: 1.5
+Version: 1.5.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -24,7 +24,7 @@ class htVacancyListing extends WP_Widget {
         $title = apply_filters('widget_title', $instance['title']);
         $items = intval($instance['items']);
         $calendar = ($instance['calendar']);
-        $shownew = ($instance['shownew']);
+        $shownew = isset($instance['shownew']) ? $instance['shownew'] : 0;
         $days = intval($instance['days']);
         $cacheperiod = intval($instance['cacheperiod']);
         if ( isset($cacheperiod) && $cacheperiod ){ $cacheperiod = 60 * $cacheperiod; } 
@@ -34,7 +34,7 @@ class htVacancyListing extends WP_Widget {
 		if ( $output == '' ):
 
 			$tzone = get_option('timezone_string');
-			date_default_timezone_set($tzone);
+			if ( $tzone ) date_default_timezone_set($tzone);
 	
 			//display forthcoming events
 			$checkdate = date('Ymd'); 
@@ -149,6 +149,8 @@ class htVacancyListing extends WP_Widget {
 						$output.= "<br><small><strong>".$edate."</strong></small></p>";
 					}				
 				}
+			} else {
+				$new_vacancies =  new WP_QUERY();
 			}
 			if ($vacancies->post_count || $new_vacancies->post_count){
 				$tempo = '';

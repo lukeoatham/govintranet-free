@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.8.3
+Version: 1.8.4
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -81,7 +81,7 @@ class htAboutThisPage extends WP_Widget {
 			
 			$tzone = get_option('timezone_string');
 			$date_format = get_option('date_format');
-			date_default_timezone_set($tzone);
+			if ( $tzone ) date_default_timezone_set($tzone);
 
 			if ($show_modified_date=='on'){
 				$mod = date('Y-m-d',(get_post_modified_time())) . "T" . date('H:i:s',(get_post_modified_time()));

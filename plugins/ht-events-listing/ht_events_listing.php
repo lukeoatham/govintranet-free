@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.8
+Version: 4.8.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -52,7 +52,7 @@ class htEventsListing extends WP_Widget {
 
 			//display forthcoming events
 			$tzone = get_option('timezone_string');
-			date_default_timezone_set($tzone);
+			if ( $tzone ) date_default_timezone_set($tzone);
 			$sdate = date('Ymd');
 			$stime = date('H:i');
 

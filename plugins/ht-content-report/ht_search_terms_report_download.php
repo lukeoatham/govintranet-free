@@ -50,7 +50,7 @@ ini_set('display_startup_errors', TRUE);
 define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 
 $tzone = get_option('timezone_string');
-date_default_timezone_set($tzone);
+if ( $tzone ) date_default_timezone_set($tzone);
 
 /** Include PHPExcel */
 require_once dirname(__FILE__) . '/Classes/PHPExcel.php';

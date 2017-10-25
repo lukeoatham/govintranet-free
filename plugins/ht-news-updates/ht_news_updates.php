@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: http://www.helpfultechnology.com
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.9
+Version: 1.9.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -119,7 +119,7 @@ class htNewsUpdates extends WP_Widget {
 		//process expired news
 		
 		$tzone = get_option('timezone_string'); 
-		date_default_timezone_set($tzone);
+		if ( $tzone ) date_default_timezone_set($tzone);
 		$tdate= date('Ymd');
 
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_background_colour" ;  

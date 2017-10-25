@@ -4,7 +4,7 @@ Plugin Name: HT Content Report
 Plugin URI: http://www.helpfultechnology.com
 Description: Excel export of content and authors
 Author: Luke Oatham
-Version: 1.1
+Version: 1.1.1
 Author URI: http://www.helpfultechnology.com
 */
 

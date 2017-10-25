@@ -4,7 +4,7 @@ Plugin Name: HT News updates - restricted
 Plugin URI: http://www.helpfultechnology.com
 Description: Hide news updates from users
 Author: Luke Oatham
-Version: 1.3
+Version: 1.3.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -317,7 +317,7 @@ function load_news_updates(  ) {
 		//process expired news
 		
 		$tzone = get_option('timezone_string'); 
-		date_default_timezone_set($tzone);
+		if ( $tzone ) date_default_timezone_set($tzone);
 		$tdate= date('Ymd');
 		
 		$oldnews = query_posts(array(

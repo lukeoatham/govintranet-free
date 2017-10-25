@@ -112,7 +112,7 @@ class htFeatureBlogposts extends WP_Widget {
         $excerpt = $instance['excerpt'];
         $cache = intval($instance['cache']);
 		$tzone = get_option('timezone_string');
-		date_default_timezone_set($tzone);
+		if ( $tzone ) date_default_timezone_set($tzone);
 		$tdate=date('Y-m-d')." 00:00:00";
 		$freshness = "-".$freshness." day ";
         $tdate = date ( 'F jS, Y', strtotime ( $freshness . $tdate ) );  
