@@ -7,7 +7,7 @@
 	$reason = '';
 	$updated_to = '';
 	$tzone = get_option('timezone_string'); 
-	date_default_timezone_set($tzone);
+	if ( $tzone ) date_default_timezone_set($tzone);
 	
 	/************************************************
 	

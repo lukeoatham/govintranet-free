@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.37.4 - 29 Oct 2017 ###
+* PHP warning fixes when timezone is not set
+* Improvements to list order on About page template
+
 ### 4.37.3 - 8 Oct 2017 ###
 * Option to load Bootstrap from MaxCDN network 
 * More javascript loading improvements 

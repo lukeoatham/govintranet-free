@@ -10165,8 +10165,9 @@ function ht_landingpages_shortcode($atts,$content){
 	global $wp_query;
 	$id = ($opts['id'] == "") ? $wp_query->post->ID : $opts['id'];
 	
-	$children = get_pages("child_of=".$id."&parent=".$id."&hierarchical=0&exclude=".$opts['exclude']."&posts_per_page=-1&post_type=page&sort_column=menu_order&sort_order=ASC");
+	$children = get_pages("child_of=".$id."&parent=".$id."&hierarchical=0&exclude=".$opts['exclude']."&post_type=page&sort_column=menu_order,post_title&sort_order=ASC");
 
+	$output = "";
 	foreach((array)$children as $c) {
 		
 		if ($opts['type']=='list'){			
@@ -10484,7 +10485,7 @@ add_filter('page_attributes_dropdown_pages_args', 'gi_attributes_dropdown_pages_
 function save_news_meta( $post_id ) {
 
 	$tzone = get_option('timezone_string'); 
-	date_default_timezone_set($tzone);
+	if ( $tzone ) date_default_timezone_set($tzone);
 
 	// Update expiry time meta 
 
@@ -11073,7 +11074,7 @@ add_action( 'govintranet_expiry_patrol', 'govintranet_expiry_patrol_cron' );
 function govintranet_expiry_patrol_cron() {
 
 	$tzone = get_option('timezone_string'); 
-	date_default_timezone_set($tzone);
+	if ( $tzone ) date_default_timezone_set($tzone);
 	$tdate= date('Ymd');
 	
 	// PROCESS NEWS

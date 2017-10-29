@@ -6,7 +6,7 @@ $cat_id = '';
 if ( isset($_GET['cdir'])) $cdir = $_GET['cdir'];
 if (isset($_GET['cat'])) $cat_id = $_GET['cat'];
 $tzone = get_option('timezone_string');
-date_default_timezone_set($tzone);
+if ( $tzone ) date_default_timezone_set($tzone);
 $posts_per_page = get_option('posts_per_page',10);
 
 get_header(); ?>

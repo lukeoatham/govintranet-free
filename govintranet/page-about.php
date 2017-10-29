@@ -25,7 +25,14 @@ wp_enqueue_script( 'match_heights' );
 
 		$id = (!isset($opts['id'])) ? $wp_query->post->ID : $opts['id'];
 			
-		$children = get_pages("child_of=".$id."&parent=".$id."&hierarchical=0&posts_per_page=-1&post_type=page&sort_column=menu_order&sort_order=ASC");
+		$children = get_pages(array(
+			"child_of" => $id,
+			"parent" => $id,
+			"hierarchical" =>0,
+			"post_type" => "page",
+			"sort_column" => "menu_order,post_title",
+			"sort_order" => "ASC"
+			));
 
 		echo "<div class='row white'>";
 

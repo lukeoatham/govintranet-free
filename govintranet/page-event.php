@@ -16,7 +16,7 @@ else {
 get_header(); 
 
 $tzone = get_option('timezone_string');
-date_default_timezone_set($tzone);
+if ( $tzone ) date_default_timezone_set($tzone);
 
 if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 

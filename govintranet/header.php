@@ -86,7 +86,7 @@ header('X-Frame-Options: SAMEORIGIN');
 
 <?php 
 $tzone = get_option('timezone_string');
-date_default_timezone_set($tzone);
+if ( $tzone ) date_default_timezone_set($tzone);
 $parentpageclass = (renderLeftNav("FALSE")) ? "parentpage" : "notparentpage"; 
 $parentpageclass.=" custom-background";
 ?>

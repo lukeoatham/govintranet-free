@@ -298,7 +298,7 @@ Template Name: Newsboard
 							$tax_terms = get_sub_field('newsboard_event_types');
 							echo '<div role="tabpanel" class="tab-pane fade'.$active.'" id="ntab-'.$rowcount.'" aria-labelledBy="newsboard-tab-'.$rowcount.'">';
 							$tzone = get_option('timezone_string');
-							date_default_timezone_set($tzone);
+							if ( $tzone ) date_default_timezone_set($tzone);
 							$sdate = date('Ymd');
 							$stime = date('H:i');
 							$counter = 0;	

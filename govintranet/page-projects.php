@@ -49,7 +49,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 			$counter = 0;	
 			$tzone = get_option('timezone_string');
-			date_default_timezone_set($tzone);
+			if ( $tzone ) date_default_timezone_set($tzone);
 			$sdate = date('Ymd');
 			$pquery = array ( 
 						'post_type' => 'project',
