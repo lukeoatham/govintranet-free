@@ -207,35 +207,37 @@ function govintranet_filter_wp_title( $title, $separator ) {
 		} elseif (isset($view) && $view->taxonomy ) {
 			return $title;
 		}
-	} elseif ($post->post_type == "task"  ) {
-		$taskparent=$post->post_parent;
-		$title_context='';
-		if ($taskparent){
-			$parent_guide_id = $taskparent; 		
-			$taskparent = get_post($parent_guide_id);
-			$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
-		}			
-		$title .= $title_context. " - " . __('tasks and guides','govintranet')  ;
-	} elseif ($post->post_type == "project"  ) {
-		$title .= " - " . __('project','govintranet') ;
-	} elseif ($post->post_type == "vacancy"  ) {
-		$title .= " - " . __('job vacancies','govintranet') ;
-	} elseif ($post->post_type == "event"  ) {
-		$title .= " - " . __('events','govintranet') ;
-	} elseif ($post->post_type == "jargon-buster"  ) {
-		$title .= " - " . __('jargon buster','govintranet') ;
-	} elseif ($post->post_type == "forums"  ) {
-		$title .= " - " . __('forums','govintranet') ;
-	} elseif ($post->post_type == "topics"  ) {
-		$title .= " - " . __('forum topics','govintranet') ;
-	} elseif ($post->post_type == "replies"  ) {
-		$title .= " - " . __('forum replies','govintranet') ;
-	} elseif ($post->post_type == "news"  ) {
-		$title .= " - " . __('news','govintranet') ;
-	} elseif ($post->post_type == "news-update"  ) {
-		$title .= " - " . __('news update','govintranet') ;
-	} elseif ($post->post_type == "blog"  ) {
-		$title .= " - " . __('blog post','govintranet') ;
+	} elseif (isset($post->post_type)) {
+		if ($post->post_type == "task"  ) {
+			$taskparent=$post->post_parent;
+			$title_context='';
+			if ($taskparent){
+				$parent_guide_id = $taskparent; 		
+				$taskparent = get_post($parent_guide_id);
+				$title_context=" (".get_the_title( $taskparent->ID ).")";
+			}			
+			$title .= $title_context. " - " . __('tasks and guides','govintranet')  ;
+		} elseif ($post->post_type == "project"  ) {
+			$title .= " - " . __('project','govintranet') ;
+		} elseif ($post->post_type == "vacancy"  ) {
+			$title .= " - " . __('job vacancies','govintranet') ;
+		} elseif ($post->post_type == "event"  ) {
+			$title .= " - " . __('events','govintranet') ;
+		} elseif ($post->post_type == "jargon-buster"  ) {
+			$title .= " - " . __('jargon buster','govintranet') ;
+		} elseif ($post->post_type == "forums"  ) {
+			$title .= " - " . __('forums','govintranet') ;
+		} elseif ($post->post_type == "topics"  ) {
+			$title .= " - " . __('forum topics','govintranet') ;
+		} elseif ($post->post_type == "replies"  ) {
+			$title .= " - " . __('forum replies','govintranet') ;
+		} elseif ($post->post_type == "news"  ) {
+			$title .= " - " . __('news','govintranet') ;
+		} elseif ($post->post_type == "news-update"  ) {
+			$title .= " - " . __('news update','govintranet') ;
+		} elseif ($post->post_type == "blog"  ) {
+			$title .= " - " . __('blog post','govintranet') ;
+		}
 	} elseif ( function_exists("bbp_is_single_user") ) {
 		if ( bbp_is_single_user() ) {
 			if ( !bbp_is_user_home() ){
@@ -10046,7 +10048,6 @@ function listdocs_func( $atts ) {
 				'terms' => $catlist,
 				)
 			)
-	        
 		));	
 	}
 
@@ -10084,7 +10085,7 @@ function listdocs_func( $atts ) {
 	global $post;
 	if ( $docs->have_posts() ) while ( $docs->have_posts() ) : $docs->the_post(); 
 		$html.= '<li><a href="'.($post->guid).'">';
-		$html.= govintranetpress_custom_title($post->post_title);
+		$html.= get_the_title($post->ID);
 		$html.= '</a>';
 		if ($post->post_content && $desc) {
 			$html.='<span class="docmenudesc">'.$post->post_content.'</span>';

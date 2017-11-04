@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.37.5 - 4 Nov 2017 ###
+* PHP warning fixes 
+* Fix for newsboard blog tab featured image
+* Code improvements for post titles
+
 ### 4.37.4 - 29 Oct 2017 ###
 * PHP warning fixes when timezone is not set
 * Improvements to list order on About page template

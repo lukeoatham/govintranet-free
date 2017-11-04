@@ -156,7 +156,7 @@ get_header();
 							$icon = "book";
 							$taskparent=get_post($taskpod);
 							if ($taskparent){
-								$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";  
+								$title_context=" (".get_the_title($taskparent->ID).")";  
 							}
 						}			
 					}
@@ -167,7 +167,7 @@ get_header();
 						$projparent=$post->post_parent;
 						if ($projparent){
 							$projparent = get_post($projparent);
-							$title_context=" (".govintranetpress_custom_title($projparent->post_title).")";
+							$title_context=" (".get_the_title($projparent->ID).")";
 						}			
 					}
 					if ($post_type=='News'){

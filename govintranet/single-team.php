@@ -26,7 +26,7 @@ wp_enqueue_script( 'scripts_grid' );
 	if ( have_posts() )
 		the_post();
 
-		$teamname = $post->post_title;
+		$teamname = get_the_title($post->ID);
 		$termid = $post->ID;
 		$teamparent = $post->post_parent;
 		$alreadyshown = array();
@@ -44,11 +44,11 @@ wp_enqueue_script( 'scripts_grid' );
 				<?php
 				if ($teamparent){
 					$parentteam = get_post($teamparent);
-					echo "<h3><i class='dashicons dashicons-arrow-left-alt2'></i> <a href='".get_permalink($parentteam->ID)."'>".govintranetpress_custom_title($parentteam->post_title)."</a></h3>";
+					echo "<h3><i class='dashicons dashicons-arrow-left-alt2'></i> <a href='".get_permalink($parentteam->ID)."'>".get_the_title($parentteam->ID)."</a></h3>";
 				}
 				?>
 					
-					<h2><?php echo govintranetpress_custom_title($teamname); ?></h2>
+					<h2><?php echo $teamname; ?></h2>
 		
 				<?php 
 				wp_reset_postdata();
@@ -81,7 +81,7 @@ wp_enqueue_script( 'scripts_grid' );
 						  		foreach ((array)$teams as $team ) {
 						  		    $themeid = $team->ID;
 						  		    $themeURL= $team->post_name;
-						  			$otherteams.= " <li><a href='".get_permalink($team->ID)."'>".govintranetpress_custom_title($team->post_title)."</a></li>";
+						  			$otherteams.= " <li><a href='".get_permalink($team->ID)."'>".get_the_title($team->ID)."</a></li>";
 						  		}  
 						  		$teamdrop = get_option('options_team_dropdown_name');
 						  		if ($teamdrop=='') $teamdrop = __("Browse teams" , "govintranet");
@@ -129,7 +129,7 @@ wp_enqueue_script( 'scripts_grid' );
 				if ($teams) {
 					$teamstr = '';
 			  		foreach ((array)$teams as $team ) {
-			  			$teamstr.= "<li><a href='".get_permalink($team->ID)."'>".govintranetpress_custom_title($team->post_title)."</a></li>";
+			  			$teamstr.= "<li><a href='".get_permalink($team->ID)."'>".get_the_title($team->ID)."</a></li>";
 					}
 					echo "<div class='widget-box'><h3 class='widget-title'>" . __('Sub-teams','govintranet') . "</h3><ul>".$teamstr."</ul></div>";
 				}  
@@ -278,7 +278,7 @@ wp_enqueue_script( 'scripts_grid' );
 								foreach ((array)$team as $t ) { 
 									if ( $t == $post->ID ) continue;
 						  		    $theme = get_post($t);
-									echo "<a href='".get_permalink($theme->ID)."'>".govintranetpress_custom_title($theme->post_title)."</a><br>";
+									echo "<a href='".get_permalink($theme->ID)."'>".get_the_title($theme->ID)."</a><br>";
 						  		}
 							}  
 
@@ -306,7 +306,7 @@ wp_enqueue_script( 'scripts_grid' );
 								foreach ((array)$team as $t ) { 
 									if ( $t == $post->ID ) continue;
 						  		    $theme = get_post($t);
-									echo govintranetpress_custom_title($theme->post_title)."<br>";
+									echo get_the_title($theme->ID)."<br>";
 						  		}
 							}  
 							if ( get_user_meta($userid ,'user_job_title',true )) echo '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";

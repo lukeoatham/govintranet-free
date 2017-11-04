@@ -94,7 +94,7 @@ get_header(); ?>
 			while ( $postslist->have_posts() ) : $postslist->the_post(); 
 				//highlight words that begin with this letter in the standard post title
 				$foundkey = false; //set a flag to see if we get a match
-				$oldtitle = govintranetpress_custom_title($post->post_title); 
+				$oldtitle = get_the_title($post->ID); 
 				if ( strpos($oldtitle, " ") ):
 					$otwords = explode(" ",$oldtitle); 
 				else:

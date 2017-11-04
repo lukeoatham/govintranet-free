@@ -57,7 +57,7 @@ wp_enqueue_script( 'match_heights' );
 			endif;
 			echo "
 				<div class='category-block match-height'>
-					<h2><a href='".get_permalink($c->ID)."'>".govintranetpress_custom_title($c->post_title)."</a></h2>
+					<h2><a href='".get_permalink($c->ID)."'>".get_the_title($c->ID)."</a></h2>
 					<p>".$excerpt."</p>
 				</div>
 			</div>";

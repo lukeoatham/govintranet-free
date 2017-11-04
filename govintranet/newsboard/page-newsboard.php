@@ -259,6 +259,7 @@ Template Name: Newsboard
 							echo "</div>";
 						endif;
 				        if ( get_sub_field('newsboard_tab_content_type') == 3 ) :
+   				        	$feature_first = get_sub_field('newsboard_feature_first'); 
 							$tax_terms = get_sub_field('newsboard_blog_category');
 							echo '<div role="tabpanel" class="tab-pane fade'.$active.'" id="ntab-'.$rowcount.'" aria-labelledBy="newsboard-tab-'.$rowcount.'">';
 							$counter = 0;	
@@ -274,6 +275,7 @@ Template Name: Newsboard
 							endif;
 							$qposts = new WP_Query($cquery);
 							global $k; 
+							global $feature_first;
 							$k = 1;
 							if ( $feature_first ) $k = 0;
 							while ($qposts->have_posts()) : $qposts->the_post();

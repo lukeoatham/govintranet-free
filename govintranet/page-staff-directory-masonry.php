@@ -54,7 +54,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					if ($teams) {
 						$otherteams='';
 				  		foreach ((array)$teams as $team ) {
-				  			$otherteams.= " <li><a href='".get_permalink($team->ID)."'>".govintranetpress_custom_title($team->post_title)."</a></li>";
+				  			$otherteams.= " <li><a href='".get_permalink($team->ID)."'>".get_the_title($team->ID)."</a></li>";
 				  		}  
 				  		$teamdrop = get_option('options_team_dropdown_name');
 				  		if ($teamdrop=='') $teamdrop = __("Browse teams","govintranet");
@@ -172,7 +172,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 									if ($team) {				
 										foreach ((array)$team as $t ) { 
 								  		    $theme = get_post($t);
-											$html.= "<a href='".get_permalink($theme->ID)."'>".govintranetpress_custom_title($theme->post_title)."</a><br>";
+											$html.= "<a href='".get_permalink($theme->ID)."'>".get_the_title($theme->ID)."</a><br>";
 								  		}
 									}  
 									
@@ -198,7 +198,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 									if ($team){
 										foreach ((array)$team as $t ) { 
 								  		    $theme = get_post($t);
-											$html.= govintranetpress_custom_title($theme->post_title)."<br>";
+											$html.= get_the_title($theme->ID)."<br>";
 							  			}
 							  		}
 									if ( get_user_meta($userid ,'user_job_title',true )) {

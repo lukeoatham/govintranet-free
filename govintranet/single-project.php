@@ -43,12 +43,12 @@ if ( have_posts() ) while ( have_posts() ) :
 
 	if ($parent_guide){
 		$parent_slug=$parent_guide->post_name;
-		$parent_name=govintranetpress_custom_title($parent_guide->post_title); 
+		$parent_name=get_the_title($parent_guide->ID); 
 		$guidetitle =$parent_name;	
 	}
 
 	if (!$parent_guide){
-		$guidetitle = govintranetpress_custom_title($post->post_title);
+		$guidetitle = get_the_title($post->ID);
 	}	
 	?>
 
@@ -112,7 +112,7 @@ if ( have_posts() ) while ( have_posts() ) :
 									 $current_chapter=$k;
 								}
 								echo ">";
-								$chapname = govintranetpress_custom_title($chapt->post_title);
+								$chapname = get_the_title($chapt->ID);
 								$chapslug = $chapt->post_name; 
 								$carray[$k]['chapter_number']=$k;
 								$carray[$k]['slug']=$chapslug;

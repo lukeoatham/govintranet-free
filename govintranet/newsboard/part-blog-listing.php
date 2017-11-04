@@ -1,8 +1,10 @@
 <?php
 global $k;
+global $feature_first; 
 $k++;
 $showthumb = true;
-if ($k==1){
+
+if ($k==1 && $feature_first){
 	if ( has_post_thumbnail($post->ID)){ 
 		//headline images
 		$showthumb = false;

@@ -64,7 +64,7 @@
 			$title_context='';
 			if ($taskparent){
 				$parent_guide_id = $taskparent->ID; 		
-				$title_context=govintranetpress_custom_title($taskparent->post_title); 
+				$title_context=get_the_title($taskparent->ID); 
 			}
 			echo "<h3 class='postlist'><a href='".get_permalink( $post->ID )."' title='".the_title_attribute( 'echo=0', 'post='. $post->ID).$title_context;
 			echo "' rel='bookmark'>".get_the_title($post->ID)."</a></h3>";

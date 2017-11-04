@@ -114,7 +114,7 @@ $fulldetails = get_option('options_full_detail_staff_cards'); // 1 = show
 			if ($terms) {				
 				foreach ((array)$terms as $t ) { 
 		  		    $theme = get_post($t);
-					echo govintranetpress_custom_title($theme->post_title)."<br>";
+					echo get_the_title($theme->ID)."<br>";
 		  		}
 			}  
 
@@ -148,7 +148,7 @@ $fulldetails = get_option('options_full_detail_staff_cards'); // 1 = show
 				if ($terms) {				
 					foreach ((array)$terms as $t ) { 
 			  		    $theme = get_post($t);
-						echo govintranetpress_custom_title($theme->post_title)."<br>";
+						echo get_the_title($theme->ID)."<br>";
 			  		}
 				}  
 			
@@ -168,7 +168,7 @@ $fulldetails = get_option('options_full_detail_staff_cards'); // 1 = show
 		<div>
 			<div class="col-lg-12"><br>
 				<h3 class='postlist'>				
-				<a href="<?php echo get_permalink($post['ID']); ?>" rel="bookmark"><?php echo govintranetpress_custom_title($post['post_title']);  ?> (<?php _e('Team' , 'govintranet') ;?>)</a></h3>
+				<a href="<?php echo get_permalink($post['ID']); ?>" rel="bookmark"><?php echo get_the_title($post['ID']);  ?> (<?php _e('Team' , 'govintranet') ;?>)</a></h3>
 				<div class='media'>
 					<div class='media-body'>
 					<?php echo $post['post_content']; ?>

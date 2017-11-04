@@ -76,7 +76,7 @@
 			$title_context='';
 			if ($taskparent){
 				$parent_guide_id = $taskparent->ID; 		
-				$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")"; 
+				$title_context=" (".get_the_title($taskparent->ID).")"; 
 			}
 		} elseif ( get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$post->ID."&orderby=menu_order&order=ASC") ){
 			$context = __("guide","govintranet");
@@ -93,7 +93,7 @@
 		$projparent=get_post($post->post_parent);
 		$title_context='';
 		if ($projparent){
-			$title_context=" (".govintranetpress_custom_title($projparent->post_title).")";
+			$title_context=" (".get_the_title($projparent->ID).")";
 		}			
 	}
 	if ($post_type=='News'){

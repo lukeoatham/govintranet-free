@@ -13,7 +13,7 @@ if (is_array($related)){
 			$taskparent=$rlink->post_parent; 
 			if ($taskparent){
 				$taskparent = get_post($taskparent);
-				$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+				$title_context=" (".get_the_title($taskparent->ID).")";
 			}		
 			$ext_icon = '';
 			$ext = '';
@@ -21,7 +21,7 @@ if (is_array($related)){
 				$ext_icon = " <span class='dashicons dashicons-migrate'></span> ";
 				$ext="class='external-link' ";
 			endif;
-			$html.= "<li><a href='".get_permalink($rlink->ID)."'".$ext.">".govintranetpress_custom_title($rlink->post_title).$title_context."</a>".$ext_icon."</li>";
+			$html.= "<li><a href='".get_permalink($rlink->ID)."'".$ext.">".get_the_title($rlink->ID).$title_context."</a>".$ext_icon."</li>";
 			$alreadydone[] = $r;
 		}
 	}
@@ -36,9 +36,9 @@ if ( !get_option("options_hide_reciprocal_related_links") ):
 			$title_context='';
 			if ($taskparent){
 				$taskparent = get_post($taskparent);
-				$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+				$title_context=" (".get_the_title($taskparent->ID).")";
 			}		
-			$html.= "<li><a href='".get_permalink($o->ID)."'>".govintranetpress_custom_title($o->post_title).$title_context."</a></li>";
+			$html.= "<li><a href='".get_permalink($o->ID)."'>".get_the_title($o->ID).$title_context."</a></li>";
 			$alreadydone[] = $o->ID;
 		}
 	}
