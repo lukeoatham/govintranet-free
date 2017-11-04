@@ -4,7 +4,7 @@ Plugin Name: HT Favourites
 Plugin URI: http://www.helpfultechnology.com
 Description: Manage favourites in staff profiles
 Author: Luke Oatham
-Version: 1.1
+Version: 1.1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -400,7 +400,7 @@ function ht_favourites_ajax_show() {
 				$taskparent=$rlink->post_parent; 
 				if ($taskparent){
 					$taskparent = get_post($taskparent);
-					$title_context=" (".govintranetpress_custom_title($taskparent->post_title).")";
+					$title_context=" (".get_the_title($taskparent->ID).")";
 				}		
 				$ext_icon = '';
 				$ext = '';
@@ -408,7 +408,7 @@ function ht_favourites_ajax_show() {
 					$ext_icon = " <span class='dashicons dashicons-migrate'></span> ";
 					$ext="class='external-link' ";
 				endif;
-				$temp.= "<li><a href='".get_permalink($rlink->ID)."'".$ext.">".govintranetpress_custom_title($rlink->post_title).$title_context."</a>".$ext_icon."</li>";
+				$temp.= "<li><a href='".get_permalink($rlink->ID)."'".$ext.">".get_the_title($rlink->ID).$title_context."</a>".$ext_icon."</li>";
 				$alreadydone[] = $r;
 			}
 		}

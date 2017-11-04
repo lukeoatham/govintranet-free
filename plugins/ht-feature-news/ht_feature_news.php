@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.7.1
+Version: 4.7.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -231,7 +231,7 @@ class htFeatureNews extends WP_Widget {
 					if ($newsgrid[$k]=="M"){
 						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'newsmedium' );
 						if ($image_uri!="" ){
-							$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(govintranetpress_custom_title($slot->post_title))."' /></a>";									
+							$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(get_the_title($slot->ID))."' /></a>";									
 						} 
 					} 
 						
@@ -374,7 +374,7 @@ class htFeatureNews extends WP_Widget {
 					if ($newsgrid[$k]=="M"){
 						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $theid ), 'newsmedium' );
 						if ($image_uri!="" ){
-							$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(govintranetpress_custom_title(get_the_title($theid)))."' /></a>";									
+							$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(get_the_title($theid))."' /></a>";									
 						} 
 					} 
 			

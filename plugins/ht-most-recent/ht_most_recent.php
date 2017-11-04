@@ -4,7 +4,7 @@ Plugin Name: HT Most recent
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most recent pages
 Author: Luke Oatham
-Version: 1.2
+Version: 1.2.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -172,7 +172,7 @@ class htMostRecent extends WP_Widget {
 				if ( $lastupdated=='on' && date("Ymd",strtotime($r->post_date)) == date("Ymd",strtotime($r->post_modified)) ) $alert = " <span class='badge badge-new'>" . __('NEW','govintranet') . "</span>";
 				if ($r->post_type=='page'){
 					$k++; 
-					echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title(get_the_title($r->ID))."</a>".$alert."</li>";
+					echo "<li><a href='".get_permalink($r->ID)."'>".get_the_title($r->ID)."</a>".$alert."</li>";
 					$alreadydone[]=$r->ID;
 				} elseif ($r->post_type=='task'){
 					$title_context='';
@@ -182,7 +182,7 @@ class htMostRecent extends WP_Widget {
 						$title_context='';
 						if ($taskparent){
 							$parent_guide_id = $taskparent->ID; 		
-							$title_context=" <small>(".govintranetpress_custom_title($taskparent->post_title).")</small>"; 
+							$title_context=" <small>(".get_the_title($taskparent->ID).")</small>"; 
 						}
 					} elseif ( get_posts ("post_type=task&posts_per_page=-1&post_status=publish&post_parent=".$r->ID."&orderby=menu_order&order=ASC") ){
 						$icon = "book";
@@ -191,17 +191,17 @@ class htMostRecent extends WP_Widget {
 					}			
 		
 					$k++;
-					echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$title_context.$alert."</li>";
+					echo "<li><a href='".get_permalink($r->ID)."'>".get_the_title($r->ID)."</a>".$title_context.$alert."</li>";
 					$alreadydone[]=$r->ID;
 				} elseif ($r->post_type=='project'){
 					if (!$r->post_parent){
 						$k++;
-						echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
+						echo "<li><a href='".get_permalink($r->ID)."'>".get_the_title($r->ID)."</a>".$alert."</li>";
 						$alreadydone[]=$r->ID;
 					}
 				} else {
 					$k++;
-					echo "<li><a href='".get_permalink($r->ID)."'>".govintranetpress_custom_title($r->post_title)."</a>".$alert."</li>";
+					echo "<li><a href='".get_permalink($r->ID)."'>".get_the_title($r->ID)."</a>".$alert."</li>";
 					$alreadydone[]=$r->ID;
 				}
 				
