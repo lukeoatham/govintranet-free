@@ -4,7 +4,7 @@ Plugin Name: HT Feedback
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display feedback form
 Author: Luke Oatham
-Version: 0.1
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -27,21 +27,23 @@ class htFeedback extends WP_Widget {
 		if ( !$title ) {
 			$title=__("Is something wrong with this page?",'govintranet');
 		}
+		$path = plugin_dir_url( __FILE__ );
+        wp_enqueue_script( 'ht_feedback', $path.'js/ht_feedback.js' );
 		?>
 
 		<div id="accordion">
 		      <h3>
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-					<?php echo $title ; ?>
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseHTFeedback">
+					<?php echo $title ; ?> <small><span class="glyphicon glyphicon-menu-down"></span></small>
 		        </a>
 		      </h3>
 		    </div>
-		    <div id="collapseOne" class="xpanel-collapse collapse out">
+		    <div id="collapseHTFeedback" class="xpanel-collapse collapse out">
 		      <div class="xpanel-body">
 				<?php gravity_form($formid, false, true, false, '', true); ?>
 			</div>
 		</div>
-		
+
 		<?php
 		echo $after_widget; 
     }

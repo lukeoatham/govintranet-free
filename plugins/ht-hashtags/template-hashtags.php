@@ -23,11 +23,11 @@ $custom_css = "
 }
 
 ";			
-wp_enqueue_style( 'hashtags', plugin_dir_url() . '/ht-hashtags/css/hashtags.css' );
+wp_enqueue_style( 'hashtags', plugin_dir_url('/') . 'ht-hashtags/css/hashtags.css' );
 wp_add_inline_style('hashtags' , $custom_css);
 wp_enqueue_script( 'masonry');
 wp_enqueue_script( 'imagesloaded');
-wp_enqueue_script( 'ht_hastags', plugin_dir_url() . '/ht-hashtags/js/ht_hashtags.js' );
+wp_enqueue_script( 'ht_hastags', plugin_dir_url('/') . 'ht-hashtags/js/ht_hashtags.js' );
 
 if ( have_posts() ) : 
 	while ( have_posts() ) : the_post(); ?>
@@ -80,7 +80,7 @@ if ( have_posts() ) :
 			
 			));
 	
-		foreach ($homefeed as $h){
+		if ( $homefeed ) foreach ($homefeed as $h){
 			$html='';
 			$html.="<div class='w2 grid-item'>";
 			$html.="<div class='inner-grid anarticle'>";
@@ -116,7 +116,7 @@ if ( have_posts() ) :
 		
 		// load manual entries
 		$extragrids = array();
-		foreach ($promos as $p){ 
+		if ( $promos ) foreach ($promos as $p){ 
 			$html='';
 			$html.= "<div class='w2 grid-item'>";
 			$html.="<div class='inner-grid anarticle featuredpage'>";
@@ -150,7 +150,7 @@ if ( have_posts() ) :
 
 		// load spots
 		$promos = get_post_meta($pid,'ht_spots',true); //print_r($promos);
-		foreach ($promos as $p){ //echo $p['ID'];
+		if ( $promos ) foreach ($promos as $p){ //echo $p['ID'];
 			$html='';
 			$html.= "<div class='w2 grid-item'>";
 			$html.="<div class='inner-grid anarticle featured-spot'>";

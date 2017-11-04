@@ -4,7 +4,7 @@ Plugin Name: Hashtags
 Plugin URI: http://www.helpfultechnology.com
 Description: Hashtag aggregator
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 

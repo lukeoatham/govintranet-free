@@ -4,7 +4,7 @@ Plugin Name: HT Most recent
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display most recent pages
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -83,7 +83,7 @@ class htMostRecent extends WP_Widget {
 		$excludeposts = get_option($acf_key);  
 		$exclude=array();
 		if ($excludeposts) foreach ($excludeposts as $sp){
-			$exclude[] = $sp;
+			$exclude[] = "'" . $sp . "'";
 		}
 	             
 		$donefilter=false;
@@ -141,25 +141,23 @@ class htMostRecent extends WP_Widget {
 		} else {	
 			$checkdate = 'post_date';
 		}
+		
+		if ( !$filter ) $filter="post_type = 'task'";
 	
 		$stoppages = array('how-do-i','task-by-category','news-by-category','newspage','tagged','atoz','about','home','blogs','events','category','news-type',); 
 		foreach ($stoppages as $sp){
 			$stop = get_page_by_path($sp, ARRAY_A, 'page');
-			if ($stop) $exclude[] = $stop['ID'];
+			if ($stop) $exclude[] = "'" . $stop['ID'] . "'";
 		}
 		$getitems = $items + count($exclude); 
 		global $wpdb;
 		$q = "
-		select ID, post_parent, post_type, post_title, post_name, post_date, post_modified, post_status  
-		from $wpdb->posts 
-		where (".$filter.") and post_status = 'publish'";
+		select ID, post_parent, post_type, post_title, post_name, post_date, post_modified, post_status from $wpdb->posts where (".$filter.") and post_status = 'publish'";
 		
-		if ( $exclude ) $q.=" and ID NOT IN ('".implode('\',\' ',$exclude)."') "; 
+		if ( $exclude ) $q.=" and ID NOT IN (" . implode(',' ,$exclude) . ") "; 
 	
-		$q.= "
-		order by ".$checkdate." desc
-		limit ".$getitems.";
-		"; 
+		$q.= "order by ".$checkdate." desc
+		limit ".$getitems.";"; 
 		$rpublished = $wpdb->get_results( $q );
 																
 		$k = 0;
