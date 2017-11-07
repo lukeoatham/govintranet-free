@@ -238,7 +238,8 @@ function govintranet_filter_wp_title( $title, $separator ) {
 		} elseif ($post->post_type == "blog"  ) {
 			$title .= " - " . __('blog post','govintranet') ;
 		}
-	} elseif ( function_exists("bbp_is_single_user") ) {
+	} 
+	if ( function_exists("bbp_is_single_user") ) {
 		if ( bbp_is_single_user() ) {
 			if ( !bbp_is_user_home() ){
 				$u = esc_html($post->post_title);

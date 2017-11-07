@@ -61,6 +61,7 @@
 			}
 		}
 		$updated_to = "4.19";
+		update_option("govintranet_db_version", $updated_to );
 		
 	endif;
 
@@ -75,6 +76,7 @@
 			update_option('options_search_placeholder', $placeholder);
 		}
 		$updated_to = "4.19.1";
+		update_option("govintranet_db_version", $updated_to );
 			
 	endif;
 
@@ -114,6 +116,7 @@
 			update_option('sidebars_widgets', $sidebar);
 		endif;
 		$updated_to = "4.19.4";
+		update_option("govintranet_db_version", $updated_to );
 		
 	endif;
 
@@ -123,6 +126,7 @@
 
 		delete_option('options_enable_automatic_complementary_colour');
 		$updated_to = "4.20";
+		update_option("govintranet_db_version", $updated_to );
 
 	endif;
 
@@ -164,9 +168,13 @@
 				$update_okay = 0;
 				$reason = __("Activate HT Media A to Z plugin","govintranet");
 			}
-			if ( $update_okay ) $updated_to = "4.27";
+			if ( $update_okay ) {
+				$updated_to = "4.27";
+				update_option("govintranet_db_version", $updated_to );
+			}
 		} else {
 			$updated_to = "4.27";
+			update_option("govintranet_db_version", $updated_to );
 		}
 
 	endif;
@@ -181,6 +189,7 @@
 		if ( $fof ) update_option('options_page_not_found','<h1>'.$fof.'</h1>');
 		
 		$updated_to = "4.32";
+		update_option("govintranet_db_version", $updated_to );
 
 	endif;
 
@@ -255,6 +264,7 @@
 		}
 
 		$updated_to = "4.33";
+		update_option("govintranet_db_version", $updated_to );
 
 	endif;
 
@@ -266,6 +276,7 @@
 		if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
 
 		$updated_to = "4.33.2";
+		update_option("govintranet_db_version", $updated_to );
 
 	endif;
 
@@ -291,6 +302,7 @@
 		$wpdb->query("delete from $wpdb->postmeta where meta_key='_team_members';");
 
 		$updated_to = "4.34";
+		update_option("govintranet_db_version", $updated_to );
 
 	endif;
 
@@ -306,6 +318,7 @@
 		if ( $timestamp ) wp_unschedule_event( $timestamp, "govintranet_expiry_patrol" );
 
 		$updated_to = "4.34.2";
+		update_option("govintranet_db_version", $updated_to );
 
 	endif;
 
@@ -388,6 +401,7 @@
 		}
 	
 		$updated_to = "4.36";
+		update_option("govintranet_db_version", $updated_to );
 		
 	endif;
 

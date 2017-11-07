@@ -35,35 +35,38 @@ do_action( 'bbp_template_before_user_profile' );
 		endif;
 			
 		if ( $staffdirectory ):
-	  	$teams = get_user_meta($user_id,'user_team',true);
-		if ($teams) {
-			echo '<h3 class="contacthead">' . __('Team' , 'govintranet') . '</h3>';
-			$teamlist = array(); //build array of hierarchical teams
+		  	$teams = get_user_meta($user_id,'user_team',true);
+			if ($teams) {
+				echo '<h3 class="contacthead">' . __('Team' , 'govintranet') . '</h3>';
+				$teamlist = array(); //build array of hierarchical teams
 		  		foreach ((array)$teams as $t ) { 
 		  			$team = get_post($t);
-		  		    $teamid = $team->ID;
-		  		    $teamparent = $team->post_parent; 
-		  		    while ($teamparent!=0){
-		  		    	$parentteam = get_post($teamparent); 
-		  		    	$parentURL = $parentteam->post_name;
-		  		    	$parentname = get_the_title($parentteam->ID); 
-			  			$teamlist[] = " <a href='".get_permalink($teamparent)."'>".$parentname."</a>";   
-			  			$teamparent = $parentteam->post_parent; 
-		  		    }
-		  			array_unshift( $teamlist, " <a href='".get_permalink($team->ID)."'>".get_the_title($team->ID)."</a>" );
-		  			$teamlist = array_reverse( $teamlist );
-		  			echo "<p class='contactteam'><strong>" . __('Team' , 'govintranet'). ":</strong> ".implode(" &raquo; ", $teamlist)."</p>";
-		  			$teamlist=array();
+		  		    if ( $team ){
+			  		    $teamid = $team->ID;
+			  		    $teamparent = $team->post_parent; 
+			  		    while ($teamparent!=0){
+			  		    	$parentteam = get_post($teamparent); 
+			  		    	if ( $parentteam ){
+				  		    	$parentname = get_the_title($parentteam->ID); 
+					  			$teamlist[] = " <a href='".get_permalink($teamparent)."'>".$parentname."</a>";   
+					  			$teamparent = $parentteam->post_parent; 
+				  			}
+			  		    }
+			  			array_unshift( $teamlist, " <a href='".get_permalink($team->ID)."'>".get_the_title($team->ID)."</a>" );
+			  			$teamlist = array_reverse( $teamlist );
+			  			echo "<p class='contactteam'><strong>" . __('Team' , 'govintranet'). ":</strong> ".implode(" &raquo; ", $teamlist)."</p>";
+			  			$teamlist=array();
+			  		}
 				}
-		}  
-		$jt = get_user_meta($user_id, 'user_job_title',true );
-		$ug = get_user_meta( $user_id, 'user_grade',true ); 
-		if (!$teams && ($jt || $ug)) echo '<h3 class="contacthead">' . __("Role" , "govintranet") . '</h3>';
-		if ($jt) echo "<p class='contactjobtitle'><strong>" . __('Job title' , 'govintranet' ) . ": </strong>".$jt."</p>";
-		if ($ug) {
-			$ug = get_term($ug, 'grade', ARRAY_A);
-			if ($ug['name']) echo "<p class='contactgrade'><strong>" . __('Grade' , 'govintranet') . ": </strong>".$ug['name']."</p>";
-		}
+			}  
+			$jt = get_user_meta($user_id, 'user_job_title',true );
+			$ug = get_user_meta( $user_id, 'user_grade',true ); 
+			if (!$teams && ($jt || $ug)) echo '<h3 class="contacthead">' . __("Role" , "govintranet") . '</h3>';
+			if ($jt) echo "<p class='contactjobtitle'><strong>" . __('Job title' , 'govintranet' ) . ": </strong>".$jt."</p>";
+			if ($ug) {
+				$ug = get_term($ug, 'grade', ARRAY_A);
+				if ($ug['name']) echo "<p class='contactgrade'><strong>" . __('Grade' , 'govintranet') . ": </strong>".$ug['name']."</p>";
+			}
 		endif;
 		?>
 		<h3 class="contacthead"><?php echo _x('Contact' , 'Address book details' , 'govintranet'); ?></h3>
