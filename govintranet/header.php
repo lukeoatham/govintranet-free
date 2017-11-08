@@ -31,6 +31,7 @@ header('X-Frame-Options: SAMEORIGIN');
 		wp_title( '', true, 'right' );
 		?>
 	</title>
+	<?php do_action('govintranet_before_header'); ?>
 	<!--Google Analytics-->
 	<?php	
 	// write script for google analytics (only do on homepage if homepage tracking is set or on search page)
