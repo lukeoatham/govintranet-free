@@ -4,7 +4,7 @@ Plugin Name: Hashtags
 Plugin URI: http://www.helpfultechnology.com
 Description: Hashtag aggregator
 Author: Luke Oatham
-Version: 1.1
+Version: 1.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -19,7 +19,7 @@ function register_hastags_templates() {
 		'fields' => array (
 			array (
 				'key' => 'field_594804965b9dd',
-				'label' => 'Hashtag',
+				'label' => __('Hashtag','govintranet'),
 				'name' => 'ht_hashtag',
 				'type' => 'taxonomy',
 				'instructions' => '',
@@ -41,7 +41,7 @@ function register_hastags_templates() {
 			),
 			array (
 				'key' => 'field_594803e70d0f7',
-				'label' => 'Number of posts',
+				'label' => __('Number of posts','govintranet'),
 				'name' => 'ht_number_of_news_stories',
 				'type' => 'text',
 				'instructions' => '',
@@ -60,7 +60,7 @@ function register_hastags_templates() {
 			),
 			array (
 				'key' => 'field_594804220d0f8',
-				'label' => 'Highlight pages',
+				'label' => __('Highlight pages','govintranet'),
 				'name' => 'ht_highlight_pages',
 				'type' => 'relationship',
 				'instructions' => '',
@@ -92,7 +92,7 @@ function register_hastags_templates() {
 			),
 			array (
 				'key' => 'field_5948046a0d0f9',
-				'label' => 'Spots',
+				'label' => __('Spots','govintranet'),
 				'name' => 'ht_spots',
 				'type' => 'relationship',
 				'instructions' => '',

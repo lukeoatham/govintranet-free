@@ -31,18 +31,16 @@ wp_enqueue_script( 'ht_hastags', plugin_dir_url('/') . 'ht-hashtags/js/ht_hashta
 
 if ( have_posts() ) : 
 	while ( have_posts() ) : the_post(); ?>
-<div class="row">
-	<div class="col-lg-12 white ">
+<div class="col-sm-12 white">	
+	<div class="row">
 		<div class='breadcrumbs'>
 			<?php if(function_exists('bcn_display') && !is_front_page()) {
 				bcn_display();
 				}?>
 		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-12">
+	<div class="row">
 
 		<?php if (the_content()) : ?>
 		<div class="lead">  
@@ -58,6 +56,9 @@ if ( have_posts() ) :
 		//retrieve latest media feed posts
 	
 		$html ='';
+		$hashtag = '';
+		$hashterm = '';
+		$hashtagslug = '';
 		$counter=0;
 		$grids=array();
 		
@@ -68,10 +69,8 @@ if ( have_posts() ) :
 		$hashtagslug = $hashterm->slug;
 		$promos = get_post_meta($pid,'ht_highlight_pages',true); 
 
-
 		// get news
-
-		$homefeed = get_posts(array(
+		if ( $hashtagslug ) $homefeed = get_posts(array(
 				'post_type' => array('news','blog','news-update','event','tribe_event'),
 				"posts_per_page"=>$numnews,
 				"post_status"=>"publish",
@@ -155,27 +154,30 @@ if ( have_posts() ) :
 			$html.= "<div class='w2 grid-item'>";
 			$html.="<div class='inner-grid anarticle featured-spot'>";
 			$spot = get_post($p);
-			$html.= $spot->post_content;
+			$html.= apply_filters('the_content',$spot->post_content);
 			$html.= "</div></div>";
 			$extragrids[]=$html;	
 		}
-	
-		shuffle($grids);
-		$count=-4;
-		foreach ($extragrids as $e){ 
-			$count=$count+4;
+
+		// attempt to spread extra items evenly through posts
+		$fill = 2;
+		$gridcount = count($grids);
+		$extracount = count($extragrids);
+		if ( ( $gridcount && $extracount ) && ( $gridcount > $extracount ) ) $fill = intval( $gridcount / $extracount );
+		if ( $fill < 2 ) $fill = 2;
+		$count = $fill * -1;
+		if ( count($extragrids) > 0 ) foreach ($extragrids as $e){ 
+			$count=$count+$fill;
 			array_splice($grids,$count,0,$e); // insert in slot
 		}
 
 		$html =  implode("",$grids);
-		
 		$output = '<div class="metro-list">'.$html.'</div>';
 		echo $output;
 		?>
 		</div>
 	</div>
 </div>
-
 <?php endwhile; ?>
 <?php endif; ?> 
 <?php get_footer(); ?>
