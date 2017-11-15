@@ -1,7 +1,8 @@
 <?php
 /* Used in single-task.php template and page with full-width template */
-
+wp_register_script( 'ht-manual', get_template_directory_uri() . '/js/ht-scripts-manuals.js', array('jquery'), '', true );
 global $post;
+if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ) wp_enqueue_script( 'ht-manual' );
 $taskicon = get_option("options_module_tasks_icon_tasks", "glyphicon glyphicon-file");
 $guideicon = get_option("options_module_tasks_icon_guides", "glyphicon glyphicon-duplicate");
 $alreadydone = array();	
@@ -51,7 +52,7 @@ if ($parent_guide){
 }	
 
 if ($pagetypeorig=="guide"): ?>
-	<div>
+	<div class='clearfix'>
 		<h1><?php echo $guidetitle; ?> <small class="task-context"><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 		<?php 
 		$podchap = get_post($parent_guide_id); 
@@ -128,7 +129,7 @@ if ($pagetypeorig=="guide"): ?>
 endif;
 
 if ($pagetypeorig=="guide"){
-	echo "<div>";
+	echo "<div class='clearfix'>";
 
 	echo "<div class='content-wrapper-notop'>";
 	if ($current_chapter>1){

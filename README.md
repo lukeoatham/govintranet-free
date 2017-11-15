@@ -38,6 +38,14 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.37.6 - 12 Nov 2017 ###
+* Improved handling of manuals in tasks  
+* How do I template search button fix 
+* Style update for profile mini org-chart 
+
+### 4.37.5.1 - 7 Nov 2017 ###
+* User profile page title fix 
+
 ### 4.37.5 - 4 Nov 2017 ###
 * PHP warning fixes 
 * Fix for newsboard blog tab featured image
