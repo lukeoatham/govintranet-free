@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.37.6.1 - 18 Nov 2017 ###
+* Fix for tag cloud link URLs   
+
 ### 4.37.6 - 12 Nov 2017 ###
 * Improved handling of manuals in tasks  
 * How do I template search button fix 

@@ -10442,7 +10442,7 @@ function gi_howto_tag_cloud($posttype) {
 	foreach ($alltags as $a):
 		$tagstr=$tagstr."<span><a class='wptag ";
 		if (isset($_GET['tag']) && $_GET['tag'] == $a['slug']) $tagstr=$tagstr." active";
-		$tagstr.="' href='".site_url()."/tag/".$a['slug']."/?paged=1&type=".$temp."'>" . str_replace(' ', '&nbsp;' , $a['name']) . '</a></span> '; 
+		$tagstr.="' href='".esc_url($a['link'])."?paged=1&type=".$temp."'>" . str_replace(' ', '&nbsp;' , esc_html($a['name']) ) . '</a></span> '; 
 	endforeach;
 	return $tagstr;
 }
