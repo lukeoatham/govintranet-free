@@ -87,7 +87,7 @@ wp_enqueue_script( 'scripts_grid' );
 						  		if ($teamdrop=='') $teamdrop = __("Browse teams" , "govintranet");
 						  		echo '
 								<div class="dropdown">
-								  <button class="btn btn-info pull-right dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								  <button class="btn btn-primary pull-right dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    ' . $teamdrop . '
 								    <span class="caret"></span>
 								  </button>

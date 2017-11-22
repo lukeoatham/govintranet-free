@@ -1,1 +1,16 @@
 /* INLINE STYLES */
+	.page-template-newsboard .calbox .caldate {
+		font-size: 32px;
+		padding: 7px 17px;
+		margin: 0;
+		font-weight: 800;
+	}
+	.page-template-newsboard a.calendarlink:hover { text-decoration: none; }
+	.page-template-newsboard a.calendarlink:hover .calbox .caldate { background: #eee; }
+	.page-template-newsboard a.calendarlink:hover .calbox .calmonth { background: #eee; }
+	.page-template-newsboard a.calendarlink:hover .calbox  { background: #eee; }
+	.page-template-newsboard .eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+	.page-template-newsboard .eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
+	.page-template-newsboard .eventslisting p { margin-bottom: 0 !important; }
+	.page-template-newsboard .media.newsboard-events h3.media-heading { padding-bottom: 0; }
+	

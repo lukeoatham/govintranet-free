@@ -384,7 +384,7 @@
 				}	
 			}
 		}
-		// PRCOESS EVENTS
+		// PROCESS EVENTS
 		if ( get_option('options_module_events_draft') ){
 			$oldvacs = query_posts(array(
 				'post_type'=>'event',
@@ -404,6 +404,22 @@
 		update_option("govintranet_db_version", $updated_to );
 		
 	endif;
+	
+	if ( version_compare( $database_version, "4.38", '<' ) && $update_okay ):
+		
+		// Move header text color option to new btn text colour option, remove option to hide sitename 
+		
+		$head_text = get_theme_mod( "header_textcolor", "ffffff" );
+		if ( $head_text == "blank" ) $head_text = "ffffff";
+		update_option("options_btn_text_colour", "#" . $head_text );
+		if ( get_option( "options_hide_sitename" ) ) set_theme_mod( "header_textcolor", "blank" );
+		delete_option( "options_hide_sitename" );
+
+		$updated_to = "4.38";
+		update_option("govintranet_db_version", $updated_to );
+		
+	endif;
+	
 
 	// UPDATE DATABASE VERSION
 	
@@ -412,7 +428,7 @@
 		update_option("govintranet_db_version", $theme_version );
 		$class = 'notice notice-info is-dismissible';
 		$message = sprintf( __( 'Updated to GovIntranet version %1$s', 'govintranet' ), $theme_version );
-		$links = __("visit <a href='http://help.govintra.net/'>GovIntranetters</a> for latest features.","govintranet");
+		$links = __("visit <a href='https://help.govintra.net/'>GovIntranetters</a> for latest features.","govintranet");
 		printf( '<div class="%1$s"><p><strong>%2$s</strong> &raquo; %3$s</p></div>', $class, $message, $links ); 
 	else:
 		$class = 'notice notice-error is-dismissible';

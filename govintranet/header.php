@@ -119,7 +119,7 @@ $parentpageclass.=" custom-background";
 						<!--logo and name-->
 							<div class="col-lg-8 col-md-7 col-sm-6 hidden-xs" id="crownlogo">
 								<div id="crownlink">
-									<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home" accesskey="1"><?php if ( !get_option('options_hide_sitename') ) echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></a>
+									<p class="site-title<?php if ( !display_header_text() ) echo '  hidden'; ?>"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home" accesskey="1"><?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></a></p>
 								</div>
 							</div>
 						

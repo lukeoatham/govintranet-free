@@ -418,7 +418,7 @@ get_header();
 							echo "</a></li>";
 						}
 						if ($posttype != ''){
-						echo "<li><a href='".site_url()."/tag/".$thistagslug."'>";
+						echo "<li><a href='".get_tag_link( $thistagid )."'>";
 							printf( __( '<strong>Everything</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 						echo "</a></li>";		
 						}
@@ -434,7 +434,7 @@ get_header();
 							";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=task'>";
+								echo "<li><a href='".get_tag_link( $thistagid )."?type=task'>";
 								printf( __( '<strong>Tasks and guides</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}
@@ -451,7 +451,7 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=project'>";
+								echo "<li><a href='".get_tag_link( $thistagid )."?type=project'>";
 								printf( __( '<strong>Projects</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}
@@ -467,7 +467,7 @@ get_header();
 							$wpdb->posts.post_status = 'publish'					";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=vacancy'>";
+								echo "<li><a href='".get_tag_link( $thistagid )."?type=vacancy'>";
 								printf( __( '<strong>Job vacancies</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}
@@ -484,7 +484,7 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=news'>";
+								echo "<li><a href='".get_tag_link( $thistagid )."?type=news'>";
 								printf( __( '<strong>News</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}
@@ -501,7 +501,7 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=news-update'>";
+								echo "<li><a href='".get_tag_link( $thistagid )."?type=news-update'>";
 								printf( __( '<strong>News updates</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}
@@ -518,7 +518,7 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=blog'>";
+								echo "<li><a href='".get_tag_link( $thistagid )."?type=blog'>";
 								printf( __( '<strong>Blog posts</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}
@@ -535,7 +535,7 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=page'>";
+								echo "<li><a href='".get_tag_link( $thistagid )."?type=page'>";
 								printf( __( '<strong>Pages</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}
@@ -552,7 +552,7 @@ get_header();
 								";
 							$testtag = $wpdb->get_results($tagquery);
 							if ($testtag[0]->numtags > 0){
-								echo "<li><a href='".site_url()."/tag/".$thistagslug."/?type=event'>";
+								echo "<li><a href='".get_tag_link( $thistagid )."?type=event'>";
 								printf( __( '<strong>Events</strong> tagged: %s', 'govintranet' ), '' . $thistag . '' );
 								echo "</a></li>";		
 							}

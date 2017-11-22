@@ -6,11 +6,9 @@ get_header();
 $gisheight = get_option('options_widget_border_height');
 if (!$gisheight) $gisheight = 7;
 $gis = "options_header_background";
-$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
-if ( $gishex == "#") $gishex = "#0b2d49";
+$gishex = get_theme_mod('header_background', '#0b2d49'); 
 $custom_css = ".custom-background  { background-color: ".$gishex.";	}";
-$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
-if ( $headtext == "#") $headtext = "#ffffff";
+$headtext = get_option('options_btn_text_colour','#ffffff');
 
 // set bar colour
 // if using automatic complementary colour then convert header color
@@ -27,7 +25,7 @@ $custom_css = "
 .document-finder-filter-box h3.widget-title,
 .matoz-results h3.widget-title { background: {$gishex}; color: {$headtext}; padding: 5px; font-size: 1em; }
 .matoz-results h3.widget-title small { color: {$headtext}; }
-.pager li a:hover { background: {$giscc}; color: white; }
+.pager li a:hover { background: {$giscc}; color: {$headtext}; }
 .pager li.active a { background: {$gishex}; color: {$headtext}; }
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover { background-color: {$gishex}; color: {$headtext}; }
 ";

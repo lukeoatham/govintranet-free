@@ -4,7 +4,7 @@ Plugin Name: HT Vacancy listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display closing vacancies
 Author: Luke Oatham
-Version: 1.5.1
+Version: 1.6
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -228,22 +228,24 @@ class htVacancyListing extends WP_Widget {
 }
 
 function ht_vacancy_head(){
+	$head_back = get_theme_mod('header_background', '#0b2d49');
+	$head_text = get_option('options_btn_text_colour','#ffffff');		
 	$custom_css = "
 	.vacancybox .vacancy-dow {
-		background: ".get_theme_mod('header_background', '0b2d49').";
-		color: #".get_header_textcolor().";
+		background: ".$head_back.";
+		color: ".$head_text.";
 		font-size: 16px;
 	}
 	.vacancybox { 
 		width: 3.5em; 
-		border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+		border: 3px solid ".$head_back.";
 		text-align: center;
 		border-radius: 3px;
 		background: #fff;
 		box-shadow: 0 2px 3px rgba(0,0,0,.2);
 	}
 	.vacancybox .vacancy-month {
-		color: ".get_theme_mod('header_background', '0b2d49').";
+		color: ".$head_back.";
 		text-transform: uppercase;
 		font-weight: 800;
 		font-size: 18px;

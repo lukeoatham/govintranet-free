@@ -5,20 +5,19 @@ Template Name: Hashtags
 
 get_header(); 
 
-$header_text_color = get_header_textcolor();
-if ( !$header_text_color ) $header_text_color = "FFFFFF";
+$header_text_color = get_option('options_btn_text_colour','#ffffff');
 $custom_css = "
 .metro-list .featuredpage {
-	background: ".get_theme_mod('header_background', '0b2d49').";
+	background: ".get_theme_mod('header_background', '#0b2d49').";
 	padding: 0;
-	color: #".$header_text_color." !important;
+	color: ".$header_text_color." !important;
 }
 .metro-list .featuredpage p, .metro-list .featuredpage h4 {
-	color: #".$header_text_color." !important;
+	color: ".$header_text_color." !important;
 	padding: 0 1em;
 }
 .metro-list .featuredpage a h4 {
-	color: #".$header_text_color." !important;
+	color: ".$header_text_color." !important;
 	padding: 0 1em;
 }
 
@@ -84,7 +83,7 @@ if ( have_posts() ) :
 			$html.="<div class='w2 grid-item'>";
 			$html.="<div class='inner-grid anarticle'>";
 			$html.="<div class='grid-footer'>";
-			$html.="<p class='type-icon'><a href='/tag/".$hashtagslug."'>#".$hashtagslug."</a></p>";	
+			$html.="<p class='type-icon'><a href='" . get_tag_link( $hashtagslug) . "'>#" . $hashtagslug . "</a></p>";	
 			setup_postdata($h);
 			$html.="</div>";
 			$img = wp_get_attachment_image_src(get_post_thumbnail_id($h->ID),'homepage');

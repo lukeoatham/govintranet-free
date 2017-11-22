@@ -109,6 +109,7 @@ function govintranet_setup() {
 	
 	add_theme_support('custom-background');
 	add_theme_support('custom-header');
+	add_theme_support('customize-selective-refresh-widgets');
   }
 }
 
@@ -2052,25 +2053,6 @@ if( function_exists('acf_add_local_field_group') ){
 					'mime_types' => '',
 				),
 				array (
-					'key' => 'field_5755996acff5b',
-					'label' => __('Hide site name in header','govintranet'),
-					'name' => 'hide_sitename',
-					'ui' => 1,
-					'ui_on_text' => __('Yes','govintranet'),
-					'ui_off_text' => __('No','govintranet'),
-					'type' => 'true_false',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'message' => '',
-					'default_value' => 0,
-				),
-				array (
 					'key' => 'field_536f75f2a21c2',
 					'label' => __('Login logo','govintranet'),
 					'name' => 'login_logo',
@@ -2093,43 +2075,6 @@ if( function_exists('acf_add_local_field_group') ){
 					'max_height' => '',
 					'max_size' => '',
 					'mime_types' => '',
-				),
-				array (
-					'key' => 'field_536f7373a21b1',
-					'label' => __('Widget border height','govintranet'),
-					'name' => 'widget_border_height',
-					'type' => 'number',
-					'instructions' => __('Height in pixels of the border that appears above widget titles.','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => '',
-					'prepend' => '',
-					'append' => '',
-					'min' => '',
-					'max' => '',
-					'step' => '',
-					'readonly' => 0,
-					'disabled' => 0,
-				),
-				array (
-					'key' => 'field_53827c0d41550',
-					'label' => __('Complementary colour','govintranet'),
-					'name' => 'complementary_colour',
-					'type' => 'color_picker',
-					'instructions' => __('Colour of widget border and buttons.','govintranet'),
-					'required' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
 				),
 				array (
 					'key' => 'field_536f75cda21c1',
@@ -10799,10 +10744,10 @@ function govintranet_custom_styles() {
 	$custom_css.= "a, a .listglyph  {color: ".$bg.";}";
 
 	$bg = get_theme_mod('link_visited_color', '#7303aa');
+	$btn_text = get_option('options_btn_text_colour','#ffffff');
 	$custom_css.= "a:visited, a:visited .listglyph {color: ".$bg.";}";
 	$gisheight = intval(get_option('options_widget_border_height'));
 	if (!$gisheight) $gisheight = 7;
-	$gis = "options_header_background";
 	$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
 	if ( $gishex == "#") $gishex = "#0b2d49";
 	$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
@@ -10828,7 +10773,7 @@ function govintranet_custom_styles() {
 		#primarynav ul li a:hover {color: ".$gishex." !important; background: ".$headtext."; }	
 	}";
 
-	$custom_css.= ".btn-primary, .btn-primary a  { background: ".$giscc."; border: 1px solid ".$giscc."; color: ".$headtext."; } ";
+	$custom_css.= ".btn-primary, .btn-primary a  { background: ".$giscc."; border: 1px solid ".$giscc."; color: ".$btn_text."; } ";
 	$custom_css.= ".btn-primary a:hover  { background: ".$gishex."; } ";
 	$custom_css.= "#topstrip a { color: ".$headtext."; }";
 	$custom_css.= "#utilitybar ul#menu-utilities li a, #menu-utilities { color: ".$headtext."; } ";
@@ -10842,7 +10787,7 @@ function govintranet_custom_styles() {
 	#buddypress img.avatar {border-radius:50%; display: inline-block;}";
 	$custom_css.= ".bbp-user-page .panel-heading {border-top: ".$gisheight."px solid ".$giscc."; }";
 	$custom_css.= ".page-template-page-news-php h1 {border-bottom: ".$gisheight."px solid ".$giscc.";} .tax-team h2 {border-bottom: ".$gisheight."px solid ".$giscc.";}";
-	$custom_css.= "#bbpress-forums li.bbp-header, #bbpress-forums li.bbp-header a { background-color:".$gishex." !important; color: ".$headtext."; }";
+	$custom_css.= "#bbpress-forums li.bbp-header, #bbpress-forums li.bbp-header a { background-color:".$gishex." !important; color: ".$btn_text."; }";
 	$custom_css.= "#bbpress-forums li.bbp-header a { text-decoration: underline; }";
 
 	//write custom css for logo
@@ -10856,8 +10801,8 @@ function govintranet_custom_styles() {
 	$custom_css.= "#primarynav ul li  { border-bottom: 1px solid ".$gishex."; border-top: 1px solid ".$gishex."; border-right: 1px solid ".$gishex."; }
 	#primarynav ul li:last-child {border-right: 1px solid ".$gishex.";}
 	#primarynav ul li:first-child  {	border-left: 1px solid ".$gishex.";	}
-	#searchformdiv button:hover { background: ".$gishex."; color: ".$headtext."; }";		
-	$custom_css.= "a.wptag {color: ".$headtext."; background: ".$gishex.";} \n";
+	#searchformdiv button:hover { background: ".$gishex."; color: ".$btn_text."; }";		
+	$custom_css.= "a.wptag {color: ".$btn_text."; background: ".$gishex.";} \n";
 
 	if ($headimage != 'remove-header' && $headimage) $custom_css.= '#utilitybar ul#menu-utilities li a, #menu-utilities, #crownlink { text-shadow: 1px 1px #333; }'; 
 	
@@ -10896,7 +10841,7 @@ function govintranet_custom_styles() {
 	if ( $jumbo_searchbox ) $custom_css.= "		
 	#headsearch { padding-right: 0; }
 	#searchformdiv.altsearch { padding: 1.75em 6em 1.75em 6em; background: " . $giscc . "; }
-	#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: white; }
+	#searchformdiv.altsearch button.btn.btn-primary { background: " . $gishex . "; color: ".$btn_text."; }
 	#searchformdiv.altsearch button.btn.btn-primary:hover { background-color: #eee; color: black; }
 	";
 	
@@ -11510,7 +11455,7 @@ function govintranet_theme_cover_image( $params = array() ) {
 		}
 		div.item-list-tabs ul li a {
 			text-decoration:none;
-			color:#'.get_theme_mod("header_textcolor", "ffffff").';
+			color:'.get_option("options_btn_text_colour", "#ffffff").';
 		}
 
 

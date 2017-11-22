@@ -3,15 +3,54 @@
 Template Name: Newsboard
 */
 
-	get_header(); 
-
-	if (!wp_script_is('jquery', 'queue')){
-     	wp_enqueue_script('jquery');
+function ht_newsboard_head_style(){
+	$head_comp = get_option('options_complementary_colour', '#0b2d49');
+	$head_back = get_theme_mod('header_background', '#0b2d49');
+	$head_text = get_option('options_btn_text_colour','#ffffff');
+	$custom_css = "
+	#newsboardTabs.nav>li>a { background: ".$head_comp."; color: white; }
+	#newsboardTabs.nav>li.active>a, #newsboardTabs.nav>li.active>a:focus { color: #555; background-color: #ffffff; border: 1px solid ".$head_back."; border-bottom: 1px solid #ffffff; }
+	#newsboardTabs.nav>li>a:hover { color: #555; background-color: #ffffff; border: 1px solid ".$head_comp."; border-bottom: 1px solid #ffffff; }
+	.nav-tabs { border-bottom: 1px solid ".$head_comp."; }
+	.page-template-newsboard .calbox .cal-dow {
+		background: ".$head_back.";
+		color: ".$head_text.";
+		font-size: 16px;
 	}
-	wp_register_script( 'newsboard-js', get_template_directory_uri() . '/newsboard/newsboard.js', array('jquery','bootstrap-min'),'',true );
-	wp_enqueue_script( 'newsboard-js' );
+	.page-template-newsboard .calbox { 
+		width: 4.4em;
+		border: 3px solid ".$head_back.";
+		text-align: center;
+		border-radius: 3px;
+		background: #fff;
+		box-shadow: 0 2px 3px rgba(0,0,0,.2);
+		
+	}
 
-	if ( have_posts() ) : 
+	.page-template-newsboard .calbox .calmonth {
+		color: ".$head_comp.";
+		text-transform: uppercase;
+		font-weight: 800;
+		font-size: 22px;
+		line-height: 24px;
+		padding-bottom: 5px;
+	}
+    ";
+	wp_enqueue_style( 'ht_newsboard_head', get_template_directory_uri() . "/newsboard/style-newsboard.css");
+	wp_add_inline_style('ht_newsboard_head' , $custom_css);
+
+}
+add_action('wp_head','ht_newsboard_head_style',4);
+
+get_header(); 
+
+if (!wp_script_is('jquery', 'queue')){
+ 	wp_enqueue_script('jquery');
+}
+wp_register_script( 'newsboard-js', get_template_directory_uri() . '/newsboard/newsboard.js', array('jquery','bootstrap-min'),'',true );
+wp_enqueue_script( 'newsboard-js' );
+
+if ( have_posts() ) : 
 	while ( have_posts() ) : the_post(); ?>
 		<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 white ">
 			<div class="row">
@@ -383,55 +422,8 @@ Template Name: Newsboard
 		?>
 	</div>		
 
-<?php 
-endwhile; 
+	<?php 
+	endwhile; 
 endif; 
 
-function ht_newsboard_head(){
-	$custom_css = "
-	.calbox .cal-dow {
-		background: ".get_theme_mod('header_background', '0b2d49').";
-		color: #".get_header_textcolor().";
-		font-size: 16px;
-	}
-	.calbox { 
-		width: 4.4em;
-		border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
-		text-align: center;
-		border-radius: 3px;
-		background: #fff;
-		box-shadow: 0 2px 3px rgba(0,0,0,.2);
-		
-	}
-	.calbox .caldate {
-		font-size: 32px;
-		padding: 7px 17px;
-		margin: 0;
-		font-weight: 800;
-	}
-	.calbox .calmonth {
-		color: ".get_theme_mod('header_background', '0b2d49').";
-		text-transform: uppercase;
-		font-weight: 800;
-		font-size: 22px;
-		line-height: 24px;
-		padding-bottom: 5px;
-	}
-	a.calendarlink:hover { text-decoration: none; }
-	a.calendarlink:hover .calbox .caldate { background: #eee; }
-	a.calendarlink:hover .calbox .calmonth { background: #eee; }
-	a.calendarlink:hover .calbox  { background: #eee; }
-	.eventslisting h3 { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
-	.eventslisting .alignleft { margin: 0 0 0.5em 0 !important; }
-	.eventslisting p { margin-bottom: 0 !important; }
-	
-	.media.newsboard-events h3.media-heading { padding-bottom: 0; }
-    ";
-	wp_enqueue_style( 'ht_newsboard_head', get_template_directory_uri("/newsboard/style-newsboard.css"));
-	wp_add_inline_style('ht_newsboard_head' , $custom_css);
-
-}
-add_action('wp_head','ht_newsboard_head',4);
-?> 
-
-<?php get_footer(); ?>
+get_footer(); ?>

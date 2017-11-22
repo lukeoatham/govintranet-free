@@ -51,16 +51,18 @@ if ( $output == '' ){
 	
 	if (count($events_to_show)!=0){
 		$wtitle = "upcoming";
+		$head_back = get_theme_mod('header_background', '#0b2d49');
+		$head_text = get_option('options_btn_text_colour','#ffffff');		
 		$output.= "
 		    <style>
 			.calbox .cal-dow {
-				background: ".get_theme_mod('header_background', '0b2d49').";
-				color: #".get_header_textcolor().";
+				background: ".$head_back.";
+				color: ".$head_text.";
 				font-size: 16px;
 			}
 			.calbox { 
 				width: 3.5em; 
-				border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+				border: 3px solid ".$head_back.";
 				text-align: center;
 				border-radius: 3px;
 				background: #fff;
@@ -73,7 +75,7 @@ if ( $output == '' ){
 				font-weight: 800;
 			}
 			.calbox .calmonth {
-				color: ".get_theme_mod('header_background', '0b2d49').";
+				color: ".$head_back.";
 				text-transform: uppercase;
 				font-weight: 800;
 				font-size: 18px;

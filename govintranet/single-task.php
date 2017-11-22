@@ -81,6 +81,7 @@ get_header(); ?>
 	function show_manual(){
 		if( have_rows('manual_chapters') ):
 			$i = 0; 
+			global $post;
 			$output = '<div class="panel-group" id="manualaccordion" role="tablist" aria-multiselectable="true">';
 
 			while ( have_rows('manual_chapters') ) : the_row(); 

@@ -60,7 +60,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				  		if ($teamdrop=='') $teamdrop = __("Browse teams","govintranet");
 				  		echo '
 						<div class="dropdown">
-						  <button class="btn btn-info pull-right dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						  <button class="btn btn-primary pull-right dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						    ' . $teamdrop . '
 						    <span class="caret"></span>
 						  </button>
@@ -172,13 +172,13 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 									if ($team) {				
 										foreach ((array)$team as $t ) { 
 								  		    $theme = get_post($t);
-											$html.= "<a href='".get_permalink($theme->ID)."'>".get_the_title($theme->ID)."</a><br>";
+											if ( $theme ) $html.= "<a href='".get_permalink($theme->ID)."'>".get_the_title($theme->ID)."</a><br>";
 								  		}
 									}  
 									
 									if ( get_user_meta($userid ,'user_job_title',true )) : 
 										$meta = get_user_meta($userid ,'user_job_title',true );
-										$html .= '<span class="small">'.$meta.'</span><br>';
+										if ( $meta ) $html .= '<span class="small">'.$meta.'</span><br>';
 									endif; 
 		
 								
@@ -198,12 +198,12 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 									if ($team){
 										foreach ((array)$team as $t ) { 
 								  		    $theme = get_post($t);
-											$html.= get_the_title($theme->ID)."<br>";
+											if ( $theme ) $html.= get_the_title($theme->ID)."<br>";
 							  			}
 							  		}
 									if ( get_user_meta($userid ,'user_job_title',true )) {
 										$meta = get_user_meta($userid ,'user_job_title',true );
-										$html .= '<span class="small">'.$meta."</span><br>";
+										if ( $meta ) $html .= '<span class="small">'.$meta."</span><br>";
 									}
 									if ( get_user_meta($userid ,'user_telephone',true )) $html.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
 									if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
