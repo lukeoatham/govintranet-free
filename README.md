@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.38.1 - 25 Nov 2017 ###
+* Performance improvements for templates with tag clouds 
+* Reset background auto-expiry cron job to five mins    
+
 ### 4.38 - 21 Nov 2017 ###
 * Theme and plugin updates to support live preview in customiser   
 * Moved some GovIntranet general options to the customiser

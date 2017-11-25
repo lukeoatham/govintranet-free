@@ -10313,9 +10313,11 @@ if( function_exists('acf_add_options_page') ) {
 function gi_tag_cloud($taxonomy, $term, $post_type) {
 	global $post;
 	$taxid = get_queried_object()->term_id;	
-	$posts = get_posts(array(
+	$posts = new WP_Query(array(
 		'post_type' => $post_type,
 		'posts_per_page' => -1,
+		'offset' => 0,
+		'fields' => 'ids',
 		'post_status' => 'publish',
 		'tax_query' => array(
 			array(
@@ -10326,8 +10328,9 @@ function gi_tag_cloud($taxonomy, $term, $post_type) {
 		)	
 	);
 	$alltags = array();
-	foreach ($posts as $p){
-		$tags = get_the_tags($p->ID);
+	if ( $posts->have_posts() ) while ($posts->have_posts()){
+	$posts->the_post();
+		$tags = get_the_tags($id);
 		if ( $tags ) foreach ($tags as $t){
 			if (isset($alltags[$t->slug]['count'])){
 				$alltags[$t->slug]['count']++;
@@ -10339,7 +10342,7 @@ function gi_tag_cloud($taxonomy, $term, $post_type) {
 				}
 				$alltags[$t->slug]['name'] = $t->name;
 				$alltags[$t->slug]['slug'] = $t->slug;
-				$alltags[$t->slug]['link'] = get_term_link( intval($t->term_id), $t->taxonomy );
+				$alltags[$t->slug]['link'] = get_tag_link( $t->term_id );
 			}
 		}
 	}
@@ -10361,14 +10364,17 @@ function gi_tag_cloud($taxonomy, $term, $post_type) {
 
 function gi_howto_tag_cloud($posttype) {
 	$temp = $posttype;
-	$posts = get_posts(array(
+	$posts = new WP_Query(array(
 		'post_type' => $posttype,
 		'posts_per_page' => -1,
+		'offset' => 0,
+		'fields' => 'ids',
 		'post_status' => 'publish',
 	)	
 	);
 	$alltags = array();
-	foreach ($posts as $p): 
+	if ( $posts->have_posts() ) while ($posts->have_posts()): 
+	$posts->the_post();
 		$tags = get_the_tags($p->ID); 
 		if ( $tags ) foreach ((array)$tags as $t):
 			if ( !isset( $alltags[$t->slug]['count'] ) ):
@@ -10378,16 +10384,16 @@ function gi_howto_tag_cloud($posttype) {
 			endif;
 			$alltags[$t->slug]['name'] = $t->name;
 			$alltags[$t->slug]['slug'] = $t->slug;
-			$alltags[$t->slug]['link'] = get_term_link( intval($t->term_id), $t->taxonomy );
+			$alltags[$t->slug]['link'] = get_tag_link( $t->term_id );
 		endforeach;
-	endforeach;
+	endwhile;
 	
 	ksort($alltags);
 	$tagstr=""; 
 	foreach ($alltags as $a):
 		$tagstr=$tagstr."<span><a class='wptag ";
 		if (isset($_GET['tag']) && $_GET['tag'] == $a['slug']) $tagstr=$tagstr." active";
-		$tagstr.="' href='".esc_url($a['link'])."?paged=1&type=".$temp."'>" . str_replace(' ', '&nbsp;' , esc_html($a['name']) ) . '</a></span> '; 
+		$tagstr.="' href='".$a['link']."?paged=1&type=".$temp."'>" . esc_html(str_replace(' ', '&nbsp;' , $a['name']) ) . '</a></span> '; 
 	endforeach;
 	return $tagstr;
 }

@@ -419,7 +419,17 @@
 		update_option("govintranet_db_version", $updated_to );
 		
 	endif;
+
+	if ( version_compare( $database_version, "4.38.1", '<' ) && $update_okay ):
 	
+		// Reschedule patrol job
+		wp_clear_scheduled_hook( 'govintranet_expiry_patrol' );
+
+		$updated_to = "4.38.1";
+		update_option("govintranet_db_version", $updated_to );
+		
+	endif;
+
 
 	// UPDATE DATABASE VERSION
 	

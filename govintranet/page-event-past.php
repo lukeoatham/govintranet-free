@@ -278,10 +278,11 @@ get_header(); ?>
 			}
 			echo "</p></div>";
 		}
-		if ( gi_howto_tag_cloud('event') ) :
+		$etags = gi_howto_tag_cloud('event');
+		if ( $etags ) :
 			echo "<div class='widget-box'>";
 			echo  "<h3 class='widget-title'>" . __('Browse by tag' , 'govintranet') . "</h3>";
-			echo gi_howto_tag_cloud('event'); 
+			echo $etags; 
 			echo "<br>";
 			echo "</div>";
 		endif;

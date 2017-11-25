@@ -161,7 +161,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				echo "<p class='taglisting {$post->post_type}'>";
 				echo "<span><a  class='wptag t' href='".get_permalink(get_the_id())."/?cdir=".$cdir."'>" . __('All' , 'govintranet') . "</a></span> ";
 				foreach($post_cat as $cat){
-					if ($cat->name!='Uncategorized' && $cat->name){
+					if ($cat->term_id > 1 && $cat->name){
 						$newname = str_replace(" ", "&nbsp;", $cat->name );
 						echo "<span><a  class='wptag t".$cat->term_id."' href='".get_permalink(get_the_id())."?cat=".$cat->slug."&cdir=".$cdir."'>".$newname."</a></span> ";
 					}
