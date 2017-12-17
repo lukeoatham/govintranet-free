@@ -65,7 +65,7 @@ if ( have_posts() ) while ( have_posts() ) :
 		if ($pagetype=="guide"):
 
 		?>
-		<div>
+		<article class="clearfix">
 			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranet'); ?></small></h1>
 			<?php 
 			$alreadydone[]=$parent_guide_id;
@@ -132,7 +132,7 @@ if ( have_posts() ) while ( have_posts() ) :
 					</nav>
 				</div>
 			</div>
-		</div>
+		</article>
 	</div>
 	
 	<?php
@@ -140,9 +140,8 @@ if ( have_posts() ) while ( have_posts() ) :
 	endif;
 	
 	if ($pagetype=="guide"){
-		echo "<div>";
-
 		echo "<div class='content-wrapper-notop'>";
+		echo "<article class='clearfix'>";
 		if ($current_chapter>1){
 			echo "<h2>".$current_chapter.". ".get_the_title()."</h2>";
 		} else {
@@ -150,10 +149,8 @@ if ( have_posts() ) while ( have_posts() ) :
 		}
 
 		the_content(); 		
-		?>
-		<?php get_template_part("part", "downloads"); ?>			
-
-		<?php
+		echo "</article>";
+		get_template_part("part", "downloads"); 
 		if ('open' == $post->comment_status) {
 			 comments_template( '', true ); 
 		}
@@ -181,14 +178,17 @@ if ( have_posts() ) while ( have_posts() ) :
 				echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'" title="'. esc_attr__("Navigate to next part" , "govintranet") .'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 			}
 		}
-		echo "</div>";
+
 		echo "</div>";
 
 		} else { ?>
+			<article class='clearfix'>
 			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranet') ; ?></small></h1>
 			<?php
 			the_content(); 
-
+			?>
+			</article>
+			<?php
 			$members = get_post_meta($post->ID, 'project_team_members', true);
 			
 			if ( $members ) {

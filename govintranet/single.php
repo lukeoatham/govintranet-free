@@ -20,12 +20,13 @@ get_header(); ?>
 						}?>
 				</div>
 			</div>
+			<article class="clearfix">
 			<h1><?php the_title(); ?></h1>
 
 			<?php the_date(get_option('date_format'), '<p class="news_date">', '</p>' , 1) ?>
 
 			<?php the_content(); ?>
-
+			</article>
 			<?php
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 

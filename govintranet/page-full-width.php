@@ -30,10 +30,20 @@ wp_enqueue_script( 'match_heights' );
 
 		else: 
 
+			echo '<article class="clearfix">';
+
 			the_title('<h1>','</h1>'); 
 
 			the_content(); 
-
+			
+			echo '</article>';
+			
+			get_template_part("part", "downloads"); 
+			
+			if ('open' == $post->comment_status) {
+					 comments_template( '', true ); 
+			}
+			
 		endif; 
 		?>
 	

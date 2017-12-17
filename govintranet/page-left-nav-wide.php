@@ -21,13 +21,18 @@ get_header(); ?>
 		</div>
 
 		<div class="col-lg-9 col-md-9 col-sm-12">
-
+			<article class="clearfix">
 			<?php if ( ! is_front_page() ) { ?>
 				<h1><?php the_title(); ?></h1>
 			<?php } ?>				
 											
 			<?php the_content(); ?>
-
+			</article>
+			<?php get_template_part("part", "downloads"); 
+			if ('open' == $post->comment_status) {
+				 comments_template( '', true ); 
+			}
+			?>			
 		</div>
 
 	</div>

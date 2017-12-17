@@ -110,6 +110,8 @@ function govintranet_setup() {
 	add_theme_support('custom-background');
 	add_theme_support('custom-header');
 	add_theme_support('customize-selective-refresh-widgets');
+	add_theme_support('custom-logo');
+
   }
 }
 
@@ -264,6 +266,16 @@ function govintranet_filter_wp_title( $title, $separator ) {
 
 }
 add_filter( 'wp_title', 'govintranet_filter_wp_title', 10, 2 );
+
+add_filter('body_class', 'govintranet_body_classes', 10, 1);
+
+function govintranet_body_classes($classes) {
+
+	$parentpageclass = (renderLeftNav("FALSE")) ? "parentpage" : "notparentpage"; 
+	if ( function_exists('bbp_is_user_home') && bbp_is_user_home() ) $parentpageclass.=" bbp-my-profile";
+    $classes[] = $parentpageclass;
+    return $classes;
+}
 
 /**
  * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
@@ -2029,30 +2041,6 @@ if( function_exists('acf_add_local_field_group') ){
 					'endpoint' => 0,
 				),
 				array (
-					'key' => 'field_536f7343a21b0',
-					'label' => __('Header logo','govintranet'),
-					'name' => 'header_logo',
-					'type' => 'image',
-					'instructions' => __('Appears top-left in the header before your site title.','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'return_format' => 'array',
-					'preview_size' => 'full',
-					'library' => 'all',
-					'min_width' => '',
-					'min_height' => '',
-					'min_size' => '',
-					'max_width' => '',
-					'max_height' => '',
-					'max_size' => '',
-					'mime_types' => '',
-				),
-				array (
 					'key' => 'field_536f75f2a21c2',
 					'label' => __('Login logo','govintranet'),
 					'name' => 'login_logo',
@@ -2075,27 +2063,6 @@ if( function_exists('acf_add_local_field_group') ){
 					'max_height' => '',
 					'max_size' => '',
 					'mime_types' => '',
-				),
-				array (
-					'key' => 'field_536f75cda21c1',
-					'label' => __('Custom CSS code','govintranet'),
-					'name' => 'custom_css_code',
-					'type' => 'textarea',
-					'instructions' => __('Advanced users only! Customise theme styles with your own CSS.','govintranet'),
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'placeholder' => '',
-					'maxlength' => '',
-					'rows' => '',
-					'new_lines' => '',
-					'readonly' => 0,
-					'disabled' => 0,
 				),
 				array (
 					'layout' => 'vertical',
@@ -10785,7 +10752,7 @@ function govintranet_custom_styles() {
 	$custom_css.= "#utilitybar ul#menu-utilities li a, #menu-utilities { color: ".$headtext."; } ";
 	$custom_css.= "#footerwrapper  {border-top: ".$gisheight."px solid ".$giscc.";}";
 	$custom_css.= ".page-template-page-about-php .category-block h2 {border-top: ".$gisheight."px solid ".$giscc."; padding: 0.6em 0; }";
-	$custom_css.= ".h3border { border-bottom: 3px solid ".$gishex.";	}";
+	$custom_css.= ".h3border { border-bottom: 3px solid ".$gishex.";}";
 	$custom_css.= "#content .widget-box { padding: .1em 0 .7em 0; font-size: .9em; background: #fff; border-top: ".$gisheight."px solid ".$giscc."; margin-top: .7em; }	";
 	$custom_css.= ".home.page .category-block h3, .page-template-page-how-do-i .category-block h3, .page-template-page-how-do-i-alt-classic .category-block h3, .page-template-page-how-do-i-alt .category-block h3  { border-top: ".$gisheight."px solid ".$giscc."; border-bottom: none; padding-top: 16px; margin-top: 16px; }";
 	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
@@ -10797,13 +10764,19 @@ function govintranet_custom_styles() {
 	$custom_css.= "#bbpress-forums li.bbp-header a { text-decoration: underline; }";
 
 	//write custom css for logo
-	$gisid = get_option('options_header_logo'); 
-	$gislogow = wp_get_attachment_image_src( $gisid , 'full'); 
-	$gislogo = $gislogow[0] ;
-	$gisw = $gislogow[1] + 10;
-	$gish = $gislogow[2] + 10;
-	$custom_css.= "#crownlink  {background: url('".$gislogo."') no-repeat; background-position:left 10px; padding: 16px 0 0 ".$gisw."px; height: auto; min-height: ".$gish."px; margin-bottom: 0.6em; }";
-	$custom_css.= "#crownlink a { padding-left: ".$gisw."px; margin-left: -".$gisw."px; }";
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	if ( $custom_logo_id ) {
+		$gislogow = wp_get_attachment_image_src( $custom_logo_id , 'full'); 
+		$gislogo = $gislogow[0] ;
+		$gisw = $gislogow[1];
+		$gish = $gislogow[2];
+		$logoleft = $gisw + 10;
+		$logotop = intval( ($gish-24)/2 ) + intval ($gish/24) + 16;
+		$custom_css.= ".site-title {position: absolute; left:".$logoleft."px; top:".$logotop."px; }";
+		$custom_css.= "a.custom-logo-link img  { margin: 16px 16px 16px 0; float: left; }";
+	} else {
+		$custom_css.= ".site-title {padding-top: 1.3em;}";
+	}
 	$custom_css.= "#primarynav ul li  { border-bottom: 1px solid ".$gishex."; border-top: 1px solid ".$gishex."; border-right: 1px solid ".$gishex."; }
 	#primarynav ul li:last-child {border-right: 1px solid ".$gishex.";}
 	#primarynav ul li:first-child  {	border-left: 1px solid ".$gishex.";	}
@@ -10853,9 +10826,6 @@ function govintranet_custom_styles() {
 	
 	if ( get_option("options_staff_directory_style") && get_option("options_forum_support") ) $custom_css.= "#bbpress-forums img.avatar { border-radius: 50%; display: inline-block;}";
 	
-	$giscss = get_option('options_custom_css_code');
-	if ( $giscss ) $custom_css.= $giscss;
-
 	$custom_css.='
 	#buddypress input[type=submit], #buddypress .button, body:not(.bbp-user-edit).bbpress .button, #loginform .button-primary {
 	background: '.$gishex.' !important; 

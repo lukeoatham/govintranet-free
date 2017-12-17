@@ -430,6 +430,23 @@
 		
 	endif;
 
+	if ( version_compare( $database_version, "4.39", '<' ) && $update_okay ):
+
+		// Move theme header logo to custom logo
+		$old_logo = get_option('options_header_logo');
+		if ( $old_logo ) set_theme_mod( 'custom_logo', $old_logo );
+
+		// Append theme custom css to core custom css
+		$old_css = get_option('options_custom_css_code');
+		$css_post = wp_get_custom_css_post();
+		$new_css = $css_post->post_content;
+		wp_update_custom_css_post( $new_css . $old_css );
+
+		$updated_to = "4.39";
+		update_option("govintranet_db_version", $updated_to );
+		
+	endif;
+	
 
 	// UPDATE DATABASE VERSION
 	

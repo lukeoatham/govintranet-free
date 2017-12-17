@@ -87,11 +87,9 @@ header('X-Frame-Options: SAMEORIGIN');
 <?php 
 $tzone = get_option('timezone_string');
 if ( $tzone ) date_default_timezone_set($tzone);
-$parentpageclass = (renderLeftNav("FALSE")) ? "parentpage" : "notparentpage"; 
-$parentpageclass.=" custom-background";
 ?>
 
-<body <?php body_class($parentpageclass); ?>>
+<body <?php body_class(); ?>>
 	<div class="sr-only" id="access">	
 	  <?php /*  Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff */ ?>
 		<a href="#content" class='hiddentext' accesskey='s' title="<?php esc_attr_e( 'Skip to content', 'govintranet' ); ?>"><?php _e( 'Skip to content', 'govintranet' ); ?></a>
@@ -119,6 +117,11 @@ $parentpageclass.=" custom-background";
 						<!--logo and name-->
 							<div class="col-lg-8 col-md-7 col-sm-6 hidden-xs" id="crownlogo">
 								<div id="crownlink">
+									<?php 
+										if ( function_exists( 'the_custom_logo' ) ) {
+											the_custom_logo();
+											}
+									?>
 									<p class="site-title<?php if ( !display_header_text() ) echo '  hidden'; ?>"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"  rel="home" accesskey="1"><?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></a></p>
 								</div>
 							</div>

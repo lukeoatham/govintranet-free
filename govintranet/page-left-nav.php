@@ -20,11 +20,15 @@ get_header(); ?>
 		</div>
 
 		<div class="col-lg-6 col-md-6 col-sm-12">
-
+			<article class="clearfix">
 			<?php the_title("<h1>","</h1>"); ?>
-										
 			<?php the_content(); ?>
-	
+			</article>
+			<?php get_template_part("part", "downloads"); 
+			if ('open' == $post->comment_status) {
+				 comments_template( '', true ); 
+			}
+			?>			
 		</div>
 
 		<div class="col-lg-3 col-md-3 col-sm-12" id="sidebar">

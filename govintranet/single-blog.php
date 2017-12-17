@@ -5,6 +5,14 @@
  * @package WordPress
  */
 
+if ( get_post_format($post->ID) == 'link' ){
+	$external_link = get_post_meta($post->ID,'external_link',true);
+	if ($external_link){
+		wp_redirect($external_link); 
+		exit;
+	}	
+}
+
 function filter_blogs($query) {
     if ($query->is_tag && !is_admin()) {
 		$query->set('post_type', array('blog'));
@@ -29,7 +37,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 						}?>
 				</div>
 			</div>
-
+			<article class="clearfix">
 			<?php 
 			$video = null;
 			//check if a video thumbnail exists, if so we won't use it to display as a headline image
@@ -57,6 +65,9 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 				echo apply_filters('the_content', get_post_meta( $post->ID, 'news_video_url', true));
 			}
 			the_content(); 
+			?>
+			</article>
+			<?php
 			get_template_part("part", "downloads"); 
 			if ('open' == $post->comment_status) {
 				 comments_template( '', true ); 

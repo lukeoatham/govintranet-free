@@ -52,7 +52,6 @@ if ($parent_guide){
 }	
 
 if ($pagetypeorig=="guide"): ?>
-	<div class='clearfix'>
 		<h1><?php echo $guidetitle; ?> <small class="task-context"><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 		<?php 
 		$podchap = get_post($parent_guide_id); 
@@ -122,16 +121,15 @@ if ($pagetypeorig=="guide"): ?>
 				</div>
 			</div>
 		</div>
-	</div>
 	
 	<?php
 			
 endif;
 
 if ($pagetypeorig=="guide"){
-	echo "<div class='clearfix'>";
 
 	echo "<div class='content-wrapper-notop'>";
+	echo "<article class='clearfix'>";
 	if ($current_chapter>1){
 		echo "<h2>".$current_chapter.". ".get_the_title()."</h2>";
 	} else {
@@ -146,13 +144,16 @@ if ($pagetypeorig=="guide"){
 
 	endif;
 
+	echo "</article>";
+	
 	get_template_part("part", "downloads");	
 
 	if ('open' == $post->comment_status) {
 		 comments_template( '', true ); 
 	}
+
 	echo "</div>";
-	
+
     echo '<div class="row">';
 
     if ($chapter_header){ // if on chapter 1
@@ -173,11 +174,11 @@ if ($pagetypeorig=="guide"){
 			echo '<div class="col-lg-6 col-md-6 chapterr"><a href="'.get_permalink($carray[$next_chapter]["id"]).'">'.govintranetpress_custom_title($carray[$next_chapter]["name"]).'&nbsp;<span class="dashicons dashicons-arrow-right-alt2"></span></a></div>';
 		}
 	}
-	echo "</div>";
+
 	echo "</div>";
 
 } else { ?>
-
+	<article class="clearfix">
 	<h1><?php echo $guidetitle; ?> <small class="task-context"><span class="<?php echo $icon; ?>"></span> <?php echo ucwords($pagetype); ?></small></h1>
 	<?php
 	the_content(); 
@@ -187,6 +188,10 @@ if ($pagetypeorig=="guide"){
 		show_manual();
 
 	endif;
+
+	?>
+	</article>
+	<?php
 
 	get_template_part("part", "downloads");	
 

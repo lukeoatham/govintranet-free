@@ -13,7 +13,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 		<div class='breadcrumbs'>
 		<?php 
 		if ( bbp_is_single_user() ):
-			$home = "<a href='" . get_home_url() . "'>" . __(get_bloginfo('name'), 'govintranet') . "</a>";
+			if (function_exists('bcn_display')) {
+				bcn_display();
+			} else {
+				echo "<a href='" . get_home_url() . "'>" . __('Home', 'govintranet') . "</a>";
+			}
 			$sd = get_option('options_module_staff_directory_page');
 			$sd = $sd[0];
 			$directory = "<a href='" . get_permalink($sd) . "'>" . get_the_title($sd) . "</a>";
@@ -23,7 +27,6 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			} else {
 				$sep = " > ";
 			}
-			echo $home; 
 			echo $sep;
 			echo $directory;
 			echo $sep; 

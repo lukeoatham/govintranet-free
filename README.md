@@ -38,6 +38,13 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39 - 17 Dec 2017 ###
+* Theme header logo moved to customiser  
+* Theme custom CSS moved to customiser 
+* HTML article tag added to page and single templates 
+* Staff profile breadcrumb improvements  
+* Downloads and comments functionality added to page templates 
+
 ### 4.38.1 - 25 Nov 2017 ###
 * Performance improvements for templates with tag clouds 
 * Reset background auto-expiry cron job to five mins    

@@ -41,19 +41,19 @@ wp_enqueue_script( 'scripts_grid' );
 			</div>
 
 			<div class="col-md-8 col-sm-12">
+				<article class="clearfix">	
 				<?php
 				if ($teamparent){
 					$parentteam = get_post($teamparent);
 					echo "<h3><i class='dashicons dashicons-arrow-left-alt2'></i> <a href='".get_permalink($parentteam->ID)."'>".get_the_title($parentteam->ID)."</a></h3>";
 				}
 				?>
-					
-					<h2><?php echo $teamname; ?></h2>
+				<h2><?php echo $teamname; ?></h2>
 		
 				<?php 
 				wp_reset_postdata();
 				the_content(); ?>
-
+				</article>
 				<!--left blank-->
 
 				<?php if ( $directory ): ?>

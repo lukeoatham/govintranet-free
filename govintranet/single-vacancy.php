@@ -24,7 +24,7 @@ $current_vac = $id;
 						}?>
 				</div>
 			</div>
-			
+			<article class="clearfix">
 			<h1><?php the_title();?></h1>
 			<div class='well'>
 			<h3><?php _e('Job details' , 'govintranet') ; ?></h3> 
@@ -81,6 +81,7 @@ $current_vac = $id;
 				echo "</ul></div>";
 			}
 			?>
+			</article>
 			<?php get_template_part("part", "downloads"); ?>			
 			<?php
 			if ('open' == $post->comment_status) {

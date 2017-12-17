@@ -23,7 +23,7 @@ $mainid=$post->ID;
 				}?>
 		</div>
 	</div>
-
+	<article class="clearfix">
 	<h1><?php the_title(); ?></h1>
     
 	<?php 
@@ -92,6 +92,7 @@ $mainid=$post->ID;
 	<?php 
 	endif;
 	?>
+	</article>
 	<?php get_template_part("part", "downloads"); ?>			
 	<?php
 	if ('open' == $post->comment_status) {

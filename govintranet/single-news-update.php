@@ -28,6 +28,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 							}?>
 					</div>
 				</div>
+				<article class="clearfix">
 				<?php 
 				$video=null;
 				//check if a video thumbnail exists, if so we won't use it to display as a headline image
@@ -58,6 +59,7 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 					endif;
 					?>
 				<?php the_content(); ?>
+				</article>
 				<?php get_template_part("part", "downloads"); ?>			
 				<?php
 				if ('open' == $post->comment_status) {
