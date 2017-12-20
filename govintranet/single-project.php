@@ -65,7 +65,7 @@ if ( have_posts() ) while ( have_posts() ) :
 		if ($pagetype=="guide"):
 
 		?>
-		<article class="clearfix">
+		<div class="clearfix">
 			<h1><?php echo $guidetitle; ?> <small><span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo _x('Project' , 'noun' , 'govintranet'); ?></small></h1>
 			<?php 
 			$alreadydone[]=$parent_guide_id;
@@ -132,8 +132,9 @@ if ( have_posts() ) while ( have_posts() ) :
 					</nav>
 				</div>
 			</div>
-		</article>
+		</div>
 	</div>
+
 	
 	<?php
 				

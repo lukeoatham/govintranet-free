@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.0.1 - 19 Dec 2017 ###
+* Bug fix on single project template 
+
 ### 4.39 - 17 Dec 2017 ###
 * Theme header logo moved to customiser  
 * Theme custom CSS moved to customiser 
