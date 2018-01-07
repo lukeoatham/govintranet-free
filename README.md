@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.0.2 - 7 Jan 2018 ###
+* Fix for header logo on staff directory templates  
+
 ### 4.39.0.1 - 19 Dec 2017 ###
 * Bug fix on single project template 
 
