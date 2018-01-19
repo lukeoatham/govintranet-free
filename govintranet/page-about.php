@@ -57,11 +57,16 @@ wp_enqueue_script( 'match_heights' );
 			endif;
 			echo "
 				<div class='category-block match-height'>
-					<h2><a href='".get_permalink($c->ID)."'>".get_the_title($c->ID)."</a></h2>
+				<h2><a href='".get_permalink($c->ID)."'>
+				";
+			if ( get_post_meta( $id, 'show_featured_images', true )){
+				echo get_the_post_thumbnail($c->ID, 'large', array('class'=>'img-responsive'));
+			}
+			echo "
+					".get_the_title($c->ID)."</a></h2>
 					<p>".$excerpt."</p>
 				</div>
-			</div>";
-		}
+			</div>";		}
 
 		echo '</div>'; ?>
 

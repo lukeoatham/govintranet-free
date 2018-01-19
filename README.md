@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.1 - 17 Jan 2018 ###
+* Keywords added to News updates 
+* New option on About page template to show featured images 
+* Customiser improvements for theme header background colour 
+
 ### 4.39.0.2 - 7 Jan 2018 ###
 * Fix for header logo on staff directory templates  
 

@@ -14,7 +14,7 @@ function govintranet_customize_register ( $wp_customize ){
 		'default' => '#000000',
 		'sanitize_callback' => 'sanitize_hex_color',
 		'transport' => 'postMessage',
-		'type' => 'theme_mod',
+		'type' => 'option',
 	) );
 
 	$wp_customize->add_setting( 'options_btn_text_colour', array(

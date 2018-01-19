@@ -446,6 +446,17 @@
 		update_option("govintranet_db_version", $updated_to );
 		
 	endif;
+
+	if ( version_compare( $database_version, "4.39.1", '<' ) && $update_okay ):
+
+		// Move theme mod for header background to regular option
+		$old_bc = get_theme_mod('header_background');
+		if ( $old_bc ) update_option( 'header_background', $old_bc );
+
+		$updated_to = "4.39.1";
+		update_option("govintranet_db_version", $updated_to );
+		
+	endif;
 	
 
 	// UPDATE DATABASE VERSION

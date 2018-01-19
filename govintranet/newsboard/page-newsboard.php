@@ -5,7 +5,7 @@ Template Name: Newsboard
 
 function ht_newsboard_head_style(){
 	$head_comp = get_option('options_complementary_colour', '#0b2d49');
-	$head_back = get_theme_mod('header_background', '#0b2d49');
+	$head_back = get_option('header_background', '#0b2d49');
 	$head_text = get_option('options_btn_text_colour','#ffffff');
 	$custom_css = "
 	#newsboardTabs.nav>li>a { background: ".$head_comp."; color: white; }

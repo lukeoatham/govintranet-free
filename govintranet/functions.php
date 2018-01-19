@@ -5416,6 +5416,13 @@ if( function_exists('acf_add_local_field_group') ){
 					array (
 						'param' => 'post_type',
 						'operator' => '==',
+						'value' => 'news-update',
+					),
+				),
+				array (
+					array (
+						'param' => 'post_type',
+						'operator' => '==',
 						'value' => 'page',
 					),
 				),
@@ -9407,7 +9414,7 @@ if( function_exists('acf_add_local_field_group') ){
 	
 		acf_add_local_field_group(array (
 			'key' => 'group_5696cd9ca0e42',
-			'title' => 'Columns',
+			'title' => 'Layout',
 			'fields' => array (
 				array (
 					'key' => 'field_5696cdbde4305',
@@ -9428,6 +9435,25 @@ if( function_exists('acf_add_local_field_group') ){
 					'message' => '',
 					'default_value' => 0,
 				),
+				array(
+					'key' => 'field_5a58f2c25e21f',
+					'label' => 'Show featured images',
+					'name' => 'show_featured_images',
+					'type' => 'true_false',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'message' => '',
+					'default_value' => 0,
+					'ui' => 1,
+					'ui_on_text' => '',
+					'ui_off_text' => '',
+				),
 			),
 			'location' => array (
 				array (
@@ -9439,7 +9465,7 @@ if( function_exists('acf_add_local_field_group') ){
 				),
 			),
 			'menu_order' => 0,
-			'position' => 'normal',
+			'position' => 'side',
 			'style' => 'default',
 			'label_placement' => 'top',
 			'instruction_placement' => 'label',
@@ -10721,7 +10747,7 @@ function govintranet_custom_styles() {
 	$custom_css.= "a:visited, a:visited .listglyph {color: ".$bg.";}";
 	$gisheight = intval(get_option('options_widget_border_height'));
 	if (!$gisheight) $gisheight = 7;
-	$gishex = get_theme_mod('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
+	$gishex = get_option('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
 	if ( $gishex == "#") $gishex = "#0b2d49";
 	$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
 	$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
@@ -11427,7 +11453,7 @@ function govintranet_theme_cover_image( $params = array() ) {
 			}
 		}
 		div.item-list-tabs { 
-			background:'.get_theme_mod("header_background", "#0b2d49").'; 
+			background:'.get_option("header_background", "#0b2d49").'; 
 		}
 		div.item-list-tabs ul li a {
 			text-decoration:none;

@@ -51,7 +51,7 @@ if ( $output == '' ){
 	
 	if (count($events_to_show)!=0){
 		$wtitle = "upcoming";
-		$head_back = get_theme_mod('header_background', '#0b2d49');
+		$head_back = get_option('header_background', '#0b2d49');
 		$head_text = get_option('options_btn_text_colour','#ffffff');		
 		$output.= "
 		    <style>
