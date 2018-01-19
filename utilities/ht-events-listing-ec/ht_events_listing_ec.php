@@ -4,7 +4,7 @@ Plugin Name: HT Calendar Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events from The Events Calendar.
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -35,20 +35,20 @@ class hteventslistingec extends WP_Widget {
         $output = '';
 		$custom_css = "
 		.calbox .cal-dow {
-			background: ".get_theme_mod('header_background', '0b2d49').";
+			background: ".get_option('header_background', '#0b2d49').";
 			color: #".get_header_textcolor().";
 			font-size: 16px;
 		}
 		.calbox { 
 			width: 3.5em; 
-			border: 3px solid ".get_theme_mod('header_background', '0b2d49').";
+			border: 3px solid ".get_option('header_background', '#0b2d49').";
 			text-align: center;
 			border-radius: 3px;
 			background: #fff;
 			box-shadow: 0 2px 3px rgba(0,0,0,.2);
 		}
 		.calbox .calmonth {
-			color: ".get_theme_mod('header_background', '0b2d49').";
+			color: ".get_option('header_background', '#0b2d49').";
 			text-transform: uppercase;
 			font-weight: 800;
 			font-size: 18px;

@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: http://www.helpfultechnology.com
 Description: Display future events
 Author: Luke Oatham
-Version: 4.9
+Version: 4.9.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -386,7 +386,7 @@ if( function_exists('acf_add_local_field_group') ):
 endif;
 
 function ht_events_head(){
-	$head_back = get_theme_mod('header_background', '#0b2d49');
+	$head_back = get_option('header_background', '#0b2d49');
 	$head_text = get_option('options_btn_text_colour','#ffffff');		
 	$custom_css = "
 	.calbox .cal-dow {

@@ -6,7 +6,7 @@ get_header();
 $gisheight = get_option('options_widget_border_height');
 if (!$gisheight) $gisheight = 7;
 $gis = "options_header_background";
-$gishex = get_theme_mod('header_background', '#0b2d49'); 
+$gishex = get_option('header_background', '#0b2d49'); 
 $custom_css = ".custom-background  { background-color: ".$gishex.";	}";
 $headtext = get_option('options_btn_text_colour','#ffffff');
 

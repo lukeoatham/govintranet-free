@@ -8,7 +8,7 @@ get_header();
 $header_text_color = get_option('options_btn_text_colour','#ffffff');
 $custom_css = "
 .metro-list .featuredpage {
-	background: ".get_theme_mod('header_background', '#0b2d49').";
+	background: ".get_option('header_background', '#0b2d49').";
 	padding: 0;
 	color: ".$header_text_color." !important;
 }

@@ -59,13 +59,13 @@ require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
 echo date('H:i:s') , " Create new PHPExcel object" , EOL;
 $objPHPExcel = new PHPExcel();
 
-$pt = isset($_POST['ptype']) ? $_POST['ptype']: array('page');
-$ps = isset($_POST['pstat']) ? $_POST['pstat']: array('publish','draft','future','pending');
-$ppp = isset($_POST['ppp']) ? $_POST['ppp']: -1;
-$paged = isset($_POST['paged']) ? $_POST['paged']: 1;
-$startdate = isset($_POST['startdate']) ? date('Y-m-d',strtotime($_POST['startdate'])) : '';
-$enddate = isset($_POST['enddate']) ? date('Y-m-d',strtotime($_POST['enddate'])) : '';
-$datetype = isset($_POST['dates']) ? $_POST['dates']: '';
+$pt = $_POST['ptype'] ? $_POST['ptype']: array('page');
+$ps = $_POST['pstat'] ? $_POST['pstat']: array('publish','draft','future','pending');
+$ppp = $_POST['ppp'] ? $_POST['ppp']: -1;
+$paged = $_POST['paged'] ? $_POST['paged']: 1;
+$startdate = $_POST['startdate'] ? date('Y-m-d',strtotime($_POST['startdate'])) : date('Y-m-d',strtotime('1970-01-01'));
+$enddate = $_POST['enddate'] ? date('Y-m-d',strtotime($_POST['enddate'])) : date('Y-m-d');
+$datetype = $_POST['dates'] ? $_POST['dates']: 'published';
 
 $tempquery = array(
 	'post_type' => $pt,
@@ -74,8 +74,11 @@ $tempquery = array(
 	'fields' => 'ids',
 	'order' => 'ASC',
 	'orderby' => 'ID menu_order',
-	'paged' => $paged,
 );
+
+if ( $ppp != -1 ) {
+	$tempquery[	'paged' ] = $paged;
+}
 
 if ( $enddate != "" && $datetype == "published" ):
 	$tempquery['date_query'] = array(
