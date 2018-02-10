@@ -2,7 +2,7 @@
 Theme Name: GovIntranet
 Theme URI: https://help.govintra.net
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.39.1
+Version: 4.39.2
 Author: Luke Oatham
 Author URI: https://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -673,6 +673,15 @@ ul#menu-footer-right li { list-style: square; margin-left: 0; }
 
 /* Staff profile form field adjustments */
 .acf-taxonomy-field ul.children { padding-left: 18px !important; margin-bottom: 5px !important; }
+iframe#acf-editor-5a2ee879cf10d_ifr { min-height: 100px !important; height: 100px !important; }
+.acf-editor-wrap iframe { min-height: 100px !important; height: 100px !important; }
+#bbpress-forums fieldset.bbp-form { border: none; }
+.bbp-user-edit table, .bbp-user-edit table tr, .bbp-user-edit table td { border: none !important; }
+table.form-table .acf-field .acf-label label { margin-top: -5px;}
+#bbpress-forums #bbp-your-profile fieldset label[for] { width: 155px; text-align: left;}
+fieldset.bbp-form label { font-size: 16px; }
+#bbpress-forums #bbp-your-profile fieldset { padding: 0; }
+.bbp-user-edit table td.acf-label label { padding: 0; }
 
 /* VIDEO */
 
@@ -913,6 +922,7 @@ h3.contacthead {
 #wpua-preview img, #wpua-thumbnail img, #wpua-preview-existing img, #wpua-thumbnail-existing img { display: inline !important; }
 .page-template-page-staff-directory-masonry #gridcontainer img, .single-team #gridcontainer img { height: 66px; width: 66px; }
 #bbp-user-avatar { margin-bottom: 1em; }
+#content li-bbp-header ul.forum-titles {margin-bottom:0;}
 
 /* GENERAL FORMAT AND HELPERS */
 
@@ -1054,7 +1064,7 @@ ul.listing.li  {
 /* COMMENTS */
 
 #comments  { padding-top: 2em; }
-#respond  { padding-top: 1em; }
+#respond  { padding: 1em; background: whitesmoke; }
 #commentform label  { display: block; }
 #commentform input#author,  #commentform input#email,  #commentform input#url  { font-size: 100%; }
 li.comment  { list-style: none; padding-top: 1em; }

@@ -284,13 +284,10 @@
 			<?php
 		}
 
-		if ($post_type!='User' && $post_type != "Attachment"){
+		if ($post_type!='User'){
 			the_excerpt(); 
 		}
 		
-		if ( $post_type == "Attachment"){
-			echo $post->post_excerpt;
-		}
 		if ($post_type=='User'){
 			$user_info = get_userdata($post->user_id);?>
 			<?php if ( get_user_meta($post->user_id ,'user_telephone',true )) : ?>
@@ -313,7 +310,7 @@
 		
 			?>
 		<?php 
-		else: 
+	else: 
 		if ($post_type=='Blog'){
 			the_excerpt();
 		} else {

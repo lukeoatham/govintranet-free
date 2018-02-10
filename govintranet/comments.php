@@ -65,7 +65,5 @@
 		'comment_notes_after' => '',
 		'title_reply' => __('Leave a comment','govintranet'),
 	);
-	echo "<div class='well'>";
 	comment_form($args); 
-	echo "</div>";
 ?>

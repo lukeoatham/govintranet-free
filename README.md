@@ -38,6 +38,14 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.2 - 10 Feb 2018 ###
+* New custom message on comment form when logged out, with options to show login and register buttons 
+* Styling updates for custom colours 
+* Improvements to 'people' shortcode to filter by team 
+* Staff profile edit screen tidy 
+* Aggregator template changes, now supports main page content area
+* Correction on single team templates to show profiles from all sub-teams 
+
 ### 4.39.1 - 17 Jan 2018 ###
 * Keywords added to News updates 
 * New option on About page template to show featured images 

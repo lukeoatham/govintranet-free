@@ -214,17 +214,17 @@ wp_enqueue_script( 'scripts_grid' );
 					//query all sub teams for this team
 					$term_query = get_pages(array(
 						'post_type'=>'team',
-						'posts_per_page'=>-1,
-						'orderby'=>'title',
-						'order'=>'ASC',
-						'child_of'=> $post->ID
+						'post_status'=>'publish',
+						'child_of'=> $post->ID,
+						'hierarchical'=>true,
+						'posts_per_page'=>-1
 						)
 					);
 
 		 			$iteams = array();
 		 			$iteams[] = $post->ID;
 		 			$multipleteams = false;
-		 			if ( $term_query ) foreach ($term_query as $tq){
+		 			if ( $term_query ) foreach ($term_query as $tq){ 
 			 			$iteams[] = $tq->ID;
 			 			$multipleteams = true;
 		 			}
@@ -242,15 +242,15 @@ wp_enqueue_script( 'scripts_grid' );
 				 		$gradehead='';
 						$newteam = get_post( $tq ); 
 						$chevron=1;
-			 			$user_query = new WP_User_Query(array('meta_query'=>array(array('key'=>'user_team','value'=>'.*\"'.$tq.'\".*','compare'=>'REGEXP'))));
+			 			$user_query = new WP_User_Query(array('fields'=>'ID','meta_query'=>array(array('key'=>'user_team','value'=>'.*\"'.$tq.'\".*','compare'=>'REGEXP'))));
 			 			if ( $user_query ) foreach ($user_query->results as $u){ 
-				 			$uid[] = $u->ID;
-				 			$ufname[] = get_user_meta($u->ID,'first_name',true);
-				 			$ulastname[] = get_user_meta($u->ID,'last_name',true);
-				 			$uorder[] = intval(get_user_meta($u->ID,'user_order',true));
+				 			$uid[] = $u;
+				 			$ufname[] = get_user_meta($u,'first_name',true);
+				 			$ulastname[] = get_user_meta($u,'last_name',true);
+				 			$uorder[] = intval(get_user_meta($u,'user_order',true));
 			 			}
 		 			}
-
+		 			
 		 			array_multisort( $uorder, $ulastname, $ufname, $uid);
 		 			if ( $uid ) foreach ($uid as $u){ 
 		 				if ( isset( $alreadyshown[$u] ) ) continue;

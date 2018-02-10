@@ -289,6 +289,8 @@ get_header();
 						echo "<span class='listglyph'>" . __('Updated','govintranet') . " ".$thisdate."</span> ";
 						echo $terms;
 						echo "</p></div>";
+					} else {
+						the_excerpt();
 					}
 					?>
 					</div>

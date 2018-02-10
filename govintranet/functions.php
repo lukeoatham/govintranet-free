@@ -2221,6 +2221,63 @@ if( function_exists('acf_add_local_field_group') ){
 					'toolbar' => 'basic',
 					'media_upload' => 1,
 				),			
+				array(
+					'key' => 'field_5a71211e0ba0a',
+					'label' => __('Must login message','govintranet'),
+					'name' => 'must_login_message',
+					'type' => 'text',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => '',
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => '',
+					'maxlength' => '',
+				),
+				array(
+					'key' => 'field_5a7121ba0ba0b',
+					'label' => __('Show registration link','govintranet'),
+					'name' => 'show_registration_link',
+					'type' => 'true_false',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'message' => '',
+					'default_value' => 0,
+					'ui' => 1,
+					'ui_on_text' => '',
+					'ui_off_text' => '',
+				),
+				array(
+					'key' => 'field_5a7122020ba0c',
+					'label' => __('Show login link','govintranet'),
+					'name' => 'show_login_link',
+					'type' => 'true_false',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'message' => '',
+					'default_value' => 1,
+					'ui' => 1,
+					'ui_on_text' => '',
+					'ui_off_text' => '',
+				),
 				array (
 					'key' => 'field_545ec3c99411a',
 					'label' => __('Homepage auto refresh','govintranet'),
@@ -10211,66 +10268,140 @@ function ht_people_shortcode($atts){
     $opts=shortcode_atts( array(
         'id' => '',
         'team' => '',
+        'num' => 3,
         ), $atts );
 	
 	$userid = $opts['id'];
+	$team = $opts['team'];
+	$teamid = 0;
+	$num = $opts['num'];
+	$html = '';
+	
+	if ( $team ) {
+		$t = get_posts( array('post_type'=>'team','post_name'=>$team,'post_status'=>'publish') );
+		if ( $t ) $teamid = $t[0]->ID; 
+	}
+
 	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 	$showmobile = get_option('options_show_mobile_on_staff_cards'); // 1 = show
 	$fulldetails = get_option('options_full_detail_staff_cards');
 
-	$context = get_user_meta($userid,'user_job_title',true);
-	if ($context=='') $context="staff";
-	$icon = "user";			
-	$user_info = get_userdata($userid);
-	$userurl = site_url().'/staff/'.$user_info->user_nicename;
-	$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
-	$avatarhtml = get_avatar($userid,66);
-	if ($directorystyle==1):
-		$avatarhtml = str_replace("photo", "photo alignleft img-circle", $avatarhtml);
-	else:
-		$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
-	endif;
-	$html = '';
-	$counter = 0;
-	$tcounter = 0;
-	if ($fulldetails){
-			
-		$html.= "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong></a><br>";
-
-		// display team name(s)
-		if ( get_user_meta($userid ,'user_job_title',true )) : 
-			$html.= get_user_meta($userid ,'user_job_title',true )."<br>";
+	if ( intval($userid) > 0 ){
+	
+		$context = get_user_meta($userid,'user_job_title',true);
+		if ($context=='') $context="staff";
+		$icon = "user";			
+		$user_info = get_userdata($userid);
+		$userurl = site_url().'/staff/'.$user_info->user_nicename;
+		$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
+		$avatarhtml = get_avatar($userid,66);
+		if ($directorystyle==1):
+			$avatarhtml = str_replace("photo", "photo alignleft img-circle", $avatarhtml);
+		else:
+			$avatarhtml = str_replace("photo", "photo alignleft", $avatarhtml);
 		endif;
-		
-		if ( get_user_meta($userid ,'user_telephone',true )) : 
-
-			$html.= '<i class="dashicons dashicons-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
-
-		endif; 
-
-		if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
-
-			$html.= '<i class="dashicons dashicons-smartphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
-
-		 endif;
-
-		$html.=  '<a href="mailto:'.$user_info->user_email.'">' . __("Email","govintranet") . ' '. $user_info->first_name. '</a></p></div></div></div>';
-		
-		$counter++;	
-		$tcounter++;	
-		
-	 //end full details
-	} else { 
-		$html.= "<div class='col-lg-6 col-md-6 col-sm-12'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+		$html = '';
+		$counter = 0;
+		$tcounter = 0;
+		if ($fulldetails){
+				
+			$html.= "<div class='col-lg-6 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".site_url()."/staff/".$user_info->user_nicename."/'>".$avatarhtml."</a><div class='media-body'><p><a href='".site_url()."/staff/".$user_info->user_nicename."/'><strong>".$displayname."</strong></a><br>";
+	
+			// display team name(s)
+			if ( get_user_meta($userid ,'user_job_title',true )) : 
+				$html.= get_user_meta($userid ,'user_job_title',true )."<br>";
+			endif;
 			
-		if ( get_user_meta($userid ,'user_job_title',true )) $html.= '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
+			if ( get_user_meta($userid ,'user_telephone',true )) : 
+	
+				$html.= '<i class="dashicons dashicons-phone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_telephone",true )).'">'.get_user_meta($userid ,'user_telephone',true )."</a><br>";
+	
+			endif; 
+	
+			if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) : 
+	
+				$html.= '<i class="dashicons dashicons-smartphone"></i> <a href="tel:'.str_replace(" ", "", get_user_meta($userid ,"user_mobile",true )).'">'.get_user_meta($userid ,'user_mobile',true )."</a><br>";
+	
+			 endif;
+	
+			$html.=  '<a href="mailto:'.$user_info->user_email.'">' . __("Email","govintranet") . ' '. $user_info->first_name. '</a></p></div></div></div>';
+			
+			$counter++;	
+			$tcounter++;	
+			
+		 //end full details
+		} else { 
+			$html.= "<div class='col-lg-6 col-md-6 col-sm-12'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+				
+			if ( get_user_meta($userid ,'user_job_title',true )) $html.= '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
+	
+			if ( get_user_meta($userid ,'user_telephone',true )) $html.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+			if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+							
+			$html.= "</div></div></div></div></a>";
+			$counter++;	
+		}	
+	} 
+	if ( $teamid ) {
+		$chevron=0;
+		$counter=0;
+		$tcounter=0;
+		$uid = array();
+		$ugrade = array();
+		$uorder = array();
+		$ulastname = array(); 			
+		$ufname = array(); 			
 
-		if ( get_user_meta($userid ,'user_telephone',true )) $html.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
-		if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
-						
-		$html.= "</div></div></div></div></a>";
-		$counter++;	
-	}	
+		$tq = $teamid;
+ 		$gradehead='';
+		$newteam = get_post( $tq ); 
+		$chevron=1;
+		$user_query = new WP_User_Query(array('orderby'=>'registered','number'=>$num,'meta_query'=>array(array('key'=>'user_team','value'=>'.*\"'.$tq.'\".*','compare'=>'REGEXP'))));
+		if ( $user_query ) foreach ($user_query->results as $u){ 
+			$userid = $u->ID;
+			if ( isset( $alreadyshown[$userid] ) ) continue;
+			if ( get_user_meta($userid, 'user_hide', true ) ) continue; 
+			$alreadyshown[$userid] = true;
+			//don't output if this person is the team head and already displayed
+			$context = get_user_meta($userid,'user_job_title',true);
+			if ($context=='') $context="staff";
+			$icon = "user";			
+			$user_info = get_userdata($userid);
+			$userurl = gi_get_user_url($userid);
+			$displayname = get_user_meta($userid ,'last_name',true ).", ".get_user_meta($userid ,'first_name',true );		
+			$avstyle="";
+			if ( $directorystyle==1 ) $avstyle = " img-circle";
+			$avatarhtml = get_avatar($userid ,66);
+			$avatarhtml = str_replace(" photo", " photo alignleft".$avstyle, $avatarhtml);
+			if ($fulldetails) {
+				$html.= "<div class='pgrid-item'><div class='people-sc'><a href='".$userurl."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
+	
+				if ( get_user_meta($userid ,'user_job_title',true )) : 
+						$meta = get_user_meta($userid ,'user_job_title',true );
+						$html.= '<span class="small">'.$meta."</span><br>";
+				endif; 
+				
+				if ( get_user_meta($userid ,'user_telephone',true )) $html.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+				if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html.='<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span><br>";
+	
+				$html.= '<span class="small"><a href="mailto:'.$user_info->user_email.'">' . __('Email' , 'govintranet') . ' ' . $user_info->first_name. '</a></span></div></div></div>';
+	
+				$counter++;	
+				$tcounter++;	
+				
+			 //end full details
+			} else { 
+
+				$html.= "<div class='pgrid-item'><div class='people-sc'><a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+	
+				if ( get_user_meta($userid ,'user_job_title',true )) $html.= '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
+				if ( get_user_meta($userid ,'user_telephone',true )) $html.= '<span class="small"><i class="dashicons dashicons-phone"></i> '.get_user_meta($userid ,'user_telephone',true )."</span><br>";
+				if ( get_user_meta($userid ,'user_mobile',true ) && $showmobile ) $html.= '<span class="small"><i class="dashicons dashicons-smartphone"></i> '.get_user_meta($userid ,'user_mobile',true )."</span>";
+				$html.= "</div></div></a></div></div>";
+				$counter++;	
+			}	
+		}
+	}
 	
     return "<div id='peoplenav'>".$html."</div>";
 }
@@ -10740,39 +10871,44 @@ function govintranet_custom_styles() {
 	// write custom css for background header colour
 
 	$bg = get_theme_mod('link_color', '#428bca');
-	$custom_css.= "a, a .listglyph  {color: ".$bg.";}";
-
 	$bg = get_theme_mod('link_visited_color', '#7303aa');
-	$btn_text = get_option('options_btn_text_colour','#ffffff');
-	$custom_css.= "a:visited, a:visited .listglyph {color: ".$bg.";}";
-	$gisheight = intval(get_option('options_widget_border_height'));
-	if (!$gisheight) $gisheight = 7;
-	$gishex = get_option('header_background', '#0b2d49'); if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
-	if ( $gishex == "#") $gishex = "#0b2d49";
-	$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
 	$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
-	if ( $headtext == "#" || $headtext == "#blank" ) $headtext = "#ffffff";
 	$headimage = get_theme_mod('header_image', '');
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$btn_text = get_option('options_btn_text_colour','#ffffff');
+	$gisheight = intval(get_option('options_widget_border_height'));
+	$gishex = get_option('header_background', '#0b2d49'); 
+	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+	$jumbo_searchbox = get_option("options_search_jumbo_searchbox", false);		
+
+	if (!$gisheight) $gisheight = 7;
+	if ( $gishex == "#") $gishex = "#0b2d49";
+	if ( substr($gishex, 0 , 1 ) != "#") $gishex="#".$gishex;
+	if ( $headtext == "#" || $headtext == "#blank" ) $headtext = "#ffffff";
+	if ( $btn_text == "#") $btn_text = "#ffffff";
 	if (get_option('options_complementary_colour')):
 		$giscc = get_option('options_complementary_colour');
 	else:
 		 $giscc = $gishex; 
 	endif;
-	
+
+	$custom_css.= "a, a .listglyph  {color: ".$bg.";}";
+	$custom_css.= "a:visited.btn.btn-primary, a:link.btn.btn-primary {color:".$btn_text.";}";
+	$custom_css.= "a:visited, a:visited .listglyph {color: ".$bg.";}";
+	$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
 	if ($headimage != 'remove-header' ):
 		$custom_css.= "#topstrip  {	background: ".$gishex." url(".get_header_image()."); color: ".$headtext.";	}";
 	else:
 		$custom_css.= "#topstrip  {	background: ".$gishex."; color: ".$headtext.";}";
 	endif;
-
 	$custom_css.= "
 	@media only screen and (max-width: 767px)  {
 		#masthead  { background: ".$gishex." !important; color: ".$headtext."; padding: 0 1em; }
 		#primarynav ul li a {background: ".$gishex."; color: ".$headtext."; }	
 		#primarynav ul li a:hover {color: ".$gishex." !important; background: ".$headtext."; }	
 	}";
-
-	$custom_css.= ".btn-primary, .btn-primary a  { background: ".$giscc."; border: 1px solid ".$giscc."; color: ".$btn_text."; } ";
+	$custom_css.= ".btn-primary, .btn-primary a, #commentform #submit  { background: ".$giscc."; border: 1px solid ".$giscc."; color: ".$btn_text."; } ";
+	$custom_css.= "#utilitybar ul#menu-utilities li {border-right:1px solid ".$btn_text.";}";
 	$custom_css.= ".btn-primary a:hover  { background: ".$gishex."; } ";
 	$custom_css.= "#topstrip a { color: ".$headtext."; }";
 	$custom_css.= "#utilitybar ul#menu-utilities li a, #menu-utilities { color: ".$headtext."; } ";
@@ -10781,7 +10917,6 @@ function govintranet_custom_styles() {
 	$custom_css.= ".h3border { border-bottom: 3px solid ".$gishex.";}";
 	$custom_css.= "#content .widget-box { padding: .1em 0 .7em 0; font-size: .9em; background: #fff; border-top: ".$gisheight."px solid ".$giscc."; margin-top: .7em; }	";
 	$custom_css.= ".home.page .category-block h3, .page-template-page-how-do-i .category-block h3, .page-template-page-how-do-i-alt-classic .category-block h3, .page-template-page-how-do-i-alt .category-block h3  { border-top: ".$gisheight."px solid ".$giscc."; border-bottom: none; padding-top: 16px; margin-top: 16px; }";
-	$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 	if ( $directorystyle ) $custom_css.= ".bbp-user-page.single #bbp-user-avatar img.avatar {border-radius: 50%;}
 	#buddypress img.avatar {border-radius:50%; display: inline-block;}";
 	$custom_css.= ".bbp-user-page .panel-heading {border-top: ".$gisheight."px solid ".$giscc."; }";
@@ -10790,7 +10925,6 @@ function govintranet_custom_styles() {
 	$custom_css.= "#bbpress-forums li.bbp-header a { text-decoration: underline; }";
 
 	//write custom css for logo
-	$custom_logo_id = get_theme_mod( 'custom_logo' );
 	if ( $custom_logo_id ) {
 		$gislogow = wp_get_attachment_image_src( $custom_logo_id , 'full'); 
 		$gislogo = $gislogow[0] ;
@@ -10808,7 +10942,6 @@ function govintranet_custom_styles() {
 	#primarynav ul li:first-child  {	border-left: 1px solid ".$gishex.";	}
 	#searchformdiv button:hover { background: ".$gishex."; color: ".$btn_text."; }";		
 	$custom_css.= "a.wptag {color: ".$btn_text."; background: ".$gishex.";} \n";
-
 	if ($headimage != 'remove-header' && $headimage) $custom_css.= '#utilitybar ul#menu-utilities li a, #menu-utilities, #crownlink { text-shadow: 1px 1px #333; }'; 
 	
 	//write css for category colours
@@ -10840,8 +10973,6 @@ function govintranet_custom_styles() {
   			$custom_css.= "a:visited.wptag.t". $themeid . "{color: " . $foreground . ";} \n";
 		}
 	}  
-	
-	$jumbo_searchbox = get_option("options_search_jumbo_searchbox", false);		
 	
 	if ( $jumbo_searchbox ) $custom_css.= "		
 	#headsearch { padding-right: 0; }
@@ -11505,3 +11636,18 @@ function gi_get_user_url( $user_id ){
 }
 
 
+add_filter( 'comment_form_defaults', function( $fields ) {
+	if ( ! is_user_logged_in() ){
+		$message = trim(get_option('options_must_login_message'));
+		if ( $message ){
+		    $fields['must_log_in'] = '<p class="must-log-in">'.esc_html($message).'</p>';
+		    if ( get_option('options_show_registration_link')){
+				$fields['must_log_in'].= '<a class="btn btn-primary" href="' . wp_registration_url() . '">' . __('Register','govintranet') . '</a> ';
+		    }
+		    if ( get_option('options_show_registration_link')){
+				$fields['must_log_in'].= '<a class="btn btn-primary" href="' . wp_login_url( apply_filters( 'the_permalink', get_permalink() ) )   . '">' . __('Login','govintranet') . '</a>';
+		    }
+	    }
+    }
+    return $fields;
+});
