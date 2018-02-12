@@ -4,7 +4,7 @@ Plugin Name: HT Timeline
 Plugin URI: http://www.helpfultechnology.com
 Description: Create timeline walls with an optional filter
 Author: Luke Oatham
-Version: 1.1.2
+Version: 1.1.3
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -278,7 +278,7 @@ class Timelines {
         public function view_timelines_simple_template( $template ) {
 
                 global $post;
-				if ( !is_object($post) || is_tax() || is_search() ) {
+				if ( !is_object($post) || is_tax() || is_search() || is_tag() ) {
 					return $template;
 				}
 

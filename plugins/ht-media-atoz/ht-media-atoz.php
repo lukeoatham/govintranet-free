@@ -4,7 +4,7 @@ Plugin Name: HT Media A to Z
 Plugin URI: http://www.helpfultechnology.com
 Description: Adds A to Z functionality to the document finder
 Author: Luke Oatham
-Version: 2.9
+Version: 2.9.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -289,7 +289,7 @@ class MediaAtoZ {
 
             if (!isset($this->templates[get_post_meta( 
 				$post->ID, '_wp_page_template', true 
-			)] )  || is_tax() || is_search() ) {
+			)] )  || is_tax() || is_search() || is_tag() ) {
 				
                     return $template;
 					

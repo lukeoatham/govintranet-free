@@ -4,7 +4,7 @@ Plugin Name: Hashtags
 Plugin URI: http://www.helpfultechnology.com
 Description: Hashtag aggregator
 Author: Luke Oatham
-Version: 1.4
+Version: 1.4.1
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -272,7 +272,7 @@ class Hashtags {
 			if ( !is_object($post) ) return $template;
             if (!isset($this->templates[get_post_meta( 
 				$post->ID, '_wp_page_template', true 
-			)] ) || is_tax()  || is_search() ) {
+			)] ) || is_tax()  || is_search() || is_tag() ) {
 				
                     return $template;
 					
