@@ -482,7 +482,7 @@ global $wpdb;
 							  </ul>
 							</div>				
 							<?php
-						} else {
+						} elseif (isset($in_context[0])) {
 							// do single link
 							echo $in_context[0];
 						}

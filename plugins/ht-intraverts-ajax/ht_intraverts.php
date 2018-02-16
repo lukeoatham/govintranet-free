@@ -4,7 +4,7 @@ Plugin Name: HT Intraverts
 Plugin URI: http://www.helpfultechnology.com
 Description: Displays promotional adverts using AJAX
 Author: Luke Oatham
-Version: 2.4.1
+Version: 2.4.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -621,7 +621,7 @@ function ht_intraverts_ajax_show() {
 		$ipost = get_post($e);
 		$icontent = $ipost->post_content;
 		$html.= apply_filters("the_content",$icontent);
-		if ( get_post_meta($e,'intravert_allow_skip',true) ) $html.= "<a class='btn btn-sm btn-danger filter_results filter_results_skip' onclick='pauseIntravert(\"ht_intravert_".$e."\",".$icookie.",\"".esc_attr(get_the_title($e))."\",\"".esc_attr($originaltitle)."\");'>Skip <span class='dashicons dashicons-no'></span></a>";
+		if ( get_post_meta($e,'intravert_allow_skip',true) ) $html.= "<a class='btn btn-sm btn-danger filter_results filter_results_skip' onclick='pauseIntravert(\"ht_intravert_".$e."\",".$icookie.",\"".esc_attr(get_the_title($e))."\",\"".esc_attr($originaltitle)."\");'>".__('Dismiss','govintranet')." <span class='dashicons dashicons-no'></span></a>";
 		$html.= "<div class='btn-group btn-group-justified'>";
 		if (get_post_meta($e,'intravert_link_text',true)):
 			$html.= "<a id='intravert_hook_".$widget_id."' class='btn btn-info filter_results' href='".$destination."' onclick='pauseIntravert(\"ht_intravert_".$e."\",".$icookie.",\"".esc_attr(get_the_title($e))."\",\"".esc_attr($originaltitle)."\");'> ";

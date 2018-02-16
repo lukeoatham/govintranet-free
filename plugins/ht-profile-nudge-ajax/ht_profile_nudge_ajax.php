@@ -4,7 +4,7 @@ Plugin Name: HT Profile Nudge AJAX
 Plugin URI: http://www.helpfultechnology.com
 Description: Widget to display reminders to complete the staff profile using AJAX
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -311,7 +311,24 @@ function ht_profile_nudge_ajax_show() {
 			$teams = get_posts('post_type=team&orderby=title&order=ASC&posts_per_page=-1');
 			if ($teams) {
 		  		foreach ((array)$teams as $team ) {
-		  			$html.=  "<option value='".$team->ID."'>".get_the_title($team->ID)."</option>";
+			  		if ( $team->post_parent ) {
+				  		$class = "has_parent";
+			  		} else {
+				  		$class = "no_parent";
+				  	}
+			  		$args = array(
+						'post_parent' => $team->ID,
+						'post_type'   => 'team', 
+						'numberposts' => 1,
+						'post_status' => 'publish' 
+					);
+					$children = get_children( $args );
+					if ( ! empty( $children )) {
+						$class.= " has_children";
+					} else {
+						$class.= " no_children";
+					}
+		  			$html.=  "<option class='".$class."' value='".$team->ID."'>".get_the_title($team->ID)."</option>";
 				}
 			}
 			$html.="

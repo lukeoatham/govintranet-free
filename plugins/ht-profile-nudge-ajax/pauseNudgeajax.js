@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
         var message = $(data).find('supplemental message').text();
         if( status == 'success' ) {
             jQuery(ipanel).html(message);
-			jQuery(ipanel).slideDown(600);
+			jQuery(ipanel).slideDown(1);
         }
     });
     
@@ -77,7 +77,7 @@ function update_profile_action_add_first_last_name(){
 			jQuery(ipanel).addClass("hidden");
 			jQuery(ipanel).html(message);
 			jQuery(ipanel).removeClass("hidden");
-			jQuery(ipanel).slideDown();
+			jQuery(ipanel).slideDown(1);
 		} else {
 			jQuery(ipanelerr).html(message);			
 		}
@@ -112,7 +112,7 @@ function update_profile_action_add_phone(){
 			jQuery(ipanel).addClass("hidden");
 			jQuery(ipanel).html(message);
 			jQuery(ipanel).removeClass("hidden");
-			jQuery(ipanel).slideDown();
+			jQuery(ipanel).slideDown(1);
 		} else {
 			jQuery(ipanelerr).html(message);			
 		}
@@ -148,7 +148,7 @@ function update_profile_action_add_mobile(){
 			jQuery(ipanel).addClass("hidden");
 			jQuery(ipanel).html(message);
 			jQuery(ipanel).removeClass("hidden");
-			jQuery(ipanel).slideDown();
+			jQuery(ipanel).slideDown(1);
 		} else {
 			jQuery(ipanelerr).html(message);			
 		}
@@ -183,7 +183,7 @@ function update_profile_action_add_job_title(){
 			jQuery(ipanel).addClass("hidden");
 			jQuery(ipanel).html(message);
 			jQuery(ipanel).removeClass("hidden");
-			jQuery(ipanel).slideDown();
+			jQuery(ipanel).slideDown(1);
 		} else {
 			jQuery(ipanelerr).html(message);			
 		}
@@ -218,7 +218,7 @@ function update_profile_action_add_grade(){
 			jQuery(ipanel).addClass("hidden");
 			jQuery(ipanel).html(message);
 			jQuery(ipanel).removeClass("hidden");
-			jQuery(ipanel).slideDown();
+			jQuery(ipanel).slideDown(1);
 		} else {
 			jQuery(ipanelerr).html(message);			
 		}
@@ -253,7 +253,7 @@ function update_profile_action_add_team(){
 			jQuery(ipanel).addClass("hidden");
 			jQuery(ipanel).html(message);
 			jQuery(ipanel).removeClass("hidden");
-			jQuery(ipanel).slideDown();
+			jQuery(ipanel).slideDown(1);
 		} else {
 			jQuery(ipanelerr).html(message);			
 		}
@@ -288,7 +288,7 @@ function update_profile_action_add_skills(){
 			jQuery(ipanel).addClass("hidden");
 			jQuery(ipanel).html(message);
 			jQuery(ipanel).removeClass("hidden");
-			jQuery(ipanel).slideDown();
+			jQuery(ipanel).slideDown(1);
 		} else {
 			jQuery(ipanelerr).html(message);			
 		}
@@ -323,7 +323,7 @@ function update_profile_action_add_bio(){
 			jQuery(ipanel).addClass("hidden");
 			jQuery(ipanel).html(message);
 			jQuery(ipanel).removeClass("hidden");
-			jQuery(ipanel).slideDown();
+			jQuery(ipanel).slideDown(1);
 		} else {
 			jQuery(ipanelerr).html(message);			
 		}

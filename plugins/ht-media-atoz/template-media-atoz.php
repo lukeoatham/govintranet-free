@@ -499,7 +499,7 @@ $filter_cols = 12 / $filter_count;
 							  </ul>
 							</div>				
 							<?php
-						} else {
+						} elseif (isset($in_context[0])) {
 							// do single link
 							echo $in_context[0];
 						}
