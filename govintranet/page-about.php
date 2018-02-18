@@ -4,7 +4,9 @@
 get_header(); 
 
 wp_register_script( 'match_heights', get_template_directory_uri() . "/js/jquery.matchHeight-min.js");
+wp_register_script( 'match_heights_load', get_template_directory_uri() . "/js/ht-scripts-match-heights.js", array('jquery','match_heights'), false, true);
 wp_enqueue_script( 'match_heights' );
+wp_enqueue_script( 'match_heights_load' );
 
 ?>
 
@@ -33,8 +35,10 @@ wp_enqueue_script( 'match_heights' );
 			"sort_column" => "menu_order,post_title",
 			"sort_order" => "ASC"
 			));
+		
+		$html = '';
 
-		echo "<div class='row white'>";
+		$html.= "<div class='row white'>";
 
 		foreach((array)$children as $c) {
 	
@@ -51,33 +55,28 @@ wp_enqueue_script( 'match_heights' );
 			}
 			$excerpt = str_replace('[bbp-forum-index]', '', $excerpt);
 			if ( get_post_meta($id, 'ht_about_restrict', true)):
-				echo "<div class='col-lg-4 col-md-4 col-sm-6 white'>";
+				$html.= "<div class='col-lg-4 col-md-4 col-sm-6 white'>";
 			else:
-				echo "<div class='col-lg-3 col-md-4 col-sm-6 white'>";
+				$html.= "<div class='col-lg-3 col-md-4 col-sm-6 white'>";
 			endif;
-			echo "
+			$html.= "
 				<div class='category-block match-height'>
 				<h2><a href='".get_permalink($c->ID)."'>
 				";
 			if ( get_post_meta( $id, 'show_featured_images', true )){
-				echo get_the_post_thumbnail($c->ID, 'large', array('class'=>'img-responsive'));
+				$html.= get_the_post_thumbnail($c->ID, 'large', array('class'=>'img-responsive'));
 			}
-			echo "
+			$html.= "
 					".get_the_title($c->ID)."</a></h2>
 					<p>".$excerpt."</p>
 				</div>
 			</div>";		}
 
-		echo '</div>'; ?>
+		$html.= '</div>'; 
+		
+		echo $html;
+		?>
 
 	</div>
-<script type="text/javascript">
-jQuery(document).ready(function() {
-	
-	jQuery('.match-height').matchHeight();
-	
-}); 
-</script>
 <?php endwhile; ?>
-
 <?php get_footer(); ?>

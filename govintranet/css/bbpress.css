@@ -946,9 +946,8 @@ body.my-account #bbpress-forums {
 }
 
 #bbpress-forums div.bbp-topic-content, #bbpress-forums div.bbp-reply-content{
-	padding:40px 20px 60px 0;
+	padding:10px;
 }
-
 
 #bbpress-forums .bbp-author-role{
 	display:none;
@@ -1004,13 +1003,10 @@ body.my-account #bbpress-forums {
 }
 
 #bbpress-forums .bbp-reply-author{
-	padding-top:40px;
-	padding-left:20px;
+	padding:5px;
 }
 
 #bbpress-forums div.bbp-topic-author a.bbp-author-name, #bbpress-forums div.bbp-reply-author a.bbp-author-name { margin: 0; }
-
-
 
 #bbpress-forums .bbp-reply-content{
 	margin-right:10px;

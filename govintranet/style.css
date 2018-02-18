@@ -2,7 +2,7 @@
 Theme Name: GovIntranet
 Theme URI: https://help.govintra.net
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.39.2
+Version: 4.39.3
 Author: Luke Oatham
 Author URI: https://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -635,6 +635,8 @@ ul.menu { list-style-type: none; }
 #footer ul#menu-footer-left li  { 	list-style: none; display: inline; border-right: 1px solid #454a4c; padding-right: 5px; margin-right: 2px; }
 #footer .widget-box ul#menu-footer-left { padding-left: 0 !important; }
 #footer ul#menu-footer-left li:last-child,  #footer ul#menu-footer-left li.last-link, #utilitybar ul#menu-utilities li:last-child  { border-right: none !important; padding-right: 0; }
+#utilitybar ul#menu-utilities li.loginout { padding-left: 13px; }
+#utilitybar ul#menu-utilities li { padding-right: 12px; }
 #footer a,  #footer h2,  #footer h3  { color: #454a4c; }
 #footer a { text-decoration: underline; }
 #footer hr { display: none; }
@@ -672,29 +674,46 @@ ul#menu-footer-right li { list-style: square; margin-left: 0; }
 }
 
 /* Staff profile form field adjustments */
-.acf-taxonomy-field ul.children { padding-left: 18px !important; margin-bottom: 5px !important; }
-iframe#acf-editor-5a2ee879cf10d_ifr { min-height: 100px !important; height: 100px !important; }
-.acf-editor-wrap iframe { min-height: 100px !important; height: 100px !important; }
-#bbpress-forums fieldset.bbp-form { border: none; }
-.bbp-user-edit table, .bbp-user-edit table tr, .bbp-user-edit table td { border: none !important; }
-table.form-table .acf-field .acf-label label { margin-top: -5px;}
 #bbpress-forums #bbp-your-profile fieldset label[for] { width: 155px; text-align: left;}
-fieldset.bbp-form label { font-size: 16px; }
 #bbpress-forums #bbp-your-profile fieldset { padding: 0; }
+#bbpress-forums fieldset.bbp-form { border: none; }
+#bbpress-forums #bbp-your-profile fieldset label[for] { width: 155px; text-align: left;}
+#bbpress-forums li.bbp-header ul.forum-titles { margin-bottom: 0; }
+#bbpress-forums ul.topic, #bbpress-forums ul.forum { margin-bottom: 0; }
+#bbpress-forums fieldset.bbp-form input#bbp_topic_subscription { height: auto; }
+.acf-taxonomy-field ul.children { padding-left: 18px !important; margin-bottom: 5px !important; }
+.acf-editor-wrap iframe { min-height: 100px !important; height: 100px !important; }
+.bbp-user-edit table, .bbp-user-edit table tr, .bbp-user-edit table td { border: none !important; }
 .bbp-user-edit table td.acf-label label { padding: 0; }
+iframe#acf-editor-5a2ee879cf10d_ifr { min-height: 100px !important; height: 100px !important; }
+table.form-table .acf-field .acf-label label { margin-top: -5px; }
+fieldset.bbp-form label { font-size: 16px; }
 
 /* VIDEO */
 
-.video-container  {
-	 position: relative;
-	 /* keeps the aspect ratio */ padding-bottom: 56.25%;
-	 /* fine tunes the video positioning */ padding-top: 60px;
-	 overflow: hidden;
+iframe 
+{
+	width: 100%;
 }
-iframe, 
+
+.embed-container, .video-container  { 
+	position: relative; 
+	padding-bottom: 56.25%;
+	overflow: hidden;
+	max-width: 100%;
+	height: auto;
+} 
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed,
 .video-container object, 
-.video-container embed  {
-	 width: 100%;
+.video-container embed { 
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 
 /* TAG CLOUD */

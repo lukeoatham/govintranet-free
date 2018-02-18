@@ -60,8 +60,10 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 				$article_date = date(get_option('date_format'),strtotime($article_date));	?>
 				<?php echo the_date(get_option('date_format'), '<p class="news_date">', '</p>') ?>
 				<?php 
-					if ( has_post_format('video', $post->ID) ):
-						echo apply_filters('the_content', get_post_meta( $post->ID, 'news_video_url', true));
+					if ( has_post_format('video', $post->ID) || has_post_format('audio', $post->ID) ):
+						echo '<div class="embed-container">';
+						the_field( 'news_video_url');
+						echo '</div>';
 					endif;
 					?>
 				<?php the_content(); ?>

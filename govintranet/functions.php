@@ -1023,12 +1023,6 @@ function saveampersands_2($a) {
     return $a;
 }
 
-add_filter('relevanssi_get_words_query', 'govintranet_fix_query');
-function govintranet_fix_query($query) {
-    $query = $query . " HAVING c > 2";
-    return $query;
-}
-
 // Added to extend allowed file types in Media upload 
 add_filter('upload_mimes', 'custom_upload_mimes'); 
 function custom_upload_mimes ( $existing_mimes=array() ) { 
@@ -5064,13 +5058,13 @@ if( function_exists('acf_add_local_field_group') ){
 	
 		acf_add_local_field_group(array (
 			'key' => 'group_54b46b388f6cb',
-			'title' => __('Video','govintranet'),
+			'title' => __('Media embed','govintranet'),
 			'fields' => array (
 				array (
 					'key' => 'field_54b46b583b956',
-					'label' => __('Video URL','govintranet'),
+					'label' => __('Media embed URL','govintranet'),
 					'name' => 'news_video_url',
-					'type' => 'url',
+					'type' => 'oembed',
 					'instructions' => '',
 					'required' => 0,
 					'conditional_logic' => 0,
@@ -5091,6 +5085,13 @@ if( function_exists('acf_add_local_field_group') ){
 						'value' => 'video',
 					),
 				),
+				array (
+					array (
+						'param' => 'post_format',
+						'operator' => '==',
+						'value' => 'audio',
+					),
+				),				
 			),
 			'menu_order' => 0,
 			'position' => 'normal',
@@ -10725,12 +10726,12 @@ add_filter( 'wp_nav_menu_utilities_items','govintranet_loginout_menu_link' );
 
 function govintranet_loginout_menu_link( $menu ) {
     $loginout = wp_loginout($_SERVER['REQUEST_URI'], false );
-    if ( get_option('options_show_login_logout') ) $menu = "<li>".$loginout."</li>". $menu;
     if ( is_user_logged_in() && get_option("options_show_my_profile", false) ) {
 	    $current_user = wp_get_current_user();
 		$userurl = gi_get_user_url( $current_user->ID ); 
-	    $menu = '<li id="ht_my_profile" class=menu-item><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>' . $menu;
+	    $menu.= '<li id="ht_my_profile" class=menu-item><a href="'. $userurl .'">'.__("My profile","govintranet").'</a></li>';
     }    
+    if ( get_option('options_show_login_logout') ) $menu.= "<li class='loginout'>".$loginout."</li>";
     return $menu;
 }
 
@@ -10895,7 +10896,6 @@ function govintranet_custom_styles() {
 	$custom_css.= "a, a .listglyph  {color: ".$bg.";}";
 	$custom_css.= "a:visited.btn.btn-primary, a:link.btn.btn-primary {color:".$btn_text.";}";
 	$custom_css.= "a:visited, a:visited .listglyph {color: ".$bg.";}";
-	$custom_css.= ".custom-background  { background-color: ".$gishex.";	}";
 	if ($headimage != 'remove-header' ):
 		$custom_css.= "#topstrip  {	background: ".$gishex." url(".get_header_image()."); color: ".$headtext.";	}";
 	else:

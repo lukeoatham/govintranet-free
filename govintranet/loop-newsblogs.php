@@ -24,8 +24,10 @@ if (has_post_format('status', $post->ID)) {
 	$needtoknow = "<i class='glyphicon glyphicon-".$icon."'></i> "; 
 }
 $video = 0;
-if ( has_post_format('video', $post->ID) ):
-	$video = apply_filters('the_content', get_post_meta( $post->ID, 'news_video_url', true));
+if ( has_post_format('video', $post->ID) || has_post_format('audio', $post->ID) ):
+	$video = '<div class="embed-container">';
+	$video.= get_field( 'news_video_url');
+	$video.= '</div>';
 endif;
 
 $headclass = "class='postlist'";

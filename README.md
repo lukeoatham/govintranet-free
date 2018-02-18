@@ -38,6 +38,12 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.3 - 18 Feb 2018 ###
+* Staff profile edit template styling tidy 
+* Changed video/audio post formats to use oEmbed field with better support for responsive media 
+* About page jquery updates 
+* Login/Logout links repositioned to end of utilities menu with improved spacing
+
 ### 4.39.2 - 10 Feb 2018 ###
 * New custom message on comment form when logged out, with options to show login and register buttons 
 * Styling updates for custom colours 
