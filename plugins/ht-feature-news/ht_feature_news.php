@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: http://www.helpfultechnology.com
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.7.2
+Version: 4.8
 Author URI: http://www.helpfultechnology.com
 */
 
@@ -213,8 +213,10 @@ class htFeatureNews extends WP_Widget {
 					$thisdate=date(get_option('date_format'),strtotime($slot->post_date));
 					
 					$video = 0;
-					if ( has_post_format('video', $slot->ID) ):
-						$video = apply_filters('the_content', get_post_meta( $slot->ID, 'news_video_url', true));
+					if ( has_post_format('video', $slot->ID) || has_post_format('audio', $slot->ID) ):
+						$video= '<div class="embed-container">';
+						$video.= get_field( 'news_video_url');
+						$video.= '</div>';
 					endif;
 		
 					if ($newsgrid[$k]=="L"){
