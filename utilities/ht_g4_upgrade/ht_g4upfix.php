@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: GovIntranet 4 upgrade fix
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Upgrades old vacancy and jargonbuster post types
 Author: Luke Oatham
 Version: 1.0
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action('admin_menu', 'ht_g4upfix_menu');

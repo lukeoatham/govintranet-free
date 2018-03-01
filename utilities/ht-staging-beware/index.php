@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Staging Beware!
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Shows a warning bar on a site, to help avoid confusing staging and live environments
 Author: Steph Gray
 Version: 0.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 function showBewareBar(){

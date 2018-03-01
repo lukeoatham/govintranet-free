@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: GovIntranet 4.2 upgrade
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Upgrades need to know news from version 4+ to 4.2 news updates
 Author: Luke Oatham
 Version: 1.0
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action('admin_menu', 'ht_g42up_menu');

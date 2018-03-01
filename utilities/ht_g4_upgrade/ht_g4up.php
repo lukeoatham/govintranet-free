@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: GovIntranet 4 upgrade
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Upgrades GovIntranet from version 3 (Pods) to version 4 (ACF)
 Author: Luke Oatham
 Version: 0.2
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action('admin_menu', 'ht_g4up_menu');

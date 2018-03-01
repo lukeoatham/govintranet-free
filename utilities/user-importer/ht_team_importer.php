@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Team Importer
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Creates teams from CSV list
 Author: Luke Oatham
 Version: 0.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 if(!function_exists('str_getcsv')) {

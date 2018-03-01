@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Content assistant
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Provides advice and tips for content editors on tasks and news.
 Author: Luke Oatham
 Version: 1.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
  
 add_filter('post_updated_messages', 'task_updated_messages');
