@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT News updates - restricted
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Hide news updates from users
 Author: Luke Oatham
 Version: 1.3.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htnewsupdatesrestricted extends WP_Widget {

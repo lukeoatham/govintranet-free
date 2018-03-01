@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Timeline
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Create timeline walls with an optional filter
 Author: Luke Oatham
 Version: 1.1.3
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action( 'init', 'ht_register_timeline_custom_fields' );

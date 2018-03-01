@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: HT Search Autocomplete
- * Plugin URI: http://www.helpfultechnology.com
+ * Plugin URI: https://help.govintra.net
  * Description: Adds jQuery Autocomplete functionality to the default WordPress search box.
  * Version: 2.1.4
  * Author: Gabe Shackle, modified by Luke Oatham

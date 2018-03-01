@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Intraverts
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display promotional adverts which register clicks
 Author: Luke Oatham
 Version: 1.4
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htIntraverts extends WP_Widget {

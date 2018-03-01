@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Vacancy listing
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display closing vacancies
 Author: Luke Oatham
 Version: 1.6.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htVacancyListing extends WP_Widget {

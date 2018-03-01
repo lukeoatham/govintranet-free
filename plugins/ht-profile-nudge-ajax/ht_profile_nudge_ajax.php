@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Profile Nudge AJAX
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Widget to display reminders to complete the staff profile using AJAX
 Author: Luke Oatham
 Version: 1.2
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htProfileNudgeajax extends WP_Widget {

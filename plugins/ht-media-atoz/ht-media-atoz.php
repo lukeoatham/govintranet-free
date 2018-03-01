@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Media A to Z
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Adds A to Z functionality to the document finder
 Author: Luke Oatham
 Version: 2.9.2
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action( 'init', 'cptui_register_my_media_atoz' );

@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT News updates
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display news updates configurable by type
 Author: Luke Oatham
 Version: 1.9.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htNewsUpdates extends WP_Widget {

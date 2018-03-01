@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Events listing
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display future events
 Author: Luke Oatham
 Version: 4.9.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 

@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Need to know AJAX
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display need to know news stories using AJAX
 Author: Luke Oatham
 Version: 1.2
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htNeedToknowAJAX extends WP_Widget {

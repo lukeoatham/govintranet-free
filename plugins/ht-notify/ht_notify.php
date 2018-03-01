@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Notify
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Manage notifications in staff profiles. Includes a widget to add a Notify button, extra fields in the staff profile, and a cron job to send notifications.
 Author: Luke Oatham
 Version: 1.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htnotify_add extends WP_Widget {

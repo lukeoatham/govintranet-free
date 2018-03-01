@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Intraverts
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Displays promotional adverts using AJAX
 Author: Luke Oatham
 Version: 2.4.2
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htIntraverts extends WP_Widget {

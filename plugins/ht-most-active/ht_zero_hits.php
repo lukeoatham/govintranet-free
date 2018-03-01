@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Zero Hits Monitor
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Widget to display least active pages
 Author: Luke Oatham
 Version: 1.3.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action('admin_menu', 'ht_zero_hits_menu');

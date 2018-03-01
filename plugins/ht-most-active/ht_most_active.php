@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Most active
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Widget to display most active pages
 Author: Luke Oatham
 Version: 2.2.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htMostActive extends WP_Widget {

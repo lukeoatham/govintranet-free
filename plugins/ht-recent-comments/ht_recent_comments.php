@@ -2,11 +2,11 @@
 
 /**
 Plugin Name: HT Recent comments
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Displays most recent comments
 Author: Luke Oatham
 Version: 0.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
  */
 class WP_Widget_HT_Recent_Comments extends WP_Widget {
 

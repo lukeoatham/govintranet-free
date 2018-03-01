@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Search Terms Report
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Excel export of content and authors
 Author: Luke Oatham
 Version: 1.0
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action('admin_menu', 'ht_search_terms_report_menu');

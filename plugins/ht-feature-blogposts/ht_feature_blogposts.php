@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Feature blogposts
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display blogposts
 Author: Luke Oatham
 Version: 1.4.4
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 
 */
 

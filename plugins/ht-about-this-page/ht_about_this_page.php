@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT About this page
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Widget to display page information in the footer
 Author: Luke Oatham
 Version: 1.8.4
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htAboutThisPage extends WP_Widget {

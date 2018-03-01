@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Favourites
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Manage favourites in staff profiles
 Author: Luke Oatham
 Version: 1.1.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htfavourites_add extends WP_Widget {

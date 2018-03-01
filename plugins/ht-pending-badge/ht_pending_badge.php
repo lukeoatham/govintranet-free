@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Pending badge
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display number of pending posts in admin menus
 Author: Luke Oatham
 Version: 1.0
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action('admin_menu', 'notification_bubble_in_admin_menu');

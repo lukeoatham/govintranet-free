@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT How do I?
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Widget to display a How do I? search box
 Author: Luke Oatham
 Version: 0.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htHowDoI extends WP_Widget {

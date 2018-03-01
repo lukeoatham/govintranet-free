@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Need to know
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display need to know news stories
 Author: Luke Oatham
 Version: 1.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htNeedToKnow extends WP_Widget {

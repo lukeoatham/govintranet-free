@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Hashtags
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Hashtag aggregator
 Author: Luke Oatham
 Version: 1.4.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 add_action( 'init', 'register_hastags_templates' );

@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Feature news
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Display feature news 
 Author: Luke Oatham
 Version: 4.8
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htFeatureNews extends WP_Widget {

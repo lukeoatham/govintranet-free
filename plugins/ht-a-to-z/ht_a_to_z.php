@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT A to Z
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Widget to display the A to Z 
 Author: Luke Oatham
 Version: 4.0
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htAtoZ extends WP_Widget {

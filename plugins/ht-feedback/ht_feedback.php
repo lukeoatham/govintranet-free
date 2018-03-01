@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Feedback
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Widget to display feedback form
 Author: Luke Oatham
 Version: 1.1
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
 
 class htFeedback extends WP_Widget {

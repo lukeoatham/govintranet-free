@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: HT Top tags
-Plugin URI: http://www.helpfultechnology.com
+Plugin URI: https://help.govintra.net
 Description: Widget to display top tags from live Google Analytics feed
 Author: Luke Oatham
 Version: 1.3.2
-Author URI: http://www.helpfultechnology.com
+Author URI: https://www.agentodigital.com
 */
  
 class htTopTags extends WP_Widget {
