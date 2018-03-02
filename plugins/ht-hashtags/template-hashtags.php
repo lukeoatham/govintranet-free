@@ -5,6 +5,8 @@ Template Name: Hashtags
 
 get_header(); 
 
+remove_filter('pre_get_posts', 'ht_filter_search');
+
 $header_text_color = get_option('options_btn_text_colour','#ffffff');
 $custom_css = "
 .metro-list .featuredpage {
@@ -26,7 +28,7 @@ wp_enqueue_style( 'hashtags', plugin_dir_url('/') . 'ht-hashtags/css/hashtags.cs
 wp_add_inline_style('hashtags' , $custom_css);
 wp_enqueue_script( 'masonry');
 wp_enqueue_script( 'imagesloaded');
-wp_enqueue_script( 'ht_hastags', plugin_dir_url('/') . 'ht-hashtags/js/ht_hashtags.js' );
+wp_enqueue_script( 'ht_hashtags', plugin_dir_url('/') . 'ht-hashtags/js/ht_hashtags.js' );
 
 if ( have_posts() ) : 
 	while ( have_posts() ) : the_post(); ?>
@@ -39,14 +41,13 @@ if ( have_posts() ) :
 		</div>
 	</div>
 
-	<div class="row">
+	<?php if (get_the_content()) : ?>
+		<?php the_content(); ?>
+	<?php endif; ?>
+</div>
 
-		<?php if (the_content()) : ?>
-		<div class="lead">  
-			<?php the_content(); ?>
-		</div>
-		<?php endif; ?>
-		
+<div class="row">		
+	<div class="col-lg-12 col-md-12 col-sm-12">		
 		<div id="grimason">
 		<?php
 
@@ -73,9 +74,12 @@ if ( have_posts() ) :
 				'post_type' => array('news','blog','news-update','event','tribe_event'),
 				"posts_per_page"=>$numnews,
 				"post_status"=>"publish",
-				'tag' => $hashtagslug,
+				'tax_query' => array(array(
+					'terms' => $hashtagslug,	
+					'field' => 'slug',
+					'taxonomy' => 'post_tag'
+				)),
 				'post__not_in' => $promos,
-			
 			));
 	
 		if ( $homefeed ) foreach ($homefeed as $h){
@@ -87,9 +91,22 @@ if ( have_posts() ) :
 			setup_postdata($h);
 			$html.="</div>";
 			$img = wp_get_attachment_image_src(get_post_thumbnail_id($h->ID),'homepage');
-			$html.="<a href='".get_permalink($h->ID)."'>";
-			if ( $img ) $html.="<img src='".$img[0]."' class='img img-responsive' width='".$img[1]."' height='".$img[2]."' alt='' />";
-			$html.="<h4>".$h->post_title."</h4></a>";
+			$video = 0;
+			if ( has_post_format('video', $h->ID) || has_post_format('audio', $h->ID) ):
+				$video_embed= '<div class="embed-container">';
+				$video_embed.= get_field( 'news_video_url');
+				$$video_embed.= '</div>';
+				$video = 1;
+			endif;
+			if ( $video ){
+				$html.=$video_embed;
+				$html.="<a href='".get_permalink($h->ID)."'>";
+				$html.="<h4>".get_the_title($h->ID)."</h4></a>";
+			} else {
+				$html.="<a href='".get_permalink($h->ID)."'>";
+				if ( $img ) $html.="<img src='".$img[0]."' class='img img-responsive' width='".$img[1]."' height='".$img[2]."' alt='' />";
+				$html.="<h4>".get_the_title($h->ID)."</h4></a>";
+			}
 			if ( 'blog' == $h->post_type  ) { 
 	            $gis = "options_module_staff_directory";
 				$forumsupport = get_option($gis); 
@@ -173,6 +190,7 @@ if ( have_posts() ) :
 		$html =  implode("",$grids);
 		$output = '<div class="metro-list">'.$html.'</div>';
 		echo $output;
+		add_filter('pre_get_posts', 'ht_filter_search');
 		?>
 		</div>
 	</div>

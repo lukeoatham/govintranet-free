@@ -8,8 +8,8 @@ Version: 1.4.1
 Author URI: https://www.agentodigital.com
 */
 
-add_action( 'init', 'register_hastags_templates' );
-function register_hastags_templates() {
+add_action( 'init', 'register_hashtags_templates' );
+function register_hashtags_templates() {
 
 	if( function_exists('acf_add_local_field_group') ):
 	

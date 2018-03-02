@@ -228,3 +228,7 @@
 .metro-list .featuredpage p img, .metro-list .featuredpage p iframe  {
 	margin: 0 -1em;
 }
+
+.page-template-template-hashtags .inner-grid.anarticle iframe {
+	height: 180px;
+}
