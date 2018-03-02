@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.4 - 2 Mar 2018 ###
+* Removed additional mime types from core theme 
+* New plugin to allow additional mime types in uploads 
+* Improvements to search results filter logic and search form 
+
 ### 4.39.3 - 18 Feb 2018 ###
 * Staff profile edit template styling tidy 
 * Changed video/audio post formats to use oEmbed field with better support for responsive media 

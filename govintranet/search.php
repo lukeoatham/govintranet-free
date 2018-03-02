@@ -67,9 +67,8 @@ if( $showusers ){
 		$checkbox .= " checked=\"checked\"";
 		$is_filtered = true;
 	}
-	$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label>';
-	$hidden .= '<input type="hidden" name="include" id="search-filter-include">';
-	$hidden .= '<input type="hidden" name="post_types[]" id="search-filter-users">';
+	$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label><input type="hidden" name="post_types[]" id="search-filter-users2">';
+	$hidden.= '<input type="hidden" name="post_types[]" id="search-filter-users"><input type="hidden" name="include" id="search-filter-include">';
 }
 if( $pt->labels->name > "Forums" && $showforums && $include_forums ){
 	$showforums = false;
@@ -365,6 +364,7 @@ if ( !$is_filtered && $closed_filter){
 		if ( jQuery( "#filter-check-include" ).attr("checked")){
 			jQuery("#search-filter-include").val("user");	
 			jQuery("#search-filter-users").val("user");	
+			jQuery("#search-filter-users2").val("user");	
 		} else {
 			jQuery("#search-filter-include").val("");
 		}
@@ -405,9 +405,11 @@ if ( !$is_filtered && $closed_filter){
 			if ( jQuery( "#filter-check-include" ).attr("checked")){
 				jQuery("#search-filter-include").val("user");	
 				jQuery("#search-filter-users").val("user");	
+				jQuery("#search-filter-users2").val("user");	
 			} else {
 				jQuery("#search-filter-include").val("");
 				jQuery("#search-filter-users").val("");	
+				jQuery("#search-filter-users2").val("");	
 			}
 		});
 		jQuery( "#filter-check-page" ).click(function() {

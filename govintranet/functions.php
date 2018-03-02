@@ -1023,16 +1023,6 @@ function saveampersands_2($a) {
     return $a;
 }
 
-// Added to extend allowed file types in Media upload 
-add_filter('upload_mimes', 'custom_upload_mimes'); 
-function custom_upload_mimes ( $existing_mimes=array() ) { 
-	// Add *.RDP files to Media upload 
-	$existing_mimes['rdp'] = 'application/rdp'; 
-	$existing_mimes['eps'] = 'application/eps'; 
-	$existing_mimes['oft'] = 'application/vnd.ms-outlook'; 
-	return $existing_mimes; 
-}
-
 //remove title functionality in bbPress which interferes with our custom page titles
 remove_action('wp_title', 'bbp_title');
 

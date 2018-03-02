@@ -116,6 +116,10 @@
 			$context = __("event","govintranet");
 			$icon = "calendar";			
 	}
+	if ($post_type=='Gi_video'){
+			$context = __("video","govintranet");
+			$icon = "video";			
+	}
 	if ($post_type=='jargon-buster'){
 			$context = __("jargon buster","govintranet");
 			$icon = "th-list";			
