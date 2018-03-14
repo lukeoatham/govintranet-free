@@ -5360,6 +5360,7 @@ if( function_exists('acf_add_local_field_group') ){
 						2 => 'event',
 						3 => 'task',
 						4 => 'news',
+						5 => 'project',
 					),
 					'taxonomy' => array (
 					),
