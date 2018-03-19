@@ -4,7 +4,7 @@ Plugin Name: HT Intraverts
 Plugin URI: https://help.govintra.net
 Description: Displays promotional adverts using AJAX
 Author: Luke Oatham
-Version: 2.4.2
+Version: 2.5
 Author URI: https://www.agentodigital.com
 */
 
@@ -440,8 +440,7 @@ class htIntraverts extends WP_Widget {
 	    global $post;
 	    $post_id = $post->ID;
         extract( $args ); 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_eligible_intraverts" ;  
-		$intravertToShow = get_option($acf_key); 
+		$intravertToShow = get_field('eligible_intraverts', 'widget_' . $widget_id);
         
         $path = plugin_dir_url( __FILE__ );
 

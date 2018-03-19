@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: https://help.govintra.net
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.9.1
+Version: 1.10
 Author URI: https://www.agentodigital.com
 */
 
@@ -122,14 +122,11 @@ class htNewsUpdates extends WP_Widget {
 		if ( $tzone ) date_default_timezone_set($tzone);
 		$tdate= date('Ymd');
 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_background_colour" ;  
-		$background_colour = get_option($acf_key); 
+		$background_colour = get_field('news_update_background_colour', 'widget_' . $widget_id);
 		
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_text_colour" ;  
-		$text_colour = get_option($acf_key); 
+		$text_colour = get_field('news_update_text_colour', 'widget_' . $widget_id);
 		
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_border_colour" ;  
-		$border_colour = get_option($acf_key); 
+		$border_colour = get_field('news_update_border_colour', 'widget_' . $widget_id);
 		
 		$border_height = get_option('options_widget_border_height','5');
 
@@ -170,8 +167,7 @@ class htNewsUpdates extends WP_Widget {
 
 		if ( !$html ){
 	
-			$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_update_widget_include_type" ;  
-			$news_update_types = get_option($acf_key); ;
+			$news_update_types = get_field('news_update_widget_include_type', 'widget_' . $widget_id);
 	
 			if ( !$news_update_types || count($news_update_types) < 1 ) :
 				$cquery = array(

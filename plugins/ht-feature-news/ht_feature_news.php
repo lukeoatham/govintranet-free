@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: https://help.govintra.net
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.8
+Version: 4.9
 Author URI: https://www.agentodigital.com
 */
 
@@ -132,12 +132,9 @@ class htFeatureNews extends WP_Widget {
 	    $thumbnailitems = intval($instance['thumbnailitems']);
 	    $listitems = intval($instance['listitems']);
 		$showexcerpt = $instance['showexcerpt'];
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_pin_stories" ;  
-		$top_slot = get_option($acf_key); 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_exclude_stories" ;  
-		$exclude = get_option($acf_key); 
-		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_news_listing_news_type" ;  
-		$newstypes = get_option($acf_key); 
+		$top_slot = get_field('pin_stories', 'widget_' . $widget_id);
+		$exclude = get_field('exclude_stories', 'widget_' . $widget_id);
+		$newstypes = get_field('news_listing_news_type', 'widget_' . $widget_id);
 	    if ( !$title ) $title = "no_title_" . $id;
 	    $moretitle = $instance['moretitle'];
 	    $cache = intval($instance['cache']);

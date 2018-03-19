@@ -4,7 +4,7 @@ Plugin Name: HT Need to know AJAX
 Plugin URI: https://help.govintra.net
 Description: Display need to know news stories using AJAX
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3
 Author URI: https://www.agentodigital.com
 */
 
