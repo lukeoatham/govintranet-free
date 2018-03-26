@@ -2,7 +2,7 @@
 Theme Name: GovIntranet
 Theme URI: https://help.govintra.net
 Description: Intranet theme inspired by GOV.UK. Custom post types: news, updates, blog, events, tasks & guides, projects, vacancies, A to Z, jargon-buster, staff directory, teams. Theme widgets: About this page, A to Z, Events listing, Feature blogposts, Feature news, Feedback, How do I?, Most active, Hot topics, Most recent, Search autocomplete, Vacancy listing, Tube status, Profile nudge, Intraverts. Requires Advanced Custom Fields Pro (Premium plugin).
-Version: 4.39.4
+Version: 4.39.4.1
 Author: Luke Oatham
 Author URI: https://intranetdiary.co.uk
 Tags: bootstrap,  intranet,  gov.uk, responsive
@@ -614,15 +614,17 @@ body.home #secondarynav {
 /* UTILITY BAR */
 
 #utilitybar { float: right; }
-#utilitybar ul#menu-utilities li  { list-style: none; display: inline; border-right: 1px solid white; padding: 0 8px; margin: 0; }
+#utilitybar ul#menu-utilities li  { list-style: none; display: inline; padding: 0 8px 0 4px; margin: 0; }
+#utilitybar ul#menu-utilities li a { color: white; font-size: 0.9em; }
 #utilitybar ul#menu-utilities li.current-menu-item a { text-decoration: underline; }
 #utilities { text-align: right; padding: 0.3em 0; }
-.utilities, .need { list-style: none; display: inline; margin: 0; padding: 0;}
-.submenu { padding-left: 0; }
-.submenu li a { padding-left: 3em; }
-#utilitybar ul#menu-utilities li a { color: white; font-size: 0.9em; }
-.menu { padding-left: 0; }
-ul.menu { list-style-type: none; }
+.utilities, .need { list-style: none; display: inline; margin: 0; padding: 0; }
+ul#menu-utilities .menu { padding-left: 0; }
+ul#menu-utilities ul.menu { list-style-type: none; }
+ul#menu-utilities .submenu { padding-left: 0; }
+ul#menu-utilities .submenu li a { padding-left: 3em; }
+#utilitybar ul#menu-utilities li.dropdown { margin-right: 4px; }
+#utilitybar ul#menu-utilities li.loginout { margin-left: 4px; }
 
 /* FOOTER */
 
@@ -635,8 +637,6 @@ ul.menu { list-style-type: none; }
 #footer ul#menu-footer-left li  { 	list-style: none; display: inline; border-right: 1px solid #454a4c; padding-right: 5px; margin-right: 2px; }
 #footer .widget-box ul#menu-footer-left { padding-left: 0 !important; }
 #footer ul#menu-footer-left li:last-child,  #footer ul#menu-footer-left li.last-link, #utilitybar ul#menu-utilities li:last-child  { border-right: none !important; padding-right: 0; }
-#utilitybar ul#menu-utilities li.loginout { padding-left: 13px; }
-#utilitybar ul#menu-utilities li { padding-right: 12px; }
 #footer a,  #footer h2,  #footer h3  { color: #454a4c; }
 #footer a { text-decoration: underline; }
 #footer hr { display: none; }

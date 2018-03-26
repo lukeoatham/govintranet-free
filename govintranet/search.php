@@ -67,7 +67,7 @@ if( $showusers ){
 		$checkbox .= " checked=\"checked\"";
 		$is_filtered = true;
 	}
-	$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label><input type="hidden" name="post_types[]" id="search-filter-users2">';
+	$checkbox .= '> <span class="labelForCheck">' . __("Staff profiles" , "govintranet") . '</span></label><input class="hidden checkbox" type="hidden" name="post_types[]" id="search-filter-users2">';
 	$hidden.= '<input type="hidden" name="post_types[]" id="search-filter-users"><input type="hidden" name="include" id="search-filter-include">';
 }
 if( $pt->labels->name > "Forums" && $showforums && $include_forums ){
@@ -339,7 +339,7 @@ if ( !$is_filtered && $closed_filter){
 					<input type="hidden" name="cat" value="<?php echo $ct; ?>" id="filter-check-cat">
 					<?php echo $checkbox; ?>
 					<br>
-					<button  class="btn btn-primary"><?php _e('Refine search','govintranet');?> <i class="dashicons dashicons-search"></i></button>
+					<button id= "refine-button" class="btn btn-primary"><?php _e('Refine search','govintranet');?> <i class="dashicons dashicons-search"></i></button>
 				</form>
 			 </div>
 		</div>
@@ -472,7 +472,25 @@ if ( !$is_filtered && $closed_filter){
 			if ( jQuery( "#filter-check-forum" ).attr("checked") != "checked"){ jQuery( "#search-filter-forum" ).remove();}
 			if ( jQuery( "#filter-check-topic" ).attr("checked") != "checked"){ jQuery( "#search-filter-topic" ).remove();}
 			if ( jQuery( "#filter-check-reply" ).attr("checked") != "checked"){ jQuery( "#search-filter-reply" ).remove();}
-			if ( jQuery( "#filter-check-include" ).attr("checked") != "checked"){ jQuery("#search-filter-include").remove(); jQuery("#search-filter-users").remove(); }
+			if ( jQuery( "#filter-check-include" ).attr("checked") != "checked"){ jQuery("#search-filter-include").remove(); jQuery("#search-filter-users").remove(); jQuery("#search-filter-users2").remove(); }
+			if ( jQuery( "#filter-check-media" ).attr("checked") != "checked"){ jQuery("#search-filter-media").remove(); }
+			if ( jQuery( "#filter-check-attachment" ).attr("checked") != "checked"){ jQuery("#search-filter-attachment").remove(); }
+			if ( jQuery( "#filter-check-orderby" ).attr("checked") != "checked"){ jQuery("#search-filter-orderby").remove(); }
+		});
+		
+		jQuery( "#refine-button" ).click(function() {
+			<?php
+			foreach($postTypes as $pt){
+				echo '
+				if ( jQuery( "#filter-check-'.$pt->rewrite["slug"].'" ).attr("checked") != "checked" ){ jQuery( "#search-filter-'.$pt->rewrite["slug"].'" ).remove();	}
+				';
+			}	
+			?>		
+			if ( jQuery( "#filter-check-page" ).attr("checked") != "checked"){jQuery( "#search-filter-page" ).remove();	}
+			if ( jQuery( "#filter-check-forum" ).attr("checked") != "checked"){ jQuery( "#search-filter-forum" ).remove();}
+			if ( jQuery( "#filter-check-topic" ).attr("checked") != "checked"){ jQuery( "#search-filter-topic" ).remove();}
+			if ( jQuery( "#filter-check-reply" ).attr("checked") != "checked"){ jQuery( "#search-filter-reply" ).remove();}
+			if ( jQuery( "#filter-check-include" ).attr("checked") != "checked"){ jQuery("#search-filter-include").remove(); jQuery("#search-filter-users").remove(); jQuery("#search-filter-users2").remove(); }
 			if ( jQuery( "#filter-check-media" ).attr("checked") != "checked"){ jQuery("#search-filter-media").remove(); }
 			if ( jQuery( "#filter-check-attachment" ).attr("checked") != "checked"){ jQuery("#search-filter-attachment").remove(); }
 			if ( jQuery( "#filter-check-orderby" ).attr("checked") != "checked"){ jQuery("#search-filter-orderby").remove(); }

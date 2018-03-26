@@ -70,8 +70,11 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			// showing all vacancies for a specific grade
 
 			$vacancies =new WP_Query(array ( 
-			'orderby' => 'vacancy_closing_date', 
-			'order' => 'ASC',
+			'orderby' => array(
+				'date_clause' => 'ASC',
+				'd_clause' => 'ASC', 
+				'd_time' => 'ASC', 
+				),
 			'post_type'=>'vacancy',
 			'posts_per_page'=>$posts_per_page,
 			'paged' => $paged,
@@ -84,19 +87,19 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 				),
 			'meta_query' => array(
 						'relation' => 'OR',
-					       array(
+					     'date_clause' =>  array(
 					           'key' => 'vacancy_closing_date',
 					           'value' => $sdate,
 					           'compare' => '>',
 					       ),
-					       array(
+					     'datetime_clause' =>  array(
 						       'relation' => 'AND',
-						       array(
+						       'd_clause' => array(
 						           'key' => 'vacancy_closing_date',
 						           'value' => $sdate,
 						           'compare' => '=',
-						       ),
-						       array(
+								   ),
+						       't_clause' => array(
 						           'key' => 'vacancy_closing_time',
 						           'value' => $stime,
 						           'compare' => '<',
@@ -112,26 +115,29 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 			// showing everything
 
 			$vacancies =new WP_Query(array ( 
-				'orderby' => 'vacancy_closing_date', 
-				'order' => 'ASC',
+				'orderby' => array(
+				'date_clause' => 'ASC',
+				'd_clause' => 'ASC', 
+				'd_time' => 'ASC', 
+				),
 				'post_type'=>'vacancy',
 				'posts_per_page'=>$posts_per_page,
 				'paged' => $paged,
 				'meta_query' => array(
 						'relation' => 'OR',
-					       array(
+					     'date_clause' =>    array(
 					           'key' => 'vacancy_closing_date',
 					           'value' => $sdate,
 					           'compare' => '>',
 					       ),
-					       array(
+					       'datetime_clause' =>  array(
 						       'relation' => 'AND',
-						       array(
+						       'd_clause' => array(
 						           'key' => 'vacancy_closing_date',
 						           'value' => $sdate,
 						           'compare' => '=',
 						       ),
-						       array(
+						       't_clause' => array(
 						           'key' => 'vacancy_closing_time',
 						           'value' => $stime,
 						           'compare' => '>',

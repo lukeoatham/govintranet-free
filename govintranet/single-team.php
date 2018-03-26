@@ -66,6 +66,7 @@ wp_enqueue_script( 'scripts_grid' );
 								<input type="text" class="form-control pull-left" placeholder="<?php _e('Name, job title, skills, team, number...' , 'govintranet'); ?>" name="<?php if ( function_exists('relevanssi_do_query') ) { echo "s"; } else { echo "q"; } ?>" id="s2">
 								<input type="hidden" name="include" value="user">
 								<input type="hidden" name="post_types[]" value="team">
+								<input type="hidden" name="post_types[]" value="user">
 								<span class="input-group-btn">
 								<label for="searchbutton2" class="sr-only"><?php _e('Search' , 'govintranet'); ?></label>
 								<button class="btn btn-primary" type="submit" id="searchbutton2"><i class="dashicons dashicons-search"></i></button>

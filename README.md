@@ -5,7 +5,7 @@ Contributors: lukeoatham
 Link: https://intranetdiary.co.uk 
 Tags: intranet, gov.uk, responsive  
 Requires at least: 4.7  
-Tested up to: 4.9
+Tested up to: 4.9 
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -16,27 +16,33 @@ Intranet theme inspired by GOV.UK. Custom post types: news, blog, events, tasks 
 
 ## Content types ##
 
-* Tasks & Guides
-* Projects
+* Tasks & Guides 
+* Projects 
 * Teams 
-* Vacancies
-* News
+* Vacancies 
+* News 
 * News updates 
 * Blog 
 * Events 
 * A to Z 
-* Jargon buster 
+* Jargon buster  
 * Intraverts (targeted messages) 
 
 
 ## Installation ##
 
 This theme requires the [Advanced Custom Fields Pro plugin](http://www.advancedcustomfields.com/pro) v5 to manage options and custom fields.  
-Tested up to: 5.6.5
+Tested up to: 5.6.5 
 Refer to [showcase site](http://demo.govintra.net/) for example intranet.  
-Refer to [Setup instructions](https://help.govintra.net/) for help and installation instructions.
+Refer to [Setup instructions](https://help.govintra.net/) for help and installation instructions. 
 
 ## Changelog ##
+
+### 4.39.4.1 - 26 Mar 2018 ###
+* Improved listing order on vacancies page template 
+* Utility menu styling tidy 
+* Fix to search box on single team template to include users 
+* Improved integration of search filter checkboxes and search box
 
 ### 4.39.4 - 2 Mar 2018 ###
 * Removed additional mime types from core theme 
