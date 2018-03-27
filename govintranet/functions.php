@@ -10861,8 +10861,8 @@ function govintranet_custom_styles() {
 	
 	// write custom css for background header colour
 
-	$bg = get_theme_mod('link_color', '#428bca');
-	$bg = get_theme_mod('link_visited_color', '#7303aa');
+	$link_color = get_theme_mod('link_color', '#428bca');
+	$link_visited_color = get_theme_mod('link_visited_color', '#7303aa');
 	$headtext = get_theme_mod('header_textcolor', '#ffffff'); if ( substr($headtext, 0 , 1 ) != "#") $headtext="#".$headtext;
 	$headimage = get_theme_mod('header_image', '');
 	$custom_logo_id = get_theme_mod( 'custom_logo' );
@@ -10883,9 +10883,9 @@ function govintranet_custom_styles() {
 		 $giscc = $gishex; 
 	endif;
 
-	$custom_css.= "a, a .listglyph  {color: ".$bg.";}";
+	$custom_css.= "a, a .listglyph  {color: ".$link_color.";}";
 	$custom_css.= "a:visited.btn.btn-primary, a:link.btn.btn-primary {color:".$btn_text.";}";
-	$custom_css.= "a:visited, a:visited .listglyph {color: ".$bg.";}";
+	$custom_css.= "a:visited, a:visited .listglyph {color: ".$link_visited_color.";}";
 	if ($headimage != 'remove-header' ):
 		$custom_css.= "#topstrip  {	background: ".$gishex." url(".get_header_image()."); color: ".$headtext.";	}";
 	else:
