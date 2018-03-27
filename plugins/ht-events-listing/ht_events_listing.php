@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: https://help.govintra.net
 Description: Display future events
 Author: Luke Oatham
-Version: 4.10
+Version: 4.10.1
 Author URI: https://www.agentodigital.com
 */
 
@@ -107,12 +107,12 @@ class htEventsListing extends WP_Widget {
 					WHERE OI.post_type = 'event' AND OI.post_status = 'publish' AND ( (OO3.meta_value < '%s') OR (OO3.meta_value = '%s' AND OO4.meta_value < '%s') )
 
 				GROUP BY OI.ID, OI.post_name
-				ORDER BY event_start_date ASC, event_start_time ASC
+				ORDER BY event_start_date DESC, event_start_time DESC
 				",$sdate,$sdate,$stime);
 
 				$allevents = $wpdb->get_results($cquery);
 
-				// restrict to chosen team if available
+				// restrict to chosen event type if available
 				$events_to_show = array();
 				$alreadydone = array();
 				if ( count($allevents) != 0 ) foreach ($allevents as $a){
@@ -154,7 +154,7 @@ class htEventsListing extends WP_Widget {
 
 			foreach ($events_to_show as $event) {
 				global $post;//required for access within widget
-				if ( 'recent' == $wtitle ) $output.= "<small><strong>" . __("Nothing coming up. Here's the most recent:","govintranet") . "</strong></small><br>";
+				if ( 'recent' == $wtitle ) $output.= "<div class='small past_events'><strong>" . __("Nothing coming up. Here's the most recent:","govintranet") . "</strong></div>";
 				$wtitle = '';
 
 				if (in_array($event['ID'], $alreadydone )) { //don't show if already in stickies

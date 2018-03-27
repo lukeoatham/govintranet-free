@@ -12,3 +12,4 @@ a.calendarlink:hover .calbox  { background: #eee; }
 	margin: 0;
 	font-weight: 800;
 }
+div .past_events { margin-bottom: 0.5em; }
