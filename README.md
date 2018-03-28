@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.4.2 - 28 Mar 2018 ###
+* Link colour fixes (props: martinwrightgithub) 
+
 ### 4.39.4.1 - 26 Mar 2018 ###
 * Improved listing order on vacancies page template 
 * Utility menu styling tidy 
