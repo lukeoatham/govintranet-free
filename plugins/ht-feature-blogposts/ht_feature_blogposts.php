@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: https://help.govintra.net
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.5
+Version: 1.5.1
 Author URI: https://www.agentodigital.com
 
 */
@@ -171,7 +171,9 @@ class htFeatureBlogposts extends WP_Widget {
 		$k = -1;
 		$alreadydone = array();
 		$titledone = 0;
-
+		$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
+		$avstyle = "";
+		if ( $directorystyle==1 ) $avstyle = " img-circle ";
 		$blogstransient = $widget_id;
 		$html = "";
 		if ( $cache > 0 ) $html = get_transient( $blogstransient );
@@ -202,11 +204,14 @@ class htFeatureBlogposts extends WP_Widget {
 					$edate = date(get_option('date_format'),strtotime($edate));
 					$thisURL = get_permalink();
 					$html.= "<div class='media'>";
-					if ($thumbnails){echo "x";
+					if ($thumbnails){
 						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
 						if (!$image_uri || $forceavatar){
-							$image_uri = get_avatar(get_the_author_meta('ID'),72);
-							$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
+							$image_uri = get_avatar($post->post_author , 150, "", $user_info->display_name);
+							$image_uri = str_replace("avatar ", "avatar alignleft tinyblogthumb ".$avstyle, $image_uri);
+							$image_uri = str_replace('"150"', '"72"', $image_uri);
+							$image_uri = str_replace("'150'", "'72'", $image_uri);
+							$image_uri = str_replace("alignleft", "", $image_uri);
 							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'>{$image_uri}</a>";		
 						} else {
 							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".esc_attr($thistitle)."' /></a>";					}
@@ -248,8 +253,6 @@ class htFeatureBlogposts extends WP_Widget {
 					    'terms' => (array)$blog_categories,
 					    'compare' => "IN",
 				    ));
-
-			
 	
 			$blogs = new WP_Query($cquery);
 			if ($blogs->post_count!=0 && !$titledone ) {
@@ -278,8 +281,11 @@ class htFeatureBlogposts extends WP_Widget {
 				if ($thumbnails){
 					$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
 					if (!$image_uri || $forceavatar){
-						$image_uri = get_avatar(get_the_author_meta('ID'),72);
-						$image_uri = str_replace("alignleft", "alignleft tinyblogthumb", $image_uri);
+						$image_uri = get_avatar($post->post_author , 150, "", $user_info->display_name);
+						$image_uri = str_replace("avatar ", "avatar alignleft tinyblogthumb ".$avstyle, $image_uri);
+						$image_uri = str_replace('"150"', '"72"', $image_uri);
+						$image_uri = str_replace("'150'", "'72'", $image_uri);
+						$image_uri = str_replace("alignleft", "", $image_uri);
 						$html.= "<a class='pull-left' href='".get_permalink()."'>{$image_uri}</a>";		
 					} else {
 						$html.= "<a class='pull-left' href='".get_permalink()."'><img class='tinyblogthumb alignleft' src='{$image_uri[0]}' alt='".esc_attr($thistitle)."' /></a>";						
