@@ -23,9 +23,9 @@ get_header();
 		 $sfilter = $_GET['show'];
 	 }
 	 if ($sfilter == 'forum'){
-		 query_posts( array('post_type'=>array('reply','forum','topic'),'author'=>$author,"paged"=>$paged,"posts_per_page"=>$posts_per_page ) );
+	 	query_posts( array( 'post_type'=>array('reply','forum','topic'), 'author'=>$author, "paged"=>$paged, "posts_per_page"=>$posts_per_page ) );
 	 } else {
-	 	 query_posts( array('post_type'=>'blog','author'=>$author,"paged"=>$paged,"posts_per_page"=>$posts_per_page ) );
+	 	 query_posts( array( 'post_type'=>'blog', 'author'=>$author, "paged"=>$paged, "posts_per_page"=>$posts_per_page, "post_status"=>"publish" ) );
 	 }
 
 	if ( have_posts() ){

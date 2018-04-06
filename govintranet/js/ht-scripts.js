@@ -4,6 +4,7 @@ function markDocumentLinks() {
 	jQuery('a[href$=".xlsx"]').addClass('xlsdocument').append(' <span class="doc_type_text">(Excel)</span>');
 	jQuery('a[href$=".doc"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
 	jQuery('a[href$=".docx"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
+	jQuery('a[href$=".docm"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
 	jQuery('a[href$=".dot"]').addClass('docdocument').append(' <span class="doc_type_text">(Word)</span>');
 	jQuery('a[href$=".ppt"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');
 	jQuery('a[href$=".pptx"]').addClass('pptdocument').append(' <span class="doc_type_text">(Powerpoint)</span>');

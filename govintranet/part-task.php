@@ -185,8 +185,35 @@ if ($pagetypeorig=="guide"){
 	
 	if ( get_post_meta($post->ID, 'treat_as_a_manual', true) ):
 
-		show_manual();
-
+		if( have_rows('manual_chapters') ):
+			$i = 0; 
+			global $post;
+			$output = '<div class="panel-group" id="manualaccordion" role="tablist" aria-multiselectable="true">';
+	
+			while ( have_rows('manual_chapters') ) : the_row(); 
+				$i++;
+				$title = get_sub_field('manual_chapter_title'); 
+				$content = get_sub_field('manual_chapter_content'); 
+				$output.='
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab" id="chapter'.$i.'">
+			      <h4 class="panel-title">
+			        <a role="button" data-toggle="collapse" data-parent="#manualaccordion" href="'.get_permalink($post->ID).'#chaptercollapse'.$i.'" aria-expanded="true" aria-controls="chaptercollapse'.$i.'">'.$title.'</a>
+			      </h4>
+			    </div>
+			    <div id="chaptercollapse'.$i.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="chapter'.$i.'">
+			      <div class="panel-body">
+			        '.$content.'
+			      </div>
+			    </div>
+			  </div>
+				';
+			endwhile;
+			
+			echo $output;
+			echo "</div>";
+		endif;
+		
 	endif;
 
 	?>

@@ -146,7 +146,7 @@ if ( have_posts() )
 			$taskitems->the_post();
 			$ID = $post->ID;
 			$image_url = get_the_post_thumbnail($ID, 'thumbnail', array('class' => 'alignright'));
-			echo "<div class='newsitem'>".$image_url ;
+			echo "<div class='newsitem clearfix'>".$image_url ;
 			echo "<hr>";	
 			$tagcontext = "";	
 			if ( get_posts(array("post_type"=>"task",'post_parent'=>$post->ID,"post_status"=>"publish"))) { 

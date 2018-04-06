@@ -38,6 +38,15 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.4.3 - 6 Apr 2018 ###
+* Change to show only published posts on author blog listing template 
+* Change to category templatle to allow for featured images 
+* Utility menu styling updates 
+* .docm added to automatic document icons 
+* Better formatting of content on aggregator template free-format element 
+* Task wide-page format improved to include manuals accordion 
+* Primary nav styling fix for indented menus 
+
 ### 4.39.4.2 - 28 Mar 2018 ###
 * Link colour fixes (props: martinwrightgithub) 
 
