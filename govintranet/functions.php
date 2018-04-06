@@ -10445,7 +10445,7 @@ function gi_tag_cloud($taxonomy, $term, $post_type) {
 	$alltags = array();
 	if ( $posts->have_posts() ) while ($posts->have_posts()){
 	$posts->the_post();
-		$tags = get_the_tags($id);
+		$tags = get_the_tags($posts->ID);
 		if ( $tags ) foreach ($tags as $t){
 			if (isset($alltags[$t->slug]['count'])){
 				$alltags[$t->slug]['count']++;
@@ -10490,7 +10490,7 @@ function gi_howto_tag_cloud($posttype) {
 	$alltags = array();
 	if ( $posts->have_posts() ) while ($posts->have_posts()): 
 	$posts->the_post();
-		$tags = get_the_tags($p->ID); 
+		$tags = get_the_tags($posts->ID); 
 		if ( $tags ) foreach ((array)$tags as $t):
 			if ( !isset( $alltags[$t->slug]['count'] ) ):
 				$alltags[$t->slug]['count'] = 1;

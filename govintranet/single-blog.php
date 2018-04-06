@@ -164,11 +164,11 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 			$autos_to_show = 5;
 			$final_cut = array();
 			$relateditems = new WP_Query();
+			$blog_categories = array();
 			
 			// BOTH CATEGORIES AND TAGS
 			
 			if ( $post_cat && $posttags ):
-				$blog_categories = array();
 				foreach ( $post_cat as $cat){
 					$blog_categories[] = $cat->term_id;
 				}
@@ -200,7 +200,6 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 			// JUST CATEGORY or JUST TAG
 			
 			if ( !$relateditems->have_posts() && $post_cat ):
-				$blog_categories = array();
 				foreach ( $post_cat as $cat){
 					$blog_categories[] = $cat->term_id;
 				}

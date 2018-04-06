@@ -38,6 +38,10 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.4.4 - 7 Apr 2018 ###
+* PHP warning fix for tag clouds 
+* PHP warning fix on single blog template 
+
 ### 4.39.4.3 - 6 Apr 2018 ###
 * Change to show only published posts on author blog listing template 
 * Change to category templatle to allow for featured images 
