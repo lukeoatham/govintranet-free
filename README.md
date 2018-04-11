@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.4.5 - 11 Apr 2018 ###
+* Fix for manuals in tasks, bug on last page of a guide 
+
 ### 4.39.4.4 - 7 Apr 2018 ###
 * PHP warning fix for tag clouds 
 * PHP warning fix on single blog template 
