@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: https://help.govintra.net
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.5.3
+Version: 1.5.4
 Author URI: https://www.agentodigital.com
 
 */
@@ -298,6 +298,7 @@ class htFeatureBlogposts extends WP_Widget {
 				$html.= "</div></div><hr class='light'>";
 			}
 			if ($blogs->have_posts() && $more){
+
 				$landingpage = get_option('options_module_blog_page'); 
 				if ( !$landingpage ):
 					$landingpage_link_text = 'blogposts';
@@ -305,8 +306,13 @@ class htFeatureBlogposts extends WP_Widget {
 					$landingpage = site_url().'/blogposts/';
 				else:
 					$landingpage_link_text = get_the_title( $landingpage[0] );
-				if ( $moretitle ) $landingpage_link_text = $moretitle;
+					if ( $moretitle ) $landingpage_link_text = $moretitle;
 					$landingpage = get_permalink( $landingpage[0] );
+				endif;
+				
+				if ( is_array($blog_categories) && count($blog_categories) < 2 ): 
+					$term = intval($blog_categories[0]); 
+					$landingpage = get_term_link($term, 'blog-category'); 
 				endif;
 				
 				$html.= '<p><strong><a title="' . $landingpage_link_text . '" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a></strong> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';
