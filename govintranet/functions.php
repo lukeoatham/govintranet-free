@@ -144,8 +144,7 @@ add_action("init","govintranet_theme_check");
 function govintranet_theme_check(){
 	//Initialize the update checker.
 	require 'theme-updates/theme-update-checker.php';
-	$latest_feed = 'http://demo.govintra.net/auto-updates/info.json';
-	if ( is_ssl() ) $latest_feed = 'https://help.govintra.net/auto-updates/info.json';
+	$latest_feed = 'https://help.govintra.net/auto-updates/info.json';
 	$govintranet_update_checker = new ThemeUpdateChecker(
 	    'govintranet',
 	    $latest_feed

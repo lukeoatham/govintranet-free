@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.5 - 26 Jul 2018 ###
+* Dropped support for theme updates from non-SSL site 
+
 ### 4.39.4.5 - 11 Apr 2018 ###
 * Fix for manuals in tasks, bug on last page of a guide 
 
