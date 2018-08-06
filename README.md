@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.5.1 - 6 August 2018 ###
+* Custom colour tidy
+
 ### 4.39.5 - 26 Jul 2018 ###
 * Dropped support for theme updates from non-SSL site 
 

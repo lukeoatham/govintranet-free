@@ -10937,6 +10937,7 @@ function govintranet_custom_styles() {
 	$terms = get_terms('category',array('hide_empty'=>false));
 	if ($terms) {
   		foreach ((array)$terms as $taxonomy ) {
+	  		if ( $taxonomy->term_id < 2 ) continue;
   		    $themeid = $taxonomy->term_id;
   		    $themeURL= $taxonomy->slug;
 			if ( version_compare( get_option('acf_version','1.0'), '5.5', '>' ) && function_exists('get_term_meta') ):
