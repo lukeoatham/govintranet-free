@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.5.2 - 18 November 2018 ###
+* Removed default login logo
+
 ### 4.39.5.1 - 6 August 2018 ###
 * Custom colour tidy
 

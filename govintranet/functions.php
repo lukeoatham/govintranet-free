@@ -785,22 +785,15 @@ function postHasChildren($id,$type) {
 function my_custom_login_logo() {
 	$hc = "options_login_logo";
 	$hcitem = get_option($hc);
-	$loginimage =  wp_get_attachment_image_src( $hcitem, 'large' );
 	if ($hcitem){
-    echo '<style type="text/css">
+		$loginimage =  wp_get_attachment_image_src( $hcitem, 'large' );
+		echo '<style type="text/css">
            h1 a { background-image:url('.$loginimage[0].') !important; 
            width: auto !important;
            background-size: auto !important;
            }
     </style>';
-    } else {
-    echo '<style type="text/css">
-	h1 a { background-image:url('.get_template_directory_uri().'/images/loginbranding.png) !important; 
-	       width: auto !important;
-           background-size: auto !important;
-           }
-    </style>';
-    }
+    } 
 }
 add_action('login_head', 'my_custom_login_logo');
 
