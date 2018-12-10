@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: https://help.govintra.net
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.10
+Version: 1.11
 Author URI: https://www.agentodigital.com
 */
 
@@ -22,6 +22,25 @@ class htNewsUpdates extends WP_Widget {
 			'key' => 'group_558c858e438b9',
 			'title' => _x('Update types','Categories of news updates','govintranet'),
 			'fields' => array (
+				array(
+					'key' => 'field_5acd46b4be313',
+					'label' => __('Show remaining count','govintranet'),
+					'name' => 'show_remaining_count',
+					'type' => 'true_false',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'message' => '',
+					'default_value' => 0,
+					'ui' => 1,
+					'ui_on_text' => '',
+					'ui_off_text' => '',
+				),				
 				array (
 					'key' => 'field_558c85a4c1c4b',
 					'label' => _x('News update type','Categories of news updates','govintranet'),
@@ -129,6 +148,8 @@ class htNewsUpdates extends WP_Widget {
 		$border_colour = get_field('news_update_border_colour', 'widget_' . $widget_id);
 		
 		$border_height = get_option('options_widget_border_height','5');
+		
+		$remaining = get_field('show_remaining_count', 'widget_' . $widget_id);
 
 		$custom_css = "";
 		if ( $border_colour ):
@@ -192,7 +213,11 @@ class htNewsUpdates extends WP_Widget {
 					);
 			endif;
 	
-			$news =new WP_Query($cquery);
+			$news = new WP_Query($cquery);
+
+			$remaining_count = 0;
+			$remaining_count = $news->found_posts - $items;
+			if ( $remaining_count < 0 ) $remaining_count = 0;
 			
 			if ($news->post_count!=0){
 				
@@ -246,16 +271,26 @@ class htNewsUpdates extends WP_Widget {
 			}
 			if ($news->post_count!=0){ 
 				$html.= "</ul></div>"; 
-				if ( !$moretitle ) $moretitle = $title;
-				if ( is_array($news_update_types) && count($news_update_types) < 2 ): 
-					$term = intval($news_update_types[0]); 
-					$landingpage = get_term_link($term, 'news-update-type'); 
-					$html.= '<p class="more-updates"><a title="'.$moretitle.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
-				else: 
-					$landingpage_link_text = $moretitle;
-					$landingpage = site_url().'/news-update/';
-					$html.= '<p class="more-updates"><a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a> <span class="dashicons dashicons-arrow-right-alt2"></span></p>';	
-				endif;
+				if ( $remaining_count ) {
+					if ( !$moretitle ) $moretitle = $title;
+					if ( is_array($news_update_types) && count($news_update_types) < 2 ): 
+						$term = intval($news_update_types[0]); 
+						$landingpage = get_term_link($term, 'news-update-type'); 
+						$html.= '<p class="more-updates">';
+						$html.= '<a title="'.$moretitle.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a> ';
+						$html.='<span class="dashicons dashicons-arrow-right-alt2"></span>';
+						if ( $remaining_count ) $html.=' <span class="badge">'.$remaining_count.' more</span>';
+						$html.='</p>';	
+					else: 
+						$landingpage_link_text = $moretitle;
+						$landingpage = site_url().'/news-update/';
+						$html.= '<p class="more-updates">';
+						$html.= '<a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a>';
+						$html.='<span class="dashicons dashicons-arrow-right-alt2"></span>';
+						if ( $remaining_count ) $html.=' <span class="badge">'.$remaining_count.' more</span>';
+						$html.='</p>';	
+					endif;
+				}
 				$html.= "<div class='clearfix'></div>";			
 				$html.= $after_widget;
 				$html.= "</div>";
