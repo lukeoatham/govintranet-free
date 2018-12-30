@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.6 - 2 December 2018 ###
+* Accessibility improvements on staff directory
+
 ### 4.39.5.2 - 18 November 2018 ###
 * Removed default login logo
 

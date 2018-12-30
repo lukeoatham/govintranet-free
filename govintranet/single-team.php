@@ -48,7 +48,7 @@ wp_enqueue_script( 'scripts_grid' );
 					echo "<h3><i class='dashicons dashicons-arrow-left-alt2'></i> <a href='".get_permalink($parentteam->ID)."'>".get_the_title($parentteam->ID)."</a></h3>";
 				}
 				?>
-				<h2><?php echo $teamname; ?></h2>
+				<h1><?php echo $teamname; ?></h1>
 		
 				<?php 
 				wp_reset_postdata();
@@ -183,7 +183,7 @@ wp_enqueue_script( 'scripts_grid' );
 
 					} else { 
 
-						$tl_text.= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+						$tl_text.= "<div class='col-lg-4 col-md-4 col-sm-6'><div class='indexcard'><a href='".$userurl."' aria-label='".esc_attr($displayname)."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 							
 						if ( get_user_meta($userid ,'user_job_title',true )) $tl_text.= '<span class="small">'.get_user_meta($userid ,'user_job_title',true )."</span><br>";
 
@@ -299,7 +299,7 @@ wp_enqueue_script( 'scripts_grid' );
 						 //end full details
 						} else { 
 
-							echo "<div class='col-lg-4 col-md-4 col-sm-6 pgrid-item'><div class='indexcard'><a href='".$userurl."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
+							echo "<div class='col-lg-4 col-md-4 col-sm-6 pgrid-item'><div class='indexcard'><a href='".$userurl."' aria-label='".esc_attr($displayname)."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong><br>";
 
 							// display team name(s)
 							$team = get_user_meta($userid ,'user_team',true );

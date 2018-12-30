@@ -165,7 +165,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 								$avatarhtml = str_replace(" photo", " photo alignleft ".$avstyle, $avatarhtml);
 								if ($fulldetails){
 									$profile_url = gi_get_user_url($userid); 
-									$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".$profile_url."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$profile_url."'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
+									$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".$profile_url."' aria-label='".esc_attr($displayname)."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$profile_url."'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 									// display team name(s)
 									$poduser = get_userdata($userid);
 									$team = get_user_meta($userid ,'user_team',true );
@@ -192,7 +192,7 @@ if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 									$avatarhtml = get_avatar($userid,66);
 									$avatarhtml = str_replace(" photo", " photo alignleft ".$avstyle, $avatarhtml);
 									$profile_url = gi_get_user_url($userid);
-									$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='indexcard'><a href='".$profile_url."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
+									$html .= "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='indexcard'><a href='".$profile_url."' aria-label='".esc_attr($displayname)."'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 									// display team name(s)
 									$team = get_user_meta($userid,'user_team',true);
 									if ($team){
