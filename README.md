@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.6.1 - 30 December 2018 ###
+* First and last name display improvements on staff directory
+
 ### 4.39.6 - 2 December 2018 ###
 * Accessibility improvements on staff directory
 

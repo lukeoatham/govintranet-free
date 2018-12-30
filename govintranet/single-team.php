@@ -157,7 +157,11 @@ wp_enqueue_script( 'scripts_grid' );
 					$icon = "user";			
 					$user_info = get_userdata($userid);
 					$userurl = gi_get_user_url($userid);
-					$displayname = get_user_meta($userid ,'first_name',true )." ".get_user_meta($userid ,'last_name',true );		
+					if ( get_user_meta($userid ,'last_name',true ) && get_user_meta($userid ,'first_name',true ) ){
+						$displayname = get_user_meta($userid ,'last_name',true )." ".get_user_meta($userid ,'first_name',true );	
+					} else {
+						$displayname = trim(get_user_meta($userid ,'last_name',true )).trim(get_user_meta($userid ,'first_name',true ));	
+					}
 					$staffdirectory = get_option('options_module_staff_directory');
 					$avstyle="";
 					if ( $directorystyle==1 ) $avstyle = " img-circle";
@@ -165,7 +169,7 @@ wp_enqueue_script( 'scripts_grid' );
 					$avatarhtml = str_replace("photo", "photo alignleft".$avstyle, $avatarhtml);
 					if ($fulldetails){
 							
-						$tl_text.= "<div class='col-lg-4 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".$userurl."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."'><strong>".$displayname."</strong></a><br>";
+						$tl_text.= "<div class='col-lg-4 col-md-6 col-sm-6'><div class='media well well-sm'><a href='".$userurl."' aria-label='".esc_attr($displayname)."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."' aria-label='".esc_attr($displayname)."'><strong>".$displayname."</strong></a><br>";
 
 						if ( get_user_meta($userid ,'user_job_title',true )) : 
 							$meta = get_user_meta($userid ,'user_job_title',true );
@@ -265,13 +269,17 @@ wp_enqueue_script( 'scripts_grid' );
 						$icon = "user";			
 						$user_info = get_userdata($userid);
 						$userurl = gi_get_user_url($userid);
-						$displayname = get_user_meta($userid ,'last_name',true ).", ".get_user_meta($userid ,'first_name',true );		
+						if ( get_user_meta($userid ,'last_name',true ) && get_user_meta($userid ,'first_name',true ) ){
+							$displayname = get_user_meta($userid ,'last_name',true ).", ".get_user_meta($userid ,'first_name',true );	
+						} else {
+							$displayname = trim(get_user_meta($userid ,'last_name',true )).trim(get_user_meta($userid ,'first_name',true ));	
+						}
 						$avstyle="";
 						if ( $directorystyle==1 ) $avstyle = " img-circle";
 						$avatarhtml = get_avatar($userid ,66);
 						$avatarhtml = str_replace(" photo", " photo alignleft".$avstyle, $avatarhtml);
 						if ($fulldetails) {
-							echo "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".$userurl."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
+							echo "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 pgrid-item'><div class='media well well-sm'><a href='".$userurl."' aria-label='".esc_attr($displayname)."'>".$avatarhtml."</a><div class='media-body'><p><a href='".$userurl."' aria-label='".esc_attr($displayname)."'><strong>".$displayname."</strong>".$gradedisplay."</a><br>";
 
 							// display team name(s)
 							$team = get_user_meta($userid ,'user_team',true );
