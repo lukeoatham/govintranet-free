@@ -94,7 +94,7 @@ if ( have_posts() ) :
 			$video = 0;
 			if ( has_post_format('video', $h->ID) || has_post_format('audio', $h->ID) ):
 				$video_embed= '<div class="embed-container">';
-				$video_embed.= get_field( 'news_video_url');
+				$video_embed.= get_field( 'news_video_url', $h->ID);
 				$$video_embed.= '</div>';
 				$video = 1;
 			endif;
