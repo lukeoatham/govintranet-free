@@ -20,14 +20,14 @@ $custom_css = "
 }
 .metro-list .featuredpage a h4 {
 	color: ".$header_text_color." !important;
-	padding: 0 1em;
+	padding: 0.5em 1em 0 1em;
 }
 
 ";			
-wp_enqueue_style( 'hashtags', plugin_dir_url('/') . 'ht-hashtags/css/hashtags.css' );
-wp_add_inline_style('hashtags' , $custom_css);
-wp_enqueue_script( 'masonry');
-wp_enqueue_script( 'imagesloaded');
+wp_enqueue_style( 'hashtags', plugin_dir_url('/') . 'ht-hashtags/css/hashtags.min.css' );
+wp_add_inline_style( 'hashtags' , $custom_css );
+wp_enqueue_script( 'masonry' );
+wp_enqueue_script( 'imagesloaded' );
 wp_enqueue_script( 'ht_hashtags', plugin_dir_url('/') . 'ht-hashtags/js/ht_hashtags.js' );
 
 if ( have_posts() ) : 
@@ -50,23 +50,19 @@ if ( have_posts() ) :
 	<div class="col-lg-12 col-md-12 col-sm-12">		
 		<div id="grimason">
 		<?php
-
 		$pid = $post->ID;
-		
-		//retrieve latest media feed posts
-	
-		$html ='';
+		$html = '';
 		$hashtag = '';
 		$hashterm = '';
 		$hashtagslug = '';
-		$counter=0;
-		$grids=array();
-		
+		$counter = 0;
+		$grids = array();
 		$numnews = get_post_meta($pid, 'ht_number_of_news_stories',true);
-		if (!$numnews) $numnews = 10;
+		if (!$numnews) $numnews = 12;
 		$hashtag = get_post_meta($pid, 'ht_hashtag',true);
 		$hashterm = get_tag($hashtag);
 		$hashtagslug = $hashterm->slug;
+		$hashtagid = $hashterm->term_id;
 		$promos = get_post_meta($pid,'ht_highlight_pages',true); 
 
 		// get news
@@ -87,15 +83,21 @@ if ( have_posts() ) :
 			$html.="<div class='w2 grid-item'>";
 			$html.="<div class='inner-grid anarticle'>";
 			$html.="<div class='grid-footer'>";
-			$html.="<p class='type-icon'><a href='" . get_tag_link( $hashtagslug) . "'>#" . $hashtagslug . "</a></p>";	
+			$html.="<p class='type-icon hashtag-link'><a href='" . get_tag_link( $hashtagid ) . "'>#" . $hashtagslug . "</a></p>";	
 			setup_postdata($h);
+			if ( get_comments_number($h->ID) ){
+				$html.= "<a class='hashtags-comments' href='".get_permalink($h->ID)."#comments'>";
+				$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number($h->ID), 'govintranet' ), get_comments_number($h->ID) ) . '</span>';
+				 $html.= "</a>";
+			}
 			$html.="</div>";
-			$img = wp_get_attachment_image_src(get_post_thumbnail_id($h->ID),'homepage');
+
+			$img = wp_get_attachment_image_src(get_post_thumbnail_id($h->ID),'large');
 			$video = 0;
 			if ( has_post_format('video', $h->ID) || has_post_format('audio', $h->ID) ):
 				$video_embed= '<div class="embed-container">';
 				$video_embed.= get_field( 'news_video_url', $h->ID);
-				$$video_embed.= '</div>';
+				$video_embed.= '</div>';
 				$video = 1;
 			endif;
 			if ( $video ){
@@ -119,12 +121,13 @@ if ( have_posts() ) :
 				$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
 				$image_url = str_replace('"150"', '"36"', $image_url);
 				$image_url = str_replace("'150'", "'36'", $image_url);
+				$image_url = str_replace("alignnone", "", $image_url);
 				$html.="<p class='user-icon'>";
 	            $html.= $image_url;
-	            $html.= "<span class = 'user-icon-text'>" . $displayname . "</span>";
+	            $html.= "<span class='user-icon-text'>" . $displayname . "</span>";
 	            $html.="</p>";
 			}
-			$html.="<p class='grid-excerpt'>".wp_trim_words($h->post_excerpt, 20)."</p>";
+			if ( trim($h->post_excerpt) ) $html.="<p class='grid-excerpt'>".wp_trim_words($h->post_excerpt, 20)."</p>";
 			$html.="</div></div>";
 			$grids[]=$html;
 		}
@@ -135,11 +138,24 @@ if ( have_posts() ) :
 			$html='';
 			$html.= "<div class='w2 grid-item'>";
 			$html.="<div class='inner-grid anarticle featuredpage'>";
-			$html.="<a href='".get_permalink($p)."'>";
-			$html.= get_the_post_thumbnail($p, 'large', array('class'=>'img-responsive'));
-			$html.="<h4>".get_the_title($p)."</h4>";
-			$html.="</a>";
 			$manualpost = get_post($p);
+			$img = wp_get_attachment_image_src(get_post_thumbnail_id($manualpost->ID),'large');
+			$video = 0;
+			if ( has_post_format('video', $manualpost->ID) || has_post_format('audio', $manualpost->ID) ):
+				$video_embed= '<div class="embed-container">';
+				$video_embed.= get_field( 'news_video_url', $manualpost->ID);
+				$video_embed.= '</div>';
+				$video = 1;
+			endif;
+			if ( $video ){
+				$html.=$video_embed;
+				$html.="<a href='".get_permalink($manualpost->ID)."'>";
+				$html.="<h4>".get_the_title($manualpost->ID)."</h4></a>";
+			} else {
+				$html.="<a href='".get_permalink($manualpost->ID)."'>";
+				if ( $img ) $html.="<img src='".$img[0]."' class='img img-responsive' width='".$img[1]."' height='".$img[2]."' alt='' />";
+				$html.="<h4>".get_the_title($manualpost->ID)."</h4></a>";
+			}
 			if ( 'blog' == get_post_type( $p )  ) { 
 	            $gis = "options_module_staff_directory";
 				$forumsupport = get_option($gis); 
@@ -151,6 +167,7 @@ if ( have_posts() ) :
 				$image_url = get_avatar($manualpost->post_author, 36, "", $displayname); 
 				$image_url = str_replace(" photo", " photo ".$avstyle, $image_url);
 				$image_url = str_replace('"150"', '"36"', $image_url);
+				$image_url = str_replace("alignnone", "", $image_url);
 				$image_url = str_replace("'150'", "'36'", $image_url);
 				$html.="<p class='user-icon'>";
 	            $html.= $image_url;
@@ -158,7 +175,12 @@ if ( have_posts() ) :
 	            $html.="</p>";
 			}
 			
-			$html.="<p class='grid-excerpt-manual'>".wp_trim_words($manualpost->post_excerpt, 20)."</p>";
+			if ( trim($manualpost->post_excerpt) ) $html.="<p class='grid-excerpt-manual'>".wp_trim_words($manualpost->post_excerpt, 20)."</p>";
+			if ( get_comments_number($manualpost->ID) ){
+				$html.= "<a class='hashtag-manual-comments' href='".get_permalink($manualpost->ID)."#comments'>";
+				$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number($manualpost->ID), 'govintranet' ), get_comments_number($manualpost->ID) ) . '</span>';
+				 $html.= "</a>";
+			}
 			$html.= "</div></div>";
 			$extragrids[]=$html;	
 		}
