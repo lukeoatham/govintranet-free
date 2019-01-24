@@ -46,12 +46,20 @@ $fulldetails = get_option('options_full_detail_staff_cards'); // 1 = show
 		
 			//search team taxonomy
 			$sr2 = $wpdb->get_results($wpdb->prepare("
-			SELECT distinct ID, post_name, post_title from $wpdb->posts WHERE 
-			((post_title like '%%%s%%') OR (post_content like '%%%s%%')) and post_type = 'team';",$s,$s),ARRAY_A); 	
+			SELECT distinct ID, post_title, post_content from $wpdb->posts WHERE 
+			((post_title like '%%%s%%') OR (post_content like '%%%s%%')) and post_type = 'team' and post_status = 'publish';",$s,$s),ARRAY_A); 	
 			
 			$searchmasterstaff = array_merge($searchmasterstaff, $sr);	
 			$searchmasterteam = array_merge($searchmasterteam, $sr2);	
 		}
+		
+		$tempstaff = array();
+		foreach ((array)$searchmasterstaff as $u){
+			if ( !get_user_meta( $u->user_id, 'user_hide', true) ) $tempstaff[] = $u;	
+		}	
+		$searchmasterstaff = $tempstaff;
+		unset ($tempstaff); 
+		
 	}
 	?>
 	<h1><?php printf( __( 'Search results for: %s', 'govintranet' ),  $sw ); ?></h1>
@@ -143,6 +151,7 @@ $fulldetails = get_option('options_full_detail_staff_cards'); // 1 = show
 			
 		} //end full details
 		else {  
+
 			echo "<div class='col-lg-6 col-md-6 col-sm-6'><div class='indexcard'><a href='".site_url()."/staff/".$user_info->user_nicename."/'><div class='media'>".$avatarhtml."<div class='media-body'><strong>".$displayname."</strong>".$gradedisplay."<br>";
 				$terms = get_user_meta($userid ,'user_team',true ); 
 				if ($terms) {				

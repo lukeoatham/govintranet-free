@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.7 - 24 January 2019 ###
+* Fix on non-Relevanssi staff search results to respect 'hide' flag
+
 ### 4.39.6.1 - 30 December 2018 ###
 * First and last name display improvements on staff directory
 
