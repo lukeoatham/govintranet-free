@@ -2,12 +2,14 @@
 
 /**
 Plugin Name: HT Recent comments
-Plugin URI: https://help.govintra.net
+Plugin URI: https://agentodigital.com
 Description: Displays most recent comments
 Author: Luke Oatham
-Version: 0.1
-Author URI: https://www.agentodigital.com
+Version: 2.0
+Author URI: http://intranetdiary.co.uk
  */
+ 
+
 class WP_Widget_HT_Recent_Comments extends WP_Widget {
 
 	public function __construct() {
@@ -87,6 +89,8 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 		if ( ! $number )
 			$number = 5;
 
+		$post_type = ( ! empty( $instance['post_type'] ) ) ? trim( $instance['post_type'] ) : '';
+		
 		/**
 		 * Filter the arguments for the Recent Comments widget.
 		 *
@@ -96,11 +100,16 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 		 *
 		 * @param array $comment_args An array of arguments used to retrieve the recent comments.
 		 */
-		$comments = get_comments( apply_filters( 'widget_comments_args', array(
+		 
+		$comment_query = array(
 			'number'      => $number,
 			'status'      => 'approve',
 			'post_status' => 'publish'
-		) ) );
+			);
+		
+		if ( in_array( $post_type, array('post','page','task','news','news-update','blog','event') ) ) $comment_query['post_type'] = $post_type;
+		
+		$comments = get_comments( apply_filters( 'widget_comments_args', $comment_query ) );
 
 		if ( is_array( $comments ) && count($comments) > 0 ){
 			$output .= $args['before_widget'];
@@ -169,6 +178,7 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['number'] = absint( $new_instance['number'] );
+		$instance['post_type'] = strip_tags($new_instance['post_type']);
 		$this->flush_widget_cache();
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
 		if ( isset($alloptions['widget_HT_Recent_Comments']) )
@@ -183,12 +193,45 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 	public function form( $instance ) {
 		$title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
+		$post_type  = isset( $instance['post_type'] ) ? esc_attr( $instance['post_type'] ) : '';
 ?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ,'govintranet' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 
 		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:' ,'govintranet' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
+		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" />
+		</p>
+
+
+		<fieldset>
+		<legend><?php _e("Post types:","govintranet");?></legend>
+		<label for="<?php echo $this->get_field_id( 'post_type' ); ?>all">
+		<input type="radio" value="all" name="<?php echo $this->get_field_name( 'post_type' ); ?>" <?php checked( $post_type, 'all' ); ?> id="<?php echo $this->get_field_id( 'post_type' ); ?>all" /><?php _e( 'All' ,'govintranet' ); ?></label><br>
+
+		<label for="<?php echo $this->get_field_id( 'post_type' ); ?>post">
+		<input type="radio" value="post" name="<?php echo $this->get_field_name( 'post_type' ); ?>" <?php checked( $post_type, 'post' ); ?> id="<?php echo $this->get_field_id( 'post_type' ); ?>post" /><?php _e( 'Post' ,'govintranet' ); ?></label><br>
+
+		<label for="<?php echo $this->get_field_id( 'post_type' ); ?>page">
+		<input type="radio" value="page" name="<?php echo $this->get_field_name( 'post_type' ); ?>" <?php checked( $post_type, 'page' ); ?> id="<?php echo $this->get_field_id( 'post_type' ); ?>page" /><?php _e( 'Page' ,'govintranet' ); ?></label><br>
+
+		<label for="<?php echo $this->get_field_id( 'post_type' ); ?>task">
+		<input type="radio" value="task" name="<?php echo $this->get_field_name( 'post_type' ); ?>" <?php checked( $post_type, 'task' ); ?> id="<?php echo $this->get_field_id( 'post_type' ); ?>task" /><?php _e( 'Task' ,'govintranet' ); ?></label><br>
+
+		<label for="<?php echo $this->get_field_id( 'post_type' ); ?>news">
+		<input type="radio" value="news" name="<?php echo $this->get_field_name( 'post_type' ); ?>" <?php checked( $post_type, 'news' ); ?> id="<?php echo $this->get_field_id( 'post_type' ); ?>news" /><?php _e( 'News' ,'govintranet' ); ?></label><br>
+
+		<label for="<?php echo $this->get_field_id( 'post_type' ); ?>newsupdate">
+		<input type="radio" value="news-update" name="<?php echo $this->get_field_name( 'post_type' ); ?>" <?php checked( $post_type, 'news-update' ); ?> id="<?php echo $this->get_field_id( 'post_type' ); ?>newsupdate" /><?php _e( 'News update' ,'govintranet' ); ?></label><br>
+
+		<label for="<?php echo $this->get_field_id( 'post_type' ); ?>blog">
+		<input type="radio" value="blog" name="<?php echo $this->get_field_name( 'post_type' ); ?>" <?php checked( $post_type, 'blog' ); ?> id="<?php echo $this->get_field_id( 'post_type' ); ?>blog" /><?php _e( 'Blog' ,'govintranet' ); ?></label><br>
+
+		<label for="<?php echo $this->get_field_id( 'post_type' ); ?>event">
+		<input type="radio" value="event" name="<?php echo $this->get_field_name( 'post_type' ); ?>" <?php checked( $post_type, 'event' ); ?> id="<?php echo $this->get_field_id( 'post_type' ); ?>event" /><?php _e( 'Event' ,'govintranet' ); ?></label><br>
+
+          </fieldset>
+
+
 <?php
 	}
 }
