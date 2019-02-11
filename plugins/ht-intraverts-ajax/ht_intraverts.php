@@ -63,10 +63,10 @@ class htIntraverts extends WP_Widget {
 		Register Advanced Custom Fields for the intraverts custom post type
 		*/
 		
-		if( function_exists('register_field_group') ):
+		if( function_exists('acf_add_local_field_group') ):
 		
 
-			register_field_group(array (
+			acf_add_local_field_group(array (
 				'key' => 'group_5494c172a5fb9',
 				'title' => 'Intraverts',
 				'fields' => array (
@@ -389,7 +389,7 @@ class htIntraverts extends WP_Widget {
 			Register Advanced Custom Fields for the intraverts widget
 			*/
 			
-			register_field_group(array (
+			acf_add_local_field_group(array (
 				'key' => 'group_54c2f059881dc',
 				'title' => __('Intraverts widget','govintranet'),
 				'fields' => array (

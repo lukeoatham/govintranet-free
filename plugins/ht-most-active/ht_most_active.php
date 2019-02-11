@@ -18,9 +18,9 @@ class htMostActive extends WP_Widget {
 			array( 'description' => __( 'Display pages with most pageviews' , 'govintranet') )
 		);   
 		
-		if( function_exists('register_field_group') ):
+		if( function_exists('acf_add_local_field_group') ):
 
-			register_field_group(array (
+			acf_add_local_field_group(array (
 				'key' => 'group_54c3150a2b558',
 				'title' => __('Most active widget','govintranet'),
 				'fields' => array (

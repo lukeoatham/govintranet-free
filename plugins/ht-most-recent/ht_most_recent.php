@@ -18,9 +18,9 @@ class htMostRecent extends WP_Widget {
 			array( 'description' => __( 'Display most recent posts' , 'govintranet') )
 		);   
 		
-		if( function_exists('register_field_group') ):
+		if( function_exists('acf_add_local_field_group') ):
 		
-		register_field_group(array (
+		acf_add_local_field_group(array (
 			'key' => 'group_54c30b1243bd6',
 			'title' => _x('Most recent widget','Widget that lists the most recent posts','govintranet'),
 			'fields' => array (
