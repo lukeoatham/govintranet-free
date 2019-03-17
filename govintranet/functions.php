@@ -10251,7 +10251,7 @@ function ht_people_shortcode($atts){
     $opts=shortcode_atts( array(
         'id' => '',
         'team' => '',
-        'num' => 3,
+        'num' => -1,
         ), $atts );
 	
 	$userid = $opts['id'];
@@ -10261,7 +10261,7 @@ function ht_people_shortcode($atts){
 	$html = '';
 	
 	if ( $team ) {
-		$t = get_posts( array('post_type'=>'team','post_name'=>$team,'post_status'=>'publish') );
+		$t = get_posts( array('post_type'=>'team','name'=>$team,'post_status'=>'publish') );
 		if ( $t ) $teamid = $t[0]->ID; 
 	}
 

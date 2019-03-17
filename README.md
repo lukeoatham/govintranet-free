@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.8 - 17 March 2019 ###
+* Bug fix on people shortcode, now correctly picks up the team slug
+
 ### 4.39.7 - 24 January 2019 ###
 * Fix on non-Relevanssi staff search results to respect 'hide' flag
 
