@@ -4,7 +4,7 @@ Plugin Name: HT Events listing
 Plugin URI: https://help.govintra.net
 Description: Display future events
 Author: Luke Oatham
-Version: 4.10.1
+Version: 4.10.2
 Author URI: https://www.agentodigital.com
 */
 
@@ -209,8 +209,11 @@ class htEventsListing extends WP_Widget {
 					if ( $location == 'on' && get_post_meta($event['ID'],'event_location',true) ) $output.= "<br><span><small>".get_post_meta($event['ID'],'event_location',true)."</small></span>";
 				}
 
-				if ( $excerpt == 'on' && get_the_excerpt($event['ID']) ){
-					$output.= "<p class='eventclear'><span>".get_the_excerpt($event['ID'])."</span></p>";
+				if ( $excerpt == 'on' ){
+					$eventpost = get_post($event['ID']);
+					setup_postdata( $eventpost );
+					$eventexcerpt = get_the_excerpt();
+					if ($eventexcerpt) $output.= "<p class='eventclear'><span>".$eventexcerpt."</span></p>";
 				}
 
 				$output.= "<hr class='light'></div>";
