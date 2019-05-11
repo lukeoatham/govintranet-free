@@ -4,7 +4,7 @@ Plugin Name: HT Favourites
 Plugin URI: https://help.govintra.net
 Description: Manage favourites in staff profiles
 Author: Luke Oatham
-Version: 1.1.1
+Version: 1.2
 Author URI: https://www.agentodigital.com
 */
 
@@ -140,8 +140,8 @@ class htfavourites_display extends WP_Widget {
     }
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htfavourites_add");'));
-add_action('widgets_init', create_function('', 'return register_widget("htfavourites_display");'));
+add_action('widgets_init', function(){return register_widget("htfavourites_add");});
+add_action('widgets_init', function(){return register_widget("htfavourites_display");});
 add_action( 'wp_ajax_ht_favourites_ajax_add', 'ht_favourites_ajax_add' );
 add_action( 'wp_ajax_nopriv_ht_favourites_ajax_add', 'ht_favourites_ajax_add' );
 

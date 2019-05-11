@@ -4,7 +4,7 @@ Plugin Name: HT How do I?
 Plugin URI: https://help.govintra.net
 Description: Widget to display a How do I? search box
 Author: Luke Oatham
-Version: 0.1
+Version: 1.1
 Author URI: https://www.agentodigital.com
 */
 
@@ -88,6 +88,4 @@ class htHowDoI extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htHowDoI");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htHowDoI");});

@@ -4,7 +4,7 @@ Plugin Name: HT About this page
 Plugin URI: https://help.govintra.net
 Description: Widget to display page information in the footer
 Author: Luke Oatham
-Version: 1.8.4
+Version: 1.9
 Author URI: https://www.agentodigital.com
 */
 
@@ -155,4 +155,4 @@ class htAboutThisPage extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htAboutThisPage");'));
+add_action('widgets_init', function(){return register_widget("htAboutThisPage");});

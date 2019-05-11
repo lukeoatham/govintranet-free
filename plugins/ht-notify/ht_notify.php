@@ -4,7 +4,7 @@ Plugin Name: HT Notify
 Plugin URI: https://help.govintra.net
 Description: Manage notifications in staff profiles. Includes a widget to add a Notify button, extra fields in the staff profile, and a cron job to send notifications.
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: https://www.agentodigital.com
 */
 
@@ -72,7 +72,7 @@ class htnotify_add extends WP_Widget {
     }
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htnotify_add");'));
+add_action('widgets_init', function(){return register_widget("htnotify_add");});
 add_action( 'wp_ajax_ht_notify_ajax_add', 'ht_notify_ajax_add' );
 add_action( 'wp_ajax_nopriv_ht_notify_ajax_add', 'ht_notify_ajax_add' );
 

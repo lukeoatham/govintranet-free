@@ -4,7 +4,7 @@ Plugin Name: HT Most recent
 Plugin URI: https://help.govintra.net
 Description: Widget to display most recent pages
 Author: Luke Oatham
-Version: 1.2.1
+Version: 1.3
 Author URI: https://www.agentodigital.com
 */
 
@@ -285,6 +285,4 @@ class htMostRecent extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htMostRecent");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htMostRecent");});

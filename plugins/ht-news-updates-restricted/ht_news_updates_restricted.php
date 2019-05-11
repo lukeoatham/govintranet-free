@@ -4,7 +4,7 @@ Plugin Name: HT News updates - restricted
 Plugin URI: https://help.govintra.net
 Description: Hide news updates from users
 Author: Luke Oatham
-Version: 1.3.1
+Version: 1.4
 Author URI: https://www.agentodigital.com
 */
 
@@ -472,6 +472,4 @@ function load_news_updates(  ) {
 
  }
 
-add_action('widgets_init', create_function('', 'return register_widget("htnewsupdatesrestricted");'));
-		
-?>
+add_action('widgets_init', function(){return register_widget("htnewsupdatesrestricted");});

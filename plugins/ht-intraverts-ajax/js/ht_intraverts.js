@@ -11,6 +11,8 @@ function pauseIntravert(name,expires,ititle,isource) { // set a short cookie if 
 	if  (typeof _gaq != 'undefined') 	_gaq.push(['_trackEvent', 'Intraverts', ititle, isource]);
 	
 	if (typeof(ga) !== 'undefined') 	ga('send', 'event', 'Intraverts', ititle, isource);
+
+	if (typeof(gtag) !== 'undefined')	gtag('event', ititle, {'event_category': 'Intraverts', 'event_label': isource, 'value': ititle });
 	
     if (jQuery('a[href="#nowhere"]')) { 
 		return false;
@@ -31,6 +33,7 @@ jQuery(document).ready(function($) {
 			before_title: ht_intraverts.before_title,
 			after_title: ht_intraverts.after_title,
 			intravertToShow: ht_intraverts.intravertToShow,
+			intravertShuffle: ht_intraverts.intravertShuffle,
 			widget_id: ht_intraverts.widget_id,
 			post_id: ht_intraverts.post_id,
 

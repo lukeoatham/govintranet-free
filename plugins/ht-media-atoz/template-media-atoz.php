@@ -44,8 +44,9 @@ $filters = get_post_meta(get_the_id(),'matoz_show_filters',true);
 if ( !$filters ) $filters = array('Search','A to Z','Document type','Category');
 $showlinks = get_post_meta(get_the_id(),'matoz_show_page_links',true);
 $filter_count = count($filters);
-$filter_cols = 12 / $filter_count;
-
+$lg_filter_cols = 12 / $filter_count;
+$md_filter_cols = 12 / $filter_count;
+if ( is_integer($filter_count/2) ) $md_filter_cols = 6;
 ?>
 
 <div class="col-lg-12 white ">
@@ -66,10 +67,13 @@ $filter_cols = 12 / $filter_count;
 	$matoz = 'any';
 	$search = ''; 
 	
+	// Only include AtoZ if we're not searching
+	if ( ! isset( $_GET['q'] ) || $_GET['q'] == "" ) {
+		if ( isset( $_GET['matoz'] ) ) $matoz = $_GET['matoz'] ? $_GET['matoz'] : 'any' ;
+	}
 	if ( isset( $_GET['doctyp'] ) ) $doctyp = $_GET['doctyp'] ? $_GET['doctyp'] : 'any' ;
 	if ( isset( $_GET['cat'] ) ) $cat_slug = $_GET['cat'] ? $_GET['cat'] : 'any' ;
-	if ( isset( $_GET['matoz'] ) ) $matoz = $_GET['matoz'] ? $_GET['matoz'] : 'any' ;
-	
+
 	if ($cat_slug != "any") {
 		$catterm = get_category_by_slug($cat_slug);
 		$catname = $catterm->name . " <span class='caret'></span>";
@@ -104,7 +108,7 @@ $filter_cols = 12 / $filter_count;
 
 	<div class="row">
 		<?php if ( in_array('Search', $filters) ): ?>
-		<div class="col-md-<?php echo $filter_cols; ?> col-sm-12 matoz-search-col">
+		<div class="col-lg-<?php echo $lg_filter_cols; ?> col-md-<?php echo $md_filter_cols; ?> col-sm-12 matoz-search-col">
 			<div class="widget-box doc_search">
 				<h3 class="widget-title"><?php _e('Search','govintranet'); ?></h3>
 				<form class="form-horizontal" role="form" id="docsearchform" name="docsearchform" method="get">
@@ -138,7 +142,7 @@ $filter_cols = 12 / $filter_count;
 		</div>
 		<?php endif; ?>
 		<?php if ( in_array('A to Z', $filters) ): ?>
-		<div class="col-md-<?php echo $filter_cols; ?> col-sm-12 matoz-search-atoz">
+		<div class="col-lg-<?php echo $lg_filter_cols; ?> col-md-<?php echo $md_filter_cols; ?> col-sm-12 matoz-search-atoz">
 			<div class="widget-box doc_atoz">
 				<h3 class="widget-title"><?php _e('A to Z','govintranet'); ?></h3>
 				<div id="document_atoz">
@@ -147,7 +151,7 @@ $filter_cols = 12 / $filter_count;
 						<?php 
 						//fill the default a to z array
 						$letters = range('a','z');
-						$letterlink=array();
+						$letterlink = array();
 						$hasentries = array();
 						
 						foreach($letters as $l) { 
@@ -159,13 +163,13 @@ $filter_cols = 12 / $filter_count;
 							foreach ((array)$terms as $taxonomy ) {
 								$letterlink[$taxonomy->slug] = "<li";
 								if (strtolower($matoz)==strtolower($taxonomy->slug)) $letterlink[$taxonomy->slug] .=  " class='active'";
-								$letterlink[$taxonomy->slug] .=  "><a href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz=".$taxonomy->slug."&q={$search}'>".strtoupper($taxonomy->name)."</a></li>";
+								$letterlink[$taxonomy->slug] .=  "><a href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz=".$taxonomy->slug."'>".strtoupper($taxonomy->name)."</a></li>";
 							}
 						}
 						$active = "";
 						if ( $matoz == "any" ) $active = " class='active'";
 
-						echo "<li".$active."><a href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz=any&q={$search}'>All</a></li>";
+						echo "<li".$active."><a href='".get_permalink(get_the_id())."?doctyp={$doctyp}&cat={$cat_slug}&matoz=any'>All</a></li>";
 						echo @implode("",$letterlink); 
 						?>
 						</ul>
@@ -175,7 +179,7 @@ $filter_cols = 12 / $filter_count;
 		</div>
 		<?php endif; ?>
 		<?php if ( in_array('Document type', $filters) ): ?>
-		<div class="col-md-<?php echo $filter_cols; ?> col-sm-6 matoz-search-doctype">
+		<div class="col-lg-<?php echo $lg_filter_cols; ?> col-md-<?php echo $md_filter_cols; ?> col-sm-6 matoz-search-doctype">
 			<div id="document_type_dropdown" class="widget-box">
 				<h3 class="widget-title"><?php _e('Document type','govintranet'); ?></h3>
 				<div class="btn-group">
@@ -211,10 +215,10 @@ $filter_cols = 12 / $filter_count;
 		</div>
 		<?php endif; ?>
 		<?php if ( in_array('Category', $filters) ): ?>
-		<div class="col-md-<?php echo $filter_cols; ?> col-sm-6 matoz-search-cat">
+		<div class="col-lg-<?php echo $lg_filter_cols; ?> col-md-<?php echo $md_filter_cols; ?> col-sm-6 matoz-search-cat">
 			<?php
-			$taxonomies=array('category');
-			$post_type=array('attachment');
+			$taxonomies = array('category');
+			$post_type = array('attachment');
 			$post_cat = get_terms_by_media_type( $taxonomies, $post_type);
 			if ($post_cat){ ?>
 			<div class="widget-box doc_cats" id="document_category_dropdown">
@@ -297,7 +301,7 @@ $filter_cols = 12 / $filter_count;
 						
 						// single cat
 						
-						$inlist=array();
+						$inlist = array();
 						foreach ( $subcat as $term ) {
 							$inlist[] = $term->term_id; 
 						}
@@ -344,11 +348,11 @@ $filter_cols = 12 / $filter_count;
 		
 						// no filter
 						
-						$inlist=array(); 
+						$inlist = array(); 
 					    foreach ( $subcat as $term ) {
 					       $inlist[] = $term->term_id; 
 						}
-						$catlist=array(); 
+						$catlist = array(); 
 					    foreach ( $post_cat as $term ) {
 					       if ( $term->term_id > 1 ) $catlist[] = $term->term_id; 
 						}
@@ -416,7 +420,7 @@ $filter_cols = 12 / $filter_count;
 
 				$docs = new wp_query(array('orderby'=>'title','order'=>'ASC','post_status'=>'inherit','posts_per_page'=>$max_posts,'paged'=>$paged,'post_type'=>'attachment','post__in'=>$postsarray));
 
-				if ( !$docs->have_posts( )) {
+				if ( !$docs->have_posts() ) {
 					?>
 					<h3 class="widget-title">
 						<?php _e('No results' , 'govintranet'); ?>

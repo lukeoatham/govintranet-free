@@ -9,20 +9,19 @@ remove_filter('pre_get_posts', 'ht_filter_search');
 
 $header_text_color = get_option('options_btn_text_colour','#ffffff');
 $custom_css = "
-.metro-list .featuredpage {
-	background: ".get_option('header_background', '#0b2d49').";
-	padding: 0;
-	color: ".$header_text_color." !important;
+.metro-list .featuredpage{
+	background:".get_option('header_background','#0b2d49').";
+	padding:0;
+	color:".$header_text_color." !important;
 }
-.metro-list .featuredpage p, .metro-list .featuredpage h4 {
-	color: ".$header_text_color." !important;
-	padding: 0 1em;
+.metro-list .featuredpage p, .metro-list .featuredpage h4{
+	color:".$header_text_color." !important;
+	padding:0 16px;
 }
-.metro-list .featuredpage a h4 {
-	color: ".$header_text_color." !important;
-	padding: 0.5em 1em 0 1em;
+.metro-list .featuredpage a h4{
+	color:".$header_text_color." !important;
+	padding:8px 16px 0;
 }
-
 ";			
 wp_enqueue_style( 'hashtags', plugin_dir_url('/') . 'ht-hashtags/css/hashtags.min.css' );
 wp_add_inline_style( 'hashtags' , $custom_css );

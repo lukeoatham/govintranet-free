@@ -4,7 +4,7 @@ Plugin Name: HT Stop GravityForms entries
 Plugin URI: https://help.govintra.net
 Description: Remove entries for specific forms before they are saved. Works with GravityForms 1.8 or higher.
 Author: Luke Oatham
-Version: 1.0
+Version: 1.1
 Author URI: https://www.agentodigital.com
 */
 
@@ -64,7 +64,7 @@ function ht_stop_entries_options() {
 
 	global $wpdb;
 	$prefix = $wpdb->prefix;
-	$allforms = $wpdb->get_results("select ID, title from " . $prefix. "rg_form");
+	$allforms = $wpdb->get_results("select ID, title from " . $prefix. "gf_form");
 	$stopforms = get_option('options_ht_stop_forms');
 	$newnonce = wp_create_nonce('ht_stop_entries');
 	echo "

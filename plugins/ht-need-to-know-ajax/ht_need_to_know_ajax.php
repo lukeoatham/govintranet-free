@@ -4,7 +4,7 @@ Plugin Name: HT Need to know AJAX
 Plugin URI: https://help.govintra.net
 Description: Display need to know news stories using AJAX
 Author: Luke Oatham
-Version: 1.3
+Version: 1.4
 Author URI: https://www.agentodigital.com
 */
 
@@ -177,6 +177,4 @@ function load_news( $items, $title, $before_widget, $after_widget, $before_title
 	return $html;	 
  }
  
-add_action('widgets_init', create_function('', 'return register_widget("htNeedToknowAJAX");'));
-		
-?>
+add_action('widgets_init', function(){return register_widget("htNeedToknowAJAX");});

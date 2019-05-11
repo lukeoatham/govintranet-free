@@ -4,7 +4,7 @@ Plugin Name: HT Media A to Z
 Plugin URI: https://help.govintra.net
 Description: Adds A to Z functionality to the document finder
 Author: Luke Oatham
-Version: 2.9.2
+Version: 2.9.4
 Author URI: https://www.agentodigital.com
 */
 
@@ -23,7 +23,7 @@ function cptui_register_my_media_atoz() {
 		"show_ui" => true,
 		"query_var" => true,
 		"rewrite" => array( 'slug' => 'media-a-to-z', 'with_front' => true ),
-		"show_admin_column" => true,
+		"show_admin_column" => false,
 	);
 	register_taxonomy( "media-a-to-z", array( "attachment" ), $args );
 
@@ -36,7 +36,7 @@ function cptui_register_my_media_atoz() {
 			'label' => __('Document types','govintranet'),
 			'show_ui' => true,
 			'query_var' => true,
-			'show_admin_column' => true,
+			'show_admin_column' => false,
 			'labels' => array (
 				'search_items' => __('Document type','govintranet'),
 				'popular_items' => __('Popular types','govintranet'),

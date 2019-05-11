@@ -4,7 +4,7 @@ Plugin Name: HT Feature blogposts
 Plugin URI: https://help.govintra.net
 Description: Display blogposts
 Author: Luke Oatham
-Version: 1.5.4
+Version: 1.6
 Author URI: https://www.agentodigital.com
 
 */
@@ -207,7 +207,7 @@ class htFeatureBlogposts extends WP_Widget {
 					if ($thumbnails){
 						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( ), 'thumbnail' ); 
 						if (!$image_uri || $forceavatar){
-							$image_uri = get_avatar($post->post_author , 72, "", get_user_meta( $post->post_author, 'display_name', true), array('class'=>$avstyle));
+							$image_uri = get_avatar(get_the_author_id() , 72, "", get_user_meta( get_the_author_id(), 'display_name', true), array('class'=>$avstyle));
 							$image_uri = str_replace("avatar ", "avatar ".$avstyle, $image_uri);
 							$html.= "<a class='pull-left' href='".get_permalink(get_the_id())."'>{$image_uri}</a>";		
 						} else {
@@ -297,7 +297,7 @@ class htFeatureBlogposts extends WP_Widget {
 				if ($excerpt == 'on') $html.=wpautop(get_the_excerpt());
 				$html.= "</div></div><hr class='light'>";
 			}
-			if ($blogs->have_posts() && $more){
+			if ( $more && ( $num_top_slots || $blogs->have_posts() ) ) {
 
 				$landingpage = get_option('options_module_blog_page'); 
 				if ( !$landingpage ):
@@ -376,6 +376,4 @@ class htFeatureBlogposts extends WP_Widget {
     }
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htFeatureBlogposts");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htFeatureBlogposts");});

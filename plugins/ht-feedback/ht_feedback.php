@@ -4,7 +4,7 @@ Plugin Name: HT Feedback
 Plugin URI: https://help.govintra.net
 Description: Widget to display feedback form
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: https://www.agentodigital.com
 */
 
@@ -72,6 +72,4 @@ class htFeedback extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htFeedback");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htFeedback");});

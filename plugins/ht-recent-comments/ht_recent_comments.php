@@ -5,7 +5,7 @@ Plugin Name: HT Recent comments
 Plugin URI: https://agentodigital.com
 Description: Displays most recent comments
 Author: Luke Oatham
-Version: 2.0
+Version: 2.1
 Author URI: http://intranetdiary.co.uk
  */
  
@@ -236,6 +236,4 @@ class WP_Widget_HT_Recent_Comments extends WP_Widget {
 	}
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("WP_Widget_HT_Recent_Comments");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("WP_Widget_HT_Recent_Comments");});

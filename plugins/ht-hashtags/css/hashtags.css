@@ -152,7 +152,7 @@
 	background:whitesmoke;
 }
 .metro-list .anarticle p {
-	padding: 0 1em;	
+	padding: 0 16px;	
 }
 
 .metro-list a h4 {
@@ -160,7 +160,7 @@
 }
 .metro-list h4 {
 	color: #0c0c0c;
-	padding: 0.5em 1em 0 1em;
+	padding: 8px 16px 0 16px;
 }
 .metro-list a:hover h4 {
 	text-decoration: underline;

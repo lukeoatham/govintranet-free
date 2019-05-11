@@ -4,7 +4,7 @@ Plugin Name: HT A to Z
 Plugin URI: https://help.govintra.net
 Description: Widget to display the A to Z 
 Author: Luke Oatham
-Version: 4.0
+Version: 4.1
 Author URI: https://www.agentodigital.com
 */
 
@@ -74,6 +74,4 @@ class htAtoZ extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htAtoZ");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htAtoZ");});

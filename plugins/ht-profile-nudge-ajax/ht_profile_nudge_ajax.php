@@ -4,7 +4,7 @@ Plugin Name: HT Profile Nudge AJAX
 Plugin URI: https://help.govintra.net
 Description: Widget to display reminders to complete the staff profile using AJAX
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3
 Author URI: https://www.agentodigital.com
 */
 
@@ -886,6 +886,4 @@ function ht_profile_nudge_ajax_action_add_bio() {
     exit();
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htProfileNudgeajax");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htProfileNudgeajax");});

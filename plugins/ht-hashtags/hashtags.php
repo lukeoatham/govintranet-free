@@ -4,7 +4,7 @@ Plugin Name: Hashtags
 Plugin URI: https://help.govintra.net
 Description: Hashtag aggregator
 Author: Luke Oatham
-Version: 1.5.2
+Version: 1.5.3
 Author URI: https://www.agentodigital.com
 */
 

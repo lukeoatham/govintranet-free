@@ -4,7 +4,7 @@ Plugin Name: HT Feature news
 Plugin URI: https://help.govintra.net
 Description: Display feature news 
 Author: Luke Oatham
-Version: 4.9
+Version: 4.10
 Author URI: https://www.agentodigital.com
 */
 
@@ -197,14 +197,12 @@ class htFeatureNews extends WP_Widget {
 				foreach ((array)$top_slot as $thisslot){ 
 					if (!$thisslot) continue;
 					$slot = get_post($thisslot); 
+					setup_postdata( $slot );
 					if ($slot->post_status != 'publish') {
 						continue;
 					}
 					$k++;
 					$alreadydone[] = $slot->ID;
-					if (function_exists('get_video_thumbnail')){
-						$videostill = get_video_thumbnail( $slot->ID ); 
-					}
 					$thistitle = $slot->post_title;
 					$thisURL=get_permalink($slot->ID); 
 					$thisdate=date(get_option('date_format'),strtotime($slot->post_date));
@@ -212,9 +210,16 @@ class htFeatureNews extends WP_Widget {
 					$video = 0;
 					if ( has_post_format('video', $slot->ID) || has_post_format('audio', $slot->ID) ):
 						$video= '<div class="embed-container">';
-						$video.= get_field( 'news_video_url');
+						$video.= get_field( 'news_video_url', $slot->ID);
 						$video.= '</div>';
 					endif;
+
+					$class = '';
+					$ext_icon = '';
+					if ( get_post_format($slot->ID) == 'link' ) {
+						$ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
+						$class = ' class="external-link"';
+					}
 		
 					if ($newsgrid[$k]=="L"){
 						if ($video){
@@ -222,7 +227,7 @@ class htFeatureNews extends WP_Widget {
 						} elseif (has_post_thumbnail($slot->ID)){
 							//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
 							//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
-							$html.= "<a href='{$thisURL}'>" . get_the_post_thumbnail($slot->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
+							$html.= "<a href='{$thisURL}'".$class.">" . get_the_post_thumbnail($slot->ID, 'newshead', array('class'=>'img-responsive')) . "</a>";
 							$html.= wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 						} 
 					} 
@@ -230,12 +235,16 @@ class htFeatureNews extends WP_Widget {
 					if ($newsgrid[$k]=="M"){
 						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $slot->ID ), 'newsmedium' );
 						if ($image_uri!="" ){
-							$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(get_the_title($slot->ID))."' /></a>";									
+							$html.= "<a href='{$thisURL}'".$class."><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(get_the_title($slot->ID))."' /></a>";									
 						} 
 					} 
 						
 					if ($newsgrid[$k]=="T"){
-						$image_uri = "<a class='pull-right' href='".$thisURL."'>".get_the_post_thumbnail($slot->ID, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+						if ( $class ){
+							$image_uri = "<a class='external-link pull-right' href='".$thisURL."'>".get_the_post_thumbnail($slot->ID, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+						} else {
+							$image_uri = "<a class='pull-right' href='".$thisURL."'>".get_the_post_thumbnail($slot->ID, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+						}
 						if ($image_uri!="" ){
 							$image_url = $image_uri;
 						} 
@@ -245,15 +254,13 @@ class htFeatureNews extends WP_Widget {
 					setup_postdata( $post );
 					
 					$thisexcerpt= get_the_excerpt();
-					$ext_icon = '';
-					if ( get_post_format($slot->ID) == 'link' ) $ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
 			
 					if ($newsgrid[$k]=="T"){
 						$html.= "<div class='media'>".$image_url;
 					}
 			
 					$html.= "<div class='media-body feature-news-featured feature-news-".strtolower($newsgrid[$k])."'>";
-					$html.= "<h3 class='noborder'>".$ext_icon."<a href='".$thisURL."'>".$thistitle."</a>".$ext_icon."</h3>";
+					$html.= "<h3 class='noborder'>".$ext_icon."<a href='".$thisURL."'".$class.">".$thistitle."</a>".$ext_icon."</h3>";
 		
 					if ($newsgrid[$k]=="Li"){
 						$html.= "<p>";
@@ -265,7 +272,11 @@ class htFeatureNews extends WP_Widget {
 							$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
 							 $html.= "</a>";
 						}
-						$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+						if ( $class ) {
+							$html.= " <a class='external-link news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+						} else {
+							$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+						}
 					} else {
 						if ($showexcerpt == 'on') {
 							$html.= "<p>";
@@ -279,7 +290,11 @@ class htFeatureNews extends WP_Widget {
 							}
 							$html.= "</p>";									
 							$html.= $thisexcerpt;
-							$html.= "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							if ( $class ){
+								$html.= "<p class='news_date'><a class='external-link more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							} else {
+								$html.= "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							}
 						} else {
 							$html.= "<p>";
 							$html.= '<span class="listglyph">'.$thisdate; 
@@ -290,7 +305,11 @@ class htFeatureNews extends WP_Widget {
 								$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
 								 $html.= "</a>";
 							}
-							$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+							if ( $class ){
+								$html.= " <a class='external-link news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+							} else {
+								$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></span></p>";
+							}
 						}
 					}
 			
@@ -355,17 +374,24 @@ class htFeatureNews extends WP_Widget {
 					$thisdate=date(get_option('date_format'),strtotime($post->post_date));
 			
 					$video = 0;
-					if ( has_post_format('video', $theid) ):
-						$video = apply_filters('the_content', get_post_meta( $theid, 'news_video_url', true));
+					if ( has_post_format('video', $theid) || has_post_format('audio', $theid)  ):
+						$video= '<div class="embed-container">';
+						$video.= get_field( 'news_video_url',$theid);
+						$video.= '</div>';
 					endif;
+
+					$class = '';
+					$ext_icon = '';
+					if ( get_post_format($post->ID) == 'link' ) {
+						$ext_icon = "<span class='dashicons dashicons-migrate'></span> ";
+						$class = ' class="external-link"';
+					}
 				
 					if ($newsgrid[$k]=="L"){
 						if ($video){
 							$html.= $video;
 						} elseif (has_post_thumbnail($theid)){
-							//$img_srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id( $post->ID ), array('newshead','large','medium','thumbnail') );
-							//$img_sizes = wp_get_attachment_image_sizes(get_post_thumbnail_id( $post->ID ), 'newshead' ); 
-							$html.= "<a href='{$thisURL}'>" . get_the_post_thumbnail($theid, 'newshead', array('class'=>'img-responsive')) . "</a>";
+							$html.= "<a href='{$thisURL}'".$class.">" . get_the_post_thumbnail($theid, 'newshead', array('class'=>'img-responsive')) . "</a>";
 							$html.= wpautop( "<p class='news_date'>".get_post_thumbnail_caption()."</p>" );
 						} 
 					} 
@@ -373,12 +399,16 @@ class htFeatureNews extends WP_Widget {
 					if ($newsgrid[$k]=="M"){
 						$image_uri =  wp_get_attachment_image_src( get_post_thumbnail_id( $theid ), 'newsmedium' );
 						if ($image_uri!="" ){
-							$html.= "<a href='{$thisURL}'><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(get_the_title($theid))."' /></a>";									
+							$html.= "<a href='{$thisURL}'".$class."><img class='img img-responsive' src='{$image_uri[0]}' width='{$image_uri[1]}' height='{$image_uri[2]}' alt='".esc_attr(get_the_title($theid))."' /></a>";									
 						} 
 					} 
 			
 					if ($newsgrid[$k]=="T"){
-						$image_uri = "<a class='pull-right' href='{$thisURL}'>".get_the_post_thumbnail($theid, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+						if ( $class ){
+							$image_uri = "<a class='external-link pull-right' href='{$thisURL}'>".get_the_post_thumbnail($theid, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+						} else {
+							$image_uri = "<a class='pull-right' href='{$thisURL}'>".get_the_post_thumbnail($theid, 'thumbnail', array('class' => 'media-object hidden-xs'))."</a>";
+						}
 						if ($image_uri!="" ){
 							$image_url = $image_uri;
 						} 
@@ -393,7 +423,7 @@ class htFeatureNews extends WP_Widget {
 			
 					$html.= "<div class='media-body feature-news-".strtolower($newsgrid[$k])."'>";
 					if ( get_post_format($theid) == 'link' ) $ext_icon = "<i class='dashicons dashicons-migrate'></i> ";
-					$html.= "<h3 class='noborder'><a href='".$thisURL."'>".$thistitle."</a> ".$ext_icon."</h3>";
+					$html.= "<h3 class='noborder'><a href='".$thisURL."'".$class.">".$thistitle."</a> ".$ext_icon."</h3>";
 		
 					if ($newsgrid[$k]=="Li"){
 						$html.= "<p>";
@@ -417,7 +447,11 @@ class htFeatureNews extends WP_Widget {
 							}
 							$html.= "</p>";									
 							$html.= $thisexcerpt;
-							$html.= "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							if ( $class ) {
+								$html.= "<p class='news_date'><a class='external-link more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							} else {
+								$html.= "<p class='news_date'><a class='more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							}
 						} else {
 							$html.= "<p>";
 							$html.= '<span class="listglyph">'.$thisdate; 
@@ -427,7 +461,11 @@ class htFeatureNews extends WP_Widget {
 								$html.= '<span class="badge badge-comment">' . sprintf( _n( '1 comment', '%d comments', get_comments_number(), 'govintranet' ), get_comments_number() ) . '</span>';
 								$html.= "</a>";
 							}
-							$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							if ( $class ){
+								$html.= " <a class='external-link news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							} else {
+								$html.= " <a class='news_date more' href='{$thisURL}' title='{$thistitle}'>" . __('Full story' , 'govintranet') . " <span class='dashicons dashicons-arrow-right-alt2'></span></a></p>";
+							}
 						}
 					}
 			
@@ -526,6 +564,4 @@ class htFeatureNews extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htFeatureNews");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htFeatureNews");});

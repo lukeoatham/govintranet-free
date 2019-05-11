@@ -4,7 +4,7 @@ Plugin Name: HT News updates
 Plugin URI: https://help.govintra.net
 Description: Display news updates configurable by type
 Author: Luke Oatham
-Version: 1.11
+Version: 1.13
 Author URI: https://www.agentodigital.com
 */
 
@@ -279,7 +279,7 @@ class htNewsUpdates extends WP_Widget {
 						$html.= '<p class="more-updates">';
 						$html.= '<a title="'.$moretitle.'" class="small" href="'.$landingpage.'">'.$moretitle.'</a> ';
 						$html.='<span class="dashicons dashicons-arrow-right-alt2"></span>';
-						if ( $remaining_count ) $html.=' <span class="badge">'.$remaining_count.' more</span>';
+						if ( $remaining_count && $remaining ) $html.=' <span class="badge">'.$remaining_count.' more</span>';
 						$html.='</p>';	
 					else: 
 						$landingpage_link_text = $moretitle;
@@ -287,7 +287,7 @@ class htNewsUpdates extends WP_Widget {
 						$html.= '<p class="more-updates">';
 						$html.= '<a title="'.$landingpage_link_text.'" class="small" href="'.$landingpage.'">'.$landingpage_link_text.'</a>';
 						$html.='<span class="dashicons dashicons-arrow-right-alt2"></span>';
-						if ( $remaining_count ) $html.=' <span class="badge">'.$remaining_count.' more</span>';
+						if ( $remaining_count && $remaining ) $html.=' <span class="badge">'.$remaining_count.' more</span>';
 						$html.='</p>';	
 					endif;
 				}
@@ -345,7 +345,4 @@ class htNewsUpdates extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htnewsupdates");'));
-
-
-?>
+add_action('widgets_init', function(){return register_widget("htnewsupdates");});

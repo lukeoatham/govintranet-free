@@ -4,7 +4,7 @@ Plugin Name: HT Tube status
 Plugin URI: https://help.govintra.net
 Description: Widget to display London Underground tube status
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: https://www.agentodigital.com
 */
 
@@ -141,7 +141,7 @@ class htTubeStatus extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htTubeStatus");'));
+add_action('widgets_init', function(){return register_widget("htTubeStatus");});
 
 add_shortcode('tubestatus', 'ht_shortcode_tubestatus');
 function ht_shortcode_tubestatus($args){
@@ -221,5 +221,3 @@ function ht_shortcode_tubestatus($args){
 			return "<div id='ht_tube_status_widget' class='col-sm-12'>".implode('',$output)."</div>";
 	
 }
-
-?>

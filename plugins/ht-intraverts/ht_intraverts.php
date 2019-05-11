@@ -4,7 +4,7 @@ Plugin Name: HT Intraverts
 Plugin URI: https://help.govintra.net
 Description: Display promotional adverts which register clicks
 Author: Luke Oatham
-Version: 1.4
+Version: 1.5
 Author URI: https://www.agentodigital.com
 */
 
@@ -601,6 +601,4 @@ class htIntraverts extends WP_Widget {
     }
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htIntraverts");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htIntraverts");});

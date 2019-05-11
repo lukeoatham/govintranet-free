@@ -4,7 +4,7 @@ Plugin Name: HT Vacancy listing
 Plugin URI: https://help.govintra.net
 Description: Display closing vacancies
 Author: Luke Oatham
-Version: 1.6.1
+Version: 1.7
 Author URI: https://www.agentodigital.com
 */
 
@@ -257,6 +257,4 @@ function ht_vacancy_head(){
 }
 
 add_action('wp_head','ht_vacancy_head',4);
-add_action('widgets_init', create_function('', 'return register_widget("htVacancyListing");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htVacancyListing");});

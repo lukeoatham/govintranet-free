@@ -3,7 +3,7 @@
  * Plugin Name: HT Search Autocomplete
  * Plugin URI: https://help.govintra.net
  * Description: Adds jQuery Autocomplete functionality to the default WordPress search box.
- * Version: 2.1.4
+ * Version: 2.1.5
  * Author: Gabe Shackle, modified by Luke Oatham
  * Author URI: http://hereswhatidid.com
  * License: GPLv2 or later
@@ -96,6 +96,10 @@ class SearchAutocomplete {
 		add_action( 'wp_ajax_nopriv_autocompleteCallback', array( $this, 'acCallback' ) );
 	}
 
+	public function gi_stop_relevanssi_logging($bool, $query, $hits, $user_agent, $ip) {
+		return false;
+	}
+
 	public function acCallback() {
 		global $wpdb;
 		$resultsPosts = array();
@@ -149,7 +153,11 @@ class SearchAutocomplete {
 					$linkURL = '#';
 				} else {
 					if ($post->post_type=="user"){
-						$linkURL = $post->link; // default link to author page
+						if ( isset($post->user_id) && $post->user_id ){
+							$linkURL = get_author_posts_url( $post->user_id ); // default link to author page
+						} elseif ( isset($post->link) && $post->link ) {
+							$linkURL = $post->link; //$post->link; 
+						}
 						$staffdirectory = get_option('options_module_staff_directory');
 						if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
 							$linkURL=str_replace('/author', '/members', $linkURL); }
@@ -379,8 +387,8 @@ class SearchAutocomplete {
 		foreach ( $taxonomies as $taxonomy ) {
 			?>
 			<label>
-				<input name="<?= self::$options_field; ?>[autocomplete_taxonomies][]" class="autocomplete_taxonomies" id="autocomplete_taxonomies-<?= $taxonomy->name ?>" type="checkbox" value="<?= $taxonomy->name ?>" <?php checked( in_array( $taxonomy->name, $selectedTaxonomies ), true ); ?>>
-				<?= $taxonomy->labels->name ?></label><br>
+				<input name="<?php echo self::$options_field; ?>[autocomplete_taxonomies][]" class="autocomplete_taxonomies" id="autocomplete_taxonomies-<?php echo $taxonomy->name ?>" type="checkbox" value="<?php echo $taxonomy->name ?>" <?php checked( in_array( $taxonomy->name, $selectedTaxonomies ), true ); ?>>
+				<?php echo $taxonomy->labels->name ?></label><br>
 		<?php
 		}
 		?></p>

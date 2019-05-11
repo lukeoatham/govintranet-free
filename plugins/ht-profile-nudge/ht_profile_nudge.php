@@ -4,7 +4,7 @@ Plugin Name: HT Profile Nudge
 Plugin URI: https://help.govintra.net
 Description: Widget to display reminders to complete the staff profile
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: https://www.agentodigital.com
 */
 
@@ -329,6 +329,4 @@ class htProfileNudge extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htProfileNudge");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htProfileNudge");});

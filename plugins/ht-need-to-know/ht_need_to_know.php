@@ -4,7 +4,7 @@ Plugin Name: HT Need to know
 Plugin URI: https://help.govintra.net
 Description: Display need to know news stories
 Author: Luke Oatham
-Version: 1.1
+Version: 1.2
 Author URI: https://www.agentodigital.com
 */
 
@@ -113,6 +113,4 @@ class htNeedToKnow extends WP_Widget {
 
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("htNeedToKnow");'));
-
-?>
+add_action('widgets_init', function(){return register_widget("htNeedToKnow");});
