@@ -86,12 +86,25 @@ $mainid=$post->ID;
 	$ticketid = get_post_meta($post->ID,'eventbrite_ticket',true);
 	if ($ticketid && $sdate <= date('Ymd',strtotime(get_post_meta($post->ID,'event_end_date',true))) ) : ?>
 		<h3><?php _e('Tickets and registration' , 'govintranet') ;?></h3>
-		<div style="width:100%; text-align:left;" >
-			<iframe src="https://www.eventbrite.com/tickets-external?eid=<?php echo $ticketid; ?>" frameborder="0" height="256" width="100%" vspace="0" hspace="0" marginheight="5" marginwidth="5" scrolling="auto" allowtransparency="true"></iframe>
-		</div>
-	<?php 
-	endif;
-	?>
+		<div id="eventbrite-widget-container-<?php echo $ticketid; ?>"></div>
+
+	<script src="//www.eventbrite.co.uk/static/widgets/eb_widgets.js"></script>
+
+	<script type="text/javascript">
+
+    window.EBWidgets.createWidget({
+        // Required
+        widgetType: 'checkout',
+        eventId: '<?php echo $ticketid; ?>',
+        iframeContainerId: 'eventbrite-widget-container-<?php echo $ticketid; ?>',
+
+        // Optional
+        iframeContainerHeight: 256,  // Widget height in pixels. Defaults to a minimum of 425px if not provided
+    });
+	</script> 
+	
+	<?php endif; ?>
+	
 	</article>
 	<?php get_template_part("part", "downloads"); ?>			
 	<?php

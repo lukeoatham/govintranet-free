@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.8.1 - 22 June 2019 ###
+* Updates on eventbrite booking form
+
 ### 4.39.8 - 17 March 2019 ###
 * Bug fix on people shortcode, now correctly picks up the team slug
 

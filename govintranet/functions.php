@@ -663,8 +663,16 @@ function add_mtc_post_types( $types )
 add_filter( 'rd2_mtc_post_types', 'add_mtc_post_types' );
 
 function get_post_thumbnail_caption() {
-	if ( $thumb = get_post_thumbnail_id() )
-		return get_post( $thumb )->post_excerpt;
+	global $post;
+	$thumb = get_post_thumbnail_id();
+	if ( $thumb ) {
+		$thumb_post = get_post( $thumb );
+		if ( isset( $thumb_post ) ){
+		return esc_html($thumb_post->post_excerpt);
+		} else {
+		return "";	
+		}
+	}
 }
 
 /* Register callback function for post_thumbnail_html filter hook */
