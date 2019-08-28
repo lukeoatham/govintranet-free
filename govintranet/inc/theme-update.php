@@ -1,6 +1,6 @@
 <?php
 		
-	$my_theme = wp_get_theme();
+	$my_theme = wp_get_theme('govintranet');
 	$theme_version = $my_theme->get('Version');
 	$database_version = get_option("govintranet_db_version");
 	$update_okay = 1;

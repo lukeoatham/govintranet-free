@@ -397,6 +397,15 @@ endif;
 
 add_filter('comment_flood_filter', '__return_false');
 
+// Admin footer modification
+
+function remove_footer_admin () {
+	$my_theme = wp_get_theme('govintranet');
+	$theme_version = $my_theme->get('Version');
+    echo '<span id="footer-thankyou">GovIntranet ' . $theme_version . ' by <a href="https://www.agentodigital.com/" target="_blank">Agento Digital</a></span>';
+}
+add_filter('admin_footer_text', 'remove_footer_admin');
+
 /**
  * Register widgetized areas, including two sidebars and four widget-ready columns in the footer.
  *

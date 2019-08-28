@@ -38,6 +38,11 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.10 - 28 August 2019 ###
+* Footer credits
+* A to Z listing improvements
+* Theme updater now works in child themes
+
 ### 4.39.9 - 4 July 2019 ###
 * Bootstrap v3.4.1
 

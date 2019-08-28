@@ -6,9 +6,8 @@
  * 
  */
 
-get_header(); ?>
+get_header(); 
 
-	<?php
 	if ( have_posts() )
 		the_post();
 		
@@ -39,17 +38,14 @@ get_header(); ?>
 			</div>
 			<h1><?php _e('A to Z' , 'govintranet' ); ?></h1>
 			<ul class="pagination">
-
 			<?php 
 			//fill the default a to z array
 			$letters = range('a','z');
-			$letterlink=array();
+			$letterlink = array();
 			$hasentries = array();
-			
 			foreach($letters as $l) { 
 				$letterlink[$l] = "<li class='disabled'><a href='#'>".strtoupper($l)."</a></li>";
 			}				
-
 			$terms = get_terms('a-to-z',array("hide_empty"=>true,"parent"=>0,"orderby"=>"slug"));
 			if ($terms) {
 				foreach ((array)$terms as $taxonomy ) {
@@ -58,7 +54,6 @@ get_header(); ?>
 					$letterlink[$taxonomy->slug] .=  "><a href='".get_term_link($taxonomy->slug,'a-to-z')."'>".strtoupper($taxonomy->name)."</a></li>";
 				}
 			}
-
 			echo @implode("",$letterlink); 
 			?>
 			</ul>
@@ -89,10 +84,11 @@ get_header(); ?>
 				echo ".</p>";
 				get_search_form(); 
 				echo "</div>";
-			};
+			}
 			
+			/* highlight words that begin with this letter in the standard post title */
+
 			while ( $postslist->have_posts() ) : $postslist->the_post(); 
-				//highlight words that begin with this letter in the standard post title
 				$foundkey = false; //set a flag to see if we get a match
 				$oldtitle = get_the_title($post->ID); 
 				if ( strpos($oldtitle, " ") ):
@@ -105,40 +101,61 @@ get_header(); ?>
 				$tempot = '';
 				foreach ($otwords as $ot){
 					$orig_ot = $ot;
-					$ot = preg_replace('/[^a-z\d]+/i', '', $ot); 
+					//$ot = preg_replace('/[^a-z\d]+/i', '', $ot); 
+					$ot = str_replace('?', '', $ot); 
+					$ot = str_replace('!', '', $ot); 
+					$ot = str_replace(';', '', $ot); 
+					$ot = str_replace(':', '', $ot); 
 					$ot = str_replace(',', '', $ot); 
-					if (strtolower(substr($ot, 0, 1)) == strtolower($slug)  && (strlen($ot) > 2 || in_array(strtolower($ot), $gowords )) && !in_array(strtolower($ot),$stopwords)) 
-					{
+					if ( strtolower(substr($ot, 0, 1)) == strtolower($slug) && (strlen($ot) > 2 || in_array(strtolower($ot), $gowords )) && !in_array(strtolower($ot),$stopwords) ) {
 						$newwords[] ="<strong>".$orig_ot."</strong>"; 
-						$foundkey = true;
-						if (!isset($sortedlist[get_the_id()]['ID'])):
-							if ( $ot == strtoupper($ot) ):
-								$sortedlist[get_the_id()]['keyword'] = strtoupper($ot);
-							else:
-								$sortedlist[get_the_id()]['keyword'] = strtolower($ot);
-							endif;
-							$sortedlist[get_the_id()]['listword'] = strtolower($ot);
+						$foundkey = true; 
+						if (!isset($sortedlist[get_the_id()]['ID'])){
+							$sortedlist[get_the_id()]['alistword'] = strtolower($ot);
 							$sortedlist[get_the_id()]['ID'] = get_the_id();
-						endif;
-						if (!$tempot) $tempot = $ot;
+							if ( $ot == strtoupper($ot) ){
+								$sortedlist[get_the_id()]['keyword'] = strtoupper($ot);
+							} else {
+								$sortedlist[get_the_id()]['keyword'] = strtolower($ot);
+							}
+						}
+						if (!$tempot) {
+							$tempot = $ot;
+						}
 					} else {
 						$newwords[] = $orig_ot;
 					}
 				}
 				
 				if ( count($newwords) ) $newtitle = implode(" ", $newwords);
-				if (!$foundkey) $newtitle=''; 
+				if (!$foundkey) $newtitle = ''; 
 				$post_type = ucwords($post->post_type);
 				$userurl = get_permalink();
 
-				if (!$foundkey){ //if we didn't get a match via the standard post title we'll look in the keywords field for a shortcode [Extra A to Z entry]
-					$syns=0; //position marker for finding the next [ in keywords
-					$synpos=true;
-					$synonyms = sanitize_text_field ( get_post_meta(get_the_id(), 'keywords', true) ); //load the keywords for this post
-					$foundletter = false; //flag to check if we found a match in the shortcode
-					while ($synpos && $synonyms){ //check iteratively for shortcodes
+				/* if we didn't get a match via the standard post title we'll look in the keywords field for a shortcode [Extra A to Z entry] */
+
+				if (!$foundkey){ 
+					
+					/* position marker for finding the next [ in keywords */
+
+					$syns = 0; 
+					$synpos = true;
+
+					/* load the keywords for this post */
+
+					$synonyms = sanitize_text_field ( get_post_meta(get_the_id(), 'keywords', true) ); 
+					
+					/* flag to check if we found a match in the shortcode */
+
+					$foundletter = false; 
+
+					/* check iteratively for shortcodes */
+					
+					while ($synpos && $synonyms){ 
 						//get any synonym words
-						if ( $foundletter ) break;
+						if ( $foundletter ) {
+							break;
+						}
 						$findtxt = "["; 
 						$findstartpos = strpos ($synonyms,$findtxt,$syns);  
 						if ($findstartpos > -1){ 
@@ -150,24 +167,29 @@ get_header(); ?>
 							$foundletter = false; //flag to check if we found a match in the shortcode
 							foreach ($otwords as $ot){ 
 								$orig_ot = $ot;
-
 								if (strtolower(substr($ot, 0, 1)) == strtolower($slug)  && (strlen($ot) > 2 || in_array(strtolower($ot), $gowords )) && !in_array(strtolower($ot),$stopwords)) {
 								//don't include tiny words but allow common acronyms
 								
-									$ot = preg_replace('/[^a-z\d]+/i', '', $ot); 
-									$ot = str_replace(',', '', $ot);
+									//$ot = preg_replace('/[^a-z\d]+/i', '', $ot); 
+									$ot = str_replace('?', '', $ot); 
+									$ot = str_replace('!', '', $ot); 
+									$ot = str_replace(';', '', $ot); 
+									$ot = str_replace(':', '', $ot); 
+									$ot = str_replace(',', '', $ot); 
 									$foundletter=true;
-									$newwords[] ="<strong>".$orig_ot."</strong>"; 
-									if (!isset($sortedlist[get_the_id()]['ID'])):
-										$sortedlist[get_the_id()]['listword'] = strtolower($ot);
-										if ( $ot == strtoupper($ot) ):
+									$newwords[] = "<strong>".$orig_ot."</strong>"; 
+									if (!isset($sortedlist[get_the_id()]['ID'])){
+										$sortedlist[get_the_id()]['alistword'] = strtolower($ot);
+										$sortedlist[get_the_id()]['ID'] = get_the_id();
+										if ( $ot == strtoupper($ot) ){
 											$sortedlist[get_the_id()]['keyword'] = strtoupper($ot);
-										else:
+										} else {
 											$sortedlist[get_the_id()]['keyword'] = strtolower($ot);
-										endif;
-										$sortedlist[get_the_id()]['ID'] = $post->ID;
-									endif;
-									if (!$tempot) $tempot = $ot;
+										}
+									}
+									if (!$tempot) {
+										$tempot = $ot;
+									}
 								} else {
 									$newwords[] = $orig_ot; 
 								}
@@ -181,13 +203,15 @@ get_header(); ?>
 						}
 					}
 					$newtitle = ucfirst($newtitle);
-					if ( isset($foundletter) && $foundletter ) $sortedlist[get_the_id()]['newtitle'] = $newtitle;
+					if ( isset($foundletter) && $foundletter ) {
+						$sortedlist[get_the_id()]['newtitle'] = $newtitle;
+					}
 				} 
-				if ( isset($tempot) && $tempot && isset($newtitle) && $newtitle && ( (isset($foundletter) && $foundletter ) || (isset($foundkey) && $foundkey) ) ) $sortedlist[get_the_id()]['newtitle'] = $newtitle;
+				if ( isset($tempot) && $tempot && isset($newtitle) && $newtitle && ( (isset($foundletter) && $foundletter ) || (isset($foundkey) && $foundkey) ) ) {
+					$sortedlist[get_the_id()]['newtitle'] = $newtitle;
+				}
 			endwhile;
-
-			asort($sortedlist);
-
+			asort($sortedlist,SORT_REGULAR);
 			echo "<dl class='dl-atoz row'>";
 			//final check to see if we actually found anything
 			$lastword = '';
@@ -232,6 +256,10 @@ get_header(); ?>
 				endif;
 			}
 			echo "</dl>";
+			echo '<ul class="pagination">';
+			echo @implode("",$letterlink); 
+			echo '</ul>';
+
 			?>
 		</div>
 <?php wp_reset_postdata(); ?>
