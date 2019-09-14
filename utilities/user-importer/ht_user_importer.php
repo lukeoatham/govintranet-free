@@ -133,7 +133,7 @@ function ht_userimporter_options() {
 				$tterm = get_page_by_path( $team, OBJECT, 'team' );
 				if ($tterm){
 					$tterm_id = $tterm->ID; 
-					add_user_meta($user_id,'user_team',$tterm_id);
+					add_user_meta($user_id,'user_team',array($tterm_id));
 				} else {
 				    $msg .= "<li>".$parsedf[4]." - Can't find team ".(trim($parsedf[3]))."</li>";
 				}
