@@ -4,7 +4,7 @@ Plugin Name: HT Top tags
 Plugin URI: https://help.govintra.net
 Description: Widget to display top tags from live Google Analytics feed
 Author: Luke Oatham
-Version: 1.4
+Version: 1.5
 Author URI: https://www.agentodigital.com
 */
  
@@ -37,8 +37,8 @@ class htTopTags extends WP_Widget {
         if ( !isset($cache) || $cache == 0) $cache = 1;
 		$widget_id = $id;
 		
-	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	    $client_id = '828969191323-c230ohfauqeo63mqrmevfhusteo7vp9e.apps.googleusercontent.com';
+	    $client_secret = 'vCBGJEi2wyuvE44bl8FrHeHw';
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; 
 		

@@ -4,7 +4,7 @@ Plugin Name: HT Zero Hits Monitor
 Plugin URI: https://help.govintra.net
 Description: Widget to display least active pages
 Author: Luke Oatham
-Version: 1.3.1
+Version: 1.4
 Author URI: https://www.agentodigital.com
 */
 
@@ -35,8 +35,8 @@ function ht_zero_hits_options() {
 		 _e('You must set your Google Analytics View ID.','govintranet');
 	}
 
-	$client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	$client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+    $client_id = '828969191323-c230ohfauqeo63mqrmevfhusteo7vp9e.apps.googleusercontent.com';
+    $client_secret = 'vCBGJEi2wyuvE44bl8FrHeHw';
 
 	$baseurl = site_url();
 	$to_fill = $items;
@@ -407,8 +407,8 @@ function zero_hits_monitor(){
 	$viewid = get_option('options_zh_viewid'); 
 	$ptype = get_option('options_zh_post_types'); 
 
-    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+    $client_id = '828969191323-c230ohfauqeo63mqrmevfhusteo7vp9e.apps.googleusercontent.com';
+    $client_secret = 'vCBGJEi2wyuvE44bl8FrHeHw';
 	
 	$viewid = get_option('options_zh_viewid');	
     $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
@@ -574,8 +574,8 @@ function zero_hits_catchup(){
 	
 	$viewid = get_option('options_zh_viewid'); 
 
-    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+    $client_id = '828969191323-c230ohfauqeo63mqrmevfhusteo7vp9e.apps.googleusercontent.com';
+    $client_secret = 'vCBGJEi2wyuvE44bl8FrHeHw';
 	
 	$viewid = get_option('options_zh_viewid');	
     $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';

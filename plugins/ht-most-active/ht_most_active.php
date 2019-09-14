@@ -4,7 +4,7 @@ Plugin Name: HT Most active
 Plugin URI: https://help.govintra.net
 Description: Widget to display most active pages
 Author: Luke Oatham
-Version: 2.4
+Version: 2.5
 Author URI: https://www.agentodigital.com
 */
 
@@ -116,8 +116,8 @@ class htMostActive extends WP_Widget {
 		$acf_key = "widget_" . $this->id_base . "-" . $this->number . "_show_guide_chapters" ;
 		$showchapters = get_option($acf_key);
 
-	    $client_id = '956426687308-20cs4la3m295f07f1njid6ttoeinvi92.apps.googleusercontent.com';
-	    $client_secret = 'yzrrxZgCPqIu2gaqqq-uzB4D';
+	    $client_id = '828969191323-c230ohfauqeo63mqrmevfhusteo7vp9e.apps.googleusercontent.com';
+	    $client_secret = 'vCBGJEi2wyuvE44bl8FrHeHw';
 		
 	    $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 	    $account_id = 'ga:'.$ga_viewid; 
