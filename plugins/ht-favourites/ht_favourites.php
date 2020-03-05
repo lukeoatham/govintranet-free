@@ -4,7 +4,7 @@ Plugin Name: HT Favourites
 Plugin URI: https://help.govintra.net
 Description: Manage favourites in staff profiles
 Author: Luke Oatham
-Version: 1.2
+Version: 1.3
 Author URI: https://www.agentodigital.com
 */
 
@@ -280,7 +280,11 @@ function ht_favourites_ajax_action_add() {
 		    $html =  __("Security check - can\'t check your identity","govintranet") ; 	
 		} else {
 			$faves = get_user_meta($user_id, 'user_favourites', true);
-			if ( isset($faves) && !in_array($post_id, (array)$faves ) ) $faves[] = $post_id;
+			if ( isset($faves) && !in_array($post_id, (array)$faves ) ) {
+				$faves[] = $post_id;
+			} elseif ( !$faves ) {
+				$faves = array($post_id);
+			}
 		    update_user_meta($current_user_id,'user_favourites', $faves); 
 			$html = '<div class="ht_addtofav btn btn-sm btn-primary">' . __('Added','govintranet') . '</div>';
 			$success = true;
