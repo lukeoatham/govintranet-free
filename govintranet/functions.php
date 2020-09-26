@@ -306,96 +306,34 @@ function govintranet_auto_excerpt_more( $more ) {
 }
 add_filter( 'excerpt_more', 'govintranet_auto_excerpt_more' );
 
-if ( ! function_exists( 'govintranet_comment' ) ) :
-/**
- * Template for comments and pingbacks.
- *
- * To override this walker in a child theme without modifying the comments template
- * simply create your own govintranet_comment(), and that function will be used instead.
- *
- * Used as a callback by wp_list_comments() for displaying the comments.
- *
- * @since Twenty Ten 1.0
- */
-function govintranet_comment( $comment, $args, $depth ) {
-	$GLOBALS['comment'] = $comment;
-	switch ( $comment->comment_type ) :
-		case '' :
-	?>
-	<li <?php comment_class('well'); ?> id="li-comment-<?php comment_ID(); ?>">
-		<div id="comment-<?php comment_ID(); ?>">
-		<div class="comment-author vcard">
-			<?php 
-			$directory = 	get_option('options_forum_support');
-			$staffdirectory = get_option('options_module_staff_directory');
-			if ( $directory ){
-				$directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
-				$avstyle="";
-				if ( $directorystyle==1 ) {
-					$avstyle = " img-circle";
-				}
-				$image_url = get_avatar($comment , 66);
-				$image_url = str_replace(" photo", " photo alignleft".$avstyle, $image_url);
-				$userurl = get_author_posts_url( $comment->user_id );  
-				if ( $userurl == site_url("author/") ) {
-					$userurl = "";
-				}
-				if (function_exists('bp_activity_screen_index')){ // if using BuddyPress - link to the members page
-					$userurl=str_replace('/author', '/members', $userurl); }
-				elseif (function_exists('bbp_get_displayed_user_field') && $staffdirectory ){ // if using bbPress - link to the staff page
-					$userurl=str_replace('/author', '/staff', $userurl); }
-				elseif (function_exists('bbp_get_displayed_user_field')  ){ // if using bbPress - link to the staff page
-					$userurl=str_replace('/author', '/users', $userurl);
-				} 
-				$userdisplay = "";
-				$user_object = get_userdata( $comment->user_id );
-				if ( $user_object ) $userdisplay = $user_object->display_name;
-				if ( $userurl ){
-					echo "<a href='".$userurl."'>".$image_url."</a>";
-					$userlink = "<a href='".$userurl."'>".$userdisplay."</a>";
-				} else {
-					echo $image_url;
-					$userlink = get_comment_author_link();
-				}
-			} else {
-				$userlink = get_comment_author_link();
-			}
-			?>
-			<?php printf( __( '%s <span class="says">says:</span>', 'govintranet' ), sprintf( '<cite class="fn">%s</cite>', $userlink ) ); ?>
-		</div><!-- .comment-author .vcard -->
-		<?php if ( $comment->comment_approved == '0' ) { ?>
-			<em><?php _e( 'Your comment is awaiting moderation.', 'govintranet' ); ?></em>
-			<br />
-		<?php } ?>
-
-		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
-			<?php
-				/* translators: 1: date, 2: time */
-				printf( __( '<small>%1$s at %2$s</small>', 'govintranet' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'govintranet' ), ' ' );
-			?>
-		</div><!-- .comment-meta .commentmetadata -->
-
-		<div class="comment-body"><?php comment_text(); ?></div>
-
-		<div class="reply">
-			<?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
-		</div><!-- .reply -->
-	</div><!-- #comment-##  -->
-
-	<?php
-			break;
-		case 'pingback'  :
-		case 'trackback' :
-	?>
-	<li class="post pingback">
-		<p><?php _e( 'Pingback:', 'govintranet' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __('(Edit)', 'govintranet'), ' ' ); ?></p>
-	<?php
-			break;
-	endswitch;
-}
-endif;
-
 add_filter('comment_flood_filter', '__return_false');
+
+/**
+ * Comments
+ */
+
+/**
+ * Checks if the specified comment is written by the author of the post commented on.
+ *
+ * @param object $comment Comment data.
+ * @return bool
+ */
+function govintra_is_comment_by_post_author( $comment = null ) {
+
+	if ( is_object( $comment ) && $comment->user_id > 0 ) {
+
+		$user = get_userdata( $comment->user_id );
+		$post = get_post( $comment->comment_post_ID );
+
+		if ( ! empty( $user ) && ! empty( $post ) ) {
+
+			return $comment->user_id === $post->post_author;
+
+		}
+	}
+	return false;
+
+}
 
 // Admin footer modification
 
@@ -818,6 +756,10 @@ add_action('login_head', 'my_custom_login_logo');
 // *********** Bootstrap Walker for menu
 
 require_once('wp_bootstrap_navwalker.php');
+
+// Custom comment walker.
+
+require get_template_directory() . '/walker-comment.php';
 
 // add accesskeys to menus
 
@@ -10734,39 +10676,6 @@ function govintranet_loginout_menu_link( $menu ) {
     return $menu;
 }
 
-/*
- * Change the comment reply link to use 'Reply to &lt;Author First Name>'
- */
-function add_comment_author_to_reply_link($link, $args, $comment){
- 
-    $comment = get_comment( $comment );
- 
-    // If no comment author is blank, use 'Anonymous'
-    if ( empty($comment->comment_author) ) {
-        if (!empty($comment->user_id)){
-            $user=get_userdata($comment->user_id);
-            $author=$user->user_login;
-        } else {
-            $author = __('Anonymous','govintranet');
-        }
-    } else {
-        $author = $comment->comment_author;
-    }
- 
-    // If the user provided more than a first name, use only first name
-    if(strpos($author, ' ')){
-        $author = substr($author, 0, strpos($author, ' '));
-    }
- 
-    // Replace Reply Link with "Reply to &lt;Author First Name>"
-    $reply_link_text = $args['reply_text'];
-    $replyto = sprintf( __('Reply to %s', 'govintranet'), $author );
-    $link = str_replace($reply_link_text, $replyto , $link);
- 
-    return $link;
-}
-add_filter('comment_reply_link', 'add_comment_author_to_reply_link', 10, 3);
-
 function ht_add_comment_form_top($comment){
 	$custom_comment_text = "";
 	if ( is_user_logged_in() ):
@@ -10778,7 +10687,6 @@ function ht_add_comment_form_top($comment){
 	return;
 }
 add_filter('comment_form_top', 'ht_add_comment_form_top', 10, 3);
-
 
 /*****************************
 	

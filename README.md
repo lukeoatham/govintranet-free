@@ -38,6 +38,9 @@ Refer to [Setup instructions](https://help.govintra.net/) for help and installat
 
 ## Changelog ##
 
+### 4.39.11 - 14 August 2020 ###
+* WP5.5 fixes for comments
+
 ### 4.39.10 - 28 August 2019 ###
 * Footer credits
 * A to Z listing improvements

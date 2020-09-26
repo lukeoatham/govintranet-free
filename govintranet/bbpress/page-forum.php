@@ -1,6 +1,8 @@
 <?php
 /* Template name: Forum */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 
 get_header(); ?>
 

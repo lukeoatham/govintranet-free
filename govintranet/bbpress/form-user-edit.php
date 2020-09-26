@@ -7,36 +7,39 @@
  * @subpackage Theme
  */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
 ?>
 
 <form class="col-lg-10 col-md-10 col-sm-9" id="bbp-your-profile" action="<?php bbp_user_profile_edit_url( bbp_get_displayed_user_id() ); ?>" method="post" enctype="multipart/form-data">
 
-	<h2 class="entry-title gi-name"><?php _e( 'Name', 'govintranet' ) ?></h2>
+	<h2 class="entry-title gi-name"><?php esc_html_e( 'Name', 'govintranet' ) ?></h2>
 
 	<?php do_action( 'bbp_user_edit_before' ); ?>
 
 	<fieldset class="bbp-form gi-name">
-		<legend><?php _e( 'Name', 'govintranet' ) ?></legend>
+		<legend><?php esc_html_e( 'Name', 'govintranet' ) ?></legend>
 
 		<?php do_action( 'bbp_user_edit_before_name' ); ?>
 
 		<div>
-			<label for="first_name"><?php _e( 'First name', 'govintranet' ) ?></label>
-			<input type="text" name="first_name" id="first_name" value="<?php bbp_displayed_user_field( 'first_name', 'edit' ); ?>" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
+			<label for="first_name"><?php esc_html_e( 'First name', 'govintranet' ) ?></label>
+			<input type="text" name="first_name" id="first_name" value="<?php bbp_displayed_user_field( 'first_name', 'edit' ); ?>" class="regular-text" />
 		</div>
 
 		<div>
-			<label for="last_name"><?php _e( 'Last name', 'govintranet' ) ?></label>
-			<input type="text" name="last_name" id="last_name" value="<?php bbp_displayed_user_field( 'last_name', 'edit' ); ?>" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
+			<label for="last_name"><?php esc_html_e( 'Last name', 'govintranet' ) ?></label>
+			<input type="text" name="last_name" id="last_name" value="<?php bbp_displayed_user_field( 'last_name', 'edit' ); ?>" class="regular-text" />
 		</div>
 
 		<div>
-			<label for="nickname"><?php _e( 'Nickname', 'govintranet' ); ?></label>
-			<input type="text" name="nickname" id="nickname" value="<?php bbp_displayed_user_field( 'nickname', 'edit' ); ?>" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
+			<label for="nickname"><?php esc_html_e( 'Nickname', 'govintranet' ); ?></label>
+			<input type="text" name="nickname" id="nickname" value="<?php bbp_displayed_user_field( 'nickname', 'edit' ); ?>" class="regular-text" />
 		</div>
 
 		<div>
-			<label for="display_name"><?php _e( 'Display name', 'govintranet' ) ?></label>
+			<label for="display_name"><?php esc_html_e( 'Display name', 'govintranet' ) ?></label>
 
 			<?php bbp_edit_user_display_name(); ?>
 
@@ -49,13 +52,13 @@
 	<h2 class="entry-title gi-about"><?php  _e( 'About', 'govintranet' ) ; ?></h2>
 
 	<fieldset class="bbp-form gi-about">
-		<legend><?php _e( 'About', 'govintranet' ) ; ?></legend>
+		<legend><?php esc_html_e( 'About', 'govintranet' ) ; ?></legend>
 
 		<?php do_action( 'bbp_user_edit_before_about' ); ?>
 
 		<div>
-			<label for="description"><?php _e( 'About me', 'govintranet' ); ?></label>
-			<textarea name="description" id="description" rows="5" cols="30" tabindex="<?php bbp_tab_index(); ?>"><?php bbp_displayed_user_field( 'description', 'edit' ); ?></textarea>
+			<label for="description"><?php esc_html_e( 'About me', 'govintranet' ); ?></label>
+			<textarea name="description" id="description" rows="5" cols="30"><?php bbp_displayed_user_field( 'description', 'edit' ); ?></textarea>
 		</div>
 
 		<?php do_action( 'bbp_user_edit_after_about' ); ?>
@@ -64,77 +67,61 @@
 
 
 
-	<h2 class="entry-title gi-account"><?php _e( 'Account', 'govintranet' ) ?></h2>
+	<h2 class="entry-title gi-account"><?php esc_html_e( 'Account', 'govintranet' ) ?></h2>
 
-	<fieldset class="bbp-form gi-account">
-		<legend><?php _e( 'Account', 'govintranet' ) ?></legend>
+	<fieldset class="bbp-form">
+		<legend><?php esc_html_e( 'Account', 'govintranet' ) ?></legend>
 
 		<?php do_action( 'bbp_user_edit_before_account' ); ?>
 
 		<div>
-			<label for="user_login"><?php _e( 'Username', 'govintranet' ); ?></label>
-			<input type="text" name="user_login" id="user_login" value="<?php bbp_displayed_user_field( 'user_login', 'edit' ); ?>" disabled="disabled" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
+			<label for="user_login"><?php esc_html_e( 'Username', 'govintranet' ); ?></label>
+			<input type="text" name="user_login" id="user_login" value="<?php bbp_displayed_user_field( 'user_login', 'edit' ); ?>" maxlength="100" disabled="disabled" class="regular-text" />
 		</div>
 
-		<div class="gi-email">
-			<label for="email"><?php _e( 'Email', 'govintranet' ); ?></label>
+		<div>
+			<label for="email"><?php esc_html_e( 'Email', 'govintranet' ); ?></label>
+			<input type="text" name="email" id="email" value="<?php bbp_displayed_user_field( 'user_email', 'edit' ); ?>" maxlength="100" class="regular-text" autocomplete="off" />
+		</div>
 
-			<input type="text" name="email" id="email" value="<?php bbp_displayed_user_field( 'user_email', 'edit' ); ?>" class="regular-text" tabindex="<?php bbp_tab_index(); ?>" />
+		<?php if ( !function_exists("GoogleAppsLogin")): ?>
 
-			<?php
+		<?php bbp_get_template_part( 'form', 'user-passwords' ); ?>
 
-			// Handle address change requests
-			$new_email = get_option( bbp_get_displayed_user_id() . '_new_email' );
-			if ( !empty( $new_email ) && $new_email !== bbp_get_displayed_user_field( 'user_email', 'edit' ) ) : ?>
+		<?php endif; ?>
 
-				<span class="updated inline">
+		<?php if ( function_exists('bbp_edit_user_language') ) : ?>
 
-					<?php printf( __( 'There is a pending email address change to <code>%1$s</code>. <a href="%2$s">Cancel</a>', 'govintranet' ), $new_email['newemail'], esc_url( self_admin_url( 'user.php?dismiss=' . bbp_get_current_user_id()  . '_new_email' ) ) ); ?>
-
-				</span>
-
-			<?php endif; ?>
+		<div>
+			<label for="url"><?php esc_html_e( 'Language', 'govintranet' ) ?></label>
+				
+			<?php bbp_edit_user_language(); ?>
 
 		</div>
-	<?php if ( !function_exists("GoogleAppsLogin")): ?>
+			
+		<?php endif; ?>
 
-		<div id="password">
-			<label for="pass1"><?php _e( 'New password', 'govintranet' ); ?></label>
-			<fieldset class="bbp-form password">
-				<input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" tabindex="<?php bbp_tab_index(); ?>" />
-				<span class="description"><?php _e( 'If you would like to change the password type a new one. Otherwise leave this blank.', 'govintranet' ); ?></span>
 
-				<input type="password" name="pass2" id="pass2" size="16" value="" autocomplete="off" tabindex="<?php bbp_tab_index(); ?>" />
-				<span class="description"><?php _e( 'Type your new password again.', 'govintranet' ); ?></span><br />
-
-				<div id="pass-strength-result"></div>
-				<span class="description indicator-hint"><?php _e( 'Your password should be at least ten characters long. Phrases with numbers and symbols are easier to remember, e.g. "Her Imperial Highness has 30 handbags!"', 'govintranet' ); ?></span>
-			</fieldset>
-		</div>
-	<?php endif; ?>
-		
 		<?php do_action( 'bbp_user_edit_after_account' ); ?>
 
 	</fieldset>
 
-
-
 	<?php if ( current_user_can( 'edit_users' ) && ! bbp_is_user_home_edit() ) : ?>
 
-		<h2 class="entry-title gi-role"><?php _e( 'Role', 'govintranet' ) ?></h2>
+		<h2 class="entry-title gi-role"><?php esc_html_e( 'Role', 'govintranet' ) ?></h2>
 
 		<fieldset class="bbp-form gi-role">
-			<legend><?php _e( 'Role', 'govintranet' ); ?></legend>
+			<legend><?php esc_html_e( 'Role', 'govintranet' ); ?></legend>
 
 			<?php do_action( 'bbp_user_edit_before_role' ); ?>
 
 			<?php if ( is_multisite() && is_super_admin() && current_user_can( 'manage_network_options' ) ) : ?>
 
 				<div>
-					<label for="super_admin"><?php _e( 'Network role', 'govintranet' ); ?></label>
+					<label for="super_admin"><?php esc_html_e( 'Network role', 'govintranet' ); ?></label>
 					<label>
-						<input class="checkbox" type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( bbp_get_displayed_user_id() ) ); ?> tabindex="<?php bbp_tab_index(); ?>" />
-						<?php _e( 'Grant this user super admin privileges for the Network.', 'govintranet' ); ?>
+						<input class="checkbox" type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( bbp_get_displayed_user_id() ) ); ?> />
+						<?php esc_html_e( 'Grant this user super admin privileges for the Network.', 'govintranet' ); ?>
 					</label>
 				</div>
 
@@ -149,7 +136,7 @@
 	<?php endif; ?>
 
 	<?php if ( get_option("options_module_staff_directory")): ?>
-	<h2 class="entry-title"><?php _e('Staff directory','govintranet'); ?></h2>
+	<h2 class="entry-title"><?php esc_html_e('Staff directory','govintranet'); ?></h2>
 	<?php endif; ?>
 
 	<?php 
@@ -157,7 +144,7 @@
 	?>
 
 	<fieldset class="submit">
-		<legend><?php _e( 'Save changes', 'govintranet' ); ?></legend>
+		<legend><?php esc_html_e( 'Save changes', 'govintranet' ); ?></legend>
 		<div>
 
 			<?php bbp_edit_user_form_fields(); ?>

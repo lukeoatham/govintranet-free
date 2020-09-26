@@ -7,6 +7,9 @@
  * @subpackage Theme
  */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 $staffdirectory = get_option('options_module_staff_directory');
 global $wpdb;

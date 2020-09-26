@@ -7,6 +7,9 @@
  * @subpackage Theme
  */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
 $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1 = circles
 
 ?>
@@ -41,9 +44,9 @@ $directorystyle = get_option('options_staff_directory_style'); // 0 = squares, 1
 
 				<?php 
 					global $wpdb;
-					$uqblog = $wpdb->get_results("select ID from $wpdb->posts where post_author = ".$author." and post_type='blog' and post_status='publish' order by post_date DESC limit 1;",ARRAY_A);
+					$uqblog = $wpdb->get_results("select ID from $wpdb->posts where post_author = ".$user_id." and post_type='blog' and post_status='publish' order by post_date DESC limit 1;",ARRAY_A);
 					if ( count($uqblog) > 0 ):
-						$poduser = get_userdata($author);	
+						$poduser = get_userdata($user_id);	
 						$nicename = $poduser->user_nicename;
 						?>
 						<li>

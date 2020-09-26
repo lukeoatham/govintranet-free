@@ -1,69 +1,123 @@
 <?php
 /**
- * The template for displaying Comments.
- *
- * The area of the page that contains both current comments
- * and the comment form.  The actual display of comments is
- * handled by a callback to govintranet_comment which is
- * located in the functions.php file.
- *
- * @package WordPress
+ * The template file for displaying the comments and comment form
  */
 
-	if ( post_password_required() ) : ?>
-		<p><?php _e( 'This post is password protected. Enter the password to view any comments.', 'govintranet' ); ?></p>
+/*
+ * If the current post is protected by a password and
+ * the visitor has not yet entered the password we will
+ * return early without loading the comments.
+*/
+if ( post_password_required() ) {
+	return;
+}
+
+if ( $comments ) {
+	?>
+
+	<div class="comments" id="comments">
+
 		<?php
-		/* Stop the rest of comments.php from being processed,
-		 * but don't kill the script entirely -- we still have
-		 * to fully load the template.
-		 */
-		return;
-	endif;
+		$comments_number = absint( get_comments_number() );
+		?>
 
-		// You can start editing here -- including this comment!
+		<div class="comments-header section-inner small max-percentage">
 
-	if ( have_comments() ) : ?>
-		<div id="comments">
-		<h3 id="comments-title"><?php
-		printf( _n( 'One response to %2$s', '%1$s responses to %2$s', get_comments_number(), 'govintranet' ),
-		number_format_i18n( get_comments_number() ),  get_the_title()  );
-		?></h3>
-
-		<?php 
-		if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? 
-			previous_comments_link( __( '&larr; Older comments', 'govintranet' ) ); 
-			next_comments_link( __( 'Newer comments &rarr;', 'govintranet' ) ); 
-		endif; // check for comment navigation ?>
-
-		<ol>
+			<h2 class="comment-reply-title">
 			<?php
-				/* Loop through and list the comments. Tell wp_list_comments()
-				 * to use govintranet_comment() to format the comments.
-				 * If you want to overload this in a child theme then you can
-				 * define govintranet_comment() and that will be used instead.
-				 * See govintranet_comment() in govintranet/functions.php for more.
-				 */
-				wp_list_comments( array( 'callback' => 'govintranet_comment' ) );
+			if ( 1 === $comments_number ) {
+				/* translators: %s: Post title. */
+				printf( _x( 'One reply on &ldquo;%s&rdquo;', 'comments title', 'govintranet' ), get_the_title() );
+			} else {
+				printf(
+					/* translators: 1: Number of comments, 2: Post title. */
+					_nx(
+						'%1$s reply on &ldquo;%2$s&rdquo;',
+						'%1$s replies on &ldquo;%2$s&rdquo;',
+						$comments_number,
+						'comments title',
+						'govintranet'
+					),
+					number_format_i18n( $comments_number ),
+					get_the_title()
+				);
+			}
+
 			?>
-		</ol>
-		</div>
-		<?php 
-		if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? 
-			previous_comments_link( __( '&larr; Older comments', 'govintranet' ) ); 
-			next_comments_link( __( 'Newer comments &rarr;', 'govintranet' ) ); 
-		endif; // check for comment navigation 
-	
-	endif; // end have_comments()
+			</h2><!-- .comments-title -->
+
+		</div><!-- .comments-header -->
+
+		<div class="comments-inner section-inner thin max-percentage">
+
+			<?php
+			
+			wp_list_comments( 
+				array( 
+					'walker'      => new govintranet_Walker_Comment(),
+					'avatar_size' => 72,
+					
+					) 
+				);				
+			
+			$comment_pagination = paginate_comments_links(
+				array(
+					'echo'      => false,
+					'end_size'  => 0,
+					'mid_size'  => 0,
+					'next_text' => __( 'Newer Comments', 'govintranet' ) . ' <span aria-hidden="true">&rarr;</span>',
+					'prev_text' => '<span aria-hidden="true">&larr;</span> ' . __( 'Older Comments', 'govintranet' ),
+				)
+			);
+
+			if ( $comment_pagination ) {
+				$pagination_classes = '';
+
+				// If we're only showing the "Next" link, add a class indicating so.
+				if ( false === strpos( $comment_pagination, 'prev page-numbers' ) ) {
+					$pagination_classes = ' only-next';
+				}
+				?>
+
+				<nav class="comments-pagination pagination<?php echo $pagination_classes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output ?>" aria-label="<?php esc_attr_e( 'Comments', 'govintranet' ); ?>">
+					<?php echo wp_kses_post( $comment_pagination ); ?>
+				</nav>
+
+				<?php
+			}
+			?>
+
+		</div><!-- .comments-inner -->
+
+	</div><!-- comments -->
+
+	<?php
+		
+} 
+
+if ( comments_open() || pings_open() ) {
+
+	if ( $comments ) {
+		echo '<hr class="styled-separator is-style-wide" aria-hidden="true" />';
+	}
+
 	$custom_comment_text = "";
 	if ( is_user_logged_in() ):
 		$custom_comment_text = get_option("options_comment_instructions_logged_in", "");	
 	else:
 		$custom_comment_text = get_option("options_comment_instructions_logged_out", "");	
 	endif;
-	$args = array(
-		'comment_notes_before' => wpautop($custom_comment_text),
-		'comment_notes_after' => '',
-		'title_reply' => __('Leave a comment','govintranet'),
+	
+	comment_form(
+		array(
+			'class_form'         => 'section-inner thin max-percentage',
+			'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
+			'title_reply_after'  => '</h2>',
+			'comment_notes_before' => wpautop($custom_comment_text),
+			'comment_notes_after' => '',
+			'format' => 'HTML5',
+			'title_reply' => __('Add a new comment','govintranet'),
+		)
 	);
-	comment_form($args); 
-?>
+
+} 
