@@ -629,7 +629,9 @@ ul#menu-utilities .submenu li a { padding-left: 3em; }
 
 /* FOOTER */
 
-#footerwrapper  {	background: #dee0e2;	border-top: 1px solid #a1acb2; }
+html { position: relative; min-height: 100%; }
+body { margin-bottom: 11em; }
+#footerwrapper  {	background: #dee0e2;	border-top: 1px solid #a1acb2; position: absolute; bottom: 0; width: 100%; height: 11em; }
 #footer  { color: #454a4c; min-height: 10em !important; padding: 1em 0; }
 #footer h3  { Font-size: 1.4em !important; }
 #footer.row  { background: none; }
